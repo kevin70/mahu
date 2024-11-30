@@ -1,0 +1,107 @@
+package cool.houge.mahu.admin.internal;
+
+import cool.houge.mahu.admin.oas.model.*;
+import cool.houge.mahu.entity.system.*;
+import cool.houge.mahu.admin.bean.Profile;
+import cool.houge.mahu.admin.system.dto.TokenPayload;
+import cool.houge.mahu.admin.system.dto.TokenResult;
+import cool.houge.mahu.common.GrantType;
+import cool.houge.mahu.common.PageResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.Named;
+
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.function.Function;
+
+/// 参考 [mapstruct](https://mapstruct.org/)
+///
+/// @author ZY (kzou227@qq.com)
+@Mapper(componentModel = MappingConstants.ComponentModel.JAKARTA)
+public interface VoBeanMapper {
+
+    default OffsetDateTime map(Instant b) {
+        return b != null ? OffsetDateTime.ofInstant(b, ZoneOffset.UTC) : null;
+    }
+
+    /// 分页对象映射
+    ///
+    /// @param list 数据集合
+    /// @param totalCount 总记录数
+    /// @param fn    映射
+    /// @param <T>   数据对象类型
+    /// @param <R>   响应对象类型
+    default <T, R> PageResponse<R> toPageResponse(List<T> list, Integer totalCount, Function<T, R> fn) {
+        var resp = new PageResponse<R>();
+        if (totalCount != null && totalCount > 0) {
+            resp.setTotalCount(totalCount);
+        }
+        if (list != null) {
+            resp.setItems(list.stream().map(fn).toList());
+        }
+        return resp;
+    }
+
+    GetDictResponse toGetDictResponse(Dict bean);
+
+    Dict toDict(UpsertDictRequest bean);
+
+    TokenPasswordForm toTokenPasswordForm(LoginRequest bean);
+
+    TokenRefreshTokenForm toTokenRefreshTokenForm(LoginRequest bean);
+
+    @Mapping(target = "grantType", source = "type")
+    TokenPayload toTokenPayload(TokenPasswordForm bean, GrantType type);
+
+    @Mapping(target = "grantType", source = "type")
+    TokenPayload toTokenPayload(TokenRefreshTokenForm bean, GrantType type);
+
+    GetTokenResponse toGetTokenResponse(TokenResult bean);
+
+    Employee toEmployee(UpdateMePasswordRequest bean);
+
+    Employee toEmployee(UpdateMeProfileRequest bean);
+
+    @Mapping(target = "permits", source = "rolePermits")
+    GetMeProfileResponse toGetMeProfileResponse(Profile bean);
+
+    GetAccessLogResponse toGetAccessLogResponse(AccessLog bean);
+
+    Client toClient(UpsertClientRequest bean);
+
+    GetClientResponse toGetClientResponse(Client bean);
+
+    Role toRole(UpsertRoleRequest bean);
+
+    GetRoleResponse toGetRoleResponse(Role bean);
+
+    GetAuditJourResponse toGetAuditJourResponse(AuditJour bean);
+
+    GetDepartmentResponse toGetDepartmentResponse(Department bean);
+
+    @Mapping(target = "parent.id", source = "parentId")
+    Department toDepartment(UpsertDepartmentRequest bean);
+
+    @Named("roleIdsToRoles")
+    default List<Role> roleIdsToRoles(List<Integer> roleIds) {
+        if (roleIds == null) return null;
+        return roleIds.stream().map(id -> new Role().setId(id)).toList();
+    }
+
+    @Named("rolesToRoleIds")
+    default List<Integer> rolesToRoleIds(List<Role> roles) {
+        if (roles == null) return null;
+        return roles.stream().map(Role::getId).toList();
+    }
+
+    @Mapping(target = "department.id", source = "departmentId")
+    @Mapping(target = "roles", source = "roleIds", qualifiedByName = "roleIdsToRoles")
+    Employee toEmployee(UpsertEmployeeRequest bean);
+
+    @Mapping(target = "roleIds", source = "roles", qualifiedByName = "rolesToRoleIds")
+    GetEmployeeResponse toGetEmployeeResponse(Employee bean);
+}

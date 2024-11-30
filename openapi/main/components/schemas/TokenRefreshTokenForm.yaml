@@ -1,0 +1,15 @@
+type: object
+required:
+  - grant_type
+  - refresh_token
+properties:
+  grant_type:
+    type: string
+    description: 授权类型
+    example: refresh_token
+  client_id:
+    type: string
+    description: 请求客户端 ID
+  refresh_token:
+    type: string
+    description: 刷新令牌

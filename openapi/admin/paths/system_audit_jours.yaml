@@ -1,0 +1,19 @@
+get:
+  summary: 分页查询审计操作日志
+  operationId: listAuditJours
+  x-role-permit: AUDIT_JOUR:R
+  tags:
+    - system
+  parameters:
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ListAuditJoursPageResponse.yaml"
+

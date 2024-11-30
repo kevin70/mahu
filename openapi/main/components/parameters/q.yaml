@@ -1,0 +1,6 @@
+name: q
+in: query
+description: |
+  关键字全文检索
+schema:
+  type: string

@@ -1,0 +1,22 @@
+{{>licenseInfo}}
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+{{#useBeanValidation}}
+import io.avaje.validation.constraints.*;
+{{/useBeanValidation}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{>enumOuterClass}}
+{{/isEnum}}
+{{^isEnum}}
+{{>pojo}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

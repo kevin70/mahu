@@ -1,0 +1,17 @@
+type: object
+description: 微信小网页授权获取令牌
+required:
+  - grant_type
+  - client_id
+  - wechat_code
+properties:
+  grant_type:
+    type: string
+    description: 授权类型
+    example: wechat_web
+  client_id:
+    type: string
+    description: 请求客户端 ID
+  wechat_code:
+    type: string
+    description: 微信网页授权码

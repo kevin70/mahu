@@ -1,0 +1,50 @@
+type: object
+required:
+  - id
+  - employee_id
+  - ip_addr
+properties:
+  id:
+    type: integer
+    format: int64
+    description: 数据 ID
+  create_time:
+    type: string
+    format: date-time
+    description: 创建时间
+  employee_id:
+    type: integer
+    format: int64
+    description: 职员 ID
+  ip_addr:
+    type: string
+    description: 访问 IP
+  trace_id:
+    type: string
+    description: 追踪 ID
+  channel_id:
+    type: string
+    description: 客户端/服务器连接套接字的标识（不保证唯一）
+  method:
+    type: string
+    description: 访问的 HTTP Method
+  uri_path:
+    type: string
+    description: 访问的 HTTP 路径
+  referer:
+    type: string
+    description: HTTP referer
+  protocol:
+    type: string
+    description: 访问协议
+  response_status:
+    type: integer
+    format: int32
+    description: 响应状态
+  response_bytes:
+    type: integer
+    format: int64
+    description: 响应字节数
+  user_agent:
+    type: string
+    description: 请求的 User Agent

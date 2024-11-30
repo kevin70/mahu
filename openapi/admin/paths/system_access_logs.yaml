@@ -1,0 +1,18 @@
+get:
+  summary: 分页查询访问记录
+  operationId: listAccessLogs
+  x-role-permit: ACCESS_LOG:R
+  tags:
+    - system
+  parameters:
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ListAccessLogsPageResponse.yaml"

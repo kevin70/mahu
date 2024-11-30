@@ -1,0 +1,44 @@
+parameters:
+  - name: id
+    in: path
+    description: 部门 ID
+    schema:
+      type: integer
+      format: int32
+put:
+  summary: 修改部门
+  operationId: updateDepartment
+  x-role-permit: DEPARTMENT:W
+  tags:
+    - system
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/UpsertDepartmentRequest.yaml"
+  responses:
+    "204":
+      description: OK
+delete:
+  summary: 删除部门
+  operationId: deleteDepartment
+  x-role-permit: DEPARTMENT:W
+  tags:
+    - system
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 获取指定 ID 的部门信息
+  operationId: getDepartment
+  x-role-permit: DEPARTMENT:R
+  tags:
+    - system
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/GetDepartmentResponse.yaml"

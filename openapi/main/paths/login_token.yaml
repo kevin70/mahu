@@ -1,0 +1,29 @@
+description: 令牌
+post:
+  summary: 获取访问令牌
+  operationId: getToken
+  tags:
+    - token
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          discriminator:
+            propertyName: grant_type
+            mapping:
+              refresh_token: ../components/schemas/TokenRefreshTokenForm.yaml
+              wechat_xcx: ../components/schemas/TokenWechatXcxForm.yaml
+              wechat_web: ../components/schemas/TokenWechatWebForm.yaml
+          anyOf:
+            - $ref: ../components/schemas/TokenRefreshTokenForm.yaml
+            - $ref: ../components/schemas/TokenWechatXcxForm.yaml
+            - $ref: ../components/schemas/TokenWechatWebForm.yaml
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/GetTokenResponse.yaml

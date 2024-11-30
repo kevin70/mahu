@@ -1,0 +1,34 @@
+package cool.houge.mahu.admin.bean;
+
+import lombok.Data;
+
+import java.util.List;
+
+/// 个人信息
+///
+/// @author ZY (kzou227@qq.com)
+@Data
+public class Profile {
+
+    /// 用户 ID.
+    private Integer uid;
+    /// 用户昵称.
+    private String nickname;
+    /// 用户头像.
+    private String avatar;
+    /// 用户权限.
+    private List<String> rolePermits;
+
+    // ========================================================= //
+
+    /// 用户商店.
+    private List<Shop> shops;
+
+    @Data
+    public static class Shop {
+        /// 商店 SLUG.
+        private String slug;
+        /// 商店名称.
+        private String name;
+    }
+}

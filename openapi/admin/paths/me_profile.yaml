@@ -1,0 +1,35 @@
+get:
+  summary: 获取个人登录信息
+  description: 获取个人登录信息
+  operationId: getMeProfile
+  tags:
+    - me
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/GetMeProfileResponse.yaml
+put:
+  summary: 更新个人信息
+  description: 更新个人信息
+  operationId: updateMeProfile
+  tags:
+    - me
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            nickname:
+              type: string
+              description: 昵称
+            avatar:
+              type: string
+              description: 头像地址
+  responses:
+    "204":
+      description: OK

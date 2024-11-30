@@ -1,0 +1,20 @@
+parameters:
+  - name: code
+    in: path
+    description: 查询指定代码的行政区
+    schema:
+      type: string
+get:
+  summary: 获取指定代码的行政区
+  operationId: getRegion
+  tags:
+    - base
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/GetRegionResponse.yaml
+    404:
+      description: 未找到指定代码的行政区

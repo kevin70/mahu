@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  title: Mahu 后台接口文档
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:9093
+    description: 本地测试服务
+tags:
+  - name: token
+    description: 访问令牌
+  - name: me
+    description: 当前认证用户
+  - name: system
+    description: 系统模块
+security:
+  - BearerAuth: [ ]
+paths:
+  /login/token:
+    $ref: paths/login_token.yaml
+  /oauth2/token:
+    $ref: paths/oauth2_token.yaml
+  /me/profile:
+    $ref: paths/me_profile.yaml
+  /me/password:
+    $ref: paths/me_password.yaml
+
+  /system/employees:
+    $ref: paths/system_employees.yaml
+  /system/employees/{id}:
+    $ref: paths/system_employees_{id}.yaml
+  /system/departments:
+    $ref: paths/system_departments.yaml
+  /system/departments/{id}:
+    $ref: paths/system_departments_{id}.yaml
+  /system/roles:
+    $ref: paths/system_roles.yaml
+  /system/roles/{id}:
+    $ref: paths/system_roles_{id}.yaml
+  /system/dicts:
+    $ref: paths/system_dicts.yaml
+  /system/dicts/predefine-kinds:
+    $ref: paths/system_dicts_predefine_kinds.yaml
+  /system/dicts/{id}:
+    $ref: paths/system_dicts_{id}.yaml
+
+  /system/clients:
+    $ref: paths/system_clients.yaml
+  /system/clients/{client_id}:
+    $ref: paths/system_clients_{client_id}.yaml
+
+  /system/permits:
+    $ref: paths/system_permits.yaml
+  /system/access-logs:
+    $ref: paths/system_access_logs.yaml
+  /system/audit-jours:
+    $ref: paths/system_audit_jours.yaml
+
+  /samples:
+    get:
+      summary: 样例
+      description: |
+        HTTP 错误码响应 https://www.webfx.com/web-development/glossary/http-status-codes
+      responses:
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/ErrorResponse.yaml
+        403:
+          description: 拒绝访问
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/ErrorResponse.yaml
+        404:
+          description: 未找到请求资源
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/ErrorResponse.yaml
+        500:
+          description: 服务器错误
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/ErrorResponse.yaml
+components:
+  securitySchemes:
+    AT:
+      type: apiKey
+      in: query
+      name: access_token
+      description: 接口认证参数
+    BearerAuth:
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT

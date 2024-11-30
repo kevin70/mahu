@@ -1,0 +1,26 @@
+type: object
+required:
+  - id
+  - name
+  - ordering
+  - permits
+properties:
+  id:
+    type: integer
+    format: int32
+    description: 角色 ID
+  name:
+    type: string
+    description: 名称
+  ordering:
+    type: integer
+    description: 排序值
+    format: int32
+  remark:
+    type: string
+    description: 字典备注
+  permits:
+    type: array
+    description: 拥有的权限代码
+    items:
+      type: string

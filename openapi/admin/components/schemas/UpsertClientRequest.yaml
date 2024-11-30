@@ -1,0 +1,16 @@
+type: object
+properties:
+  label:
+    type: string
+    description: 标签
+  remark:
+    type: string
+    description: 备注
+  terminal_type:
+    $ref: ./TerminalTypeEnum.yaml
+  wechat_appid:
+    type: string
+    description: 微信应用 ID
+  wechat_appsecret:
+    type: string
+    description: 微信应用密钥

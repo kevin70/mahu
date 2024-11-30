@@ -1,0 +1,61 @@
+apply plugin: "java-library"
+apply plugin: "io.ebean"
+
+dependencies {
+    annotationProcessor("io.helidon.builder:helidon-builder-processor:$helidonVersion")
+    annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
+    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
+
+    compileOnly("io.helidon.builder:helidon-builder-api:$helidonVersion")
+    compileOnly("io.helidon.webserver:helidon-webserver:$helidonVersion")
+    compileOnly("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
+
+    api(project(":mahu-common"))
+    api(project(":mahu-entity"))
+    api(project(":mahu-config"))
+    api("io.avaje:avaje-inject:$avajeInjectVersion")
+    api("com.google.guava:guava:$guavaVersion")
+    api("cool.houge.pangu:pangu-lang:$pangulangVersion")
+    api("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    api("io.ebean:ebean-api:$ebeanVersion") {
+        exclude module: "avaje-config"
+    }
+    api("io.helidon.health:helidon-health-checks:$helidonVersion")
+    api("io.helidon.http.media:helidon-http-media-jackson:$helidonVersion")
+    api("com.fasterxml.jackson.module:jackson-module-blackbird:$jacksonVersion")
+
+    implementation("com.password4j:password4j:$password4jVersion")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
+    implementation("com.zaxxer:HikariCP:$hikariVersion")
+    implementation("io.ebean:ebean-postgres:$ebeanVersion") {
+        exclude module: "avaje-config"
+        exclude module: "ebean-migration"
+        exclude module: "ebean-migration-auto"
+        exclude module: "ebean-ddl-runner"
+        exclude module: "classpath-scanner"
+    }
+    implementation("io.ebean:ebean-jackson-mapper:$ebeanVersion")
+    implementation("com.zaxxer:HikariCP:5.1.0")
+    implementation("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
+    implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
+        exclude module: "avaje-validator-http-plugin"
+    }
+    implementation("com.github.ben-manes.caffeine:caffeine:$caffeineVersion")
+    implementation("io.helidon.webclient:helidon-webclient:$helidonVersion")
+    implementation("io.helidon.fault-tolerance:helidon-fault-tolerance:$helidonVersion")
+    implementation("io.helidon.scheduling:helidon-scheduling:$helidonVersion")
+    implementation("io.helidon.security:helidon-security-jwt:$helidonVersion")
+
+    implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
+    implementation("redis.clients:jedis:$jedisVersion")
+    implementation("com.github.f4b6a3:ulid-creator:$ulidCreatorVersion")
+
+    testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
+    testImplementation("org.instancio:instancio-junit:$instancioVersion")
+    testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
+        exclude module: "logback-classic"
+    }
+    testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
+}

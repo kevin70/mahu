@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - include:
+      file: "changelog-schemas/schemas.sql"
+
+  - include:
+      file: "changelog-tables/system.dicts.sql"
+  - include:
+      file: "changelog-tables/system.clients.sql"
+  - include:
+      file: "changelog-tables/system.roles.sql"
+  - include:
+      file: "changelog-tables/system.departments.sql"
+  - include:
+      file: "changelog-tables/system.employees.sql"
+  - include:
+      file: "changelog-tables/system.employees_roles.sql"
+  - include:
+      file: "changelog-tables/system.token_jours.sql"
+  - include:
+      file: "changelog-tables/system.audit_changes.sql"
+  - include:
+      file: "changelog-tables/system.secrets.sql"
+
+  - include:
+      file: "changelog-tables/public.users.sql"
+  - include:
+      file: "changelog-tables/public.user_attrs.sql"
+  - include:
+      file: "changelog-tables/public.wechat_profiles.sql"

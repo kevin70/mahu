@@ -1,0 +1,89 @@
+package cool.houge.mahu.entity.system;
+
+import io.ebean.annotation.SoftDelete;
+import io.ebean.annotation.WhenCreated;
+import io.ebean.annotation.WhenModified;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.Instant;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+/// 用户表
+///
+/// @author ZY (kzou227@qq.com)
+@Getter
+@Setter
+@Entity
+@Table(name = "employee", schema = "system")
+public class Employee {
+
+    /// 主键
+    @Id
+    @GeneratedValue
+    private Long id;
+    /// 创建时间
+    @WhenCreated
+    private Instant createTime;
+    /// 更新时间
+    @WhenModified
+    private Instant updateTime;
+    /// 软删除
+    @SoftDelete
+    private Boolean deleted;
+    /// 用户名
+    private String username;
+    /// 登录密码
+    private String password;
+    /// 昵称
+    private String nickname;
+    /// 头像地址
+    private String avatar;
+    /// 用户状态
+    @Enumerated
+    private Status status;
+    /// 用户部门
+    @ManyToOne
+    private Department department;
+
+    /// 用户角色
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "ref_employee_role",
+            schema = "system",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
+
+    /// 原始密码（修改密码）
+    private transient String originalPassword;
+
+    /// 返回用户拥有的所有角色代码
+    public Collection<String> allRolePermits() {
+        var roles = this.getRoles();
+        var codes = new LinkedHashSet<String>();
+        for (Role role : roles) {
+            if (role.getPermits() == null || role.getPermits().isEmpty()) {
+                continue;
+            }
+            codes.addAll(role.getPermits());
+        }
+        return codes;
+    }
+
+    public enum Status {
+        /// 无
+        NONE,
+        /// 活跃的
+        ACTIVE,
+        /// 禁用的
+        ///
+        /// _是由管理员手动禁用_
+        BLOCKED,
+        /// 离职的
+        RESIGN,
+    }
+}

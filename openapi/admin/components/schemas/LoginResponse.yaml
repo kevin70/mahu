@@ -1,0 +1,21 @@
+type: object
+required:
+  - access_token
+  - expires_in
+  - refresh_token
+properties:
+  token_type:
+    type: string
+    description: 令牌类型
+    example: Bearer
+  access_token:
+    type: string
+    description: 访问令牌
+  expires_in:
+    type: integer
+    format: int32
+    description: 过期时间（秒）
+    default: 7200
+  refresh_token:
+    type: string
+    description: 刷新令牌

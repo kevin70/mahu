@@ -1,0 +1,20 @@
+get:
+  summary: 获取字典列表
+  operationId: listDicts
+  tags:
+    - base
+  parameters:
+    - name: kind
+      in: query
+      description: 字典类型
+      schema:
+        type: string
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/GetDictResponse.yaml

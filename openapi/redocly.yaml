@@ -1,0 +1,19 @@
+# See https://redocly.com/docs/cli/configuration/
+extends:
+  - recommended
+
+# See https://redocly.com/docs/cli/rules
+rules:
+  info-license: off
+  no-unused-components: error
+  operation-singular-tag: warn
+  boolean-parameter-prefixes:
+    severity: error
+    prefixes: ["can", "is", "has"]
+  operation-4xx-response: off
+
+theme:
+  openapi:
+    generateCodeSamples:
+      languages:
+        - lang: curl

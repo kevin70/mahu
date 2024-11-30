@@ -1,0 +1,28 @@
+type: object
+required:
+  - kind
+  - value
+  - label
+properties:
+  id:
+    type: integer
+    description: 数据 ID
+  slug:
+    type: string
+    description: 别名（slug）是网址的唯一标识部分，通常位于 URL 的末尾
+  kind:
+    type: string
+    description: 种类
+  value:
+    type: string
+    description: 值
+  label:
+    type: string
+    description: 值
+  ordering:
+    type: number
+    description: 排序值
+    format: int32
+  remark:
+    type: string
+    description: 备注

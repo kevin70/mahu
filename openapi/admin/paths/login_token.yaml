@@ -1,0 +1,28 @@
+description: 令牌
+post:
+  summary: 获取访问令牌
+  description: 获取访问令牌
+  operationId: login
+  tags:
+    - token
+  security: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          oneOf:
+            - $ref: ../components/schemas/TokenPasswordForm.yaml
+            - $ref: ../components/schemas/TokenRefreshTokenForm.yaml
+          discriminator:
+            propertyName: grant_type
+            mapping:
+              password: ../components/schemas/TokenPasswordForm.yaml
+              refresh_token: ../components/schemas/TokenRefreshTokenForm.yaml
+  responses:
+    "200":
+      description: 成功获得访问令牌
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/LoginResponse.yaml

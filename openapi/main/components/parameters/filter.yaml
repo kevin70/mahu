@@ -1,0 +1,23 @@
+name: filter
+in: query
+description: |
+  对每一个字段使用一个唯一查询参数，就可以实现过滤。
+  例如，当通过`/tickets`终端来请求一个票据列表时，你可能想要限定只要那些在售的票。
+  这可以通过一个像 `GET /tickets?filter=state eq open`这样的请求来实现。这里`state`是一个实现了过滤功能的查询参数。
+
+  支持的操作符：
+  - `eq` - 等于
+  - `ne` - 不等于
+  - `gt` - 大于
+  - `lt` - 小于
+  - `gte` - 大于等于
+  - `lte` - 小于等于
+  - `contains` 字符串包含指定内容
+  - `icontains` 忽略大小于的字符串包含指定内容
+  - `in` 在指定范围内
+  - `nin` 不在指定范围内
+  - `between` 在指定区间范围内
+schema:
+  type: array
+  items:
+    type: string

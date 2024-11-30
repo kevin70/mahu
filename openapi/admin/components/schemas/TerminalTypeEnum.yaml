@@ -1,0 +1,10 @@
+type: string
+description: 终端类型
+enum:
+  - WECHAT_XCX
+  - WECHAT_WEB
+  - ADMIN_BROWSER_PASSWORD
+x-enum-descriptions:
+  - 微信小程序
+  - 微信网页授权
+  - 后台 Web 密码

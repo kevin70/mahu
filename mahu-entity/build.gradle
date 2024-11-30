@@ -1,0 +1,10 @@
+apply plugin: "java-library"
+apply plugin: "io.ebean"
+
+dependencies {
+    annotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
+    api("io.ebean:ebean-api:$ebeanVersion") {
+        exclude module: "avaje-config"
+    }
+    api("io.ebean:ebean-querybean:$ebeanVersion")
+}

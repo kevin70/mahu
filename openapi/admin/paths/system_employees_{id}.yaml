@@ -1,0 +1,44 @@
+parameters:
+  - name: id
+    in: path
+    description: 职员 ID
+    schema:
+      type: integer
+      format: int32
+put:
+  summary: 修改职员
+  operationId: updateEmployee
+  x-role-permit: EMPLOYEE:W
+  tags:
+    - system
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertEmployeeRequest.yaml
+  responses:
+    "204":
+      description: OK
+delete:
+  summary: 删除职员
+  operationId: deleteEmployee
+  x-role-permit: EMPLOYEE:W
+  tags:
+    - system
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 获取指定 ID 的职员信息
+  operationId: getEmployee
+  x-role-permit: EMPLOYEE:R
+  tags:
+    - system
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/GetEmployeeResponse.yaml

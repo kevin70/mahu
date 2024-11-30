@@ -1,0 +1,41 @@
+import io.helidon.config.Config
+import io.helidon.config.ConfigSources
+
+buildscript {
+    dependencies {
+        classpath("io.helidon.config:helidon-config-yaml:$helidonVersion")
+    }
+}
+
+plugins {
+    id "org.liquibase.gradle" version "2.2.1"
+}
+
+// TIPS:
+// Gradle 回滚数据库版本命令：gradle rollbackCount -PliquibaseCommandValue=1
+
+def config = Config.builder()
+    .addSource(ConfigSources.file("C:/houge/mahu.yaml").optional())
+    .build()
+
+liquibase {
+    jvmArgs = ["-Dliquibase.searchPath=${projectDir}/changelog"]
+    activities.register("main") {
+        // 配置属性参考文档：https://docs.liquibase.com/concepts/connections/creating-config-properties.html
+        changelogFile "changelog-root.yaml"
+//        url config.get("db.url").asString().orElse(System.getenv("MAHU_DB_URL"))
+//        url "jdbc:postgresql://106.14.192.224:5432/mahu3"
+        url "jdbc:postgresql://106.14.192.224:5432/mahu-prod"
+        username config.get("db.username").asString().orElse(System.getenv("MAHU_DB_USERNAME"))
+        password config.get("db.password").asString().orElse(System.getenv("MAHU_DB_PASSWORD"))
+    }
+}
+
+dependencies {
+    liquibaseRuntime("org.liquibase:liquibase-core:4.26.0")
+    liquibaseRuntime("org.liquibase:liquibase-groovy-dsl:3.0.3")
+    liquibaseRuntime("info.picocli:picocli:4.7.5")
+    liquibaseRuntime("org.postgresql:postgresql:$postgresqlVersion")
+
+    implementation("org.liquibase:liquibase-core:4.26.0")
+}

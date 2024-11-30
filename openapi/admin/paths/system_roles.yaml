@@ -1,0 +1,33 @@
+post:
+  summary: 新增角色
+  operationId: addRole
+  x-role-permit: ROLE:W
+  tags:
+    - system
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/UpsertRoleRequest.yaml"
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 角色列表
+  operationId: listRoles
+  x-role-permit: ROLE:R
+  tags:
+    - system
+  parameters:
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ListRolesPageResponse.yaml"

@@ -1,0 +1,12 @@
+type: string
+description: 职员状态类型
+enum:
+  - NONE
+  - ACTIVE
+  - BLOCKED
+  - RESIGN
+x-enum-descriptions:
+  - 无
+  - 正常
+  - 冻结
+  - 离职

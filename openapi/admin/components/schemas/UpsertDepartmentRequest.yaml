@@ -1,0 +1,16 @@
+type: object
+required:
+  - name
+  - ordering
+properties:
+  name:
+    type: string
+    description: 名称
+  parent_id:
+    type: integer
+    format: int32
+    description: 父部门 ID
+  ordering:
+    type: integer
+    description: 排序值
+    format: int32

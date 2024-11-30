@@ -1,0 +1,13 @@
+apply plugin: "java-library"
+apply plugin: "io.ebean"
+
+dependencies {
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("cool.houge.pangu:pangu-lang:$pangulangVersion")
+    implementation("com.google.guava:guava:$guavaVersion")
+    implementation("io.helidon.webserver:helidon-webserver:$helidonVersion")
+    implementation("io.ebean:ebean-core:$ebeanVersion")
+    implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
+        exclude module: "avaje-validator-http-plugin"
+    }
+}

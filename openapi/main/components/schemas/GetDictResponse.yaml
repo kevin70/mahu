@@ -1,0 +1,15 @@
+type: object
+required:
+  - kind
+  - value
+  - label
+properties:
+  kind:
+    type: string
+    description: 类型
+  value:
+    type: string
+    description: 值
+  label:
+    type: string
+    description: 标签

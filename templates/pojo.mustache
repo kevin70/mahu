@@ -1,0 +1,40 @@
+{{#description}}
+    /**
+    * {{{.}}}
+    */{{/description}}
+@lombok.Data
+@io.avaje.validation.constraints.Valid
+public class {{classname}} {
+
+{{#vars}}
+    {{#isEnum}}
+
+        {{^isContainer}}
+            {{>enumClass}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+                {{>enumClass}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
+
+    {{/isEnum}}
+    /**
+    {{#description}}
+     * {{{.}}}
+    {{/description}}
+    {{^description}}
+     * Get {{name}}
+    {{/description}}
+    {{#minimum}}
+     * minimum: {{.}}
+    {{/minimum}}
+    {{#maximum}}
+     * maximum: {{.}}
+    {{/maximum}}
+     */
+  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
+    @com.fasterxml.jackson.annotation.JsonProperty("{{baseName}}")
+    private {{{datatypeWithEnum}}} {{{name}}};
+{{/vars}}
+}

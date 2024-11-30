@@ -1,0 +1,30 @@
+type: object
+required:
+  - username
+  - nickname
+  - avatar
+properties:
+  username:
+    type: string
+    description: 用户名
+  password:
+    type: string
+    description: 登录密码
+  nickname:
+    type: string
+    description: 昵称
+  avatar:
+    type: string
+    description: 头像地址
+  status:
+    $ref: ./EmployeeStatusEnum.yaml
+  department_id:
+    type: integer
+    format: int32
+    description: 部门 ID
+  role_ids:
+    type: array
+    description: 角色 IDs
+    items:
+      type: integer
+      format: int32

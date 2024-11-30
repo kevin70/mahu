@@ -1,0 +1,39 @@
+type: object
+required:
+  - id
+  - name
+  - ordering
+properties:
+  id:
+    type: integer
+    format: int32
+    description: ID
+  create_time:
+    type: string
+    format: date-time
+    description: 创建时间
+  update_time:
+    type: string
+    format: date-time
+    description: 修改时间
+  name:
+    type: string
+    description: 名称
+  parent_id:
+    type: integer
+    format: int32
+    description: 父部门 ID
+  parent:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: ID
+      name:
+        type: string
+        description: 名称
+  ordering:
+    type: integer
+    description: 排序值
+    format: int32

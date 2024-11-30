@@ -1,0 +1,62 @@
+type: object
+description: 错误响应
+required:
+  - error
+properties:
+  error:
+    type: object
+    required:
+      - trace_id
+      - timestamp
+      - path
+      - method
+      - status
+      - code
+      - message
+    properties:
+      trace_id:
+        type: string
+        description: 日志追踪 ID
+      timestamp:
+        type: string
+        format: date-time
+        description: 时间戳
+      path:
+        type: string
+        description: 请求路径
+      method:
+        type: string
+        description: HTTP Method
+      status:
+        type: integer
+        format: int32
+        description: HTTP Status
+      code:
+        type: string
+        description: 错误代码
+      message:
+        type: string
+        description: 错误描述
+      detail:
+        type: string
+        description: 详细信息
+      stacktrace:
+        type: array
+        items:
+          type: string
+        description: |
+          调试堆栈，此字段仅在请求 URL 中存在 `debug` 查询参数时返回
+      invalid_params:
+        type: array
+        description: 非法参数
+        items:
+          required:
+            - property_name
+            - message
+          properties:
+            property_name:
+              type: string
+              description: 参数名称
+            message:
+              type: string
+              description: 错误描述

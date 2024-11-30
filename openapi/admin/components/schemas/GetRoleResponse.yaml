@@ -1,0 +1,31 @@
+type: object
+required:
+  - id
+  - name
+properties:
+  id:
+    type: integer
+    description: 数据 ID
+  create_time:
+    type: string
+    format: date-time
+    description: 创建时间
+  update_time:
+    type: string
+    format: date-time
+    description: 修改时间
+  name:
+    type: string
+    description: 名称
+  remark:
+    type: string
+    description: 备注
+  ordering:
+    type: integer
+    description: 排序值
+    format: int32
+  permits:
+    type: array
+    description: 拥有的权限代码
+    items:
+      type: string

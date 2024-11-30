@@ -1,0 +1,152 @@
+buildscript {
+    ext {
+        lombokVersion = "1.18.34"
+        mapstructVersion = "1.6.2"
+        swaggerVersion = "2.2.22"
+        pangulangVersion = "1.3.3-RC1"
+        guavaVersion = "33.1.0-jre"
+        postgresqlVersion = "42.7.4"
+        hikariVersion = "5.1.0"
+        avajeInjectVersion = "11.0"
+        avajeValidatorVersion = "2.3"
+        helidonVersion = "4.1.0"
+        jacksonVersion = "2.17.0"
+        log4jVersion = "2.23.1"
+        ebeanVersion = "15.8.0"
+        caffeineVersion = "3.1.8"
+        password4jVersion = "1.8.1"
+        bcprovVersion = "1.77"
+        nimbusJoseJwtVersion = "9.37.3"
+        sqidsVersion = "0.1.0"
+        ulidCreatorVersion = "5.2.3"
+        jedisVersion = "5.1.5"
+
+        assertjVersion = "3.25.3"
+        junitVersion = "5.10.2"
+        instancioVersion = "5.1.0"
+        hoverflyVersion = "0.19.1"
+    }
+}
+
+plugins {
+    id "java"
+    id "application"
+    id "io.ebean" version "15.8.0"
+    id "org.hidetake.ssh" version "2.11.2"
+    id "com.github.johnrengelman.shadow" version "8.1.1" apply false
+    id "com.bmuschko.docker-remote-api" version "9.3.1"
+    id "com.github.node-gradle.node" version "7.1.0"
+    id "org.openapi.generator" version "7.10.0"
+    id "com.palantir.java-format" version "2.50.0"
+}
+
+allprojects {
+
+    apply plugin: "java"
+    apply plugin: "com.palantir.java-format"
+    apply plugin: "com.github.node-gradle.node"
+
+    group = "cool.houge.mahu"
+    version = "1.0.0-SNAPSHOT"
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_23
+        targetCompatibility = JavaVersion.VERSION_23
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+        options.compilerArgs += [
+            "-parameters",
+            "-Amapstruct.defaultComponentModel=jakarta",
+            "-Amapstruct.unmappedTargetPolicy=IGNORE",
+            "-Amapstruct.unmappedSourcePolicy=IGNORE"
+        ]
+        options.sourcepath = sourceSets.main.resources.getSourceDirectories()
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    configurations {
+        configureEach {
+            exclude group: "io.avaje", module: "avaje-config"
+        }
+    }
+
+    remotes {
+        hx01 {
+            host = "ec-api.crosshealth.club"
+            user = "root"
+            identity = file("${System.getProperty("user.home")}/.ssh/id_rsa")
+            knownHosts = allowAnyHosts
+        }
+    }
+
+    node {
+        download = true
+        version = "22.3.0"
+        distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
+    }
+
+    dependencies {
+        annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+        compileOnly("org.projectlombok:lombok:$lombokVersion")
+        compileOnly("org.mapstruct:mapstruct:$mapstructVersion")
+        compileOnly("io.swagger.core.v3:swagger-annotations:$swaggerVersion")
+
+        testImplementation("org.assertj:assertj-core:$assertjVersion")
+        testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
+        testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
+        testImplementation("org.instancio:instancio-junit:$instancioVersion")
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.huaweicloud.com/repository/maven/" }
+        mavenCentral()
+    }
+}
+
+tasks.register("buildDashboardUI", com.github.gradle.node.pnpm.task.PnpmTask.class) {
+    group("build")
+    doFirst {
+        // 清理之前生成的资源
+        project.delete("${projectDir}/mahu-admin-ui/dist")
+    }
+
+    workingDir = file("${projectDir}/mahu-admin-ui")
+    pnpmCommand = ["pnpm", "build"]
+}
+
+tasks.register("tarAdminUI", Tar.class) {
+    group("distribution")
+    dependsOn("buildAdminUI")
+
+    archiveFileName = "mahu-dashboard-ui.tar.gz"
+    destinationDirectory = file("$projectDir/mahu-dashboard-ui")
+    compression = Compression.GZIP
+    from file("$projectDir/mahu-dashboard-ui/dist/")
+}
+
+tasks.register("deployAdminUI") {
+    group("distribution")
+    dependsOn("tarAdminUI")
+
+    doLast {
+        ssh.run {
+            session(remotes.hx01) {
+                put(from: "${projectDir}/mahu-dashboard-ui/mahu-dashboard-ui.tar.gz", into: "/root/nginx/html/mahu-dashboard-ui.tar.gz")
+                execute([
+                    "source ~/.profile",
+                    "cd /root/nginx/html",
+                    "mkdir -p mahu-dashboard-ui",
+                    "tar -zxvf mahu-dashboard-ui.tar.gz -C mahu-dashboard-ui",
+                    /* 清理资源 */
+                    "rm -rf mahu-dashboard-ui.tar.gz",
+                ].join('\n'))
+            }
+        }
+    }
+}

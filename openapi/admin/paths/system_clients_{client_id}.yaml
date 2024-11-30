@@ -1,0 +1,43 @@
+parameters:
+  - name: client_id
+    in: path
+    description: 客户端 ID
+    schema:
+      type: string
+get:
+  summary: 获取指定客户端
+  operationId: getClient
+  x-role-permit: CLIENT:R
+  tags:
+    - system
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/GetClientResponse.yaml
+delete:
+  summary: 删除客户端
+  operationId: deleteClient
+  x-role-permit: CLIENT:W
+  tags:
+    - system
+  responses:
+    "204":
+      description: OK
+put:
+  summary: 修改客户端
+  operationId: updateClient
+  x-role-permit: CLIENT:W
+  tags:
+    - system
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertClientRequest.yaml
+  responses:
+    "204":
+      description: OK

@@ -1,0 +1,33 @@
+post:
+  summary: 新增部门
+  operationId: addDepartment
+  x-role-permit: DEPARTMENT:W
+  tags:
+    - system
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/UpsertDepartmentRequest.yaml"
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 部门列表
+  operationId: listDepartments
+  x-role-permit: DEPARTMENT:R
+  tags:
+    - system
+  parameters:
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ListDepartmentsPageResponse.yaml"

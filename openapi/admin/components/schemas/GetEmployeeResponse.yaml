@@ -1,0 +1,50 @@
+type: object
+required:
+  - id
+  - username
+  - nickname
+properties:
+  id:
+    type: integer
+    format: int32
+    description: ID
+  create_time:
+    type: string
+    format: date-time
+    description: 创建时间
+  update_time:
+    type: string
+    format: date-time
+    description: 修改时间
+  username:
+    type: string
+    description: 用户名
+  nickname:
+    type: string
+    description: 昵称
+  avatar:
+    type: string
+    description: 头像地址
+  status:
+    $ref: ./EmployeeStatusEnum.yaml
+  deleted:
+    type: boolean
+    description: 是否已经删除的数据
+  department:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+        description: 部门 ID
+      name:
+        type: string
+        description: 部门名称
+  role_ids:
+    type: array
+    description: 角色 IDs
+    items:
+      type: integer
+      format: int32
