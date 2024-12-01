@@ -7,14 +7,14 @@ import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.web.WebSupport;
 import cool.houge.mahu.internal.VoBeanMapper;
 import cool.houge.mahu.oas.model.GetTokenRequest;
+import cool.houge.mahu.service.TokenPayload;
+import cool.houge.mahu.service.TokenService;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-
-import java.util.Objects;
 
 /// 登录
 ///
@@ -25,6 +25,9 @@ public class LoginController implements HttpService, WebSupport {
     @Inject
     VoBeanMapper beanMapper;
 
+    @Inject
+    TokenService tokenService;
+
     @Override
     public void routing(HttpRules rules) {
         rules.post("/login/token", this::getToken);
@@ -33,15 +36,19 @@ public class LoginController implements HttpService, WebSupport {
     private void getToken(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(GetTokenRequest.class);
         var grantType = vo.getGrantType();
-        if (Objects.equals(GrantType.REFRESH_TOKEN.code, grantType)) {
+        TokenPayload payload;
+        if (GrantType.REFRESH_TOKEN.code.equals(grantType)) {
             var form = beanMapper.toTokenRefreshTokenForm(vo);
             validate(form);
-        } else if (Objects.equals(GrantType.PASSWORD.code, grantType)) {
-            //
-        } else if (Objects.equals(GrantType.WECHAT_XCX.code, grantType)) {
-            //
+            payload = beanMapper.toTokenPayload(form);
+        } else if (GrantType.WECHAT_XCX.code.equals(grantType)) {
+            var form = beanMapper.toTokenWechatXcxForm(vo);
+            validate(form);
+            payload = beanMapper.toTokenPayload(form);
         } else {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Strings.lenientFormat("非法的授权类型[%s]", grantType));
         }
+
+        tokenService.login(payload);
     }
 }

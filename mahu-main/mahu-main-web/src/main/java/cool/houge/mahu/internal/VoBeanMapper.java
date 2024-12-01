@@ -3,6 +3,7 @@ package cool.houge.mahu.internal;
 import cool.houge.mahu.entity.Region;
 import cool.houge.mahu.entity.system.Dict;
 import cool.houge.mahu.oas.model.*;
+import cool.houge.mahu.service.TokenPayload;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
@@ -19,4 +20,8 @@ public interface VoBeanMapper {
     TokenRefreshTokenForm toTokenRefreshTokenForm(GetTokenRequest bean);
 
     TokenWechatXcxForm toTokenWechatXcxForm(GetTokenRequest bean);
+
+    TokenPayload toTokenPayload(TokenRefreshTokenForm bean);
+
+    TokenPayload toTokenPayload(TokenWechatXcxForm bean);
 }
