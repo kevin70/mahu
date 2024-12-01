@@ -10,7 +10,7 @@ import java.util.List;
 
 /// 行政区
 ///
-/// @author ZY (kzou227@qq.com
+/// @author ZY (kzou227@qq.com)
 @Singleton
 public class RegionRepository extends HBeanRepository<String, Region> {
 

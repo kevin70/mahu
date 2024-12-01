@@ -12,7 +12,7 @@ import java.util.List;
 
 /// 字典
 ///
-/// @author ZY (kzou227@qq.com
+/// @author ZY (kzou227@qq.com)
 @Singleton
 public class DictService {
 

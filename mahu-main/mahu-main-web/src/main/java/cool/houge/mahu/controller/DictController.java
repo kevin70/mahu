@@ -12,7 +12,7 @@ import jakarta.inject.Singleton;
 
 /// 字典
 ///
-/// @author ZY (kzou227@qq.com
+/// @author ZY (kzou227@qq.com)
 @Singleton
 public class DictController implements HttpService, WebSupport {
 

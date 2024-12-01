@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/// @author ZY (kzou227@qq.com
+/// @author ZY (kzou227@qq.com)
 class RegionRepositoryTest extends TestTransactionBase {
 
     @Inject

@@ -2,10 +2,7 @@ package cool.houge.mahu.internal;
 
 import cool.houge.mahu.entity.Region;
 import cool.houge.mahu.entity.system.Dict;
-import cool.houge.mahu.oas.model.GetDictResponse;
-import cool.houge.mahu.oas.model.GetRegionResponse;
-import cool.houge.mahu.oas.model.GetTokenRequest;
-import cool.houge.mahu.oas.model.TokenRefreshTokenForm;
+import cool.houge.mahu.oas.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
@@ -20,4 +17,6 @@ public interface VoBeanMapper {
     GetDictResponse toGetDictResponse(Dict bean);
 
     TokenRefreshTokenForm toTokenRefreshTokenForm(GetTokenRequest bean);
+
+    TokenWechatXcxForm toTokenWechatXcxForm(GetTokenRequest bean);
 }

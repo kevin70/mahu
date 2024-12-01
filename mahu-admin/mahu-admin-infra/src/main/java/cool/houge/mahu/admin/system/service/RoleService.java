@@ -10,7 +10,7 @@ import jakarta.inject.Singleton;
 
 /// 角色
 ///
-/// @author ZY (kzou227@qq.com
+/// @author ZY (kzou227@qq.com)
 @Singleton
 public class RoleService {
 

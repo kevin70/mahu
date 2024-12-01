@@ -12,7 +12,7 @@ import java.time.Instant;
 
 /// 后台访问记录
 ///
-/// @author ZY (kzou227@qq.com
+/// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
 @Entity
