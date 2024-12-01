@@ -3,10 +3,7 @@ package cool.houge.mahu.entity;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,6 +37,11 @@ public class User {
     private String nickname;
     /// 手机
     private String mobile;
+
+    /// 微信个人信息
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private WechatProfile wechatProfile;
 
     /// 手机状态
     public boolean getMobileStatus() {
