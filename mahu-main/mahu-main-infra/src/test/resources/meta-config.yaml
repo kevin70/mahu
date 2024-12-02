@@ -9,7 +9,7 @@ sources:
       optional: true
   - type: file
     properties:
-      path: C:/houge/houge.yaml
+      path: C:/houge/mahu.yaml
       optional: true
   ### =============== 开发配置 =============== ###
 
