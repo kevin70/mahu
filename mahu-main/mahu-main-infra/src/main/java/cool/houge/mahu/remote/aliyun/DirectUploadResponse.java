@@ -2,9 +2,7 @@ package cool.houge.mahu.remote.aliyun;
 
 import lombok.Data;
 
-/**
- * @author ZY (kzou227@qq.com)
- */
+/// @author ZY (kzou227@qq.com)
 @Data
 public class DirectUploadResponse {
 
