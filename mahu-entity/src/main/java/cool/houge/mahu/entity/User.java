@@ -39,7 +39,7 @@ public class User {
     private String mobile;
 
     /// 微信个人信息
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     @PrimaryKeyJoinColumn
     private WechatProfile wechatProfile;
 
