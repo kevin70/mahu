@@ -40,7 +40,6 @@ public class User {
 
     /// 微信个人信息
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    @PrimaryKeyJoinColumn
     private WechatProfile wechatProfile;
 
     /// 手机状态
