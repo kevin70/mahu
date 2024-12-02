@@ -28,11 +28,9 @@ import java.util.Base64;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * 微信支付.
- *
- * @author ZY (kzou227@qq.com)
- */
+/// 微信支付
+///
+/// @author ZY (kzou227@qq.com)
 @Singleton
 public class WechatPayClient {
 
@@ -44,9 +42,7 @@ public class WechatPayClient {
     @Inject
     ObjectMapper objectMapper;
 
-    /**
-     * JSAPI 下单.
-     */
+    /// JSAPI 下单.
     public JsapiPrepayResult prepayJsapi(WechatPayConfig config, PrepayPayload payload) {
         payload.setMchid(config.mchid()).setAppid(config.appid()).setNotifyUrl(config.notifyUrl());
 
@@ -75,12 +71,9 @@ public class WechatPayClient {
         }
     }
 
-    /**
-     * 解密微信 APIv3 支付回调数据.
-     *
-     * @param payload 微信回调数据
-     * @return 微信回调数据
-     */
+    /// 解密微信 APIv3 支付回调数据.
+    ///
+    /// @param payload 微信回调数据
     public WechatPayCallbackResult decryptTransaction(WechatCallbackPayload payload) {
         try {
             return objectMapper.readValue(decryptApiv3(payload), WechatPayCallbackResult.class);
@@ -89,13 +82,10 @@ public class WechatPayClient {
         }
     }
 
-    /**
-     * 退款申请.
-     *
-     * @param config  微信配置
-     * @param payload 退款数据
-     * @return 退款结果
-     */
+    /// 退款申请.
+    ///
+    /// @param config  微信配置
+    /// @param payload 退款数据
     public WechatRefundResult refund(WechatPayConfig config, WechatRefundPayload payload) {
         payload.setNotifyUrl(config.notifyUrl());
         String body;
@@ -122,12 +112,9 @@ public class WechatPayClient {
         }
     }
 
-    /**
-     * 解密微信 APIv3 退款回调数据.
-     *
-     * @param payload 微信回调数据
-     * @return 微信回调数据
-     */
+    /// 解密微信 APIv3 退款回调数据.
+    ///
+    /// @param payload 微信回调数据
     public WechatRefundCallbackResult decryptRefund(WechatCallbackPayload payload) {
         try {
             return objectMapper.readValue(decryptApiv3(payload), WechatRefundCallbackResult.class);
@@ -136,12 +123,9 @@ public class WechatPayClient {
         }
     }
 
-    /**
-     * 解密微信 APIv3 支付回调数据.
-     *
-     * @param payload 微信回调数据
-     * @return 微信回调数据
-     */
+    /// 解密微信 APIv3 支付回调数据.
+    ///
+    /// @param payload 微信回调数据
     byte[] decryptApiv3(WechatCallbackPayload payload) {
         try {
             var cipher = Cipher.getInstance("AES/GCM/NoPadding");
