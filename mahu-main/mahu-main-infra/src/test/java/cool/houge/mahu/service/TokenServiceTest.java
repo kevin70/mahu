@@ -17,18 +17,36 @@ class TokenServiceTest extends TestTransactionBase {
     @Test
     void loginByWechatXcx() {
         var appid = gen().uuid().get().toString();
-        String unionid = null;
         var openid = gen().uuid().get().toString();
         var nicknameAvatar = of(TokenService.NicknameAvatar.class).create();
 
         var user = tokenService.upsertWechatUser(appid, null, openid, () -> nicknameAvatar);
 
-        assertThat(user).isNotNull()
-            .hasFieldOrPropertyWithValue("nickname", nicknameAvatar.nickname())
-            .hasFieldOrPropertyWithValue("avatar", nicknameAvatar.avatar());
-        assertThat(user.getWechatProfile())
-            .hasFieldOrPropertyWithValue("appid", appid)
-            .hasFieldOrPropertyWithValue("unionid", unionid)
-            .hasFieldOrPropertyWithValue("openid", openid);
+        assertThat(user).isNotNull();
+        assertThat(user.getId()).isPositive();
+        assertThat(user.getNickname()).isNotNull().isEqualTo(nicknameAvatar.nickname());
+        assertThat(user.getAvatar()).isNotNull().isEqualTo(nicknameAvatar.avatar());
+
+        assertThat(user.getWechatProfile().getAppid()).isEqualTo(appid);
+        assertThat(user.getWechatProfile().getOpenid()).isEqualTo(openid);
+    }
+
+    @Test
+    void loginByWechatXcx_unionid() {
+        var appid = gen().uuid().get().toString();
+        var unionid = gen().uuid().get().toString();
+        var openid = gen().uuid().get().toString();
+        var nicknameAvatar = of(TokenService.NicknameAvatar.class).create();
+
+        var user = tokenService.upsertWechatUser(appid, unionid, openid, () -> nicknameAvatar);
+
+        assertThat(user).isNotNull();
+        assertThat(user.getId()).isPositive();
+        assertThat(user.getNickname()).isNotNull().isEqualTo(nicknameAvatar.nickname());
+        assertThat(user.getAvatar()).isNotNull().isEqualTo(nicknameAvatar.avatar());
+
+        assertThat(user.getWechatProfile().getAppid()).isEqualTo(appid);
+        assertThat(user.getWechatProfile().getUnionid()).isEqualTo(unionid);
+        assertThat(user.getWechatProfile().getOpenid()).isEqualTo(openid);
     }
 }

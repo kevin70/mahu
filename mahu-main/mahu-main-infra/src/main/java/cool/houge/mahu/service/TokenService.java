@@ -55,58 +55,45 @@ public class TokenService implements TokenVerifier {
     User loginByWechatXcx(TokenPayload payload) {
         var client = clientRepository.obtainClient(payload.getClientId());
         var sessionPayload = new Jscode2SessionPayload()
-            .setAppid(client.getWechatAppid())
-            .setSecret(client.getWechatAppsecret())
-            .setJsCode(payload.getWechatJsCode());
+                .setAppid(client.getWechatAppid())
+                .setSecret(client.getWechatAppsecret())
+                .setJsCode(payload.getWechatJsCode());
         var sessionResult = wechatClient.jscode2Session(sessionPayload);
 
-        var user = upsertWechatUser(client.getWechatAppid(), sessionResult.getUnionid(), sessionResult.getOpenid(), () -> {
-            var decryptResult = wechatClient.decrypt(new WechatEncryptPayload()
-                .setAppid(client.getWechatAppid())
-                .setEncryptedData(payload.getWechatEncryptData())
-                .setIv(payload.getWechatIv())
-                .setSessionKey(sessionResult.getSessionKey()));
-            return new NicknameAvatar(decryptResult.getNickName(), decryptResult.getAvatarUrl());
-        });
+        var user =
+                upsertWechatUser(client.getWechatAppid(), sessionResult.getUnionid(), sessionResult.getOpenid(), () -> {
+                    var decryptResult = wechatClient.decrypt(new WechatEncryptPayload()
+                            .setAppid(client.getWechatAppid())
+                            .setEncryptedData(payload.getWechatEncryptData())
+                            .setIv(payload.getWechatIv())
+                            .setSessionKey(sessionResult.getSessionKey()));
+                    return new NicknameAvatar(decryptResult.getNickName(), decryptResult.getAvatarUrl());
+                });
 
         log.debug("微信小程序用户认证成功 userId={}", user.getId());
         return user;
     }
 
-    User upsertWechatUser(
-        String appid, String unionid, String openid, Supplier<NicknameAvatar> nicknameAvatar) {
+    User upsertWechatUser(String appid, String unionid, String openid, Supplier<NicknameAvatar> nicknameAvatar) {
         User user;
         if (Strings.isNullOrEmpty(unionid)) {
             user = userRepository.findByWechatAppid$Openid(appid, openid);
         } else {
             user = userRepository.findByWechatUnionid(unionid);
-            // 如果没有 openid 将 openid 保存至数据库
-            var wechatProfile = user.getWechatProfile();
-            if (wechatProfile != null && Strings.isNullOrEmpty(wechatProfile.getOpenid())) {
-                wechatProfile.setAppid(appid).setOpenid(openid);
-                wechatProfile.setOpenid(openid);
-                userRepository.update(user);
-            }
         }
 
         // 数据库中没有则保存数据
         if (user == null) {
             // 保存用户
-            var wechatProfile = new WechatProfile()
-                .setAppid(appid)
-                .setOpenid(openid)
-                .setUnionid(unionid);
+            var wechatProfile =
+                    new WechatProfile().setAppid(appid).setOpenid(openid).setUnionid(unionid);
 
             var info = nicknameAvatar.get();
-            user = new User()
-                .setNickname(info.nickname)
-                .setAvatar(info.avatar)
-                .setWechatProfile(wechatProfile);
+            user = new User().setNickname(info.nickname).setAvatar(info.avatar).setWechatProfile(wechatProfile);
             userRepository.save(user);
         }
         return user;
     }
 
-    record NicknameAvatar(String nickname, String avatar) {
-    }
+    record NicknameAvatar(String nickname, String avatar) {}
 }
