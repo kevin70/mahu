@@ -1,14 +1,23 @@
 package cool.houge.mahu.service;
 
+import com.github.f4b6a3.ulid.Ulid;
+import cool.houge.lang.BizCodeException;
+import cool.houge.lang.BizCodes;
 import cool.houge.mahu.TestMetadataBean;
 import cool.houge.mahu.TestTransactionBase;
 import cool.houge.mahu.entity.User;
 import io.helidon.security.jwt.EncryptedJwt;
+import io.helidon.security.jwt.Jwt;
+import io.helidon.security.jwt.SignedJwt;
+import io.helidon.security.jwt.jwk.Jwk;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
 
+import java.time.Instant;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.instancio.Instancio.gen;
 import static org.instancio.Instancio.of;
 
@@ -33,6 +42,33 @@ class TokenServiceTest extends TestTransactionBase {
         var ac = tokenService.verify(token.getAccessToken());
         assertThat(ac).isNotNull();
         assertThat(ac.uid()).isEqualTo(user.getId());
+    }
+
+    @Test
+    void verify_illegal_token() {
+        var token = "abcefsdfsafkljsakljfjk;lj;";
+        tokenService.verify(token);
+    }
+
+    @Test
+    void verify_expired_token() {
+        var atJwt = Jwt.builder()
+                .jwtId(Ulid.fast().toLowerCase())
+                .userPrincipal("0")
+                .issueTime(Instant.now())
+                .expirationTime(Instant.now().minusSeconds(6000))
+                .nonce(Ulid.fast().toLowerCase())
+                .build();
+        var jwk = tokenService.obtainJwk();
+        var accessToken = EncryptedJwt.builder(SignedJwt.sign(atJwt, Jwk.NONE_JWK))
+                .jwks(tokenService.jwkKeys, jwk.keyId())
+                .build();
+        var token = accessToken.token();
+
+        assertThatExceptionOfType(BizCodeException.class)
+                .isThrownBy(() -> tokenService.verify(token))
+                .extracting(BizCodeException::getCode)
+                .isEqualTo(BizCodes.UNAUTHENTICATED);
     }
 
     @Test

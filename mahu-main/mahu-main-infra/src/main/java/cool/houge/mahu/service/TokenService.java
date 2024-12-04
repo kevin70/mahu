@@ -20,9 +20,11 @@ import cool.houge.mahu.repository.UserRepository;
 import cool.houge.mahu.system.repository.ClientRepository;
 import cool.houge.mahu.system.repository.TokenJourRepository;
 import io.ebean.annotation.Transactional;
+import io.helidon.common.Errors;
 import io.helidon.common.LazyValue;
 import io.helidon.security.jwt.EncryptedJwt;
 import io.helidon.security.jwt.Jwt;
+import io.helidon.security.jwt.JwtValidator;
 import io.helidon.security.jwt.SignedJwt;
 import io.helidon.security.jwt.jwk.Jwk;
 import io.helidon.security.jwt.jwk.JwkKeys;
@@ -34,6 +36,7 @@ import org.apache.logging.log4j.Logger;
 import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /// 令牌
 ///
@@ -63,11 +66,15 @@ public class TokenService implements TokenVerifier {
 
     @Override
     public AuthContext verify(String token) {
-        var jwt = EncryptedJwt.parseToken(token).decrypt(jwkKeys);
-        jwt.verifySignature(jwkKeys);
+        var jwt = EncryptedJwt.parseToken(token).decrypt(jwkKeys).getJwt();
+        var validator = JwtValidator.builder().addExpirationValidator().build();
+        var errors = validator.validate(jwt);
+        if (errors.hasFatal()) {
+            var msg = errors.stream().map(Errors.ErrorMessage::getMessage).collect(Collectors.joining("|"));
+            throw new BizCodeException(BizCodes.UNAUTHENTICATED, msg);
+        }
 
-        var userId = jwt.getJwt()
-                .userPrincipal()
+        var userId = jwt.userPrincipal()
                 .map(Long::valueOf)
                 .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
         var userLv = LazyValue.create(() -> userRepository.findById(userId));
