@@ -47,7 +47,10 @@ class TokenServiceTest extends TestTransactionBase {
     @Test
     void verify_illegal_token() {
         var token = "abcefsdfsafkljsakljfjk;lj;";
-        tokenService.verify(token);
+        assertThatExceptionOfType(BizCodeException.class)
+                .isThrownBy(() -> tokenService.verify(token))
+                .extracting(BizCodeException::getCode)
+                .isEqualTo(BizCodes.UNAUTHENTICATED);
     }
 
     @Test

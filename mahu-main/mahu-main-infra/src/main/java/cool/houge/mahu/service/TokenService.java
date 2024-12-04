@@ -66,12 +66,17 @@ public class TokenService implements TokenVerifier {
 
     @Override
     public AuthContext verify(String token) {
-        var jwt = EncryptedJwt.parseToken(token).decrypt(jwkKeys).getJwt();
-        var validator = JwtValidator.builder().addExpirationValidator().build();
-        var errors = validator.validate(jwt);
-        if (errors.hasFatal()) {
-            var msg = errors.stream().map(Errors.ErrorMessage::getMessage).collect(Collectors.joining("|"));
-            throw new BizCodeException(BizCodes.UNAUTHENTICATED, msg);
+        Jwt jwt;
+        try {
+            jwt = EncryptedJwt.parseToken(token).decrypt(jwkKeys).getJwt();
+            var validator = JwtValidator.builder().addExpirationValidator().build();
+            var errors = validator.validate(jwt);
+            if (errors.hasFatal()) {
+                var msg = errors.stream().map(Errors.ErrorMessage::getMessage).collect(Collectors.joining("|"));
+                throw new BizCodeException(BizCodes.UNAUTHENTICATED, msg);
+            }
+        } catch (Exception e) {
+            throw new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌");
         }
 
         var userId = jwt.userPrincipal()
