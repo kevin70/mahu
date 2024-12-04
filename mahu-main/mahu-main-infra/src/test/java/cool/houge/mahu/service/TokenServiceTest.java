@@ -1,6 +1,10 @@
 package cool.houge.mahu.service;
 
+import cool.houge.mahu.TestMetadataBean;
 import cool.houge.mahu.TestTransactionBase;
+import cool.houge.mahu.entity.User;
+import io.helidon.security.jwt.EncryptedJwt;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
 
@@ -13,6 +17,39 @@ class TokenServiceTest extends TestTransactionBase {
 
     @Spy
     TokenService tokenService;
+
+    TokenResult getTokenResult() {
+        var payload = Instancio.create(TokenPayload.class);
+        var user = Instancio.create(User.class);
+        return tokenService.makeToken(new TestMetadataBean(), payload, user);
+    }
+
+    @Test
+    void verify() {
+        var payload = Instancio.create(TokenPayload.class);
+        var user = Instancio.create(User.class);
+        var token = tokenService.makeToken(new TestMetadataBean(), payload, user);
+
+        var ac = tokenService.verify(token.getAccessToken());
+        assertThat(ac).isNotNull();
+        assertThat(ac.uid()).isEqualTo(user.getId());
+    }
+
+    @Test
+    void makeToken() {
+        var payload = Instancio.create(TokenPayload.class);
+        var user = Instancio.create(User.class);
+
+        var token = tokenService.makeToken(new TestMetadataBean(), payload, user);
+        assertThat(token).isNotNull();
+        assertThat(token.getExpiresIn())
+                .isEqualTo(tokenService.tokenConfig.accessExpires().toSeconds());
+
+        var jwt = EncryptedJwt.parseToken(token.getAccessToken())
+                .decrypt(tokenService.jwkKeys)
+                .getJwt();
+        assertThat(jwt.userPrincipal()).hasValue(user.getId().toString());
+    }
 
     @Test
     void loginByWechatXcx() {

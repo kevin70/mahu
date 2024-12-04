@@ -4,6 +4,7 @@ import cool.houge.mahu.entity.Region;
 import cool.houge.mahu.entity.system.Dict;
 import cool.houge.mahu.oas.model.*;
 import cool.houge.mahu.service.TokenPayload;
+import cool.houge.mahu.service.TokenResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
@@ -24,4 +25,6 @@ public interface VoBeanMapper {
     TokenPayload toTokenPayload(TokenRefreshTokenForm bean);
 
     TokenPayload toTokenPayload(TokenWechatXcxForm bean);
+
+    GetTokenResponse toGetTokenResponse(TokenResult bean);
 }

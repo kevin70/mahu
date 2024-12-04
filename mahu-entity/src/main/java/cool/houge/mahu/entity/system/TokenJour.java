@@ -34,12 +34,6 @@ public class TokenJour {
     private String clientId;
     /// 客户端IP
     private String clientIp;
-    /// JWT密钥ID
-    private String jwkId;
     /// 授权类型
     private String grantType;
-    /// 访问令牌
-    private String accessToken;
-    /// 刷新令牌
-    private String refreshToken;
 }

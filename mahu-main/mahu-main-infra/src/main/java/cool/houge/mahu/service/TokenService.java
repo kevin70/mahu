@@ -3,19 +3,24 @@ package cool.houge.mahu.service;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Strings;
+import cool.houge.lang.BizCodeException;
+import cool.houge.lang.BizCodes;
 import cool.houge.mahu.common.GrantType;
+import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.common.security.AuthContext;
 import cool.houge.mahu.common.security.TokenVerifier;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.User;
 import cool.houge.mahu.entity.WechatProfile;
-import cool.houge.mahu.entity.system.Client;
+import cool.houge.mahu.entity.system.TokenJour;
 import cool.houge.mahu.remote.wechat.Jscode2SessionPayload;
 import cool.houge.mahu.remote.wechat.WechatClient;
 import cool.houge.mahu.remote.wechat.WechatEncryptPayload;
 import cool.houge.mahu.repository.UserRepository;
 import cool.houge.mahu.system.repository.ClientRepository;
+import cool.houge.mahu.system.repository.TokenJourRepository;
 import io.ebean.annotation.Transactional;
+import io.helidon.common.LazyValue;
 import io.helidon.security.jwt.EncryptedJwt;
 import io.helidon.security.jwt.Jwt;
 import io.helidon.security.jwt.SignedJwt;
@@ -53,33 +58,63 @@ public class TokenService implements TokenVerifier {
     @Inject
     UserRepository userRepository;
 
+    @Inject
+    TokenJourRepository tokenJourRepository;
+
     @Override
     public AuthContext verify(String token) {
-        return null;
+        var jwt = EncryptedJwt.parseToken(token).decrypt(jwkKeys);
+        jwt.verifySignature(jwkKeys);
+
+        var userId = jwt.getJwt()
+                .userPrincipal()
+                .map(Long::valueOf)
+                .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
+        var userLv = LazyValue.create(() -> userRepository.findById(userId));
+        return new AuthContext() {
+
+            @Override
+            public long uid() {
+                return userId;
+            }
+
+            @Override
+            public String name() {
+                return userLv.get().getNickname();
+            }
+
+            @Override
+            public boolean containsPermits(String... permits) {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 
     @Transactional
-    public void login(TokenPayload payload) {
+    public TokenResult login(TokenPayload payload) {
+        User user;
         if (payload.getGrantType() == GrantType.REFRESH_TOKEN) {
-            //
+            user = loginByRefreshToken(payload);
+        } else if (payload.getGrantType() == GrantType.WECHAT_XCX) {
+            user = loginByWechatXcx(payload);
+        } else {
+            throw new IllegalArgumentException("Unsupported grant type: " + payload.getGrantType());
         }
+        return makeToken(Metadata.get(), payload, user);
     }
 
-    void loginByRefreshToken(TokenPayload payload) {
-        //
-    }
-
-    void makeToken(Client client, User user) {
+    @Transactional
+    TokenResult makeToken(Metadata metadata, TokenPayload payload, User user) {
         var jwk = obtainJwk();
         var jwtId = UlidCreator.getUlid().toLowerCase();
         var sub = String.valueOf(user.getId());
         var iat = Instant.now();
         var atJwt = Jwt.builder()
                 .jwtId(jwtId)
-                .subject(sub)
+                .userPrincipal(sub)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.accessExpires()))
-                .addAudience(client.getClientId())
+                .addAudience(payload.getClientId())
                 .nonce(Ulid.fast().toLowerCase())
                 .build();
         var accessToken = EncryptedJwt.builder(SignedJwt.sign(atJwt, Jwk.NONE_JWK))
@@ -88,7 +123,7 @@ public class TokenService implements TokenVerifier {
 
         var rtJwt = Jwt.builder()
                 .jwtId(jwtId)
-                .subject(sub)
+                .userPrincipal(sub)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.refreshExpires()))
                 .nonce(Ulid.fast().toLowerCase())
@@ -96,6 +131,20 @@ public class TokenService implements TokenVerifier {
         var refreshToken = EncryptedJwt.builder(SignedJwt.sign(rtJwt, Jwk.NONE_JWK))
                 .jwks(jwkKeys, jwk.keyId())
                 .build();
+
+        // 保存登录记录
+        var tokenJour = new TokenJour()
+                .setId(jwtId)
+                .setSub(sub)
+                .setClientId(payload.getClientId())
+                .setClientIp(metadata.clientAddr())
+                .setGrantType(payload.getGrantType().getCode());
+        tokenJourRepository.save(tokenJour);
+
+        return new TokenResult()
+                .setExpiresIn(tokenConfig.accessExpires().toSeconds())
+                .setAccessToken(accessToken.token())
+                .setRefreshToken(refreshToken.token());
     }
 
     Jwk obtainJwk() {
@@ -103,6 +152,17 @@ public class TokenService implements TokenVerifier {
         var ran = ThreadLocalRandom.current();
         var i = ran.nextInt(keys.size());
         return keys.get(i);
+    }
+
+    @Transactional
+    User loginByRefreshToken(TokenPayload payload) {
+        var jwt = EncryptedJwt.parseToken(payload.getRefreshToken()).decrypt(jwkKeys);
+        jwt.verifySignature(jwkKeys);
+        var userId = jwt.getJwt()
+                .userPrincipal()
+                .map(Long::valueOf)
+                .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "Invalid refresh token"));
+        return userRepository.findById(userId);
     }
 
     User loginByWechatXcx(TokenPayload payload) {

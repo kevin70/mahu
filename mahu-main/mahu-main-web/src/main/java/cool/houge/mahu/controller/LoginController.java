@@ -49,6 +49,8 @@ public class LoginController implements HttpService, WebSupport {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Strings.lenientFormat("非法的授权类型[%s]", grantType));
         }
 
-        tokenService.login(payload);
+        var tokenResult = tokenService.login(payload);
+        var rs = beanMapper.toGetTokenResponse(tokenResult);
+        response.send(rs);
     }
 }

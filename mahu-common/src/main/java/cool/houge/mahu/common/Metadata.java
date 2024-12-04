@@ -1,5 +1,9 @@
 package cool.houge.mahu.common;
 
+import cool.houge.lang.BizCodeException;
+import cool.houge.lang.BizCodes;
+import io.helidon.common.context.Contexts;
+
 /// 元数据
 ///
 /// @author ZY (kzou227@qq.com)
@@ -10,4 +14,12 @@ public interface Metadata {
 
     /// 追踪 ID
     String traceId();
+
+    /// 返回当前上下文中的元数据
+    static Metadata get() {
+        return Contexts.context()
+                .orElseThrow(() -> new BizCodeException(BizCodes.UNAVAILABLE, "缺少 Context"))
+                .get(Metadata.class)
+                .orElseThrow(() -> new BizCodeException(BizCodes.FAILED_PRECONDITION, "缺少 Metadata"));
+    }
 }
