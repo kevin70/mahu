@@ -27,12 +27,6 @@ class TokenServiceTest extends TestTransactionBase {
     @Spy
     TokenService tokenService;
 
-    TokenResult getTokenResult() {
-        var payload = Instancio.create(TokenPayload.class);
-        var user = Instancio.create(User.class);
-        return tokenService.makeToken(new TestMetadataBean(), payload, user);
-    }
-
     @Test
     void verify() {
         var payload = Instancio.create(TokenPayload.class);
