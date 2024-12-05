@@ -149,7 +149,7 @@ public class TokenService implements TokenVerifier {
                 .setId(jwtId)
                 .setSub(sub)
                 .setClientId(payload.getClientId())
-                .setClientIp(metadata.clientAddr())
+                .setClientAddr(metadata.clientAddr())
                 .setGrantType(payload.getGrantType().getCode());
         tokenJourRepository.save(tokenJour);
 

@@ -33,7 +33,7 @@ public class TokenJour {
     /// 客户端ID
     private String clientId;
     /// 客户端IP
-    private String clientIp;
+    private String clientAddr;
     /// 授权类型
     private String grantType;
 }

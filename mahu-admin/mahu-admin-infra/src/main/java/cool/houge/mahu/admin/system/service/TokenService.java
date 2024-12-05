@@ -183,7 +183,7 @@ public class TokenService implements TokenVerifier {
                 .setType("ADMIN")
                 .setSub(sub)
                 .setClientId(clientId)
-                .setClientIp(clientIp)
+                .setClientAddr(clientIp)
                 .setJwkId(jwk.keyId())
                 .setGrantType(grantType.code)
                 .setAccessToken(at)
