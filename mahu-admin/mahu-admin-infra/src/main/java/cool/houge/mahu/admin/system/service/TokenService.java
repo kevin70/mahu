@@ -2,12 +2,13 @@ package cool.houge.mahu.admin.system.service;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.f4b6a3.ulid.Ulid;
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.lang.BizCodeException;
 import cool.houge.lang.BizCodes;
 import cool.houge.lang.HougeException;
-import cool.houge.util.NanoIdUtils;
 import cool.houge.mahu.admin.cache.CEmployee;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
@@ -18,7 +19,6 @@ import cool.houge.mahu.common.security.AuthContext;
 import cool.houge.mahu.common.security.TokenVerifier;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.system.Employee;
-import cool.houge.mahu.entity.system.TokenJour;
 import io.ebean.annotation.Transactional;
 import io.helidon.security.jwt.EncryptedJwt;
 import io.helidon.security.jwt.Jwt;
@@ -32,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.random.RandomGenerator;
@@ -47,7 +46,7 @@ public class TokenService implements TokenVerifier {
 
     private static final Logger log = LoggerFactory.getLogger(TokenService.class);
 
-    private final Cache<String, CEmployee> employeeCache = Caffeine.newBuilder()
+    private final Cache<Long, CEmployee> employeeCache = Caffeine.newBuilder()
             .expireAfterAccess(10, TimeUnit.MINUTES)
             .recordStats()
             .build();
@@ -56,7 +55,7 @@ public class TokenService implements TokenVerifier {
     JwkKeys jwkKeys;
 
     @Inject
-    TokenConfig config;
+    TokenConfig tokenConfig;
 
     @Inject
     EmployeeRepository employeeRepository;
@@ -67,9 +66,10 @@ public class TokenService implements TokenVerifier {
     @Override
     public AuthContext verify(String token) {
         var jwt = parseToken(token);
-        var jwtId = jwt.jwtId().orElseThrow();
-        var emp = employeeCache.get(jwtId, (k) -> {
-            var uid = Long.valueOf(jwt.subject().orElseThrow());
+        var employeeId = jwt.userPrincipal()
+            .map(Long::valueOf)
+            .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
+        var employee = employeeCache.get(employeeId, (uid) -> {
             var entity = employeeRepository.findById(uid);
             requireNonNull(entity);
 
@@ -83,12 +83,12 @@ public class TokenService implements TokenVerifier {
 
             @Override
             public long uid() {
-                return emp.getId();
+                return employee.getId();
             }
 
             @Override
             public String name() {
-                return emp.getNickname();
+                return employee.getNickname();
             }
 
             @Override
@@ -108,7 +108,7 @@ public class TokenService implements TokenVerifier {
 
             @Override
             public List<String> rolePermits() {
-                return emp.getRoleCodes();
+                return employee.getRoleCodes();
             }
         };
     }
@@ -119,9 +119,9 @@ public class TokenService implements TokenVerifier {
 
         Employee employee;
         if (grantType == GrantType.PASSWORD) {
-            employee = checkByUsername(payload);
+            employee = loginByUsername(payload);
         } else if (grantType == GrantType.REFRESH_TOKEN) {
-            employee = checkByRefreshToken(payload);
+            employee = loginByRefreshToken(payload);
         } else {
             throw new BizCodeException(BizCodes.UNIMPLEMENTED);
         }
@@ -129,21 +129,57 @@ public class TokenService implements TokenVerifier {
         if (employee == null) {
             throw new HougeException("登录用户未找到");
         }
+
         var status = employee.getStatus();
         if (status != Employee.Status.ACTIVE) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "该帐号禁止登录");
         }
-
-        var ret = generateToken(employee.getId().intValue(), grantType, payload.getClientId(), payload.getClientIp());
+        var ret = makeToken(payload, employee);
         log.info("用户成功获取令牌 id={}", employee.getId());
         return ret;
     }
 
-    Employee checkByUsername(TokenPayload payload) {
+    @Transactional
+    TokenResult makeToken(TokenPayload payload, Employee employee) {
+        var jwk = obtainJwk();
+        var jwtId = UlidCreator.getUlid().toLowerCase();
+        var sub = String.valueOf(employee.getId());
+        var iat = Instant.now();
+        var atJwt = Jwt.builder()
+                .jwtId(jwtId)
+                .userPrincipal(sub)
+                .issueTime(iat)
+                .expirationTime(iat.plus(tokenConfig.accessExpires()))
+                .addAudience(payload.getClientId())
+                .nonce(Ulid.fast().toLowerCase())
+                .build();
+        var accessToken = EncryptedJwt.builder(SignedJwt.sign(atJwt, Jwk.NONE_JWK))
+                .jwks(jwkKeys, jwk.keyId())
+                .build();
+
+        var rtJwt = Jwt.builder()
+                .jwtId(jwtId)
+                .userPrincipal(sub)
+                .issueTime(iat)
+                .expirationTime(iat.plus(tokenConfig.refreshExpires()))
+                .nonce(Ulid.fast().toLowerCase())
+                .build();
+        var refreshToken = EncryptedJwt.builder(SignedJwt.sign(rtJwt, Jwk.NONE_JWK))
+                .jwks(jwkKeys, jwk.keyId())
+                .build();
+
+        return new TokenResult()
+                .setExpiresIn(tokenConfig.accessExpires().toSeconds())
+                .setAccessToken(accessToken.token())
+                .setRefreshToken(refreshToken.token());
+    }
+
+    Employee loginByUsername(TokenPayload payload) {
         var user = employeeRepository.findByUsername(payload.getUsername());
         if (user == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", payload.getUsername()));
         }
+
         var checker = Password.check(payload.getPassword(), user.getPassword());
         if (!checker.withArgon2()) {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "密码不匹配");
@@ -151,9 +187,9 @@ public class TokenService implements TokenVerifier {
         return user;
     }
 
-    Employee checkByRefreshToken(TokenPayload payload) {
+    Employee loginByRefreshToken(TokenPayload payload) {
         var jwt = parseToken(payload.getRefreshToken());
-        var sub = jwt.subject().orElseThrow();
+        var sub = jwt.userPrincipal().orElseThrow();
         return employeeRepository.findById(Long.valueOf(sub));
     }
 
@@ -166,46 +202,6 @@ public class TokenService implements TokenVerifier {
             throw new BizCodeException(BizCodes.UNAUTHENTICATED, "访问令牌已经过期");
         }
         return jwt;
-    }
-
-    TokenResult generateToken(long userId, GrantType grantType, String clientId, String clientIp) {
-        var jwtId = NanoIdUtils.randomNanoId();
-        var sub = String.valueOf(userId);
-        var iat = Instant.now();
-        var jwk = obtainJwk();
-
-        var at = generateToken(jwtId, sub, clientId, iat, iat.plus(2, ChronoUnit.DAYS), jwk);
-        var rt = generateToken(jwtId, sub, clientId, iat, iat.plus(14, ChronoUnit.DAYS), jwk);
-
-        var entity = new TokenJour()
-                .setId(jwtId)
-                .setCreateTime(iat)
-                .setType("ADMIN")
-                .setSub(sub)
-                .setClientId(clientId)
-                .setClientAddr(clientIp)
-                .setJwkId(jwk.keyId())
-                .setGrantType(grantType.code)
-                .setAccessToken(at)
-                .setRefreshToken(rt);
-        tokenJourRepository.save(entity);
-
-        return new TokenResult().setAccessToken(at).setRefreshToken(rt).setExpiresIn(TimeUnit.DAYS.toSeconds(2));
-    }
-
-    String generateToken(String jwtId, String sub, String aud, Instant iat, Instant exp, Jwk jwk) {
-        var jwt = Jwt.builder()
-                .jwtId(jwtId)
-                .subject(sub)
-                .issueTime(iat)
-                .expirationTime(exp)
-                .addAudience(aud)
-                .nonce(NanoIdUtils.randomNanoId())
-                .build();
-        var signedJwt = SignedJwt.sign(jwt, Jwk.NONE_JWK);
-        var encryptedJwt =
-                EncryptedJwt.builder(signedJwt).jwks(jwkKeys, jwk.keyId()).build();
-        return encryptedJwt.token();
     }
 
     Jwk obtainJwk() {
