@@ -168,10 +168,22 @@ public class TokenService implements TokenVerifier {
 
     @Transactional
     User loginByRefreshToken(TokenPayload payload) {
-        var jwt = EncryptedJwt.parseToken(payload.getRefreshToken()).decrypt(jwkKeys);
-        jwt.verifySignature(jwkKeys);
-        var userId = jwt.getJwt()
-                .userPrincipal()
+        Jwt jwt;
+        try {
+            jwt = EncryptedJwt.parseToken(payload.getRefreshToken())
+                    .decrypt(jwkKeys)
+                    .getJwt();
+            var validator = JwtValidator.builder().addDefaultTimeValidators().build();
+            var errors = validator.validate(jwt);
+            if (errors.hasFatal()) {
+                var msg = errors.stream().map(Errors.ErrorMessage::getMessage).collect(Collectors.joining("|"));
+                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, msg);
+            }
+        } catch (Exception e) {
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "错误的刷新令牌");
+        }
+
+        var userId = jwt.userPrincipal()
                 .map(Long::valueOf)
                 .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "Invalid refresh token"));
         return userRepository.findById(userId);
