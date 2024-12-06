@@ -3,6 +3,7 @@ package cool.houge.mahu.service;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Strings;
+import com.password4j.Password;
 import cool.houge.lang.BizCodeException;
 import cool.houge.lang.BizCodes;
 import cool.houge.mahu.common.GrantType;
@@ -107,10 +108,16 @@ public class TokenService implements TokenVerifier {
         User user;
         if (payload.getGrantType() == GrantType.REFRESH_TOKEN) {
             user = loginByRefreshToken(payload);
+        } else if (payload.getGrantType() == GrantType.PASSWORD) {
+            user = loginByUsername(payload);
         } else if (payload.getGrantType() == GrantType.WECHAT_XCX) {
             user = loginByWechatXcx(payload);
         } else {
             throw new IllegalArgumentException("Unsupported grant type: " + payload.getGrantType());
+        }
+
+        if (user.getStatus() == User.Status.BLOCKED) {
+            throw new BizCodeException(BizCodes.FAILED_PRECONDITION, "帐号已被封禁");
         }
         return makeToken(Metadata.get(), payload, user);
     }
@@ -164,6 +171,20 @@ public class TokenService implements TokenVerifier {
         var ran = ThreadLocalRandom.current();
         var i = ran.nextInt(keys.size());
         return keys.get(i);
+    }
+
+    @Transactional
+    User loginByUsername(TokenPayload payload) {
+        var user = userRepository.findByUsername(payload.getUsername());
+        if (user == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND, "未找到指定用户");
+        }
+
+        var checker = Password.check(payload.getPassword(), user.getPassword());
+        if (!checker.withArgon2()) {
+            throw new BizCodeException(BizCodes.UNAUTHENTICATED, "密码不匹配");
+        }
+        return user;
     }
 
     @Transactional

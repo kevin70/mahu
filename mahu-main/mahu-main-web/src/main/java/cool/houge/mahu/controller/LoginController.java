@@ -41,6 +41,10 @@ public class LoginController implements HttpService, WebSupport {
             var form = beanMapper.toTokenRefreshTokenForm(vo);
             validate(form);
             payload = beanMapper.toTokenPayload(form);
+        } else if (GrantType.PASSWORD.matches(grantType)) {
+            var form = beanMapper.toTokenPasswordForm(vo);
+            validate(form);
+            payload = beanMapper.toTokenPayload(form);
         } else if (GrantType.WECHAT_XCX.code.equals(grantType)) {
             var form = beanMapper.toTokenWechatXcxForm(vo);
             validate(form);

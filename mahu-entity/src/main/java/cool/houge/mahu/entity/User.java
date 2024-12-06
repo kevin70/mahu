@@ -37,6 +37,13 @@ public class User {
     private String nickname;
     /// 手机
     private String mobile;
+    /// 登录名
+    private String username;
+    /// 登录密码
+    private String password;
+    /// 用户状态
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     /// 微信个人信息
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
@@ -45,5 +52,13 @@ public class User {
     /// 手机状态
     public boolean getMobileStatus() {
         return mobile != null && !mobile.isEmpty();
+    }
+
+    public enum Status {
+        NONE,
+        /// 正常状态
+        NORMAL,
+        /// 禁止登录
+        BLOCKED,
     }
 }
