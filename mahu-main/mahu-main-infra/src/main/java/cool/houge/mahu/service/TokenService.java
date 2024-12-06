@@ -126,11 +126,11 @@ public class TokenService implements TokenVerifier {
     TokenResult makeToken(Metadata metadata, TokenPayload payload, User user) {
         var jwk = obtainJwk();
         var jwtId = UlidCreator.getUlid().toLowerCase();
-        var sub = String.valueOf(user.getId());
+        var upn = String.valueOf(user.getId());
         var iat = Instant.now();
         var atJwt = Jwt.builder()
                 .jwtId(jwtId)
-                .userPrincipal(sub)
+                .userPrincipal(upn)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.accessExpires()))
                 .addAudience(payload.getClientId())
@@ -142,7 +142,7 @@ public class TokenService implements TokenVerifier {
 
         var rtJwt = Jwt.builder()
                 .jwtId(jwtId)
-                .userPrincipal(sub)
+                .userPrincipal(upn)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.refreshExpires()))
                 .nonce(Ulid.fast().toLowerCase())
@@ -154,7 +154,7 @@ public class TokenService implements TokenVerifier {
         // 保存登录记录
         var tokenJour = new TokenJour()
                 .setId(jwtId)
-                .setSub(sub)
+                .setUpn(upn)
                 .setClientId(payload.getClientId())
                 .setClientAddr(metadata.clientAddr())
                 .setGrantType(payload.getGrantType().getCode());

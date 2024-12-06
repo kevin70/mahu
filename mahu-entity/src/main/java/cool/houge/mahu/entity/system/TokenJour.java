@@ -28,8 +28,8 @@ public class TokenJour {
     ///   - USER
     ///   - ADMIN
     private String type;
-    /// 用户唯一名
-    private String sub;
+    /// 用户主体
+    private String upn;
     /// 客户端ID
     private String clientId;
     /// 客户端IP
