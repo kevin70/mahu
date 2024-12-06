@@ -13,7 +13,9 @@ import io.helidon.security.jwt.Jwt;
 import io.helidon.security.jwt.SignedJwt;
 import io.helidon.security.jwt.jwk.Jwk;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 
 import java.time.Instant;
@@ -72,6 +74,22 @@ class TokenServiceTest extends TestTransactionBase {
                 .isThrownBy(() -> tokenService.verify(token))
                 .extracting(BizCodeException::getCode)
                 .isEqualTo(BizCodes.UNAUTHENTICATED);
+    }
+
+    @Test
+    @DisplayName("登录已禁止的帐户")
+    void login_user_status_blocked() {
+        var payload = Instancio.create(TokenPayload.class).setGrantType(GrantType.PASSWORD);
+        var user = Instancio.create(User.class).setStatus(User.Status.BLOCKED);
+
+        doReturn(user).when(tokenService).loginByUsername(payload);
+
+        assertThatExceptionOfType(BizCodeException.class)
+                .isThrownBy(() -> tokenService.login(payload))
+                .extracting(BizCodeException::getCode)
+                .isEqualTo(BizCodes.FAILED_PRECONDITION);
+
+        Mockito.verify(tokenService);
     }
 
     @Test
