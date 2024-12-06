@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import cool.houge.mahu.oas.model.TokenPasswordForm;
 import cool.houge.mahu.oas.model.TokenRefreshTokenForm;
 import cool.houge.mahu.oas.model.TokenWechatWebForm;
 import cool.houge.mahu.oas.model.TokenWechatXcxForm;
@@ -47,6 +48,20 @@ public class GetTokenRequest {
 
     @com.fasterxml.jackson.annotation.JsonProperty("refresh_token")
     private String refreshToken;
+    /**
+     * 登录用户名
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("username")
+    private String username;
+    /**
+     * 登录密码
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("password")
+    private String password;
     /**
      * 小程序登录验证码
      */
