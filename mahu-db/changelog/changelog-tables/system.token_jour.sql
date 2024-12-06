@@ -9,9 +9,9 @@ create table system.token_jour
     upn         character varying(32),       -- 用户主体
     client_id   character varying(32),       -- 客户端ID
     client_addr character varying(64),       -- 客户端IP
-    jwk_id      character varying(32),       -- JWT密钥ID
     grant_type  character varying(32)        -- 授权类型
 );
+create index token_jour_sub_idx on token_jour using btree (upn);
 comment
 on table system.token_jour is '访问令牌日志';
 comment
@@ -23,9 +23,5 @@ on column system.token_jour.client_id is '客户端ID';
 comment
 on column system.token_jour.client_addr is '客户端IP';
 comment
-on column system.token_jour.jwk_id is 'JWT密钥ID';
-comment
 on column system.token_jour.grant_type is '授权类型';
-
-create index token_jour_sub_idx on token_jour using btree (upn);
 -- rollback drop table system.token_jour;
