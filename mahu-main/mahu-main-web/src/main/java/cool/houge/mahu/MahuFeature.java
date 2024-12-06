@@ -25,14 +25,16 @@ public class MahuFeature implements HttpFeature, Filter {
     private static final HeaderName X_REQUEST_ID = HeaderNames.create("x-request-id");
 
     private final List<HttpService> httpServices;
+    private final MahuSecurity security;
 
-    public MahuFeature(List<HttpService> httpServices) {
+    public MahuFeature(List<HttpService> httpServices, MahuSecurity security) {
         this.httpServices = httpServices;
+        this.security = security;
     }
 
     @Override
     public void setup(HttpRouting.Builder routing) {
-        routing.addFilter(this).addFeature(new MahuErrorFeature());
+        routing.addFilter(this).addFeature(new MahuErrorFeature()).security(security);
 
         // 注册 HTTP 服务
         for (HttpService httpService : httpServices) {
