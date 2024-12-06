@@ -22,12 +22,6 @@ public class TokenJour {
     private String id;
     /// 创建时间
     private Instant createTime;
-    /// 令牌类型
-    ///
-    /// 可选值：
-    ///   - USER
-    ///   - ADMIN
-    private String type;
     /// 用户主体
     private String upn;
     /// 客户端ID
