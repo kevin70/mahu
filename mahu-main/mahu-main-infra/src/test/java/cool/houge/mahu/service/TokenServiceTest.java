@@ -120,6 +120,7 @@ class TokenServiceTest extends TestTransactionBase {
         assertThat(user.getId()).isPositive();
         assertThat(user.getNickname()).isNotNull().isEqualTo(nicknameAvatar.nickname());
         assertThat(user.getAvatar()).isNotNull().isEqualTo(nicknameAvatar.avatar());
+        assertThat(user.getStatus()).isNotNull().isEqualTo(User.Status.NORMAL);
 
         assertThat(user.getWechatProfile().getAppid()).isEqualTo(appid);
         assertThat(user.getWechatProfile().getOpenid()).isEqualTo(openid);
@@ -138,6 +139,7 @@ class TokenServiceTest extends TestTransactionBase {
         assertThat(user.getId()).isPositive();
         assertThat(user.getNickname()).isNotNull().isEqualTo(nicknameAvatar.nickname());
         assertThat(user.getAvatar()).isNotNull().isEqualTo(nicknameAvatar.avatar());
+        assertThat(user.getStatus()).isNotNull().isEqualTo(User.Status.NORMAL);
 
         assertThat(user.getWechatProfile().getAppid()).isEqualTo(appid);
         assertThat(user.getWechatProfile().getUnionid()).isEqualTo(unionid);

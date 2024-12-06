@@ -247,7 +247,11 @@ public class TokenService implements TokenVerifier {
                     new WechatProfile().setAppid(appid).setOpenid(openid).setUnionid(unionid);
 
             var info = nicknameAvatar.get();
-            user = new User().setNickname(info.nickname).setAvatar(info.avatar).setWechatProfile(wechatProfile);
+            user = new User()
+                    .setNickname(info.nickname)
+                    .setAvatar(info.avatar)
+                    .setStatus(User.Status.NORMAL)
+                    .setWechatProfile(wechatProfile);
             userRepository.save(user);
         }
         return user;
