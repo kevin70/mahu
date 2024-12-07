@@ -24,6 +24,4 @@ databaseChangeLog:
   - include:
       file: "changelog-tables/public.users.sql"
   - include:
-      file: "changelog-tables/public.wechat_profile.sql"
-  - include:
       file: "changelog-tables/public.region.sql"

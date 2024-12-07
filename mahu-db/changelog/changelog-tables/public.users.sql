@@ -40,3 +40,23 @@ on column public.users.status is '状态';
 
 alter sequence public.users_id_seq restart with 100001;
 -- rollback drop table public.users;
+
+
+-- changeset kzou227@qq.com:202403211412
+alter table public.users
+    add wechat_appid varchar(64);
+
+comment on column public.users.wechat_appid is '微信 appid';
+
+alter table public.users
+    add wechat_openid varchar(64);
+
+comment on column public.users.wechat_openid is '微信 openid';
+
+alter table public.users
+    add wechat_unionid varchar(64);
+
+comment on column public.users.wechat_unionid is '微信 unionid';
+-- rollback alter table public.users drop column wechat_appid;
+-- rollback alter table public.users drop column wechat_openid;
+-- rollback alter table public.users drop column wechat_unionid;
