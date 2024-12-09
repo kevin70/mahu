@@ -27,4 +27,11 @@ public class UserService {
         }
         return user;
     }
+
+    /// 更新用户信息
+    /// @param user 用户
+    @Transactional
+    public void update(User user) {
+        userRepository.update(user);
+    }
 }

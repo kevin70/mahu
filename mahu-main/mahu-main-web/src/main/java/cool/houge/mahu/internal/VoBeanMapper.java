@@ -39,4 +39,6 @@ public interface VoBeanMapper {
 
     @Mapping(target = "uid", source = "id")
     GetMeProfileResponse toGetMeProfileResponse(User bean);
+
+    User toUser(UpdateMeProfileRequest bean);
 }
