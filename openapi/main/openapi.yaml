@@ -28,6 +28,8 @@ paths:
     $ref: paths/dicts.yaml
   /dicts/{slug}:
     $ref: paths/dicts_{slug}.yaml
+  /settings/oss-direct-upload:
+    $ref: paths/settings_oss_direct_upload.yaml
 
   /samples:
     get:
