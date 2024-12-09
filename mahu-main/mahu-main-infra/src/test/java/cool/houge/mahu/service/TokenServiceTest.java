@@ -89,7 +89,7 @@ class TokenServiceTest extends TestTransactionBase {
                 .extracting(BizCodeException::getCode)
                 .isEqualTo(BizCodes.FAILED_PRECONDITION);
 
-        Mockito.verify(tokenService);
+        Mockito.verify(tokenService).loginByUsername(payload);
     }
 
     @Test
@@ -122,8 +122,8 @@ class TokenServiceTest extends TestTransactionBase {
         assertThat(user.getAvatar()).isNotNull().isEqualTo(nicknameAvatar.avatar());
         assertThat(user.getStatus()).isNotNull().isEqualTo(User.Status.NORMAL);
 
-        assertThat(user.getWechatProfile().getAppid()).isEqualTo(appid);
-        assertThat(user.getWechatProfile().getOpenid()).isEqualTo(openid);
+        assertThat(user.getWechatAppid()).isEqualTo(appid);
+        assertThat(user.getWechatOpenid()).isEqualTo(openid);
     }
 
     @Test
@@ -141,9 +141,9 @@ class TokenServiceTest extends TestTransactionBase {
         assertThat(user.getAvatar()).isNotNull().isEqualTo(nicknameAvatar.avatar());
         assertThat(user.getStatus()).isNotNull().isEqualTo(User.Status.NORMAL);
 
-        assertThat(user.getWechatProfile().getAppid()).isEqualTo(appid);
-        assertThat(user.getWechatProfile().getUnionid()).isEqualTo(unionid);
-        assertThat(user.getWechatProfile().getOpenid()).isEqualTo(openid);
+        assertThat(user.getWechatAppid()).isEqualTo(appid);
+        assertThat(user.getWechatOpenid()).isEqualTo(openid);
+        assertThat(user.getWechatUnionid()).isEqualTo(unionid);
     }
 
     @Test
@@ -157,6 +157,8 @@ class TokenServiceTest extends TestTransactionBase {
         var dbEntity = tokenService.loginByRefreshToken(
                 new TokenPayload().setGrantType(GrantType.REFRESH_TOKEN).setRefreshToken(token.getRefreshToken()));
         assertThat(dbEntity).isEqualTo(user);
+
+        Mockito.verify(userRepository).findById(user.getId());
     }
 
     @Test

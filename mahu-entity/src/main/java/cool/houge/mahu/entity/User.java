@@ -44,10 +44,12 @@ public class User {
     /// 用户状态
     @Enumerated(EnumType.ORDINAL)
     private Status status;
-
-    /// 微信个人信息
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private WechatProfile wechatProfile;
+    /// 微信 appid
+    private String wechatAppid;
+    /// 微信 openid
+    private String wechatOpenid;
+    /// 微信 unionid
+    private String wechatUnionid;
 
     /// 手机状态
     public boolean getMobileStatus() {

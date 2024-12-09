@@ -21,29 +21,14 @@ public class UserRepository extends HBeanRepository<Long, User> {
     /// @param appid  微信 appid
     /// @param openid 微信 openid
     public User findByWechatAppid$Openid(String appid, String openid) {
-        return new QUser(db())
-                .wechatProfile
-                .fetch()
-                .wechatProfile
-                .appid
-                .eq(appid)
-                .wechatProfile
-                .openid
-                .eq(openid)
-                .findOne();
+        return new QUser(db()).wechatAppid.eq(appid).wechatOpenid.eq(openid).findOne();
     }
 
     /// 使用微信的 unionid 查询用户
     ///
     /// @param unionid 微信 unionid
     public User findByWechatUnionid(String unionid) {
-        return new QUser(db())
-                .wechatProfile
-                .fetch()
-                .wechatProfile
-                .unionid
-                .eq(unionid)
-                .findOne();
+        return new QUser(db()).wechatUnionid.eq(unionid).findOne();
     }
 
     /// 使用指定的用户名查询用户

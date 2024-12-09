@@ -31,7 +31,7 @@ class UserRepositoryTest extends TestTransactionBase {
         userRepository.save(entity);
 
         var dbEntity = userRepository.findByWechatAppid$Openid(
-            entity.getWechatProfile().getAppid(), entity.getWechatProfile().getOpenid());
+            entity.getWechatAppid(), entity.getWechatOpenid());
         assertThat(dbEntity)
             .isNotNull()
             .usingRecursiveComparison()
@@ -44,7 +44,7 @@ class UserRepositoryTest extends TestTransactionBase {
         var entity = of(userModel).create();
         userRepository.save(entity);
 
-        var dbEntity = userRepository.findByWechatUnionid(entity.getWechatProfile().getUnionid());
+        var dbEntity = userRepository.findByWechatUnionid(entity.getWechatUnionid());
         assertThat(dbEntity)
             .isNotNull()
             .usingRecursiveComparison()

@@ -12,7 +12,6 @@ import cool.houge.mahu.common.security.AuthContext;
 import cool.houge.mahu.common.security.TokenVerifier;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.User;
-import cool.houge.mahu.entity.WechatProfile;
 import cool.houge.mahu.entity.system.TokenJour;
 import cool.houge.mahu.remote.wechat.Jscode2SessionPayload;
 import cool.houge.mahu.remote.wechat.WechatClient;
@@ -243,15 +242,15 @@ public class TokenService implements TokenVerifier {
         // 数据库中没有则保存数据
         if (user == null) {
             // 保存用户
-            var wechatProfile =
-                    new WechatProfile().setAppid(appid).setOpenid(openid).setUnionid(unionid);
 
             var info = nicknameAvatar.get();
             user = new User()
                     .setNickname(info.nickname)
                     .setAvatar(info.avatar)
                     .setStatus(User.Status.NORMAL)
-                    .setWechatProfile(wechatProfile);
+                    .setWechatAppid(appid)
+                    .setWechatOpenid(openid)
+                    .setWechatUnionid(unionid);
             userRepository.save(user);
         }
         return user;
