@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { PageContainer, ProCard, ProForm, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
 import { Avatar, Button, Col, Form, Row, Space, Upload } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export const MeProfile = () => {
   const { kind } = useParams();

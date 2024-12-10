@@ -1,5 +1,4 @@
-import { createRoutesFromElements, Route } from 'react-router';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router';
 
 import App from '@/App';
 import { AndDesignProLayout } from '@/layouts/AntDesignProLayout';
