@@ -1,5 +1,4 @@
 import { SortOrder } from 'antd/lib/table/interface';
-import { isArray } from 'lodash-es';
 import { useMemo, useState } from 'react';
 
 /**
@@ -11,7 +10,7 @@ export const useTableSorter = (sorts?: { columnKey: string; order?: SortOrder }[
   const [tableSorter, setTableSorter] = useState<any>(sorts);
   const querySort: string[] = useMemo(() => {
     const arr = [];
-    if (isArray(tableSorter)) {
+    if (Array.isArray(tableSorter)) {
       tableSorter.forEach((o) => {
         if (o.columnKey) {
           arr.push(o.order === 'ascend' ? o.columnKey : `-${o.columnKey}`);

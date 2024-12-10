@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { isDate, isString, toString, trim } from 'lodash-es';
 import dayjs from 'dayjs';
 
 type Filter = {
@@ -18,12 +17,12 @@ export const useDataFilter = () => {
     const arr = [];
     for (const element of dataFilters) {
       let v;
-      if (isString(element.value)) {
-        v = trim(element.value, ' \t');
-      } else if (isDate(element.value)) {
+      if (element.value instanceof String) {
+        v = element.value.trim();
+      } else if (element.value instanceof Date) {
         v = dayjs(element.value).format('YYYY-MM-DDTHH:mm:ss');
       } else {
-        v = toString(element.value);
+        v = new String(element.value).trim();
       }
 
       if (v && v !== '') {

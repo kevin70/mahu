@@ -3,9 +3,9 @@ import { Outlet, useLocation, useNavigate } from 'react-router';
 import { useProfileStore, useTokenStore } from '@/stores';
 import { Alert, AlertProps, Flex, message, Spin } from 'antd';
 import { useAsyncEffect, useInterval, useSet, useTimeout, useUnmount } from 'ahooks';
-import { uniqueId } from 'lodash-es';
 import { resolveApiError } from './services';
 import { css } from '@styled-system/css';
+import { ulid } from 'ulid';
 
 function App() {
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ function App() {
   // 全局警告消息
   window.$showAlert = (args: Pick<AlertProps, 'type' | 'message'>) => {
     addAlert({
-      key: uniqueId(),
+      key: ulid(),
       ...args,
     });
   };
