@@ -13,7 +13,6 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react",
 
     /* Linting */
     "strict": true,
@@ -22,8 +21,9 @@
     "noFallthroughCasesInSwitch": false,
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@styled-system/*": ["./styled-system/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "styled-system"]
 }

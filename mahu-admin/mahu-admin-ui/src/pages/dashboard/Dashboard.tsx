@@ -2,7 +2,7 @@ import { PageContainer, ProCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import { Divider, Statistic } from 'antd';
 import { useState } from 'react';
-import { css } from '@emotion/react';
+import { css } from '@styled-system/css';
 
 export const Dashboard = () => {
   const [responsive, setResponsive] = useState(false);
@@ -21,7 +21,7 @@ export const Dashboard = () => {
           </ProCard>
           <Divider
             type={responsive ? 'horizontal' : 'vertical'}
-            css={css`
+            className={css`
               height: auto;
             `}
           />
@@ -30,7 +30,7 @@ export const Dashboard = () => {
           </ProCard>
           <Divider
             type={responsive ? 'horizontal' : 'vertical'}
-            css={css`
+            className={css`
               height: auto;
             `}
           />
@@ -39,7 +39,7 @@ export const Dashboard = () => {
           </ProCard>
           <Divider
             type={responsive ? 'horizontal' : 'vertical'}
-            css={css`
+            className={css`
               height: auto;
             `}
           />

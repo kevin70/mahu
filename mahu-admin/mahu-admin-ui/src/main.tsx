@@ -12,6 +12,8 @@ import { appRouter } from './AppRouter.tsx';
 import { useAppStore } from '@/stores';
 import { useShallow } from 'zustand/shallow';
 
+import './index.css';
+
 export const Root = () => {
   const isLightTheme = useAppStore(useShallow((state) => state.isLightTheme()));
 

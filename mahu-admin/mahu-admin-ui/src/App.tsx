@@ -3,9 +3,9 @@ import { Outlet, useLocation, useNavigate } from 'react-router';
 import { useProfileStore, useTokenStore } from '@/stores';
 import { Alert, AlertProps, Flex, message, Spin } from 'antd';
 import { useAsyncEffect, useInterval, useSet, useTimeout, useUnmount } from 'ahooks';
-import { css } from '@emotion/react';
 import { uniqueId } from 'lodash-es';
 import { resolveApiError } from './services';
+import { css } from '@styled-system/css';
 
 function App() {
   const navigate = useNavigate();
@@ -26,14 +26,14 @@ function App() {
       <Flex
         justify="center"
         align="center"
-        css={css`
+        className={css`
           height: 100vh;
           width: 100vw;
         `}
       >
         <Spin size="large" tip="加载中...">
           <div
-            css={css`
+            className={css`
               padding: 50px;
             `}
           ></div>
@@ -46,7 +46,7 @@ function App() {
     <Flex
       vertical
       gap={'small'}
-      css={css`
+      className={css`
         width: 100%;
         position: fixed;
         z-index: 999999;

@@ -9,10 +9,10 @@ import { EditEmployeeDrawerForm } from './EditEmployeeDrawerForm';
 import { permits } from '@/config/permit';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { DepartmentTreeSelect } from '@/components/system/DepartmentTreeSelect';
-import { css } from '@emotion/react';
 import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
 import { useState } from 'react';
 import { HIncludeDetedCheckBox } from '@/components/HIncludeDeletedCheckbox';
+import { css } from '@styled-system/css';
 
 export const EmployeeList = () => {
   const noWrite = $checkNotPermit(permits.DEPARTMENT.W);
@@ -63,7 +63,7 @@ export const EmployeeList = () => {
       <Form.Item
         name="searchStatus"
         label="状态"
-        css={css`
+        className={css`
           width: 260px;
         `}
       >
@@ -72,7 +72,7 @@ export const EmployeeList = () => {
       <Form.Item
         label="部门"
         name="searchDepartmentIds"
-        css={css`
+        className={css`
           width: 260px;
         `}
       >

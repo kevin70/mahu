@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { ProLayout } from '@ant-design/pro-components';
 import { useAppStore, useProfileStore } from '@/stores';
@@ -9,6 +8,7 @@ import { KeyOutlined, LogoutOutlined, MoonOutlined, ProfileOutlined, SunOutlined
 import { NavLink } from 'react-router-dom';
 import { useMemo } from 'react';
 import { ItemType } from 'antd/es/menu/interface';
+import { css } from '@styled-system/css';
 
 export const AndDesignProLayout = () => {
   const appStore = useAppStore();
@@ -47,7 +47,7 @@ export const AndDesignProLayout = () => {
     {
       icon: (
         <LogoutOutlined
-          css={css`
+          className={css`
             color: var(--ant-color-error);
           `}
         />

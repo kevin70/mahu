@@ -2,10 +2,10 @@ import { resolveApiError, TOKEN_API } from '@/services';
 import { useProfileStore, useTokenStore } from '@/stores';
 import { LockOutlined, UserOutlined, WechatOutlined, WeiboOutlined } from '@ant-design/icons';
 import { LoginFormPage, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
-import { css } from '@emotion/react';
 import { useMutation } from '@tanstack/react-query';
 import { Alert, Button, Divider, Flex, Space } from 'antd';
 import { useNavigate } from 'react-router';
+import { css } from '@styled-system/css';
 
 export const Login = () => {
   const title = import.meta.env.VITE_APP_TITLE;
@@ -49,7 +49,7 @@ export const Login = () => {
     <Flex vertical justify="center" align="center">
       <Divider plain>
         <span
-          css={css`
+          className={css`
             color: var(--ant-color-text-placeholder);
             font-weight: normal;
             font-size: 14;
@@ -67,7 +67,7 @@ export const Login = () => {
 
   return (
     <div
-      css={css`
+      className={css`
         height: 100vh;
       `}
     >
@@ -114,7 +114,7 @@ export const Login = () => {
         <Flex
           justify="space-between"
           align="center"
-          css={css`
+          className={css`
             margin-block-end: var(--ant-margin);
           `}
         >

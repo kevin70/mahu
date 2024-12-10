@@ -24,8 +24,8 @@ liquibase {
         // 配置属性参考文档：https://docs.liquibase.com/concepts/connections/creating-config-properties.html
         changelogFile "changelog-root.yaml"
 //        url config.get("db.url").asString().orElse(System.getenv("MAHU_DB_URL"))
-//        url "jdbc:postgresql://106.14.192.224:5432/mahu3"
-        url "jdbc:postgresql://106.14.192.224:5432/mahu-prod"
+        url "jdbc:postgresql://106.14.192.224:5432/mahu4"
+//        url "jdbc:postgresql://106.14.192.224:5432/mahu-prod"
         username config.get("db.username").asString().orElse(System.getenv("MAHU_DB_USERNAME"))
         password config.get("db.password").asString().orElse(System.getenv("MAHU_DB_PASSWORD"))
     }
