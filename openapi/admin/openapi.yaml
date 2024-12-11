@@ -6,6 +6,8 @@ servers:
   - url: http://127.0.0.1:9093
     description: 本地测试服务
 tags:
+  - name: basis
+    description: 基础模块
   - name: token
     description: 访问令牌
   - name: me
@@ -54,6 +56,16 @@ paths:
     $ref: paths/system_access_logs.yaml
   /system/audit-jours:
     $ref: paths/system_audit_jours.yaml
+
+  # 设置
+  /settings/oss-direct-upload:
+    $ref: paths/settings_oss_direct_upload.yaml
+
+  # 品牌管理
+  /brands:
+    $ref: paths/brands.yaml
+  /brands/{id}:
+    $ref: paths/brands_{id}.yaml
 
   /samples:
     get:

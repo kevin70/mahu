@@ -2,8 +2,8 @@ import {
   AuditOutlined,
   CodeOutlined,
   DashboardOutlined,
-  FileExclamationOutlined,
   FileOutlined,
+  FlagOutlined,
   GroupOutlined,
   InfoCircleOutlined,
   KeyOutlined,
@@ -17,6 +17,19 @@ export const MENUS: MenuDataItem[] = [
     path: '/dashboard',
     icon: <DashboardOutlined />,
     name: '仪表盘',
+  },
+  {
+    name: '基础数据',
+    type: 'group',
+    atLeastOneChild: true,
+    children: [
+      {
+        path: '/brand-list',
+        icon: <FlagOutlined />,
+        name: '品牌管理',
+        permits: [permits.BRAND.R],
+      },
+    ],
   },
   {
     name: '系统管理',

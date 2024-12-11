@@ -23,6 +23,7 @@ export const permits = {
   CLIENT: p('CLIENT'),
   ACCESS_LOG: p('ACCESS_LOG'),
   AUDIT_JOUR: p('AUDIT_JOUR'),
+  BRAND: p('BRAND'),
 
   MARKET_SHOP: p('MARKET_SHOP'),
   MARKET_BRAND: p('MARKET_BRAND'),

@@ -1,0 +1,32 @@
+post:
+  summary: 获取客户端直接上传策略
+  operationId: makeSettingsOssDirectUpload
+  tags:
+    - settings
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - kind
+            - file_name
+          properties:
+            kind:
+              type: string
+              description: 存储类型
+              enum:
+                - BRAND
+              x-enum-descriptions:
+                - 品牌LOGO
+            file_name:
+              type: string
+              description: 文件名称
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/MakeSettingsOssDirectUploadResponse.yaml

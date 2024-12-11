@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.internal;
 
 import cool.houge.mahu.admin.oas.model.*;
+import cool.houge.mahu.entity.Brand;
 import cool.houge.mahu.entity.system.*;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
@@ -104,4 +105,8 @@ public interface VoBeanMapper {
 
     @Mapping(target = "roleIds", source = "roles", qualifiedByName = "rolesToRoleIds")
     GetEmployeeResponse toGetEmployeeResponse(Employee bean);
+
+    Brand toBrand(UpsertBrandRequest bean);
+
+    GetBrandResponse toGetBrandResponse(Brand bean);
 }

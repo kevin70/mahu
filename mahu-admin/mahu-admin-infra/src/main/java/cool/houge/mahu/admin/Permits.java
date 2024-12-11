@@ -11,8 +11,9 @@ public enum Permits {
     CLIENT("终端"),
     ACCESS_LOG("访问日志"),
     AUDIT_JOUR("操作审计"),
-//
-;
+    //
+    BRAND("品牌"),
+    ;
     private final String label;
 
     Permits(String label) {

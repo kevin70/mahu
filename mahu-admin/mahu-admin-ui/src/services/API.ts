@@ -1,4 +1,4 @@
-import { MeApi, SystemApi, TokenApi } from './generated';
+import { BasisApi, MeApi, SystemApi, TokenApi } from './generated';
 
 // 访问令牌
 export const TOKEN_API = new TokenApi();
@@ -6,3 +6,5 @@ export const TOKEN_API = new TokenApi();
 export const ME_API = new MeApi();
 // 系统接口
 export const SYSTEM_API = new SystemApi();
+// 基础接口
+export const BASIS_API = new BasisApi();

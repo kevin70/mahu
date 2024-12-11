@@ -14,6 +14,8 @@ import { AccessLogList } from '@/pages/system/access-log/AccessLogList';
 import { RoleList } from '@/pages/system/role/RoleList';
 import { AuditJourList } from '@/pages/system/audit-jour/AuditJourList';
 
+import { BrandList } from './pages/brand/BrandList';
+
 // prettier-ignore-start
 export const routes = createRoutesFromElements(
   <Route path="/" element={<App />}>
@@ -23,6 +25,10 @@ export const routes = createRoutesFromElements(
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/me/:kind" element={<MeProfile />} />
 
+      {/** 基础模块 */}
+      <Route path="/brand-list" element={<BrandList />} />
+
+      {/** 系统模块 */}
       <Route path="/system/employee-list" element={<EmployeeList />} />
       <Route path="/system/department-list" element={<DepartmentList />} />
       <Route path="/system/role-list" element={<RoleList />} />

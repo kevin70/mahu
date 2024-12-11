@@ -1,0 +1,20 @@
+type: object
+required:
+  - name
+  - first_letter
+  - ordering
+properties:
+  name:
+    type: string
+    description: 名称
+  first_letter:
+    type: string
+    description: 名称首字母
+  logo:
+    type: string
+    format: url
+    description: 品牌 LOGO
+  ordering:
+    type: integer
+    format: int32
+    description: 排序值

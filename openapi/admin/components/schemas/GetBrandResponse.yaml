@@ -1,0 +1,33 @@
+type: object
+required:
+  - id
+  - name
+  - first_letter
+  - ordering
+properties:
+  id:
+    type: integer
+    format: int32
+    description: ID
+  create_time:
+    type: string
+    format: date-time
+    description: 创建时间
+  update_time:
+    type: string
+    format: date-time
+    description: 修改时间
+  name:
+    type: string
+    description: 名称
+  first_letter:
+    type: string
+    description: 名称首字母
+  logo:
+    type: string
+    format: url
+    description: 品牌 LOGO
+  ordering:
+    type: integer
+    format: int32
+    description: 排序值

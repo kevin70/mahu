@@ -1,0 +1,28 @@
+type: object
+description: OSS 配置响应
+required:
+  - upload_url
+  - key
+  - url
+  - policy
+  - access_key_id
+  - signature
+properties:
+  upload_url:
+    type: string
+    description: 上传地址
+  key:
+    type: string
+    description: 文件名
+  url:
+    type: string
+    description: 资源访问地址
+  policy:
+    type: string
+    description: 上传策略
+  access_key_id:
+    type: string
+    description: 访问键
+  signature:
+    type: string
+    description: 签名

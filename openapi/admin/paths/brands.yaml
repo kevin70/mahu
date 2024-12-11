@@ -1,0 +1,35 @@
+post:
+  summary: 保存品牌
+  operationId: addBrand
+  x-role-permit: BRAND:W
+  tags:
+    - basis
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertBrandRequest.yaml
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 品牌列表
+  operationId: listBrands
+  x-role-permit: BRAND:R
+  tags:
+    - basis
+  parameters:
+    - $ref: ../components/parameters/limit.yaml
+    - $ref: ../components/parameters/offset.yaml
+    - $ref: ../components/parameters/filter.yaml
+    - $ref: ../components/parameters/sort.yaml
+    - $ref: ../components/parameters/include_deleted.yaml
+    - $ref: ../components/parameters/no_total_count.yaml
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ListBrandsPageResponse.yaml

@@ -1,3 +1,4 @@
+apis/BasisApi.ts
 apis/DefaultApi.ts
 apis/MeApi.ts
 apis/SystemApi.ts
@@ -11,6 +12,7 @@ models/ErrorResponseError.ts
 models/ErrorResponseErrorInvalidParamsInner.ts
 models/GetAccessLogResponse.ts
 models/GetAuditJourResponse.ts
+models/GetBrandResponse.ts
 models/GetClientResponse.ts
 models/GetDepartmentResponse.ts
 models/GetDepartmentResponseParent.ts
@@ -24,6 +26,7 @@ models/GetRoleResponse.ts
 models/GetTokenResponse.ts
 models/ListAccessLogsPageResponse.ts
 models/ListAuditJoursPageResponse.ts
+models/ListBrandsPageResponse.ts
 models/ListClientsPageResponse.ts
 models/ListDepartmentsPageResponse.ts
 models/ListDictPredefineKindsResponseInner.ts
@@ -37,6 +40,7 @@ models/TokenPasswordForm.ts
 models/TokenRefreshTokenForm.ts
 models/UpdateMePasswordRequest.ts
 models/UpdateMeProfileRequest.ts
+models/UpsertBrandRequest.ts
 models/UpsertClientRequest.ts
 models/UpsertDepartmentRequest.ts
 models/UpsertDictRequest.ts
