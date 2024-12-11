@@ -63,11 +63,11 @@ export function ListBrandsPageResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-  export function ListBrandsPageResponseToJSON(json: any): ListBrandsPageResponse {
-      return ListBrandsPageResponseToJSONTyped(json, false);
-  }
+export function ListBrandsPageResponseToJSON(json: any): ListBrandsPageResponse {
+    return ListBrandsPageResponseToJSONTyped(json, false);
+}
 
-  export function ListBrandsPageResponseToJSONTyped(value?: ListBrandsPageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ListBrandsPageResponseToJSONTyped(value?: ListBrandsPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

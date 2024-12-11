@@ -94,11 +94,11 @@ export function GetBrandResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-  export function GetBrandResponseToJSON(json: any): GetBrandResponse {
-      return GetBrandResponseToJSONTyped(json, false);
-  }
+export function GetBrandResponseToJSON(json: any): GetBrandResponse {
+    return GetBrandResponseToJSONTyped(json, false);
+}
 
-  export function GetBrandResponseToJSONTyped(value?: GetBrandResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetBrandResponseToJSONTyped(value?: GetBrandResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

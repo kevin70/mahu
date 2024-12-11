@@ -72,11 +72,11 @@ export function GetTokenResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-  export function GetTokenResponseToJSON(json: any): GetTokenResponse {
-      return GetTokenResponseToJSONTyped(json, false);
-  }
+export function GetTokenResponseToJSON(json: any): GetTokenResponse {
+    return GetTokenResponseToJSONTyped(json, false);
+}
 
-  export function GetTokenResponseToJSONTyped(value?: GetTokenResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetTokenResponseToJSONTyped(value?: GetTokenResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

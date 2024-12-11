@@ -63,11 +63,11 @@ export function ListRolesPageResponseFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-  export function ListRolesPageResponseToJSON(json: any): ListRolesPageResponse {
-      return ListRolesPageResponseToJSONTyped(json, false);
-  }
+export function ListRolesPageResponseToJSON(json: any): ListRolesPageResponse {
+    return ListRolesPageResponseToJSONTyped(json, false);
+}
 
-  export function ListRolesPageResponseToJSONTyped(value?: ListRolesPageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ListRolesPageResponseToJSONTyped(value?: ListRolesPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -127,11 +127,11 @@ export function ErrorResponseErrorFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-  export function ErrorResponseErrorToJSON(json: any): ErrorResponseError {
-      return ErrorResponseErrorToJSONTyped(json, false);
-  }
+export function ErrorResponseErrorToJSON(json: any): ErrorResponseError {
+    return ErrorResponseErrorToJSONTyped(json, false);
+}
 
-  export function ErrorResponseErrorToJSONTyped(value?: ErrorResponseError | null, ignoreDiscriminator: boolean = false): any {
+export function ErrorResponseErrorToJSONTyped(value?: ErrorResponseError | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

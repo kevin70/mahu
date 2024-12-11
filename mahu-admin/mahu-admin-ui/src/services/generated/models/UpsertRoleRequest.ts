@@ -80,11 +80,11 @@ export function UpsertRoleRequestFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-  export function UpsertRoleRequestToJSON(json: any): UpsertRoleRequest {
-      return UpsertRoleRequestToJSONTyped(json, false);
-  }
+export function UpsertRoleRequestToJSON(json: any): UpsertRoleRequest {
+    return UpsertRoleRequestToJSONTyped(json, false);
+}
 
-  export function UpsertRoleRequestToJSONTyped(value?: UpsertRoleRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpsertRoleRequestToJSONTyped(value?: UpsertRoleRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

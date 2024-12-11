@@ -101,11 +101,11 @@ export function GetDepartmentResponseFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-  export function GetDepartmentResponseToJSON(json: any): GetDepartmentResponse {
-      return GetDepartmentResponseToJSONTyped(json, false);
-  }
+export function GetDepartmentResponseToJSON(json: any): GetDepartmentResponse {
+    return GetDepartmentResponseToJSONTyped(json, false);
+}
 
-  export function GetDepartmentResponseToJSONTyped(value?: GetDepartmentResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetDepartmentResponseToJSONTyped(value?: GetDepartmentResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

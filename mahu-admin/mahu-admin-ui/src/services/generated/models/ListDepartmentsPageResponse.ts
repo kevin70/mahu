@@ -63,11 +63,11 @@ export function ListDepartmentsPageResponseFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-  export function ListDepartmentsPageResponseToJSON(json: any): ListDepartmentsPageResponse {
-      return ListDepartmentsPageResponseToJSONTyped(json, false);
-  }
+export function ListDepartmentsPageResponseToJSON(json: any): ListDepartmentsPageResponse {
+    return ListDepartmentsPageResponseToJSONTyped(json, false);
+}
 
-  export function ListDepartmentsPageResponseToJSONTyped(value?: ListDepartmentsPageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ListDepartmentsPageResponseToJSONTyped(value?: ListDepartmentsPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -93,11 +93,11 @@ export function GetDictResponseFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-  export function GetDictResponseToJSON(json: any): GetDictResponse {
-      return GetDictResponseToJSONTyped(json, false);
-  }
+export function GetDictResponseToJSON(json: any): GetDictResponse {
+    return GetDictResponseToJSONTyped(json, false);
+}
 
-  export function GetDictResponseToJSONTyped(value?: GetDictResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetDictResponseToJSONTyped(value?: GetDictResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

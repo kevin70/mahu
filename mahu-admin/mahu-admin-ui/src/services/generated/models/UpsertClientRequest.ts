@@ -86,11 +86,11 @@ export function UpsertClientRequestFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-  export function UpsertClientRequestToJSON(json: any): UpsertClientRequest {
-      return UpsertClientRequestToJSONTyped(json, false);
-  }
+export function UpsertClientRequestToJSON(json: any): UpsertClientRequest {
+    return UpsertClientRequestToJSONTyped(json, false);
+}
 
-  export function UpsertClientRequestToJSONTyped(value?: UpsertClientRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpsertClientRequestToJSONTyped(value?: UpsertClientRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

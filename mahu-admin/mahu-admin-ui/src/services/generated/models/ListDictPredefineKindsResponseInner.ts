@@ -57,11 +57,11 @@ export function ListDictPredefineKindsResponseInnerFromJSONTyped(json: any, igno
     };
 }
 
-  export function ListDictPredefineKindsResponseInnerToJSON(json: any): ListDictPredefineKindsResponseInner {
-      return ListDictPredefineKindsResponseInnerToJSONTyped(json, false);
-  }
+export function ListDictPredefineKindsResponseInnerToJSON(json: any): ListDictPredefineKindsResponseInner {
+    return ListDictPredefineKindsResponseInnerToJSONTyped(json, false);
+}
 
-  export function ListDictPredefineKindsResponseInnerToJSONTyped(value?: ListDictPredefineKindsResponseInner | null, ignoreDiscriminator: boolean = false): any {
+export function ListDictPredefineKindsResponseInnerToJSONTyped(value?: ListDictPredefineKindsResponseInner | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -64,11 +64,11 @@ export function UpsertDepartmentRequestFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-  export function UpsertDepartmentRequestToJSON(json: any): UpsertDepartmentRequest {
-      return UpsertDepartmentRequestToJSONTyped(json, false);
-  }
+export function UpsertDepartmentRequestToJSON(json: any): UpsertDepartmentRequest {
+    return UpsertDepartmentRequestToJSONTyped(json, false);
+}
 
-  export function UpsertDepartmentRequestToJSONTyped(value?: UpsertDepartmentRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpsertDepartmentRequestToJSONTyped(value?: UpsertDepartmentRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

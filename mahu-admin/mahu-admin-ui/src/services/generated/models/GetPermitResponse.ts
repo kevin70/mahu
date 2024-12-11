@@ -55,11 +55,11 @@ export function GetPermitResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-  export function GetPermitResponseToJSON(json: any): GetPermitResponse {
-      return GetPermitResponseToJSONTyped(json, false);
-  }
+export function GetPermitResponseToJSON(json: any): GetPermitResponse {
+    return GetPermitResponseToJSONTyped(json, false);
+}
 
-  export function GetPermitResponseToJSONTyped(value?: GetPermitResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetPermitResponseToJSONTyped(value?: GetPermitResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

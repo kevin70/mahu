@@ -135,11 +135,11 @@ export function GetAccessLogResponseFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-  export function GetAccessLogResponseToJSON(json: any): GetAccessLogResponse {
-      return GetAccessLogResponseToJSONTyped(json, false);
-  }
+export function GetAccessLogResponseToJSON(json: any): GetAccessLogResponse {
+    return GetAccessLogResponseToJSONTyped(json, false);
+}
 
-  export function GetAccessLogResponseToJSONTyped(value?: GetAccessLogResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetAccessLogResponseToJSONTyped(value?: GetAccessLogResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -57,11 +57,11 @@ export function ErrorResponseErrorInvalidParamsInnerFromJSONTyped(json: any, ign
     };
 }
 
-  export function ErrorResponseErrorInvalidParamsInnerToJSON(json: any): ErrorResponseErrorInvalidParamsInner {
-      return ErrorResponseErrorInvalidParamsInnerToJSONTyped(json, false);
-  }
+export function ErrorResponseErrorInvalidParamsInnerToJSON(json: any): ErrorResponseErrorInvalidParamsInner {
+    return ErrorResponseErrorInvalidParamsInnerToJSONTyped(json, false);
+}
 
-  export function ErrorResponseErrorInvalidParamsInnerToJSONTyped(value?: ErrorResponseErrorInvalidParamsInner | null, ignoreDiscriminator: boolean = false): any {
+export function ErrorResponseErrorInvalidParamsInnerToJSONTyped(value?: ErrorResponseErrorInvalidParamsInner | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -48,11 +48,11 @@ export function BasePageResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-  export function BasePageResponseToJSON(json: any): BasePageResponse {
-      return BasePageResponseToJSONTyped(json, false);
-  }
+export function BasePageResponseToJSON(json: any): BasePageResponse {
+    return BasePageResponseToJSONTyped(json, false);
+}
 
-  export function BasePageResponseToJSONTyped(value?: BasePageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function BasePageResponseToJSONTyped(value?: BasePageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -57,11 +57,11 @@ export function GetEmployeeResponseDepartmentFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-  export function GetEmployeeResponseDepartmentToJSON(json: any): GetEmployeeResponseDepartment {
-      return GetEmployeeResponseDepartmentToJSONTyped(json, false);
-  }
+export function GetEmployeeResponseDepartmentToJSON(json: any): GetEmployeeResponseDepartment {
+    return GetEmployeeResponseDepartmentToJSONTyped(json, false);
+}
 
-  export function GetEmployeeResponseDepartmentToJSONTyped(value?: GetEmployeeResponseDepartment | null, ignoreDiscriminator: boolean = false): any {
+export function GetEmployeeResponseDepartmentToJSONTyped(value?: GetEmployeeResponseDepartment | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

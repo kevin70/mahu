@@ -55,11 +55,11 @@ export function GetMeProfileResponseDepartmentFromJSONTyped(json: any, ignoreDis
     };
 }
 
-  export function GetMeProfileResponseDepartmentToJSON(json: any): GetMeProfileResponseDepartment {
-      return GetMeProfileResponseDepartmentToJSONTyped(json, false);
-  }
+export function GetMeProfileResponseDepartmentToJSON(json: any): GetMeProfileResponseDepartment {
+    return GetMeProfileResponseDepartmentToJSONTyped(json, false);
+}
 
-  export function GetMeProfileResponseDepartmentToJSONTyped(value?: GetMeProfileResponseDepartment | null, ignoreDiscriminator: boolean = false): any {
+export function GetMeProfileResponseDepartmentToJSONTyped(value?: GetMeProfileResponseDepartment | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

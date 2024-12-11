@@ -63,11 +63,11 @@ export function ListClientsPageResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-  export function ListClientsPageResponseToJSON(json: any): ListClientsPageResponse {
-      return ListClientsPageResponseToJSONTyped(json, false);
-  }
+export function ListClientsPageResponseToJSON(json: any): ListClientsPageResponse {
+    return ListClientsPageResponseToJSONTyped(json, false);
+}
 
-  export function ListClientsPageResponseToJSONTyped(value?: ListClientsPageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ListClientsPageResponseToJSONTyped(value?: ListClientsPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

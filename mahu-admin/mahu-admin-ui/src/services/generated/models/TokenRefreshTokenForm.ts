@@ -65,11 +65,11 @@ export function TokenRefreshTokenFormFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-  export function TokenRefreshTokenFormToJSON(json: any): TokenRefreshTokenForm {
-      return TokenRefreshTokenFormToJSONTyped(json, false);
-  }
+export function TokenRefreshTokenFormToJSON(json: any): TokenRefreshTokenForm {
+    return TokenRefreshTokenFormToJSONTyped(json, false);
+}
 
-  export function TokenRefreshTokenFormToJSONTyped(value?: TokenRefreshTokenForm | null, ignoreDiscriminator: boolean = false): any {
+export function TokenRefreshTokenFormToJSONTyped(value?: TokenRefreshTokenForm | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

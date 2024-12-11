@@ -72,11 +72,11 @@ export function UpsertBrandRequestFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-  export function UpsertBrandRequestToJSON(json: any): UpsertBrandRequest {
-      return UpsertBrandRequestToJSONTyped(json, false);
-  }
+export function UpsertBrandRequestToJSON(json: any): UpsertBrandRequest {
+    return UpsertBrandRequestToJSONTyped(json, false);
+}
 
-  export function UpsertBrandRequestToJSONTyped(value?: UpsertBrandRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpsertBrandRequestToJSONTyped(value?: UpsertBrandRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

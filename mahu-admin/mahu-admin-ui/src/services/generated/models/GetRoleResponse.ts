@@ -92,11 +92,11 @@ export function GetRoleResponseFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-  export function GetRoleResponseToJSON(json: any): GetRoleResponse {
-      return GetRoleResponseToJSONTyped(json, false);
-  }
+export function GetRoleResponseToJSON(json: any): GetRoleResponse {
+    return GetRoleResponseToJSONTyped(json, false);
+}
 
-  export function GetRoleResponseToJSONTyped(value?: GetRoleResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetRoleResponseToJSONTyped(value?: GetRoleResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -124,11 +124,11 @@ export function GetAuditJourResponseFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-  export function GetAuditJourResponseToJSON(json: any): GetAuditJourResponse {
-      return GetAuditJourResponseToJSONTyped(json, false);
-  }
+export function GetAuditJourResponseToJSON(json: any): GetAuditJourResponse {
+    return GetAuditJourResponseToJSONTyped(json, false);
+}
 
-  export function GetAuditJourResponseToJSONTyped(value?: GetAuditJourResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetAuditJourResponseToJSONTyped(value?: GetAuditJourResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

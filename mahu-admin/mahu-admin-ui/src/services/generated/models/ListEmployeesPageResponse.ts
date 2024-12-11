@@ -63,11 +63,11 @@ export function ListEmployeesPageResponseFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-  export function ListEmployeesPageResponseToJSON(json: any): ListEmployeesPageResponse {
-      return ListEmployeesPageResponseToJSONTyped(json, false);
-  }
+export function ListEmployeesPageResponseToJSON(json: any): ListEmployeesPageResponse {
+    return ListEmployeesPageResponseToJSONTyped(json, false);
+}
 
-  export function ListEmployeesPageResponseToJSONTyped(value?: ListEmployeesPageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ListEmployeesPageResponseToJSONTyped(value?: ListEmployeesPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

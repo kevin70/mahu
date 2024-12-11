@@ -57,11 +57,11 @@ export function UpdateMePasswordRequestFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-  export function UpdateMePasswordRequestToJSON(json: any): UpdateMePasswordRequest {
-      return UpdateMePasswordRequestToJSONTyped(json, false);
-  }
+export function UpdateMePasswordRequestToJSON(json: any): UpdateMePasswordRequest {
+    return UpdateMePasswordRequestToJSONTyped(json, false);
+}
 
-  export function UpdateMePasswordRequestToJSONTyped(value?: UpdateMePasswordRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpdateMePasswordRequestToJSONTyped(value?: UpdateMePasswordRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

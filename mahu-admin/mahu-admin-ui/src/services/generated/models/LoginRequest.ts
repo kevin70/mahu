@@ -52,15 +52,19 @@ export function LoginRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
 }
 
-export function LoginRequestToJSON(value?: LoginRequest | null): any {
+export function LoginRequestToJSON(json: any): any {
+    return LoginRequestToJSONTyped(json, false);
+}
+
+export function LoginRequestToJSONTyped(value?: LoginRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
     switch (value['grantType']) {
         case 'password':
-            return TokenPasswordFormToJSON(value);
+            return Object.assign({}, TokenPasswordFormToJSON(value), { grantType: 'password' } as const);
         case 'refresh_token':
-            return TokenRefreshTokenFormToJSON(value);
+            return Object.assign({}, TokenRefreshTokenFormToJSON(value), { grantType: 'refresh_token' } as const);
         default:
             throw new Error(`No variant of LoginRequest exists with 'grantType=${value['grantType']}'`);
     }

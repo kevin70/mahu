@@ -104,3 +104,4 @@ export const hetch = async <T>(fn: () => Promise<T>) => {
 };
 
 export * from './API';
+export * from './aliyun';

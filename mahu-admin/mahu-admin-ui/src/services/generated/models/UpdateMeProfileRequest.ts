@@ -55,11 +55,11 @@ export function UpdateMeProfileRequestFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-  export function UpdateMeProfileRequestToJSON(json: any): UpdateMeProfileRequest {
-      return UpdateMeProfileRequestToJSONTyped(json, false);
-  }
+export function UpdateMeProfileRequestToJSON(json: any): UpdateMeProfileRequest {
+    return UpdateMeProfileRequestToJSONTyped(json, false);
+}
 
-  export function UpdateMeProfileRequestToJSONTyped(value?: UpdateMeProfileRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpdateMeProfileRequestToJSONTyped(value?: UpdateMeProfileRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

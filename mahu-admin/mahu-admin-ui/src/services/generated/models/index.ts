@@ -30,6 +30,8 @@ export * from './ListEmployeesPageResponse';
 export * from './ListRolesPageResponse';
 export * from './LoginRequest';
 export * from './LoginResponse';
+export * from './MakeOssDirectUploadRequest';
+export * from './MakeOssDirectUploadResponse';
 export * from './TerminalTypeEnum';
 export * from './TokenPasswordForm';
 export * from './TokenRefreshTokenForm';

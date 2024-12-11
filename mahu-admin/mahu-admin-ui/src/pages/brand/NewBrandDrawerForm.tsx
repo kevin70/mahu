@@ -1,14 +1,7 @@
 import { HNewButton } from '@/components/HNewButton';
 import { permits } from '@/config/permit';
-import { BASIS_API, resolveApiError, SYSTEM_API } from '@/services';
-import {
-  DrawerForm,
-  ProFormDigit,
-  ProFormItem,
-  ProFormText,
-  ProFormTextArea,
-  ProFormUploadButton,
-} from '@ant-design/pro-components';
+import { BASIS_API, resolveApiError, SYSTEM_API, uploadFile } from '@/services';
+import { DrawerForm, ProFormDigit, ProFormText, ProFormUploadButton } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
 
 export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
@@ -84,10 +77,30 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
         name="logo"
         max={1}
         fieldProps={{
+          multiple: false,
           name: 'file',
           listType: 'picture-card',
+          async customRequest(options) {
+            const policy = await BASIS_API.makeOssDirectUpload({ kind: 'BRAND', fileName: options.filename! });
+            try {
+              await uploadFile(
+                policy.endpoint,
+                {
+                  key: policy.key,
+                  policy: policy.policy,
+                  accessKeyId: policy.accessKeyId,
+                  signature: policy.signature,
+                  file: options.file,
+                },
+                (event) => {
+                  //
+                }
+              );
+            } catch (e) {
+              options.onError?.(e);
+            }
+          },
         }}
-        action="/upload.do"
         extra="品牌LOGO"
       />
       <ProFormDigit label="排序" required name="ordering" initialValue={1} rules={[{ required: true }]} />

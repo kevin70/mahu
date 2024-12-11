@@ -87,11 +87,11 @@ export function UpsertDictRequestFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-  export function UpsertDictRequestToJSON(json: any): UpsertDictRequest {
-      return UpsertDictRequestToJSONTyped(json, false);
-  }
+export function UpsertDictRequestToJSON(json: any): UpsertDictRequest {
+    return UpsertDictRequestToJSONTyped(json, false);
+}
 
-  export function UpsertDictRequestToJSONTyped(value?: UpsertDictRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpsertDictRequestToJSONTyped(value?: UpsertDictRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

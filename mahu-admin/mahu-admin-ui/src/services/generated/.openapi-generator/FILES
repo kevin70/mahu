@@ -35,6 +35,8 @@ models/ListEmployeesPageResponse.ts
 models/ListRolesPageResponse.ts
 models/LoginRequest.ts
 models/LoginResponse.ts
+models/MakeOssDirectUploadRequest.ts
+models/MakeOssDirectUploadResponse.ts
 models/TerminalTypeEnum.ts
 models/TokenPasswordForm.ts
 models/TokenRefreshTokenForm.ts

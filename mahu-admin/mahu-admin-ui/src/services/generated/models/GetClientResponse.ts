@@ -115,11 +115,11 @@ export function GetClientResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-  export function GetClientResponseToJSON(json: any): GetClientResponse {
-      return GetClientResponseToJSONTyped(json, false);
-  }
+export function GetClientResponseToJSON(json: any): GetClientResponse {
+    return GetClientResponseToJSONTyped(json, false);
+}
 
-  export function GetClientResponseToJSONTyped(value?: GetClientResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetClientResponseToJSONTyped(value?: GetClientResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

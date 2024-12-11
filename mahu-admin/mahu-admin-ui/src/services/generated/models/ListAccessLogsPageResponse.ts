@@ -63,11 +63,11 @@ export function ListAccessLogsPageResponseFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-  export function ListAccessLogsPageResponseToJSON(json: any): ListAccessLogsPageResponse {
-      return ListAccessLogsPageResponseToJSONTyped(json, false);
-  }
+export function ListAccessLogsPageResponseToJSON(json: any): ListAccessLogsPageResponse {
+    return ListAccessLogsPageResponseToJSONTyped(json, false);
+}
 
-  export function ListAccessLogsPageResponseToJSONTyped(value?: ListAccessLogsPageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ListAccessLogsPageResponseToJSONTyped(value?: ListAccessLogsPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

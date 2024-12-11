@@ -63,11 +63,11 @@ export function ListAuditJoursPageResponseFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-  export function ListAuditJoursPageResponseToJSON(json: any): ListAuditJoursPageResponse {
-      return ListAuditJoursPageResponseToJSONTyped(json, false);
-  }
+export function ListAuditJoursPageResponseToJSON(json: any): ListAuditJoursPageResponse {
+    return ListAuditJoursPageResponseToJSONTyped(json, false);
+}
 
-  export function ListAuditJoursPageResponseToJSONTyped(value?: ListAuditJoursPageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ListAuditJoursPageResponseToJSONTyped(value?: ListAuditJoursPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

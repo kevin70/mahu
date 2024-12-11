@@ -131,11 +131,11 @@ export function GetEmployeeResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-  export function GetEmployeeResponseToJSON(json: any): GetEmployeeResponse {
-      return GetEmployeeResponseToJSONTyped(json, false);
-  }
+export function GetEmployeeResponseToJSON(json: any): GetEmployeeResponse {
+    return GetEmployeeResponseToJSONTyped(json, false);
+}
 
-  export function GetEmployeeResponseToJSONTyped(value?: GetEmployeeResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetEmployeeResponseToJSONTyped(value?: GetEmployeeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

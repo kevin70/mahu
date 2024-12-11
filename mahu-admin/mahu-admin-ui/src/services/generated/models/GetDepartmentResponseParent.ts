@@ -55,11 +55,11 @@ export function GetDepartmentResponseParentFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-  export function GetDepartmentResponseParentToJSON(json: any): GetDepartmentResponseParent {
-      return GetDepartmentResponseParentToJSONTyped(json, false);
-  }
+export function GetDepartmentResponseParentToJSON(json: any): GetDepartmentResponseParent {
+    return GetDepartmentResponseParentToJSONTyped(json, false);
+}
 
-  export function GetDepartmentResponseParentToJSONTyped(value?: GetDepartmentResponseParent | null, ignoreDiscriminator: boolean = false): any {
+export function GetDepartmentResponseParentToJSONTyped(value?: GetDepartmentResponseParent | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

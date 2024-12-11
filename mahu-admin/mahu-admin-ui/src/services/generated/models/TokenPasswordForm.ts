@@ -73,11 +73,11 @@ export function TokenPasswordFormFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-  export function TokenPasswordFormToJSON(json: any): TokenPasswordForm {
-      return TokenPasswordFormToJSONTyped(json, false);
-  }
+export function TokenPasswordFormToJSON(json: any): TokenPasswordForm {
+    return TokenPasswordFormToJSONTyped(json, false);
+}
 
-  export function TokenPasswordFormToJSONTyped(value?: TokenPasswordForm | null, ignoreDiscriminator: boolean = false): any {
+export function TokenPasswordFormToJSONTyped(value?: TokenPasswordForm | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

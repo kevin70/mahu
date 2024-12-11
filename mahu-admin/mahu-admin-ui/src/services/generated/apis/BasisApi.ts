@@ -17,6 +17,8 @@ import * as runtime from '../runtime';
 import type {
   GetBrandResponse,
   ListBrandsPageResponse,
+  MakeOssDirectUploadRequest,
+  MakeOssDirectUploadResponse,
   UpsertBrandRequest,
 } from '../models/index';
 import {
@@ -24,6 +26,10 @@ import {
     GetBrandResponseToJSON,
     ListBrandsPageResponseFromJSON,
     ListBrandsPageResponseToJSON,
+    MakeOssDirectUploadRequestFromJSON,
+    MakeOssDirectUploadRequestToJSON,
+    MakeOssDirectUploadResponseFromJSON,
+    MakeOssDirectUploadResponseToJSON,
     UpsertBrandRequestFromJSON,
     UpsertBrandRequestToJSON,
 } from '../models/index';
@@ -47,6 +53,10 @@ export interface ListBrandsRequest {
     sort?: Array<string>;
     includeDeleted?: number;
     noTotalCount?: number;
+}
+
+export interface MakeOssDirectUploadOperationRequest {
+    makeOssDirectUploadRequest: MakeOssDirectUploadRequest;
 }
 
 export interface UpdateBrandRequest {
@@ -224,6 +234,50 @@ export class BasisApi extends runtime.BaseAPI {
      */
     async listBrands(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, includeDeleted?: number, noTotalCount?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListBrandsPageResponse> {
         const response = await this.listBrandsRaw({ limit: limit, offset: offset, filter: filter, sort: sort, includeDeleted: includeDeleted, noTotalCount: noTotalCount }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * OSS 直接上传策略
+     */
+    async makeOssDirectUploadRaw(requestParameters: MakeOssDirectUploadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MakeOssDirectUploadResponse>> {
+        if (requestParameters['makeOssDirectUploadRequest'] == null) {
+            throw new runtime.RequiredError(
+                'makeOssDirectUploadRequest',
+                'Required parameter "makeOssDirectUploadRequest" was null or undefined when calling makeOssDirectUpload().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/settings/oss-direct-upload`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MakeOssDirectUploadRequestToJSON(requestParameters['makeOssDirectUploadRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MakeOssDirectUploadResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * OSS 直接上传策略
+     */
+    async makeOssDirectUpload(makeOssDirectUploadRequest: MakeOssDirectUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MakeOssDirectUploadResponse> {
+        const response = await this.makeOssDirectUploadRaw({ makeOssDirectUploadRequest: makeOssDirectUploadRequest }, initOverrides);
         return await response.value();
     }
 

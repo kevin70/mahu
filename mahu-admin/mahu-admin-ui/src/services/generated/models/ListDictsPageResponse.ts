@@ -63,11 +63,11 @@ export function ListDictsPageResponseFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-  export function ListDictsPageResponseToJSON(json: any): ListDictsPageResponse {
-      return ListDictsPageResponseToJSONTyped(json, false);
-  }
+export function ListDictsPageResponseToJSON(json: any): ListDictsPageResponse {
+    return ListDictsPageResponseToJSONTyped(json, false);
+}
 
-  export function ListDictsPageResponseToJSONTyped(value?: ListDictsPageResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ListDictsPageResponseToJSONTyped(value?: ListDictsPageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

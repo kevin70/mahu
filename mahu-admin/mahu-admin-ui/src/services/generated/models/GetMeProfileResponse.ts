@@ -94,11 +94,11 @@ export function GetMeProfileResponseFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-  export function GetMeProfileResponseToJSON(json: any): GetMeProfileResponse {
-      return GetMeProfileResponseToJSONTyped(json, false);
-  }
+export function GetMeProfileResponseToJSON(json: any): GetMeProfileResponse {
+    return GetMeProfileResponseToJSONTyped(json, false);
+}
 
-  export function GetMeProfileResponseToJSONTyped(value?: GetMeProfileResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetMeProfileResponseToJSONTyped(value?: GetMeProfileResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

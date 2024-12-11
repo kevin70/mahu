@@ -103,11 +103,11 @@ export function UpsertEmployeeRequestFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-  export function UpsertEmployeeRequestToJSON(json: any): UpsertEmployeeRequest {
-      return UpsertEmployeeRequestToJSONTyped(json, false);
-  }
+export function UpsertEmployeeRequestToJSON(json: any): UpsertEmployeeRequest {
+    return UpsertEmployeeRequestToJSONTyped(json, false);
+}
 
-  export function UpsertEmployeeRequestToJSONTyped(value?: UpsertEmployeeRequest | null, ignoreDiscriminator: boolean = false): any {
+export function UpsertEmployeeRequestToJSONTyped(value?: UpsertEmployeeRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -2,7 +2,7 @@ post:
   summary: OSS 直接上传策略
   operationId: makeOssDirectUpload
   tags:
-    - settings
+    - basis
   requestBody:
     required: true
     content:

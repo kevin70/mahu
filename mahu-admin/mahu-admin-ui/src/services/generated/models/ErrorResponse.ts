@@ -57,11 +57,11 @@ export function ErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-  export function ErrorResponseToJSON(json: any): ErrorResponse {
-      return ErrorResponseToJSONTyped(json, false);
-  }
+export function ErrorResponseToJSON(json: any): ErrorResponse {
+    return ErrorResponseToJSONTyped(json, false);
+}
 
-  export function ErrorResponseToJSONTyped(value?: ErrorResponse | null, ignoreDiscriminator: boolean = false): any {
+export function ErrorResponseToJSONTyped(value?: ErrorResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
