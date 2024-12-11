@@ -13,6 +13,7 @@ dependencies {
     api(project(":mahu-common"))
     api(project(":mahu-entity"))
     api(project(":mahu-config"))
+    api(project(":mahu-remote"))
     api("io.avaje:avaje-inject:$avajeInjectVersion")
     api("com.google.guava:guava:$guavaVersion")
     api("cool.houge.pangu:pangu-lang:$pangulangVersion")

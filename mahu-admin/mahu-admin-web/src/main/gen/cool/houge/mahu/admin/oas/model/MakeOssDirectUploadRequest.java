@@ -20,7 +20,7 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class MakeSettingsOssDirectUploadRequest {
+public class MakeOssDirectUploadRequest {
 
 
             public enum KindEnum {

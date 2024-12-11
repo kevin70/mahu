@@ -1,6 +1,6 @@
 post:
-  summary: 获取客户端直接上传策略
-  operationId: makeSettingsOssDirectUpload
+  summary: OSS 直接上传策略
+  operationId: makeOssDirectUpload
   tags:
     - settings
   requestBody:
@@ -29,4 +29,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/MakeSettingsOssDirectUploadResponse.yaml
+            $ref: ../components/schemas/MakeOssDirectUploadResponse.yaml

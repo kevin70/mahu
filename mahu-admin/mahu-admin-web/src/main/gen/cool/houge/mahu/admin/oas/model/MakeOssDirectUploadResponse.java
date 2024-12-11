@@ -15,19 +15,26 @@ package cool.houge.mahu.admin.oas.model;
 import io.avaje.validation.constraints.*;
 
     /**
-    * OSS 配置响应
+    * OSS 直接上传响应
     */
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class MakeSettingsOssDirectUploadResponse {
+public class MakeOssDirectUploadResponse {
 
     /**
      * 上传地址
      */
     @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("upload_url")
-    private String uploadUrl;
+    @com.fasterxml.jackson.annotation.JsonProperty("endpoint")
+    private String endpoint;
+    /**
+     * 资源访问地址
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("access_url")
+    private String accessUrl;
     /**
      * 文件名
      */
@@ -38,8 +45,7 @@ public class MakeSettingsOssDirectUploadResponse {
     /**
      * 资源访问地址
      */
-    @NotNull
-
+  
     @com.fasterxml.jackson.annotation.JsonProperty("url")
     private String url;
     /**

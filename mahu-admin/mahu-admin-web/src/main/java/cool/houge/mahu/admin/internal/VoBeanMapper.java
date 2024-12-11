@@ -1,6 +1,8 @@
 package cool.houge.mahu.admin.internal;
 
 import cool.houge.mahu.admin.oas.model.*;
+import cool.houge.mahu.admin.service.MakeOssDirectUploadPayload;
+import cool.houge.mahu.admin.service.MakeOssDirectUploadResult;
 import cool.houge.mahu.entity.Brand;
 import cool.houge.mahu.entity.system.*;
 import cool.houge.mahu.admin.bean.Profile;
@@ -109,4 +111,8 @@ public interface VoBeanMapper {
     Brand toBrand(UpsertBrandRequest bean);
 
     GetBrandResponse toGetBrandResponse(Brand bean);
+
+    MakeOssDirectUploadPayload toMakeOssDirectUploadPayload(MakeOssDirectUploadRequest bean);
+
+    MakeOssDirectUploadResponse toMakeOssDirectUploadResponse(MakeOssDirectUploadResult bean);
 }

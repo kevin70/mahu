@@ -1,16 +1,19 @@
 type: object
-description: OSS 配置响应
+description: OSS 直接上传响应
 required:
-  - upload_url
+  - endpoint
+  - access_url
   - key
-  - url
   - policy
   - access_key_id
   - signature
 properties:
-  upload_url:
+  endpoint:
     type: string
     description: 上传地址
+  access_url:
+    type: string
+    description: 资源访问地址
   key:
     type: string
     description: 文件名

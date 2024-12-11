@@ -5,3 +5,19 @@ jwt:
 token:
   access-expires: PT24H
   refresh-expires: P14D
+
+oss:
+  # 品牌 LOGO
+  BRAND:
+    access-key-id: "[阿里云 Access Key ID]"
+    access-key-secret: "[阿里云 Access Key Secret]"
+    endpoint: https://houge-2023.oss-cn-hangzhou.aliyuncs.com
+    bucket: houge-2023
+    key-prefix: brands/
+    min-file-size: 1
+    max-file-size: 1048576
+    duration-seconds: 600
+    content-types:
+      - image/jpg
+      - image/jpeg
+      - image/png
