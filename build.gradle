@@ -15,7 +15,7 @@ buildscript {
         ebeanVersion = "15.8.0"
         caffeineVersion = "3.1.8"
         password4jVersion = "1.8.1"
-        bcprovVersion = "1.77"
+        bcprovVersion = "1.79"
         nimbusJoseJwtVersion = "9.37.3"
         sqidsVersion = "0.1.0"
         ulidCreatorVersion = "5.2.3"

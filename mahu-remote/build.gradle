@@ -1,0 +1,24 @@
+apply plugin: "java-library"
+
+dependencies {
+    annotationProcessor("io.helidon.builder:helidon-builder-processor:$helidonVersion")
+    annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
+
+    implementation(project(":mahu-config"))
+    implementation("cool.houge.pangu:pangu-lang:$pangulangVersion")
+    implementation("io.avaje:avaje-inject:$avajeInjectVersion")
+    implementation("com.google.guava:guava:$guavaVersion")
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("io.helidon.webclient:helidon-webclient:$helidonVersion")
+    implementation("io.helidon.http.media:helidon-http-media-jackson:$helidonVersion")
+    implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
+
+    testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
+    testImplementation("org.instancio:instancio-junit:$instancioVersion")
+    testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
+        exclude module: "logback-classic"
+    }
+    testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
+}
