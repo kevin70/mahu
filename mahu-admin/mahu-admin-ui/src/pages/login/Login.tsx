@@ -49,11 +49,9 @@ export const Login = () => {
     <Flex vertical justify="center" align="center">
       <Divider plain>
         <span
-          className={css`
-            color: var(--ant-color-text-placeholder);
-            font-weight: normal;
-            font-size: 14;
-          `}
+          className={css({
+            color: 'var(--ant-color-text-placeholder)',
+          })}
         >
           其他登录方式
         </span>
@@ -66,11 +64,7 @@ export const Login = () => {
   );
 
   return (
-    <div
-      className={css`
-        height: 100vh;
-      `}
-    >
+    <div className={css({ h: '100vh' })}>
       <LoginFormPage
         backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
         title={title}
@@ -114,9 +108,9 @@ export const Login = () => {
         <Flex
           justify="space-between"
           align="center"
-          className={css`
-            margin-block-end: var(--ant-margin);
-          `}
+          className={css({
+            marginBlockEnd: 'var(--ant-margin)',
+          })}
         >
           <ProFormCheckbox noStyle name="rememberMe">
             记住我

@@ -46,9 +46,9 @@ export const AndDesignProLayout = () => {
     {
       icon: (
         <LogoutOutlined
-          className={css`
-            color: var(--ant-color-error);
-          `}
+          className={css({
+            color: 'var(--ant-color-error)',
+          })}
         />
       ),
       label: <Typography.Text type="danger">退出登录</Typography.Text>,

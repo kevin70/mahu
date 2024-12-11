@@ -60,22 +60,10 @@ export const EmployeeList = () => {
       }}
     >
       <ProFormText name="searchNickname" label="昵称" />
-      <Form.Item
-        name="searchStatus"
-        label="状态"
-        className={css`
-          width: 260px;
-        `}
-      >
+      <Form.Item name="searchStatus" label="状态" className={css({ w: 260 })}>
         <EmployeeStatusSelect mode="multiple" placeholder="请选择" allowClear />
       </Form.Item>
-      <Form.Item
-        label="部门"
-        name="searchDepartmentIds"
-        className={css`
-          width: 260px;
-        `}
-      >
+      <Form.Item label="部门" name="searchDepartmentIds" className={css({ w: 260 })}>
         <DepartmentTreeSelect multiple placeholder="选择部门" allowClear treeDefaultExpandAll />
       </Form.Item>
       <HSearchButton type="primary" htmlType="submit" loading={isFetching} />

@@ -6,6 +6,7 @@ import { useAsyncEffect, useInterval, useSet, useTimeout, useUnmount } from 'aho
 import { resolveApiError } from './services';
 import { css } from '@styled-system/css';
 import { ulid } from 'ulid';
+import { styled } from '@styled-system/jsx';
 
 function App() {
   const navigate = useNavigate();
@@ -23,20 +24,9 @@ function App() {
 
   const SplashScreen = () => {
     return (
-      <Flex
-        justify="center"
-        align="center"
-        className={css`
-          height: 100vh;
-          width: 100vw;
-        `}
-      >
+      <Flex justify="center" align="center" className={css({ h: '100vh', w: '100vw' })}>
         <Spin size="large" tip="加载中...">
-          <div
-            className={css`
-              padding: 50px;
-            `}
-          ></div>
+          <div className={css({ p: '50' })}></div>
         </Spin>
       </Flex>
     );
@@ -46,11 +36,11 @@ function App() {
     <Flex
       vertical
       gap={'small'}
-      className={css`
-        width: 100%;
-        position: fixed;
-        z-index: 999999;
-      `}
+      className={css({
+        w: '100%',
+        pos: 'fixed',
+        zIndex: 999999,
+      })}
     >
       {alertMessages.map((v) => (
         <Alert
