@@ -25,7 +25,7 @@ public class SettingService {
     /// 构建 OSS 直接上传参数
     public MakeOssDirectUploadResult makeOssDirectUpload(MakeOssDirectUploadPayload payload) {
         var ossConfig = OssConfig.create(
-                config.get(OssConfig.PREFIX + "." + payload.getOssKind().name()));
+                config.get(OssConfig.PREFIX + "." + payload.getKind().name()));
         var ext = Files.getFileExtension(payload.getFileName());
         var key = aliyunClient.joinFileKey(
                 List.of(ossConfig.keyPrefix(), Ulid.fast().toString()), ext);

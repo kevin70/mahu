@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin;
 
+import cool.houge.mahu.remote.MahuRemoteModule;
 import io.avaje.inject.BeanScope;
 import io.helidon.Main;
 import io.helidon.common.config.Config;
@@ -28,7 +29,7 @@ public class MahuAdminStartup implements HelidonStartupProvider {
 
         beanScope = BeanScope.builder()
                 .bean(Config.class, GlobalConfig.config())
-                .modules(new MahuAdminModule(), new MahuAdminInfraModule())
+                .modules(new MahuAdminModule(), new MahuRemoteModule(), new MahuAdminInfraModule())
                 .shutdownHook(false)
                 .build();
         Main.addShutdownHandler(beanScope::close);

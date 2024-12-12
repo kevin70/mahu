@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Form, Typography } from 'antd';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { NewBrandDrawerForm } from './NewBrandDrawerForm';
+import { EditBrandDrawerForm } from './EditBrandDrawerForm';
 
 export const BrandList = () => {
   const noWrite = $checkNotPermit(permits.BRAND.W);
@@ -115,6 +116,7 @@ export const BrandList = () => {
             align: 'right',
             fixed: 'right',
             render: (_dom, row) => [
+              <EditBrandDrawerForm id={row.id} onSuccess={refetch} />,
               <HDeletePopconfirmButton
                 onConfirm={() => onDelete(row.id)}
                 description={() => (

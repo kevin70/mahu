@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import static cool.houge.mahu.admin.Permits.BRAND;
+import static io.helidon.http.Status.NO_CONTENT_204;
 
 /// 品牌
 ///
@@ -45,6 +46,10 @@ public class BrandController implements HttpService, WebSupport {
     private void getBrand(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var id = pathParams.first("id").asInt().get();
+
+        var bean = brandService.findById(id);
+        var rs = beanMapper.toGetBrandResponse(bean);
+        response.send(rs);
     }
 
     private void addBrand(ServerRequest request, ServerResponse response) {
@@ -52,6 +57,8 @@ public class BrandController implements HttpService, WebSupport {
         validate(vo);
 
         var entity = beanMapper.toBrand(vo);
+        brandService.save(entity);
+        response.status(NO_CONTENT_204).send();
     }
 
     private void updateBrand(ServerRequest request, ServerResponse response) {
@@ -62,10 +69,15 @@ public class BrandController implements HttpService, WebSupport {
         var id = pathParams.first("id").asInt().get();
 
         var entity = beanMapper.toBrand(vo).setId(id);
+        brandService.update(entity);
+        response.status(NO_CONTENT_204).send();
     }
 
     private void deleteBrand(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var id = pathParams.first("id").asInt().get();
+
+        brandService.deleteById(id);
+        response.status(NO_CONTENT_204).send();
     }
 }

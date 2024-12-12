@@ -1,25 +1,27 @@
-import { HNewButton } from '@/components/HNewButton';
 import { permits } from '@/config/permit';
 import { BASIS_API, resolveApiError, uploadFile } from '@/services';
+import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormDigit, ProFormText, ProFormUploadButton } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
+import { Button, Form, FormInstance, Input } from 'antd';
 
-export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
-  const noWrite = $checkNotPermit(permits.DICT.W);
+export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }) => {
+  const noWrite = $checkNotPermit(permits.BRAND.W);
   const { mutateAsync, reset } = useMutation<any>({
-    mutationKey: ['NewBrandDrawerForm'],
+    mutationKey: ['EditBrandDrawerForm'],
     mutationFn(values: any) {
       const { logoFiles, ...otherProps } = values;
       const body: any = {
         ...otherProps,
       };
+
       if (logoFiles && logoFiles.length > 0) {
         body.logo = logoFiles[0].url;
       }
-      return BASIS_API.addBrand(body);
+      return BASIS_API.updateBrand(body, props.id);
     },
     onSuccess() {
-      $message().success('新增品牌成功');
+      $message().success('编辑品牌成功');
       props.onSuccess();
     },
     async onError(error) {
@@ -27,6 +29,19 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
       $message().error(err.message);
     },
   });
+
+  const onInit = async (_: any, form: FormInstance<any>) => {
+    const data = await BASIS_API.getBrand(props.id);
+    form.setFieldsValue(data);
+
+    if (data.logo) {
+      form.setFieldValue('logoFiles', [
+        {
+          url: data.logo,
+        },
+      ]);
+    }
+  };
 
   return (
     <DrawerForm
@@ -36,13 +51,17 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
           reset();
         },
       }}
-      title="新增品牌"
-      trigger={<HNewButton disabled={noWrite} />}
+      title="编辑品牌"
+      trigger={<Button color="default" variant="link" icon={<EditOutlined />} disabled={noWrite} />}
       onFinish={async (values: any) => {
         await mutateAsync(values);
         return true;
       }}
+      onInit={onInit}
     >
+      <Form.Item label="ID">
+        <Input disabled value={props.id} />
+      </Form.Item>
       <ProFormText
         label="名称"
         name="name"
@@ -57,7 +76,7 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
                 if (value) {
                   const { items } = await BASIS_API.listBrands(1, undefined, [`name eq ${value}`], undefined, 1);
                   const item = items && items.length > 0 ? items[0] : null;
-                  if (item) {
+                  if (item && item.id !== props.id) {
                     return Promise.reject('品牌已经存在');
                   }
                 }
@@ -117,6 +136,7 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
               file.url = policy.accessUrl;
               options.onSuccess?.(policy.accessUrl);
             } catch (e) {
+              console.log('上传品牌图标失败', e);
               // @ts-ignore
               options.onError?.(e);
             }
