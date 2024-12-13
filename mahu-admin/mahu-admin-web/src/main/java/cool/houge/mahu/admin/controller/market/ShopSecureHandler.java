@@ -12,19 +12,19 @@ import java.util.Objects;
 /// @author ZY (kzou227@qq.com)
 public class ShopSecureHandler implements WebSupport, Handler {
 
-    private final Handler handler;
+    private final Handler directHandler;
 
-    public ShopSecureHandler(Handler handler) {
-        Objects.requireNonNull(handler);
-        this.handler = handler;
+    public ShopSecureHandler(Handler directHandler) {
+        Objects.requireNonNull(directHandler);
+        this.directHandler = directHandler;
     }
 
     @Override
-    public void handle(ServerRequest req, ServerResponse res) throws Exception {
+    public void handle(ServerRequest request, ServerResponse response) throws Exception {
         var ac = authContext();
-        var pathParams = req.path().pathParameters();
+        var pathParams = request.path().pathParameters();
         var shopId = pathParams.first("shop_id").get();
 
-        handler.handle(req, res);
+        directHandler.handle(request, response);
     }
 }
