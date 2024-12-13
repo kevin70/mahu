@@ -17,7 +17,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "brand", schema = "market")
+@Table(name = "brand")
 public class Brand {
 
     /// 主键
