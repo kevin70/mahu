@@ -8,7 +8,7 @@ cors:
   allow-methods: [ "*" ]
   allow-headers: [ "*" ]
   allow-credentials: false
-  max-age: 3600
+  max-age: 7200
 
 db:
   application-name: "mahu"
