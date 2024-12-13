@@ -1,0 +1,6 @@
+name: shop_id
+in: path
+description: |
+  商店 ID
+schema:
+  type: integer
