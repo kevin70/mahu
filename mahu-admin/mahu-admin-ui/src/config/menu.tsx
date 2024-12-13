@@ -7,6 +7,7 @@ import {
   GroupOutlined,
   InfoCircleOutlined,
   KeyOutlined,
+  ShopOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { MenuDataItem } from '@ant-design/pro-components';
@@ -28,6 +29,19 @@ export const MENUS: MenuDataItem[] = [
         icon: <FlagOutlined />,
         name: '品牌管理',
         permits: [permits.BRAND.R],
+      },
+    ],
+  },
+  {
+    name: '商城管理',
+    type: 'group',
+    atLeastOneChild: true,
+    children: [
+      {
+        path: '/market/shop-list',
+        icon: <ShopOutlined />,
+        name: '商店列表',
+        permits: [permits.MARKET_SHOP.R],
       },
     ],
   },

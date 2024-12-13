@@ -14,6 +14,8 @@ tags:
     description: 当前认证用户
   - name: system
     description: 系统模块
+  - name: market
+    description: 商城模块
 security:
   - BearerAuth: [ ]
 paths:
@@ -66,6 +68,10 @@ paths:
     $ref: paths/brands.yaml
   /brands/{id}:
     $ref: paths/brands_{id}.yaml
+  /shops:
+    $ref: paths/shops.yaml
+  /shops/{id}:
+    $ref: paths/shops_{id}.yaml
 
   /samples:
     get:

@@ -1,15 +1,16 @@
 package cool.houge.mahu.admin.internal;
 
+import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.oas.model.*;
 import cool.houge.mahu.admin.service.MakeOssDirectUploadPayload;
 import cool.houge.mahu.admin.service.MakeOssDirectUploadResult;
-import cool.houge.mahu.entity.Brand;
-import cool.houge.mahu.entity.system.*;
-import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
+import cool.houge.mahu.entity.Brand;
+import cool.houge.mahu.entity.market.Shop;
+import cool.houge.mahu.entity.system.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -115,4 +116,8 @@ public interface VoBeanMapper {
     MakeOssDirectUploadPayload toMakeOssDirectUploadPayload(MakeOssDirectUploadRequest bean);
 
     MakeOssDirectUploadResponse toMakeOssDirectUploadResponse(MakeOssDirectUploadResult bean);
+
+    Shop toShop(UpsertShopRequest bean);
+
+    GetShopResponse toGetShopResponse(Shop bean);
 }

@@ -1,0 +1,27 @@
+type: object
+required:
+  - id
+  - name
+  - slug
+properties:
+  id:
+    type: integer
+    format: int32
+    description: ID
+  create_time:
+    type: string
+    format: date-time
+    description: 创建时间
+  update_time:
+    type: string
+    format: date-time
+    description: 修改时间
+  name:
+    type: string
+    description: 门店名称
+  slug:
+    type: string
+    description: 门店标识
+  description:
+    type: string
+    description: 描述

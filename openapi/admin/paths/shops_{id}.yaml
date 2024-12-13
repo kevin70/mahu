@@ -1,0 +1,44 @@
+parameters:
+  - name: id
+    in: path
+    description: 商店 ID
+    schema:
+      type: integer
+      format: int32
+get:
+  summary: 获取指定 ID 的门店
+  operationId: getShop
+  x-role-permit: MARKET_SHOP:R
+  tags:
+    - market
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/GetShopResponse.yaml
+put:
+  summary: 修改门店
+  operationId: updateShop
+  x-role-permit: MARKET_SHOP:W
+  tags:
+    - market
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertShopRequest.yaml
+  responses:
+    "204":
+      description: OK
+delete:
+  summary: 删除门店
+  operationId: deleteShop
+  x-role-permit: MARKET_SHOP:D
+  tags:
+    - market
+  responses:
+    "204":
+      description: OK

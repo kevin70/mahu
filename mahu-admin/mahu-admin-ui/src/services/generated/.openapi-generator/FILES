@@ -1,5 +1,6 @@
 apis/BasisApi.ts
 apis/DefaultApi.ts
+apis/MarketApi.ts
 apis/MeApi.ts
 apis/SystemApi.ts
 apis/TokenApi.ts
@@ -23,6 +24,7 @@ models/GetMeProfileResponse.ts
 models/GetMeProfileResponseDepartment.ts
 models/GetPermitResponse.ts
 models/GetRoleResponse.ts
+models/GetShopResponse.ts
 models/GetTokenResponse.ts
 models/ListAccessLogsPageResponse.ts
 models/ListAuditJoursPageResponse.ts
@@ -33,6 +35,7 @@ models/ListDictPredefineKindsResponseInner.ts
 models/ListDictsPageResponse.ts
 models/ListEmployeesPageResponse.ts
 models/ListRolesPageResponse.ts
+models/ListShopsPageResponse.ts
 models/LoginRequest.ts
 models/LoginResponse.ts
 models/MakeOssDirectUploadRequest.ts
@@ -48,5 +51,6 @@ models/UpsertDepartmentRequest.ts
 models/UpsertDictRequest.ts
 models/UpsertEmployeeRequest.ts
 models/UpsertRoleRequest.ts
+models/UpsertShopRequest.ts
 models/index.ts
 runtime.ts

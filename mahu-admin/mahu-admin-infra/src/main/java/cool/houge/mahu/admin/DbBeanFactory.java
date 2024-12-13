@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class DbBeanFactory {
 
     // 应用名称
-    private static final String APP_NAME = "wuneng-admin";
+    private static final String APP_NAME = "mahu-admin";
 
     @Bean(destroyPriority = 9999)
     public HikariDataSource dataSource(Config config) {

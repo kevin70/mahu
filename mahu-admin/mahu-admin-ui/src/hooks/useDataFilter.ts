@@ -16,17 +16,19 @@ export const useDataFilter = () => {
   const queryFilter = useMemo(() => {
     const arr = [];
     for (const element of dataFilters) {
-      let v;
-      if (element.value instanceof String) {
-        v = element.value.trim();
-      } else if (element.value instanceof Date) {
-        v = dayjs(element.value).format('YYYY-MM-DDTHH:mm:ss');
-      } else {
-        v = new String(element.value).trim();
-      }
+      if (element.value) {
+        let v;
+        if (element.value instanceof String) {
+          v = element.value.trim();
+        } else if (element.value instanceof Date) {
+          v = dayjs(element.value).format('YYYY-MM-DDTHH:mm:ss');
+        } else {
+          v = new String(element.value).trim();
+        }
 
-      if (v && v !== '') {
-        arr.push(`${element.qname} ${element.op} ${v}`);
+        if (v && v !== '') {
+          arr.push(`${element.qname} ${element.op} ${v}`);
+        }
       }
     }
 

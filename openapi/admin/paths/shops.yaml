@@ -1,0 +1,35 @@
+post:
+  summary: 新增商店
+  operationId: addShop
+  x-role-permit: MARKET_SHOP:W
+  tags:
+    - market
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertShopRequest.yaml
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 商店列表
+  operationId: listShops
+  x-role-permit: MARKET_SHOP:R
+  tags:
+    - market
+  parameters:
+    - $ref: ../components/parameters/limit.yaml
+    - $ref: ../components/parameters/offset.yaml
+    - $ref: ../components/parameters/filter.yaml
+    - $ref: ../components/parameters/sort.yaml
+    - $ref: ../components/parameters/include_deleted.yaml
+    - $ref: ../components/parameters/no_total_count.yaml
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ListShopsPageResponse.yaml

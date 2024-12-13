@@ -13,6 +13,8 @@ public enum Permits {
     AUDIT_JOUR("操作审计"),
     //
     BRAND("品牌"),
+    // 商城
+    MARKET_SHOP("商城-商店"),
     ;
     private final String label;
 
