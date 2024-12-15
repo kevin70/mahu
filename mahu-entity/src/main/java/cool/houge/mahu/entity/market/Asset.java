@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+/// 图片、视频资源
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
