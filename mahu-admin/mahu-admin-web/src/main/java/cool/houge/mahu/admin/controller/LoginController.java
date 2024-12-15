@@ -53,7 +53,7 @@ public class LoginController implements HttpService, WebSupport {
             throw new BizCodeException(BizCodes.UNIMPLEMENTED, lenientFormat("不支持授权类型[%s]", body.getGrantType()));
         }
 
-        payload.setClientIp(clientIp(request));
+        payload.setClientIp(clientAddr(request));
         var rs = beanMapper.toGetTokenResponse(tokenService.token(payload));
         response.send(rs);
     }

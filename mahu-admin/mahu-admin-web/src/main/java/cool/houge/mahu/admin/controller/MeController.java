@@ -3,6 +3,7 @@ package cool.houge.mahu.admin.controller;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpdateMePasswordRequest;
 import cool.houge.mahu.admin.oas.model.UpdateMeProfileRequest;
+import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.system.service.EmployeeService;
 import cool.houge.mahu.common.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
@@ -35,8 +36,9 @@ public class MeController implements HttpService, WebSupport {
     }
 
     void getMeProfile(ServerRequest request, ServerResponse response) {
-        var dto = employeeService.getProfile(uid());
-        dto.setRolePermits(authContext().rolePermits());
+        var ac = AuthContext.get();
+        var dto = employeeService.getProfile(ac.uid());
+        dto.setRolePermits(ac.permits());
 
         var rs = beanMapper.toGetMeProfileResponse(dto);
         response.send(rs);
@@ -46,7 +48,8 @@ public class MeController implements HttpService, WebSupport {
         var vo = request.content().as(UpdateMeProfileRequest.class);
         validate(vo);
 
-        var user = beanMapper.toEmployee(vo).setId(uid());
+        var ac = AuthContext.get();
+        var user = beanMapper.toEmployee(vo).setId(ac.uid());
         employeeService.update(user);
 
         response.status(NO_CONTENT_204).send();
@@ -56,7 +59,8 @@ public class MeController implements HttpService, WebSupport {
         var vo = request.content().as(UpdateMePasswordRequest.class);
         validate(vo);
 
-        var entity = beanMapper.toEmployee(vo).setId(uid());
+        var ac = AuthContext.get();
+        var entity = beanMapper.toEmployee(vo).setId(ac.uid());
         employeeService.updatePassword(entity);
 
         response.status(NO_CONTENT_204).send();

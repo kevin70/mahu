@@ -1,7 +1,5 @@
 package cool.houge.mahu.admin.system.service;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Strings;
@@ -9,17 +7,19 @@ import com.password4j.Password;
 import cool.houge.lang.BizCodeException;
 import cool.houge.lang.BizCodes;
 import cool.houge.lang.HougeException;
-import cool.houge.mahu.admin.cache.CEmployee;
+import cool.houge.mahu.admin.DynamicPermit;
+import cool.houge.mahu.admin.security.AuthContext;
+import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.admin.system.repository.EmployeeRepository;
 import cool.houge.mahu.admin.system.repository.TokenJourRepository;
 import cool.houge.mahu.common.GrantType;
-import cool.houge.mahu.common.security.AuthContext;
-import cool.houge.mahu.common.security.TokenVerifier;
 import cool.houge.mahu.config.TokenConfig;
+import cool.houge.mahu.entity.market.Shop;
 import cool.houge.mahu.entity.system.Employee;
 import io.ebean.annotation.Transactional;
+import io.helidon.common.LazyValue;
 import io.helidon.security.jwt.EncryptedJwt;
 import io.helidon.security.jwt.Jwt;
 import io.helidon.security.jwt.JwtValidator;
@@ -33,10 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.random.RandomGenerator;
-
-import static java.util.Objects.requireNonNull;
 
 /// 令牌服务
 ///
@@ -45,11 +42,6 @@ import static java.util.Objects.requireNonNull;
 public class TokenService implements TokenVerifier {
 
     private static final Logger log = LoggerFactory.getLogger(TokenService.class);
-
-    private final Cache<Long, CEmployee> employeeCache = Caffeine.newBuilder()
-            .expireAfterAccess(10, TimeUnit.MINUTES)
-            .recordStats()
-            .build();
 
     @Inject
     JwkKeys jwkKeys;
@@ -67,48 +59,61 @@ public class TokenService implements TokenVerifier {
     public AuthContext verify(String token) {
         var jwt = parseToken(token);
         var employeeId = jwt.userPrincipal()
-            .map(Long::valueOf)
-            .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
-        var employee = employeeCache.get(employeeId, (uid) -> {
-            var entity = employeeRepository.findById(uid);
-            requireNonNull(entity);
+                .map(Long::valueOf)
+                .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
 
-            return new CEmployee()
-                    .setId(entity.getId())
-                    .setNickname(entity.getNickname())
-                    .setRoleCodes(List.copyOf(entity.allRolePermits()));
+        var employeeLv = LazyValue.create(() -> {
+            var emp = employeeRepository.findById(employeeId);
+            if (emp == null) {
+                throw new BizCodeException(BizCodes.UNAUTHENTICATED, "未找到管理员");
+            }
+            return emp;
         });
 
         return new AuthContext() {
 
             @Override
             public long uid() {
-                return employee.getId();
+                return employeeId;
             }
 
             @Override
             public String name() {
-                return employee.getNickname();
+                return employeeLv.get().getNickname();
             }
 
             @Override
-            public boolean containsPermits(String... permits) {
-                var codes = rolePermits();
+            public boolean checkPermit(Object object) {
+                var codes = permits();
+                // 拥有超级管理员权限
                 if (codes.contains("*")) {
                     return true;
                 }
 
-                for (String code : permits) {
-                    if (codes.contains(code)) {
+                // 拥有指定的权限代码
+                if (object instanceof String p) {
+                    if (codes.contains(p)) {
                         return true;
                     }
                 }
+
+                if (object instanceof DynamicPermit p) {
+                    // 用户拥有操作指定商店数据的权限
+                    if (DynamicPermit.KIND_SHOP.equals(p.kind())) {
+                        var shopId = p.parameters().first("shop_id").asInt().get();
+                        var shopIds = employeeLv.get().getShops().stream()
+                                .map(Shop::getId)
+                                .toList();
+                        return shopIds.contains(shopId);
+                    }
+                }
+
                 return false;
             }
 
             @Override
-            public List<String> rolePermits() {
-                return employee.getRoleCodes();
+            public List<String> permits() {
+                return List.copyOf(employeeLv.get().allRolePermits());
             }
         };
     }

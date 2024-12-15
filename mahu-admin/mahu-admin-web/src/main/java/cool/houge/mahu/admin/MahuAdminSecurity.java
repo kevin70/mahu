@@ -1,8 +1,10 @@
 package cool.houge.mahu.admin;
 
 import com.google.common.base.Strings;
-import cool.houge.mahu.common.security.AuthContext;
-import cool.houge.mahu.common.security.TokenVerifier;
+import cool.houge.lang.BizCodeException;
+import cool.houge.lang.BizCodes;
+import cool.houge.mahu.admin.security.AuthContext;
+import cool.houge.mahu.admin.security.TokenVerifier;
 import io.helidon.http.ForbiddenException;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.UnauthorizedException;
@@ -57,13 +59,12 @@ public class MahuAdminSecurity implements HttpSecurity {
             return true;
         }
 
-        var opt = request.context().get(AuthContext.class);
-        if (opt.isEmpty()) {
-            throw new UnauthorizedException("缺少 AuthContext");
+        var ac = AuthContext.get();
+        for (String s : roleHint) {
+            if (!ac.checkPermit(s)) {
+                throw new BizCodeException(BizCodes.PERMISSION_DENIED, "没有访问权限");
+            }
         }
-
-        var ac = opt.get();
-        ac.validatePermit(roleHint);
         return true;
     }
 }
