@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.system;
 
+import cool.houge.mahu.entity.market.Shop;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -57,6 +58,11 @@ public class Employee {
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+
+    /// 用户拥有的商店
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "ref_shop_employee", schema = "market")
+    private List<Shop> shops;
 
     /// 原始密码（修改密码）
     private transient String originalPassword;
