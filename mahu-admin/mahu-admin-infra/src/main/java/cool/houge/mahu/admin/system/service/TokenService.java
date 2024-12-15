@@ -101,9 +101,7 @@ public class TokenService implements TokenVerifier {
                     // 用户拥有操作指定商店数据的权限
                     if (DynamicPermit.KIND_SHOP.equals(p.kind())) {
                         var shopId = p.parameters().first("shop_id").asInt().get();
-                        var shopIds = employeeLv.get().getShops().stream()
-                                .map(Shop::getId)
-                                .toList();
+                        var shopIds = shopIds();
                         return shopIds.contains(shopId);
                     }
                 }
@@ -114,6 +112,11 @@ public class TokenService implements TokenVerifier {
             @Override
             public List<String> permits() {
                 return List.copyOf(employeeLv.get().allRolePermits());
+            }
+
+            @Override
+            public List<Integer> shopIds() {
+                return employeeLv.get().getShops().stream().map(Shop::getId).toList();
             }
         };
     }
