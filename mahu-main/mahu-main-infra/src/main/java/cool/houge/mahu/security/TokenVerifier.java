@@ -1,4 +1,4 @@
-package cool.houge.mahu.common.security;
+package cool.houge.mahu.security;
 
 /// 访问令牌校验
 ///

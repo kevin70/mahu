@@ -3,6 +3,7 @@ package cool.houge.mahu.controller;
 import cool.houge.mahu.common.web.WebSupport;
 import cool.houge.mahu.internal.VoBeanMapper;
 import cool.houge.mahu.oas.model.UpdateMeProfileRequest;
+import cool.houge.mahu.security.AuthContext;
 import cool.houge.mahu.service.UserService;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
@@ -32,7 +33,8 @@ public class MeController implements HttpService, WebSupport {
     }
 
     private void getMeProfile(ServerRequest request, ServerResponse response) {
-        var user = userService.getProfile(uid());
+        var ac = AuthContext.get();
+        var user = userService.getProfile(ac.uid());
         var rs = beanMapper.toGetMeProfileResponse(user);
         response.send(rs);
     }
@@ -41,7 +43,8 @@ public class MeController implements HttpService, WebSupport {
         var vo = request.content().as(UpdateMeProfileRequest.class);
         validate(vo);
 
-        var entity = beanMapper.toUser(vo).setId(uid());
+        var ac = AuthContext.get();
+        var entity = beanMapper.toUser(vo).setId(ac.uid());
         userService.update(entity);
 
         response.status(NO_CONTENT_204).send();

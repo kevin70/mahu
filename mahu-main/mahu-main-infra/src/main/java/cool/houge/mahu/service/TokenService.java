@@ -8,8 +8,6 @@ import cool.houge.lang.BizCodeException;
 import cool.houge.lang.BizCodes;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.Metadata;
-import cool.houge.mahu.common.security.AuthContext;
-import cool.houge.mahu.common.security.TokenVerifier;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.User;
 import cool.houge.mahu.entity.system.TokenJour;
@@ -17,6 +15,8 @@ import cool.houge.mahu.remote.wechat.Jscode2SessionPayload;
 import cool.houge.mahu.remote.wechat.WechatClient;
 import cool.houge.mahu.remote.wechat.WechatEncryptPayload;
 import cool.houge.mahu.repository.UserRepository;
+import cool.houge.mahu.security.AuthContext;
+import cool.houge.mahu.security.TokenVerifier;
 import cool.houge.mahu.system.repository.ClientRepository;
 import cool.houge.mahu.system.repository.TokenJourRepository;
 import io.ebean.annotation.Transactional;
@@ -93,11 +93,6 @@ public class TokenService implements TokenVerifier {
             @Override
             public String name() {
                 return userLv.get().getNickname();
-            }
-
-            @Override
-            public boolean containsPermits(String... permits) {
-                throw new UnsupportedOperationException();
             }
         };
     }
