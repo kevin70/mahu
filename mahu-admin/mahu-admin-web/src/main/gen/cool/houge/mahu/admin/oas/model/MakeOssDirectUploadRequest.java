@@ -25,7 +25,7 @@ public class MakeOssDirectUploadRequest {
 
             public enum KindEnum {
 
-    BRAND(String.valueOf("BRAND"));
+    BRAND(String.valueOf("BRAND")), MARKET_ASSET(String.valueOf("MARKET_ASSET"));
 
 
     private String value;

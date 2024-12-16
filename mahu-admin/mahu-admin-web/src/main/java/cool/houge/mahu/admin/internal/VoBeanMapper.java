@@ -71,7 +71,6 @@ public interface VoBeanMapper {
 
     Employee toEmployee(UpdateMeProfileRequest bean);
 
-    @Mapping(target = "permits", source = "rolePermits")
     GetMeProfileResponse toGetMeProfileResponse(Profile bean);
 
     GetAccessLogResponse toGetAccessLogResponse(AccessLog bean);

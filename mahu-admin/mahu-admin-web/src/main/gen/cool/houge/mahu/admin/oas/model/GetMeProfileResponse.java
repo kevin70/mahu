@@ -13,6 +13,7 @@
 package cool.houge.mahu.admin.oas.model;
 
 import cool.houge.mahu.admin.oas.model.GetMeProfileResponseDepartment;
+import cool.houge.mahu.admin.oas.model.GetMeProfileResponseShopsInner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,5 +63,11 @@ public class GetMeProfileResponse {
   
     @com.fasterxml.jackson.annotation.JsonProperty("permits")
     private List<String> permits;
+    /**
+     * 用户拥有的商店列表
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("shops")
+    private List<@Valid GetMeProfileResponseShopsInner> shops;
 }
 

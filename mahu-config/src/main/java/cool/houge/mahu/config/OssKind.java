@@ -5,5 +5,7 @@ package cool.houge.mahu.config;
 /// @author ZY (kzou227@qq.com)
 public enum OssKind {
     /// 品牌
-    BRAND
+    BRAND,
+    /// 商城资源
+    MARKET_ASSET
 }

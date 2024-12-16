@@ -38,7 +38,7 @@ public class MeController implements HttpService, WebSupport {
     void getMeProfile(ServerRequest request, ServerResponse response) {
         var ac = AuthContext.get();
         var dto = employeeService.getProfile(ac.uid());
-        dto.setRolePermits(ac.permits());
+        dto.setPermits(ac.permits());
 
         var rs = beanMapper.toGetMeProfileResponse(dto);
         response.send(rs);

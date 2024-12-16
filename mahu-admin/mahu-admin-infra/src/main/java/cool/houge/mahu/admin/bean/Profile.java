@@ -17,7 +17,7 @@ public class Profile {
     /// 用户头像.
     private String avatar;
     /// 用户权限.
-    private List<String> rolePermits;
+    private List<String> permits;
 
     // ========================================================= //
 
@@ -26,9 +26,9 @@ public class Profile {
 
     @Data
     public static class Shop {
-        /// 商店 SLUG.
-        private String slug;
-        /// 商店名称.
+        /// 商店
+        private Integer id;
+        /// 商店名称
         private String name;
     }
 }
