@@ -3,8 +3,15 @@ import { ProLayout } from '@ant-design/pro-components';
 import { useAppStore, useProfileStore } from '@/stores';
 import { useShallow } from 'zustand/shallow';
 import { filterMenus, MENUS } from '@/config/menu';
-import { Button, Dropdown, Typography } from 'antd';
-import { KeyOutlined, LogoutOutlined, MoonOutlined, ProfileOutlined, SunOutlined } from '@ant-design/icons';
+import { Button, Dropdown, MenuProps, Typography } from 'antd';
+import {
+  KeyOutlined,
+  LogoutOutlined,
+  MoonOutlined,
+  ProfileOutlined,
+  SelectOutlined,
+  SunOutlined,
+} from '@ant-design/icons';
 import { useMemo } from 'react';
 import { ItemType } from 'antd/es/menu/interface';
 import { css } from '@styled-system/css';
@@ -15,8 +22,13 @@ export const AndDesignProLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { nickname, avatar, permits } = useProfileStore(
-    useShallow((state) => ({ nickname: state.nickname, avatar: state.avatar, permits: state.permits }))
+  const { nickname, avatar, permits, shops } = useProfileStore(
+    useShallow((state) => ({
+      nickname: state.nickname,
+      avatar: state.avatar,
+      permits: state.permits,
+      shops: state.shops,
+    }))
   );
 
   // 系统菜单
@@ -58,6 +70,21 @@ export const AndDesignProLayout = () => {
       },
     },
   ];
+
+  const ShopDropmenu = () => {
+    if (shops.length <= 0) {
+      return <></>;
+    }
+
+    const items: MenuProps['items'] = shops.map((o) => ({ key: o.id, label: o.name }));
+    return (
+      <Dropdown menu={{ items }} placement="bottom" arrow>
+        <Button type="text" icon={<SelectOutlined />}>
+          切换商店
+        </Button>
+      </Dropdown>
+    );
+  };
 
   return (
     <ProLayout
@@ -107,6 +134,7 @@ export const AndDesignProLayout = () => {
         if (typeof window === 'undefined') return [];
 
         return [
+          <ShopDropmenu />,
           <Button
             type="text"
             shape="circle"

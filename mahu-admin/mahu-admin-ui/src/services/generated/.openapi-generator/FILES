@@ -22,6 +22,7 @@ models/GetEmployeeResponse.ts
 models/GetEmployeeResponseDepartment.ts
 models/GetMeProfileResponse.ts
 models/GetMeProfileResponseDepartment.ts
+models/GetMeProfileResponseShopsInner.ts
 models/GetPermitResponse.ts
 models/GetRoleResponse.ts
 models/GetShopAssetResponse.ts

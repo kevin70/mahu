@@ -6,6 +6,10 @@ type Profile = {
   nickname: string;
   avatar: string;
   permits: string[];
+  shops: Array<{
+    id: number;
+    name: string;
+  }>;
 
   // 刷新个人信息
   refreshProfile: () => Promise<Profile>;
@@ -19,6 +23,7 @@ export const useProfileStore = create<Profile>((set, get) => ({
   nickname: '未知',
   avatar: '',
   permits: [],
+  shops: [],
 
   async refreshProfile() {
     const data = await ME_API.getMeProfile();
@@ -27,6 +32,7 @@ export const useProfileStore = create<Profile>((set, get) => ({
       nickname: data.nickname,
       avatar: data.avatar,
       permits: data.permits || [],
+      shops: data.shops || [],
     });
     return get();
   },

@@ -16,6 +16,7 @@ export * from './GetEmployeeResponse';
 export * from './GetEmployeeResponseDepartment';
 export * from './GetMeProfileResponse';
 export * from './GetMeProfileResponseDepartment';
+export * from './GetMeProfileResponseShopsInner';
 export * from './GetPermitResponse';
 export * from './GetRoleResponse';
 export * from './GetShopAssetResponse';

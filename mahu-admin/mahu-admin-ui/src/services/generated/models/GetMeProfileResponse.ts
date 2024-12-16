@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { GetMeProfileResponseShopsInner } from './GetMeProfileResponseShopsInner';
+import {
+    GetMeProfileResponseShopsInnerFromJSON,
+    GetMeProfileResponseShopsInnerFromJSONTyped,
+    GetMeProfileResponseShopsInnerToJSON,
+    GetMeProfileResponseShopsInnerToJSONTyped,
+} from './GetMeProfileResponseShopsInner';
 import type { GetMeProfileResponseDepartment } from './GetMeProfileResponseDepartment';
 import {
     GetMeProfileResponseDepartmentFromJSON,
@@ -63,6 +70,12 @@ export interface GetMeProfileResponse {
      * @memberof GetMeProfileResponse
      */
     permits?: Array<string>;
+    /**
+     * 用户拥有的商店列表
+     * @type {Array<GetMeProfileResponseShopsInner>}
+     * @memberof GetMeProfileResponse
+     */
+    shops?: Array<GetMeProfileResponseShopsInner>;
 }
 
 /**
@@ -91,6 +104,7 @@ export function GetMeProfileResponseFromJSONTyped(json: any, ignoreDiscriminator
         'avatar': json['avatar'],
         'department': json['department'] == null ? undefined : GetMeProfileResponseDepartmentFromJSON(json['department']),
         'permits': json['permits'] == null ? undefined : json['permits'],
+        'shops': json['shops'] == null ? undefined : ((json['shops'] as Array<any>).map(GetMeProfileResponseShopsInnerFromJSON)),
     };
 }
 
@@ -111,6 +125,7 @@ export function GetMeProfileResponseToJSONTyped(value?: GetMeProfileResponse | n
         'avatar': value['avatar'],
         'department': GetMeProfileResponseDepartmentToJSON(value['department']),
         'permits': value['permits'],
+        'shops': value['shops'] == null ? undefined : ((value['shops'] as Array<any>).map(GetMeProfileResponseShopsInnerToJSON)),
     };
 }
 
