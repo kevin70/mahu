@@ -44,7 +44,7 @@ public class MahuErrorFeature implements HttpFeature {
     void handleException(ServerRequest request, ServerResponse response, Throwable cause) {
         var error = new ErrorResponse.Error();
         error.setStatus(Status.INTERNAL_SERVER_ERROR_500.code())
-                .setCode(String.valueOf(BizCodes.INTERNAL.code()))
+                .setCode(BizCodes.INTERNAL.code())
                 .setMessage(BizCodes.INTERNAL.message());
         this.send(request, response, error, cause);
     }
@@ -52,7 +52,7 @@ public class MahuErrorFeature implements HttpFeature {
     void handleHttpException(ServerRequest request, ServerResponse response, HttpException e) {
         var error = new ErrorResponse.Error();
         error.setStatus(e.status().code())
-            .setCode(String.valueOf(e.status().code()))
+            .setCode(e.status().code())
             .setMessage(e.getMessage());
         this.send(request, response, error, e);
     }
@@ -64,7 +64,7 @@ public class MahuErrorFeature implements HttpFeature {
 
         var error = new ErrorResponse.Error();
         error.setStatus(Status.BAD_REQUEST_400.code())
-                .setCode(String.valueOf(INVALID_ARGUMENT.code()))
+                .setCode(INVALID_ARGUMENT.code())
                 .setMessage(INVALID_ARGUMENT.message())
                 .setInvalidParams(violations);
         this.send(request, response, error, e);
@@ -73,7 +73,7 @@ public class MahuErrorFeature implements HttpFeature {
     void handleEntityNotFoundException(ServerRequest request, ServerResponse response, EntityNotFoundException e) {
         var error = new ErrorResponse.Error();
         error.setStatus(Status.NOT_FOUND_404.code())
-                .setCode(String.valueOf(BizCodes.NOT_FOUND.code()))
+                .setCode(BizCodes.NOT_FOUND.code())
                 .setMessage(BizCodes.NOT_FOUND.message());
         this.send(request, response, error, e);
     }
@@ -99,7 +99,8 @@ public class MahuErrorFeature implements HttpFeature {
                 };
 
         var error = new ErrorResponse.Error();
-        error.setStatus(status.code()).setCode(String.valueOf(bz.code())).setMessage(bz.message());
+        error.setStatus(status.code()).setCode(bz.code()).setMessage(bz.message());
+        bz.subcode().ifPresent(error::setSubCode);
         this.send(request, response, error, e);
     }
 

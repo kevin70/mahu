@@ -32,8 +32,12 @@ properties:
         format: int32
         description: HTTP Status
       code:
-        type: string
+        type: integer
+        format: int32
         description: 错误代码
+      sub_code:
+        type: string
+        description: 子错误码
       message:
         type: string
         description: 错误描述

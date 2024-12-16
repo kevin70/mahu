@@ -27,7 +27,9 @@ public class ErrorResponse {
         /// HTTP Status
         int status;
         /// 错误码
-        String code;
+        int code;
+        /// 子错误码
+        String subCode;
         /// 错误描述
         String message;
         /// 详细信息

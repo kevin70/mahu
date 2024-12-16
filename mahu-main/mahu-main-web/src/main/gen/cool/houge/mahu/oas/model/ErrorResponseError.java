@@ -66,7 +66,13 @@ public class ErrorResponseError {
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("code")
-    private String code;
+    private Integer code;
+    /**
+     * 子错误码
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("sub_code")
+    private String subCode;
     /**
      * 错误描述
      */
