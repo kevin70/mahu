@@ -72,6 +72,8 @@ paths:
     $ref: paths/shops.yaml
   /shops/{id}:
     $ref: paths/shops_{id}.yaml
+  /shops/{shop_id}/assets:
+    $ref: paths/shops_{shop_id}_assets.yaml
 
   /samples:
     get:

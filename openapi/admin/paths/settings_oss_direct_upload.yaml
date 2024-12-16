@@ -18,8 +18,10 @@ post:
               description: 存储类型
               enum:
                 - BRAND
+                - MARKET_ASSET
               x-enum-descriptions:
                 - 品牌LOGO
+                - 商城资源
             file_name:
               type: string
               description: 文件名称

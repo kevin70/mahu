@@ -15,6 +15,7 @@ public enum Permits {
     BRAND("品牌"),
     // 商城
     MARKET_SHOP("商城-商店"),
+    MARKET_ASSET("商城-资源"),
     ;
     private final String label;
 

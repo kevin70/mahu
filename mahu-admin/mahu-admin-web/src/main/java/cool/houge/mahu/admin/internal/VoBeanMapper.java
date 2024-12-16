@@ -9,6 +9,7 @@ import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
 import cool.houge.mahu.entity.Brand;
+import cool.houge.mahu.entity.market.Asset;
 import cool.houge.mahu.entity.market.Shop;
 import cool.houge.mahu.entity.system.*;
 import org.mapstruct.Mapper;
@@ -120,4 +121,6 @@ public interface VoBeanMapper {
     Shop toShop(UpsertShopRequest bean);
 
     GetShopResponse toGetShopResponse(Shop bean);
+
+    GetShopAssetResponse toGetShopAssetResponse(Asset bean);
 }

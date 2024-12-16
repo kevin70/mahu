@@ -16,14 +16,20 @@
 import * as runtime from '../runtime';
 import type {
   GetShopResponse,
+  ListShopAssetsPageResponse,
   ListShopsPageResponse,
+  UpsertShopAssetRequest,
   UpsertShopRequest,
 } from '../models/index';
 import {
     GetShopResponseFromJSON,
     GetShopResponseToJSON,
+    ListShopAssetsPageResponseFromJSON,
+    ListShopAssetsPageResponseToJSON,
     ListShopsPageResponseFromJSON,
     ListShopsPageResponseToJSON,
+    UpsertShopAssetRequestFromJSON,
+    UpsertShopAssetRequestToJSON,
     UpsertShopRequestFromJSON,
     UpsertShopRequestToJSON,
 } from '../models/index';
@@ -32,12 +38,27 @@ export interface AddShopRequest {
     upsertShopRequest: UpsertShopRequest;
 }
 
+export interface AddShopAssetRequest {
+    shopId: number;
+    upsertShopAssetRequest: UpsertShopAssetRequest;
+}
+
 export interface DeleteShopRequest {
     id?: number;
 }
 
 export interface GetShopRequest {
     id?: number;
+}
+
+export interface ListShopAssetsRequest {
+    shopId: number;
+    limit?: number;
+    offset?: number;
+    filter?: Array<string>;
+    sort?: Array<string>;
+    includeDeleted?: number;
+    noTotalCount?: number;
 }
 
 export interface ListShopsRequest {
@@ -100,6 +121,56 @@ export class MarketApi extends runtime.BaseAPI {
      */
     async addShop(upsertShopRequest: UpsertShopRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.addShopRaw({ upsertShopRequest: upsertShopRequest }, initOverrides);
+    }
+
+    /**
+     * 新增资源
+     */
+    async addShopAssetRaw(requestParameters: AddShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['shopId'] == null) {
+            throw new runtime.RequiredError(
+                'shopId',
+                'Required parameter "shopId" was null or undefined when calling addShopAsset().'
+            );
+        }
+
+        if (requestParameters['upsertShopAssetRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertShopAssetRequest',
+                'Required parameter "upsertShopAssetRequest" was null or undefined when calling addShopAsset().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/shops/{shop_id}/assets`.replace(`{${"shop_id"}}`, encodeURIComponent(String(requestParameters['shopId']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertShopAssetRequestToJSON(requestParameters['upsertShopAssetRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新增资源
+     */
+    async addShopAsset(shopId: number, upsertShopAssetRequest: UpsertShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addShopAssetRaw({ shopId: shopId, upsertShopAssetRequest: upsertShopAssetRequest }, initOverrides);
     }
 
     /**
@@ -166,6 +237,71 @@ export class MarketApi extends runtime.BaseAPI {
      */
     async getShop(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetShopResponse> {
         const response = await this.getShopRaw({ id: id }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 资源列表
+     */
+    async listShopAssetsRaw(requestParameters: ListShopAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListShopAssetsPageResponse>> {
+        if (requestParameters['shopId'] == null) {
+            throw new runtime.RequiredError(
+                'shopId',
+                'Required parameter "shopId" was null or undefined when calling listShopAssets().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        if (requestParameters['includeDeleted'] != null) {
+            queryParameters['include_deleted'] = requestParameters['includeDeleted'];
+        }
+
+        if (requestParameters['noTotalCount'] != null) {
+            queryParameters['no_total_count'] = requestParameters['noTotalCount'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/shops/{shop_id}/assets`.replace(`{${"shop_id"}}`, encodeURIComponent(String(requestParameters['shopId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListShopAssetsPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 资源列表
+     */
+    async listShopAssets(shopId: number, limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, includeDeleted?: number, noTotalCount?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListShopAssetsPageResponse> {
+        const response = await this.listShopAssetsRaw({ shopId: shopId, limit: limit, offset: offset, filter: filter, sort: sort, includeDeleted: includeDeleted, noTotalCount: noTotalCount }, initOverrides);
         return await response.value();
     }
 

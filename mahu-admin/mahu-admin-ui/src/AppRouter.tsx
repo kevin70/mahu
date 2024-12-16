@@ -17,6 +17,7 @@ import { AuditJourList } from '@/pages/system/audit-jour/AuditJourList';
 import { BrandList } from './pages/brand/BrandList';
 
 import { MarketShopList } from '@/pages/market/shop/MarketShopList';
+import { MarketAssetList } from '@/pages/market/asset/MarketAssetList';
 
 // prettier-ignore-start
 export const routes = createRoutesFromElements(
@@ -32,6 +33,7 @@ export const routes = createRoutesFromElements(
 
       {/** 商城模块 */}
       <Route path="/market/shop-list" element={<MarketShopList />} />
+      <Route path="/market/asset-list" element={<MarketAssetList />} />
 
       {/** 系统模块 */}
       <Route path="/system/employee-list" element={<EmployeeList />} />

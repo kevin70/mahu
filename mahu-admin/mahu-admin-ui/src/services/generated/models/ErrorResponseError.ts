@@ -59,10 +59,16 @@ export interface ErrorResponseError {
     status: number;
     /**
      * 错误代码
+     * @type {number}
+     * @memberof ErrorResponseError
+     */
+    code: number;
+    /**
+     * 子错误码
      * @type {string}
      * @memberof ErrorResponseError
      */
-    code: string;
+    subCode?: string;
     /**
      * 错误描述
      * @type {string}
@@ -120,6 +126,7 @@ export function ErrorResponseErrorFromJSONTyped(json: any, ignoreDiscriminator: 
         'method': json['method'],
         'status': json['status'],
         'code': json['code'],
+        'subCode': json['sub_code'] == null ? undefined : json['sub_code'],
         'message': json['message'],
         'detail': json['detail'] == null ? undefined : json['detail'],
         'stacktrace': json['stacktrace'] == null ? undefined : json['stacktrace'],
@@ -144,6 +151,7 @@ export function ErrorResponseErrorToJSONTyped(value?: ErrorResponseError | null,
         'method': value['method'],
         'status': value['status'],
         'code': value['code'],
+        'sub_code': value['subCode'],
         'message': value['message'],
         'detail': value['detail'],
         'stacktrace': value['stacktrace'],

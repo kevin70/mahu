@@ -1,5 +1,6 @@
 name: shop_id
 in: path
+required: true
 description: |
   商店 ID
 schema:

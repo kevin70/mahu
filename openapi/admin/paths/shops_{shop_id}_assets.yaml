@@ -1,0 +1,38 @@
+parameters:
+  - $ref: ../components/parameters/path_shop_id.yaml
+post:
+  summary: 新增资源
+  operationId: addShopAsset
+  x-role-permit: MARKET_ASSET:W
+  tags:
+    - market
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertShopAssetRequest.yaml
+  responses:
+    204:
+      description: OK
+get:
+  summary: 资源列表
+  operationId: listShopAssets
+  x-role-permit: MARKET_ASSET:R
+  tags:
+    - market
+  parameters:
+    - $ref: ../components/parameters/limit.yaml
+    - $ref: ../components/parameters/offset.yaml
+    - $ref: ../components/parameters/filter.yaml
+    - $ref: ../components/parameters/sort.yaml
+    - $ref: ../components/parameters/include_deleted.yaml
+    - $ref: ../components/parameters/no_total_count.yaml
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ListShopAssetsPageResponse.yaml
+
