@@ -2,8 +2,8 @@ package cool.houge.mahu.common.web;
 
 import com.google.common.base.Splitter;
 import com.google.common.primitives.UnsignedInts;
-import cool.houge.lang.BizCodeException;
-import cool.houge.lang.BizCodes;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import cool.houge.mahu.common.DataFilter;
 import io.helidon.webserver.http.ServerRequest;
 import org.checkerframework.checker.nullness.qual.NonNull;

@@ -2,9 +2,8 @@ package cool.houge.mahu.remote.wechat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cool.houge.lang.BizCodeException;
-import cool.houge.lang.BizCodes;
-import cool.houge.lang.HougeException;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import cool.houge.mahu.config.WechatPayConfig;
 import io.helidon.common.configurable.Resource;
 import io.helidon.common.media.type.MediaTypes;
@@ -50,7 +49,7 @@ public class WechatPayClient {
         try {
             body = objectMapper.writeValueAsString(payload);
         } catch (JsonProcessingException e) {
-            throw new HougeException("序列化微信下单数据错误", e);
+            throw new BizCodeException(BizCodes.INTERNAL, "序列化微信下单数据错误", e);
         }
 
         var canonicalUrl = "/v3/pay/transactions/jsapi";
@@ -92,7 +91,7 @@ public class WechatPayClient {
         try {
             body = objectMapper.writeValueAsString(payload);
         } catch (JsonProcessingException e) {
-            throw new HougeException("序列化微信下单数据错误", e);
+            throw new BizCodeException(BizCodes.INTERNAL, "序列化微信下单数据错误", e);
         }
 
         var canonicalUrl = "/v3/refund/domestic/refunds";
@@ -136,7 +135,7 @@ public class WechatPayClient {
 
             return cipher.doFinal(Base64.getDecoder().decode(payload.getCiphertext()));
         } catch (NoSuchPaddingException | NoSuchAlgorithmException e) {
-            throw new HougeException("不支持 AES/GCM/NoPadding", e);
+            throw new BizCodeException(BizCodes.INTERNAL, "不支持 AES/GCM/NoPadding", e);
         } catch (InvalidAlgorithmParameterException | InvalidKeyException e) {
             throw new BizCodeException(BizCodes.UNAVAILABLE, "非法的微信 apiv3 密钥", e);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
@@ -195,9 +194,9 @@ public class WechatPayClient {
             var bytes = Base64.getDecoder().decode(keyStr);
             return KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(bytes));
         } catch (InvalidKeySpecException e) {
-            throw new HougeException("非法的RSA私钥", e);
+            throw new BizCodeException(BizCodes.INTERNAL, "非法的RSA私钥", e);
         } catch (NoSuchAlgorithmException e) {
-            throw new HougeException("未找到RSA加密算法", e);
+            throw new BizCodeException(BizCodes.INTERNAL, "未找到RSA加密算法", e);
         }
     }
 }

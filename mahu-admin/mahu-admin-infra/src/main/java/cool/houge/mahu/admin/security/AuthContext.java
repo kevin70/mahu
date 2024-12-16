@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.security;
 
-import cool.houge.lang.BizCodeException;
-import cool.houge.lang.BizCodes;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import io.helidon.common.context.Contexts;
 
 import javax.annotation.Nonnull;

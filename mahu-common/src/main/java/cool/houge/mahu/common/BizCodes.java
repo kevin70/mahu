@@ -1,7 +1,5 @@
 package cool.houge.mahu.common;
 
-import cool.houge.lang.BizCode;
-
 import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;

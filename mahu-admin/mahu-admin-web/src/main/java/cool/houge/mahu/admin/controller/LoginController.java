@@ -1,11 +1,11 @@
 package cool.houge.mahu.admin.controller;
 
-import cool.houge.lang.BizCodeException;
-import cool.houge.lang.BizCodes;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.LoginRequest;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.service.TokenService;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.web.WebSupport;
 import io.helidon.common.parameters.Parameters;

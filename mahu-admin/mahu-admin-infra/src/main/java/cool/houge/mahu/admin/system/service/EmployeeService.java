@@ -2,12 +2,12 @@ package cool.houge.mahu.admin.system.service;
 
 import com.google.common.base.Strings;
 import com.password4j.Password;
-import cool.houge.lang.BizCodeException;
-import cool.houge.lang.BizCodes;
 import cool.houge.mahu.admin.bean.GeneralBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
 import cool.houge.mahu.admin.system.repository.EmployeeRepository;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Employee;
 import io.avaje.inject.events.Event;

@@ -1,8 +1,8 @@
 package cool.houge.mahu.remote.wechat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cool.houge.lang.BizCodeException;
-import cool.houge.lang.BizCodes;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import io.helidon.common.media.type.MediaTypes;
 import io.helidon.webclient.api.WebClient;
 import jakarta.inject.Inject;

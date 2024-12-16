@@ -15,7 +15,6 @@ dependencies {
     api(project(":mahu-config"))
     api("io.avaje:avaje-inject:$avajeInjectVersion")
     api("com.google.guava:guava:$guavaVersion")
-    api("cool.houge.pangu:pangu-lang:$pangulangVersion")
     api("org.apache.logging.log4j:log4j-api:$log4jVersion")
     api("io.ebean:ebean-api:$ebeanVersion") {
         exclude module: "avaje-config"

@@ -4,9 +4,6 @@ import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Strings;
 import com.password4j.Password;
-import cool.houge.lang.BizCodeException;
-import cool.houge.lang.BizCodes;
-import cool.houge.lang.HougeException;
 import cool.houge.mahu.admin.DynamicPermit;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
@@ -14,6 +11,8 @@ import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.admin.system.repository.EmployeeRepository;
 import cool.houge.mahu.admin.system.repository.TokenJourRepository;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.market.Shop;
@@ -135,7 +134,7 @@ public class TokenService implements TokenVerifier {
         }
 
         if (employee == null) {
-            throw new HougeException("登录用户未找到");
+            throw new BizCodeException(BizCodes.NOT_FOUND, "登录用户未找到");
         }
 
         var status = employee.getStatus();

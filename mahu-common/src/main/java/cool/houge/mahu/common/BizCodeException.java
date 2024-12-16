@@ -1,6 +1,5 @@
 package cool.houge.mahu.common;
 
-import cool.houge.lang.BizCode;
 import lombok.Getter;
 
 /// 业务错误码异常

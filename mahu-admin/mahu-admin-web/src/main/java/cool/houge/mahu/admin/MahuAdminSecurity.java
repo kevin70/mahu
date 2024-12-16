@@ -1,10 +1,10 @@
 package cool.houge.mahu.admin;
 
 import com.google.common.base.Strings;
-import cool.houge.lang.BizCodeException;
-import cool.houge.lang.BizCodes;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import io.helidon.http.ForbiddenException;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.UnauthorizedException;
