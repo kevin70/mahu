@@ -15,6 +15,30 @@ post:
   responses:
     204:
       description: OK
+delete:
+  summary: 批量删除资源
+  operationId: batchDeleteShopAsset
+  x-role-permit: MARKET_ASSET:D
+  tags:
+    - market
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            ids:
+              type: array
+              description: 要删除的资源 IDs
+              minimum: 1
+              maximum: 1000
+              items:
+                type: integer
+                format: int32
+  responses:
+    204:
+      description: OK
 get:
   summary: 资源列表
   operationId: listShopAssets
