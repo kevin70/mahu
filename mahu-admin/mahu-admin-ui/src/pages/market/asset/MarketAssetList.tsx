@@ -4,11 +4,12 @@ import { useAppStore } from '@/stores';
 import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import { CheckCard, PageContainer } from '@ant-design/pro-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { Button, Flex, Space, Typography } from 'antd';
+import { Button, Flex, Image, Modal, Space, Typography } from 'antd';
 import { useShallow } from 'zustand/shallow';
 import { useInView } from 'react-intersection-observer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useMap } from 'ahooks';
+import { css } from '@styled-system/css';
 
 export const MarketAssetList = () => {
   const shopId = useAppStore(useShallow((state) => state.selectedShopId));
@@ -37,15 +38,54 @@ export const MarketAssetList = () => {
   }, [fetchNextPage, inView]);
 
   // 选中的资源图片
-  const [selectAssetMap, { set: setSelectAsset, remove: removeSelectAsset }] = useMap<number, string>([]);
+  const [selectAssetMap, { set: setSelectAsset, remove: removeSelectAsset, reset: resetSelectAsset }] = useMap<
+    number,
+    string
+  >([]);
+
+  const DeleteModal = () => {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <Button
+          disabled={noWrite || selectAssetMap.size === 0}
+          icon={<DeleteOutlined />}
+          type="primary"
+          danger
+          onClick={() => setOpen(true)}
+        >
+          删除
+        </Button>
+
+        <Modal
+          title="确认删除选中的资源"
+          open={open}
+          onCancel={() => setOpen(false)}
+          okButtonProps={{
+            danger: true,
+          }}
+          cancelButtonProps={{
+            hidden: true,
+          }}
+          okText="确认删除"
+        >
+          <Flex justify="center" wrap gap={'small'} className={css({ maxH: 480, overflow: 'auto' })}>
+            {Array.from(selectAssetMap.entries()).map((entry) => (
+              <Image src={entry[1]} width={120} />
+            ))}
+          </Flex>
+        </Modal>
+      </>
+    );
+  };
 
   return (
     <PageContainer
       fixedHeader
       extra={
-        <Button disabled={noWrite || selectAssetMap.size === 0} icon={<DeleteOutlined />} type="primary" danger>
-          删除
-        </Button>
+        <Space>
+          <DeleteModal />
+        </Space>
       }
     >
       <Flex wrap>
