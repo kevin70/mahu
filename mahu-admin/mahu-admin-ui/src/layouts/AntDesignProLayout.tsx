@@ -9,7 +9,7 @@ import {
   LogoutOutlined,
   MoonOutlined,
   ProfileOutlined,
-  SelectOutlined,
+  ShopOutlined,
   SunOutlined,
 } from '@ant-design/icons';
 import { useMemo } from 'react';
@@ -71,6 +71,12 @@ export const AndDesignProLayout = () => {
     },
   ];
 
+  // 商店选择器
+  const selectedShopId = useAppStore(useShallow((state) => state.selectedShopId));
+  const shopLabel = useMemo(() => {
+    return shops.find((o) => o.id === selectedShopId)?.name || '切换商店';
+  }, [selectedShopId, shops]);
+
   const ShopDropmenu = () => {
     if (shops.length <= 0) {
       return <></>;
@@ -78,9 +84,20 @@ export const AndDesignProLayout = () => {
 
     const items: MenuProps['items'] = shops.map((o) => ({ key: o.id, label: o.name }));
     return (
-      <Dropdown menu={{ items }} placement="bottom" arrow>
-        <Button type="text" icon={<SelectOutlined />}>
-          切换商店
+      <Dropdown
+        menu={{
+          items,
+          selectable: true,
+          selectedKeys: [`${selectedShopId}`],
+          onSelect(info) {
+            appStore.updateSelectedShopId(Number(info.key));
+          },
+        }}
+        arrow
+        trigger={['click']}
+      >
+        <Button type="text" icon={<ShopOutlined />}>
+          {shopLabel}
         </Button>
       </Dropdown>
     );
