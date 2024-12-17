@@ -5,17 +5,17 @@ sources:
   ### =============== 开发配置 =============== ###
   - type: file
     properties:
-      path: /Users/yein/houge/wuneng.yaml
+      path: /Users/yein/houge/mahu.yaml
       optional: true
   - type: file
     properties:
-      path: C:/houge/wuneng.yaml
+      path: C:/houge/mahu.yaml
       optional: true
   ### =============== 开发配置 =============== ###
 
   - type: classpath
     properties:
-      resource: wuneng-admin-test.yaml
+      resource: mahu-admin-test.yaml
   - type: classpath
     properties:
       resource: mahu-admin.yaml
