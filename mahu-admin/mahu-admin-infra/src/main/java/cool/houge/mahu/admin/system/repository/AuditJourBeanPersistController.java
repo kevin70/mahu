@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.entity.Brand;
+import cool.houge.mahu.entity.market.Asset;
 import cool.houge.mahu.entity.market.Shop;
 import cool.houge.mahu.entity.system.*;
 import io.ebean.bean.EntityBean;
@@ -34,7 +35,8 @@ public class AuditJourBeanPersistController extends BeanPersistAdapter {
                 // 品牌
                 || cls == Brand.class
                 // 商店
-                || cls == Shop.class;
+                || cls == Shop.class
+                || cls == Asset.class;
     }
 
     @Override

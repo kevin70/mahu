@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './BasePageResponse';
+export * from './BatchDeleteShopAssetRequest';
 export * from './EmployeeStatusEnum';
 export * from './ErrorResponse';
 export * from './ErrorResponseError';

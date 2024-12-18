@@ -8,6 +8,8 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
 
+import java.util.List;
+
 /// 商店资源
 ///
 /// @author ZY (kzou227@qq.com)
@@ -23,5 +25,13 @@ public class AssetRepository extends HBeanRepository<Long, Asset> {
         var qb = new QAsset(db());
         qb.shop.id.eq(shopId);
         return findPagedList(qb.query(), dataFilter);
+    }
+
+    /// 查询指定资源ID的商店资源
+    ///
+    /// @param shopId 商店 ID
+    /// @param ids 资源 IDs
+    public List<Asset> findByShopId$Ids(int shopId, List<Long> ids) {
+        return new QAsset(db()).id.in(ids).shop.id.eq(shopId).findList();
     }
 }

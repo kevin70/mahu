@@ -28,14 +28,13 @@ delete:
         schema:
           type: object
           properties:
-            ids:
+            asset_ids:
               type: array
               description: 要删除的资源 IDs
-              minimum: 1
-              maximum: 1000
+              maxItems: 1000
               items:
                 type: integer
-                format: int32
+                format: int64
   responses:
     204:
       description: OK

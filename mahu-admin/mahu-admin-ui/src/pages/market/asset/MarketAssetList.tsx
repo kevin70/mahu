@@ -16,7 +16,7 @@ export const MarketAssetList = () => {
   const { ref, inView } = useInView();
   const noWrite = $checkNotPermit(permits.MARKET_ASSET.W);
 
-  const { hasNextPage, fetchNextPage, data } = useInfiniteQuery({
+  const { hasNextPage, fetchNextPage, data, refetch } = useInfiniteQuery({
     queryKey: ['MarketAssetList', shopId],
     queryFn: async ({ pageParam: offset }) => {
       const limit = 50;
@@ -45,6 +45,15 @@ export const MarketAssetList = () => {
 
   const DeleteModal = () => {
     const [open, setOpen] = useState(false);
+
+    const onDelete = async () => {
+      const assetIds = Array.from(selectAssetMap.keys());
+      await MARKET_API.batchDeleteShopAsset(shopId, { assetIds: assetIds });
+
+      $message().success('删除资源成功');
+      resetSelectAsset();
+      refetch();
+    };
     return (
       <>
         <Button
@@ -68,6 +77,7 @@ export const MarketAssetList = () => {
             hidden: true,
           }}
           okText="确认删除"
+          onOk={onDelete}
         >
           <Flex justify="center" wrap gap={'small'} className={css({ maxH: 480, overflow: 'auto' })}>
             {Array.from(selectAssetMap.entries()).map((entry) => (

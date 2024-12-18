@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  BatchDeleteShopAssetRequest,
   GetShopResponse,
   ListShopAssetsPageResponse,
   ListShopsPageResponse,
@@ -22,6 +23,8 @@ import type {
   UpsertShopRequest,
 } from '../models/index';
 import {
+    BatchDeleteShopAssetRequestFromJSON,
+    BatchDeleteShopAssetRequestToJSON,
     GetShopResponseFromJSON,
     GetShopResponseToJSON,
     ListShopAssetsPageResponseFromJSON,
@@ -41,6 +44,11 @@ export interface AddShopRequest {
 export interface AddShopAssetRequest {
     shopId: number;
     upsertShopAssetRequest: UpsertShopAssetRequest;
+}
+
+export interface BatchDeleteShopAssetOperationRequest {
+    shopId: number;
+    batchDeleteShopAssetRequest: BatchDeleteShopAssetRequest;
 }
 
 export interface DeleteShopRequest {
@@ -171,6 +179,56 @@ export class MarketApi extends runtime.BaseAPI {
      */
     async addShopAsset(shopId: number, upsertShopAssetRequest: UpsertShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.addShopAssetRaw({ shopId: shopId, upsertShopAssetRequest: upsertShopAssetRequest }, initOverrides);
+    }
+
+    /**
+     * 批量删除资源
+     */
+    async batchDeleteShopAssetRaw(requestParameters: BatchDeleteShopAssetOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['shopId'] == null) {
+            throw new runtime.RequiredError(
+                'shopId',
+                'Required parameter "shopId" was null or undefined when calling batchDeleteShopAsset().'
+            );
+        }
+
+        if (requestParameters['batchDeleteShopAssetRequest'] == null) {
+            throw new runtime.RequiredError(
+                'batchDeleteShopAssetRequest',
+                'Required parameter "batchDeleteShopAssetRequest" was null or undefined when calling batchDeleteShopAsset().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/shops/{shop_id}/assets`.replace(`{${"shop_id"}}`, encodeURIComponent(String(requestParameters['shopId']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+            body: BatchDeleteShopAssetRequestToJSON(requestParameters['batchDeleteShopAssetRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 批量删除资源
+     */
+    async batchDeleteShopAsset(shopId: number, batchDeleteShopAssetRequest: BatchDeleteShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.batchDeleteShopAssetRaw({ shopId: shopId, batchDeleteShopAssetRequest: batchDeleteShopAssetRequest }, initOverrides);
     }
 
     /**
