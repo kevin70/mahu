@@ -1,8 +1,8 @@
 import { permits } from '@/config/permit';
 import { MARKET_API } from '@/services';
 import { useAppStore } from '@/stores';
-import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
-import { CheckCard, PageContainer } from '@ant-design/pro-components';
+import { DeleteOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { CheckCard, ModalForm, PageContainer, ProFormUploadDragger } from '@ant-design/pro-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Button, Flex, Image, Modal, Space, Typography } from 'antd';
 import { useShallow } from 'zustand/shallow';
@@ -42,6 +42,30 @@ export const MarketAssetList = () => {
     number,
     string
   >([]);
+
+  const UploadModal = () => {
+    return (
+      <ModalForm
+        title="上传资源"
+        modalProps={{ centered: true }}
+        trigger={
+          <Button type="primary" icon={<UploadOutlined />}>
+            上传资源
+          </Button>
+        }
+      >
+        <ProFormUploadDragger
+          name="files"
+          max={99}
+          accept=".jpg,.jpeg,.png"
+          fieldProps={{
+            accept: '.jpg,.jpeg,.png',
+            height: 260,
+          }}
+        />
+      </ModalForm>
+    );
+  };
 
   const DeleteModal = () => {
     const [open, setOpen] = useState(false);
@@ -94,6 +118,7 @@ export const MarketAssetList = () => {
       fixedHeader
       extra={
         <Space>
+          <UploadModal />
           <DeleteModal />
         </Space>
       }

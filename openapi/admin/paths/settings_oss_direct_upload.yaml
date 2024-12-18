@@ -22,6 +22,9 @@ post:
               x-enum-descriptions:
                 - 品牌LOGO
                 - 商城资源
+            prefix_limit:
+              type: string
+              description: 前缀限定
             file_name:
               type: string
               description: 文件名称

@@ -28,7 +28,11 @@ public class SettingService {
                 config.get(OssConfig.PREFIX + "." + payload.getKind().name()));
         var ext = Files.getFileExtension(payload.getFileName());
         var key = aliyunClient.joinFileKey(
-                List.of(ossConfig.keyPrefix(), Ulid.fast().toString()), ext);
+                List.of(
+                        ossConfig.keyPrefix(),
+                        payload.getPrefixLimit(),
+                        Ulid.fast().toString()),
+                ext);
         var request = new DirectUploadRequest()
                 .setBucket(ossConfig.bucket())
                 .setKey(key)

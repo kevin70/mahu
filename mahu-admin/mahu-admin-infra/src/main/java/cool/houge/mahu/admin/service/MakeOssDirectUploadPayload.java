@@ -9,6 +9,10 @@ import lombok.Data;
 @Data
 public class MakeOssDirectUploadPayload {
 
+    /// 上传类型
     private OssKind kind;
+    /// 文件名称
     private String fileName;
+    /// 前缀限制
+    private String prefixLimit;
 }

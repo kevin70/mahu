@@ -79,6 +79,12 @@ public class MakeOssDirectUploadRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("kind")
     private KindEnum kind;
     /**
+     * 前缀限定
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("prefix_limit")
+    private String prefixLimit;
+    /**
      * 文件名称
      */
     @NotNull
