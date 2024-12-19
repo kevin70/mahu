@@ -2,17 +2,17 @@ import {
   AuditOutlined,
   CodeOutlined,
   DashboardOutlined,
-  FileOutlined,
-  FlagOutlined,
-  FolderOutlined,
   GroupOutlined,
   InfoCircleOutlined,
-  KeyOutlined,
   ShopOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { MenuDataItem } from '@ant-design/pro-components';
 import { permits } from './permit';
+import MaterialSymbolsBrandFamilyOutline from '@/icons/MaterialSymbolsBrandFamilyOutline';
+import CarbonUserRole from '@/icons/CarbonUserRole';
+import MaterialSymbolsDictionaryOutline from '@/icons/MaterialSymbolsDictionaryOutline';
+import MaterialSymbolsWebAsset from '@/icons/MaterialSymbolsWebAsset';
 
 export const MENUS: MenuDataItem[] = [
   {
@@ -27,7 +27,7 @@ export const MENUS: MenuDataItem[] = [
     children: [
       {
         path: '/brand-list',
-        icon: <FlagOutlined />,
+        icon: <MaterialSymbolsBrandFamilyOutline />,
         name: '品牌管理',
         permits: [permits.BRAND.R],
       },
@@ -46,9 +46,9 @@ export const MENUS: MenuDataItem[] = [
       },
       {
         path: '/market/asset-list',
-        icon: <FolderOutlined />,
+        icon: <MaterialSymbolsWebAsset />,
         name: '商店资源',
-        permits: [permits.MARKET_SHOP.R],
+        permits: [permits.MARKET_ASSET.R],
       },
     ],
   },
@@ -71,13 +71,13 @@ export const MENUS: MenuDataItem[] = [
       },
       {
         path: '/system/dict-list',
-        icon: <FileOutlined />,
+        icon: <MaterialSymbolsDictionaryOutline />,
         name: '字典列表',
         permits: [permits.DICT.R],
       },
       {
         path: '/system/role-list',
-        icon: <KeyOutlined />,
+        icon: <CarbonUserRole />,
         name: '角色列表',
         permits: [permits.ROLE.R],
       },
