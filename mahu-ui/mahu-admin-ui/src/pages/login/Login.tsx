@@ -1,7 +1,7 @@
 import MaterialSymbolsLogin from '@/icons/MaterialSymbolsLogin';
 import { Button, Checkbox, Form } from '@douyinfe/semi-ui';
 import { css } from '@styled-system/css';
-import { Flex } from '@styled-system/jsx';
+import { Flex, VStack } from '@styled-system/jsx';
 
 export const Login = () => {
   const LoginForm = () => {
@@ -9,19 +9,14 @@ export const Login = () => {
     return (
       <Form
         className={css({
-          width: '440px',
+          width: 'md',
           display: 'flex',
           flexDir: 'column',
-          rowGap: '24px',
+          rowGap: 4,
         })}
       >
         <Form.Input label={{ text: '用户名', required: true }} field="username" placeholder="输入用户名" />
-        <Form.Input
-          label={{ text: '密码', required: true }}
-          field="field1"
-          placeholder="输入密码"
-          fieldStyle={{ padding: 0 }}
-        />
+        <Form.Input label={{ text: '密码', required: true }} field="field1" placeholder="输入密码" />
         <Checkbox type="default">记住我</Checkbox>
         <Button block theme="solid" icon={<MaterialSymbolsLogin />}>
           登录
@@ -43,12 +38,13 @@ export const Login = () => {
         className={css({
           mr: '10%',
           bg: 'var(--semi-color-bg-0)',
-          padding: '48px 40px',
+          px: 10,
+          py: 12,
           boxShadow: 'token(shadows.md)',
-          borderRadius: '6px',
+          borderRadius: 'md',
         })}
       >
-        <Flex rowGap={'24px'} direction={'column'} align={'center'}>
+        <VStack>
           <img
             className={css({
               w: 20,
@@ -71,7 +67,6 @@ export const Login = () => {
               className={css({
                 color: 'var(--semi-color-text-2)',
                 letterSpacing: 'normal',
-                lineHeight: '22px',
                 fontSize: 16,
                 fontWeight: 400,
               })}
@@ -81,7 +76,7 @@ export const Login = () => {
               <span>账户</span>
             </p>
           </div>
-        </Flex>
+        </VStack>
 
         <LoginForm />
       </div>
