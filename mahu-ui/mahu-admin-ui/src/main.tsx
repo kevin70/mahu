@@ -1,5 +1,4 @@
 import { createRoot } from 'react-dom/client';
-import 'reset-css/reset.css';
 import './index.css';
 import '@douyinfe/semi-ui/dist/css/semi.css';
 
