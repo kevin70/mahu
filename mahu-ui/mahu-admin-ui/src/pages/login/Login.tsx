@@ -9,14 +9,19 @@ export const Login = () => {
     return (
       <Form
         className={css({
+          width: '440px',
           display: 'flex',
           flexDir: 'column',
           rowGap: '24px',
-          width: '440px',
         })}
       >
-        <Form.Input label={{ text: '用户名' }} field="username" placeholder="输入用户名" />
-        <Form.Input label={{ text: '密码' }} field="field1" placeholder="输入密码" fieldStyle={{ padding: 0 }} />
+        <Form.Input label={{ text: '用户名', required: true }} field="username" placeholder="输入用户名" />
+        <Form.Input
+          label={{ text: '密码', required: true }}
+          field="field1"
+          placeholder="输入密码"
+          fieldStyle={{ padding: 0 }}
+        />
         <Checkbox type="default">记住我</Checkbox>
         <Button block theme="solid" icon={<MaterialSymbolsLogin />}>
           登录
@@ -34,9 +39,23 @@ export const Login = () => {
         w: '100vw',
       })}
     >
-      <div className={css({ mr: '10%' })}>
+      <div
+        className={css({
+          mr: '10%',
+          bg: 'var(--semi-color-bg-0)',
+          padding: '48px 40px',
+          boxShadow: 'token(shadows.md)',
+          borderRadius: '6px',
+        })}
+      >
         <Flex rowGap={'24px'} direction={'column'} align={'center'}>
-          <img src="https://lf6-static.semi.design/obj/semi-tos/template/99042ce4-7934-4188-b15a-90ea03b3f63d.svg" />
+          <img
+            className={css({
+              w: 20,
+              h: 20,
+            })}
+            src="https://lf6-static.semi.design/obj/semi-tos/template/99042ce4-7934-4188-b15a-90ea03b3f63d.svg"
+          />
           <div
             className={css({
               display: 'inline-flex',
