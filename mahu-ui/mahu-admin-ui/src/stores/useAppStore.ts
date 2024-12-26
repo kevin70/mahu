@@ -25,7 +25,7 @@ export const useAppStore = create(
       },
     }),
     {
-      name: 'wuneng.app',
+      name: `${import.meta.env.VITE_APP_NAME}.data`,
       storage: createJSONStorage(() => localStorage),
     }
   )
