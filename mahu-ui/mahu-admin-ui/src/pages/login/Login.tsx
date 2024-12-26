@@ -26,6 +26,7 @@ export const Login = () => {
         });
 
         // 保存访问令牌
+        tokenStore.clean();
         tokenStore.attachToken(rs.accessToken, rs.refreshToken, rs.expiresIn, values.rememberMe);
 
         // 刷新个人信息
