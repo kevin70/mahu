@@ -1,20 +1,33 @@
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import '@douyinfe/semi-ui/dist/css/semi.css';
-
-import { useShallow } from 'zustand/shallow';
-import { ConfigProvider } from '@douyinfe/semi-ui';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ConfigProvider, theme } from 'antd';
+import 'antd/dist/reset.css';
+import zhCN from 'antd/locale/zh_CN';
 
-import { useAppStore } from '@/stores/useAppStore.ts';
+import 'dayjs';
+import 'dayjs/locale/zh-cn';
+
 import { appRouter } from './AppRouter.tsx';
+import { useAppStore } from '@/stores';
+import { useShallow } from 'zustand/shallow';
+
+import './index.css';
 
 export const Root = () => {
   const isLightTheme = useAppStore(useShallow((state) => state.isLightTheme()));
 
   return (
-    <ConfigProvider>
+    <ConfigProvider
+      locale={zhCN}
+      theme={{
+        algorithm: isLightTheme ? theme.defaultAlgorithm : theme.darkAlgorithm,
+        cssVar: true,
+        token: {
+          borderRadius: 0,
+        },
+      }}
+    >
       <QueryClientProvider client={new QueryClient({})}>
         <RouterProvider router={appRouter} />
       </QueryClientProvider>

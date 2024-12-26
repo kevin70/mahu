@@ -1,122 +1,110 @@
-import { NavItemPropsWithItems, NavItems, SubNavPropsWithItems } from '@douyinfe/semi-ui/lib/es/navigation';
+import {
+  AuditOutlined,
+  CodeOutlined,
+  DashboardOutlined,
+  GroupOutlined,
+  InfoCircleOutlined,
+  ShopOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { MenuDataItem } from '@ant-design/pro-components';
 import { permits } from './permit';
 import MaterialSymbolsBrandFamilyOutline from '@/icons/MaterialSymbolsBrandFamilyOutline';
-import {
-  IconCode,
-  IconInfoCircle,
-  IconShoppingBag,
-  IconUser,
-  IconUserCardVideo,
-  IconUserGroup,
-} from '@douyinfe/semi-icons';
-import MaterialSymbolsWebAsset from '@/icons/MaterialSymbolsWebAsset';
-import MaterialSymbolsDictionaryOutline from '@/icons/MaterialSymbolsDictionaryOutline';
 import CarbonUserRole from '@/icons/CarbonUserRole';
-import { ReactNode } from 'react';
+import MaterialSymbolsDictionaryOutline from '@/icons/MaterialSymbolsDictionaryOutline';
+import MaterialSymbolsWebAsset from '@/icons/MaterialSymbolsWebAsset';
 
-export type MenuItem = {
-  link?: string;
-  text: string;
-  icon?: ReactNode;
-  isOpen?: boolean;
-  atLeastOneChild?: true;
-  permits?: string[];
-  items?: MenuItem[];
-};
-
-export type MenuItems = MenuItem[];
-
-export const MENUS: MenuItems = [
+export const MENUS: MenuDataItem[] = [
   {
-    link: '/dashboard',
-    text: '仪表盘',
+    path: '/dashboard',
+    icon: <DashboardOutlined />,
+    name: '仪表盘',
   },
   {
-    text: '基础数据',
-    isOpen: true,
+    name: '基础数据',
+    type: 'group',
     atLeastOneChild: true,
-    items: [
+    children: [
       {
-        link: '/brand-list',
+        path: '/brand-list',
         icon: <MaterialSymbolsBrandFamilyOutline />,
-        text: '品牌管理',
+        name: '品牌管理',
         permits: [permits.BRAND.R],
       },
     ],
   },
   {
-    text: '商城管理',
+    name: '商城管理',
+    type: 'group',
     atLeastOneChild: true,
-    isOpen: true,
-    items: [
+    children: [
       {
-        link: '/market/shop-list',
-        icon: <IconShoppingBag />,
-        text: '商店列表',
+        path: '/market/shop-list',
+        icon: <ShopOutlined />,
+        name: '商店列表',
         permits: [permits.MARKET_SHOP.R],
       },
       {
-        link: '/market/asset-list',
-        text: '商店资源',
+        path: '/market/asset-list',
         icon: <MaterialSymbolsWebAsset />,
+        name: '商店资源',
         permits: [permits.MARKET_ASSET.R],
       },
     ],
   },
   {
-    text: '系统管理',
-    isOpen: true,
+    name: '系统管理',
+    type: 'group',
     atLeastOneChild: true,
-    items: [
+    children: [
       {
-        link: '/system/employee-list',
-        text: '职员列表',
-        icon: <IconUser />,
+        path: '/system/employee-list',
+        icon: <UserOutlined />,
+        name: '职员列表',
         permits: [permits.EMPLOYEE.R],
       },
       {
-        link: '/system/department-list',
-        text: '部门列表',
-        icon: <IconUserGroup />,
+        path: '/system/department-list',
+        icon: <GroupOutlined />,
+        name: '部门列表',
         permits: [permits.DEPARTMENT.R],
       },
       {
-        link: '/system/dict-list',
-        text: '字典列表',
+        path: '/system/dict-list',
         icon: <MaterialSymbolsDictionaryOutline />,
+        name: '字典列表',
         permits: [permits.DICT.R],
       },
       {
-        link: '/system/role-list',
-        text: '角色列表',
+        path: '/system/role-list',
         icon: <CarbonUserRole />,
+        name: '角色列表',
         permits: [permits.ROLE.R],
       },
       {
-        link: '/system/client-list',
-        text: '终端配置',
-        icon: <IconCode />,
+        path: '/system/client-list',
+        icon: <CodeOutlined />,
+        name: '终端配置',
         permits: [permits.CLIENT.R],
       },
       {
-        link: '/system/access-log-list',
-        text: '访问记录',
-        icon: <IconInfoCircle />,
+        path: '/system/access-log-list',
+        icon: <InfoCircleOutlined />,
+        name: '访问记录',
         permits: [permits.ACCESS_LOG.R],
       },
       {
-        link: '/system/audit-jour-list',
-        text: '操作审计',
-        icon: <IconUserCardVideo />,
+        path: '/system/audit-jour-list',
+        icon: <AuditOutlined />,
+        name: '操作审计',
         permits: [permits.AUDIT_JOUR.R],
       },
     ],
   },
 ];
 
-export const filterMenus = (items: MenuItems, codes: string[]) => {
-  const list: NavItems = [];
-
+export const filterMenus = (items: any, codes: string[]) => {
+  const list: MenuDataItem[] = [];
   for (const item of items) {
     if (codes.indexOf('*') == -1 && item.permits) {
       let exists = false;
@@ -126,26 +114,24 @@ export const filterMenus = (items: MenuItems, codes: string[]) => {
           break;
         }
       }
-
       // 不存在权限不显示菜单
       if (!exists) {
         continue;
       }
     }
 
-    const m: NavItemPropsWithItems = {
-      itemKey: item.link || item.text,
-      link: item.link,
-      text: item.text,
+    const m: MenuDataItem = {
+      path: item.path,
       icon: item.icon,
+      name: item.name,
+      type: item.type,
     };
-
-    if (item.items) {
-      m.items = filterMenus(item.items, codes);
+    if (item.children) {
+      m.children = filterMenus(item.children, codes);
     }
 
     // 强制要求子节点的菜单，在没有子节点的情况下不显示
-    if (item.atLeastOneChild && (!m.items || m.items.length <= 0)) {
+    if (m.atLeastOneChild && (!m.children || m.children.length <= 0)) {
       continue;
     }
     list.push(m);
