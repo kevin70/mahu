@@ -35,5 +35,23 @@ export const useDataFilter = () => {
     return arr;
   }, [dataFilters]);
 
-  return { setDataFilters, queryFilter };
+  /// 更新删除数据过滤器
+  const upsertDataFilters = (filters: Filter[]) => {
+    const arr = [...filters];
+    for (const f of dataFilters) {
+      const idx = arr.findIndex((o) => o.qname === f.qname);
+      if (idx === -1) {
+        arr.push(f);
+      }
+    }
+    return setDataFilters(arr);
+  };
+
+  /// 删除数据过滤
+  const removeDataFilters = (qnames: string[]) => {
+    const filters = dataFilters.filter((o) => qnames.includes(o.qname));
+    setDataFilters(filters);
+  };
+
+  return { setDataFilters, upsertDataFilters, removeDataFilters, queryFilter };
 };
