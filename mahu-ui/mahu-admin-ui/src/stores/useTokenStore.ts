@@ -1,8 +1,8 @@
-import { resolveApiError, SYSTEM_API, TOKEN_API } from '@/services';
+import { resolveApiError, TOKEN_API } from '@/services';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-const tokenKey = 'wuneng.token';
+const tokenKey = `${import.meta.env.VITE_APP_NAME}.token`;
 
 type AccessToken = {
   accessToken?: string;
