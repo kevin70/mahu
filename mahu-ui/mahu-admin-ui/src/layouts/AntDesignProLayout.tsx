@@ -3,7 +3,7 @@ import { ProLayout } from '@ant-design/pro-components';
 import { useAppStore, useProfileStore } from '@/stores';
 import { useShallow } from 'zustand/shallow';
 import { filterMenus, MENUS } from '@/config/menu';
-import { Button, Dropdown, MenuProps, Typography } from 'antd';
+import { Button, Divider, Dropdown, MenuProps, Typography } from 'antd';
 import {
   KeyOutlined,
   LogoutOutlined,
@@ -15,6 +15,7 @@ import {
 import { useMemo } from 'react';
 import { ItemType } from 'antd/es/menu/interface';
 import { css } from '@styled-system/css';
+import { ChooseLocale } from '@/components/ChooseLocale';
 
 export const AndDesignProLayout = () => {
   const appStore = useAppStore();
@@ -151,6 +152,7 @@ export const AndDesignProLayout = () => {
         if (typeof window === 'undefined') return [];
 
         return [
+          <ChooseLocale />,
           <ShopDropmenu />,
           <Button
             type="text"

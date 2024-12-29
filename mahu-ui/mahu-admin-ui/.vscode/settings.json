@@ -8,5 +8,10 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cssVariables.lookupFiles": ["**/*.css", "**/*.scss", "**/*.sass", "**/*.less"]
+  "cssVariables.lookupFiles": ["**/*.css", "**/*.scss", "**/*.sass", "**/*.less"],
+  "i18n-ally.localesPaths": ["src/i18n"],
+  "i18n-ally.sourceLanguage": "zhCN",
+  "i18n-ally.keystyle": "flat",
+  "i18n-ally.displayLanguage": "zhCN",
+  "i18n-ally.extract.keyMaxLength": 40
 }

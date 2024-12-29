@@ -3,9 +3,10 @@ import { useProfileStore, useTokenStore } from '@/stores';
 import { LockOutlined, UserOutlined, WechatOutlined, WeiboOutlined } from '@ant-design/icons';
 import { LoginFormPage, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Alert, Button, Divider, Flex, Space } from 'antd';
+import { Alert, Button, Card, Divider, Flex, Space } from 'antd';
 import { useNavigate } from 'react-router';
 import { css } from '@styled-system/css';
+import { ChooseLocale } from '@/components/ChooseLocale';
 
 export const Login = () => {
   const title = import.meta.env.VITE_APP_TITLE;
@@ -66,6 +67,17 @@ export const Login = () => {
 
   return (
     <div className={css({ h: '100vh' })}>
+      <div
+        className={css({
+          zIndex: 999,
+          position: 'fixed',
+          top: 4,
+          right: 4,
+        })}
+      >
+        <ChooseLocale />
+      </div>
+
       <LoginFormPage
         backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
         title={title}

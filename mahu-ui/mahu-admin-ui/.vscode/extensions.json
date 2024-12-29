@@ -11,6 +11,7 @@
     "christian-kohler.path-intellisense",
     "vunguyentuan.vscode-postcss",
     "esbenp.prettier-vscode",
-    "styled-components.vscode-styled-components"
+    "styled-components.vscode-styled-components",
+    "lokalise.i18n-ally"
   ]
 }
