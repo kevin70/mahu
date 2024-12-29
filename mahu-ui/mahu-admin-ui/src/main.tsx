@@ -12,7 +12,7 @@ import enUS from 'antd/locale/en_US';
 import 'dayjs';
 import 'dayjs/locale/zh-cn';
 
-import i18n from '@/i18n';
+import i18n from '@/locales/index.ts';
 import { I18nextProvider } from 'react-i18next';
 
 import { appRouter } from './AppRouter.tsx';

@@ -3,10 +3,10 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 // 中文
-import translationZhCN from './zhCN/translation_zhCN.json';
+import translationZhCN from './zh-CN/translation.zh-CN.json';
 
 // 英文
-import translationEnUS from './en/translation_en.json';
+import translationEnUS from './en/translation.en.json';
 
 i18n
   .use(LanguageDetector)
