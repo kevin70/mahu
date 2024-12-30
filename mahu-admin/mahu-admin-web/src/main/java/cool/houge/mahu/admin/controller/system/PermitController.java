@@ -25,18 +25,15 @@ public class PermitController implements HttpService, WebSupport {
     private void allPermits(ServerRequest request, ServerResponse response) {
         var list = new ArrayList<GetPermitResponse>();
         for (Permits value : Permits.values()) {
-            list.add(new GetPermitResponse()
-                .setCode(value.R())
-                .setLabel(value.label() + "|读取")
-            );
-            list.add(new GetPermitResponse()
-                .setCode(value.W())
-                .setLabel(value.label() + "|写入")
-            );
-            list.add(new GetPermitResponse()
-                .setCode(value.D())
-                .setLabel(value.label() + "|删除")
-            );
+            if (value.canRead()) {
+                list.add(new GetPermitResponse().setCode(value.R()).setLabel(value.label() + "|读取"));
+            }
+            if (value.canWrite()) {
+                list.add(new GetPermitResponse().setCode(value.W()).setLabel(value.label() + "|写入"));
+            }
+            if (value.canDelete()) {
+                list.add(new GetPermitResponse().setCode(value.D()).setLabel(value.label() + "|删除"));
+            }
         }
         response.send(list);
     }
