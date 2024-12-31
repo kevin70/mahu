@@ -6,6 +6,7 @@ dependencies {
     implementation("com.google.guava:guava:$guavaVersion")
     implementation("io.helidon.webserver:helidon-webserver:$helidonVersion")
     implementation("io.ebean:ebean-core:$ebeanVersion")
+    implementation("io.github.nstdio:rsql-parser:$rsqlVersion")
     implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
         exclude module: "avaje-validator-http-plugin"
     }

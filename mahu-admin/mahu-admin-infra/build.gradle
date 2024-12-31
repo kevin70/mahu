@@ -49,7 +49,6 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
     implementation("redis.clients:jedis:$jedisVersion")
     implementation("com.github.f4b6a3:ulid-creator:$ulidCreatorVersion")
-    implementation("io.github.nstdio:rsql-parser:2.3.3")
 
     testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
     testImplementation("org.instancio:instancio-junit:$instancioVersion")
