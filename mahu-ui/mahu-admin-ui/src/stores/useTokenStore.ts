@@ -53,14 +53,14 @@ export const useTokenStore = create<{
     return isAccessTokenValid(tokenLocalState.getState());
   },
   async obtainAccessToken() {
-    const localState = tokenLocalState.getState();
-    if (localState.accessToken) {
-      tokenLocalState.setState((state) => ({ ...state, lastAccessTime: Date.now() }));
-      return localState.accessToken;
+    const sessionState = tokenSessionState.getState();
+    if (sessionState.accessToken) {
+      return sessionState.accessToken;
     }
 
-    const sessionState = tokenSessionState.getState();
-    return sessionState.accessToken!;
+    const localState = tokenLocalState.getState();
+    tokenLocalState.setState((state) => ({ ...state, lastAccessTime: Date.now() }));
+    return localState.accessToken!;
   },
   attachToken(accessToken, refreshToken, expireSecs, rememberMe) {
     const createTime = Date.now();
