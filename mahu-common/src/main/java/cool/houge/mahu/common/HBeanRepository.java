@@ -1,5 +1,9 @@
 package cool.houge.mahu.common;
 
+import cool.houge.mahu.common.rsql.EBeanRSQLVisitor;
+import cool.houge.mahu.common.rsql.RSQLContext;
+import cool.houge.mahu.common.rsql.RSQLOperators;
+import cz.jirutka.rsql.parser.RSQLParser;
 import io.ebean.*;
 import io.ebean.plugin.BeanType;
 import io.ebean.util.CamelCaseHelper;
@@ -21,6 +25,8 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
 
     private final LazyValue<BeanType<T>> beanTypeLv =
             LazyValue.create(() -> db().pluginApi().beanType(super.type));
+    /// RSQL 解析器
+    private static final RSQLParser RSQL_PARSER = new RSQLParser(RSQLOperators.supportedOperators());
 
     /// {@inheritDoc}
     protected HBeanRepository(Class<T> type, Database database) {
@@ -124,6 +130,44 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         // 包含软删除的数据
         if (filter.isIncludeDeleted()) {
             query.setIncludeSoftDeletes();
+        }
+    }
+
+
+    /// 将过滤条件应用到查询上
+    ///
+    /// @param filter 数据过滤条件
+    /// @param ctx RSQL 上下文
+    protected void apply(DataFilter filter, RSQLContext ctx) {
+        var node = RSQL_PARSER.parse(filter.filter());
+        node.accept(new EBeanRSQLVisitor(), ctx);
+
+        if (filter.offset() > 0) {
+            ctx.queryBean().setFirstRow(filter.offset());
+        }
+
+        if (filter.limit() > 0) {
+            ctx.queryBean().setMaxRows(filter.limit());
+        }
+
+        // 包含软删除的数据
+        if (filter.isIncludeDeleted()) {
+            ctx.queryBean().setIncludeSoftDeletes();
+        }
+
+        var sorts = filter.sorts();
+        for (DataFilter.Sort sort : sorts) {
+            var property = ctx.getProperty(sort.name());
+            if (property == null) {
+                log.debug("不存在的排序属性 {}", sort.name());
+                continue;
+            }
+
+            if (sort.direction() == DataFilter.Direction.asc) {
+                property.original().asc();
+            } else {
+                property.original().desc();
+            }
         }
     }
 

@@ -28,6 +28,9 @@ public interface DataFilter {
     @NonNull
     List<Filter> filters();
 
+    /// FIQL 数据过滤
+    String filter();
+
     /// 返回是否包含软删除的数据
     default boolean isIncludeDeleted() {
         return false;

@@ -6,8 +6,13 @@ dependencies {
     implementation("com.google.guava:guava:$guavaVersion")
     implementation("io.helidon.webserver:helidon-webserver:$helidonVersion")
     implementation("io.ebean:ebean-core:$ebeanVersion")
+    implementation("io.ebean:ebean-querybean:$ebeanVersion")
     implementation("io.github.nstdio:rsql-parser:$rsqlVersion")
     implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
         exclude module: "avaje-validator-http-plugin"
     }
+
+    testAnnotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
+    testImplementation("io.ebean:ebean-h2:$ebeanVersion")
+    testImplementation("com.h2database:h2:2.3.232")
 }
