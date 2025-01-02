@@ -13,6 +13,8 @@ public abstract class RSQLOperators extends cz.jirutka.rsql.parser.ast.RSQLOpera
 
     public static final ComparisonOperator LIKE = new ComparisonOperator("=ke=", "=like=", Arity.nary(1)),
             ILIKE = new ComparisonOperator("=ik=", "=ilike=", Arity.nary(1)),
+            CONTAINS = new ComparisonOperator("=cs=", "=contains=", Arity.nary(1)),
+            ICONTAINS = new ComparisonOperator("=ics=", "=icontains=", Arity.nary(1)),
             BETWEEN = new ComparisonOperator("=bt=", "=between=", Arity.nary(2));
 
     private static final Set<ComparisonOperator> OPERATORS;
@@ -21,6 +23,8 @@ public abstract class RSQLOperators extends cz.jirutka.rsql.parser.ast.RSQLOpera
         var set = new HashSet<>(defaultOperators());
         set.add(LIKE);
         set.add(ILIKE);
+        set.add(CONTAINS);
+        set.add(ICONTAINS);
         set.add(BETWEEN);
         OPERATORS = Set.copyOf(set);
     }

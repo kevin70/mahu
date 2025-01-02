@@ -49,27 +49,31 @@ public class EBeanRSQLVisitor implements RSQLVisitor<Void, RSQLContext> {
             qb.add(Expr.eq(property.propertyName(), args.getFirst()));
         } else if (op.equals(RSQLOperators.NOT_EQUAL)) {
             qb.add(Expr.ne(property.propertyName(), args.getFirst()));
-        } else if(op.equals(RSQLOperators.GREATER_THAN)) {
+        } else if (op.equals(RSQLOperators.GREATER_THAN)) {
             qb.add(Expr.gt(property.propertyName(), args.getFirst()));
-        } else if(op.equals(RSQLOperators.LESS_THAN)) {
+        } else if (op.equals(RSQLOperators.LESS_THAN)) {
             qb.add(Expr.lt(property.propertyName(), args.getFirst()));
-        } else if(op.equals(RSQLOperators.GREATER_THAN_OR_EQUAL)){
+        } else if (op.equals(RSQLOperators.GREATER_THAN_OR_EQUAL)) {
             qb.add(Expr.ge(property.propertyName(), args.getFirst()));
-        } else if(op.equals(RSQLOperators.LESS_THAN_OR_EQUAL)){
+        } else if (op.equals(RSQLOperators.LESS_THAN_OR_EQUAL)) {
             qb.add(Expr.le(property.propertyName(), args.getFirst()));
-        } else if(op.equals(RSQLOperators.IN)) {
+        } else if (op.equals(RSQLOperators.IN)) {
             qb.add(Expr.in(property.propertyName(), args));
-        } else if(op.equals(RSQLOperators.NOT_IN)) {
+        } else if (op.equals(RSQLOperators.NOT_IN)) {
             qb.add(Expr.not(Expr.in(property.propertyName(), args)));
-        } else if(op.equals(RSQLOperators.IS_NULL)){
+        } else if (op.equals(RSQLOperators.IS_NULL)) {
             qb.add(Expr.isNull(property.propertyName()));
         } else if (op.equals(RSQLOperators.NOT_NULL)) {
             qb.add(Expr.isNotNull(property.propertyName()));
-        } else if(op.equals(RSQLOperators.LIKE)) {
+        } else if (op.equals(RSQLOperators.LIKE)) {
             qb.add(Expr.like(property.propertyName(), args.getFirst().toString()));
-        }  else if (op.equals(RSQLOperators.ILIKE)) {
+        } else if (op.equals(RSQLOperators.ILIKE)) {
             qb.add(Expr.ilike(property.propertyName(), args.getFirst().toString()));
-        } else if(op.equals(RSQLOperators.BETWEEN)){
+        } else if (op.equals(RSQLOperators.CONTAINS)) {
+            qb.add(Expr.contains(property.propertyName(), args.getFirst().toString()));
+        } else if (op.equals(RSQLOperators.ICONTAINS)) {
+            qb.add(Expr.icontains(property.propertyName(), args.getFirst().toString()));
+        } else if (op.equals(RSQLOperators.BETWEEN)) {
             qb.add(Expr.between(property.propertyName(), args.getFirst(), args.getLast()));
         }
         return null;

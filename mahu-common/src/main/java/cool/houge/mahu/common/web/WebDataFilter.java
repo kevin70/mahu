@@ -22,7 +22,7 @@ public class WebDataFilter implements DataFilter {
     private final int offset;
     private final int limit;
     private final List<Sort> sorts;
-    private final List<Filter> filters;
+    private final String filter;
     private final boolean includeDeleted;
     private final boolean noTotalCount;
 
@@ -53,11 +53,7 @@ public class WebDataFilter implements DataFilter {
             this.sorts = List.of();
         }
 
-        if (query.contains("filter")) {
-            this.filters = parseFilters(query.all("filter"));
-        } else {
-            this.filters = List.of();
-        }
+        this.filter = query.first("filter").orElse("");
 
         this.includeDeleted =
                 query.first("include_deleted").map(v -> Objects.equals(v, "1")).orElse(false);
@@ -83,7 +79,12 @@ public class WebDataFilter implements DataFilter {
 
     @Override
     public @NonNull List<Filter> filters() {
-        return filters;
+        return List.of();
+    }
+
+    @Override
+    public String filter() {
+        return filter;
     }
 
     @Override

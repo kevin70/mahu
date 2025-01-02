@@ -133,14 +133,15 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         }
     }
 
-
     /// 将过滤条件应用到查询上
     ///
     /// @param filter 数据过滤条件
     /// @param ctx RSQL 上下文
     protected void apply(DataFilter filter, RSQLContext ctx) {
-        var node = RSQL_PARSER.parse(filter.filter());
-        node.accept(new EBeanRSQLVisitor(), ctx);
+        if (filter.filter() != null && !filter.filter().isEmpty()) {
+            var node = RSQL_PARSER.parse(filter.filter());
+            node.accept(new EBeanRSQLVisitor(), ctx);
+        }
 
         if (filter.offset() > 0) {
             ctx.queryBean().setFirstRow(filter.offset());
