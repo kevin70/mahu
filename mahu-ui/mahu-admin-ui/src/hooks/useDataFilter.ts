@@ -48,8 +48,7 @@ export const rsqlOps = {
     return rsqlBuilder.comparison(selector, operator, value);
   },
   // RSQL 查询编码
-  encode(nodes: ExpressionNode[]) {
-    const node = rsqlBuilder.logic(nodes, 'and');
+  encode(node: ExpressionNode) {
     return emit(node, { optimizeQuotes: true });
   },
 };
