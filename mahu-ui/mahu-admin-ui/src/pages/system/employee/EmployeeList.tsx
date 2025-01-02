@@ -1,4 +1,4 @@
-import { useDataFilter, usePagination, useTableSorter } from '@/hooks';
+import { useDataFilter, usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -19,7 +19,8 @@ export const EmployeeList = () => {
 
   const [incldeDeleted, setIncludeDeleted] = useState<number | undefined>();
   const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setDataFilters, queryFilter } = useDataFilter();
+  // const { setDataFilters, queryFilter } = useDataFilter();
+  const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'update_time' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/employees', queryOffsetLimit, queryFilter, querySort, incldeDeleted],
@@ -27,7 +28,7 @@ export const EmployeeList = () => {
       const res = await SYSTEM_API.listEmployees(
         queryOffsetLimit.limit,
         queryOffsetLimit.offset,
-        queryFilter,
+        [queryFilter],
         querySort,
         incldeDeleted
       );
@@ -40,22 +41,10 @@ export const EmployeeList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        setDataFilters([
-          {
-            qname: 'nickname',
-            op: 'contains',
-            value: values.searchNickname,
-          },
-          {
-            qname: 'status',
-            op: 'in',
-            value: values.searchStatus,
-          },
-          {
-            qname: 'department.id',
-            op: 'in',
-            value: values.searchDepartmentIds,
-          },
+        setRSQLFilters([
+          rsqlOps.comparisonEx('nickname', '=icontains=', values.searchNickname),
+          rsqlOps.comparisonEx('status', '=in=', values.searchStatus),
+          rsqlOps.comparisonEx('department_id', '=in=', values.searchDepartmentIds),
         ]);
       }}
     >
