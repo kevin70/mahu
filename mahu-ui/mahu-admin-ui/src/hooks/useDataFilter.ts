@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import rsqlBuilder from '@rsql/builder';
-import { ExpressionNode, getSelector, isComparisonNode, isLogicNode } from '@rsql/ast';
+import { ComparisonNode, ExpressionNode } from '@rsql/ast';
 import { emit } from '@rsql/emitter';
 
 type Filter = {
@@ -18,20 +18,24 @@ type Filter = {
  * @returns
  */
 export const useRSQLFilter = () => {
-  const [rsqlFilters, setRSQLFilters] = useState<ExpressionNode[]>([]);
+  const [rsqlFilters, setRSQLFilters0] = useState<ExpressionNode[]>([]);
 
   const queryFilter = useMemo(() => {
+    if (rsqlFilters.length <= 0) {
+      return '';
+    }
+
     const node = rsqlBuilder.logic(rsqlFilters, 'and');
     return emit(node, { optimizeQuotes: true });
   }, [rsqlFilters]);
 
   const rsqlOps = {
     ...rsqlBuilder,
-    like(selector: string, value: string) {
-      return rsqlBuilder.comparison(selector, '=like=', value);
+    contains(selector: string, value: string) {
+      return rsqlBuilder.comparison(selector, '=contains=', value);
     },
-    ilike(selector: string, value: string) {
-      return rsqlBuilder.comparison(selector, '=ilike=', value);
+    icontains(selector: string, value: string) {
+      return rsqlBuilder.comparison(selector, '=icontains=', value);
     },
     between(selector: string, values: (string | number)[]) {
       if (values.length != 2) {
@@ -39,49 +43,49 @@ export const useRSQLFilter = () => {
       }
       return rsqlBuilder.comparison(selector, '=between=', values);
     },
+    comparisonEx(
+      selector: string,
+      operator:
+        | '=='
+        | '!='
+        | '<='
+        | '>='
+        | '<'
+        | '>'
+        | '=in='
+        | '=out='
+        | '=le='
+        | '=ge='
+        | '=lt='
+        | '=gt='
+        | '=contains='
+        | '=icontains=',
+      value: string | number | (string | number)[] | undefined | null
+    ): ComparisonNode | null {
+      if (typeof value === 'undefined' || value === null || value === '') {
+        return null;
+      }
+      if (Array.isArray(value) && value.length <= 0) {
+        return null;
+      }
+      return rsqlBuilder.comparison(selector, operator, value);
+    },
   };
 
-  /// 更新删除数据过滤器
-  const upsertRSQLFilters = (filters: ExpressionNode[]) => {
-    const arr = [...filters];
-    for (const f of rsqlFilters) {
-      if (isLogicNode(f)) {
-        continue;
-      }
-
-      const idx = arr.findIndex((o) => {
-        if (isComparisonNode(o)) {
-          const selector = getSelector(o);
-          return selector === getSelector(f);
-        }
-        return false;
-      });
-
-      if (idx === -1) {
-        arr.push(f);
+  const setRSQLFilters = (nodes: Array<ExpressionNode | null>) => {
+    const arr: ExpressionNode[] = [];
+    for (const n of nodes) {
+      if (n !== null) {
+        arr.push(n);
       }
     }
-    return setRSQLFilters(filters);
-  };
-
-  /// 删除数据过滤
-  const removeRSQLFilters = (selectors: string[]) => {
-    const filters = rsqlFilters.filter((o) => {
-      if (isLogicNode(o)) {
-        return false;
-      }
-      const selector = getSelector(o);
-      return selectors.includes(selector);
-    });
-    setRSQLFilters(filters);
+    setRSQLFilters0(arr);
   };
 
   return {
     queryFilter,
     rsqlOps,
     setRSQLFilters,
-    upsertRSQLFilters,
-    removeRSQLFilters,
   };
 };
 
