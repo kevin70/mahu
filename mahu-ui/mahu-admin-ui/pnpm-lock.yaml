@@ -14,6 +14,15 @@ importers:
       '@ant-design/pro-components':
         specifier: ^2.8.2
         version: 2.8.2(antd@5.22.4(date-fns@2.30.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(rc-field-form@2.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@rsql/ast':
+        specifier: ^1.6.0
+        version: 1.6.0
+      '@rsql/builder':
+        specifier: ^1.6.0
+        version: 1.6.0
+      '@rsql/emitter':
+        specifier: ^1.6.0
+        version: 1.6.0
       '@tanstack/react-query':
         specifier: ^5.62.3
         version: 5.62.3(react@18.3.1)
@@ -1030,6 +1039,18 @@ packages:
     resolution: {integrity: sha512-ZvK2jBafvttJjoIdKm/Q/Bh7IJ1Ose9IBOwpOXcOvW3ikGTQGmKDgxTC6oCAzW6PynbkKP8+um1du81XJHZ0JA==}
     cpu: [x64]
     os: [win32]
+
+  '@rsql/ast@1.6.0':
+    resolution: {integrity: sha512-ClciA8jxCCekVx53DEg5sNQLYFHZgq9KR4rbPLLzxStnvWh+Mym9W8wFoRLwMpGemXT+c+Sl0TwumLJ5ysw0Dg==}
+    engines: {node: '>= 8'}
+
+  '@rsql/builder@1.6.0':
+    resolution: {integrity: sha512-AL64U3dEUiBFNEc//g9U8mXI4fmL0qFA1mTK7Z5vPJ6ck78/ztDkoqnuZgTPBW//yfPaN/l28gUy9SHffWDQ8w==}
+    engines: {node: '>= 8'}
+
+  '@rsql/emitter@1.6.0':
+    resolution: {integrity: sha512-lp76FEHh8Y3ughjtFHM0SOTpXwhAJRXj87KZaDqgJofYPdE+aD46WKku+fCXGNzWFxWcU8ieY+1Cnati2gvz6w==}
+    engines: {node: '>= 8'}
 
   '@tanstack/query-core@5.62.3':
     resolution: {integrity: sha512-Jp/nYoz8cnO7kqhOlSv8ke/0MJRJVGuZ0P/JO9KQ+f45mpN90hrerzavyTKeSoT/pOzeoOUkv1Xd0wPsxAWXfg==}
@@ -4738,6 +4759,16 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.28.1':
     optional: true
+
+  '@rsql/ast@1.6.0': {}
+
+  '@rsql/builder@1.6.0':
+    dependencies:
+      '@rsql/ast': 1.6.0
+
+  '@rsql/emitter@1.6.0':
+    dependencies:
+      '@rsql/ast': 1.6.0
 
   '@tanstack/query-core@5.62.3': {}
 
