@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --check \"**/*.{ts,tsx}\"",
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
-    "gen:oas": "redocly bundle ../../openapi/admin/openapi.yaml -o dist/openapi.yaml && openapi-generator-cli generate -g typescript-fetch -o src/services/generated -i dist/openapi.yaml --additional-properties=useSingleRequestParameter=false"
+    "gen:oas": "redocly bundle ../../openapi/admin/openapi.yaml -o dist/openapi.yaml && openapi-generator-cli generate -g typescript-fetch -o src/services/generated -i dist/openapi.yaml"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
