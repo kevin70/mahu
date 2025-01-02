@@ -63,7 +63,7 @@ export interface ListShopAssetsRequest {
     shopId: number;
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
     includeDeleted?: number;
     noTotalCount?: number;
@@ -72,7 +72,7 @@ export interface ListShopAssetsRequest {
 export interface ListShopsRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
     includeDeleted?: number;
     noTotalCount?: number;
@@ -127,8 +127,8 @@ export class MarketApi extends runtime.BaseAPI {
     /**
      * 新增商店
      */
-    async addShop(upsertShopRequest: UpsertShopRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addShopRaw({ upsertShopRequest: upsertShopRequest }, initOverrides);
+    async addShop(requestParameters: AddShopRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addShopRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -177,8 +177,8 @@ export class MarketApi extends runtime.BaseAPI {
     /**
      * 新增资源
      */
-    async addShopAsset(shopId: number, upsertShopAssetRequest: UpsertShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addShopAssetRaw({ shopId: shopId, upsertShopAssetRequest: upsertShopAssetRequest }, initOverrides);
+    async addShopAsset(requestParameters: AddShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addShopAssetRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -227,8 +227,8 @@ export class MarketApi extends runtime.BaseAPI {
     /**
      * 批量删除资源
      */
-    async batchDeleteShopAsset(shopId: number, batchDeleteShopAssetRequest: BatchDeleteShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.batchDeleteShopAssetRaw({ shopId: shopId, batchDeleteShopAssetRequest: batchDeleteShopAssetRequest }, initOverrides);
+    async batchDeleteShopAsset(requestParameters: BatchDeleteShopAssetOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.batchDeleteShopAssetRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -260,8 +260,8 @@ export class MarketApi extends runtime.BaseAPI {
     /**
      * 删除门店
      */
-    async deleteShop(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteShopRaw({ id: id }, initOverrides);
+    async deleteShop(requestParameters: DeleteShopRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteShopRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -293,8 +293,8 @@ export class MarketApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的门店
      */
-    async getShop(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetShopResponse> {
-        const response = await this.getShopRaw({ id: id }, initOverrides);
+    async getShop(requestParameters: GetShopRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetShopResponse> {
+        const response = await this.getShopRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -358,8 +358,8 @@ export class MarketApi extends runtime.BaseAPI {
     /**
      * 资源列表
      */
-    async listShopAssets(shopId: number, limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, includeDeleted?: number, noTotalCount?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListShopAssetsPageResponse> {
-        const response = await this.listShopAssetsRaw({ shopId: shopId, limit: limit, offset: offset, filter: filter, sort: sort, includeDeleted: includeDeleted, noTotalCount: noTotalCount }, initOverrides);
+    async listShopAssets(requestParameters: ListShopAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListShopAssetsPageResponse> {
+        const response = await this.listShopAssetsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -416,8 +416,8 @@ export class MarketApi extends runtime.BaseAPI {
     /**
      * 商店列表
      */
-    async listShops(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, includeDeleted?: number, noTotalCount?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListShopsPageResponse> {
-        const response = await this.listShopsRaw({ limit: limit, offset: offset, filter: filter, sort: sort, includeDeleted: includeDeleted, noTotalCount: noTotalCount }, initOverrides);
+    async listShops(requestParameters: ListShopsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListShopsPageResponse> {
+        const response = await this.listShopsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -460,8 +460,8 @@ export class MarketApi extends runtime.BaseAPI {
     /**
      * 修改门店
      */
-    async updateShop(upsertShopRequest: UpsertShopRequest, id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateShopRaw({ upsertShopRequest: upsertShopRequest, id: id }, initOverrides);
+    async updateShop(requestParameters: UpdateShopRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateShopRaw(requestParameters, initOverrides);
     }
 
 }

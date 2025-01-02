@@ -14,7 +14,10 @@ export const EditEmployeeDrawerForm = (props: { id: number; onSuccess: () => voi
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['EditEmployeeDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.updateEmployee(values, props.id);
+      return SYSTEM_API.updateEmployee({
+        id: props.id,
+        upsertEmployeeRequest: values,
+      });
     },
     onSuccess() {
       $message().success('修改职员成功');
@@ -27,7 +30,7 @@ export const EditEmployeeDrawerForm = (props: { id: number; onSuccess: () => voi
   });
 
   const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await SYSTEM_API.getEmployee(props.id);
+    const data = await SYSTEM_API.getEmployee({ id: props.id });
     form.setFieldsValue(data);
     form.setFieldValue('departmentId', data.department?.id);
   };

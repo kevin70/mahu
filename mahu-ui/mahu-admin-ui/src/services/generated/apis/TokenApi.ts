@@ -103,8 +103,8 @@ export class TokenApi extends runtime.BaseAPI {
      * 获取令牌
      * 使用 OAuth2 获取访问令牌
      */
-    async getOAuth2Token(grantType?: string, clientId?: string, username?: string, password?: string, refreshToken?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetTokenResponse> {
-        const response = await this.getOAuth2TokenRaw({ grantType: grantType, clientId: clientId, username: username, password: password, refreshToken: refreshToken }, initOverrides);
+    async getOAuth2Token(requestParameters: GetOAuth2TokenRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetTokenResponse> {
+        const response = await this.getOAuth2TokenRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -134,8 +134,8 @@ export class TokenApi extends runtime.BaseAPI {
      * 获取访问令牌
      * 获取访问令牌
      */
-    async login(loginRequest?: LoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LoginResponse> {
-        const response = await this.loginRaw({ loginRequest: loginRequest }, initOverrides);
+    async login(requestParameters: LoginOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LoginResponse> {
+        const response = await this.loginRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

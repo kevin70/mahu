@@ -26,6 +26,12 @@ export interface MakeOssDirectUploadRequest {
      */
     kind: MakeOssDirectUploadRequestKindEnum;
     /**
+     * 前缀限定
+     * @type {string}
+     * @memberof MakeOssDirectUploadRequest
+     */
+    prefixLimit?: string;
+    /**
      * 文件名称
      * @type {string}
      * @memberof MakeOssDirectUploadRequest
@@ -64,6 +70,7 @@ export function MakeOssDirectUploadRequestFromJSONTyped(json: any, ignoreDiscrim
     return {
         
         'kind': json['kind'],
+        'prefixLimit': json['prefix_limit'] == null ? undefined : json['prefix_limit'],
         'fileName': json['file_name'],
     };
 }
@@ -80,6 +87,7 @@ export function MakeOssDirectUploadRequestToJSONTyped(value?: MakeOssDirectUploa
     return {
         
         'kind': value['kind'],
+        'prefix_limit': value['prefixLimit'],
         'file_name': value['fileName'],
     };
 }

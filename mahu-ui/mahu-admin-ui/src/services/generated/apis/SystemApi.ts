@@ -139,35 +139,35 @@ export interface GetRoleRequest {
 export interface ListAccessLogsRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
 }
 
 export interface ListAuditJoursRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
 }
 
 export interface ListClientsRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
 }
 
 export interface ListDepartmentsRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
 }
 
 export interface ListDictsRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
     noTotalCount?: number;
 }
@@ -175,7 +175,7 @@ export interface ListDictsRequest {
 export interface ListEmployeesRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
     includeDeleted?: number;
     noTotalCount?: number;
@@ -184,7 +184,7 @@ export interface ListEmployeesRequest {
 export interface ListRolesRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
 }
 
@@ -257,8 +257,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 增加客户端
      */
-    async addClient(upsertClientRequest: UpsertClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addClientRaw({ upsertClientRequest: upsertClientRequest }, initOverrides);
+    async addClient(requestParameters: AddClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addClientRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -300,8 +300,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 新增部门
      */
-    async addDepartment(upsertDepartmentRequest: UpsertDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addDepartmentRaw({ upsertDepartmentRequest: upsertDepartmentRequest }, initOverrides);
+    async addDepartment(requestParameters: AddDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addDepartmentRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -336,8 +336,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 新增字典
      */
-    async addDict(upsertDictRequest?: UpsertDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addDictRaw({ upsertDictRequest: upsertDictRequest }, initOverrides);
+    async addDict(requestParameters: AddDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addDictRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -379,8 +379,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 新增职员
      */
-    async addEmployee(upsertEmployeeRequest: UpsertEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addEmployeeRaw({ upsertEmployeeRequest: upsertEmployeeRequest }, initOverrides);
+    async addEmployee(requestParameters: AddEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addEmployeeRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -422,8 +422,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 新增角色
      */
-    async addRole(upsertRoleRequest: UpsertRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addRoleRaw({ upsertRoleRequest: upsertRoleRequest }, initOverrides);
+    async addRole(requestParameters: AddRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addRoleRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -489,8 +489,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 删除客户端
      */
-    async deleteClient(clientId?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteClientRaw({ clientId: clientId }, initOverrides);
+    async deleteClient(requestParameters: DeleteClientRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteClientRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -522,8 +522,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 删除部门
      */
-    async deleteDepartment(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteDepartmentRaw({ id: id }, initOverrides);
+    async deleteDepartment(requestParameters: DeleteDepartmentRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteDepartmentRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -555,8 +555,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 删除字典
      */
-    async deleteDict(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteDictRaw({ id: id }, initOverrides);
+    async deleteDict(requestParameters: DeleteDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteDictRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -588,8 +588,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 删除职员
      */
-    async deleteEmployee(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteEmployeeRaw({ id: id }, initOverrides);
+    async deleteEmployee(requestParameters: DeleteEmployeeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteEmployeeRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -621,8 +621,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 删除角色
      */
-    async deleteRole(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteRoleRaw({ id: id }, initOverrides);
+    async deleteRole(requestParameters: DeleteRoleRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteRoleRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -654,8 +654,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定客户端
      */
-    async getClient(clientId?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetClientResponse> {
-        const response = await this.getClientRaw({ clientId: clientId }, initOverrides);
+    async getClient(requestParameters: GetClientRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetClientResponse> {
+        const response = await this.getClientRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -688,8 +688,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的部门信息
      */
-    async getDepartment(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDepartmentResponse> {
-        const response = await this.getDepartmentRaw({ id: id }, initOverrides);
+    async getDepartment(requestParameters: GetDepartmentRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDepartmentResponse> {
+        const response = await this.getDepartmentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -722,8 +722,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 分页查询字典数据
      */
-    async getDict(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDictResponse> {
-        const response = await this.getDictRaw({ id: id }, initOverrides);
+    async getDict(requestParameters: GetDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDictResponse> {
+        const response = await this.getDictRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -756,8 +756,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的职员信息
      */
-    async getEmployee(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEmployeeResponse> {
-        const response = await this.getEmployeeRaw({ id: id }, initOverrides);
+    async getEmployee(requestParameters: GetEmployeeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEmployeeResponse> {
+        const response = await this.getEmployeeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -790,8 +790,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的角色信息
      */
-    async getRole(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetRoleResponse> {
-        const response = await this.getRoleRaw({ id: id }, initOverrides);
+    async getRole(requestParameters: GetRoleRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetRoleResponse> {
+        const response = await this.getRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -840,8 +840,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 分页查询访问记录
      */
-    async listAccessLogs(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAccessLogsPageResponse> {
-        const response = await this.listAccessLogsRaw({ limit: limit, offset: offset, filter: filter, sort: sort }, initOverrides);
+    async listAccessLogs(requestParameters: ListAccessLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAccessLogsPageResponse> {
+        const response = await this.listAccessLogsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -890,8 +890,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 分页查询审计操作日志
      */
-    async listAuditJours(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAuditJoursPageResponse> {
-        const response = await this.listAuditJoursRaw({ limit: limit, offset: offset, filter: filter, sort: sort }, initOverrides);
+    async listAuditJours(requestParameters: ListAuditJoursRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAuditJoursPageResponse> {
+        const response = await this.listAuditJoursRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -940,8 +940,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 客户端列表
      */
-    async listClients(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListClientsPageResponse> {
-        const response = await this.listClientsRaw({ limit: limit, offset: offset, filter: filter, sort: sort }, initOverrides);
+    async listClients(requestParameters: ListClientsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListClientsPageResponse> {
+        const response = await this.listClientsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -990,8 +990,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 部门列表
      */
-    async listDepartments(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListDepartmentsPageResponse> {
-        const response = await this.listDepartmentsRaw({ limit: limit, offset: offset, filter: filter, sort: sort }, initOverrides);
+    async listDepartments(requestParameters: ListDepartmentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListDepartmentsPageResponse> {
+        const response = await this.listDepartmentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1078,8 +1078,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 分页查询字典数据
      */
-    async listDicts(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, noTotalCount?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListDictsPageResponse> {
-        const response = await this.listDictsRaw({ limit: limit, offset: offset, filter: filter, sort: sort, noTotalCount: noTotalCount }, initOverrides);
+    async listDicts(requestParameters: ListDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListDictsPageResponse> {
+        const response = await this.listDictsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1136,8 +1136,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 职员列表
      */
-    async listEmployees(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, includeDeleted?: number, noTotalCount?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListEmployeesPageResponse> {
-        const response = await this.listEmployeesRaw({ limit: limit, offset: offset, filter: filter, sort: sort, includeDeleted: includeDeleted, noTotalCount: noTotalCount }, initOverrides);
+    async listEmployees(requestParameters: ListEmployeesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListEmployeesPageResponse> {
+        const response = await this.listEmployeesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1186,8 +1186,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 角色列表
      */
-    async listRoles(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListRolesPageResponse> {
-        const response = await this.listRolesRaw({ limit: limit, offset: offset, filter: filter, sort: sort }, initOverrides);
+    async listRoles(requestParameters: ListRolesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListRolesPageResponse> {
+        const response = await this.listRolesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1230,8 +1230,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 修改客户端
      */
-    async updateClient(upsertClientRequest: UpsertClientRequest, clientId?: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateClientRaw({ upsertClientRequest: upsertClientRequest, clientId: clientId }, initOverrides);
+    async updateClient(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateClientRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -1273,8 +1273,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 修改部门
      */
-    async updateDepartment(upsertDepartmentRequest: UpsertDepartmentRequest, id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateDepartmentRaw({ upsertDepartmentRequest: upsertDepartmentRequest, id: id }, initOverrides);
+    async updateDepartment(requestParameters: UpdateDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateDepartmentRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -1309,8 +1309,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 修改字典
      */
-    async updateDict(id?: number, upsertDictRequest?: UpsertDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateDictRaw({ id: id, upsertDictRequest: upsertDictRequest }, initOverrides);
+    async updateDict(requestParameters: UpdateDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateDictRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -1352,8 +1352,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 修改职员
      */
-    async updateEmployee(upsertEmployeeRequest: UpsertEmployeeRequest, id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateEmployeeRaw({ upsertEmployeeRequest: upsertEmployeeRequest, id: id }, initOverrides);
+    async updateEmployee(requestParameters: UpdateEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateEmployeeRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -1395,8 +1395,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 修改角色
      */
-    async updateRole(upsertRoleRequest: UpsertRoleRequest, id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateRoleRaw({ upsertRoleRequest: upsertRoleRequest, id: id }, initOverrides);
+    async updateRole(requestParameters: UpdateRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateRoleRaw(requestParameters, initOverrides);
     }
 
 }

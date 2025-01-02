@@ -118,8 +118,8 @@ export class MeApi extends runtime.BaseAPI {
      * 修改密码
      * 修改个人密码
      */
-    async updateMePassword(updateMePasswordRequest: UpdateMePasswordRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateMePasswordRaw({ updateMePasswordRequest: updateMePasswordRequest }, initOverrides);
+    async updateMePassword(requestParameters: UpdateMePasswordOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateMePasswordRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -163,8 +163,8 @@ export class MeApi extends runtime.BaseAPI {
      * 更新个人信息
      * 更新个人信息
      */
-    async updateMeProfile(updateMeProfileRequest: UpdateMeProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateMeProfileRaw({ updateMeProfileRequest: updateMeProfileRequest }, initOverrides);
+    async updateMeProfile(requestParameters: UpdateMeProfileOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateMeProfileRaw(requestParameters, initOverrides);
     }
 
 }

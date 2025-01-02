@@ -1,4 +1,4 @@
-import { useDataFilter, usePagination, useTableSorter } from '@/hooks';
+import { useDataFilter, usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -12,12 +12,16 @@ import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 export const DictList = () => {
   const noWrite = $checkNotPermit(permits.DICT.W);
   const { pagination, setPagination, resetPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setDataFilters, queryFilter } = useDataFilter();
+  const { setRSQLFilters, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/dicts', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await SYSTEM_API.listDicts(queryOffsetLimit.limit, queryOffsetLimit.offset, queryFilter, querySort);
+      const res = await SYSTEM_API.listDicts({
+        ...queryOffsetLimit,
+        sort: querySort,
+        filter: queryFilter,
+      });
       setTotal(res.totalCount);
       return res.items;
     },

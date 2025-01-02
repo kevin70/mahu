@@ -1,4 +1,4 @@
-import { useDataFilter, usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -19,7 +19,6 @@ export const EmployeeList = () => {
 
   const [incldeDeleted, setIncludeDeleted] = useState<number | undefined>();
   const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
-  // const { setDataFilters, queryFilter } = useDataFilter();
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'update_time' }]);
   const { data, isFetching, refetch } = useQuery({

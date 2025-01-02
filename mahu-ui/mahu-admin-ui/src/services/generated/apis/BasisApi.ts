@@ -49,7 +49,7 @@ export interface GetBrandRequest {
 export interface ListBrandsRequest {
     limit?: number;
     offset?: number;
-    filter?: Array<string>;
+    filter?: string;
     sort?: Array<string>;
     includeDeleted?: number;
     noTotalCount?: number;
@@ -108,8 +108,8 @@ export class BasisApi extends runtime.BaseAPI {
     /**
      * 保存品牌
      */
-    async addBrand(upsertBrandRequest: UpsertBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addBrandRaw({ upsertBrandRequest: upsertBrandRequest }, initOverrides);
+    async addBrand(requestParameters: AddBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addBrandRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -141,8 +141,8 @@ export class BasisApi extends runtime.BaseAPI {
     /**
      * 删除指定品牌
      */
-    async deleteBrand(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteBrandRaw({ id: id }, initOverrides);
+    async deleteBrand(requestParameters: DeleteBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteBrandRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -174,8 +174,8 @@ export class BasisApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的品牌
      */
-    async getBrand(id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetBrandResponse> {
-        const response = await this.getBrandRaw({ id: id }, initOverrides);
+    async getBrand(requestParameters: GetBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetBrandResponse> {
+        const response = await this.getBrandRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -232,8 +232,8 @@ export class BasisApi extends runtime.BaseAPI {
     /**
      * 品牌列表
      */
-    async listBrands(limit?: number, offset?: number, filter?: Array<string>, sort?: Array<string>, includeDeleted?: number, noTotalCount?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListBrandsPageResponse> {
-        const response = await this.listBrandsRaw({ limit: limit, offset: offset, filter: filter, sort: sort, includeDeleted: includeDeleted, noTotalCount: noTotalCount }, initOverrides);
+    async listBrands(requestParameters: ListBrandsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListBrandsPageResponse> {
+        const response = await this.listBrandsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -276,8 +276,8 @@ export class BasisApi extends runtime.BaseAPI {
     /**
      * OSS 直接上传策略
      */
-    async makeOssDirectUpload(makeOssDirectUploadRequest: MakeOssDirectUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MakeOssDirectUploadResponse> {
-        const response = await this.makeOssDirectUploadRaw({ makeOssDirectUploadRequest: makeOssDirectUploadRequest }, initOverrides);
+    async makeOssDirectUpload(requestParameters: MakeOssDirectUploadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MakeOssDirectUploadResponse> {
+        const response = await this.makeOssDirectUploadRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -320,8 +320,8 @@ export class BasisApi extends runtime.BaseAPI {
     /**
      * 修改品牌
      */
-    async updateBrand(upsertBrandRequest: UpsertBrandRequest, id?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateBrandRaw({ upsertBrandRequest: upsertBrandRequest, id: id }, initOverrides);
+    async updateBrand(requestParameters: UpdateBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateBrandRaw(requestParameters, initOverrides);
     }
 
 }
