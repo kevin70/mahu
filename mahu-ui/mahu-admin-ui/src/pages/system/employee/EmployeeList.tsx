@@ -25,13 +25,12 @@ export const EmployeeList = () => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/employees', queryOffsetLimit, queryFilter, querySort, incldeDeleted],
     async queryFn() {
-      const res = await SYSTEM_API.listEmployees(
-        queryOffsetLimit.limit,
-        queryOffsetLimit.offset,
-        [queryFilter],
-        querySort,
-        incldeDeleted
-      );
+      const res = await SYSTEM_API.listEmployees({
+        ...queryOffsetLimit,
+        sort: querySort,
+        filter: queryFilter,
+        includeDeleted: incldeDeleted,
+      });
       setTotal(res.totalCount);
       return res.items;
     },
@@ -60,7 +59,7 @@ export const EmployeeList = () => {
   );
 
   const onDelete = async (id: number) => {
-    await SYSTEM_API.deleteEmployee(id);
+    await SYSTEM_API.deleteEmployee({ id });
     $message().success('删除职员成功');
 
     await refetch();
