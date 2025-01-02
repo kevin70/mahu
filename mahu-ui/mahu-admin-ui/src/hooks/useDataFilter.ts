@@ -6,7 +6,7 @@ import { emit } from '@rsql/emitter';
 /**
  * RSQL 操作
  */
-export const rsqlOps = {
+export const RSQL_OPS = {
   ...rsqlBuilder,
   contains(selector: string, value: string) {
     return rsqlBuilder.comparison(selector, '=contains=', value);
@@ -84,7 +84,7 @@ export const useRSQLFilter = () => {
 
   return {
     queryFilter,
-    rsqlOps,
+    rsqlOps: RSQL_OPS,
     setRSQLFilters,
   };
 };
