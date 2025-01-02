@@ -12,7 +12,10 @@ export const EditDepartmentDrawerForm = (props: { id: number; onSuccess: () => v
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['EditDepartmentDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.updateDepartment(values, props.id);
+      return SYSTEM_API.updateDepartment({
+        id: props.id,
+        upsertDepartmentRequest: values,
+      });
     },
     onSuccess() {
       $message().success('修改部门成功');
@@ -25,7 +28,7 @@ export const EditDepartmentDrawerForm = (props: { id: number; onSuccess: () => v
   });
 
   const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await SYSTEM_API.getDepartment(props.id);
+    const data = await SYSTEM_API.getDepartment({ id: props.id });
     form.setFieldsValue(data);
     form.setFieldValue('parentId', data.parent?.id);
   };

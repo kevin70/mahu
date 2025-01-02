@@ -1,9 +1,9 @@
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
-import { DrawerForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import { DrawerForm, ProFormDigit, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Form, Input } from 'antd';
+import { Button, Input } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { FormInstance } from 'antd/lib';
 import { PermitTransfer } from './PermitTransfer';
@@ -13,7 +13,10 @@ export const EditRoleDrawerForm = (props: { id: number; onSuccess: () => void })
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['EditRoleDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.updateRole(values, props.id);
+      return SYSTEM_API.updateRole({
+        id: props.id,
+        upsertRoleRequest: values,
+      });
     },
     onSuccess() {
       $message().success('修改角色成功');
@@ -26,7 +29,7 @@ export const EditRoleDrawerForm = (props: { id: number; onSuccess: () => void })
   });
 
   const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await SYSTEM_API.getRole(props.id);
+    const data = await SYSTEM_API.getRole({ id: props.id });
     form.setFieldsValue(data);
   };
 

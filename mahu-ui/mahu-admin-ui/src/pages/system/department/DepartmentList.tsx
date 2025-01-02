@@ -1,4 +1,4 @@
-import { useDataFilter, usePagination, useTableSorter } from '@/hooks';
+import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -11,18 +11,17 @@ import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 
 export const DepartmentList = () => {
   const noWrite = $checkNotPermit(permits.DEPARTMENT.W);
-  const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setDataFilters, queryFilter } = useDataFilter();
+  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/departments', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await SYSTEM_API.listDepartments(
-        queryOffsetLimit.limit,
-        queryOffsetLimit.offset,
-        queryFilter,
-        querySort
-      );
+      const res = await SYSTEM_API.listDepartments({
+        ...queryOffsetLimit,
+        filter: queryFilter,
+        sort: querySort,
+      });
       setTotal(res.totalCount);
       return res.items;
     },
@@ -32,13 +31,8 @@ export const DepartmentList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        setDataFilters([
-          {
-            qname: 'name',
-            op: 'contains',
-            value: values.searchName,
-          },
-        ]);
+        resetPagination();
+        setRSQLFilters([rsqlOps.comparisonEx('name', '=icontains=', values.searchName)]);
       }}
     >
       <ProFormText name="searchName" label="名称" />
@@ -47,7 +41,7 @@ export const DepartmentList = () => {
   );
 
   const onDelete = async (id: number) => {
-    await SYSTEM_API.deleteDepartment(id);
+    await SYSTEM_API.deleteDepartment({ id });
     $message().success('删除部门成功');
 
     await refetch();

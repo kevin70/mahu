@@ -48,7 +48,11 @@ export const NewDictDrawerForm = (props: { onSuccess: () => void }) => {
             async validator(_rule, value, _callback) {
               try {
                 if (value) {
-                  const { items } = await SYSTEM_API.listDicts(1, undefined, [`slug eq ${value}`], undefined, 1);
+                  const { items } = await SYSTEM_API.listDicts({
+                    limit: 1,
+                    filter: `slug==${value}`,
+                    noTotalCount: 0,
+                  });
                   const exists = items && items.length > 0;
                   if (exists) {
                     return Promise.reject('字典 SLUG 已经存在');

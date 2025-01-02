@@ -12,7 +12,7 @@ export const DepartmentTreeSelect = ({
   const { data } = useQuery({
     queryKey: ['/system/departments'],
     async queryFn() {
-      const res = await SYSTEM_API.listDepartments(5000);
+      const res = await SYSTEM_API.listDepartments({ limit: 5000 });
       return res.items;
     },
   });

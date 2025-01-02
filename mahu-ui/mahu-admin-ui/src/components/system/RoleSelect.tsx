@@ -7,7 +7,7 @@ export const RoleSelect = (props: ProFormSelectProps) => {
   const { data } = useQuery({
     queryKey: ['/system/roles'],
     async queryFn() {
-      const res = await SYSTEM_API.listRoles(1000, undefined, undefined, ['-ordering']);
+      const res = await SYSTEM_API.listRoles({ limit: 1000, sort: ['-ordering'] });
       return res.items;
     },
   });

@@ -1,6 +1,6 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { permits } from '@/config/permit';
-import { useDataFilter, usePagination, useTableSorter } from '@/hooks';
+import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -11,13 +11,17 @@ import { EditRoleDrawerForm } from './EditRoleDrawerForm';
 
 export const RoleList = () => {
   const noWrite = $checkNotPermit(permits.ROLE.W);
-  const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setDataFilters, queryFilter } = useDataFilter();
+  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/roles', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await SYSTEM_API.listRoles(queryOffsetLimit.limit, queryOffsetLimit.offset, queryFilter, querySort);
+      const res = await SYSTEM_API.listRoles({
+        ...queryOffsetLimit,
+        sort: querySort,
+        filter: queryFilter,
+      });
       setTotal(res.totalCount);
       return res.items;
     },
@@ -27,13 +31,8 @@ export const RoleList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        setDataFilters([
-          {
-            qname: 'name',
-            op: 'icontains',
-            value: values.name,
-          },
-        ]);
+        resetPagination();
+        setRSQLFilters([rsqlOps.comparisonEx('name', '=icontains=', values.name)]);
       }}
     >
       <ProFormText name="name" label="名称" />
@@ -42,7 +41,7 @@ export const RoleList = () => {
   );
 
   const onDelete = async (id: number) => {
-    await SYSTEM_API.deleteRole(id);
+    await SYSTEM_API.deleteRole({ id });
     $message().success('删除角色成功');
 
     await refetch();

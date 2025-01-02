@@ -1,4 +1,3 @@
-import { HNewButton } from '@/components/HNewButton';
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
@@ -25,7 +24,7 @@ export const EditClientDrawerForm = (props: { clientId: string; onSuccess: () =>
   });
 
   const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await SYSTEM_API.getClient(props.clientId);
+    const data = await SYSTEM_API.getClient({ clientId: props.clientId });
     form.setFieldsValue(data);
   };
 

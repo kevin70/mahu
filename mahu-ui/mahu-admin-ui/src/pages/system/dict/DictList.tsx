@@ -1,4 +1,4 @@
-import { useDataFilter, usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +12,7 @@ import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 export const DictList = () => {
   const noWrite = $checkNotPermit(permits.DICT.W);
   const { pagination, setPagination, resetPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setRSQLFilters, queryFilter } = useRSQLFilter();
+  const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/dicts', queryOffsetLimit, queryFilter, querySort],
@@ -32,17 +32,9 @@ export const DictList = () => {
       layout="inline"
       onFinish={(values: any) => {
         resetPagination();
-        setDataFilters([
-          {
-            qname: 'slug',
-            op: 'eq',
-            value: values.searchSlug,
-          },
-          {
-            qname: 'kind',
-            op: 'contains',
-            value: values.searchKind,
-          },
+        setRSQLFilters([
+          rsqlOps.comparisonEx('slug', '==', values.searchSlug),
+          rsqlOps.comparisonEx('kind', '=contains=', values.searchKind),
         ]);
       }}
     >
@@ -53,7 +45,7 @@ export const DictList = () => {
   );
 
   const onDelete = async (id: number) => {
-    await SYSTEM_API.deleteDict(id);
+    await SYSTEM_API.deleteDict({ id });
     $message().success('字典删除成功');
 
     await refetch();

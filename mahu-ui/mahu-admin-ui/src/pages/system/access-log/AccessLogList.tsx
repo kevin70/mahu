@@ -1,23 +1,22 @@
 import { HSearchButton } from '@/components/HSearchButton';
-import { useDataFilter, usePagination, useTableSorter } from '@/hooks';
+import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
 import { Form } from 'antd';
 
 export const AccessLogList = () => {
-  const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setDataFilters, queryFilter } = useDataFilter();
+  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'create_time' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/access-logs', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await SYSTEM_API.listAccessLogs(
-        queryOffsetLimit.limit,
-        queryOffsetLimit.offset,
-        queryFilter,
-        querySort
-      );
+      const res = await SYSTEM_API.listAccessLogs({
+        ...queryOffsetLimit,
+        sort: querySort,
+        filter: queryFilter,
+      });
       setTotal(res.totalCount);
       return res.items;
     },
@@ -27,17 +26,10 @@ export const AccessLogList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        setDataFilters([
-          {
-            qname: 'employee_id',
-            op: 'eq',
-            value: values.employeeId,
-          },
-          {
-            qname: 'ip_addr',
-            op: 'eq',
-            value: values.ipAddr,
-          },
+        resetPagination();
+        setRSQLFilters([
+          rsqlOps.comparisonEx('employee_id', '==', values.employeeId),
+          rsqlOps.comparisonEx('ip_addr', '==', values.ipAddr),
         ]);
       }}
     >

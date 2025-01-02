@@ -11,7 +11,10 @@ export const EditDictDrawerForm = (props: { id: number; onSuccess: () => void })
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['EditDictDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.updateDict(props.id, values);
+      return SYSTEM_API.updateDict({
+        id: props.id,
+        upsertDictRequest: values,
+      });
     },
     onSuccess() {
       $message().success('修改字典成功');
@@ -38,7 +41,7 @@ export const EditDictDrawerForm = (props: { id: number; onSuccess: () => void })
         return true;
       }}
       request={() => {
-        return SYSTEM_API.getDict(props.id);
+        return SYSTEM_API.getDict({ id: props.id });
       }}
     >
       <Form.Item label="ID">

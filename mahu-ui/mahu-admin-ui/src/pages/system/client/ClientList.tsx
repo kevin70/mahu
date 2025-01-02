@@ -1,6 +1,6 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { permits } from '@/config/permit';
-import { useDataFilter, usePagination, useTableSorter } from '@/hooks';
+import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -11,13 +11,17 @@ import { EditClientDrawerForm } from './EditClientDrawerForm';
 
 export const ClientList = () => {
   const noWrite = $checkNotPermit(permits.CLIENT.W);
-  const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setDataFilters, queryFilter } = useDataFilter();
+  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'create_time' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/clients', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await SYSTEM_API.listClients(queryOffsetLimit.limit, queryOffsetLimit.offset, queryFilter, querySort);
+      const res = await SYSTEM_API.listClients({
+        ...queryOffsetLimit,
+        sort: querySort,
+        filter: queryFilter,
+      });
       setTotal(res.totalCount);
       return res.items;
     },
@@ -27,13 +31,8 @@ export const ClientList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        setDataFilters([
-          {
-            qname: 'client_id',
-            op: 'eq',
-            value: values.clientId,
-          },
-        ]);
+        resetPagination();
+        setRSQLFilters([rsqlOps.comparisonEx('client_id', '==', values.clientId)]);
       }}
     >
       <ProFormText name="clientId" label="客户端 ID" placeholder="客户端 ID" />
@@ -42,7 +41,7 @@ export const ClientList = () => {
   );
 
   const onDelete = async (clientId: string) => {
-    await SYSTEM_API.deleteClient(clientId);
+    await SYSTEM_API.deleteClient({ clientId });
     $message().success('删除认证客户端成功');
 
     await refetch();
