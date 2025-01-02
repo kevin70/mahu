@@ -1,5 +1,6 @@
 import { HNewButton } from '@/components/HNewButton';
 import { permits } from '@/config/permit';
+import { RSQL_OPS } from '@/hooks';
 import { BASIS_API, resolveApiError, uploadFile } from '@/services';
 import { DrawerForm, ProFormDigit, ProFormText, ProFormUploadButton } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
@@ -55,7 +56,11 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
             async validator(_rule, value, _callback) {
               try {
                 if (value) {
-                  const { items } = await BASIS_API.listBrands(1, undefined, [`name eq ${value}`], undefined, 1);
+                  const { items } = await BASIS_API.listBrands({
+                    limit: 1,
+                    noTotalCount: 1,
+                    filter: RSQL_OPS.encode(RSQL_OPS.eq('name', value)),
+                  });
                   const item = items && items.length > 0 ? items[0] : null;
                   if (item) {
                     return Promise.reject('品牌已经存在');

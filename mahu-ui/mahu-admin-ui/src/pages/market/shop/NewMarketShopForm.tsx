@@ -1,5 +1,6 @@
 import { HNewButton } from '@/components/HNewButton';
 import { permits } from '@/config/permit';
+import { RSQL_OPS } from '@/hooks';
 import { MARKET_API, resolveApiError } from '@/services';
 import { DrawerForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
@@ -48,7 +49,11 @@ export const NewMarketShopForm = (props: { onSuccess: () => void }) => {
           {
             async validator(_rule, value, _callback) {
               if (value) {
-                const { items } = await MARKET_API.listShops(1, undefined, [`slug eq ${value}`], undefined, 1);
+                const { items } = await MARKET_API.listShops({
+                  limit: 1,
+                  filter: RSQL_OPS.encode(RSQL_OPS.eq('slug', value)),
+                  noTotalCount: 1,
+                });
                 const item = items && items.length > 0 ? items[0] : null;
                 if (item) {
                   return Promise.reject('门店 SLUG 已经存在');
@@ -70,7 +75,11 @@ export const NewMarketShopForm = (props: { onSuccess: () => void }) => {
           {
             async validator(_rule, value, _callback) {
               if (value) {
-                const { items } = await MARKET_API.listShops(1, undefined, [`name eq ${value}`], undefined, 1);
+                const { items } = await MARKET_API.listShops({
+                  limit: 1,
+                  filter: RSQL_OPS.encode(RSQL_OPS.eq('name', value)),
+                  noTotalCount: 1,
+                });
                 const item = items && items.length > 0 ? items[0] : null;
                 if (item) {
                   return Promise.reject('门店已经存在');

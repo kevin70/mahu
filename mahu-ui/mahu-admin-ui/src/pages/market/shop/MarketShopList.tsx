@@ -1,7 +1,7 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { permits } from '@/config/permit';
-import { useDataFilter, usePagination, useTableSorter } from '@/hooks';
-import { BASIS_API, MARKET_API } from '@/services';
+import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { MARKET_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
 import { Form, Typography } from 'antd';
@@ -11,13 +11,17 @@ import { EditMarketShopForm } from './EditMarketShopForm';
 
 export const MarketShopList = () => {
   const noWrite = $checkNotPermit(permits.MARKET_SHOP.W);
-  const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setDataFilters, queryFilter } = useDataFilter();
+  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'update_time' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['MarketShopList', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await MARKET_API.listShops(queryOffsetLimit.limit, queryOffsetLimit.offset, queryFilter, querySort);
+      const res = await MARKET_API.listShops({
+        ...queryOffsetLimit,
+        sort: querySort,
+        filter: queryFilter,
+      });
       setTotal(res.totalCount);
       return res.items;
     },
@@ -27,17 +31,10 @@ export const MarketShopList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        setDataFilters([
-          {
-            qname: 'slug',
-            op: 'eq',
-            value: values.searchSlug,
-          },
-          {
-            qname: 'name',
-            op: 'icontains',
-            value: values.searchName,
-          },
+        resetPagination();
+        setRSQLFilters([
+          rsqlOps.comparisonEx('slug', '==', values.searchSlug),
+          rsqlOps.comparisonEx('name', '=icontains=', values.searchName),
         ]);
       }}
     >
@@ -48,7 +45,7 @@ export const MarketShopList = () => {
   );
 
   const onDelete = async (id: number) => {
-    await MARKET_API.deleteShop(id);
+    await MARKET_API.deleteShop({ id });
     $message().success('删除商店成功');
 
     await refetch();

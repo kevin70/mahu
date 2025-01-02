@@ -20,7 +20,12 @@ export const MarketAssetList = () => {
     queryKey: ['MarketAssetList', shopId],
     queryFn: async ({ pageParam: offset }) => {
       const limit = 50;
-      const resp = await MARKET_API.listShopAssets(shopId, limit, offset, undefined, undefined, undefined, 1);
+      const resp = await MARKET_API.listShopAssets({
+        shopId,
+        limit,
+        offset,
+        noTotalCount: 1,
+      });
       const items = resp.items || [];
       return {
         items,

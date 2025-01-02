@@ -1,4 +1,5 @@
 import { permits } from '@/config/permit';
+import { RSQL_OPS } from '@/hooks';
 import { MARKET_API, resolveApiError } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
@@ -10,7 +11,10 @@ export const EditMarketShopForm = (props: { id: number; onSuccess: () => void })
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['EditMarketShopForm'],
     mutationFn(values: any) {
-      return MARKET_API.updateShop(values, props.id);
+      return MARKET_API.updateShop({
+        id: props.id,
+        upsertShopRequest: values,
+      });
     },
     onSuccess() {
       $message().success('编辑门店成功');
@@ -23,7 +27,7 @@ export const EditMarketShopForm = (props: { id: number; onSuccess: () => void })
   });
 
   const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await MARKET_API.getShop(props.id);
+    const data = await MARKET_API.getShop({ id: props.id });
     form.setFieldsValue(data);
   };
 
@@ -58,7 +62,11 @@ export const EditMarketShopForm = (props: { id: number; onSuccess: () => void })
           {
             async validator(_rule, value, _callback) {
               if (value) {
-                const { items } = await MARKET_API.listShops(1, undefined, [`slug eq ${value}`], undefined, 1);
+                const { items } = await MARKET_API.listShops({
+                  limit: 1,
+                  filter: RSQL_OPS.encode(RSQL_OPS.eq('slug', value)),
+                  noTotalCount: 1,
+                });
                 const item = items && items.length > 0 ? items[0] : null;
                 if (item && item.id !== props.id) {
                   return Promise.reject('门店 SLUG 已经存在');
@@ -80,7 +88,11 @@ export const EditMarketShopForm = (props: { id: number; onSuccess: () => void })
           {
             async validator(_rule, value, _callback) {
               if (value) {
-                const { items } = await MARKET_API.listShops(1, undefined, [`name eq ${value}`], undefined, 1);
+                const { items } = await MARKET_API.listShops({
+                  limit: 1,
+                  filter: RSQL_OPS.encode(RSQL_OPS.eq('name', value)),
+                  noTotalCount: 1,
+                });
                 const item = items && items.length > 0 ? items[0] : null;
                 if (item && item.id !== props.id) {
                   return Promise.reject('门店已经存在');

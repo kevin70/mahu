@@ -10,7 +10,10 @@ export const EditMarketAssetForm = (props: { id: number; onSuccess: () => void }
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['EditMarketShopForm'],
     mutationFn(values: any) {
-      return MARKET_API.updateShop(values, props.id);
+      return MARKET_API.updateShop({
+        id: props.id,
+        upsertShopRequest: values,
+      });
     },
     onSuccess() {
       $message().success('编辑门店成功');
@@ -23,7 +26,7 @@ export const EditMarketAssetForm = (props: { id: number; onSuccess: () => void }
   });
 
   const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await MARKET_API.getShop(props.id);
+    const data = await MARKET_API.getShop({ id: props.id });
     form.setFieldsValue(data);
   };
 

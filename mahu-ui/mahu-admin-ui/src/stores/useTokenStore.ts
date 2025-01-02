@@ -93,9 +93,11 @@ export const useTokenStore = create<{
       if (diff < 5 * 60 * 1000) {
         try {
           const rs = await TOKEN_API.login({
-            clientId: import.meta.env.VITE_CLIENT_ID,
-            grantType: 'refresh_token',
-            refreshToken: token.refreshToken,
+            loginRequest: {
+              clientId: import.meta.env.VITE_CLIENT_ID,
+              grantType: 'refresh_token',
+              refreshToken: token.refreshToken,
+            },
           });
           get().attachToken(rs.accessToken, rs.refreshToken, rs.expiresIn, rememberMe);
         } catch (e: any) {

@@ -1,4 +1,5 @@
 import { permits } from '@/config/permit';
+import { RSQL_OPS } from '@/hooks';
 import { BASIS_API, resolveApiError, uploadFile } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormDigit, ProFormText, ProFormUploadButton } from '@ant-design/pro-components';
@@ -18,7 +19,10 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
       if (logoFiles && logoFiles.length > 0) {
         body.logo = logoFiles[0].url;
       }
-      return BASIS_API.updateBrand(body, props.id);
+      return BASIS_API.updateBrand({
+        id: props.id,
+        upsertBrandRequest: values,
+      });
     },
     onSuccess() {
       $message().success('编辑品牌成功');
@@ -31,7 +35,7 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
   });
 
   const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await BASIS_API.getBrand(props.id);
+    const data = await BASIS_API.getBrand({ id: props.id });
     form.setFieldsValue(data);
 
     if (data.logo) {
@@ -74,7 +78,11 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
             async validator(_rule, value, _callback) {
               try {
                 if (value) {
-                  const { items } = await BASIS_API.listBrands(1, undefined, [`name eq ${value}`], undefined, 1);
+                  const { items } = await BASIS_API.listBrands({
+                    limit: 1,
+                    noTotalCount: 1,
+                    filter: RSQL_OPS.encode(RSQL_OPS.eq('name', value)),
+                  });
                   const item = items && items.length > 0 ? items[0] : null;
                   if (item && item.id !== props.id) {
                     return Promise.reject('品牌已经存在');

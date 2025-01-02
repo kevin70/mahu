@@ -1,6 +1,6 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { permits } from '@/config/permit';
-import { useDataFilter, usePagination, useTableSorter } from '@/hooks';
+import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { BASIS_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -11,13 +11,17 @@ import { EditBrandDrawerForm } from './EditBrandDrawerForm';
 
 export const BrandList = () => {
   const noWrite = $checkNotPermit(permits.BRAND.W);
-  const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
-  const { setDataFilters, queryFilter } = useDataFilter();
+  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/brands', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await BASIS_API.listBrands(queryOffsetLimit.limit, queryOffsetLimit.offset, queryFilter, querySort);
+      const res = await BASIS_API.listBrands({
+        ...queryOffsetLimit,
+        sort: querySort,
+        filter: queryFilter,
+      });
       setTotal(res.totalCount);
       return res.items;
     },
@@ -27,13 +31,8 @@ export const BrandList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        setDataFilters([
-          {
-            qname: 'name',
-            op: 'icontains',
-            value: values.searchName,
-          },
-        ]);
+        resetPagination();
+        setRSQLFilters([rsqlOps.comparisonEx('name', '=icontains=', values.searchName)]);
       }}
     >
       <ProFormText name="searchName" label="名称" />
@@ -42,7 +41,7 @@ export const BrandList = () => {
   );
 
   const onDelete = async (id: number) => {
-    await BASIS_API.deleteBrand(id);
+    await BASIS_API.deleteBrand({ id });
     $message().success('删除品牌成功');
 
     await refetch();

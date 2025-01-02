@@ -45,18 +45,6 @@ export const NewMarketAssetForm = (props: { onSuccess: () => void }) => {
           { required: true },
           { max: 8, message: '最长8个字符' },
           { pattern: /^[A-Za-z0-9]+$/, message: '只能输入字母和数字' },
-          {
-            async validator(_rule, value, _callback) {
-              if (value) {
-                const { items } = await MARKET_API.listShops(1, undefined, [`slug eq ${value}`], undefined, 1);
-                const item = items && items.length > 0 ? items[0] : null;
-                if (item) {
-                  return Promise.reject('门店 SLUG 已经存在');
-                }
-              }
-              return Promise.resolve();
-            },
-          },
         ]}
       />
       <ProFormText
@@ -64,22 +52,7 @@ export const NewMarketAssetForm = (props: { onSuccess: () => void }) => {
         name="name"
         required
         validateTrigger="onSubmit"
-        rules={[
-          { required: true },
-          { max: 32, message: '最长32个字符' },
-          {
-            async validator(_rule, value, _callback) {
-              if (value) {
-                const { items } = await MARKET_API.listShops(1, undefined, [`name eq ${value}`], undefined, 1);
-                const item = items && items.length > 0 ? items[0] : null;
-                if (item) {
-                  return Promise.reject('门店已经存在');
-                }
-              }
-              return Promise.resolve();
-            },
-          },
-        ]}
+        rules={[{ required: true }, { max: 32, message: '最长32个字符' }]}
       />
       <ProFormTextArea label="描述" name="description" />
     </DrawerForm>
