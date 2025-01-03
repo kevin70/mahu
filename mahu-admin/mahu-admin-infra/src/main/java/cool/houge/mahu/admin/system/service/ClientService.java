@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.system.service;
 
 import com.github.f4b6a3.ulid.UlidCreator;
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.ClientRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Client;
@@ -19,6 +20,9 @@ public class ClientService {
 
     @Inject
     ClientRepository clientRepository;
+
+    @Inject
+    SharedToolService toolService;
 
     /// 新增认证客户端
     @Transactional
@@ -44,8 +48,9 @@ public class ClientService {
 
     /// 分页查询
     @Transactional(readOnly = true)
-    public PagedList<Client> findPage(DataFilter filter) {
-        return clientRepository.findPage(filter);
+    public PagedList<Client> findPage(DataFilter dataFilter) {
+        var plist = clientRepository.findPage(dataFilter);
+        return toolService.wrap(plist, dataFilter);
     }
 
     /// 查询指定 ID 的客户端

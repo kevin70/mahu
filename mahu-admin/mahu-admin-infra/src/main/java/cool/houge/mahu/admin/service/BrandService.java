@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.service;
 
 import cool.houge.mahu.admin.repository.BrandRepository;
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.Brand;
 import io.ebean.PagedList;
@@ -16,6 +17,9 @@ public class BrandService {
 
     @Inject
     BrandRepository brandRepository;
+
+    @Inject
+    SharedToolService toolService;
 
     @Transactional
     public void save(Brand brand) {
@@ -39,6 +43,7 @@ public class BrandService {
 
     @Transactional(readOnly = true)
     public PagedList<Brand> findPage(DataFilter dataFilter) {
-        return brandRepository.findPage(dataFilter);
+        var plist = brandRepository.findPage(dataFilter);
+        return toolService.wrap(plist, dataFilter);
     }
 }

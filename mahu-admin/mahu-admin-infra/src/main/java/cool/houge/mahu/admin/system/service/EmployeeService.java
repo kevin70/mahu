@@ -5,6 +5,7 @@ import com.password4j.Password;
 import cool.houge.mahu.admin.bean.GeneralBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.EmployeeRepository;
 import cool.houge.mahu.common.BizCodeException;
 import cool.houge.mahu.common.BizCodes;
@@ -28,6 +29,9 @@ public class EmployeeService {
 
     @Inject
     EmployeeRepository employeeRepository;
+
+    @Inject
+    SharedToolService toolService;
 
     @Inject
     Event<CollectProfileEvent> collectProfileEvent;
@@ -98,7 +102,8 @@ public class EmployeeService {
     /// 分页查询
     @Transactional(readOnly = true)
     public PagedList<Employee> findPage(DataFilter dataFilter) {
-        return employeeRepository.findPage(dataFilter);
+        var plist = employeeRepository.findPage(dataFilter);
+        return toolService.wrap(plist, dataFilter);
     }
 
     void encryptPassword(Employee bean) {

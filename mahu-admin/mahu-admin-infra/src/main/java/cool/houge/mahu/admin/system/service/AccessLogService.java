@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.system.service;
 
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.AccessLogRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.AccessLog;
@@ -18,6 +19,9 @@ public class AccessLogService {
     @Inject
     AccessLogRepository accessLogRepository;
 
+    @Inject
+    SharedToolService toolService;
+
     @Transactional
     void handleAccessLog(@Observes AccessLog accessLog) {
         accessLogRepository.save(accessLog);
@@ -26,6 +30,7 @@ public class AccessLogService {
     /// 分页查询访问日志
     @Transactional(readOnly = true)
     public PagedList<AccessLog> findPage(DataFilter dataFilter) {
-        return accessLogRepository.findPage(dataFilter);
+        var plist = accessLogRepository.findPage(dataFilter);
+        return toolService.wrap(plist, dataFilter);
     }
 }

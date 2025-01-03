@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.market.service;
 
 import cool.houge.mahu.admin.market.repository.AssetRepository;
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.market.Asset;
 import io.ebean.PagedList;
@@ -19,11 +20,15 @@ public class AssetService {
     @Inject
     AssetRepository assetRepository;
 
+    @Inject
+    SharedToolService toolService;
+
     /// 分页查询商店资源数据
     /// @param shopId 商店 ID
     @Transactional(readOnly = true)
     public PagedList<Asset> findPage(int shopId, DataFilter dataFilter) {
-        return assetRepository.findPage(shopId, dataFilter);
+        var plist = assetRepository.findPage(shopId, dataFilter);
+        return toolService.wrap(plist, dataFilter);
     }
 
     /// 查询指定资源ID的商店资源

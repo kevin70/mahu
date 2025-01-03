@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.system.service;
 
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.DepartmentRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Department;
@@ -21,6 +22,9 @@ public class DepartmentService {
     @Inject
     DepartmentRepository departmentRepository;
 
+    @Inject
+    SharedToolService toolService;
+
     /// 新增部门
     @Transactional
     public void save(Department department) {
@@ -41,12 +45,12 @@ public class DepartmentService {
 
     /// 分页查询
     @Transactional(readOnly = true)
-    public PagedList<Department> findPage(DataFilter filter) {
-        var plist = departmentRepository.findPage(filter);
+    public PagedList<Department> findPage(DataFilter dataFilter) {
+        var plist = departmentRepository.findPage(dataFilter);
         for (Department department : plist.getList()) {
             log.debug("load parent department: {}", department.getParent());
         }
-        return plist;
+        return toolService.wrap(plist, dataFilter);
     }
 
     /// 查询指定 ID 的部门

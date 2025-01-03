@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.system.service;
 
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.DictRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Dict;
@@ -16,6 +17,9 @@ public class DictService {
 
     @Inject
     DictRepository dictRepository;
+
+    @Inject
+    SharedToolService toolService;
 
     /// 保存字典
     @Transactional
@@ -53,6 +57,7 @@ public class DictService {
     /// @param dataFilter 数据过滤
     @Transactional(readOnly = true)
     public PagedList<Dict> findPage(DataFilter dataFilter) {
-        return dictRepository.findPage(dataFilter);
+        var plist = dictRepository.findPage(dataFilter);
+        return toolService.wrap(plist, dataFilter);
     }
 }

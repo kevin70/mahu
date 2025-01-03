@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.market.service;
 
 import cool.houge.mahu.admin.market.repository.ShopRepository;
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.market.Shop;
 import io.ebean.PagedList;
@@ -16,6 +17,9 @@ public class ShopService {
 
     @Inject
     ShopRepository shopRepository;
+
+    @Inject
+    SharedToolService toolService;
 
     @Transactional
     public void save(Shop entity) {
@@ -41,6 +45,7 @@ public class ShopService {
     /// 分页查询商店数据
     @Transactional(readOnly = true)
     public PagedList<Shop> findPage(DataFilter dataFilter) {
-        return shopRepository.findPage(dataFilter);
+        var plist = shopRepository.findPage(dataFilter);
+        return toolService.wrap(plist, dataFilter);
     }
 }

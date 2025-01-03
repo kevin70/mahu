@@ -21,9 +21,11 @@ export const Login = () => {
     async mutationFn(values: any) {
       try {
         const rs = await TOKEN_API.login({
-          grantType: 'password',
-          clientId: clientId,
-          ...values,
+          loginRequest: {
+            grantType: 'password',
+            clientId: clientId,
+            ...values,
+          },
         });
 
         // 保存访问令牌

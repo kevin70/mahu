@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.system.service;
 
+import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.RoleRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Role;
@@ -16,6 +17,9 @@ public class RoleService {
 
     @Inject
     RoleRepository roleRepository;
+
+    @Inject
+    SharedToolService toolService;
 
     @Transactional
     public void save(Role role) {
@@ -38,7 +42,8 @@ public class RoleService {
     }
 
     @Transactional(readOnly = true)
-    public PagedList<Role> findPage(DataFilter filter) {
-        return roleRepository.findPage(filter);
+    public PagedList<Role> findPage(DataFilter dataFilter) {
+        var plist = roleRepository.findPage(dataFilter);
+        return toolService.wrap(plist, dataFilter);
     }
 }
