@@ -52,15 +52,22 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
             ctx.queryBean().setIncludeSoftDeletes();
         }
 
+        // 排序
         var sorts = filter.sorts();
-        for (DataFilter.Sort sort : sorts) {
-            var property = ctx.getProperty(sort.name());
-            if (property == null) {
-                log.debug("不存在的排序属性 {}", sort.name());
+        for (String s : sorts) {
+            if (s == null || s.isEmpty()) {
                 continue;
             }
 
-            if (sort.direction() == DataFilter.Direction.asc) {
+            boolean ascending = s.charAt(0) != '-';
+            String name = ascending ? s : s.substring(1);
+            var property = ctx.getProperty(name);
+            if (property == null) {
+                log.debug("不存在的排序属性 {}", name);
+                continue;
+            }
+
+            if (ascending) {
                 property.original().asc();
             } else {
                 property.original().desc();

@@ -1,6 +1,5 @@
 package cool.houge.mahu.common.web;
 
-import com.google.common.base.Splitter;
 import com.google.common.primitives.UnsignedInts;
 import cool.houge.mahu.common.BizCodeException;
 import cool.houge.mahu.common.BizCodes;
@@ -8,7 +7,6 @@ import cool.houge.mahu.common.DataFilter;
 import io.helidon.webserver.http.ServerRequest;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,12 +15,11 @@ import java.util.Objects;
 /// @author ZY (kzou227@qq.com)
 public class WebDataFilter implements DataFilter {
 
-    private static final Splitter SPACE_SPLITTER = Splitter.on(' ').trimResults();
-
     private final int offset;
     private final int limit;
-    private final List<Sort> sorts;
+    private final List<String> sorts;
     private final String filter;
+    private final String pageToken;
     private final boolean includeDeleted;
     private final boolean noTotalCount;
 
@@ -48,16 +45,15 @@ public class WebDataFilter implements DataFilter {
                 .orElse(DEFAULT_LIMIT);
 
         if (query.contains("sort")) {
-            this.sorts = parseSorts(query.all("sort"));
+            this.sorts = query.all("sort");
         } else {
             this.sorts = List.of();
         }
 
-        this.filter = query.first("filter").orElse("");
-
+        this.filter = query.first("filter").orElse(null);
+        this.pageToken = query.first("page_token").orElse(null);
         this.includeDeleted =
                 query.first("include_deleted").map(v -> Objects.equals(v, "1")).orElse(false);
-
         this.noTotalCount =
                 query.first("no_total_count").map(v -> Objects.equals(v, "1")).orElse(false);
     }
@@ -73,13 +69,18 @@ public class WebDataFilter implements DataFilter {
     }
 
     @Override
-    public @NonNull List<Sort> sorts() {
+    public @NonNull List<String> sorts() {
         return sorts;
     }
 
     @Override
     public String filter() {
         return filter;
+    }
+
+    @Override
+    public String pageToken() {
+        return pageToken;
     }
 
     @Override
@@ -90,23 +91,5 @@ public class WebDataFilter implements DataFilter {
     @Override
     public boolean isNoTotalCount() {
         return noTotalCount;
-    }
-
-    List<Sort> parseSorts(List<String> strings) {
-        if (strings == null || strings.isEmpty()) {
-            return List.of();
-        }
-
-        var list = new ArrayList<Sort>(strings.size());
-        for (String s : strings) {
-            if (s == null || s.isEmpty()) {
-                continue;
-            }
-
-            boolean ascending = s.charAt(0) != '-';
-            String name = ascending ? s : s.substring(1);
-            list.add(new Sort(name, ascending ? Direction.asc : Direction.desc));
-        }
-        return list;
     }
 }

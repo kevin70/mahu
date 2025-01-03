@@ -20,10 +20,13 @@ public interface DataFilter {
 
     /// 返回排序的对象
     @NonNull
-    List<Sort> sorts();
+    List<String> sorts();
 
     /// RSQL 数据过滤
     String filter();
+
+    /// 页面令牌
+    String pageToken();
 
     /// 返回是否包含软删除的数据
     default boolean isIncludeDeleted() {
@@ -33,19 +36,5 @@ public interface DataFilter {
     /// 是否不返回总记录数
     default boolean isNoTotalCount() {
         return false;
-    }
-
-    /// 排序
-    ///
-    /// @param name      排序的属性名称.
-    /// @param direction 方向
-    record Sort(String name, Direction direction) {}
-
-    /// 排序方向
-    enum Direction {
-        /// 升序
-        asc,
-        /// 降序
-        desc
     }
 }

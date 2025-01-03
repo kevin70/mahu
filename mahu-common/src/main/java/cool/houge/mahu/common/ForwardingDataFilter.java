@@ -11,11 +11,25 @@ import java.util.List;
 /// @author ZY (kzou227@qq.com)
 public abstract class ForwardingDataFilter implements DataFilter {
 
-    protected ForwardingDataFilter() {
-    }
+    protected ForwardingDataFilter() {}
 
     /// 返回方法转发到的支持委托实例
     protected abstract DataFilter delegate();
+
+    @Override
+    public @NonNull List<String> sorts() {
+        return delegate().sorts();
+    }
+
+    @Override
+    public String filter() {
+        return delegate().filter();
+    }
+
+    @Override
+    public String pageToken() {
+        return delegate().pageToken();
+    }
 
     @Override
     public boolean isIncludeDeleted() {
@@ -25,10 +39,5 @@ public abstract class ForwardingDataFilter implements DataFilter {
     @Override
     public boolean isNoTotalCount() {
         return delegate().isNoTotalCount();
-    }
-
-    @Override
-    public @NonNull List<Sort> sorts() {
-        return delegate().sorts();
     }
 }
