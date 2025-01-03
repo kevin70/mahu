@@ -78,11 +78,6 @@ public class WebDataFilter implements DataFilter {
     }
 
     @Override
-    public @NonNull List<Filter> filters() {
-        return List.of();
-    }
-
-    @Override
     public String filter() {
         return filter;
     }
@@ -113,22 +108,5 @@ public class WebDataFilter implements DataFilter {
             list.add(new Sort(name, ascending ? Direction.asc : Direction.desc));
         }
         return list;
-    }
-
-    List<Filter> parseFilters(List<String> strings) {
-        if (strings == null || strings.isEmpty()) {
-            return List.of();
-        }
-
-        var rs = new ArrayList<Filter>(strings.size());
-        for (String s : strings) {
-            if (s == null || s.isEmpty()) {
-                continue;
-            }
-
-            var arrs = SPACE_SPLITTER.splitToList(s);
-            rs.add(new Filter(arrs.getFirst(), Op.valueOf(arrs.get(1)), arrs.get(2)));
-        }
-        return rs;
     }
 }

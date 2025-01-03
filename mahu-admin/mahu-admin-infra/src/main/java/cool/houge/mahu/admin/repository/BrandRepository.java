@@ -2,11 +2,11 @@ package cool.houge.mahu.admin.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
+import cool.houge.mahu.common.rsql.RSQLContext;
 import cool.houge.mahu.entity.Brand;
 import cool.houge.mahu.entity.query.QBrand;
 import io.ebean.Database;
 import io.ebean.PagedList;
-import io.ebean.annotation.Transactional;
 import jakarta.inject.Singleton;
 
 /// 品牌
@@ -19,9 +19,22 @@ public class BrandRepository extends HBeanRepository<Integer, Brand> {
         super(Brand.class, db);
     }
 
-    @Transactional(readOnly = true)
+    /// **支持 RSQL 过滤的属性：**
+    ///
+    /// | 字段 | 数据类型 |
+    /// | --- | ----- |
+    /// | create_time | date-time |
+    /// | update_time | date-time |
+    /// | name | string |
+    /// | ordering | int |
     public PagedList<Brand> findPage(DataFilter dataFilter) {
         var qb = new QBrand(db());
-        return findPagedList(qb.query(), dataFilter);
+        var rsqlCtx = RSQLContext.of(qb)
+                .property("create_time", qb.createTime)
+                .property("update_time", qb.updateTime)
+                .property(qb.name)
+                .property(qb.ordering);
+        super.apply(dataFilter, rsqlCtx);
+        return qb.findPagedList();
     }
 }

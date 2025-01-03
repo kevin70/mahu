@@ -2,8 +2,6 @@ package cool.houge.mahu.common;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /// 数据过滤
@@ -24,11 +22,7 @@ public interface DataFilter {
     @NonNull
     List<Sort> sorts();
 
-    /// 返回数据过滤对象
-    @NonNull
-    List<Filter> filters();
-
-    /// FIQL 数据过滤
+    /// RSQL 数据过滤
     String filter();
 
     /// 返回是否包含软删除的数据
@@ -53,38 +47,5 @@ public interface DataFilter {
         asc,
         /// 降序
         desc
-    }
-
-    /// 过滤
-    ///
-    /// @param name     属性名称
-    /// @param op       操作符
-    /// @param rawValue 无始值
-    record Filter(String name, Op op, String rawValue) {
-
-        /// 返回数组值
-        public String[] values() {
-            if (rawValue.isEmpty()) {
-                return new String[0];
-            }
-            var v = URLDecoder.decode(rawValue, StandardCharsets.UTF_8);
-            return v.split(",");
-        }
-    }
-
-    /// 过滤操作符
-    enum Op {
-        none,
-        eq,
-        ne,
-        gt,
-        gte,
-        lt,
-        lte,
-        contains,
-        icontains,
-        in,
-        nin,
-        between
     }
 }

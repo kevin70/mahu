@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
+import cool.houge.mahu.common.rsql.RSQLContext;
 import cool.houge.mahu.entity.system.AccessLog;
 import cool.houge.mahu.entity.system.query.QAccessLog;
 import io.ebean.Database;
@@ -18,9 +19,20 @@ public class AccessLogRepository extends HBeanRepository<Long, AccessLog> {
         super(AccessLog.class, db);
     }
 
+    /// **支持 RSQL 过滤的属性：**
+    ///
+    /// | 字段 | 数据类型 |
+    /// | --- | ----- |
+    /// | create_time | date-time |
+    /// | employee_id | int |
+    /// | ip_addr | string |
     public PagedList<AccessLog> findPage(DataFilter dataFilter) {
         var qb = new QAccessLog(db());
-        apply(qb.query(), dataFilter);
+        var rsqlCtx = RSQLContext.of(qb)
+                .property("create_time", qb.createTime)
+                .property("employee_id", qb.employeeId)
+                .property("ip_addr", qb.ipAddr);
+        super.apply(dataFilter, rsqlCtx);
         return qb.findPagedList();
     }
 }

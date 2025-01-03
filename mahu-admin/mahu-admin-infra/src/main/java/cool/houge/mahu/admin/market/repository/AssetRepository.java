@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.market.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
+import cool.houge.mahu.common.rsql.RSQLContext;
 import cool.houge.mahu.entity.market.Asset;
 import cool.houge.mahu.entity.market.query.QAsset;
 import io.ebean.Database;
@@ -24,7 +25,9 @@ public class AssetRepository extends HBeanRepository<Long, Asset> {
     public PagedList<Asset> findPage(int shopId, DataFilter dataFilter) {
         var qb = new QAsset(db());
         qb.shop.id.eq(shopId);
-        return findPagedList(qb.query(), dataFilter);
+
+        super.apply(dataFilter, RSQLContext.of(qb));
+        return qb.findPagedList();
     }
 
     /// 查询指定资源ID的商店资源

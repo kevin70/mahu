@@ -31,9 +31,4 @@ public abstract class ForwardingDataFilter implements DataFilter {
     public @NonNull List<Sort> sorts() {
         return delegate().sorts();
     }
-
-    @Override
-    public @NonNull List<Filter> filters() {
-        return delegate().filters();
-    }
 }

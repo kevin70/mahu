@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
+import cool.houge.mahu.common.rsql.RSQLContext;
 import cool.houge.mahu.entity.system.Client;
 import cool.houge.mahu.entity.system.query.QClient;
 import io.ebean.Database;
@@ -32,9 +33,21 @@ public class ClientRepository extends HBeanRepository<String, Client> {
     }
 
     /// 分页查询
-    public PagedList<Client> findPage(DataFilter filter) {
+    ///
+    /// **支持 RSQL 过滤的属性：**
+    ///
+    /// | 字段 | 数据类型 |
+    /// | --- | ----- |
+    /// | create_time | date-time |
+    /// | update_time | date-time |
+    /// | client_id | string |
+    public PagedList<Client> findPage(DataFilter dataFilter) {
         var qb = new QClient(database);
-        apply(qb.query(), filter);
+        var rsqlCtx = RSQLContext.of(qb)
+                .property("create_time", qb.createTime)
+                .property("update_time", qb.updateTime)
+                .property("client_id", qb.clientId);
+        super.apply(dataFilter, rsqlCtx);
         return qb.findPagedList();
     }
 
