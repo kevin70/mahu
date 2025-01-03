@@ -123,7 +123,9 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
             try {
               // @ts-ignore
               const fileName = options.file.name;
-              const policy = await BASIS_API.makeOssDirectUpload({ kind: 'BRAND', fileName: fileName });
+              const policy = await BASIS_API.makeOssDirectUpload({
+                makeOssDirectUploadRequest: { kind: 'BRAND', fileName: fileName },
+              });
               const file: any = options.file;
 
               await uploadFile(

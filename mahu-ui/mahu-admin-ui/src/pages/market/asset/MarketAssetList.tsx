@@ -77,7 +77,12 @@ export const MarketAssetList = () => {
 
     const onDelete = async () => {
       const assetIds = Array.from(selectAssetMap.keys());
-      await MARKET_API.batchDeleteShopAsset(shopId, { assetIds: assetIds });
+      await MARKET_API.batchDeleteShopAsset({
+        shopId,
+        batchDeleteShopAssetRequest: {
+          assetIds,
+        },
+      });
 
       $message().success('删除资源成功');
       resetSelectAsset();
