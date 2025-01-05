@@ -38,7 +38,7 @@ public class DbBeanFactory {
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        hikariConfig.setKeepaliveTime(TimeUnit.MINUTES.toMillis(1));
+        hikariConfig.setKeepaliveTime(TimeUnit.SECONDS.toMillis(15));
         return new HikariDataSource(hikariConfig);
     }
 
@@ -47,7 +47,13 @@ public class DbBeanFactory {
         var dbc = new DatabaseConfig();
         dbc.setContainerConfig(new ContainerConfig());
         dbc.setDataSourceConfig(
-                new DataSourceConfig().setApplicationName(APP_NAME).dataSource(ds));
+                new DataSourceConfig()
+                        .setApplicationName(APP_NAME)
+                        .dataSource(ds)
+                        .setHeartbeatSql("select 1")
+                        .setHeartbeatFreqSecs(15)
+                //
+                );
         dbc.setSlowQueryMillis(100);
         dbc.setDatabaseBooleanTrue("T");
         dbc.setDatabaseBooleanFalse("F");
