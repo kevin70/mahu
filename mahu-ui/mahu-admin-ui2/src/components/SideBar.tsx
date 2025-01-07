@@ -29,14 +29,16 @@ export const SideBar = () => {
 
   const location = useLocation();
   const renderItems = (menus: typeof sysMenus) => {
-    return menus.map((m) => {
+    return menus.map((m, i) => {
       if (m.type === 'group') {
         return (
-          <Menu.ItemGroup title={renderItem(m.name, m.icon)}>{m.children && renderItems(m.children)}</Menu.ItemGroup>
+          <Menu.ItemGroup key={`${i}-${m.name}`} title={renderItem(m.name, m.icon)}>
+            {m.children && renderItems(m.children)}
+          </Menu.ItemGroup>
         );
       } else {
         return (
-          <Menu.Item key={m.path || m.name}>
+          <Menu.Item key={m.path || `${i}-${m.name}`}>
             <Link to={m.path!}>
               <div
                 className={hstack({

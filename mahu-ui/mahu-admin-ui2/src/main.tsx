@@ -96,21 +96,21 @@ export const Root = () => {
   };
   // ========================== 全局函数 ========================== //
 
-  // 初始化超时检查
-  const clearInitingTimeout = setTimeout(() => {
-    setIniting((prev) => {
-      if (prev) {
-        console.error('初始化超时');
-        Message.error('初始化超时');
-      }
-      return false;
-    });
-  }, 15 * 1000);
-
   // 检查并刷新令牌
   const clearTokenInterval = setInterval(() => tokenStore.checkAndRefreshToken(), 5 * 60 * 1000);
 
   useEffect(() => {
+    // 初始化超时检查
+    const clearInitingTimeout = setTimeout(() => {
+      setIniting((prev) => {
+        if (prev) {
+          console.error('初始化超时');
+          Message.error('初始化超时');
+        }
+        return false;
+      });
+    }, 15 * 1000);
+
     (async function () {
       // 初始化操作
       // 1. 校验访问令牌的有效性
@@ -143,8 +143,9 @@ export const Root = () => {
       }
 
       setIniting(false);
+      clearTimeout(clearInitingTimeout);
+
       return () => {
-        clearTimeout(clearInitingTimeout);
         clearInterval(clearTokenInterval);
       };
     })();
