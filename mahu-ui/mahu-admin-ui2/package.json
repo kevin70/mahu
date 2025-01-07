@@ -1,0 +1,49 @@
+{
+  "name": "mahu-admin-ui2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare": "panda codegen --clean",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "gen:oas": "redocly bundle ../../openapi/admin/openapi.yaml -o dist/openapi.yaml && openapi-generator-cli generate -g typescript-fetch -o src/services/generated -i dist/openapi.yaml"
+  },
+  "dependencies": {
+    "@arco-design/web-react": "^2.65.0",
+    "@rsql/ast": "^1.6.0",
+    "@rsql/builder": "^1.6.0",
+    "@rsql/emitter": "^1.6.0",
+    "@uidotdev/usehooks": "^2.4.1",
+    "dayjs": "^1.11.13",
+    "i18next": "^24.2.0",
+    "i18next-browser-languagedetector": "^8.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.4.0",
+    "react-router": "^7.1.1",
+    "ulid": "^2.3.0",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@openapitools/openapi-generator-cli": "^2.15.3",
+    "@pandacss/dev": "^0.51.1",
+    "@redocly/cli": "^1.27.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "postcss": "^8.4.49",
+    "typescript": "~5.6.3",
+    "typescript-eslint": "^8.19.0",
+    "vite": "^6.0.7",
+    "vite-plugin-svgr": "^4.3.0",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "prettier.documentSelectors": ["*.ts", "*.tsx"],
+  "editor.formatOnSave": true,
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cssVariables.lookupFiles": [
+    "**/*.css",
+    "**/*.scss",
+    "**/*.sass",
+    "**/*.less",
+    "node_modules/@arco-design/web-react/dist/css/arco.css"
+  ],
+  "i18n-ally.localesPaths": ["src/locales"],
+  "i18n-ally.displayLanguage": "zh-CN"
+}
