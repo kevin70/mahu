@@ -26,11 +26,7 @@ export const ClassicLayout = () => {
         >
           <SideBar />
         </Sider>
-        <Content
-          className={css({
-            p: 4,
-          })}
-        >
+        <Content>
           <Outlet />
         </Content>
       </Layout>
