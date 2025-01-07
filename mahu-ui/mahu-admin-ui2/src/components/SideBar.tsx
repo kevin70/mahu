@@ -1,24 +1,16 @@
 import { filterMenus, MENUS } from '@/config/menu';
 import { useProfileStore } from '@/stores';
 import { Menu } from '@arco-design/web-react';
-import { css } from '@styled-system/css';
 import { hstack } from '@styled-system/patterns';
-import { ReactNode, useMemo, useState } from 'react';
-import { NavLink } from 'react-router';
+import { ReactNode, useMemo } from 'react';
+import { Link, useLocation } from 'react-router';
 import { useShallow } from 'zustand/shallow';
 
 export const SideBar = () => {
-  const { nickname, avatar, permits, shops } = useProfileStore(
-    useShallow((state) => ({
-      nickname: state.nickname,
-      avatar: state.avatar,
-      permits: state.permits,
-      shops: state.shops,
-    }))
-  );
+  const permits = useProfileStore(useShallow((state) => state.permits));
 
   // 系统菜单
-  const sysMenus = useMemo(() => filterMenus(MENUS, ['*']), [permits]);
+  const sysMenus = useMemo(() => filterMenus(MENUS, permits), [permits]);
   const renderItem = (name: string, icon?: ReactNode) => {
     return (
       <div
@@ -35,7 +27,7 @@ export const SideBar = () => {
     );
   };
 
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  const location = useLocation();
   const renderItems = (menus: typeof sysMenus) => {
     return menus.map((m) => {
       if (m.type === 'group') {
@@ -45,16 +37,24 @@ export const SideBar = () => {
       } else {
         return (
           <Menu.Item key={m.path || m.name}>
-            <NavLink to={m.path!}> {renderItem(m.name, m.icon)}</NavLink>
+            <Link to={m.path!}>
+              <div
+                className={hstack({
+                  alignItems: 'center',
+                  '& > svg': {
+                    mr: '0!',
+                  },
+                })}
+              >
+                {m.icon}
+                {m.name}
+              </div>
+            </Link>
           </Menu.Item>
         );
       }
     });
   };
 
-  return (
-    <Menu selectable selectedKeys={selectedKeys}>
-      {renderItems(sysMenus)}
-    </Menu>
-  );
+  return <Menu selectedKeys={[location.pathname]}>{renderItems(sysMenus)}</Menu>;
 };

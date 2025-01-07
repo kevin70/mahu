@@ -36,7 +36,7 @@ const LoginForm = () => {
 
         // 刷新个人信息
         const profile = await profileStore.refreshProfile();
-        Message.success(`欢迎回来 - ${profile.nickname}！`);
+        Message.info(`欢迎回来 - ${profile.nickname}！`);
         return rs;
       } catch (e) {
         // FIXME 处理密码错误
