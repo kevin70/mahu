@@ -1,7 +1,6 @@
-import IconParkOutlineMoon from '@/icons/IconParkOutlineMoon';
-import IconParkOutlineSun from '@/icons/IconParkOutlineSun';
 import { useAppStore } from '@/stores';
 import { Button } from '@arco-design/web-react';
+import { IconMoonFill, IconSunFill } from '@arco-design/web-react/icon';
 import { useShallow } from 'zustand/shallow';
 
 export const SwitchTheme = () => {
@@ -19,8 +18,7 @@ export const SwitchTheme = () => {
           changeTheme('dark');
         }
       }}
-    >
-      {theme === 'dark' ? <IconParkOutlineSun width={'2rem'} /> : <IconParkOutlineMoon width={'2rem'} />}
-    </Button>
+      icon={theme === 'dark' ? <IconSunFill fontSize={20} /> : <IconMoonFill fontSize={20} />}
+    ></Button>
   );
 };

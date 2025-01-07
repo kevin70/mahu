@@ -1,26 +1,47 @@
-import { css, cx } from '@styled-system/css';
+import { css } from '@styled-system/css';
 import { flex } from '@styled-system/patterns';
 import Logo from '@/assets/logo.svg';
-import { Avatar, Divider, Dropdown, Input, Menu } from '@arco-design/web-react';
-import '@arco-design/web-react';
-import IconParkOutlineLogout from '@/icons/IconParkOutlineLogout';
+import { Avatar, Divider, Dropdown, Input, Menu, Space } from '@arco-design/web-react';
 import { SwitchLang } from './SwitchLang';
 import { SwitchTheme } from './SwitchTheme';
+import { IconEdit, IconRobot, IconUser } from '@arco-design/web-react/icon';
 
 export const NavBar = () => {
   const title = import.meta.env.VITE_APP_TITLE;
 
-  const droplist = (
-    <Menu>
-      <Divider style={{ margin: '4px 0' }} />
-      <Menu.Item key="logout">
-        <div className={flex({ gap: 2, align: 'center', color: 'rgb(var(--red-7))' })}>
-          <IconParkOutlineLogout fontSize={18} />
-          退出登录
-        </div>
-      </Menu.Item>
-    </Menu>
-  );
+  const AvatarNickname = () => {
+    return (
+      <Dropdown
+        droplist={
+          <Menu>
+            <Menu.Item key="profile">
+              <Space>
+                <IconUser />
+                个人信息
+              </Space>
+            </Menu.Item>
+            <Menu.Item key="updateMePassword">
+              <Space>
+                <IconEdit />
+                修改密码
+              </Space>
+            </Menu.Item>
+            <Divider style={{ margin: '4px 0' }} />
+            <Menu.Item key="logout">
+              <Space className={css({ color: 'rgb(var(--red-7))' })}>
+                <IconRobot />
+                退出登录
+              </Space>
+            </Menu.Item>
+          </Menu>
+        }
+        position="br"
+        trigger={'click'}
+      >
+        <Avatar style={{ cursor: 'pointer' }}>头像</Avatar>
+      </Dropdown>
+    );
+  };
 
   return (
     <div
@@ -57,22 +78,17 @@ export const NavBar = () => {
         </div>
       </div>
 
-      <div
-        className={flex({
-          pr: 4,
-          gap: 4,
-          align: 'center',
+      <Space
+        size={'medium'}
+        className={css({
+          mr: 4,
         })}
       >
         <Input.Search />
         <SwitchTheme />
         <SwitchLang />
-        <Dropdown droplist={droplist} position="br" trigger={'click'}>
-          <Avatar size={40} style={{ cursor: 'pointer' }}>
-            <img alt="avatar" />
-          </Avatar>
-        </Dropdown>
-      </div>
+        <AvatarNickname />
+      </Space>
     </div>
   );
 };

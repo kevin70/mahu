@@ -1,12 +1,11 @@
 import { SwitchLang } from '@/components/SwitchLang';
 import { SwitchTheme } from '@/components/SwitchTheme';
-import IconParkOutlineKey from '@/icons/IconParkOutlineKey';
-import IconParkOutlineUser from '@/icons/IconParkOutlineUser';
 import { Button, Checkbox, Form, Input, Space } from '@arco-design/web-react';
 import { css } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 import { flex } from '@styled-system/patterns';
 import { NavLink } from 'react-router';
+import { IconUser, IconLock } from '@arco-design/web-react/icon';
 
 const LoginForm = () => {
   return (
@@ -29,10 +28,10 @@ const LoginForm = () => {
 
       <Form layout="vertical">
         <Form.Item field="username">
-          <Input placeholder="用户名" prefix={<IconParkOutlineUser />} />
+          <Input placeholder="用户名" prefix={<IconUser />} />
         </Form.Item>
         <Form.Item field="password">
-          <Input.Password placeholder="密码" prefix={<IconParkOutlineKey />} />
+          <Input.Password placeholder="密码" prefix={<IconLock />} />
         </Form.Item>
 
         <Space direction="vertical">
