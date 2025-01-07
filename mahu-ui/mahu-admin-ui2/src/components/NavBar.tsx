@@ -27,7 +27,12 @@ export const NavBar = () => {
               </Space>
             </Menu.Item>
             <Divider style={{ margin: '4px 0' }} />
-            <Menu.Item key="logout">
+            <Menu.Item
+              key="logout"
+              onClick={() => {
+                $gotoLogin();
+              }}
+            >
               <Space className={css({ color: 'rgb(var(--red-7))' })}>
                 <IconRobot />
                 退出登录

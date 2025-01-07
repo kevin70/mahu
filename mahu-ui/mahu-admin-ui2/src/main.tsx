@@ -1,10 +1,10 @@
 import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, useNavigate } from 'react-router';
 
 import './index.css';
 import '@arco-design/web-react/dist/css/arco.css';
-import { ConfigProvider, Spin } from '@arco-design/web-react';
+import { AlertProps, ConfigProvider, Message, Spin } from '@arco-design/web-react';
 import zhCN from '@arco-design/web-react/es/locale/zh-CN';
 import enUS from '@arco-design/web-react/es/locale/en-US';
 
@@ -12,14 +12,15 @@ import { Flex } from '@styled-system/jsx';
 import { css } from '@styled-system/css';
 
 import { App } from './App';
-import { Login } from '@/pages/login/Login';
 
-import { useAppStore } from '@/stores';
+import { useAppStore, useProfileStore, useTokenStore } from '@/stores';
 import { useShallow } from 'zustand/shallow';
 
 import i18n from '@/locales/index.ts';
 import { I18nextProvider } from 'react-i18next';
-import { Dashboard } from './pages/dashboard/Dashboard';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { resolveApiError } from './services';
 
 const SplashScreen = () => {
   return (
@@ -30,11 +31,10 @@ const SplashScreen = () => {
 };
 
 export const Root = () => {
-  const [isLoading, setLoading] = useState(true);
-
-  setTimeout(() => {
-    setLoading(false);
-  }, 200);
+  const [initing, setIniting] = useState(true);
+  const navigate = useNavigate();
+  const profileStore = useProfileStore();
+  const tokenStore = useTokenStore();
 
   // 主题
   const theme = useAppStore(useShallow((state) => state.theme));
@@ -56,28 +56,112 @@ export const Root = () => {
     }
   });
 
+  // ========================== 全局函数 ========================== //
+  window.$accessToken = () => {
+    if (!tokenStore.isAccessTokenValid()) {
+      Message.error('认证失效');
+      window.$gotoLogin();
+      return Promise.reject('非法的访问令牌');
+    }
+    return tokenStore.obtainAccessToken();
+  };
+
+  window.$checkPermit = (args: string | string[]) => {
+    const allPermits: string[] = profileStore.permits;
+    // 超级管理员用户拥有所有权限
+    if (allPermits.indexOf('*') >= 0) {
+      return true;
+    }
+
+    const permits = args instanceof Array ? args : [args];
+    for (const p of permits) {
+      if (allPermits.indexOf(p) >= 0) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  window.$checkNotPermit = (args: string | string[]) => !window.$checkPermit(args);
+
+  window.$gotoLogin = () => {
+    tokenStore.clean();
+    navigate('/login', { replace: true });
+  };
+
+  // 全局警告消息
+  window.$showAlert = (alert: AlertProps) => {
+    // FIXME
+  };
+  // ========================== 全局函数 ========================== //
+
+  // 初始化超时检查
+  const clearInitingTimeout = setTimeout(() => {
+    setIniting((prev) => {
+      if (prev) {
+        console.error('初始化超时');
+        Message.error('初始化超时');
+      }
+      return false;
+    });
+  }, 15 * 1000);
+
+  // 检查并刷新令牌
+  const clearTokenInterval = setInterval(() => tokenStore.checkAndRefreshToken(), 5 * 60 * 1000);
+
+  useEffect(() => {
+    (async function () {
+      // 初始化操作
+      // 1. 校验访问令牌的有效性
+      if (!tokenStore.isAccessTokenValid()) {
+        $gotoLogin();
+        setIniting(false);
+        return;
+      }
+
+      // 2. 加载个人信息
+      if (!profileStore.uid) {
+        try {
+          await profileStore.refreshProfile();
+          if (location.pathname === '/') {
+            navigate('/dashboard');
+          }
+        } catch (e: unknown) {
+          const err = await resolveApiError(e);
+          if (err.name === 'FETCH_ERROR') {
+            $showAlert({
+              content: '连接服务器失败，请刷新重试',
+            });
+          } else {
+            $showAlert({
+              content: '初始化用户信息失败',
+            });
+            $gotoLogin();
+          }
+        }
+      }
+
+      setIniting(false);
+      return () => {
+        clearTimeout(clearInitingTimeout);
+        clearInterval(clearTokenInterval);
+      };
+    })();
+  }, []);
+
   return (
-    <BrowserRouter>
-      <I18nextProvider i18n={i18n}>
-        <ConfigProvider locale={locale}>
-          {isLoading ? (
-            <SplashScreen />
-          ) : (
-            <Routes>
-              <Route path="/" Component={App}>
-                <Route path="/dashboard" Component={Dashboard} />
-              </Route>
-              <Route path="/login" Component={Login} />
-            </Routes>
-          )}
-        </ConfigProvider>
-      </I18nextProvider>
-    </BrowserRouter>
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={new QueryClient()}>
+        <ConfigProvider locale={locale}>{initing ? <SplashScreen /> : <App />}</ConfigProvider>
+      </QueryClientProvider>
+    </I18nextProvider>
   );
 };
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Root />
+    <BrowserRouter>
+      <Root />
+    </BrowserRouter>
   </StrictMode>
 );

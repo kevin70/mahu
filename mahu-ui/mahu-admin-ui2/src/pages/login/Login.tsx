@@ -1,13 +1,56 @@
 import { SwitchLang } from '@/components/SwitchLang';
 import { SwitchTheme } from '@/components/SwitchTheme';
-import { Button, Checkbox, Form, Input, Space } from '@arco-design/web-react';
+import { Button, Checkbox, Form, Input, Message, Space } from '@arco-design/web-react';
 import { css } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 import { flex } from '@styled-system/patterns';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { IconUser, IconLock } from '@arco-design/web-react/icon';
+import { resolveApiError, TOKEN_API } from '@/services';
+import { useProfileStore, useTokenStore } from '@/stores';
+import { useMutation } from '@tanstack/react-query';
 
 const LoginForm = () => {
+  const title = import.meta.env.VITE_APP_TITLE;
+  const appName = import.meta.env.VITE_APP_NAME;
+  const clientId = import.meta.env.VITE_CLIENT_ID;
+
+  const navigate = useNavigate();
+  const tokenStore = useTokenStore();
+  const profileStore = useProfileStore();
+
+  const { isPending, isError, error, mutateAsync } = useMutation({
+    async mutationFn(values: any) {
+      try {
+        const rs = await TOKEN_API.login({
+          loginRequest: {
+            grantType: 'password',
+            clientId: clientId,
+            ...values,
+          },
+        });
+
+        // 保存访问令牌
+        tokenStore.clean();
+        tokenStore.attachToken(rs.accessToken, rs.refreshToken, rs.expiresIn, values.rememberMe);
+
+        // 刷新个人信息
+        const profile = await profileStore.refreshProfile();
+        Message.success(`欢迎回来 - ${profile.nickname}！`);
+        return rs;
+      } catch (e) {
+        // FIXME 处理密码错误
+        throw await resolveApiError(e);
+      }
+    },
+    onSuccess() {
+      navigate('/dashboard', { replace: true });
+    },
+    onError(error, variables, context) {
+      console.error('登录失败', variables, error, context);
+    },
+  });
+
   return (
     <div
       className={css({
@@ -26,7 +69,7 @@ const LoginForm = () => {
         登录 Arco Design Pro
       </div>
 
-      <Form layout="vertical">
+      <Form layout="vertical" onSubmit={mutateAsync}>
         <Form.Item field="username">
           <Input placeholder="用户名" prefix={<IconUser />} />
         </Form.Item>
@@ -40,7 +83,7 @@ const LoginForm = () => {
             <NavLink to={'/forget-password'}>忘记密码</NavLink>
           </div>
 
-          <Button htmlType="submit" type="primary" long>
+          <Button htmlType="submit" type="primary" long loading={isPending}>
             登录
           </Button>
         </Space>
