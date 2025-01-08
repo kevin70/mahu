@@ -1,5 +1,5 @@
 import { useAppStore } from '@/stores';
-import { Button, Select } from '@arco-design/web-react';
+import { Button, Dropdown, Menu, Select } from '@arco-design/web-react';
 import { useShallow } from 'zustand/shallow';
 import { IconLanguage } from '@arco-design/web-react/icon';
 
@@ -7,21 +7,31 @@ export const SwitchLang = () => {
   const { lng, changeLng } = useAppStore(useShallow((state) => ({ lng: state.lng, changeLng: state.changeLng })));
 
   return (
-    <Select
+    <Dropdown
+      position={'bl'}
       trigger={'click'}
-      triggerElement={<Button shape="circle" icon={<IconLanguage fontSize={20} />} />}
-      triggerProps={{
-        autoAlignPopupWidth: false,
-        autoAlignPopupMinWidth: true,
-        position: 'br',
-      }}
-      options={[
-        { value: 'zh-CN', label: '中文简体' },
-        { value: 'en-US', label: 'English' },
-      ]}
-      value={lng}
-      onChange={changeLng}
-      defaultActiveFirstOption={false}
-    />
+      droplist={
+        <Menu>
+          <Menu.Item
+            key="zh-CN"
+            onClick={() => {
+              changeLng('zh-CN');
+            }}
+          >
+            中文简体
+          </Menu.Item>
+          <Menu.Item
+            key="en-US"
+            onClick={() => {
+              changeLng('en-US');
+            }}
+          >
+            English
+          </Menu.Item>
+        </Menu>
+      }
+    >
+      <Button shape="circle" icon={<IconLanguage fontSize={20} />} />
+    </Dropdown>
   );
 };
