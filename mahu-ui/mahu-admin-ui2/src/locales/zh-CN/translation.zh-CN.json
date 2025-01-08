@@ -1,4 +1,6 @@
 {
-  "save": "保存",
-  "search": "搜索"
+  "button.new": "新建",
+  "button.reset": "重置",
+  "button.save": "保存",
+  "button.search": "搜索"
 }

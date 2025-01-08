@@ -1,4 +1,6 @@
 {
-  "save": "Save",
-  "search": "Search"
+  "button.new": "New",
+  "button.reset": "Reset",
+  "button.save": "Save",
+  "button.search": "Search"
 }
