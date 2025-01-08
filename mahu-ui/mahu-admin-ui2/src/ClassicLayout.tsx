@@ -1,18 +1,23 @@
 import { Layout } from '@arco-design/web-react';
-import { css } from '@styled-system/css';
 import { NavBar } from '@/components/NavBar';
 import { Outlet } from 'react-router';
 import { SideBar } from './components/SideBar';
+import { css } from '@emotion/react';
 
 export const ClassicLayout = () => {
   const { Header, Content, Sider } = Layout;
 
   return (
-    <Layout className={css({ w: 'full', h: 'full' })}>
+    <Layout
+      css={css`
+        width: 100%;
+        height: 100%;
+      `}
+    >
       <Header
-        className={css({
-          paddingBottom: 'var(--h-navbar-height)',
-        })}
+        css={css`
+          padding-bottom: var(--h-navbar-height);
+        `}
       >
         <NavBar />
       </Header>
@@ -20,9 +25,9 @@ export const ClassicLayout = () => {
       <Layout>
         <Sider
           breakpoint="xl"
-          className={css({
-            h: 'calc(100vh - var(--h-navbar-height))',
-          })}
+          css={css`
+            height: calc(100vh - var(--h-navbar-height));
+          `}
         >
           <SideBar />
         </Sider>

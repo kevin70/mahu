@@ -1,10 +1,9 @@
-import { css } from '@styled-system/css';
-import { flex } from '@styled-system/patterns';
 import Logo from '@/assets/logo.svg';
 import { Avatar, Divider, Dropdown, Input, Menu, Space } from '@arco-design/web-react';
 import { SwitchLang } from './SwitchLang';
 import { SwitchTheme } from './SwitchTheme';
 import { IconEdit, IconRobot, IconUser } from '@arco-design/web-react/icon';
+import { css } from '@emotion/react';
 
 export const NavBar = () => {
   const title = import.meta.env.VITE_APP_TITLE;
@@ -33,7 +32,7 @@ export const NavBar = () => {
                 $gotoLogin();
               }}
             >
-              <Space className={css({ color: 'rgb(var(--red-7))' })}>
+              <Space>
                 <IconRobot />
                 退出登录
               </Space>
@@ -50,34 +49,35 @@ export const NavBar = () => {
 
   return (
     <div
-      className={flex({
-        h: 'var(--h-navbar-height)',
-        w: 'full',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        zIndex: 100,
-        justify: 'space-between',
-        align: 'center',
-        border: '1px solid var(--color-border)',
-        boxSizing: 'border-box',
-        bg: 'var(--color-bg-2)',
-      })}
+      css={css`
+        height: var(--h-navbar-height);
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid var(--color-border);
+        background: var(--color-bg-2);
+        box-sizing: border-box;
+      `}
     >
       <div
-        className={flex({
-          align: 'center',
-          pl: 4,
-        })}
+        css={css`
+          display: flex;
+          align-items: center;
+          padding-left: 4;
+        `}
       >
         <Logo />
         <div
-          className={css({
-            color: 'var(--color-text-1)',
-            fontWeight: 500,
-            fontSize: 20,
-            ml: 4,
-          })}
+          css={css`
+            color: var(--color-text-1);
+            font-weight: 500;
+            font-size: 20;
+            margin-left: 4;
+          `}
         >
           {title}
         </div>
@@ -85,9 +85,9 @@ export const NavBar = () => {
 
       <Space
         size={'medium'}
-        className={css({
-          mr: 4,
-        })}
+        css={css`
+          margin-right: 4;
+        `}
       >
         <Input.Search />
         <SwitchTheme />

@@ -1,12 +1,14 @@
+import { HDrawerForm } from '@/components/HDrawerForm';
 import { HNewButton } from '@/components/HNewButton';
-import { HSearchForm } from '@/components/HSearchForm';
+import { HSearchButton } from '@/components/HSearchButton';
 import { HTableDelButton } from '@/components/HTableDelButton';
 import { PageContainer } from '@/components/PageContainer';
-import { Button, Form, Input, Table, TableColumnProps } from '@arco-design/web-react';
-import { IconPlus } from '@arco-design/web-react/icon';
-import { css } from '@styled-system/css';
+import { useTableHelper } from '@/hooks';
+import { Form, Input, Table, TableColumnProps } from '@arco-design/web-react';
+import { useEffect } from 'react';
 
 export const EmployeeList = () => {
+  const { onTableChange, pagination, queryOffsetLimit, querySort } = useTableHelper({});
   const columns: TableColumnProps[] = [
     {
       title: 'Name',
@@ -32,6 +34,7 @@ export const EmployeeList = () => {
       },
     },
   ];
+
   const data = [
     {
       key: '1',
@@ -70,29 +73,53 @@ export const EmployeeList = () => {
     },
   ];
 
+  useEffect(() => {
+    console.log('page', queryOffsetLimit);
+  }, [queryOffsetLimit]);
+
+  const NewForm = () => {
+    return (
+      <HDrawerForm
+        trigger={<HNewButton />}
+        title={'新建职员'}
+        onInit={(form) => {
+          form.setFieldValue('name', 'hello');
+        }}
+        onFinish={(values, form) => {
+          //
+        }}
+      >
+        <Form.Item label="名称" field={'name'} rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+      </HDrawerForm>
+    );
+  };
+
   return (
-    <PageContainer
-      title={'职员列表'}
-      extra={
-        <div>
-          <HNewButton />
-        </div>
-      }
-    >
-      <HSearchForm
-        onSearch={() => {
+    <PageContainer title={'职员列表'} extra={<NewForm />}>
+      <Form
+        layout="inline"
+        colon
+        onSubmit={() => {
           //
         }}
       >
         <Form.Item label="名称">
           <Input />
         </Form.Item>
-        <Form.Item label="名称">
-          <Input />
-        </Form.Item>
-      </HSearchForm>
+        <HSearchButton />
+      </Form>
 
-      <Table columns={columns} data={data} />
+      <Table
+        columns={columns}
+        data={data}
+        onChange={onTableChange}
+        pagination={{
+          ...pagination,
+          total: 1000,
+        }}
+      />
     </PageContainer>
   );
 };

@@ -1,7 +1,7 @@
 import { filterMenus, MENUS } from '@/config/menu';
 import { useProfileStore } from '@/stores';
 import { Menu } from '@arco-design/web-react';
-import { hstack } from '@styled-system/patterns';
+import { css } from '@emotion/react';
 import { ReactNode, useMemo } from 'react';
 import { Link, useLocation } from 'react-router';
 import { useShallow } from 'zustand/shallow';
@@ -14,12 +14,13 @@ export const SideBar = () => {
   const renderItem = (name: string, icon?: ReactNode) => {
     return (
       <div
-        className={hstack({
-          alignItems: 'center',
-          '& > svg': {
-            mr: '0!',
-          },
-        })}
+        css={css`
+          display: flex;
+          align-items: center;
+          & > svg {
+            margin-right: 0!;
+          }
+        `}
       >
         {icon}
         {name}
@@ -41,12 +42,13 @@ export const SideBar = () => {
           <Menu.Item key={m.path || `${i}-${m.name}`}>
             <Link to={m.path!}>
               <div
-                className={hstack({
-                  alignItems: 'center',
-                  '& > svg': {
-                    mr: '0!',
-                  },
-                })}
+                css={css`
+                  display: flex;
+                  align-items: center;
+                  & > svg {
+                    margin-right: 0!;
+                  }
+                `}
               >
                 {m.icon}
                 {m.name}

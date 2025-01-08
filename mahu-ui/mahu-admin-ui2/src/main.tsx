@@ -2,13 +2,11 @@ import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, useNavigate } from 'react-router';
 
+import './index.css';
 import '@arco-design/web-react/dist/css/arco.css';
 import { AlertProps, ConfigProvider, Message, Spin } from '@arco-design/web-react';
 import zhCN from '@arco-design/web-react/es/locale/zh-CN';
 import enUS from '@arco-design/web-react/es/locale/en-US';
-
-import { Flex } from '@styled-system/jsx';
-import { css } from '@styled-system/css';
 
 import { App } from './App';
 
@@ -20,14 +18,21 @@ import { I18nextProvider } from 'react-i18next';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { resolveApiError } from './services';
-
-import './index.css';
+import { css } from '@emotion/react';
 
 const SplashScreen = () => {
   return (
-    <Flex justify="center" align="center" className={css({ h: '100vh', w: '100vw' })}>
+    <div
+      css={css`
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      `}
+    >
       <Spin size={40} tip="加载中..." />
-    </Flex>
+    </div>
   );
 };
 

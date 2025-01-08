@@ -1,9 +1,6 @@
-@layer reset, base, tokens, recipes, utilities;
-
 body {
   background-color: var(--color-bg-1);
   color: var(--color-text-1);
-  color-scheme: dark;
 
   /* 自定义变量 */
   --h-navbar-height: 60px;

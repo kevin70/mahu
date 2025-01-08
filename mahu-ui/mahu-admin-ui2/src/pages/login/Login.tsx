@@ -1,14 +1,12 @@
 import { SwitchLang } from '@/components/SwitchLang';
 import { SwitchTheme } from '@/components/SwitchTheme';
 import { Button, Checkbox, Form, Input, Message, Space } from '@arco-design/web-react';
-import { css } from '@styled-system/css';
-import { Flex } from '@styled-system/jsx';
-import { flex } from '@styled-system/patterns';
 import { NavLink, useNavigate } from 'react-router';
 import { IconUser, IconLock } from '@arco-design/web-react/icon';
 import { resolveApiError, TOKEN_API } from '@/services';
 import { useProfileStore, useTokenStore } from '@/stores';
 import { useMutation } from '@tanstack/react-query';
+import { css } from '@emotion/react';
 
 const LoginForm = () => {
   const title = import.meta.env.VITE_APP_TITLE;
@@ -53,18 +51,18 @@ const LoginForm = () => {
 
   return (
     <div
-      className={css({
-        w: '400px',
-      })}
+      css={css`
+        width: 400px;
+      `}
     >
       <div
-        className={css({
-          display: 'inline-flex',
-          fontSize: 24,
-          fontWeight: 500,
-          color: 'var(--color-text-1)',
-          lineHeight: 3,
-        })}
+        css={css`
+          display: inline-flex;
+          font-size: 24;
+          font-weight: 500;
+          color: var(--color-text-1);
+          line-height: 3;
+        `}
       >
         登录 Arco Design Pro
       </div>
@@ -78,7 +76,12 @@ const LoginForm = () => {
         </Form.Item>
 
         <Space direction="vertical">
-          <div className={css({ display: 'flex', justifyContent: 'space-between' })}>
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+            `}
+          >
             <Checkbox>记住我</Checkbox>
             <NavLink to={'/forget-password'}>忘记密码</NavLink>
           </div>
@@ -94,22 +97,28 @@ const LoginForm = () => {
 
 export const Login = () => {
   return (
-    <Flex h={'100vh'} justify={'center'} align={'center'}>
+    <div
+      css={css`
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      `}
+    >
       <div
-        className={flex({
-          pos: 'fixed',
-          top: 4,
-          right: 4,
-          zIndex: 100,
-          gap: 4,
-          align: 'center',
-        })}
+        css={css`
+          position: fixed;
+          top: 4;
+          right: 4;
+          z-index: 100;
+          gap: 4;
+          align-items: center;
+        `}
       >
         <SwitchLang />
         <SwitchTheme />
       </div>
 
       <LoginForm />
-    </Flex>
+    </div>
   );
 };
