@@ -1,18 +1,14 @@
-import { ReactElement, ReactNode, ReactSVGElement } from 'react';
-import {
-  IconApps,
-  IconBold,
-  IconBook,
-  IconCode,
-  IconCommand,
-  IconUser,
-  IconUserGroup,
-} from '@arco-design/web-react/icon';
+import { ReactElement } from 'react';
 import { permits } from './permit';
-import MaterialSymbolsBrandFamilyOutline from '@/icons/MaterialSymbolsBrandFamilyOutline';
-import MaterialSymbolsWebAsset from '@/icons/MaterialSymbolsWebAsset';
-import CarbonUserRole from '@/icons/CarbonUserRole';
-import IconParkOutlineShop from '@/icons/IconParkOutlineShop';
+import { IconApps } from '@arco-design/web-react/icon';
+import { LuStore } from 'react-icons/lu';
+import { FaRegFile } from 'react-icons/fa';
+import { FiFileText } from 'react-icons/fi';
+import { MdSecurity, MdOutlineCategory, MdOutlineDashboardCustomize } from 'react-icons/md';
+import { AiOutlineAudit } from 'react-icons/ai';
+import { HiOutlineUserGroup } from 'react-icons/hi';
+import { SlOrganization } from 'react-icons/sl';
+import { BsJournalText } from 'react-icons/bs';
 
 type MenuItem = {
   name: string;
@@ -27,7 +23,7 @@ type MenuItem = {
 export const MENUS: MenuItem[] = [
   {
     path: '/dashboard',
-    icon: <IconApps />,
+    icon: <MdOutlineDashboardCustomize />,
     name: '仪表盘',
   },
   {
@@ -37,7 +33,7 @@ export const MENUS: MenuItem[] = [
     children: [
       {
         path: '/brand-list',
-        icon: <MaterialSymbolsBrandFamilyOutline />,
+        icon: <MdOutlineCategory />,
         name: '品牌管理',
         permits: [permits.BRAND.R],
       },
@@ -50,13 +46,13 @@ export const MENUS: MenuItem[] = [
     children: [
       {
         path: '/market/shop-list',
-        icon: <IconParkOutlineShop />,
+        icon: <LuStore />,
         name: '商店列表',
         permits: [permits.MARKET_SHOP.R],
       },
       {
         path: '/market/asset-list',
-        icon: <MaterialSymbolsWebAsset />,
+        icon: <FaRegFile />,
         name: '商店资源',
         permits: [permits.MARKET_ASSET.R],
       },
@@ -69,43 +65,43 @@ export const MENUS: MenuItem[] = [
     children: [
       {
         path: '/system/employee-list',
-        icon: <IconUser />,
+        icon: <HiOutlineUserGroup />,
         name: '职员列表',
         permits: [permits.EMPLOYEE.R],
       },
       {
         path: '/system/department-list',
-        icon: <IconUserGroup />,
+        icon: <SlOrganization />,
         name: '部门列表',
         permits: [permits.DEPARTMENT.R],
       },
       {
         path: '/system/dict-list',
-        icon: <IconBook />,
+        icon: <FiFileText />,
         name: '字典列表',
         permits: [permits.DICT.R],
       },
       {
         path: '/system/role-list',
-        icon: <CarbonUserRole />,
+        icon: <MdSecurity />,
         name: '角色列表',
         permits: [permits.ROLE.R],
       },
       {
         path: '/system/client-list',
-        icon: <IconCode />,
+        icon: <IconApps />,
         name: '终端配置',
         permits: [permits.CLIENT.R],
       },
       {
         path: '/system/access-log-list',
-        icon: <IconCommand />,
+        icon: <BsJournalText />,
         name: '访问记录',
         permits: [permits.ACCESS_LOG.R],
       },
       {
         path: '/system/audit-jour-list',
-        icon: <IconBold />,
+        icon: <AiOutlineAudit />,
         name: '操作审计',
         permits: [permits.AUDIT_JOUR.R],
       },

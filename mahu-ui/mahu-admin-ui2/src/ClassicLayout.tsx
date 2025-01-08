@@ -30,6 +30,7 @@ export const ClassicLayout = () => {
       >
         <Sider
           breakpoint="xl"
+          collapsible
           css={css`
             width: 220px;
             height: calc(100vh - var(--h-navbar-height));

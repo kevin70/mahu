@@ -1,7 +1,6 @@
 import { filterMenus, MENUS } from '@/config/menu';
 import { useProfileStore } from '@/stores';
 import { Menu } from '@arco-design/web-react';
-import { css } from '@emotion/react';
 import { ReactNode, useMemo } from 'react';
 import { Link, useLocation } from 'react-router';
 import { useShallow } from 'zustand/shallow';
@@ -13,18 +12,10 @@ export const SideBar = () => {
   const sysMenus = useMemo(() => filterMenus(MENUS, permits), [permits]);
   const renderItem = (name: string, icon?: ReactNode) => {
     return (
-      <div
-        css={css`
-          display: flex;
-          align-items: center;
-          & > svg {
-            margin-right: 0!;
-          }
-        `}
-      >
+      <>
         {icon}
         {name}
-      </div>
+      </>
     );
   };
 
@@ -41,18 +32,8 @@ export const SideBar = () => {
         return (
           <Menu.Item key={m.path || `${i}-${m.name}`}>
             <Link to={m.path!}>
-              <div
-                css={css`
-                  display: flex;
-                  align-items: center;
-                  & > svg {
-                    margin-right: 0!;
-                  }
-                `}
-              >
-                {m.icon}
-                {m.name}
-              </div>
+              {m.icon}
+              {m.name}
             </Link>
           </Menu.Item>
         );

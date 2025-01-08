@@ -19,6 +19,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { resolveApiError } from './services';
 import { css } from '@emotion/react';
 
+import { IconContext } from 'react-icons';
 import './index.css';
 
 const SplashScreen = () => {
@@ -171,7 +172,9 @@ export const Root = () => {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Root />
+      <IconContext.Provider value={{ className: 'arco-icon' }}>
+        <Root />
+      </IconContext.Provider>
     </BrowserRouter>
   </StrictMode>
 );
