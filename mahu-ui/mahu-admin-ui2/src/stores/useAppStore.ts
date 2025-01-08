@@ -33,6 +33,7 @@ export const useAppStore = create(
       },
       lng: i18next.language === 'en-US' ? 'en-US' : 'zh-CN',
       changeLng(lng) {
+        set({ lng: lng });
         i18next.changeLanguage(lng);
       },
     }),
