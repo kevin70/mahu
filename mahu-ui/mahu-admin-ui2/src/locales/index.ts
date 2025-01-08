@@ -13,13 +13,12 @@ i18n
   .use(initReactI18next)
   .init({
     debug: import.meta.env.DEV,
-    supportedLngs: ['zh-CN', 'en-US'],
     fallbackLng: 'zh-CN',
     resources: {
-      zhCN: {
+      'zh-CN': {
         translation: translationZhCN,
       },
-      enUS: {
+      'en-US': {
         translation: translationEnUS,
       },
     },
