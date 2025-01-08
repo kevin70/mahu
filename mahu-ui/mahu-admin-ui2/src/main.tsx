@@ -2,7 +2,6 @@ import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, useNavigate } from 'react-router';
 
-import './index.css';
 import '@arco-design/web-react/dist/css/arco.css';
 import { AlertProps, ConfigProvider, Message, Spin } from '@arco-design/web-react';
 import zhCN from '@arco-design/web-react/es/locale/zh-CN';
@@ -19,6 +18,8 @@ import { I18nextProvider } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { resolveApiError } from './services';
 import { css } from '@emotion/react';
+
+import './index.css';
 
 const SplashScreen = () => {
   return (

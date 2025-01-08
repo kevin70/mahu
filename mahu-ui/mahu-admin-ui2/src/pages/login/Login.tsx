@@ -58,7 +58,7 @@ const LoginForm = () => {
       <div
         css={css`
           display: inline-flex;
-          font-size: 24;
+          font-size: 24px;
           font-weight: 500;
           color: var(--color-text-1);
           line-height: 3;
@@ -97,20 +97,15 @@ const LoginForm = () => {
 
 export const Login = () => {
   return (
-    <div
-      css={css`
-        height: 100vh;
-        justify-content: center;
-        align-items: center;
-      `}
-    >
+    <>
       <div
         css={css`
           position: fixed;
-          top: 4;
-          right: 4;
+          top: 20px;
+          right: 20px;
           z-index: 100;
-          gap: 4;
+          display: flex;
+          gap: 16px;
           align-items: center;
         `}
       >
@@ -118,7 +113,17 @@ export const Login = () => {
         <SwitchTheme />
       </div>
 
-      <LoginForm />
-    </div>
+      <div
+        css={css`
+          height: 100vh;
+          width: 100vw;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <LoginForm />
+      </div>
+    </>
   );
 };

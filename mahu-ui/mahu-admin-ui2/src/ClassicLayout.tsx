@@ -22,10 +22,16 @@ export const ClassicLayout = () => {
         <NavBar />
       </Header>
 
-      <Layout>
+      <Layout
+        css={css`
+          display: flex;
+          flex-direction: row;
+        `}
+      >
         <Sider
           breakpoint="xl"
           css={css`
+            width: 220px;
             height: calc(100vh - var(--h-navbar-height));
           `}
         >
@@ -34,6 +40,7 @@ export const ClassicLayout = () => {
         <Content>
           <Outlet />
         </Content>
+        {/* <Content>Content</Content> */}
       </Layout>
     </Layout>
   );

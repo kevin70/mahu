@@ -32,7 +32,12 @@ export const NavBar = () => {
                 $gotoLogin();
               }}
             >
-              <Space>
+              <Space
+                css={css`
+                  color: rgb(var(--red-6));
+                  font-weight: 500;
+                `}
+              >
                 <IconRobot />
                 退出登录
               </Space>
@@ -52,22 +57,24 @@ export const NavBar = () => {
       css={css`
         height: var(--h-navbar-height);
         width: 100%;
+        box-sizing: border-box;
         position: fixed;
-        top: 0;
-        left: 0;
+        top: 0px;
+        left: 0px;
         z-index: 100;
-        justify-content: space-between;
-        align-items: center;
         border: 1px solid var(--color-border);
         background: var(--color-bg-2);
         box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       `}
     >
       <div
         css={css`
           display: flex;
           align-items: center;
-          padding-left: 4;
+          padding-left: 4px;
         `}
       >
         <Logo />
@@ -75,8 +82,8 @@ export const NavBar = () => {
           css={css`
             color: var(--color-text-1);
             font-weight: 500;
-            font-size: 20;
-            margin-left: 4;
+            font-size: 20px;
+            margin-left: 4px;
           `}
         >
           {title}
@@ -86,7 +93,7 @@ export const NavBar = () => {
       <Space
         size={'medium'}
         css={css`
-          margin-right: 4;
+          margin-right: 4px;
         `}
       >
         <Input.Search />
