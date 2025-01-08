@@ -82,11 +82,12 @@ export const EmployeeList = () => {
       <HDrawerForm
         trigger={<HNewButton />}
         title={'新建职员'}
-        onInit={(form) => {
+        onInit={async (form) => {
           form.setFieldValue('name', 'hello');
         }}
-        onFinish={(values, form) => {
+        onFinish={async (values, form) => {
           //
+          return true;
         }}
       >
         <Form.Item label="名称" field={'name'} rules={[{ required: true }]}>
