@@ -1,16 +1,11 @@
-import { StrictMode, useEffect, useState } from 'react';
+import { StrictMode, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, useNavigate } from 'react-router';
 
 import '@arco-design/web-react/dist/css/arco.css';
-import { AlertProps, ConfigProvider, Message, Spin } from '@arco-design/web-react';
+import { Alert, AlertProps, ConfigProvider, Message, Spin } from '@arco-design/web-react';
 import zhCN from '@arco-design/web-react/es/locale/zh-CN';
 import enUS from '@arco-design/web-react/es/locale/en-US';
-
-import { App } from './App';
-
-import { useAppStore, useProfileStore, useTokenStore } from '@/stores';
-import { useShallow } from 'zustand/shallow';
 
 import i18n from '@/locales/index.ts';
 import { I18nextProvider } from 'react-i18next';
@@ -21,7 +16,13 @@ import { resolveApiError } from './services';
 import { css } from '@emotion/react';
 
 import { IconContext } from 'react-icons';
+import { useShallow } from 'zustand/shallow';
+
+import { App } from './App';
+import { useAppStore, useProfileStore, useTokenStore } from '@/stores';
 import './index.css';
+import { useMap } from '@uidotdev/usehooks';
+import { ulid } from 'ulid';
 
 const SplashScreen = () => {
   return (
@@ -66,6 +67,40 @@ export const Root = () => {
   });
 
   // ========================== 全局函数 ========================== //
+  // 全局警告消息
+  const alerts = useMap<string>();
+  const $showAlert = (alert: AlertProps) => {
+    alerts.set(ulid(), alert);
+  };
+  window.$showAlert = $showAlert;
+  const GlobalAlert = () => (
+    <div
+      css={css`
+        position: fixed;
+        z-index: 999999;
+        top: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
+      `}
+    >
+      {Array.from(alerts.keys()).map((key) => {
+        const a = alerts.get(key);
+        return (
+          <Alert
+            {...a}
+            key={key}
+            closable
+            onClose={() => {
+              alerts.delete(key);
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+
   window.$accessToken = () => {
     if (!tokenStore.isAccessTokenValid()) {
       Message.error('认证失效');
@@ -98,10 +133,6 @@ export const Root = () => {
     navigate('/login', { replace: true });
   };
 
-  // 全局警告消息
-  window.$showAlert = (alert: AlertProps) => {
-    // FIXME
-  };
   // ========================== 全局函数 ========================== //
 
   // 检查并刷新令牌
@@ -139,11 +170,15 @@ export const Root = () => {
           const err = await resolveApiError(e);
           if (err.name === 'FETCH_ERROR') {
             $showAlert({
+              type: 'error',
               content: '连接服务器失败，请刷新重试',
+              banner: true,
             });
           } else {
             $showAlert({
+              type: 'error',
               content: '初始化用户信息失败',
+              banner: true,
             });
             $gotoLogin();
           }
@@ -164,8 +199,9 @@ export const Root = () => {
       <QueryClientProvider client={new QueryClient()}>
         <ConfigProvider locale={locale} theme={{}}>
           {initing ? <SplashScreen /> : <App />}
-        </ConfigProvider>
 
+          <GlobalAlert />
+        </ConfigProvider>
         <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
       </QueryClientProvider>
     </I18nextProvider>
