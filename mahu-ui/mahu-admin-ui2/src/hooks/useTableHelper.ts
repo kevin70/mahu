@@ -13,9 +13,9 @@ export const useTableHelper = ({
   // 分页
   const [innerPagination, setInnerPagination] = useState({
     current: 1,
-    pageSize: 20,
+    pageSize: 15,
     sizeCanChange: true,
-    sizeOptions: [20, 50, 100, 500],
+    sizeOptions: [15, 50, 100, 500],
     bufferSize: 3,
     showTotal: true,
     ...pagination,
