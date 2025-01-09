@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.system;
 
+import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -18,7 +19,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "dict", schema = "system")
-public class Dict {
+public class Dict implements Auditable {
 
     /// 主键
     @Id

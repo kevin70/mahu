@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.system;
 
+import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "department", schema = "system")
-public class Department {
+public class Department implements Auditable {
 
     /// 主键
     @Id

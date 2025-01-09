@@ -1,10 +1,8 @@
 package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.common.Metadata;
-import cool.houge.mahu.entity.Brand;
-import cool.houge.mahu.entity.market.Asset;
-import cool.houge.mahu.entity.market.Shop;
-import cool.houge.mahu.entity.system.*;
+import cool.houge.mahu.entity.Auditable;
+import cool.houge.mahu.entity.system.AuditJour;
 import io.ebean.bean.EntityBean;
 import io.ebean.event.BeanPersistAdapter;
 import io.ebean.event.BeanPersistRequest;
@@ -27,16 +25,7 @@ public class AuditJourBeanPersistController extends BeanPersistAdapter {
 
     @Override
     public boolean isRegisterFor(Class<?> cls) {
-        return cls == Dict.class
-                || cls == Client.class
-                || cls == Role.class
-                || cls == Department.class
-                || cls == Employee.class
-                // 品牌
-                || cls == Brand.class
-                // 商店
-                || cls == Shop.class
-                || cls == Asset.class;
+        return cls.isAssignableFrom(Auditable.class);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.system;
 
+import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -17,7 +18,7 @@ import java.time.OffsetDateTime;
 @Setter
 @Entity
 @Table(schema = "system", name = "client")
-public class Client {
+public class Client implements Auditable {
 
     /// 客户端 ID
     @Id

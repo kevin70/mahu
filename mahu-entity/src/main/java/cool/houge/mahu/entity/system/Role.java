@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.system;
 
+import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,7 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "role", schema = "system")
 @ChangeLog
-public class Role {
+public class Role implements Auditable {
 
     /// 主键
     @Id

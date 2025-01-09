@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.system;
 
+import cool.houge.mahu.entity.Auditable;
 import cool.houge.mahu.entity.market.Shop;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
@@ -20,7 +21,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "employee", schema = "system")
-public class Employee {
+public class Employee implements Auditable {
 
     /// 主键
     @Id

@@ -16,7 +16,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Auditable {
 
     /// 主键
     @Id
