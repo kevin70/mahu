@@ -57,14 +57,14 @@ const LoginForm = () => {
     >
       <div
         css={css`
-          display: inline-flex;
+          text-align: center;
           font-size: 24px;
           font-weight: 500;
-          color: var(--color-text-1);
           line-height: 3;
+          color: var(--color-text-1);
         `}
       >
-        登录 Arco Design Pro
+        {title}
       </div>
 
       <Form layout="vertical" onSubmit={mutateAsync}>
@@ -109,8 +109,8 @@ export const Login = () => {
           align-items: center;
         `}
       >
-        <SwitchLang />
         <SwitchTheme />
+        <SwitchLang />
       </div>
 
       <div
