@@ -5,8 +5,9 @@ import { LoginFormPage, ProFormCheckbox, ProFormText } from '@ant-design/pro-com
 import { useMutation } from '@tanstack/react-query';
 import { Alert, Button, Divider, Flex, Space } from 'antd';
 import { useNavigate } from 'react-router';
-import { css } from '@styled-system/css';
-import { ChooseLocale } from '@/components/ChooseLocale';
+import { SwitchLang } from '@/components/SwitchLang';
+import { css } from '@emotion/react';
+import { SwitchTheme } from '@/components/SwitchTheme';
 
 export const Login = () => {
   const title = import.meta.env.VITE_APP_TITLE;
@@ -53,9 +54,9 @@ export const Login = () => {
     <Flex vertical justify="center" align="center">
       <Divider plain>
         <span
-          className={css({
-            color: 'var(--ant-color-text-placeholder)',
-          })}
+          css={css`
+            color: var(--ant-color-text-placeholder);
+          `}
         >
           其他登录方式
         </span>
@@ -68,16 +69,26 @@ export const Login = () => {
   );
 
   return (
-    <div className={css({ h: '100vh' })}>
+    <div
+      css={css`
+        height: 100vh;
+        box-sizing: border-box;
+      `}
+    >
       <div
-        className={css({
-          zIndex: 999,
-          position: 'fixed',
-          top: 4,
-          right: 4,
-        })}
+        css={css`
+          z-index: 999;
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          color: var(--ant-blue);
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        `}
       >
-        <ChooseLocale />
+        <SwitchTheme />,
+        <SwitchLang />,
       </div>
 
       <LoginFormPage
@@ -123,9 +134,9 @@ export const Login = () => {
         <Flex
           justify="space-between"
           align="center"
-          className={css({
-            marginBlockEnd: 'var(--ant-margin)',
-          })}
+          css={css`
+            margin-block-end: var(--ant-margin);
+          `}
         >
           <ProFormCheckbox noStyle name="rememberMe">
             记住我

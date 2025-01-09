@@ -4,9 +4,8 @@ import { useProfileStore, useTokenStore } from '@/stores';
 import { Alert, AlertProps, Flex, message, Spin } from 'antd';
 import { useAsyncEffect, useInterval, useSet, useTimeout, useUnmount } from 'ahooks';
 import { resolveApiError } from './services';
-import { css } from '@styled-system/css';
 import { ulid } from 'ulid';
-import { styled } from '@styled-system/jsx';
+import { css } from '@emotion/react';
 
 function App() {
   const navigate = useNavigate();
@@ -24,9 +23,20 @@ function App() {
 
   const SplashScreen = () => {
     return (
-      <Flex justify="center" align="center" className={css({ h: '100vh', w: '100vw' })}>
+      <Flex
+        justify="center"
+        align="center"
+        css={css`
+          height: 100vh;
+          width: 100vw;
+        `}
+      >
         <Spin size="large" tip="加载中...">
-          <div className={css({ p: '50' })}></div>
+          <div
+            css={css`
+              padding: 50px;
+            `}
+          ></div>
         </Spin>
       </Flex>
     );
@@ -36,11 +46,11 @@ function App() {
     <Flex
       vertical
       gap={'small'}
-      className={css({
-        w: '100%',
-        pos: 'fixed',
-        zIndex: 999999,
-      })}
+      css={css`
+        width: 100%;
+        position: fixed;
+        z-index: 99999;
+      `}
     >
       {alertMessages.map((v) => (
         <Alert

@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import 'antd/dist/reset.css';
 import { ConfigProvider, theme } from 'antd';
-
-import './index.css';
 
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';

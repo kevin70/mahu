@@ -1,7 +1,7 @@
-import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IoLanguage } from 'react-icons/io5';
 
 const items = [
   {
@@ -14,13 +14,9 @@ const items = [
   },
 ];
 
-export const ChooseLocale = () => {
+export const SwitchLang = () => {
   const { i18n } = useTranslation();
-
   const [lng, setLng] = useState(i18n.language);
-  const locale = useMemo(() => {
-    return items.find((o) => o?.key === lng)?.label || '选择语言';
-  }, [lng]);
 
   i18n.on('languageChanged', (o) => {
     setLng(o);
@@ -39,9 +35,7 @@ export const ChooseLocale = () => {
       }}
       trigger={['click']}
     >
-      <Button type="text" icon={<DownOutlined />} iconPosition="end">
-        {locale}
-      </Button>
+      <Button type="text" shape="circle" icon={<IoLanguage fontSize={16} />} />
     </Dropdown>
   );
 };

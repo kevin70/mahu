@@ -3,7 +3,7 @@ import { ProLayout } from '@ant-design/pro-components';
 import { useAppStore, useProfileStore } from '@/stores';
 import { useShallow } from 'zustand/shallow';
 import { filterMenus, MENUS } from '@/config/menu';
-import { Button, Divider, Dropdown, MenuProps, Typography } from 'antd';
+import { Button, Dropdown, MenuProps, Typography } from 'antd';
 import {
   KeyOutlined,
   LogoutOutlined,
@@ -14,12 +14,12 @@ import {
 } from '@ant-design/icons';
 import { useMemo } from 'react';
 import { ItemType } from 'antd/es/menu/interface';
-import { css } from '@styled-system/css';
-import { ChooseLocale } from '@/components/ChooseLocale';
+import { SwitchLang } from '@/components/SwitchLang';
+import { css } from '@emotion/react';
+import { SwitchTheme } from '@/components/SwitchTheme';
 
 export const AndDesignProLayout = () => {
   const appStore = useAppStore();
-  const isLightTheme = useAppStore(useShallow((state) => state.isLightTheme()));
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -59,9 +59,9 @@ export const AndDesignProLayout = () => {
     {
       icon: (
         <LogoutOutlined
-          className={css({
-            color: 'var(--ant-color-error)',
-          })}
+          css={css`
+            color: var(--ant-color-error);
+          `}
         />
       ),
       label: <Typography.Text type="danger">退出登录</Typography.Text>,
@@ -151,18 +151,7 @@ export const AndDesignProLayout = () => {
         if (props.isMobile) return [];
         if (typeof window === 'undefined') return [];
 
-        return [
-          <ChooseLocale />,
-          <ShopDropmenu />,
-          <Button
-            type="text"
-            shape="circle"
-            icon={isLightTheme ? <SunOutlined /> : <MoonOutlined />}
-            onClick={() => {
-              appStore.changeTheme(isLightTheme ? 'dark' : 'light');
-            }}
-          />,
-        ];
+        return [<ShopDropmenu />, <SwitchTheme />, <SwitchLang />];
       }}
     >
       <Outlet />

@@ -9,7 +9,7 @@ import { useShallow } from 'zustand/shallow';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
 import { useMap } from 'ahooks';
-import { css } from '@styled-system/css';
+import { css } from '@emotion/react';
 
 export const MarketAssetList = () => {
   const shopId = useAppStore(useShallow((state) => state.selectedShopId));
@@ -113,7 +113,15 @@ export const MarketAssetList = () => {
           okText="确认删除"
           onOk={onDelete}
         >
-          <Flex justify="center" wrap gap={'small'} className={css({ maxH: 480, overflow: 'auto' })}>
+          <Flex
+            justify="center"
+            wrap
+            gap={'small'}
+            css={css`
+              max-height: 480px;
+              overflow: auto;
+            `}
+          >
             {Array.from(selectAssetMap.entries()).map((entry) => (
               <Image src={entry[1]} width={120} />
             ))}

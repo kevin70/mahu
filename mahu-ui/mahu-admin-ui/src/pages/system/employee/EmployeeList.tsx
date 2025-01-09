@@ -12,7 +12,6 @@ import { DepartmentTreeSelect } from '@/components/system/DepartmentTreeSelect';
 import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
 import { useState } from 'react';
 import { HIncludeDetedCheckBox } from '@/components/HIncludeDeletedCheckbox';
-import { css } from '@styled-system/css';
 
 export const EmployeeList = () => {
   const noWrite = $checkNotPermit(permits.DEPARTMENT.W);
@@ -47,10 +46,10 @@ export const EmployeeList = () => {
       }}
     >
       <ProFormText name="searchNickname" label="昵称" />
-      <Form.Item name="searchStatus" label="状态" className={css({ w: 260 })}>
+      <Form.Item name="searchStatus" label="状态">
         <EmployeeStatusSelect mode="multiple" placeholder="请选择" allowClear />
       </Form.Item>
-      <Form.Item label="部门" name="searchDepartmentIds" className={css({ w: 260 })}>
+      <Form.Item label="部门" name="searchDepartmentIds">
         <DepartmentTreeSelect multiple placeholder="选择部门" allowClear treeDefaultExpandAll />
       </Form.Item>
       <HSearchButton type="primary" htmlType="submit" loading={isFetching} />

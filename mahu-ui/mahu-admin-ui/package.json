@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "prepare": "panda codegen --clean",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -17,6 +16,8 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
     "@ant-design/pro-components": "^2.8.2",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@rsql/ast": "^1.6.0",
     "@rsql/builder": "^1.6.0",
     "@rsql/emitter": "^1.6.0",
@@ -31,6 +32,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.2.0",
+    "react-icons": "^5.4.0",
     "react-intersection-observer": "^9.14.0",
     "react-router": "^7.0.2",
     "ulid": "^2.3.0",
@@ -39,7 +41,6 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@openapitools/openapi-generator-cli": "^2.15.3",
-    "@pandacss/dev": "^0.49.0",
     "@redocly/cli": "^1.26.0",
     "@types/react": "^18.3.14",
     "@types/react-dom": "^18.3.3",
@@ -48,7 +49,6 @@
     "eslint-plugin-react-hooks": "5.1.0-rc-fb9a90fa48-20240614",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.13.0",
-    "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.0",
