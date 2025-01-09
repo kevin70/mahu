@@ -79,7 +79,7 @@ export const NavBar = () => {
         css={css`
           display: flex;
           align-items: center;
-          padding-left: 4px;
+          padding-left: 20px;
         `}
       >
         <Logo />
@@ -88,7 +88,7 @@ export const NavBar = () => {
             color: var(--color-text-1);
             font-weight: 500;
             font-size: 20px;
-            margin-left: 4px;
+            margin-left: 20px;
           `}
         >
           {title}
@@ -98,7 +98,7 @@ export const NavBar = () => {
       <Space
         size={'medium'}
         css={css`
-          margin-right: 4px;
+          margin-right: 20px;
         `}
       >
         <Input.Search />
