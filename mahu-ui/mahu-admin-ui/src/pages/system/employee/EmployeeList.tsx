@@ -12,6 +12,7 @@ import { DepartmentTreeSelect } from '@/components/system/DepartmentTreeSelect';
 import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
 import { useState } from 'react';
 import { HIncludeDetedCheckBox } from '@/components/HIncludeDeletedCheckbox';
+import { css } from '@emotion/react';
 
 export const EmployeeList = () => {
   const noWrite = $checkNotPermit(permits.DEPARTMENT.W);
@@ -44,6 +45,11 @@ export const EmployeeList = () => {
           rsqlOps.comparisonEx('department_id', '=in=', values.searchDepartmentIds),
         ]);
       }}
+      css={css`
+        & > .ant-form-item {
+          min-width: 240px;
+        }
+      `}
     >
       <ProFormText name="searchNickname" label="昵称" />
       <Form.Item name="searchStatus" label="状态">
@@ -67,6 +73,7 @@ export const EmployeeList = () => {
     <PageContainer>
       <ProTable
         search={false}
+        showSorterTooltip={false}
         manualRequest
         options={{
           reload() {
