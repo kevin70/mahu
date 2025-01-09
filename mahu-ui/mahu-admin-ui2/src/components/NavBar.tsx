@@ -1,15 +1,20 @@
 import Logo from '@/assets/logo.svg';
-import { Avatar, Divider, Dropdown, Input, Menu, Space } from '@arco-design/web-react';
+import { Avatar, Divider, Dropdown, Image, Input, Menu, Space } from '@arco-design/web-react';
 import { SwitchLang } from './SwitchLang';
 import { SwitchTheme } from './SwitchTheme';
 import { IconEdit, IconRobot, IconUser } from '@arco-design/web-react/icon';
 import { css } from '@emotion/react';
 import { Link } from 'react-router';
+import { useProfileStore } from '@/stores';
+import { useShallow } from 'zustand/shallow';
 
 export const NavBar = () => {
   const title = import.meta.env.VITE_APP_TITLE;
-
   const AvatarNickname = () => {
+    const { nickname, avatar } = useProfileStore(
+      useShallow((state) => ({ nickname: state.nickname, avatar: state.avatar }))
+    );
+
     return (
       <Dropdown
         droplist={
@@ -23,7 +28,7 @@ export const NavBar = () => {
               </Link>
             </Menu.Item>
             <Menu.Item key="updateMePassword">
-              <Link to={'/me?kind=updatePassword'}>
+              <Link to={'/me?kind=update_password'}>
                 <Space>
                   <IconEdit />
                   修改密码
@@ -52,7 +57,13 @@ export const NavBar = () => {
         position="br"
         trigger={'click'}
       >
-        <Avatar style={{ cursor: 'pointer' }}>头像</Avatar>
+        <Avatar
+          css={css`
+            cursor: pointer;
+          `}
+        >
+          {avatar ? <img alt={nickname} src={avatar} /> : nickname}
+        </Avatar>
       </Dropdown>
     );
   };
