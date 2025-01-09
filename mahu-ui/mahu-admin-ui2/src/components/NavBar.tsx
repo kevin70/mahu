@@ -4,6 +4,7 @@ import { SwitchLang } from './SwitchLang';
 import { SwitchTheme } from './SwitchTheme';
 import { IconEdit, IconRobot, IconUser } from '@arco-design/web-react/icon';
 import { css } from '@emotion/react';
+import { Link } from 'react-router';
 
 export const NavBar = () => {
   const title = import.meta.env.VITE_APP_TITLE;
@@ -14,16 +15,20 @@ export const NavBar = () => {
         droplist={
           <Menu>
             <Menu.Item key="profile">
-              <Space>
-                <IconUser />
-                个人信息
-              </Space>
+              <Link to={'/me?kind=info'}>
+                <Space>
+                  <IconUser />
+                  个人信息
+                </Space>
+              </Link>
             </Menu.Item>
             <Menu.Item key="updateMePassword">
-              <Space>
-                <IconEdit />
-                修改密码
-              </Space>
+              <Link to={'/me?kind=updatePassword'}>
+                <Space>
+                  <IconEdit />
+                  修改密码
+                </Space>
+              </Link>
             </Menu.Item>
             <Divider style={{ margin: '4px 0' }} />
             <Menu.Item

@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['mantine', 'plugin:@pandacss/recommended'],
+  extends: ['plugin:@tanstack/query/recommended'],
   parserOptions: {
     project: './tsconfig.json',
   },

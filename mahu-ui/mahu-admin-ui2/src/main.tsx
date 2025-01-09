@@ -16,6 +16,7 @@ import i18n from '@/locales/index.ts';
 import { I18nextProvider } from 'react-i18next';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { resolveApiError } from './services';
 import { css } from '@emotion/react';
 
@@ -164,6 +165,8 @@ export const Root = () => {
         <ConfigProvider locale={locale} theme={{}}>
           {initing ? <SplashScreen /> : <App />}
         </ConfigProvider>
+
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
       </QueryClientProvider>
     </I18nextProvider>
   );
