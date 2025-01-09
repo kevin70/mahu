@@ -1,22 +1,32 @@
 import { HSaveButton } from '@/components/HSaveButton';
 import { PageContainer } from '@/components/PageContainer';
+import { useProfileStore } from '@/stores';
 import { Avatar, Form, Input, Tabs } from '@arco-design/web-react';
-import { css } from '@emotion/react';
+import { useMemo } from 'react';
+import { useSearchParams } from 'react-router';
+import { useShallow } from 'zustand/shallow';
 
 export const MeProfile = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = useMemo(() => searchParams.get('kind') || 'info', [searchParams]);
+
   const InfoPanel = () => {
+    const { nickname, avatar } = useProfileStore(
+      useShallow((state) => ({ nickname: state.nickname, avatar: state.avatar }))
+    );
+
     return (
-      <div
-        css={css`
-          width: 200px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        `}
-      >
-        <Avatar size={64}>头像</Avatar>
-        <div>昵称</div>
-      </div>
+      <Form layout="vertical" initialValues={{ nickname, avatar }}>
+        <Form.Item field={'avatar'} label="头像">
+          <Avatar size={64}>
+            <img src={avatar} />
+          </Avatar>
+        </Form.Item>
+        <Form.Item field={'nickname'} label="昵称" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <HSaveButton long />
+      </Form>
     );
   };
 
@@ -39,11 +49,19 @@ export const MeProfile = () => {
 
   return (
     <PageContainer title={'个人资料'}>
-      <Tabs tabPosition="left">
+      <Tabs
+        tabPosition="left"
+        activeTab={activeTab}
+        onClickTab={(key) => {
+          setSearchParams((prev) => {
+            return { ...prev, kind: key };
+          });
+        }}
+      >
         <Tabs.TabPane key="info" title="个人信息">
           <InfoPanel />
         </Tabs.TabPane>
-        <Tabs.TabPane key="updatePassword" title="修改密码">
+        <Tabs.TabPane key="update_password" title="修改密码">
           <UpdatePasswordPanel />
         </Tabs.TabPane>
       </Tabs>
