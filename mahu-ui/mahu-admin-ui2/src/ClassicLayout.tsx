@@ -31,17 +31,22 @@ export const ClassicLayout = () => {
         <Sider
           breakpoint="xl"
           collapsible
+          width={220}
           css={css`
-            width: 220px;
+            position: fixed;
+            left: 0;
             height: calc(100vh - var(--h-navbar-height));
           `}
         >
           <SideBar />
         </Sider>
-        <Content>
+        <Content
+          css={css`
+            margin-left: 220px;
+          `}
+        >
           <Outlet />
         </Content>
-        {/* <Content>Content</Content> */}
       </Layout>
     </Layout>
   );
