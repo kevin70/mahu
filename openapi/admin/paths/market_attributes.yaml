@@ -1,0 +1,35 @@
+post:
+  summary: 保存属性
+  operationId: addMarketAttribute
+  x-role-permit: MARKET_ATTRIBUTE:W
+  tags:
+    - market
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertMarketAttributeRequest.yaml
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 属性列表
+  operationId: listMarketAttributes
+  x-role-permit: MARKET_ATTRIBUTE:R
+  tags:
+    - market
+  parameters:
+    - $ref: ../components/parameters/limit.yaml
+    - $ref: ../components/parameters/offset.yaml
+    - $ref: ../components/parameters/filter.yaml
+    - $ref: ../components/parameters/sort.yaml
+    - $ref: ../components/parameters/include_deleted.yaml
+    - $ref: ../components/parameters/no_total_count.yaml
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ListMarketAttributesPageResponse.yaml

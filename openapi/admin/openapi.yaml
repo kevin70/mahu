@@ -75,6 +75,9 @@ paths:
   /shops/{shop_id}/assets:
     $ref: paths/shops_{shop_id}_assets.yaml
 
+  /market/attributes:
+    $ref: paths/market_attributes.yaml
+
   /samples:
     get:
       summary: 样例
