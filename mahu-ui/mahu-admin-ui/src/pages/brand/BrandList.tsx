@@ -1,29 +1,29 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { permits } from '@/config/permit';
-import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { useRSQLFilter } from '@/hooks';
 import { BASIS_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message, Typography } from 'antd';
+import { Form, message } from 'antd';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { NewBrandDrawerForm } from './NewBrandDrawerForm';
 import { EditBrandDrawerForm } from './EditBrandDrawerForm';
+import { useTableHelper } from '@/hooks/useTableHelper';
 
 export const BrandList = () => {
   const noWrite = $checkNotPermit(permits.BRAND.W);
-  const { pagination, setPagination, setTotal, gotoFirstPage: resetPagination, queryOffsetLimit } = usePagination();
+  const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
+    sort: [{ columnKey: 'update_time' }],
+  });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
-  const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/brands', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await BASIS_API.listBrands({
+      return BASIS_API.listBrands({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
       });
-      setTotal(res.totalCount);
-      return res.items;
     },
   });
 
@@ -31,7 +31,7 @@ export const BrandList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        resetPagination();
+        gotoFirstPage();
         setRSQLFilters([rsqlOps.comparisonEx('name', '=icontains=', values.searchName)]);
       }}
     >
@@ -62,12 +62,9 @@ export const BrandList = () => {
           actions: [<NewBrandDrawerForm onSuccess={refetch} />],
         }}
         loading={isFetching}
-        dataSource={data}
-        pagination={pagination}
-        onChange={(pagination, _filters, sorter, _extra) => {
-          setPagination(pagination);
-          setTableSorter(sorter);
-        }}
+        dataSource={data?.items}
+        pagination={{ ...pagination, total: data?.totalCount }}
+        onChange={onTableChange}
         columnsState={{
           persistenceType: 'localStorage',
           persistenceKey: 'atable_state_brand_list',
@@ -116,15 +113,7 @@ export const BrandList = () => {
             fixed: 'right',
             render: (_dom, row) => [
               <EditBrandDrawerForm id={row.id} onSuccess={refetch} />,
-              <HDeletePopconfirmButton
-                onConfirm={() => onDelete(row.id)}
-                description={() => (
-                  <div>
-                    确认品牌 <Typography.Text mark>{row.name}</Typography.Text>
-                  </div>
-                )}
-                disabled={noWrite}
-              />,
+              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
             ],
           },
         ]}
