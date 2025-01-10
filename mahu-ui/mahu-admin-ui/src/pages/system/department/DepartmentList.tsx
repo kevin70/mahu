@@ -2,7 +2,7 @@ import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message, Typography } from 'antd';
+import { Form, message } from 'antd';
 import { NewDepartmentDrawerForm } from './NewDepartmentDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
 import { EditDepartmentDrawerForm } from './EditDepartmentDrawerForm';
@@ -105,15 +105,7 @@ export const DepartmentList = () => {
             fixed: 'right',
             render: (_dom, row) => [
               <EditDepartmentDrawerForm id={row.id} onSuccess={refetch} />,
-              <HDeletePopconfirmButton
-                onConfirm={() => onDelete(row.id)}
-                description={() => (
-                  <div>
-                    确认删除部门 <Typography.Text mark>{row.name}</Typography.Text>
-                  </div>
-                )}
-                disabled={noWrite}
-              />,
+              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
             ],
           },
         ]}

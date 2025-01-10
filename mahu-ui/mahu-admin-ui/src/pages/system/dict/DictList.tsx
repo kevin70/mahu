@@ -2,7 +2,7 @@ import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message, Typography } from 'antd';
+import { Form, message } from 'antd';
 import { NewDictDrawerForm } from './NewDictDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
 import { EditDictDrawerForm } from './EditDictDrawerForm';
@@ -111,16 +111,7 @@ export const DictList = () => {
             fixed: 'right',
             render: (_dom, row) => [
               <EditDictDrawerForm id={row.id!} onSuccess={refetch} />,
-              <HDeletePopconfirmButton
-                onConfirm={() => onDelete(row.id!)}
-                description={() => (
-                  <div>
-                    确认删除字典 <Typography.Text mark>{row.kind}</Typography.Text>{' '}
-                    <Typography.Text mark>{row.label}</Typography.Text>
-                  </div>
-                )}
-                disabled={noWrite}
-              />,
+              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />,
             ],
           },
         ]}

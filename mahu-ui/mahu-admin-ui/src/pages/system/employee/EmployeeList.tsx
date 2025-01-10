@@ -2,7 +2,7 @@ import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message, Typography } from 'antd';
+import { Form, message } from 'antd';
 import { NewEmployeeDrawerForm } from './NewEmployeeDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
 import { EditEmployeeDrawerForm } from './EditEmployeeDrawerForm';
@@ -156,16 +156,7 @@ export const EmployeeList = () => {
             render: (_dom, row) => [
               !row.deleted ? <EditEmployeeDrawerForm id={row.id} onSuccess={refetch} /> : null,
               !row.deleted ? (
-                <HDeletePopconfirmButton
-                  onConfirm={() => onDelete(row.id)}
-                  description={() => (
-                    <div>
-                      确认删除职员 <Typography.Text mark>{row.username}</Typography.Text>{' '}
-                      <Typography.Text mark>{row.nickname}</Typography.Text>
-                    </div>
-                  )}
-                  disabled={noWrite || row.id === 1}
-                />
+                <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite || row.id === 1} />
               ) : null,
             ],
           },

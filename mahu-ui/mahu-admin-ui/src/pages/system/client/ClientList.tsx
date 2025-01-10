@@ -4,7 +4,7 @@ import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message, Typography } from 'antd';
+import { Form, message } from 'antd';
 import { NewClientDrawerForm } from './NewClientDrawerForm';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { EditClientDrawerForm } from './EditClientDrawerForm';
@@ -120,16 +120,7 @@ export const ClientList = () => {
             fixed: 'right',
             render: (_dom, row) => [
               <EditClientDrawerForm clientId={row.clientId} onSuccess={refetch} />,
-              <HDeletePopconfirmButton
-                onConfirm={() => onDelete(row.clientId)}
-                description={() => (
-                  <div>
-                    确认删除认证终端 <Typography.Text mark>{row.clientId}</Typography.Text>{' '}
-                    <Typography.Text mark>{row.label}</Typography.Text>
-                  </div>
-                )}
-                disabled={noWrite}
-              />,
+              <HDeletePopconfirmButton onConfirm={() => onDelete(row.clientId)} disabled={noWrite} />,
             ],
           },
         ]}

@@ -4,7 +4,7 @@ import { useRSQLFilter } from '@/hooks';
 import { MARKET_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message, Typography } from 'antd';
+import { Form, message } from 'antd';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { NewMarketShopForm } from './NewMarketShopForm';
 import { EditMarketShopForm } from './EditMarketShopForm';
@@ -112,15 +112,7 @@ export const MarketShopList = () => {
             fixed: 'right',
             render: (_dom, row) => [
               <EditMarketShopForm id={row.id} onSuccess={refetch} />,
-              <HDeletePopconfirmButton
-                onConfirm={() => onDelete(row.id)}
-                description={() => (
-                  <div>
-                    确认删除门店 <Typography.Text mark>{row.name}</Typography.Text>
-                  </div>
-                )}
-                disabled={noWrite}
-              />,
+              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
             ],
           },
         ]}

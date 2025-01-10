@@ -4,7 +4,7 @@ import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message, Typography } from 'antd';
+import { Form, message } from 'antd';
 import { NewRoleDrawerForm } from './NewRoleDrawerForm';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { EditRoleDrawerForm } from './EditRoleDrawerForm';
@@ -106,15 +106,7 @@ export const RoleList = () => {
             fixed: 'right',
             render: (_dom, row) => [
               <EditRoleDrawerForm id={row.id} onSuccess={refetch} />,
-              <HDeletePopconfirmButton
-                onConfirm={() => onDelete(row.id)}
-                description={() => (
-                  <div>
-                    确认删除角色 <Typography.Text mark>{row.name}</Typography.Text>
-                  </div>
-                )}
-                disabled={noWrite}
-              />,
+              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
             ],
           },
         ]}
