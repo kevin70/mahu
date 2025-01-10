@@ -2,13 +2,12 @@ import { MenuDataItem } from '@ant-design/pro-components';
 import { permits } from './permit';
 
 import { AuditOutlined, DashboardOutlined, GroupOutlined, UserOutlined } from '@ant-design/icons';
-import { LuListTree } from 'react-icons/lu';
-import { LuStore } from 'react-icons/lu';
+import { BsJournalText } from 'react-icons/bs';
 import { FaRegFile } from 'react-icons/fa';
 import { FiFileText } from 'react-icons/fi';
-import { MdSecurity, MdOutlineCategory } from 'react-icons/md';
-import { BsJournalText } from 'react-icons/bs';
 import { IoMdApps } from 'react-icons/io';
+import { LuListTree, LuStore } from 'react-icons/lu';
+import { MdOutlineCategory, MdSecurity } from 'react-icons/md';
 
 export const MENUS: MenuDataItem[] = [
   {
