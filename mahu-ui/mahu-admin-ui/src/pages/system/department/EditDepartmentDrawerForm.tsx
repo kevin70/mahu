@@ -4,7 +4,7 @@ import { resolveApiError, SYSTEM_API } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormDigit, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, FormInstance, Input } from 'antd';
+import { Button, FormInstance, Input, message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 
 export const EditDepartmentDrawerForm = (props: { id: number; onSuccess: () => void }) => {
@@ -18,12 +18,12 @@ export const EditDepartmentDrawerForm = (props: { id: number; onSuccess: () => v
       });
     },
     onSuccess() {
-      $message().success('修改部门成功');
+      message.success('修改部门成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

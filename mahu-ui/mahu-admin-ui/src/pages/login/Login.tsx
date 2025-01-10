@@ -3,7 +3,7 @@ import { useProfileStore, useTokenStore } from '@/stores';
 import { LockOutlined, UserOutlined, WechatOutlined, WeiboOutlined } from '@ant-design/icons';
 import { LoginFormPage, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Alert, Button, Divider, Flex, Space } from 'antd';
+import { Alert, Button, Divider, Flex, message, Space } from 'antd';
 import { useNavigate } from 'react-router';
 import { SwitchLang } from '@/components/SwitchLang';
 import { css } from '@emotion/react';
@@ -35,7 +35,7 @@ export const Login = () => {
 
         // 刷新个人信息
         const profile = await profileStore.refreshProfile();
-        $message().info(`欢迎回来 - ${profile.nickname}！`);
+        message.info(`欢迎回来 - ${profile.nickname}！`);
         return rs;
       } catch (e) {
         // FIXME 处理密码错误

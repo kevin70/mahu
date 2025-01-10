@@ -3,7 +3,7 @@ import { useProfileStore } from '@/stores';
 import { UploadOutlined } from '@ant-design/icons';
 import { PageContainer, ProCard, ProForm, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Avatar, Button, Col, Form, Row, Space, Upload } from 'antd';
+import { Avatar, Button, Col, Form, message, Row, Space, Upload } from 'antd';
 import { useNavigate, useParams } from 'react-router';
 
 export const MeProfile = () => {
@@ -19,11 +19,11 @@ export const MeProfile = () => {
       },
       onSuccess() {
         profileStore.refreshProfile();
-        $message().success('个人信息修改成功');
+        message.success('个人信息修改成功');
       },
       async onError(error) {
         const err = await resolveApiError(error);
-        $message().error(err.message);
+        message.error(err.message);
       },
     });
 
@@ -70,13 +70,13 @@ export const MeProfile = () => {
         return ME_API.updateMePassword(values);
       },
       onSuccess() {
-        $message().success('密码修改成功，请重新登录', 1, () => {
+        message.success('密码修改成功，请重新登录', 1, () => {
           $gotoLogin();
         });
       },
       async onError(error) {
         const err = await resolveApiError(error);
-        $message().error(err.message);
+        message.error(err.message);
       },
     });
 

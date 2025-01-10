@@ -4,7 +4,7 @@ import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import { NewRoleDrawerForm } from './NewRoleDrawerForm';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { EditRoleDrawerForm } from './EditRoleDrawerForm';
@@ -42,7 +42,7 @@ export const RoleList = () => {
 
   const onDelete = async (id: number) => {
     await SYSTEM_API.deleteRole({ id });
-    $message().success('删除角色成功');
+    message.success('删除角色成功');
 
     await refetch();
   };

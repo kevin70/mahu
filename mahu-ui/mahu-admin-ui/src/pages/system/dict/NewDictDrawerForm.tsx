@@ -4,6 +4,7 @@ import { resolveApiError, SYSTEM_API } from '@/services';
 import { DrawerForm, ProFormDigit, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
 import { DictKindAutoComplete } from './DictKindAutoComplete';
+import { message } from 'antd';
 
 export const NewDictDrawerForm = (props: { onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.DICT.W);
@@ -13,12 +14,12 @@ export const NewDictDrawerForm = (props: { onSuccess: () => void }) => {
       return SYSTEM_API.addDict(values);
     },
     onSuccess() {
-      $message().success('新增字典成功');
+      message.success('新增字典成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

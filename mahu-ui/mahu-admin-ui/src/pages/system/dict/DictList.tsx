@@ -2,7 +2,7 @@ import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import { NewDictDrawerForm } from './NewDictDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
 import { EditDictDrawerForm } from './EditDictDrawerForm';
@@ -46,7 +46,7 @@ export const DictList = () => {
 
   const onDelete = async (id: number) => {
     await SYSTEM_API.deleteDict({ id });
-    $message().success('字典删除成功');
+    message.success('字典删除成功');
 
     await refetch();
   };

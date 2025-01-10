@@ -4,6 +4,7 @@ import { RSQL_OPS } from '@/hooks';
 import { BASIS_API, resolveApiError, uploadFile } from '@/services';
 import { DrawerForm, ProFormDigit, ProFormText, ProFormUploadButton } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
+import { message } from 'antd';
 
 export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.DICT.W);
@@ -20,12 +21,12 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
       return BASIS_API.addBrand(body);
     },
     onSuccess() {
-      $message().success('新增品牌成功');
+      message.success('新增品牌成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

@@ -4,6 +4,7 @@ import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
 import { DrawerForm, ProFormDigit, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
+import { message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 
 export const NewDepartmentDrawerForm = (props: { onSuccess: () => void }) => {
@@ -14,12 +15,12 @@ export const NewDepartmentDrawerForm = (props: { onSuccess: () => void }) => {
       return SYSTEM_API.addDepartment(values);
     },
     onSuccess() {
-      $message().success('新增部门成功');
+      message.success('新增部门成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

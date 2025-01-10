@@ -4,7 +4,7 @@ import { BASIS_API, resolveApiError, uploadFile } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormDigit, ProFormText, ProFormUploadButton } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Form, FormInstance, Input } from 'antd';
+import { Button, Form, FormInstance, Input, message } from 'antd';
 
 export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.BRAND.W);
@@ -25,12 +25,12 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
       });
     },
     onSuccess() {
-      $message().success('编辑品牌成功');
+      message.success('编辑品牌成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

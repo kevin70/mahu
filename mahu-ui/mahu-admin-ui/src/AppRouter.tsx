@@ -22,27 +22,27 @@ import { MarketAssetList } from '@/pages/market/asset/MarketAssetList';
 // prettier-ignore-start
 export const routes = createRoutesFromElements(
   <Route path="/" element={<App />}>
-    <Route path="/login" element={<Login />} />
+    <Route path="/login" Component={Login} />
 
     <Route element={<AndDesignProLayout />}>
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/me/:kind" element={<MeProfile />} />
+      <Route path="/dashboard" Component={Dashboard} />
+      <Route path="/me/:kind" Component={MeProfile} />
 
       {/** 基础模块 */}
-      <Route path="/brand-list" element={<BrandList />} />
+      <Route path="/brand-list" Component={BrandList} />
 
       {/** 商城模块 */}
-      <Route path="/market/shop-list" element={<MarketShopList />} />
-      <Route path="/market/asset-list" element={<MarketAssetList />} />
+      <Route path="/market/shop-list" Component={MarketShopList} />
+      <Route path="/market/asset-list" Component={MarketAssetList} />
 
       {/** 系统模块 */}
-      <Route path="/system/employee-list" element={<EmployeeList />} />
-      <Route path="/system/department-list" element={<DepartmentList />} />
-      <Route path="/system/role-list" element={<RoleList />} />
-      <Route path="/system/dict-list" element={<DictList />} />
-      <Route path="/system/client-list" element={<ClientList />} />
-      <Route path="/system/access-log-list" element={<AccessLogList />} />
-      <Route path="/system/audit-jour-list" element={<AuditJourList />} />
+      <Route path="/system/employee-list" Component={EmployeeList} />
+      <Route path="/system/department-list" Component={DepartmentList} />
+      <Route path="/system/role-list" Component={RoleList} />
+      <Route path="/system/dict-list" Component={DictList} />
+      <Route path="/system/client-list" Component={ClientList} />
+      <Route path="/system/access-log-list" Component={AccessLogList} />
+      <Route path="/system/audit-jour-list" Component={AuditJourList} />
     </Route>
   </Route>
 );

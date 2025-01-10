@@ -4,6 +4,7 @@ import { RSQL_OPS } from '@/hooks';
 import { MARKET_API, resolveApiError } from '@/services';
 import { DrawerForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
+import { message } from 'antd';
 
 export const NewMarketShopForm = (props: { onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.MARKET_SHOP.W);
@@ -13,12 +14,12 @@ export const NewMarketShopForm = (props: { onSuccess: () => void }) => {
       return MARKET_API.addShop(values);
     },
     onSuccess() {
-      $message().success('新增商店成功');
+      message.success('新增商店成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

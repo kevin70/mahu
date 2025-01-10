@@ -4,7 +4,7 @@ import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { BASIS_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { NewBrandDrawerForm } from './NewBrandDrawerForm';
 import { EditBrandDrawerForm } from './EditBrandDrawerForm';
@@ -42,7 +42,7 @@ export const BrandList = () => {
 
   const onDelete = async (id: number) => {
     await BASIS_API.deleteBrand({ id });
-    $message().success('删除品牌成功');
+    message.success('删除品牌成功');
 
     await refetch();
   };

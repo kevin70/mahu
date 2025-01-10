@@ -3,7 +3,7 @@ import { resolveApiError, SYSTEM_API } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormDigit, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { DictKindAutoComplete } from './DictKindAutoComplete';
 
 export const EditDictDrawerForm = (props: { id: number; onSuccess: () => void }) => {
@@ -17,12 +17,12 @@ export const EditDictDrawerForm = (props: { id: number; onSuccess: () => void })
       });
     },
     onSuccess() {
-      $message().success('修改字典成功');
+      message.success('修改字典成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

@@ -4,7 +4,7 @@ import { MARKET_API, resolveApiError } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Form, FormInstance, Input } from 'antd';
+import { Button, Form, FormInstance, Input, message } from 'antd';
 
 export const EditMarketShopForm = (props: { id: number; onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.MARKET_SHOP.W);
@@ -17,12 +17,12 @@ export const EditMarketShopForm = (props: { id: number; onSuccess: () => void })
       });
     },
     onSuccess() {
-      $message().success('编辑门店成功');
+      message.success('编辑门店成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

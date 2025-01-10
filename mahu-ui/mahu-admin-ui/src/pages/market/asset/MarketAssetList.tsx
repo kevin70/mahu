@@ -4,7 +4,7 @@ import { useAppStore } from '@/stores';
 import { DeleteOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckCard, ModalForm, PageContainer, ProFormUploadDragger } from '@ant-design/pro-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { Button, Flex, Image, Modal, Space, Typography } from 'antd';
+import { Button, Flex, Image, message, Modal, Space, Typography } from 'antd';
 import { useShallow } from 'zustand/shallow';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ import { useMap } from 'ahooks';
 import { css } from '@emotion/react';
 
 export const MarketAssetList = () => {
-  const shopId = useAppStore(useShallow((state) => state.selectedShopId));
+  const shopId = useAppStore(useShallow((state) => 1));
   const { ref, inView } = useInView();
   const noWrite = $checkNotPermit(permits.MARKET_ASSET.W);
 
@@ -84,7 +84,7 @@ export const MarketAssetList = () => {
         },
       });
 
-      $message().success('删除资源成功');
+      message.success('删除资源成功');
       resetSelectAsset();
       refetch();
     };

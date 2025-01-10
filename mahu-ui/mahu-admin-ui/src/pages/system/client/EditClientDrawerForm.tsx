@@ -3,7 +3,7 @@ import { resolveApiError, SYSTEM_API } from '@/services';
 import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { FormInstance } from 'antd/lib';
 
 export const EditClientDrawerForm = (props: { clientId: string; onSuccess: () => void }) => {
@@ -14,12 +14,12 @@ export const EditClientDrawerForm = (props: { clientId: string; onSuccess: () =>
       return SYSTEM_API.updateClient(values, values.clientId);
     },
     onSuccess() {
-      $message().success('修改认证终端成功');
+      message.success('修改认证终端成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

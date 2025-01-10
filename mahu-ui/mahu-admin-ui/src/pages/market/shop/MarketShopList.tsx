@@ -4,7 +4,7 @@ import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { MARKET_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { NewMarketShopForm } from './NewMarketShopForm';
 import { EditMarketShopForm } from './EditMarketShopForm';
@@ -46,7 +46,7 @@ export const MarketShopList = () => {
 
   const onDelete = async (id: number) => {
     await MARKET_API.deleteShop({ id });
-    $message().success('删除商店成功');
+    message.success('删除商店成功');
 
     await refetch();
   };

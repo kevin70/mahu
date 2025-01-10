@@ -6,10 +6,8 @@ type Theme = 'light' | 'dark';
 export const useAppStore = create(
   persist<{
     theme: Theme;
-    selectedShopId: number;
     isLightTheme(): boolean;
     changeTheme(theme: Theme): void;
-    updateSelectedShopId(shopId: number): void;
   }>(
     (set, get) => ({
       theme: 'light',
@@ -19,9 +17,6 @@ export const useAppStore = create(
       },
       changeTheme(theme) {
         set({ theme });
-      },
-      updateSelectedShopId(shopId) {
-        set({ selectedShopId: shopId });
       },
     }),
     {

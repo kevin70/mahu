@@ -2,7 +2,7 @@ import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import { NewDepartmentDrawerForm } from './NewDepartmentDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
 import { EditDepartmentDrawerForm } from './EditDepartmentDrawerForm';
@@ -42,7 +42,7 @@ export const DepartmentList = () => {
 
   const onDelete = async (id: number) => {
     await SYSTEM_API.deleteDepartment({ id });
-    $message().success('删除部门成功');
+    message.success('删除部门成功');
 
     await refetch();
   };

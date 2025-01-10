@@ -2,7 +2,7 @@ import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import { NewEmployeeDrawerForm } from './NewEmployeeDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
 import { EditEmployeeDrawerForm } from './EditEmployeeDrawerForm';
@@ -64,7 +64,7 @@ export const EmployeeList = () => {
 
   const onDelete = async (id: number) => {
     await SYSTEM_API.deleteEmployee({ id });
-    $message().success('删除职员成功');
+    message.success('删除职员成功');
 
     await refetch();
   };

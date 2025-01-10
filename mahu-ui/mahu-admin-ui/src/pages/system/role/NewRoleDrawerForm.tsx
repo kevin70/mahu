@@ -5,6 +5,7 @@ import { DrawerForm, ProFormDigit, ProFormText, ProFormTextArea } from '@ant-des
 import { useMutation } from '@tanstack/react-query';
 import FormItem from 'antd/es/form/FormItem';
 import { PermitTransfer } from './PermitTransfer';
+import { message } from 'antd';
 
 export const NewRoleDrawerForm = (props: { onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.CLIENT.W);
@@ -14,12 +15,12 @@ export const NewRoleDrawerForm = (props: { onSuccess: () => void }) => {
       return SYSTEM_API.addRole(values);
     },
     onSuccess() {
-      $message().success('新增角色成功');
+      message.success('新增角色成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

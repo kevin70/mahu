@@ -7,7 +7,7 @@ export const HDeletePopconfirmButton = ({
   description,
   onConfirm,
   ...otherProps
-}: { description: RenderFunction; onConfirm: () => void } & ButtonProps) => {
+}: { description?: RenderFunction; onConfirm: () => void } & ButtonProps) => {
   return (
     <Popconfirm
       placement="topLeft"
@@ -15,7 +15,7 @@ export const HDeletePopconfirmButton = ({
       okButtonProps={{
         danger: true,
       }}
-      description={description}
+      description={description || '确认删除指定数据？'}
       onConfirm={onConfirm}
     >
       <Button color="default" variant="link" icon={<DeleteOutlined />} {...otherProps} />

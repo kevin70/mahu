@@ -4,7 +4,7 @@ import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import { NewClientDrawerForm } from './NewClientDrawerForm';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { EditClientDrawerForm } from './EditClientDrawerForm';
@@ -42,7 +42,7 @@ export const ClientList = () => {
 
   const onDelete = async (clientId: string) => {
     await SYSTEM_API.deleteClient({ clientId });
-    $message().success('删除认证客户端成功');
+    message.success('删除认证客户端成功');
 
     await refetch();
   };

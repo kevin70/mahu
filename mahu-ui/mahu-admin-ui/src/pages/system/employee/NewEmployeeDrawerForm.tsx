@@ -5,6 +5,7 @@ import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
 import { DrawerForm, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
+import { message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 
 export const NewEmployeeDrawerForm = (props: { onSuccess: () => void }) => {
@@ -15,12 +16,12 @@ export const NewEmployeeDrawerForm = (props: { onSuccess: () => void }) => {
       return SYSTEM_API.addEmployee(values);
     },
     onSuccess() {
-      $message().success('新增职员成功');
+      message.success('新增职员成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

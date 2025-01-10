@@ -3,6 +3,7 @@ import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
 import { DrawerForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
+import { message } from 'antd';
 
 export const NewClientDrawerForm = (props: { onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.CLIENT.W);
@@ -12,12 +13,12 @@ export const NewClientDrawerForm = (props: { onSuccess: () => void }) => {
       return SYSTEM_API.addClient(values);
     },
     onSuccess() {
-      $message().success('新增认证终端成功');
+      message.success('新增认证终端成功');
       props.onSuccess();
     },
     async onError(error) {
       const err = await resolveApiError(error);
-      $message().error(err.message);
+      message.error(err.message);
     },
   });
 

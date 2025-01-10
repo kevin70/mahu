@@ -1,10 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { useProfileStore, useTokenStore } from '@/stores';
-import { Alert, AlertProps, Flex, message, Spin } from 'antd';
-import { useAsyncEffect, useInterval, useSet, useTimeout, useUnmount } from 'ahooks';
+import { message, Spin } from 'antd';
+import { useAsyncEffect, useInterval, useTimeout, useUnmount } from 'ahooks';
 import { resolveApiError } from './services';
-import { ulid } from 'ulid';
 import { css } from '@emotion/react';
 
 function App() {
@@ -15,20 +14,15 @@ function App() {
   const tokenStore = useTokenStore();
   const profileStore = useProfileStore();
 
-  const [messageApi, messageContextHolder] = message.useMessage({});
-  const [alertSet, { add: addAlert, remove: removeAlert }] = useSet<
-    { key: string } & Pick<AlertProps, 'type' | 'message'>
-  >([]);
-  const alertMessages = useMemo(() => Array.from(alertSet.values()), [alertSet]);
-
   const SplashScreen = () => {
     return (
-      <Flex
-        justify="center"
-        align="center"
+      <div
         css={css`
           height: 100vh;
           width: 100vw;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         `}
       >
         <Spin size="large" tip="加载中...">
@@ -38,42 +32,14 @@ function App() {
             `}
           ></div>
         </Spin>
-      </Flex>
+      </div>
     );
   };
 
-  const GlobalAlert = () => (
-    <Flex
-      vertical
-      gap={'small'}
-      css={css`
-        width: 100%;
-        position: fixed;
-        z-index: 99999;
-      `}
-    >
-      {alertMessages.map((v) => (
-        <Alert
-          key={v.key}
-          showIcon
-          banner
-          closable
-          type={v.type || 'error'}
-          message={v.message}
-          onClose={() => removeAlert(v)}
-        />
-      ))}
-    </Flex>
-  );
-
   // ========================== 全局函数 ========================== //
-  window.$message = () => {
-    return messageApi;
-  };
-
   window.$accessToken = () => {
     if (!tokenStore.isAccessTokenValid()) {
-      messageApi.error('认证失效');
+      message.error('认证失效');
       window.$gotoLogin();
       return Promise.reject('非法的访问令牌');
     }
@@ -102,14 +68,6 @@ function App() {
     tokenStore.clean();
     navigate('/login', { replace: true });
   };
-
-  // 全局警告消息
-  window.$showAlert = (args: Pick<AlertProps, 'type' | 'message'>) => {
-    addAlert({
-      key: ulid(),
-      ...args,
-    });
-  };
   // ========================== 全局函数 ========================== //
 
   // 初始化超时检查
@@ -117,7 +75,7 @@ function App() {
     setIniting((prev) => {
       if (prev) {
         console.error('初始化超时');
-        messageApi.error('初始化超时');
+        message.error('初始化超时');
       }
       return false;
     });
@@ -167,13 +125,7 @@ function App() {
     clearTokenInterval();
   });
 
-  return (
-    <>
-      {messageContextHolder}
-      <GlobalAlert />
-      {initing ? <SplashScreen /> : <Outlet />}
-    </>
-  );
+  return initing ? <SplashScreen /> : <Outlet />;
 }
 
 export default App;

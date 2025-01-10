@@ -6,11 +6,11 @@ import { IoLanguage } from 'react-icons/io5';
 const items = [
   {
     label: '中文简体',
-    key: 'zhCN',
+    key: 'zh-CN',
   },
   {
     label: 'English',
-    key: 'enUS',
+    key: 'en-US',
   },
 ];
 
@@ -35,7 +35,7 @@ export const SwitchLang = () => {
       }}
       trigger={['click']}
     >
-      <Button type="text" shape="circle" icon={<IoLanguage fontSize={16} />} />
+      <Button type="text" shape="circle" icon={<IoLanguage />} />
     </Dropdown>
   );
 };

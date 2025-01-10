@@ -1,5 +1,4 @@
 import { AlertProps } from 'antd';
-import { MessageInstance } from 'antd/lib/message/interface';
 
 declare global {
   interface Window {
@@ -23,11 +22,6 @@ declare global {
     $gotoLogin();
 
     /**
-     * 全局消息提示.
-     */
-    $message(): MessageInstance;
-
-    /**
      * 全局警告提示.
      * @param args 警告消息
      */
@@ -41,8 +35,6 @@ declare global {
   declare const $checkNotPermit = window.$checkNotPermit;
 
   declare const $gotoLogin = window.$gotoLogin;
-
-  declare const $message = window.$message;
 
   declare const $showAlert = window.$showAlert;
 }
