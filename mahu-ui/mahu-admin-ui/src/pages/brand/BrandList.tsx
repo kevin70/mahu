@@ -11,7 +11,7 @@ import { EditBrandDrawerForm } from './EditBrandDrawerForm';
 
 export const BrandList = () => {
   const noWrite = $checkNotPermit(permits.BRAND.W);
-  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { pagination, setPagination, setTotal, gotoFirstPage: resetPagination, queryOffsetLimit } = usePagination();
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({

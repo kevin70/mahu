@@ -1,24 +1,24 @@
 import { HSearchButton } from '@/components/HSearchButton';
-import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { useRSQLFilter } from '@/hooks';
+import { useTableHelper } from '@/hooks/useTableHelper';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
 import { Form } from 'antd';
 
 export const AccessLogList = () => {
-  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
+    sort: [{ columnKey: 'create_time', order: 'descend' }],
+  });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
-  const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'create_time' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/access-logs', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await SYSTEM_API.listAccessLogs({
+      return SYSTEM_API.listAccessLogs({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
       });
-      setTotal(res.totalCount);
-      return res.items;
     },
   });
 
@@ -26,7 +26,7 @@ export const AccessLogList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        resetPagination();
+        gotoFirstPage();
         setRSQLFilters([
           rsqlOps.comparisonEx('employee_id', '==', values.employeeId),
           rsqlOps.comparisonEx('ip_addr', '==', values.ipAddr),
@@ -61,12 +61,9 @@ export const AccessLogList = () => {
           search: searchForm,
         }}
         loading={isFetching}
-        dataSource={data}
-        pagination={pagination}
-        onChange={(pagination, _filters, sorter, _extra) => {
-          setPagination(pagination);
-          setTableSorter(sorter);
-        }}
+        dataSource={data?.items}
+        pagination={{ ...pagination, total: data?.totalCount }}
+        onChange={onTableChange}
         columns={[
           {
             title: 'ID',

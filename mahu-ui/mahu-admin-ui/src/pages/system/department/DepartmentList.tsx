@@ -1,4 +1,4 @@
-import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -8,22 +8,22 @@ import { HSearchButton } from '@/components/HSearchButton';
 import { EditDepartmentDrawerForm } from './EditDepartmentDrawerForm';
 import { permits } from '@/config/permit';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
+import { useTableHelper } from '@/hooks/useTableHelper';
 
 export const DepartmentList = () => {
   const noWrite = $checkNotPermit(permits.DEPARTMENT.W);
-  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
+    sort: [{ columnKey: 'ordering' }],
+  });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
-  const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/departments', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await SYSTEM_API.listDepartments({
+      return SYSTEM_API.listDepartments({
         ...queryOffsetLimit,
         filter: queryFilter,
         sort: querySort,
       });
-      setTotal(res.totalCount);
-      return res.items;
     },
   });
 
@@ -31,7 +31,7 @@ export const DepartmentList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        resetPagination();
+        gotoFirstPage();
         setRSQLFilters([rsqlOps.comparisonEx('name', '=icontains=', values.searchName)]);
       }}
     >
@@ -62,12 +62,9 @@ export const DepartmentList = () => {
           actions: [<NewDepartmentDrawerForm onSuccess={refetch} />],
         }}
         loading={isFetching}
-        dataSource={data}
-        pagination={pagination}
-        onChange={(pagination, _filters, sorter, _extra) => {
-          setPagination(pagination);
-          setTableSorter(sorter);
-        }}
+        dataSource={data?.items}
+        pagination={{ ...pagination, total: data?.totalCount }}
+        onChange={onTableChange}
         columns={[
           {
             title: 'ID',

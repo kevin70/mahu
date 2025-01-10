@@ -1,6 +1,6 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { permits } from '@/config/permit';
-import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { useRSQLFilter } from '@/hooks';
 import { MARKET_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -8,22 +8,22 @@ import { Form, message, Typography } from 'antd';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { NewMarketShopForm } from './NewMarketShopForm';
 import { EditMarketShopForm } from './EditMarketShopForm';
+import { useTableHelper } from '@/hooks/useTableHelper';
 
 export const MarketShopList = () => {
   const noWrite = $checkNotPermit(permits.MARKET_SHOP.W);
-  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
+    sort: [{ columnKey: 'update_time' }],
+  });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
-  const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'update_time' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['MarketShopList', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await MARKET_API.listShops({
+      return MARKET_API.listShops({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
       });
-      setTotal(res.totalCount);
-      return res.items;
     },
   });
 
@@ -31,7 +31,7 @@ export const MarketShopList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        resetPagination();
+        gotoFirstPage();
         setRSQLFilters([
           rsqlOps.comparisonEx('slug', '==', values.searchSlug),
           rsqlOps.comparisonEx('name', '=icontains=', values.searchName),
@@ -66,12 +66,9 @@ export const MarketShopList = () => {
           actions: [<NewMarketShopForm onSuccess={refetch} />],
         }}
         loading={isFetching}
-        dataSource={data}
-        pagination={pagination}
-        onChange={(pagination, _filters, sorter, _extra) => {
-          setPagination(pagination);
-          setTableSorter(sorter);
-        }}
+        dataSource={data?.items}
+        pagination={{ ...pagination, total: data?.totalCount }}
+        onChange={onTableChange}
         columnsState={{
           persistenceType: 'localStorage',
           persistenceKey: 'atable_state_market_shop_list',

@@ -1,4 +1,4 @@
-import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -13,25 +13,25 @@ import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
 import { useState } from 'react';
 import { HIncludeDetedCheckBox } from '@/components/HIncludeDeletedCheckbox';
 import { css } from '@emotion/react';
+import { useTableHelper } from '@/hooks/useTableHelper';
 
 export const EmployeeList = () => {
   const noWrite = $checkNotPermit(permits.DEPARTMENT.W);
 
   const [incldeDeleted, setIncludeDeleted] = useState<number | undefined>();
-  const { pagination, setPagination, setTotal, queryOffsetLimit } = usePagination();
+  const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
+    sort: [{ columnKey: 'update_time' }],
+  });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
-  const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'update_time' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/employees', queryOffsetLimit, queryFilter, querySort, incldeDeleted],
     async queryFn() {
-      const res = await SYSTEM_API.listEmployees({
+      return SYSTEM_API.listEmployees({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
         includeDeleted: incldeDeleted,
       });
-      setTotal(res.totalCount);
-      return res.items;
     },
   });
 
@@ -39,6 +39,7 @@ export const EmployeeList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
+        gotoFirstPage();
         setRSQLFilters([
           rsqlOps.comparisonEx('nickname', '=icontains=', values.searchNickname),
           rsqlOps.comparisonEx('status', '=in=', values.searchStatus),
@@ -86,12 +87,9 @@ export const EmployeeList = () => {
           filter: <HIncludeDetedCheckBox onChange={(e) => setIncludeDeleted(e.target.checked ? 1 : undefined)} />,
         }}
         loading={isFetching}
-        dataSource={data}
-        pagination={pagination}
-        onChange={(pagination, _filters, sorter, _extra) => {
-          setPagination(pagination);
-          setTableSorter(sorter);
-        }}
+        dataSource={data?.items}
+        pagination={{ ...pagination, total: data?.totalCount }}
+        onChange={onTableChange}
         columnsState={{
           persistenceType: 'localStorage',
           persistenceKey: 'ant.table.system_employee_list',

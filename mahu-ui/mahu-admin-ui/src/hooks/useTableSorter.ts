@@ -6,8 +6,8 @@ import { useMemo, useState } from 'react';
  *
  * @returns
  */
-export const useTableSorter = (sorts?: { columnKey: string; order?: SortOrder }[]) => {
-  const [tableSorter, setTableSorter] = useState<any>(sorts);
+export const useTableSorter = (sort?: { columnKey: string; order?: SortOrder }[]) => {
+  const [tableSorter, setTableSorter] = useState<any>(sort);
   const querySort: string[] = useMemo(() => {
     const arr = [];
     if (Array.isArray(tableSorter)) {

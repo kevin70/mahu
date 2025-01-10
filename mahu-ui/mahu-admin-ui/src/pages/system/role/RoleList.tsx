@@ -1,6 +1,6 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { permits } from '@/config/permit';
-import { usePagination, useRSQLFilter, useTableSorter } from '@/hooks';
+import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
@@ -8,22 +8,22 @@ import { Form, message, Typography } from 'antd';
 import { NewRoleDrawerForm } from './NewRoleDrawerForm';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { EditRoleDrawerForm } from './EditRoleDrawerForm';
+import { useTableHelper } from '@/hooks/useTableHelper';
 
 export const RoleList = () => {
   const noWrite = $checkNotPermit(permits.ROLE.W);
-  const { pagination, setPagination, setTotal, resetPagination, queryOffsetLimit } = usePagination();
+  const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
+    sort: [{ columnKey: 'ordering', order: 'descend' }],
+  });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
-  const { setTableSorter, querySort } = useTableSorter([{ columnKey: 'ordering' }]);
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/roles', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      const res = await SYSTEM_API.listRoles({
+      return SYSTEM_API.listRoles({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
       });
-      setTotal(res.totalCount);
-      return res.items;
     },
   });
 
@@ -31,7 +31,7 @@ export const RoleList = () => {
     <Form
       layout="inline"
       onFinish={(values: any) => {
-        resetPagination();
+        gotoFirstPage();
         setRSQLFilters([rsqlOps.comparisonEx('name', '=icontains=', values.name)]);
       }}
     >
@@ -62,12 +62,9 @@ export const RoleList = () => {
           actions: [<NewRoleDrawerForm onSuccess={refetch} />],
         }}
         loading={isFetching}
-        dataSource={data}
-        pagination={pagination}
-        onChange={(pagination, _filters, sorter, _extra) => {
-          setPagination(pagination);
-          setTableSorter(sorter);
-        }}
+        dataSource={data?.items}
+        pagination={{ ...pagination, total: data?.totalCount }}
+        onChange={onTableChange}
         columns={[
           {
             title: 'ID',
