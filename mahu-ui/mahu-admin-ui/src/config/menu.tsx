@@ -37,7 +37,7 @@ export const MENUS: MenuDataItem[] = [
         path: '/market/attribute-list',
         icon: <LuListTree />,
         name: '商品属性',
-        permits: [permits.MARKET_SHOP.R],
+        permits: [permits.MARKET_ATTRIBUTE.R],
       },
       {
         path: '/market/shop-list',
