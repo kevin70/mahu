@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -65,10 +65,6 @@ export const Root = () => {
       ...args,
     });
   };
-
-  useEffect(() => {
-    console.log('发现的 language: ', i18n.language);
-  }, []);
 
   i18n.on('languageChanged', (lng) => {
     if (lng === 'enUS') {
