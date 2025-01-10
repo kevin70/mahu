@@ -1,18 +1,14 @@
-import {
-  AuditOutlined,
-  CodeOutlined,
-  DashboardOutlined,
-  GroupOutlined,
-  InfoCircleOutlined,
-  ShopOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 import { MenuDataItem } from '@ant-design/pro-components';
 import { permits } from './permit';
-import MaterialSymbolsBrandFamilyOutline from '@/icons/MaterialSymbolsBrandFamilyOutline';
-import CarbonUserRole from '@/icons/CarbonUserRole';
-import MaterialSymbolsDictionaryOutline from '@/icons/MaterialSymbolsDictionaryOutline';
-import MaterialSymbolsWebAsset from '@/icons/MaterialSymbolsWebAsset';
+
+import { AuditOutlined, DashboardOutlined, GroupOutlined, UserOutlined } from '@ant-design/icons';
+import { LuListTree } from 'react-icons/lu';
+import { LuStore } from 'react-icons/lu';
+import { FaRegFile } from 'react-icons/fa';
+import { FiFileText } from 'react-icons/fi';
+import { MdSecurity, MdOutlineCategory } from 'react-icons/md';
+import { BsJournalText } from 'react-icons/bs';
+import { IoMdApps } from 'react-icons/io';
 
 export const MENUS: MenuDataItem[] = [
   {
@@ -27,7 +23,7 @@ export const MENUS: MenuDataItem[] = [
     children: [
       {
         path: '/brand-list',
-        icon: <MaterialSymbolsBrandFamilyOutline />,
+        icon: <MdOutlineCategory />,
         name: '品牌管理',
         permits: [permits.BRAND.R],
       },
@@ -39,14 +35,20 @@ export const MENUS: MenuDataItem[] = [
     atLeastOneChild: true,
     children: [
       {
+        path: '/market/attribute-list',
+        icon: <LuListTree />,
+        name: '商品属性',
+        permits: [permits.MARKET_SHOP.R],
+      },
+      {
         path: '/market/shop-list',
-        icon: <ShopOutlined />,
+        icon: <LuStore />,
         name: '商店列表',
         permits: [permits.MARKET_SHOP.R],
       },
       {
         path: '/market/asset-list',
-        icon: <MaterialSymbolsWebAsset />,
+        icon: <FaRegFile />,
         name: '商店资源',
         permits: [permits.MARKET_ASSET.R],
       },
@@ -71,25 +73,25 @@ export const MENUS: MenuDataItem[] = [
       },
       {
         path: '/system/dict-list',
-        icon: <MaterialSymbolsDictionaryOutline />,
+        icon: <FiFileText />,
         name: '字典列表',
         permits: [permits.DICT.R],
       },
       {
         path: '/system/role-list',
-        icon: <CarbonUserRole />,
+        icon: <MdSecurity />,
         name: '角色列表',
         permits: [permits.ROLE.R],
       },
       {
         path: '/system/client-list',
-        icon: <CodeOutlined />,
+        icon: <IoMdApps />,
         name: '终端配置',
         permits: [permits.CLIENT.R],
       },
       {
         path: '/system/access-log-list',
-        icon: <InfoCircleOutlined />,
+        icon: <BsJournalText />,
         name: '访问记录',
         permits: [permits.ACCESS_LOG.R],
       },

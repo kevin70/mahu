@@ -14,10 +14,11 @@ import { AccessLogList } from '@/pages/system/access-log/AccessLogList';
 import { RoleList } from '@/pages/system/role/RoleList';
 import { AuditJourList } from '@/pages/system/audit-jour/AuditJourList';
 
-import { BrandList } from './pages/brand/BrandList';
+import { BrandList } from '@/pages/brand/BrandList';
 
 import { MarketShopList } from '@/pages/market/shop/MarketShopList';
 import { MarketAssetList } from '@/pages/market/asset/MarketAssetList';
+import { MarketAttributeList } from '@/pages/market/attribute/MarketAttributeList';
 
 // prettier-ignore-start
 export const routes = createRoutesFromElements(
@@ -32,6 +33,7 @@ export const routes = createRoutesFromElements(
       <Route path="/brand-list" Component={BrandList} />
 
       {/** 商城模块 */}
+      <Route path="/market/attribute-list" Component={MarketAttributeList} />
       <Route path="/market/shop-list" Component={MarketShopList} />
       <Route path="/market/asset-list" Component={MarketAssetList} />
 
