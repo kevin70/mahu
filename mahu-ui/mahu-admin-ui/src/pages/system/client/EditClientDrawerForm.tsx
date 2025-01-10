@@ -1,9 +1,9 @@
+import { HEditButton } from '@/components/HEditButton';
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
-import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, message } from 'antd';
+import { message } from 'antd';
 import { FormInstance } from 'antd/lib';
 
 export const EditClientDrawerForm = (props: { clientId: string; onSuccess: () => void }) => {
@@ -37,7 +37,7 @@ export const EditClientDrawerForm = (props: { clientId: string; onSuccess: () =>
         },
       }}
       title="修改认证终端"
-      trigger={<Button color="default" variant="link" icon={<EditOutlined />} disabled={noWrite} />}
+      trigger={<HEditButton disabled={noWrite} />}
       onFinish={async (values: any) => {
         await mutateAsync(values);
         return true;

@@ -1,10 +1,10 @@
+import { HEditButton } from '@/components/HEditButton';
 import { permits } from '@/config/permit';
 import { RSQL_OPS } from '@/hooks';
 import { MARKET_API, resolveApiError } from '@/services';
-import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Form, FormInstance, Input, message } from 'antd';
+import { Form, FormInstance, Input, message } from 'antd';
 
 export const EditMarketShopForm = (props: { id: number; onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.MARKET_SHOP.W);
@@ -40,7 +40,7 @@ export const EditMarketShopForm = (props: { id: number; onSuccess: () => void })
         },
       }}
       title="编辑门店"
-      trigger={<Button color="default" variant="link" icon={<EditOutlined />} disabled={noWrite} />}
+      trigger={<HEditButton disabled={noWrite} />}
       onFinish={async (values: any) => {
         await mutateAsync(values);
         return true;

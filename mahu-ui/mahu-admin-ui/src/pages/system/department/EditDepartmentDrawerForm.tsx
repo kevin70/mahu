@@ -1,10 +1,10 @@
+import { HEditButton } from '@/components/HEditButton';
 import { DepartmentTreeSelect } from '@/components/system/DepartmentTreeSelect';
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
-import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormDigit, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, FormInstance, Input, message } from 'antd';
+import { FormInstance, Input, message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 
 export const EditDepartmentDrawerForm = (props: { id: number; onSuccess: () => void }) => {
@@ -42,7 +42,7 @@ export const EditDepartmentDrawerForm = (props: { id: number; onSuccess: () => v
         },
       }}
       title="编辑部门"
-      trigger={<Button color="default" variant="link" icon={<EditOutlined />} disabled={noWrite} />}
+      trigger={<HEditButton disabled={noWrite} />}
       onFinish={async (values: any) => {
         await mutateAsync(values);
         return true;

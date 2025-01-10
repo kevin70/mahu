@@ -1,12 +1,12 @@
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
-import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormDigit, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Input, message } from 'antd';
+import { Input, message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { FormInstance } from 'antd/lib';
 import { PermitTransfer } from './PermitTransfer';
+import { HEditButton } from '@/components/HEditButton';
 
 export const EditRoleDrawerForm = (props: { id: number; onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.CLIENT.W);
@@ -42,7 +42,7 @@ export const EditRoleDrawerForm = (props: { id: number; onSuccess: () => void })
         },
       }}
       title="修改角色"
-      trigger={<Button color="default" variant="link" icon={<EditOutlined />} disabled={noWrite} />}
+      trigger={<HEditButton disabled={noWrite} />}
       onFinish={async (values: any) => {
         await mutateAsync(values);
         return true;

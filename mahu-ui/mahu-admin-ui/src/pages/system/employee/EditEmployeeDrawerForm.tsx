@@ -1,12 +1,12 @@
+import { HEditButton } from '@/components/HEditButton';
 import { DepartmentTreeSelect } from '@/components/system/DepartmentTreeSelect';
 import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
 import { RoleSelect } from '@/components/system/RoleSelect';
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
-import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Form, FormInstance, Input, message } from 'antd';
+import { Form, FormInstance, Input, message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 
 export const EditEmployeeDrawerForm = (props: { id: number; onSuccess: () => void }) => {
@@ -44,7 +44,7 @@ export const EditEmployeeDrawerForm = (props: { id: number; onSuccess: () => voi
         },
       }}
       title="编辑职员"
-      trigger={<Button color="default" variant="link" icon={<EditOutlined />} disabled={noWrite || props.id === 1} />}
+      trigger={<HEditButton disabled={noWrite || props.id === 1} />}
       onFinish={async (values: any) => {
         await mutateAsync(values);
         return true;

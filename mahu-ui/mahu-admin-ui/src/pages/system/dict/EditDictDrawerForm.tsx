@@ -1,10 +1,10 @@
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
-import { EditOutlined } from '@ant-design/icons';
 import { DrawerForm, ProFormDigit, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Form, Input, message } from 'antd';
+import { Form, Input, message } from 'antd';
 import { DictKindAutoComplete } from './DictKindAutoComplete';
+import { HEditButton } from '@/components/HEditButton';
 
 export const EditDictDrawerForm = (props: { id: number; onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.DICT.W);
@@ -35,7 +35,7 @@ export const EditDictDrawerForm = (props: { id: number; onSuccess: () => void })
         },
       }}
       title="编辑字典"
-      trigger={<Button color="default" variant="link" icon={<EditOutlined />} disabled={noWrite} />}
+      trigger={<HEditButton disabled={noWrite} />}
       onFinish={async (values: any) => {
         await mutateAsync(values);
         return true;

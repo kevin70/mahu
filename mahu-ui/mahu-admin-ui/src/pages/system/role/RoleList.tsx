@@ -43,8 +43,11 @@ export const RoleList = () => {
   const onDelete = async (id: number) => {
     await SYSTEM_API.deleteRole({ id });
     message.success('删除角色成功');
-
     await refetch();
+  };
+
+  const isNotInsideData = (row: any) => {
+    return row.id !== 1;
   };
 
   return (
@@ -105,8 +108,8 @@ export const RoleList = () => {
             align: 'right',
             fixed: 'right',
             render: (_dom, row) => [
-              <EditRoleDrawerForm id={row.id} onSuccess={refetch} />,
-              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
+              isNotInsideData(row) && <EditRoleDrawerForm id={row.id} onSuccess={refetch} />,
+              isNotInsideData(row) && <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
             ],
           },
         ]}
