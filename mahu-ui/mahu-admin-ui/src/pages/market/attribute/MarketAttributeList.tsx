@@ -11,6 +11,7 @@ import {
   DrawerForm,
   PageContainer,
   ProFormCheckbox,
+  ProFormDigit,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
@@ -20,7 +21,7 @@ import { css } from '@emotion/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Button, Checkbox, Form, Input, message, Space } from 'antd';
 import { useForm, useWatch } from 'antd/es/form/Form';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 export const MarketAttributeList = () => {
   const noWrite = $checkNotPermit(permits.MARKET_ATTRIBUTE.W);
@@ -90,22 +91,26 @@ export const MarketAttributeList = () => {
             {(fields, { add, remove }) => {
               return (
                 <>
-                  {fields.map(({ key, name, ...otherProps }) => (
-                    <Form.Item label="属性值" rules={[{ required: true }]}>
-                      <Space key={key}>
-                        <Form.Item {...otherProps} name={[name, 'value']} noStyle rules={[{ required: true }]}>
-                          <Input placeholder="First Name" />
-                        </Form.Item>
-                        <Form.Item {...otherProps} name={[name, 'ordering']} noStyle rules={[{ required: true }]}>
-                          <Input placeholder="Last Name" />
-                        </Form.Item>
+                  {fields.map(({ key, name, ...otherProps }, i) => (
+                    <Form.Item label={`属性值 ${i + 1}`} rules={[{ required: true }]}>
+                      <div
+                        key={key}
+                        css={css`
+                          display: flex;
+                          flex-direction: row;
+                          align-items: center;
+                          gap: var(--ant-margin-md);
+                        `}
+                      >
+                        <ProFormText noStyle {...otherProps} name={[name, 'value']} />
+                        <ProFormDigit noStyle {...otherProps} name={[name, 'ordering']} min={0} max={999999} />
                         <MinusCircleOutlined onClick={() => remove(name)} />
-                      </Space>
+                      </div>
                     </Form.Item>
                   ))}
 
                   <Form.Item>
-                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    <Button type="dashed" onClick={() => add({ ordering: 0 })} block icon={<PlusOutlined />}>
                       新增属性值
                     </Button>
                   </Form.Item>
