@@ -74,9 +74,10 @@ paths:
     $ref: paths/shops_{id}.yaml
   /shops/{shop_id}/assets:
     $ref: paths/shops_{shop_id}_assets.yaml
-
   /market/attributes:
     $ref: paths/market_attributes.yaml
+  /market/attributes/{id}:
+    $ref: paths/market_attributes_{id}.yaml
 
   /samples:
     get:

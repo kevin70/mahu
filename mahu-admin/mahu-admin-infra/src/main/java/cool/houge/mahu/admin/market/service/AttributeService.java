@@ -23,6 +23,13 @@ public class AttributeService {
         attributeRepository.save(attribute);
     }
 
+    /// 删除商品属性
+    @Transactional
+    public void delete(Attribute attribute) {
+        // FIXME 判断商品属性是否被引用
+        attributeRepository.delete(attribute);
+    }
+
     /// 分页查询商品属性
     @Transactional(readOnly = true)
     public PagedList<Attribute> findPage(DataFilter dataFilter) {

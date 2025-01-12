@@ -1,6 +1,7 @@
 package cool.houge.mahu.entity.market;
 
 import cool.houge.mahu.entity.Auditable;
+import io.ebean.annotation.SoftDelete;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,9 @@ public class Attribute implements Auditable {
     @Id
     @GeneratedValue
     private Integer id;
+    /// 软删除
+    @SoftDelete
+    private Boolean deleted;
     /// 属性的值的来源类型
     @Enumerated
     private ValueType valueType;

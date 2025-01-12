@@ -29,6 +29,9 @@ public class AttributeController implements HttpService, WebSupport {
     @Override
     public void routing(HttpRules rules) {
         rules.post("/market/attributes", authz(MARKET_ATTRIBUTE.W()).wrap(this::addMarketAttribute));
+        rules.delete("/market/attributes/{id}", authz(MARKET_ATTRIBUTE.W()).wrap(this::deleteMarketAttribute));
+        rules.put("/market/attributes/{id}", authz(MARKET_ATTRIBUTE.W()).wrap(this::updateMarketAttribute));
+
         rules.get("/market/attributes", authz(MARKET_ATTRIBUTE.R()).wrap(this::listMarketAttributes));
     }
 
@@ -39,6 +42,20 @@ public class AttributeController implements HttpService, WebSupport {
         var entity = beanMapper.toAttribute(vo);
         attributeService.save(entity);
         response.status(NO_CONTENT_204).send();
+    }
+
+    private void deleteMarketAttribute(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var id = pathParams.first("id").asInt().get();
+    }
+
+    private void updateMarketAttribute(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var id = pathParams.first("id").asInt().get();
+        var vo = request.content().as(UpsertMarketAttributeRequest.class);
+        validate(vo);
+
+        var entity = beanMapper.toAttribute(vo).setId(id);
     }
 
     private void listMarketAttributes(ServerRequest request, ServerResponse response) {
