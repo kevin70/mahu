@@ -3,8 +3,7 @@ apply plugin: "io.ebean"
 
 dependencies {
     annotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
-    api("io.ebean:ebean-api:$ebeanVersion") {
-        exclude module: "avaje-config"
-    }
+    compileOnly("io.avaje:avaje-lang:1.1")
+    api("io.ebean:ebean-api:$ebeanVersion")
     api("io.ebean:ebean-querybean:$ebeanVersion")
 }

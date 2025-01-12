@@ -17,8 +17,10 @@ import * as runtime from '../runtime';
 import type {
   BatchDeleteShopAssetRequest,
   GetShopResponse,
+  ListMarketAttributesPageResponse,
   ListShopAssetsPageResponse,
   ListShopsPageResponse,
+  UpsertMarketAttributeRequest,
   UpsertShopAssetRequest,
   UpsertShopRequest,
 } from '../models/index';
@@ -27,15 +29,23 @@ import {
     BatchDeleteShopAssetRequestToJSON,
     GetShopResponseFromJSON,
     GetShopResponseToJSON,
+    ListMarketAttributesPageResponseFromJSON,
+    ListMarketAttributesPageResponseToJSON,
     ListShopAssetsPageResponseFromJSON,
     ListShopAssetsPageResponseToJSON,
     ListShopsPageResponseFromJSON,
     ListShopsPageResponseToJSON,
+    UpsertMarketAttributeRequestFromJSON,
+    UpsertMarketAttributeRequestToJSON,
     UpsertShopAssetRequestFromJSON,
     UpsertShopAssetRequestToJSON,
     UpsertShopRequestFromJSON,
     UpsertShopRequestToJSON,
 } from '../models/index';
+
+export interface AddMarketAttributeRequest {
+    upsertMarketAttributeRequest: UpsertMarketAttributeRequest;
+}
 
 export interface AddShopRequest {
     upsertShopRequest: UpsertShopRequest;
@@ -57,6 +67,15 @@ export interface DeleteShopRequest {
 
 export interface GetShopRequest {
     id?: number;
+}
+
+export interface ListMarketAttributesRequest {
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: Array<string>;
+    includeDeleted?: number;
+    noTotalCount?: number;
 }
 
 export interface ListShopAssetsRequest {
@@ -87,6 +106,49 @@ export interface UpdateShopRequest {
  * 
  */
 export class MarketApi extends runtime.BaseAPI {
+
+    /**
+     * 保存属性
+     */
+    async addMarketAttributeRaw(requestParameters: AddMarketAttributeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertMarketAttributeRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertMarketAttributeRequest',
+                'Required parameter "upsertMarketAttributeRequest" was null or undefined when calling addMarketAttribute().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/market/attributes`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertMarketAttributeRequestToJSON(requestParameters['upsertMarketAttributeRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 保存属性
+     */
+    async addMarketAttribute(requestParameters: AddMarketAttributeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addMarketAttributeRaw(requestParameters, initOverrides);
+    }
 
     /**
      * 新增商店
@@ -295,6 +357,64 @@ export class MarketApi extends runtime.BaseAPI {
      */
     async getShop(requestParameters: GetShopRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetShopResponse> {
         const response = await this.getShopRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 属性列表
+     */
+    async listMarketAttributesRaw(requestParameters: ListMarketAttributesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListMarketAttributesPageResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        if (requestParameters['includeDeleted'] != null) {
+            queryParameters['include_deleted'] = requestParameters['includeDeleted'];
+        }
+
+        if (requestParameters['noTotalCount'] != null) {
+            queryParameters['no_total_count'] = requestParameters['noTotalCount'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/market/attributes`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListMarketAttributesPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 属性列表
+     */
+    async listMarketAttributes(requestParameters: ListMarketAttributesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListMarketAttributesPageResponse> {
+        const response = await this.listMarketAttributesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

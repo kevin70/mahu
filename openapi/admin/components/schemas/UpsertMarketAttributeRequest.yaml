@@ -1,18 +1,38 @@
 type: object
 required:
-  - label
+  - name
   - type
 properties:
-  label:
+  name:
     type: string
-    description: 文本
+    description: 名称
     maxLength: 32
-  type:
+  value_type:
+    $ref: ./AttributeValueTypeEnum.yaml
+  remark:
     type: string
-    description: 属性类型
-    enum:
-      - INPUT
-      - SELECT
-    x-enum-descriptions:
-      - 手动输入
-      - 选择
+    description: 备注
+    maxLength: 256
+  searchable:
+    type: boolean
+    description: 是否为可搜索的
+  required:
+    type: boolean
+    description: 是否为必选项
+  attribute_values:
+    type: array
+    description: 属性可选值
+    items:
+      type: object
+      required:
+        - value
+        - ordering
+      properties:
+        value:
+          type: string
+          description: 可选值
+          maxLength: 250
+        ordering:
+          type: integer
+          format: int32
+          description: 排序值

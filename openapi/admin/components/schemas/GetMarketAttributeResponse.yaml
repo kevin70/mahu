@@ -4,11 +4,17 @@ properties:
     type: integer
     format: int32
     description: ID
-  create_time:
+  value_type:
+    $ref: ./AttributeValueTypeEnum.yaml
+  name:
     type: string
-    format: date-time
-    description: 创建时间
-  update_time:
+    description: 名称
+  remark:
     type: string
-    format: date-time
-    description: 修改时间
+    description: 备注
+  searchable:
+    type: boolean
+    description: 是否为可搜索的
+  required:
+    type: boolean
+    description: 是否为必选项

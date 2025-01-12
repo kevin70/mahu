@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AttributeValueTypeEnum';
 export * from './BasePageResponse';
 export * from './BatchDeleteShopAssetRequest';
 export * from './EmployeeStatusEnum';
@@ -15,6 +16,7 @@ export * from './GetDepartmentResponseParent';
 export * from './GetDictResponse';
 export * from './GetEmployeeResponse';
 export * from './GetEmployeeResponseDepartment';
+export * from './GetMarketAttributeResponse';
 export * from './GetMeProfileResponse';
 export * from './GetMeProfileResponseDepartment';
 export * from './GetMeProfileResponseShopsInner';
@@ -31,6 +33,7 @@ export * from './ListDepartmentsPageResponse';
 export * from './ListDictPredefineKindsResponseInner';
 export * from './ListDictsPageResponse';
 export * from './ListEmployeesPageResponse';
+export * from './ListMarketAttributesPageResponse';
 export * from './ListRolesPageResponse';
 export * from './ListShopAssetsPageResponse';
 export * from './ListShopsPageResponse';
@@ -48,6 +51,8 @@ export * from './UpsertClientRequest';
 export * from './UpsertDepartmentRequest';
 export * from './UpsertDictRequest';
 export * from './UpsertEmployeeRequest';
+export * from './UpsertMarketAttributeRequest';
+export * from './UpsertMarketAttributeRequestAttributeValuesInner';
 export * from './UpsertRoleRequest';
 export * from './UpsertShopAssetRequest';
 export * from './UpsertShopRequest';

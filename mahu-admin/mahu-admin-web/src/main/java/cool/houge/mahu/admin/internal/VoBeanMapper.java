@@ -10,8 +10,10 @@ import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
 import cool.houge.mahu.entity.Brand;
 import cool.houge.mahu.entity.market.Asset;
+import cool.houge.mahu.entity.market.Attribute;
 import cool.houge.mahu.entity.market.Shop;
 import cool.houge.mahu.entity.system.*;
+import io.ebean.Update;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -122,4 +124,8 @@ public interface VoBeanMapper {
     GetShopResponse toGetShopResponse(Shop bean);
 
     GetShopAssetResponse toGetShopAssetResponse(Asset bean);
+
+    Attribute toAttribute(UpsertMarketAttributeRequest bean);
+
+    GetMarketAttributeResponse toGetMarketAttributeResponse(Attribute bean);
 }
