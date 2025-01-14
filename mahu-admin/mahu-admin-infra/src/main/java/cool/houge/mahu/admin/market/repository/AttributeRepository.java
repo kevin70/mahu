@@ -23,6 +23,14 @@ public class AttributeRepository extends HBeanRepository<Integer, Attribute> {
         var qb = new QAttribute(db());
         var rsqlCtx = RSQLContext.of(qb).property(qb.name).property(qb.ordering);
         apply(dataFilter, rsqlCtx);
-        return qb.findPagedList();
+        return qb.attributeValues
+                .fetch()
+                .attributeValues
+                .ordering
+                .desc()
+                .attributeValues
+                .value
+                .asc()
+                .findPagedList();
     }
 }

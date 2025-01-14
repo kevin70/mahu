@@ -1,12 +1,16 @@
 package cool.houge.mahu.admin.market.service;
 
 import cool.houge.mahu.admin.market.repository.AttributeRepository;
+import cool.houge.mahu.admin.market.repository.AttributeValueRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.market.Attribute;
+import cool.houge.mahu.entity.market.AttributeValue;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /// 商品属性
 ///
@@ -14,8 +18,13 @@ import jakarta.inject.Singleton;
 @Singleton
 public class AttributeService {
 
+    private static final Logger log = LogManager.getLogger(AttributeService.class);
+
     @Inject
     AttributeRepository attributeRepository;
+
+    @Inject
+    AttributeValueRepository attributeValueRepository;
 
     /// 保存商品属性
     @Transactional
@@ -45,6 +54,27 @@ public class AttributeService {
     /// 分页查询商品属性
     @Transactional(readOnly = true)
     public PagedList<Attribute> findPage(DataFilter dataFilter) {
-        return attributeRepository.findPage(dataFilter);
+        var plist = attributeRepository.findPage(dataFilter);
+        for (Attribute attribute : plist.getList()) {
+            log.debug("加载属性{}的属性值: {}", attribute.getId(), attribute.getAttributeValues());
+        }
+        return plist;
+    }
+
+    /// 保存商品属性值
+    @Transactional
+    public void save(AttributeValue entity) {
+        var attributeValue = attributeValueRepository.findByAttributeIdAndValue(
+                entity.getAttribute().getId(), entity.getValue());
+        if (attributeValue != null) {
+            attributeValue
+                    .setDeleted(false)
+                    .setValue(attributeValue.getValue())
+                    .setOrdering(attributeValue.getOrdering());
+            attributeValueRepository.update(attributeValue);
+        } else {
+            entity.setDeleted(false);
+            attributeValueRepository.save(entity);
+        }
     }
 }

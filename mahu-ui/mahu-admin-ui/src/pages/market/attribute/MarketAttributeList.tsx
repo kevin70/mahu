@@ -20,9 +20,10 @@ import {
   ProList,
   ProTable,
 } from '@ant-design/pro-components';
+import { css } from '@emotion/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useCounter } from 'ahooks';
-import { Button, Checkbox, Form, Input, message, Space } from 'antd';
+import { Button, Checkbox, Form, Input, message, Space, Table } from 'antd';
 import { useState } from 'react';
 
 export const MarketAttributeList = () => {
@@ -124,7 +125,7 @@ export const MarketAttributeList = () => {
     );
   };
 
-  const EditForm = ({ id }: { id?: number }) => {
+  const EditForm = ({ id }: { id: number }) => {
     const { mutateAsync } = useMutation<any>({
       mutationKey: ['MarketAttributeList.EditForm'],
       mutationFn(values: any) {
@@ -155,7 +156,7 @@ export const MarketAttributeList = () => {
         }}
         onFinish={async (values: any) => {
           await mutateAsync(values);
-          return true;
+          return false;
         }}
       >
         <Form.Item label="ID">
@@ -173,8 +174,24 @@ export const MarketAttributeList = () => {
   };
 
   // 商品属性
-  const NewValueForm = () => {
+  const NewValueForm = ({ attributeId }: { attributeId: number }) => {
     const [uc, ucOps] = useCounter(0);
+    const submit = async (values: any) => {
+      try {
+        await MARKET_API.addMarketAttributeValue({
+          attributeId,
+          upsertMarketAttributeValueRequest: {
+            ...values,
+          },
+        });
+        message.success('新增成功');
+      } catch (error) {
+        const err = await resolveApiError(error);
+        message.error(err.message);
+        throw error;
+      }
+    };
+
     return (
       <ModalForm
         title={'新增属性值'}
@@ -188,8 +205,10 @@ export const MarketAttributeList = () => {
           },
         }}
         onFinish={async (values) => {
+          console.log('submit', values);
+          await submit(values);
           ucOps.inc();
-          return false;
+          return true;
         }}
       >
         <ProFormText label={'值'} name={'value'} rules={[{ required: true }, { type: 'string', min: 1, max: 32 }]} />
@@ -275,7 +294,8 @@ export const MarketAttributeList = () => {
             render(_dom, row) {
               return (
                 <>
-                  <EditForm id={row.id} />
+                  <NewValueForm attributeId={row.id!} />
+                  <EditForm id={row.id!} />
                   <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />
                 </>
               );
@@ -284,45 +304,45 @@ export const MarketAttributeList = () => {
         ]}
         expandable={{
           rowExpandable: (record) => record.valueType === 'SELECT',
-          expandedRowRender() {
-            //
-            const dataSource = [
-              {
-                title: '语雀的天空',
-                avatar: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-              },
-              {
-                title: 'Ant Design',
-                avatar: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-              },
-              {
-                title: '蚂蚁金服体验科技',
-                avatar: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-              },
-              {
-                title: 'TechUI',
-                avatar: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-              },
-            ];
-
-            <ProList<any>
-              metas={{
-                title: {},
-                avatar: {},
-                actions: {
-                  render: () => {
-                    return [<a key="init">邀请</a>, '发布'];
-                  },
-                },
-              }}
-              rowKey="title"
-              dataSource={dataSource}
-            />;
-
+          expandedRowRender(row) {
+            const dataSource = row.attributeValues ?? [];
             return (
-              <Button type="dashed" icon={<PlusOutlined />}>
-                新增属性
-              </Button>
+              <div
+                css={css`
+                  padding: var(--ant-padding-sm);
+                `}
+              >
+                <Table
+                  title={() => {
+                    return `${row.name} - 可选值`;
+                  }}
+                  pagination={false}
+                  size="small"
+                  columns={[
+                    {
+                      title: '值',
+                      dataIndex: 'value',
+                    },
+                    {
+                      title: '排序',
+                      dataIndex: 'ordering',
+                    },
+                    {
+                      title: '操作',
+                      align: 'right',
+                      render(_dom, row) {
+                        return (
+                          <>
+                            <HEditButton />
+                            <HDeletePopconfirmButton onConfirm={() => {}} />
+                          </>
+                        );
+                      },
+                    },
+                  ]}
+                  dataSource={dataSource}
+                ></Table>
+              </div>
             );
           },
         }}

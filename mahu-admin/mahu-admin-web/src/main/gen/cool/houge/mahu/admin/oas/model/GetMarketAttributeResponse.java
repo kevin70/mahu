@@ -15,6 +15,10 @@ package cool.houge.mahu.admin.oas.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import cool.houge.mahu.admin.oas.model.AttributeValueTypeEnum;
+import cool.houge.mahu.admin.oas.model.GetMarketAttributeResponseAttributeValuesInner;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import io.avaje.validation.constraints.*;
 
 
@@ -64,5 +68,11 @@ public class GetMarketAttributeResponse {
   
     @com.fasterxml.jackson.annotation.JsonProperty("required")
     private Boolean required;
+    /**
+     * 可选属性值
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("attribute_values")
+    private List<@Valid GetMarketAttributeResponseAttributeValuesInner> attributeValues;
 }
 

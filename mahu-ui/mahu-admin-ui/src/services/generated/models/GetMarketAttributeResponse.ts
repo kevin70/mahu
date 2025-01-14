@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { GetMarketAttributeResponseAttributeValuesInner } from './GetMarketAttributeResponseAttributeValuesInner';
+import {
+    GetMarketAttributeResponseAttributeValuesInnerFromJSON,
+    GetMarketAttributeResponseAttributeValuesInnerFromJSONTyped,
+    GetMarketAttributeResponseAttributeValuesInnerToJSON,
+    GetMarketAttributeResponseAttributeValuesInnerToJSONTyped,
+} from './GetMarketAttributeResponseAttributeValuesInner';
 import type { AttributeValueTypeEnum } from './AttributeValueTypeEnum';
 import {
     AttributeValueTypeEnumFromJSON,
@@ -69,6 +76,12 @@ export interface GetMarketAttributeResponse {
      * @memberof GetMarketAttributeResponse
      */
     required?: boolean;
+    /**
+     * 可选属性值
+     * @type {Array<GetMarketAttributeResponseAttributeValuesInner>}
+     * @memberof GetMarketAttributeResponse
+     */
+    attributeValues?: Array<GetMarketAttributeResponseAttributeValuesInner>;
 }
 
 
@@ -97,6 +110,7 @@ export function GetMarketAttributeResponseFromJSONTyped(json: any, ignoreDiscrim
         'ordering': json['ordering'] == null ? undefined : json['ordering'],
         'searchable': json['searchable'] == null ? undefined : json['searchable'],
         'required': json['required'] == null ? undefined : json['required'],
+        'attributeValues': json['attribute_values'] == null ? undefined : ((json['attribute_values'] as Array<any>).map(GetMarketAttributeResponseAttributeValuesInnerFromJSON)),
     };
 }
 
@@ -118,6 +132,7 @@ export function GetMarketAttributeResponseToJSONTyped(value?: GetMarketAttribute
         'ordering': value['ordering'],
         'searchable': value['searchable'],
         'required': value['required'],
+        'attribute_values': value['attributeValues'] == null ? undefined : ((value['attributeValues'] as Array<any>).map(GetMarketAttributeResponseAttributeValuesInnerToJSON)),
     };
 }
 

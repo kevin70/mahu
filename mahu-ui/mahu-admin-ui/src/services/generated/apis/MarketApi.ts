@@ -22,6 +22,7 @@ import type {
   ListShopAssetsPageResponse,
   ListShopsPageResponse,
   UpsertMarketAttributeRequest,
+  UpsertMarketAttributeValueRequest,
   UpsertShopAssetRequest,
   UpsertShopRequest,
 } from '../models/index';
@@ -40,6 +41,8 @@ import {
     ListShopsPageResponseToJSON,
     UpsertMarketAttributeRequestFromJSON,
     UpsertMarketAttributeRequestToJSON,
+    UpsertMarketAttributeValueRequestFromJSON,
+    UpsertMarketAttributeValueRequestToJSON,
     UpsertShopAssetRequestFromJSON,
     UpsertShopAssetRequestToJSON,
     UpsertShopRequestFromJSON,
@@ -51,7 +54,7 @@ export interface AddMarketAttributeRequest {
 }
 
 export interface AddMarketAttributeValueRequest {
-    upsertMarketAttributeRequest: UpsertMarketAttributeRequest;
+    upsertMarketAttributeValueRequest: UpsertMarketAttributeValueRequest;
     attributeId?: number;
 }
 
@@ -175,10 +178,10 @@ export class MarketApi extends runtime.BaseAPI {
      * 新增商品属性值
      */
     async addMarketAttributeValueRaw(requestParameters: AddMarketAttributeValueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['upsertMarketAttributeRequest'] == null) {
+        if (requestParameters['upsertMarketAttributeValueRequest'] == null) {
             throw new runtime.RequiredError(
-                'upsertMarketAttributeRequest',
-                'Required parameter "upsertMarketAttributeRequest" was null or undefined when calling addMarketAttributeValue().'
+                'upsertMarketAttributeValueRequest',
+                'Required parameter "upsertMarketAttributeValueRequest" was null or undefined when calling addMarketAttributeValue().'
             );
         }
 
@@ -201,7 +204,7 @@ export class MarketApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UpsertMarketAttributeRequestToJSON(requestParameters['upsertMarketAttributeRequest']),
+            body: UpsertMarketAttributeValueRequestToJSON(requestParameters['upsertMarketAttributeValueRequest']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
