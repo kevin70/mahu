@@ -259,13 +259,13 @@ export const MarketAttributeList = () => {
           {
             title: '可搜索',
             render(_dom, row) {
-              return row.searchable ? '️🗸' : '🗴';
+              return row.searchable ? '️✓' : '✗';
             },
           },
           {
             title: '必填项',
             render(_dom, row) {
-              return row.required ? '🗸' : '🗴';
+              return row.required ? '✓' : '✗';
             },
           },
           {
