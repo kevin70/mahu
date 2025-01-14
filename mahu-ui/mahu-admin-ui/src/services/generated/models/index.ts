@@ -52,7 +52,6 @@ export * from './UpsertDepartmentRequest';
 export * from './UpsertDictRequest';
 export * from './UpsertEmployeeRequest';
 export * from './UpsertMarketAttributeRequest';
-export * from './UpsertMarketAttributeRequestAttributeValuesInner';
 export * from './UpsertRoleRequest';
 export * from './UpsertShopAssetRequest';
 export * from './UpsertShopRequest';

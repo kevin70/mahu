@@ -47,6 +47,12 @@ public class GetMarketAttributeResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("remark")
     private String remark;
     /**
+     * 排序值
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
+    private Integer ordering;
+    /**
      * 是否为可搜索的
      */
   

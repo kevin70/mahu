@@ -20,14 +20,26 @@ public class AttributeService {
     /// 保存商品属性
     @Transactional
     public void save(Attribute attribute) {
+        attribute.setDeleted(false);
         attributeRepository.save(attribute);
+    }
+
+    /// 更新商品属性
+    @Transactional
+    public void update(Attribute attribute) {
+        attributeRepository.update(attribute);
     }
 
     /// 删除商品属性
     @Transactional
     public void delete(Attribute attribute) {
-        // FIXME 判断商品属性是否被引用
         attributeRepository.delete(attribute);
+    }
+
+    /// 查询指定 ID 商品属性
+    @Transactional(readOnly = true)
+    public Attribute findById(Integer id) {
+        return attributeRepository.findById(id);
     }
 
     /// 分页查询商品属性

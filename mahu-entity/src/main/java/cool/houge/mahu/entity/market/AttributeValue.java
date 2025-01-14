@@ -1,6 +1,7 @@
 package cool.houge.mahu.entity.market;
 
 import cool.houge.mahu.entity.Auditable;
+import io.ebean.annotation.SoftDelete;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,11 +19,14 @@ public class AttributeValue implements Auditable {
     @Id
     @GeneratedValue
     private Integer id;
+    /// 软删除
+    @SoftDelete
+    private Boolean deleted;
+    /// 属性
+    @ManyToOne
+    private Attribute attribute;
     /// 可选值
     private String value;
     /// 排序值
     private Integer ordering;
-    /// 属性
-    @ManyToOne
-    private Attribute attribute;
 }

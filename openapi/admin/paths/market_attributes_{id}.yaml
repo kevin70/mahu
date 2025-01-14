@@ -24,6 +24,8 @@ delete:
   summary: 删除商品属性
   operationId: deleteMarketAttribute
   x-role-permit: MARKET_ATTRIBUTE:D
+  tags:
+    - market
   responses:
     "204":
       description: OK

@@ -15,10 +15,6 @@ package cool.houge.mahu.admin.oas.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import cool.houge.mahu.admin.oas.model.AttributeValueTypeEnum;
-import cool.houge.mahu.admin.oas.model.UpsertMarketAttributeRequestAttributeValuesInner;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import io.avaje.validation.constraints.*;
 
 
@@ -36,7 +32,8 @@ public class UpsertMarketAttributeRequest {
     /**
      * Get valueType
      */
-  
+    @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("value_type")
     private AttributeValueTypeEnum valueType;
     /**
@@ -45,6 +42,13 @@ public class UpsertMarketAttributeRequest {
    @Size(max=256)
     @com.fasterxml.jackson.annotation.JsonProperty("remark")
     private String remark;
+    /**
+     * 排序值
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
+    private Integer ordering;
     /**
      * 是否为可搜索的
      */
@@ -57,11 +61,5 @@ public class UpsertMarketAttributeRequest {
   
     @com.fasterxml.jackson.annotation.JsonProperty("required")
     private Boolean required;
-    /**
-     * 属性可选值
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("attribute_values")
-    private List<@Valid UpsertMarketAttributeRequestAttributeValuesInner> attributeValues;
 }
 

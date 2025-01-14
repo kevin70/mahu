@@ -12,6 +12,10 @@ properties:
   remark:
     type: string
     description: 备注
+  ordering:
+    type: integer
+    format: int32
+    description: 排序值
   searchable:
     type: boolean
     description: 是否为可搜索的

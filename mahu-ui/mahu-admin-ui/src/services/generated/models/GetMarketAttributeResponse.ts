@@ -52,6 +52,12 @@ export interface GetMarketAttributeResponse {
      */
     remark?: string;
     /**
+     * 排序值
+     * @type {number}
+     * @memberof GetMarketAttributeResponse
+     */
+    ordering?: number;
+    /**
      * 是否为可搜索的
      * @type {boolean}
      * @memberof GetMarketAttributeResponse
@@ -88,6 +94,7 @@ export function GetMarketAttributeResponseFromJSONTyped(json: any, ignoreDiscrim
         'valueType': json['value_type'] == null ? undefined : AttributeValueTypeEnumFromJSON(json['value_type']),
         'name': json['name'] == null ? undefined : json['name'],
         'remark': json['remark'] == null ? undefined : json['remark'],
+        'ordering': json['ordering'] == null ? undefined : json['ordering'],
         'searchable': json['searchable'] == null ? undefined : json['searchable'],
         'required': json['required'] == null ? undefined : json['required'],
     };
@@ -108,6 +115,7 @@ export function GetMarketAttributeResponseToJSONTyped(value?: GetMarketAttribute
         'value_type': AttributeValueTypeEnumToJSON(value['valueType']),
         'name': value['name'],
         'remark': value['remark'],
+        'ordering': value['ordering'],
         'searchable': value['searchable'],
         'required': value['required'],
     };

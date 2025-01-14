@@ -78,6 +78,8 @@ paths:
     $ref: paths/market_attributes.yaml
   /market/attributes/{id}:
     $ref: paths/market_attributes_{id}.yaml
+  /market/attributes/{attribute_id}/values:
+    $ref: paths/market_attributes_{attribute_id}_values.yaml
 
   /samples:
     get:

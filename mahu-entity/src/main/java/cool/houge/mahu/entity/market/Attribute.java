@@ -31,6 +31,8 @@ public class Attribute implements Auditable {
     private String name;
     /// 描述
     private String remark;
+    /// 排序值
+    private Integer ordering;
     /// 是否为可搜索的
     private boolean searchable;
     /// 是否为必选项

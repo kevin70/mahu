@@ -58,7 +58,6 @@ models/UpsertDepartmentRequest.ts
 models/UpsertDictRequest.ts
 models/UpsertEmployeeRequest.ts
 models/UpsertMarketAttributeRequest.ts
-models/UpsertMarketAttributeRequestAttributeValuesInner.ts
 models/UpsertRoleRequest.ts
 models/UpsertShopAssetRequest.ts
 models/UpsertShopRequest.ts

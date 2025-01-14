@@ -4,6 +4,7 @@ import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.market.service.AttributeService;
 import cool.houge.mahu.admin.oas.model.UpsertMarketAttributeRequest;
 import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.entity.market.Attribute;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
@@ -32,6 +33,7 @@ public class AttributeController implements HttpService, WebSupport {
         rules.delete("/market/attributes/{id}", authz(MARKET_ATTRIBUTE.W()).wrap(this::deleteMarketAttribute));
         rules.put("/market/attributes/{id}", authz(MARKET_ATTRIBUTE.W()).wrap(this::updateMarketAttribute));
 
+        rules.get("/market/attributes/{id}", authz(MARKET_ATTRIBUTE.R()).wrap(this::getMarketAttribute));
         rules.get("/market/attributes", authz(MARKET_ATTRIBUTE.R()).wrap(this::listMarketAttributes));
     }
 
@@ -47,6 +49,9 @@ public class AttributeController implements HttpService, WebSupport {
     private void deleteMarketAttribute(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var id = pathParams.first("id").asInt().get();
+
+        attributeService.delete(new Attribute().setId(id));
+        response.status(NO_CONTENT_204).send();
     }
 
     private void updateMarketAttribute(ServerRequest request, ServerResponse response) {
@@ -56,6 +61,17 @@ public class AttributeController implements HttpService, WebSupport {
         validate(vo);
 
         var entity = beanMapper.toAttribute(vo).setId(id);
+        attributeService.update(entity);
+        response.status(NO_CONTENT_204).send();
+    }
+
+    private void getMarketAttribute(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var id = pathParams.first("id").asInt().get();
+
+        var bean = attributeService.findById(id);
+        var rs = beanMapper.toGetMarketAttributeResponse(bean);
+        response.send(rs);
     }
 
     private void listMarketAttributes(ServerRequest request, ServerResponse response) {

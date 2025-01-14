@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { UpsertMarketAttributeRequestAttributeValuesInner } from './UpsertMarketAttributeRequestAttributeValuesInner';
-import {
-    UpsertMarketAttributeRequestAttributeValuesInnerFromJSON,
-    UpsertMarketAttributeRequestAttributeValuesInnerFromJSONTyped,
-    UpsertMarketAttributeRequestAttributeValuesInnerToJSON,
-    UpsertMarketAttributeRequestAttributeValuesInnerToJSONTyped,
-} from './UpsertMarketAttributeRequestAttributeValuesInner';
 import type { AttributeValueTypeEnum } from './AttributeValueTypeEnum';
 import {
     AttributeValueTypeEnumFromJSON,
@@ -45,13 +38,19 @@ export interface UpsertMarketAttributeRequest {
      * @type {AttributeValueTypeEnum}
      * @memberof UpsertMarketAttributeRequest
      */
-    valueType?: AttributeValueTypeEnum;
+    valueType: AttributeValueTypeEnum;
     /**
      * 备注
      * @type {string}
      * @memberof UpsertMarketAttributeRequest
      */
     remark?: string;
+    /**
+     * 排序值
+     * @type {number}
+     * @memberof UpsertMarketAttributeRequest
+     */
+    ordering: number;
     /**
      * 是否为可搜索的
      * @type {boolean}
@@ -64,12 +63,6 @@ export interface UpsertMarketAttributeRequest {
      * @memberof UpsertMarketAttributeRequest
      */
     required?: boolean;
-    /**
-     * 属性可选值
-     * @type {Array<UpsertMarketAttributeRequestAttributeValuesInner>}
-     * @memberof UpsertMarketAttributeRequest
-     */
-    attributeValues?: Array<UpsertMarketAttributeRequestAttributeValuesInner>;
 }
 
 
@@ -79,6 +72,8 @@ export interface UpsertMarketAttributeRequest {
  */
 export function instanceOfUpsertMarketAttributeRequest(value: object): value is UpsertMarketAttributeRequest {
     if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('valueType' in value) || value['valueType'] === undefined) return false;
+    if (!('ordering' in value) || value['ordering'] === undefined) return false;
     return true;
 }
 
@@ -93,11 +88,11 @@ export function UpsertMarketAttributeRequestFromJSONTyped(json: any, ignoreDiscr
     return {
         
         'name': json['name'],
-        'valueType': json['value_type'] == null ? undefined : AttributeValueTypeEnumFromJSON(json['value_type']),
+        'valueType': AttributeValueTypeEnumFromJSON(json['value_type']),
         'remark': json['remark'] == null ? undefined : json['remark'],
+        'ordering': json['ordering'],
         'searchable': json['searchable'] == null ? undefined : json['searchable'],
         'required': json['required'] == null ? undefined : json['required'],
-        'attributeValues': json['attribute_values'] == null ? undefined : ((json['attribute_values'] as Array<any>).map(UpsertMarketAttributeRequestAttributeValuesInnerFromJSON)),
     };
 }
 
@@ -115,9 +110,9 @@ export function UpsertMarketAttributeRequestToJSONTyped(value?: UpsertMarketAttr
         'name': value['name'],
         'value_type': AttributeValueTypeEnumToJSON(value['valueType']),
         'remark': value['remark'],
+        'ordering': value['ordering'],
         'searchable': value['searchable'],
         'required': value['required'],
-        'attribute_values': value['attributeValues'] == null ? undefined : ((value['attributeValues'] as Array<any>).map(UpsertMarketAttributeRequestAttributeValuesInnerToJSON)),
     };
 }
 

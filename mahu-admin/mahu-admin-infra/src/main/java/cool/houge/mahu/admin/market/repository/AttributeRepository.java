@@ -21,7 +21,7 @@ public class AttributeRepository extends HBeanRepository<Integer, Attribute> {
 
     public PagedList<Attribute> findPage(DataFilter dataFilter) {
         var qb = new QAttribute(db());
-        var rsqlCtx = RSQLContext.of(qb).property(qb.name);
+        var rsqlCtx = RSQLContext.of(qb).property(qb.name).property(qb.ordering);
         apply(dataFilter, rsqlCtx);
         return qb.findPagedList();
     }

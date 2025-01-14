@@ -1,0 +1,22 @@
+parameters:
+  - name: attribute_id
+    in: path
+    description: 属性 ID
+    schema:
+      type: integer
+      format: int32
+post:
+  summary: 新增商品属性值
+  operationId: addMarketAttributeValue
+  x-role-permit: MARKET_ATTRIBUTE:W
+  tags:
+    - market
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertMarketAttributeRequest.yaml
+  responses:
+    "204":
+      description: OK
