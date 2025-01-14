@@ -259,13 +259,13 @@ export const MarketAttributeList = () => {
           {
             title: '可搜索',
             render(_dom, row) {
-              return <Checkbox checked={row.searchable} disabled />;
+              return row.searchable ? '️🗸' : '🗴';
             },
           },
           {
             title: '必填项',
             render(_dom, row) {
-              return <Checkbox checked={row.required} disabled />;
+              return row.required ? '🗸' : '🗴';
             },
           },
           {
