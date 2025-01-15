@@ -64,17 +64,32 @@ public class AttributeService {
     /// 保存商品属性值
     @Transactional
     public void save(AttributeValue entity) {
-        var attributeValue = attributeValueRepository.findByAttributeIdAndValue(
+        var dbEntity = attributeValueRepository.findByAttributeIdAndValue(
                 entity.getAttribute().getId(), entity.getValue());
-        if (attributeValue != null) {
-            attributeValue
-                    .setDeleted(false)
-                    .setValue(attributeValue.getValue())
-                    .setOrdering(attributeValue.getOrdering());
-            attributeValueRepository.update(attributeValue);
+        if (dbEntity != null) {
+            dbEntity.setDeleted(false).setValue(entity.getValue()).setOrdering(entity.getOrdering());
+            attributeValueRepository.update(dbEntity);
         } else {
             entity.setDeleted(false);
             attributeValueRepository.save(entity);
         }
+    }
+
+    /// 删除商品属性值
+    @Transactional
+    public void delete(AttributeValue entity) {
+        attributeValueRepository.delete(entity);
+    }
+
+    /// 修改商品属性值
+    @Transactional
+    public void update(AttributeValue entity) {
+        attributeValueRepository.update(entity);
+    }
+
+    /// 查询指定 ID 的属性值
+    @Transactional(readOnly = true)
+    public AttributeValue findValueById(Integer id) {
+        return attributeValueRepository.findById(id);
     }
 }

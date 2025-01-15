@@ -17,7 +17,7 @@ export * from './GetDictResponse';
 export * from './GetEmployeeResponse';
 export * from './GetEmployeeResponseDepartment';
 export * from './GetMarketAttributeResponse';
-export * from './GetMarketAttributeResponseAttributeValuesInner';
+export * from './GetMarketAttributeValueResponse';
 export * from './GetMeProfileResponse';
 export * from './GetMeProfileResponseDepartment';
 export * from './GetMeProfileResponseShopsInner';

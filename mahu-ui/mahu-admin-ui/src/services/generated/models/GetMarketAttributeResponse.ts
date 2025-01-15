@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { GetMarketAttributeResponseAttributeValuesInner } from './GetMarketAttributeResponseAttributeValuesInner';
+import type { GetMarketAttributeValueResponse } from './GetMarketAttributeValueResponse';
 import {
-    GetMarketAttributeResponseAttributeValuesInnerFromJSON,
-    GetMarketAttributeResponseAttributeValuesInnerFromJSONTyped,
-    GetMarketAttributeResponseAttributeValuesInnerToJSON,
-    GetMarketAttributeResponseAttributeValuesInnerToJSONTyped,
-} from './GetMarketAttributeResponseAttributeValuesInner';
+    GetMarketAttributeValueResponseFromJSON,
+    GetMarketAttributeValueResponseFromJSONTyped,
+    GetMarketAttributeValueResponseToJSON,
+    GetMarketAttributeValueResponseToJSONTyped,
+} from './GetMarketAttributeValueResponse';
 import type { AttributeValueTypeEnum } from './AttributeValueTypeEnum';
 import {
     AttributeValueTypeEnumFromJSON,
@@ -40,6 +40,12 @@ export interface GetMarketAttributeResponse {
      * @memberof GetMarketAttributeResponse
      */
     id?: number;
+    /**
+     * 软删除的
+     * @type {boolean}
+     * @memberof GetMarketAttributeResponse
+     */
+    deleted?: boolean;
     /**
      * 
      * @type {AttributeValueTypeEnum}
@@ -78,10 +84,10 @@ export interface GetMarketAttributeResponse {
     required?: boolean;
     /**
      * 可选属性值
-     * @type {Array<GetMarketAttributeResponseAttributeValuesInner>}
+     * @type {Array<GetMarketAttributeValueResponse>}
      * @memberof GetMarketAttributeResponse
      */
-    attributeValues?: Array<GetMarketAttributeResponseAttributeValuesInner>;
+    attributeValues?: Array<GetMarketAttributeValueResponse>;
 }
 
 
@@ -104,13 +110,14 @@ export function GetMarketAttributeResponseFromJSONTyped(json: any, ignoreDiscrim
     return {
         
         'id': json['id'] == null ? undefined : json['id'],
+        'deleted': json['deleted'] == null ? undefined : json['deleted'],
         'valueType': json['value_type'] == null ? undefined : AttributeValueTypeEnumFromJSON(json['value_type']),
         'name': json['name'] == null ? undefined : json['name'],
         'remark': json['remark'] == null ? undefined : json['remark'],
         'ordering': json['ordering'] == null ? undefined : json['ordering'],
         'searchable': json['searchable'] == null ? undefined : json['searchable'],
         'required': json['required'] == null ? undefined : json['required'],
-        'attributeValues': json['attribute_values'] == null ? undefined : ((json['attribute_values'] as Array<any>).map(GetMarketAttributeResponseAttributeValuesInnerFromJSON)),
+        'attributeValues': json['attribute_values'] == null ? undefined : ((json['attribute_values'] as Array<any>).map(GetMarketAttributeValueResponseFromJSON)),
     };
 }
 
@@ -126,13 +133,14 @@ export function GetMarketAttributeResponseToJSONTyped(value?: GetMarketAttribute
     return {
         
         'id': value['id'],
+        'deleted': value['deleted'],
         'value_type': AttributeValueTypeEnumToJSON(value['valueType']),
         'name': value['name'],
         'remark': value['remark'],
         'ordering': value['ordering'],
         'searchable': value['searchable'],
         'required': value['required'],
-        'attribute_values': value['attributeValues'] == null ? undefined : ((value['attributeValues'] as Array<any>).map(GetMarketAttributeResponseAttributeValuesInnerToJSON)),
+        'attribute_values': value['attributeValues'] == null ? undefined : ((value['attributeValues'] as Array<any>).map(GetMarketAttributeValueResponseToJSON)),
     };
 }
 

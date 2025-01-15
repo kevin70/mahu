@@ -1,0 +1,16 @@
+type: object
+properties:
+  id:
+    type: integer
+    format: int32
+    description: 属性值 ID
+  deleted:
+    type: boolean
+    description: 软删除的
+  value:
+    type: string
+    description: 属性值
+  ordering:
+    type: integer
+    format: int32
+    description: 排序值

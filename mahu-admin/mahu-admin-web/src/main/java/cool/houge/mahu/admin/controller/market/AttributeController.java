@@ -6,6 +6,7 @@ import cool.houge.mahu.admin.oas.model.UpsertMarketAttributeRequest;
 import cool.houge.mahu.admin.oas.model.UpsertMarketAttributeValueRequest;
 import cool.houge.mahu.common.web.WebSupport;
 import cool.houge.mahu.entity.market.Attribute;
+import cool.houge.mahu.entity.market.AttributeValue;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
@@ -40,6 +41,15 @@ public class AttributeController implements HttpService, WebSupport {
         rules.post(
                 "/market/attributes/{attribute_id}/values",
                 authz(MARKET_ATTRIBUTE.W()).wrap(this::addMarketAttributeValue));
+        rules.delete(
+            "/market/attributes/{attribute_id}/values/{attribute_value_id}",
+            authz(MARKET_ATTRIBUTE.D()).wrap(this::deleteMarketAttributeValue));
+        rules.put(
+            "/market/attributes/{attribute_id}/values/{attribute_value_id}",
+            authz(MARKET_ATTRIBUTE.D()).wrap(this::updateMarketAttributeValue));
+        rules.get(
+            "/market/attributes/{attribute_id}/values/{attribute_value_id}",
+            authz(MARKET_ATTRIBUTE.R()).wrap(this::getMarketAttributeValue));
     }
 
     private void addMarketAttribute(ServerRequest request, ServerResponse response) {
@@ -88,6 +98,7 @@ public class AttributeController implements HttpService, WebSupport {
         response.send(rs);
     }
 
+    // ====================== 商品属性值 ====================== //
     private void addMarketAttributeValue(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var attributeId = pathParams.first("attribute_id").asInt().get();
@@ -97,5 +108,34 @@ public class AttributeController implements HttpService, WebSupport {
         var entity = beanMapper.toAttributeValue(attributeId, vo);
         attributeService.save(entity);
         response.status(NO_CONTENT_204).send();
+    }
+
+    private void deleteMarketAttributeValue(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var attributeValueId = pathParams.first("attribute_value_id").asInt().get();
+
+        attributeService.delete(new AttributeValue().setId(attributeValueId));
+        response.status(NO_CONTENT_204).send();
+    }
+
+    private void updateMarketAttributeValue(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var attributeId = pathParams.first("attribute_id").asInt().get();
+        var attributeValueId = pathParams.first("attribute_value_id").asInt().get();
+        var vo = request.content().as(UpsertMarketAttributeValueRequest.class);
+        validate(vo);
+
+        var entity = beanMapper.toAttributeValue(attributeId, vo).setId(attributeValueId);
+        attributeService.update(entity);
+        response.status(NO_CONTENT_204).send();
+    }
+
+    private void getMarketAttributeValue(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var attributeValueId = pathParams.first("attribute_value_id").asInt().get();
+
+        var bean = attributeService.findValueById(attributeValueId);
+        var rs = beanMapper.toGetMarketAttributeValueResponse(bean);
+        response.send(rs);
     }
 }

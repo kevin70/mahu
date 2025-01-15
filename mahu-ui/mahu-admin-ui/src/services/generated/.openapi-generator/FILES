@@ -23,7 +23,7 @@ models/GetDictResponse.ts
 models/GetEmployeeResponse.ts
 models/GetEmployeeResponseDepartment.ts
 models/GetMarketAttributeResponse.ts
-models/GetMarketAttributeResponseAttributeValuesInner.ts
+models/GetMarketAttributeValueResponse.ts
 models/GetMeProfileResponse.ts
 models/GetMeProfileResponseDepartment.ts
 models/GetMeProfileResponseShopsInner.ts

@@ -15,7 +15,7 @@ package cool.houge.mahu.admin.oas.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import cool.houge.mahu.admin.oas.model.AttributeValueTypeEnum;
-import cool.houge.mahu.admin.oas.model.GetMarketAttributeResponseAttributeValuesInner;
+import cool.houge.mahu.admin.oas.model.GetMarketAttributeValueResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +32,12 @@ public class GetMarketAttributeResponse {
   
     @com.fasterxml.jackson.annotation.JsonProperty("id")
     private Integer id;
+    /**
+     * 软删除的
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("deleted")
+    private Boolean deleted;
     /**
      * Get valueType
      */
@@ -73,6 +79,6 @@ public class GetMarketAttributeResponse {
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("attribute_values")
-    private List<@Valid GetMarketAttributeResponseAttributeValuesInner> attributeValues;
+    private List<@Valid GetMarketAttributeValueResponse> attributeValues;
 }
 

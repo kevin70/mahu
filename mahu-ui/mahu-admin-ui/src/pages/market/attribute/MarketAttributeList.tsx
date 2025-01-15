@@ -7,7 +7,7 @@ import { permits } from '@/config/permit';
 import { useRSQLFilter } from '@/hooks';
 import { useTableHelper } from '@/hooks/useTableHelper';
 import { MARKET_API, resolveApiError } from '@/services';
-import { PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import {
   DrawerForm,
   ModalForm,
@@ -17,14 +17,15 @@ import {
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
-  ProList,
   ProTable,
 } from '@ant-design/pro-components';
 import { css } from '@emotion/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useCounter } from 'ahooks';
-import { Button, Checkbox, Form, Input, message, Space, Table } from 'antd';
-import { useState } from 'react';
+import { Button, Form, Input, message, Space, Table } from 'antd';
+import { useForm } from 'antd/es/form/Form';
+import { FormInstance } from 'antd/lib';
+import { useRef, useState } from 'react';
 
 export const MarketAttributeList = () => {
   const noWrite = $checkNotPermit(permits.MARKET_ATTRIBUTE.W);
@@ -176,6 +177,7 @@ export const MarketAttributeList = () => {
   // 商品属性
   const NewValueForm = ({ attributeId }: { attributeId: number }) => {
     const [uc, ucOps] = useCounter(0);
+    const formRef = useRef<FormInstance>();
     const submit = async (values: any) => {
       try {
         await MARKET_API.addMarketAttributeValue({
@@ -196,6 +198,7 @@ export const MarketAttributeList = () => {
       <ModalForm
         title={'新增属性值'}
         trigger={<Button color="default" variant="link" icon={<PlusCircleOutlined />} disabled={noWrite} />}
+        formRef={formRef}
         modalProps={{
           afterClose() {
             if (uc > 0) {
@@ -204,17 +207,79 @@ export const MarketAttributeList = () => {
             ucOps.reset();
           },
         }}
+        initialValues={{ ordering: 0 }}
         onFinish={async (values) => {
-          console.log('submit', values);
           await submit(values);
+
           ucOps.inc();
-          return true;
+          formRef.current?.resetFields();
+          return false;
         }}
       >
         <ProFormText label={'值'} name={'value'} rules={[{ required: true }, { type: 'string', min: 1, max: 32 }]} />
         <ProFormDigit label="排序" name={'ordering'} min={0} max={99999} rules={[{ required: true }]} />
       </ModalForm>
     );
+  };
+
+  // 修改属性值
+  const EditValueForm = ({ attributeId, attributeValueId }: { attributeId: number; attributeValueId: number }) => {
+    const submit = async (values: any) => {
+      try {
+        await MARKET_API.updateMarketAttributeValue({
+          attributeId,
+          attributeValueId,
+          upsertMarketAttributeValueRequest: {
+            ...values,
+          },
+        });
+        message.success('修改成功');
+      } catch (error) {
+        const err = await resolveApiError(error);
+        message.error(err.message);
+        throw error;
+      }
+    };
+
+    return (
+      <ModalForm
+        title={'修改属性值'}
+        trigger={<HEditButton disabled={noWrite} />}
+        modalProps={{
+          afterClose() {
+            refetch();
+          },
+        }}
+        onFinish={async (values) => {
+          await submit(values);
+          return true;
+        }}
+        onInit={async (_values, form) => {
+          const values = await MARKET_API.getMarketAttributeValue({ attributeId, attributeValueId });
+          form.setFieldsValue({
+            ...values,
+          });
+        }}
+      >
+        <Form.Item label="ID">
+          <Input disabled value={attributeValueId} />
+        </Form.Item>
+        <ProFormText label={'值'} name={'value'} rules={[{ required: true }, { type: 'string', min: 1, max: 32 }]} />
+        <ProFormDigit label="排序" name={'ordering'} min={0} max={99999} rules={[{ required: true }]} />
+      </ModalForm>
+    );
+  };
+
+  const onDeleteValue = async ({
+    attributeId,
+    attributeValueId,
+  }: {
+    attributeId: number;
+    attributeValueId: number;
+  }) => {
+    await MARKET_API.deleteMarketAttributeValue({ attributeId, attributeValueId });
+    message.success('删除成功');
+    refetch();
   };
 
   return (
@@ -292,9 +357,11 @@ export const MarketAttributeList = () => {
             align: 'right',
             fixed: 'right',
             render(_dom, row) {
+              if (row.deleted) {
+                return <></>;
+              }
               return (
                 <>
-                  <NewValueForm attributeId={row.id!} />
                   <EditForm id={row.id!} />
                   <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />
                 </>
@@ -307,42 +374,53 @@ export const MarketAttributeList = () => {
           expandedRowRender(row) {
             const dataSource = row.attributeValues ?? [];
             return (
-              <div
-                css={css`
-                  padding: var(--ant-padding-sm);
-                `}
-              >
-                <Table
-                  title={() => {
-                    return `${row.name} - 可选值`;
-                  }}
-                  pagination={false}
-                  size="small"
-                  columns={[
-                    {
-                      title: '值',
-                      dataIndex: 'value',
+              <Table
+                title={() => {
+                  return (
+                    <div
+                      css={css`
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      `}
+                    >
+                      <span>可选值</span>
+                      {!row.deleted && <NewValueForm attributeId={row.id!} />}
+                    </div>
+                  );
+                }}
+                pagination={false}
+                size="small"
+                columns={[
+                  {
+                    title: '值',
+                    dataIndex: 'value',
+                  },
+                  {
+                    title: '排序',
+                    dataIndex: 'ordering',
+                  },
+                  {
+                    title: '操作',
+                    align: 'right',
+                    render(_dom, subRow) {
+                      if (row.deleted || subRow.deleted) {
+                        return <></>;
+                      }
+                      return (
+                        <>
+                          {/* <EditValueForm attributeId={row.id!} attributeValueId={subRow.id!} /> */}
+                          <HDeletePopconfirmButton
+                            onConfirm={() => onDeleteValue({ attributeId: row.id!, attributeValueId: subRow.id! })}
+                            disabled={noWrite}
+                          />
+                        </>
+                      );
                     },
-                    {
-                      title: '排序',
-                      dataIndex: 'ordering',
-                    },
-                    {
-                      title: '操作',
-                      align: 'right',
-                      render(_dom, row) {
-                        return (
-                          <>
-                            <HEditButton />
-                            <HDeletePopconfirmButton onConfirm={() => {}} />
-                          </>
-                        );
-                      },
-                    },
-                  ]}
-                  dataSource={dataSource}
-                ></Table>
-              </div>
+                  },
+                ]}
+                dataSource={dataSource}
+              />
             );
           },
         }}

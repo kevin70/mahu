@@ -131,4 +131,6 @@ public interface VoBeanMapper {
 
     @Mapping(source = "attributeId", target = "attribute.id")
     AttributeValue toAttributeValue(Integer attributeId, UpsertMarketAttributeValueRequest bean);
+
+    GetMarketAttributeValueResponse toGetMarketAttributeValueResponse(AttributeValue bean);
 }
