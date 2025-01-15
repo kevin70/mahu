@@ -37,6 +37,9 @@ public class Product {
     /// 数据版本
     @Version
     private Integer ver;
+    /// 产品状态
+    @Enumerated(EnumType.ORDINAL)
+    private ProductStatus status;
     /// 名称
     private String name;
     /// 描述

@@ -36,6 +36,9 @@ public class ProductVariant {
     /// 数据版本
     @Version
     private Integer ver;
+    /// 产品状态
+    @Enumerated(EnumType.ORDINAL)
+    private ProductStatus status;
     /// 产品
     @ManyToOne
     private Product product;
