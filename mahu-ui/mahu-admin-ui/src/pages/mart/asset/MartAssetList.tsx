@@ -12,10 +12,9 @@ import { useInView } from 'react-intersection-observer';
 import { useShallow } from 'zustand/shallow';
 
 export const MartAssetList = () => {
+  const noWrite = $checkNotPermit(permits.MART_ASSET.W);
   const shopId = useProfileStore(useShallow((state) => state.shopId));
   const { ref, inView } = useInView();
-  const noWrite = $checkNotPermit(permits.MART_ASSET.W);
-
   const { hasNextPage, fetchNextPage, data, refetch } = useInfiniteQuery({
     queryKey: ['MarketAssetList', shopId],
     queryFn: async ({ pageParam: offset }) => {

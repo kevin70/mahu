@@ -1,3 +1,4 @@
+import { HAssetSelect } from '@/components/mart/HAssetSelect';
 import { PageContainer, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { Flex, Form, Image, Tabs } from 'antd';
 
@@ -6,6 +7,9 @@ export const MartProductNew = () => {
     <>
       <ProFormText label={'名称'} name={'name'} />
       <ProFormTextArea label={'描述'} name={'description'} />
+      <Form.Item name={'images'} label={'轮播图片'}>
+        <HAssetSelect />
+      </Form.Item>
       <Form.List name={'images'}>
         {(fields, { add, move, remove }) => {
           return (
