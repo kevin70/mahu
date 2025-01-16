@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/BasisApi.ts
 apis/DefaultApi.ts
 apis/MartApi.ts
@@ -7,6 +6,7 @@ apis/SystemApi.ts
 apis/TokenApi.ts
 apis/index.ts
 index.ts
+models/AddShopAssetRequest.ts
 models/AttributeValueTypeEnum.ts
 models/BasePageResponse.ts
 models/BatchDeleteShopAssetRequest.ts
@@ -62,7 +62,6 @@ models/UpsertEmployeeRequest.ts
 models/UpsertMartAttributeRequest.ts
 models/UpsertMartAttributeValueRequest.ts
 models/UpsertRoleRequest.ts
-models/UpsertShopAssetRequest.ts
 models/UpsertShopRequest.ts
 models/index.ts
 runtime.ts

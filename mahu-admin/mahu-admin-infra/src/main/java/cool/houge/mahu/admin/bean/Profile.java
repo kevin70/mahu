@@ -11,7 +11,7 @@ import java.util.List;
 public class Profile {
 
     /// 用户 ID.
-    private Integer uid;
+    private Long uid;
     /// 用户昵称.
     private String nickname;
     /// 用户头像.

@@ -19,6 +19,8 @@ import { BrandList } from '@/pages/brand/BrandList';
 import { MartShopList } from '@/pages/mart/shop/MartShopList';
 import { MartAssetList } from '@/pages/mart/asset/MartAssetList';
 import { MartAttributeList } from '@/pages/mart/attribute/MartAttributeList';
+import { MartProductList } from '@/pages/mart/product/MartProductList';
+import { MartProductNew } from '@/pages/mart/product/MartProductNew';
 
 // prettier-ignore-start
 export const routes = createRoutesFromElements(
@@ -36,6 +38,8 @@ export const routes = createRoutesFromElements(
       <Route path="/mart/attribute-list" Component={MartAttributeList} />
       <Route path="/mart/shop-list" Component={MartShopList} />
       <Route path="/mart/asset-list" Component={MartAssetList} />
+      <Route path="/mart/product-list" Component={MartProductList} />
+      <Route path="/mart/product-new" Component={MartProductNew} />
 
       {/** 系统模块 */}
       <Route path="/system/employee-list" Component={EmployeeList} />

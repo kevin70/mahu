@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AddShopAssetRequest';
 export * from './AttributeValueTypeEnum';
 export * from './BasePageResponse';
 export * from './BatchDeleteShopAssetRequest';
@@ -55,5 +56,4 @@ export * from './UpsertEmployeeRequest';
 export * from './UpsertMartAttributeRequest';
 export * from './UpsertMartAttributeValueRequest';
 export * from './UpsertRoleRequest';
-export * from './UpsertShopAssetRequest';
 export * from './UpsertShopRequest';

@@ -7,5 +7,5 @@ public enum OssKind {
     /// 品牌
     BRAND,
     /// 商城资源
-    MARKET_ASSET
+    MART_ASSET
 }

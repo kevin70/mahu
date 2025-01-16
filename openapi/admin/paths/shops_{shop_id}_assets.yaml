@@ -11,7 +11,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpsertShopAssetRequest.yaml
+          $ref: ../components/schemas/AddShopAssetRequest.yaml
   responses:
     204:
       description: OK

@@ -1,0 +1,11 @@
+type: object
+required:
+  - uris
+properties:
+  uris:
+    type: array
+    description: 资源 URIs
+    minItems: 1
+    maxItems: 99
+    items:
+      type: string

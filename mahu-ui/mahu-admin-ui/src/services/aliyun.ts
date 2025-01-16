@@ -5,7 +5,7 @@ export interface UploadRequest {
   policy: string;
   accessKeyId: string;
   signature: string;
-  file: File;
+  file: File | Blob | string;
 }
 
 /**

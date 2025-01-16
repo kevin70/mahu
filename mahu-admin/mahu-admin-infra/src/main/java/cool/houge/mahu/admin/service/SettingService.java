@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.util.List;
+import java.util.Optional;
 
 ///
 /// @author ZY (kzou227@qq.com)
@@ -30,7 +31,7 @@ public class SettingService {
         var key = aliyunClient.joinFileKey(
                 List.of(
                         ossConfig.keyPrefix(),
-                        payload.getPrefixLimit(),
+                        Optional.ofNullable(payload.getPrefixLimit()).orElse(""),
                         Ulid.fast().toString()),
                 ext);
         var request = new DirectUploadRequest()

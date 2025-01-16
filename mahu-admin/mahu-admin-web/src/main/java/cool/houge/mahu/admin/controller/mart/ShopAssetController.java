@@ -3,8 +3,11 @@ package cool.houge.mahu.admin.controller.mart;
 import cool.houge.mahu.admin.controller.DynamicSecureHandler;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.AssetService;
+import cool.houge.mahu.admin.oas.model.AddShopAssetRequest;
 import cool.houge.mahu.admin.oas.model.BatchDeleteShopAssetRequest;
 import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.entity.mart.Asset;
+import cool.houge.mahu.entity.mart.Shop;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
@@ -30,7 +33,9 @@ public class ShopAssetController implements WebSupport, HttpService, DynamicSecu
     @Override
     public void routing(HttpRules rules) {
         rules.get("/shops/{shop_id}/assets", authz(MART_ASSET.R()).wrap(shopSecure(this::listShopAssets)));
-        rules.delete("/shops/{shop_id}/assets", authz(MART_ASSET.R()).wrap(shopSecure(this::batchDeleteShopAsset)));
+
+        rules.post("/shops/{shop_id}/assets", authz(MART_ASSET.W()).wrap(shopSecure(this::addShopAsset)));
+        rules.delete("/shops/{shop_id}/assets", authz(MART_ASSET.W()).wrap(shopSecure(this::batchDeleteShopAsset)));
     }
 
     private void listShopAssets(ServerRequest request, ServerResponse response) {
@@ -43,12 +48,26 @@ public class ShopAssetController implements WebSupport, HttpService, DynamicSecu
         response.send(rs);
     }
 
-    private void batchDeleteShopAsset(ServerRequest request, ServerResponse response) {
-        var vo = request.content().as(BatchDeleteShopAssetRequest.class);
-        validate(vo);
-
+    private void addShopAsset(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var shopId = pathParams.first("shop_id").asInt().get();
+        var vo = request.content().as(AddShopAssetRequest.class);
+        validate(vo);
+
+        var shop = new Shop().setId(shopId);
+        var assets = vo.getUris().stream()
+                .map(uri -> new Asset().setShop(shop).setUri(uri))
+                .toList();
+        assetService.saveAll(assets);
+
+        response.status(NO_CONTENT_204).send();
+    }
+
+    private void batchDeleteShopAsset(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var shopId = pathParams.first("shop_id").asInt().get();
+        var vo = request.content().as(BatchDeleteShopAssetRequest.class);
+        validate(vo);
 
         assetService.deleteShopAsset(shopId, vo.getAssetIds());
         response.status(NO_CONTENT_204).send();

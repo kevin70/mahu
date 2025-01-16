@@ -5,17 +5,18 @@ import { useMemo } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 export const HSwitchShop = () => {
-  const { shops } = useProfileStore(
+  const { shopId, shops, setShopId } = useProfileStore(
     useShallow((state) => ({
+      shopId: state.shopId,
       shops: state.shops,
+      setShopId: state.setShopId,
     }))
   );
 
   // 商店选择器
-  const selectedShopId = 1;
   const shopLabel = useMemo(() => {
-    return shops.find((o) => o.id === selectedShopId)?.name || '切换商店';
-  }, [selectedShopId, shops]);
+    return shops.find((o) => o.id === shopId)?.name || '切换商店';
+  }, [shopId, shops]);
 
   if (shops.length <= 0) {
     return <></>;
@@ -24,16 +25,16 @@ export const HSwitchShop = () => {
   const items: MenuProps['items'] = shops.map((o) => ({ key: o.id, label: o.name }));
   return (
     <Dropdown
+      trigger={['click']}
       menu={{
         items,
         selectable: true,
-        selectedKeys: [`${selectedShopId}`],
+        selectedKeys: [`${shopId}`],
         onSelect(info) {
-          // FIXME 选择商店
+          setShopId(parseInt(info.key));
         },
       }}
       arrow
-      trigger={['click']}
     >
       <Button type="text" icon={<ShopOutlined />}>
         {shopLabel}

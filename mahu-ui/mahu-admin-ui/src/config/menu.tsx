@@ -1,7 +1,7 @@
 import { MenuDataItem } from '@ant-design/pro-components';
 import { permits } from './permit';
 
-import { AuditOutlined, DashboardOutlined, GroupOutlined, UserOutlined } from '@ant-design/icons';
+import { AuditOutlined, DashboardOutlined, GroupOutlined, ProductOutlined, UserOutlined } from '@ant-design/icons';
 import { BsJournalText } from 'react-icons/bs';
 import { FaRegFile } from 'react-icons/fa';
 import { FiFileText } from 'react-icons/fi';
@@ -49,6 +49,12 @@ export const MENUS: MenuDataItem[] = [
         path: '/mart/asset-list',
         icon: <FaRegFile />,
         name: '商店资源',
+        permits: [permits.MART_ASSET.R],
+      },
+      {
+        path: '/mart/product-list',
+        icon: <ProductOutlined />,
+        name: '产品列表',
         permits: [permits.MART_ASSET.R],
       },
     ],

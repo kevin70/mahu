@@ -23,6 +23,12 @@ public class AssetService {
     @Inject
     SharedToolService toolService;
 
+    /// 批量保存
+    @Transactional
+    public void saveAll(List<Asset> assets) {
+        assetRepository.saveAll(assets);
+    }
+
     /// 分页查询商店资源数据
     /// @param shopId 商店 ID
     @Transactional(readOnly = true)

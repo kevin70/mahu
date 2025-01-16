@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  AddShopAssetRequest,
   BatchDeleteShopAssetRequest,
   GetMartAttributeResponse,
   GetMartAttributeValueResponse,
@@ -24,10 +25,11 @@ import type {
   ListShopsPageResponse,
   UpsertMartAttributeRequest,
   UpsertMartAttributeValueRequest,
-  UpsertShopAssetRequest,
   UpsertShopRequest,
 } from '../models/index';
 import {
+    AddShopAssetRequestFromJSON,
+    AddShopAssetRequestToJSON,
     BatchDeleteShopAssetRequestFromJSON,
     BatchDeleteShopAssetRequestToJSON,
     GetMartAttributeResponseFromJSON,
@@ -46,8 +48,6 @@ import {
     UpsertMartAttributeRequestToJSON,
     UpsertMartAttributeValueRequestFromJSON,
     UpsertMartAttributeValueRequestToJSON,
-    UpsertShopAssetRequestFromJSON,
-    UpsertShopAssetRequestToJSON,
     UpsertShopRequestFromJSON,
     UpsertShopRequestToJSON,
 } from '../models/index';
@@ -65,9 +65,9 @@ export interface AddShopRequest {
     upsertShopRequest: UpsertShopRequest;
 }
 
-export interface AddShopAssetRequest {
+export interface AddShopAssetOperationRequest {
     shopId: number;
-    upsertShopAssetRequest: UpsertShopAssetRequest;
+    addShopAssetRequest: AddShopAssetRequest;
 }
 
 export interface BatchDeleteShopAssetOperationRequest {
@@ -282,7 +282,7 @@ export class MartApi extends runtime.BaseAPI {
     /**
      * 新增资源
      */
-    async addShopAssetRaw(requestParameters: AddShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async addShopAssetRaw(requestParameters: AddShopAssetOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['shopId'] == null) {
             throw new runtime.RequiredError(
                 'shopId',
@@ -290,10 +290,10 @@ export class MartApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['upsertShopAssetRequest'] == null) {
+        if (requestParameters['addShopAssetRequest'] == null) {
             throw new runtime.RequiredError(
-                'upsertShopAssetRequest',
-                'Required parameter "upsertShopAssetRequest" was null or undefined when calling addShopAsset().'
+                'addShopAssetRequest',
+                'Required parameter "addShopAssetRequest" was null or undefined when calling addShopAsset().'
             );
         }
 
@@ -316,7 +316,7 @@ export class MartApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UpsertShopAssetRequestToJSON(requestParameters['upsertShopAssetRequest']),
+            body: AddShopAssetRequestToJSON(requestParameters['addShopAssetRequest']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -325,7 +325,7 @@ export class MartApi extends runtime.BaseAPI {
     /**
      * 新增资源
      */
-    async addShopAsset(requestParameters: AddShopAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async addShopAsset(requestParameters: AddShopAssetOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.addShopAssetRaw(requestParameters, initOverrides);
     }
 

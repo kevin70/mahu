@@ -1,18 +1,18 @@
 import { permits } from '@/config/permit';
-import { MART_API } from '@/services';
-import { useAppStore } from '@/stores';
+import { BASIS_API, MART_API, resolveApiError, uploadFile } from '@/services';
+import { useProfileStore } from '@/stores';
 import { DeleteOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckCard, ModalForm, PageContainer, ProFormUploadDragger } from '@ant-design/pro-components';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { Button, Flex, Image, message, Modal, Space, Typography } from 'antd';
-import { useShallow } from 'zustand/shallow';
-import { useInView } from 'react-intersection-observer';
-import { useEffect, useState } from 'react';
-import { useMap } from 'ahooks';
 import { css } from '@emotion/react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useCounter, useMap } from 'ahooks';
+import { Alert, Button, Flex, FormInstance, Image, message, Modal, Space, Typography } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useShallow } from 'zustand/shallow';
 
 export const MartAssetList = () => {
-  const shopId = useAppStore(useShallow((state) => 1));
+  const shopId = useProfileStore(useShallow((state) => state.shopId));
   const { ref, inView } = useInView();
   const noWrite = $checkNotPermit(permits.MART_ASSET.W);
 
@@ -48,24 +48,93 @@ export const MartAssetList = () => {
     string
   >([]);
 
+  const uploadPolicy = async (fileName: string) => {
+    return BASIS_API.makeOssDirectUpload({
+      makeOssDirectUploadRequest: {
+        kind: 'MART_ASSET',
+        fileName: fileName,
+      },
+    });
+  };
+
   const UploadModal = () => {
+    const [uc, ucOps] = useCounter(0);
+    const formRef = useRef<FormInstance>();
+    const submit = async (values: any) => {
+      const uris = values.files.filter((f: any) => f.status === 'done').map((f: any) => f.response.accessUrl);
+      await MART_API.addShopAsset({
+        shopId,
+        addShopAssetRequest: {
+          uris,
+        },
+      });
+      message.success('上传成功');
+    };
+
     return (
       <ModalForm
         title="上传资源"
-        modalProps={{ centered: true }}
+        modalProps={{
+          centered: true,
+          afterClose() {
+            if (uc > 0) {
+              refetch();
+            }
+            ucOps.reset();
+          },
+        }}
         trigger={
           <Button type="primary" icon={<UploadOutlined />}>
             上传资源
           </Button>
         }
+        formRef={formRef}
+        onFinish={async (values) => {
+          await submit(values);
+          formRef.current?.resetFields();
+          ucOps.inc();
+          return false;
+        }}
       >
         <ProFormUploadDragger
           name="files"
           max={99}
-          accept=".jpg,.jpeg,.png"
           fieldProps={{
-            accept: '.jpg,.jpeg,.png',
+            multiple: true,
+            accept: 'image/*',
             height: 260,
+            beforeUpload(file, fileList) {
+              const limit = 1 * 1024 * 1024;
+              if (file.size > limit) {
+                message.error(`${file.name} 文件大小超出 1 MB`);
+                return false;
+              }
+            },
+            async customRequest(opts) {
+              try {
+                const policy = await uploadPolicy(opts.filename!);
+                await uploadFile(
+                  policy.endpoint,
+                  {
+                    key: policy.key,
+                    policy: policy.policy,
+                    accessKeyId: policy.accessKeyId,
+                    signature: policy.signature,
+                    file: opts.file,
+                  },
+                  (event) => {
+                    const percent = Math.round((event.loaded * 100) / (event.total || 1));
+                    opts.onProgress?.({ percent });
+                  }
+                );
+                opts.onSuccess?.({ accessUrl: policy.accessUrl });
+              } catch (error) {
+                const err = await resolveApiError(error);
+                opts.onError?.({
+                  ...err,
+                });
+              }
+            },
           }}
         />
       </ModalForm>
@@ -130,6 +199,10 @@ export const MartAssetList = () => {
       </>
     );
   };
+
+  if (shopId <= 0) {
+    return <Alert type="error" showIcon banner message={'请在右上角选择商店'} />;
+  }
 
   return (
     <PageContainer
