@@ -3,9 +3,9 @@ parameters:
 post:
   summary: 新增资源
   operationId: addShopAsset
-  x-role-permit: MARKET_ASSET:W
+  x-role-permit: MART_ASSET:W
   tags:
-    - market
+    - mart
   requestBody:
     required: true
     content:
@@ -18,9 +18,9 @@ post:
 delete:
   summary: 批量删除资源
   operationId: batchDeleteShopAsset
-  x-role-permit: MARKET_ASSET:D
+  x-role-permit: MART_ASSET:D
   tags:
-    - market
+    - mart
   requestBody:
     required: true
     content:
@@ -41,9 +41,9 @@ delete:
 get:
   summary: 资源列表
   operationId: listShopAssets
-  x-role-permit: MARKET_ASSET:R
+  x-role-permit: MART_ASSET:R
   tags:
-    - market
+    - mart
   parameters:
     - $ref: ../components/parameters/limit.yaml
     - $ref: ../components/parameters/offset.yaml

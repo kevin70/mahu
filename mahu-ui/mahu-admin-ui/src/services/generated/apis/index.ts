@@ -2,7 +2,7 @@
 /* eslint-disable */
 export * from './BasisApi';
 export * from './DefaultApi';
-export * from './MarketApi';
+export * from './MartApi';
 export * from './MeApi';
 export * from './SystemApi';
 export * from './TokenApi';

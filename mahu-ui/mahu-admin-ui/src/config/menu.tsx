@@ -34,22 +34,22 @@ export const MENUS: MenuDataItem[] = [
     atLeastOneChild: true,
     children: [
       {
-        path: '/market/attribute-list',
+        path: '/mart/attribute-list',
         icon: <LuListTree />,
         name: '商品属性',
-        permits: [permits.MARKET_ATTRIBUTE.R],
+        permits: [permits.MART_ATTRIBUTE.R],
       },
       {
-        path: '/market/shop-list',
+        path: '/mart/shop-list',
         icon: <LuStore />,
         name: '商店列表',
-        permits: [permits.MARKET_SHOP.R],
+        permits: [permits.MART_SHOP.R],
       },
       {
-        path: '/market/asset-list',
+        path: '/mart/asset-list',
         icon: <FaRegFile />,
         name: '商店资源',
-        permits: [permits.MARKET_ASSET.R],
+        permits: [permits.MART_ASSET.R],
       },
     ],
   },

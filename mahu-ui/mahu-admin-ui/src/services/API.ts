@@ -1,4 +1,4 @@
-import { BasisApi, MarketApi, MeApi, SystemApi, TokenApi } from './generated';
+import { BasisApi, MartApi, MeApi, SystemApi, TokenApi } from './generated';
 
 // 访问令牌
 export const TOKEN_API = new TokenApi();
@@ -9,4 +9,4 @@ export const SYSTEM_API = new SystemApi();
 // 基础接口
 export const BASIS_API = new BasisApi();
 // 商城接口
-export const MARKET_API = new MarketApi();
+export const MART_API = new MartApi();

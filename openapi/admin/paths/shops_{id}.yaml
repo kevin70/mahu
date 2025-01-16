@@ -8,9 +8,9 @@ parameters:
 get:
   summary: 获取指定 ID 的门店
   operationId: getShop
-  x-role-permit: MARKET_SHOP:R
+  x-role-permit: MART_SHOP:R
   tags:
-    - market
+    - mart
   responses:
     "200":
       description: OK
@@ -21,9 +21,9 @@ get:
 put:
   summary: 修改门店
   operationId: updateShop
-  x-role-permit: MARKET_SHOP:W
+  x-role-permit: MART_SHOP:W
   tags:
-    - market
+    - mart
   requestBody:
     required: true
     content:
@@ -36,9 +36,9 @@ put:
 delete:
   summary: 删除门店
   operationId: deleteShop
-  x-role-permit: MARKET_SHOP:D
+  x-role-permit: MART_SHOP:D
   tags:
-    - market
+    - mart
   responses:
     "204":
       description: OK

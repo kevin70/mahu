@@ -45,7 +45,7 @@ export interface MakeOssDirectUploadRequest {
  */
 export const MakeOssDirectUploadRequestKindEnum = {
     Brand: 'BRAND',
-    MarketAsset: 'MARKET_ASSET'
+    MartAsset: 'MART_ASSET'
 } as const;
 export type MakeOssDirectUploadRequestKindEnum = typeof MakeOssDirectUploadRequestKindEnum[keyof typeof MakeOssDirectUploadRequestKindEnum];
 

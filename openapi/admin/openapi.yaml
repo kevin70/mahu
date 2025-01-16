@@ -14,7 +14,7 @@ tags:
     description: 当前认证用户
   - name: system
     description: 系统模块
-  - name: market
+  - name: mart
     description: 商城模块
 security:
   - BearerAuth: [ ]
@@ -74,14 +74,14 @@ paths:
     $ref: paths/shops_{id}.yaml
   /shops/{shop_id}/assets:
     $ref: paths/shops_{shop_id}_assets.yaml
-  /market/attributes:
-    $ref: paths/market_attributes.yaml
-  /market/attributes/{id}:
-    $ref: paths/market_attributes_{id}.yaml
-  /market/attributes/{attribute_id}/values:
-    $ref: paths/market_attributes_{attribute_id}_values.yaml
-  /market/attributes/{attribute_id}/values/{attribute_value_id}:
-    $ref: paths/market_attributes_{attribute_id}_values_{attribute_value_id}.yaml
+  /mart/attributes:
+    $ref: paths/mart_attributes.yaml
+  /mart/attributes/{id}:
+    $ref: paths/mart_attributes_{id}.yaml
+  /mart/attributes/{attribute_id}/values:
+    $ref: paths/mart_attributes_{attribute_id}_values.yaml
+  /mart/attributes/{attribute_id}/values/{attribute_value_id}:
+    $ref: paths/mart_attributes_{attribute_id}_values_{attribute_value_id}.yaml
 
   /samples:
     get:

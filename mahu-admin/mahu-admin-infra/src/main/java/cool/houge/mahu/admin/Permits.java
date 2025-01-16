@@ -17,9 +17,9 @@ public enum Permits {
     //
     BRAND(A, "品牌"),
     // 商城
-    MARKET_SHOP(A, "商城-商店"),
-    MARKET_ASSET(A, "商城-资源"),
-    MARKET_ATTRIBUTE(A, "商城|商品属性"),
+    MART_SHOP(A, "商城-商店"),
+    MART_ASSET(A, "商城-资源"),
+    MART_ATTRIBUTE(A, "商城|商品属性"),
     ;
 
     private final int fnCodes;

@@ -9,10 +9,10 @@ import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
 import cool.houge.mahu.entity.Brand;
-import cool.houge.mahu.entity.market.Asset;
-import cool.houge.mahu.entity.market.Attribute;
-import cool.houge.mahu.entity.market.AttributeValue;
-import cool.houge.mahu.entity.market.Shop;
+import cool.houge.mahu.entity.mart.Asset;
+import cool.houge.mahu.entity.mart.Attribute;
+import cool.houge.mahu.entity.mart.AttributeValue;
+import cool.houge.mahu.entity.mart.Shop;
 import cool.houge.mahu.entity.system.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -125,12 +125,12 @@ public interface VoBeanMapper {
 
     GetShopAssetResponse toGetShopAssetResponse(Asset bean);
 
-    Attribute toAttribute(UpsertMarketAttributeRequest bean);
+    Attribute toAttribute(UpsertMartAttributeRequest bean);
 
-    GetMarketAttributeResponse toGetMarketAttributeResponse(Attribute bean);
+    GetMartAttributeResponse toGetMartAttributeResponse(Attribute bean);
 
     @Mapping(source = "attributeId", target = "attribute.id")
-    AttributeValue toAttributeValue(Integer attributeId, UpsertMarketAttributeValueRequest bean);
+    AttributeValue toAttributeValue(Integer attributeId, UpsertMartAttributeValueRequest bean);
 
-    GetMarketAttributeValueResponse toGetMarketAttributeValueResponse(AttributeValue bean);
+    GetMartAttributeValueResponse toGetMartAttributeValueResponse(AttributeValue bean);
 }

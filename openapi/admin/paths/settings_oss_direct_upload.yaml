@@ -18,7 +18,7 @@ post:
               description: 存储类型
               enum:
                 - BRAND
-                - MARKET_ASSET
+                - MART_ASSET
               x-enum-descriptions:
                 - 品牌LOGO
                 - 商城资源

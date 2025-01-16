@@ -1,0 +1,50 @@
+parameters:
+  - name: attribute_id
+    in: path
+    description: 属性 ID
+    schema:
+      type: integer
+      format: int32
+  - name: attribute_value_id
+    in: path
+    description: 属性值 ID
+    schema:
+      type: integer
+      format: int32
+put:
+  summary: 修改商品属性值
+  operationId: updateMartAttributeValue
+  x-role-permit: MART_ATTRIBUTE:U
+  tags:
+    - mart
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertMartAttributeValueRequest.yaml
+  responses:
+    204:
+      description: OK
+delete:
+  summary: 删除商品属性值
+  operationId: deleteMartAttributeValue
+  x-role-permit: MART_ATTRIBUTE:D
+  tags:
+    - mart
+  responses:
+    204:
+      description: OK
+get:
+  summary: 获取商品属性值
+  operationId: getMartAttributeValue
+  x-role-permit: MART_ATTRIBUTE:R
+  tags:
+    - mart
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/GetMartAttributeValueResponse.yaml

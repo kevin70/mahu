@@ -15,7 +15,7 @@ import cool.houge.mahu.common.BizCodeException;
 import cool.houge.mahu.common.BizCodes;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.config.TokenConfig;
-import cool.houge.mahu.entity.market.Shop;
+import cool.houge.mahu.entity.mart.Shop;
 import cool.houge.mahu.entity.system.Employee;
 import io.ebean.annotation.Transactional;
 import io.helidon.common.LazyValue;

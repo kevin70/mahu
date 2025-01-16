@@ -1,7 +1,7 @@
 post:
-  summary: 新增商店
-  operationId: addShop
-  x-role-permit: MART_SHOP:W
+  summary: 保存属性
+  operationId: addMartAttribute
+  x-role-permit: MART_ATTRIBUTE:W
   tags:
     - mart
   requestBody:
@@ -9,14 +9,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpsertShopRequest.yaml
+          $ref: ../components/schemas/UpsertMartAttributeRequest.yaml
   responses:
     "204":
       description: OK
 get:
-  summary: 商店列表
-  operationId: listShops
-  x-role-permit: MART_SHOP:R
+  summary: 属性列表
+  operationId: listMartAttributes
+  x-role-permit: MART_ATTRIBUTE:R
   tags:
     - mart
   parameters:
@@ -32,4 +32,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ListShopsPageResponse.yaml
+            $ref: ../components/schemas/ListMartAttributesPageResponse.yaml
