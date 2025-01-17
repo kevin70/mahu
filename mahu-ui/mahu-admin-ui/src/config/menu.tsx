@@ -6,7 +6,7 @@ import { BsJournalText } from 'react-icons/bs';
 import { FaRegFile } from 'react-icons/fa';
 import { FiFileText } from 'react-icons/fi';
 import { IoMdApps } from 'react-icons/io';
-import { LuListTree, LuStore } from 'react-icons/lu';
+import { LuListTree, LuPlus, LuStore } from 'react-icons/lu';
 import { MdOutlineCategory, MdSecurity } from 'react-icons/md';
 
 export const MENUS: MenuDataItem[] = [
@@ -14,6 +14,11 @@ export const MENUS: MenuDataItem[] = [
     path: '/dashboard',
     icon: <DashboardOutlined />,
     name: '仪表盘',
+  },
+  {
+    path: '/mart/product-new',
+    icon: <LuPlus />,
+    name: '新建产品',
   },
   {
     name: '基础数据',
