@@ -1,6 +1,15 @@
 import { HAssetSelect } from '@/components/mart/HAssetSelect';
-import { PageContainer, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
-import { Form, Tabs } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import {
+  PageContainer,
+  ProForm,
+  ProFormCheckbox,
+  ProFormRadio,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
+import { css } from '@emotion/react';
+import { Button, Card, Checkbox, Form, Tabs } from 'antd';
 
 export const MartProductNew = () => {
   const basicPanel = (
@@ -9,6 +18,30 @@ export const MartProductNew = () => {
       <ProFormTextArea label={'描述'} name={'description'} />
       <Form.Item name={'images'} label={'轮播图片'}>
         <HAssetSelect />
+      </Form.Item>
+    </>
+  );
+
+  const attributeVariant = (
+    <>
+      <div
+        css={css`
+          display: flex;
+          justify-content: end;
+        `}
+      >
+        <Button type="dashed" icon={<PlusOutlined />}>
+          新增属性
+        </Button>
+      </div>
+      <div>属性</div>
+    </>
+  );
+
+  const variantPanel = (
+    <>
+      <Form.Item layout="horizontal" label={'多规格'} name={'multiple'}>
+        <Checkbox />
       </Form.Item>
     </>
   );
@@ -34,12 +67,12 @@ export const MartProductNew = () => {
             {
               key: 'attribute',
               label: '属性信息',
-              children: basicPanel,
+              children: attributeVariant,
             },
             {
               key: 'variant',
               label: '规格信息',
-              children: basicPanel,
+              children: variantPanel,
             },
           ]}
         ></Tabs>
