@@ -61,6 +61,8 @@ public class Product {
     /// 分类
     @ManyToOne
     private Category category;
+    /// 多个变体
+    private boolean multiple;
     /// 产品属性
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     private List<ProductAttribute> productAttributes;
