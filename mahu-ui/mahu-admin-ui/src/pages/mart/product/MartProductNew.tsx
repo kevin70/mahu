@@ -1,6 +1,6 @@
 import { HAssetSelect } from '@/components/mart/HAssetSelect';
 import { PageContainer, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
-import { Flex, Form, Image, Tabs } from 'antd';
+import { Form, Tabs } from 'antd';
 
 export const MartProductNew = () => {
   const basicPanel = (
@@ -10,34 +10,20 @@ export const MartProductNew = () => {
       <Form.Item name={'images'} label={'轮播图片'}>
         <HAssetSelect />
       </Form.Item>
-      <Form.List name={'images'}>
-        {(fields, { add, move, remove }) => {
-          return (
-            <Form.Item label={'图片'}>
-              <Flex gap={'middle'}>
-                <Image
-                  width={100}
-                  src={`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png`}
-                />
-                <Image
-                  width={100}
-                  src={`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png`}
-                />
-                <Image
-                  width={100}
-                  src={`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png`}
-                />
-              </Flex>
-            </Form.Item>
-          );
-        }}
-      </Form.List>
     </>
   );
 
+  const submit = async (values: any) => {
+    console.log('new product', values);
+  };
+
   return (
     <PageContainer title={'新建产品'}>
-      <ProForm>
+      <ProForm
+        onFinish={async (values) => {
+          await submit(values);
+        }}
+      >
         <Tabs
           items={[
             {
