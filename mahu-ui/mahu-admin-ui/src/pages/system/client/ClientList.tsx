@@ -65,6 +65,7 @@ export const ClientList = () => {
         dataSource={data?.items}
         pagination={{ ...pagination, total: data?.totalCount }}
         onChange={onTableChange}
+        rowKey={'clientId'}
         columns={[
           {
             title: '客户端 ID',
@@ -118,10 +119,14 @@ export const ClientList = () => {
             title: '操作',
             align: 'right',
             fixed: 'right',
-            render: (_dom, row) => [
-              <EditClientDrawerForm clientId={row.clientId} onSuccess={refetch} />,
-              <HDeletePopconfirmButton onConfirm={() => onDelete(row.clientId)} disabled={noWrite} />,
-            ],
+            render: (_dom, row) => {
+              return (
+                <>
+                  <EditClientDrawerForm clientId={row.clientId} onSuccess={refetch} />
+                  <HDeletePopconfirmButton onConfirm={() => onDelete(row.clientId)} disabled={noWrite} />
+                </>
+              );
+            },
           },
         ]}
       ></ProTable>

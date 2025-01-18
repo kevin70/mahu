@@ -69,6 +69,7 @@ export const BrandList = () => {
           persistenceType: 'localStorage',
           persistenceKey: 'atable_state_brand_list',
         }}
+        rowKey={'id'}
         columns={[
           {
             title: 'ID',
@@ -111,10 +112,14 @@ export const BrandList = () => {
             title: '操作',
             align: 'right',
             fixed: 'right',
-            render: (_dom, row) => [
-              <EditBrandDrawerForm id={row.id} onSuccess={refetch} />,
-              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
-            ],
+            render: (_dom, row) => {
+              return (
+                <>
+                  <EditBrandDrawerForm id={row.id} onSuccess={refetch} />
+                  <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />
+                </>
+              );
+            },
           },
         ]}
       ></ProTable>

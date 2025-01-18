@@ -73,6 +73,7 @@ export const MartShopList = () => {
           persistenceType: 'localStorage',
           persistenceKey: 'atable_state_market_shop_list',
         }}
+        rowKey={'id'}
         columns={[
           {
             title: 'ID',
@@ -110,10 +111,14 @@ export const MartShopList = () => {
             title: '操作',
             align: 'right',
             fixed: 'right',
-            render: (_dom, row) => [
-              <EditMartShopForm id={row.id} onSuccess={refetch} />,
-              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
-            ],
+            render: (_dom, row) => {
+              return (
+                <>
+                  <EditMartShopForm id={row.id} onSuccess={refetch} />
+                  <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />
+                </>
+              );
+            },
           },
         ]}
       ></ProTable>

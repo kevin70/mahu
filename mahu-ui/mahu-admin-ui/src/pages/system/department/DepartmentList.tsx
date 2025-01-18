@@ -65,6 +65,7 @@ export const DepartmentList = () => {
         dataSource={data?.items}
         pagination={{ ...pagination, total: data?.totalCount }}
         onChange={onTableChange}
+        rowKey={'id'}
         columns={[
           {
             title: 'ID',
@@ -103,10 +104,14 @@ export const DepartmentList = () => {
             title: '操作',
             align: 'right',
             fixed: 'right',
-            render: (_dom, row) => [
-              <EditDepartmentDrawerForm id={row.id} onSuccess={refetch} />,
-              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
-            ],
+            render: (_dom, row) => {
+              return (
+                <>
+                  <EditDepartmentDrawerForm id={row.id} onSuccess={refetch} />
+                  <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />
+                </>
+              );
+            },
           },
         ]}
       ></ProTable>

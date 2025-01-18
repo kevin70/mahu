@@ -69,6 +69,7 @@ export const DictList = () => {
         dataSource={data?.items}
         pagination={{ ...pagination, total: data?.totalCount }}
         onChange={onTableChange}
+        rowKey={'id'}
         columns={[
           {
             title: 'ID',
@@ -109,10 +110,14 @@ export const DictList = () => {
             title: '操作',
             align: 'right',
             fixed: 'right',
-            render: (_dom, row) => [
-              <EditDictDrawerForm id={row.id!} onSuccess={refetch} />,
-              <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />,
-            ],
+            render: (_dom, row) => {
+              return (
+                <>
+                  <EditDictDrawerForm id={row.id!} onSuccess={refetch} />
+                  <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />
+                </>
+              );
+            },
           },
         ]}
       ></ProTable>

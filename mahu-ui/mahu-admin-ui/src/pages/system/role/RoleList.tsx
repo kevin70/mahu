@@ -46,8 +46,8 @@ export const RoleList = () => {
     await refetch();
   };
 
-  const isNotInsideData = (row: any) => {
-    return row.id !== 1;
+  const isInsideData = (row: any) => {
+    return row.id === 1;
   };
 
   return (
@@ -68,6 +68,7 @@ export const RoleList = () => {
         dataSource={data?.items}
         pagination={{ ...pagination, total: data?.totalCount }}
         onChange={onTableChange}
+        rowKey={'id'}
         columns={[
           {
             title: 'ID',
@@ -107,10 +108,17 @@ export const RoleList = () => {
             title: '操作',
             align: 'right',
             fixed: 'right',
-            render: (_dom, row) => [
-              isNotInsideData(row) && <EditRoleDrawerForm id={row.id} onSuccess={refetch} />,
-              isNotInsideData(row) && <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />,
-            ],
+            render: (_dom, row) => {
+              if (isInsideData(row)) {
+                return <></>;
+              }
+              return (
+                <>
+                  <EditRoleDrawerForm id={row.id} onSuccess={refetch} />
+                  <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite} />
+                </>
+              );
+            },
           },
         ]}
       ></ProTable>

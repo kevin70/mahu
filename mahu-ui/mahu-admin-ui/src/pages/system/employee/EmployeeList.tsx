@@ -94,6 +94,7 @@ export const EmployeeList = () => {
           persistenceType: 'localStorage',
           persistenceKey: 'ant.table.system_employee_list',
         }}
+        rowKey={'id'}
         columns={[
           {
             title: 'ID',
@@ -153,12 +154,17 @@ export const EmployeeList = () => {
             title: '操作',
             align: 'right',
             fixed: 'right',
-            render: (_dom, row) => [
-              !row.deleted ? <EditEmployeeDrawerForm id={row.id} onSuccess={refetch} /> : null,
-              !row.deleted ? (
-                <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite || row.id === 1} />
-              ) : null,
-            ],
+            render: (_dom, row) => {
+              if (row.deleted) {
+                return <></>;
+              }
+              return (
+                <>
+                  <EditEmployeeDrawerForm id={row.id} onSuccess={refetch} />
+                  <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite || row.id === 1} />
+                </>
+              );
+            },
           },
         ]}
       ></ProTable>

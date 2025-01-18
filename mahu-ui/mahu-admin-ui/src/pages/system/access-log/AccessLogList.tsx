@@ -64,6 +64,7 @@ export const AccessLogList = () => {
         dataSource={data?.items}
         pagination={{ ...pagination, total: data?.totalCount }}
         onChange={onTableChange}
+        rowKey={'id'}
         columns={[
           {
             title: 'ID',
