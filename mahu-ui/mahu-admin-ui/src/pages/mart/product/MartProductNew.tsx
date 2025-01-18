@@ -1,15 +1,12 @@
 import { HAssetSelect } from '@/components/mart/HAssetSelect';
+import { HAttributeChoose } from '@/components/mart/HAttributeChoose';
 import { PlusOutlined } from '@ant-design/icons';
-import {
-  PageContainer,
-  ProForm,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-components';
+import { PageContainer, ProForm, ProFormDigit, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { css } from '@emotion/react';
-import { Button, Card, Checkbox, Form, Tabs } from 'antd';
+import { Button, Checkbox, Col, Form, Row, Tabs } from 'antd';
+import { AttributeFormItem } from './AttributeFormItem';
+import { useDynamicList, useSet } from 'ahooks';
+import FormItem from 'antd/es/form/FormItem';
 
 export const MartProductNew = () => {
   const basicPanel = (
@@ -22,26 +19,52 @@ export const MartProductNew = () => {
     </>
   );
 
-  const attributeVariant = (
-    <>
-      <div
-        css={css`
-          display: flex;
-          justify-content: end;
-        `}
-      >
-        <Button type="dashed" icon={<PlusOutlined />}>
-          新增属性
-        </Button>
-      </div>
-      <div>属性</div>
-    </>
-  );
+  const [attributeIds, attributeIdsOpts] = useSet<number>([]);
+
+  const AttributeVariant = () => {
+    const { list, getKey, push, remove } = useDynamicList<number>([]);
+    return (
+      <Form.List name={'attributes'}>
+        {(fields, { add, remove }) => (
+          <Row gutter={[16, 16]}>
+            {list.map((attributeId, i) => (
+              <Col span={12}>
+                <div
+                  css={css`
+                    display: none;
+                  `}
+                >
+                  <ProFormDigit name={[getKey(i), 'attributeId']} initialValue={attributeId} />
+                </div>
+                <AttributeFormItem key={i} name={[getKey(i)]} attributeId={attributeId} />
+              </Col>
+            ))}
+
+            <HAttributeChoose
+              trigger={
+                <Button type="dashed" icon={<PlusOutlined />}>
+                  新增属性
+                </Button>
+              }
+              onChange={(value) => {
+                for (const v of value) {
+                  push(v);
+                }
+              }}
+            />
+          </Row>
+        )}
+      </Form.List>
+    );
+  };
 
   const variantPanel = (
     <>
       <Form.Item layout="horizontal" label={'多规格'} name={'multiple'}>
         <Checkbox />
+      </Form.Item>
+      <Form.Item>
+        <HAttributeChoose trigger={<Button>新增</Button>} />
       </Form.Item>
     </>
   );
@@ -67,7 +90,7 @@ export const MartProductNew = () => {
             {
               key: 'attribute',
               label: '属性信息',
-              children: attributeVariant,
+              children: <AttributeVariant />,
             },
             {
               key: 'variant',
