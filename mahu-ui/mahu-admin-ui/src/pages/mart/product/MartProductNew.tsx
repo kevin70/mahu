@@ -1,12 +1,18 @@
 import { HAssetSelect } from '@/components/mart/HAssetSelect';
 import { HAttributeChoose } from '@/components/mart/HAttributeChoose';
 import { PlusOutlined } from '@ant-design/icons';
-import { PageContainer, ProForm, ProFormDigit, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import {
+  FooterToolbar,
+  PageContainer,
+  ProForm,
+  ProFormDigit,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { css } from '@emotion/react';
-import { Button, Checkbox, Col, Form, Row, Tabs } from 'antd';
+import { Button, Card, Checkbox, Col, Form, Row, Tabs } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
 import { useDynamicList, useSet } from 'ahooks';
-import FormItem from 'antd/es/form/FormItem';
 
 export const MartProductNew = () => {
   const basicPanel = (
@@ -74,12 +80,26 @@ export const MartProductNew = () => {
   };
 
   return (
-    <PageContainer title={'新建产品'}>
+    <PageContainer title={'新建产品'} fixedHeader>
       <ProForm
+        submitter={{
+          render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
+        }}
         onFinish={async (values) => {
           await submit(values);
         }}
+        css={css`
+          display: flex;
+          flex-direction: column;
+          row-gap: var(--ant-margin);
+        `}
       >
+        <Card size="small" title="基本信息">
+          {basicPanel}
+        </Card>
+        <Card size="small" title="属性信息">
+          <AttributeVariant />
+        </Card>
         <Tabs
           items={[
             {
