@@ -35,6 +35,7 @@ public class DbBeanFactory {
         hikariConfig.setPassword(config.get("db.password").asString().get());
         hikariConfig.setMinimumIdle(config.get("db.min-idle").asInt().get());
         hikariConfig.setMaximumPoolSize(config.get("db.max-size").asInt().get());
+        hikariConfig.addDataSourceProperty("socketTimeout", 30);
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
