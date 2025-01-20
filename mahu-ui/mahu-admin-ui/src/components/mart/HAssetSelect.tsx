@@ -11,16 +11,19 @@ import { useInView } from 'react-intersection-observer';
 import { useShallow } from 'zustand/shallow';
 
 interface HAssetSelectProps {
+  value?: string;
+  onChange?(value?: string): void;
+}
+
+interface HAssetMultipleSelectProps {
   value?: string[];
   max?: number;
   onChange?(value: string[]): void;
 }
 
-export const HAssetSelect = (props: HAssetSelectProps) => {
-  const [open, setOpen] = useState(false);
-
-  const shopId = useProfileStore(useShallow((state) => state.shopId));
+const ImagePanel = ({ value, onChange }: { value?: string[]; onChange(value: string[]): void }) => {
   const { ref, inView } = useInView();
+  const shopId = useProfileStore(useShallow((state) => state.shopId));
   const { hasNextPage, fetchNextPage, data, refetch } = useInfiniteQuery({
     queryKey: ['HAssetSelect', shopId],
     queryFn: async ({ pageParam: offset }) => {
@@ -47,8 +50,128 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
     }
   }, [fetchNextPage, inView]);
 
+  // 选中的资源
+  const [selectedAssets, { add, remove }] = useSet(value || []);
+
+  useEffect(() => {
+    onChange?.(Array.from(selectedAssets));
+  }, [onChange, selectedAssets]);
+
+  return (
+    <>
+      <Row>
+        {data?.pages.map((page) =>
+          page.items.map((o) => (
+            <Col
+              key={o.id}
+              span={6}
+              css={css`
+                padding: var(--ant-padding-xs);
+              `}
+            >
+              <CheckCard
+                css={css`
+                  max-width: 100%;
+                `}
+                checked={selectedAssets.has(o.uri)}
+                cover={<img src={o.uri} />}
+                onChange={(checked) => {
+                  if (checked) {
+                    add(o.uri);
+                  } else {
+                    remove(o.uri);
+                  }
+                }}
+              ></CheckCard>
+            </Col>
+          ))
+        )}
+      </Row>
+      <div
+        ref={ref}
+        css={css`
+          display: flex;
+          justify-content: center;
+        `}
+      >
+        {hasNextPage ? (
+          <Space>
+            <LoadingOutlined />
+            加载更多数据中 ...
+          </Space>
+        ) : (
+          <Typography.Text type="secondary">没有更多数据</Typography.Text>
+        )}
+      </div>
+    </>
+  );
+};
+
+export const HAssetSelect = (props: HAssetSelectProps) => {
+  const [open, setOpen] = useState(false);
+
   // 选中的资源图片
-  const [selectedAssets, { add, remove }] = useSet(props.value || []);
+  const [selectedAsset, setSelectedAsset] = useState(props.value);
+
+  return (
+    <Flex gap={'middle'}>
+      <div
+        onClick={() => setOpen(true)}
+        css={css`
+          cursor: pointer;
+          width: 96px;
+          height: 96px;
+          border: 1px dashed var(--ant-color-border);
+          color: var(--ant-color-text-secondary);
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          background-size: cover;
+          ${selectedAsset && `background-image: url(${selectedAsset})`}
+        `}
+      >
+        {selectedAsset ? '' : '选择图片'}
+      </div>
+      {/* <Button
+        type="dashed"
+      >
+      </Button> */}
+
+      <Modal
+        title={'选择图片'}
+        open={open}
+        onCancel={() => setOpen(false)}
+        onOk={() => {
+          setOpen(false);
+          props.onChange?.(selectedAsset);
+        }}
+        width={1000}
+      >
+        <div
+          css={css`
+            max-height: 700px;
+            overflow: auto;
+          `}
+        >
+          <ImagePanel
+            value={selectedAsset ? [selectedAsset] : undefined}
+            onChange={(value) => {
+              if (value && value.length > 0) {
+                setSelectedAsset(value[0]);
+              }
+            }}
+          />
+        </div>
+      </Modal>
+    </Flex>
+  );
+};
+
+export const HAssetMultipleSelect = (props: HAssetMultipleSelectProps) => {
+  const [open, setOpen] = useState(false);
+
+  // 选中的资源图片
+  const [selectedAssets, setSelectedAssets] = useState(props.value || []);
 
   return (
     <Flex gap={'middle'}>
@@ -101,51 +224,7 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
               border-left: 4px solid var(--ant-color-border);
             `}
           >
-            <Row>
-              {data?.pages.map((page) =>
-                page.items.map((o) => (
-                  <Col
-                    key={o.id}
-                    span={6}
-                    css={css`
-                      padding: var(--ant-padding-xs);
-                    `}
-                  >
-                    <CheckCard
-                      css={css`
-                        max-width: 100%;
-                      `}
-                      defaultChecked={selectedAssets.has(o.uri)}
-                      cover={<img src={o.uri} />}
-                      onChange={(checked) => {
-                        if (checked) {
-                          add(o.uri);
-                        } else {
-                          remove(o.uri);
-                        }
-                      }}
-                    ></CheckCard>
-                  </Col>
-                ))
-              )}
-            </Row>
-
-            <div
-              ref={ref}
-              css={css`
-                display: flex;
-                justify-content: center;
-              `}
-            >
-              {hasNextPage ? (
-                <Space>
-                  <LoadingOutlined />
-                  加载更多数据中 ...
-                </Space>
-              ) : (
-                <Typography.Text type="secondary">没有更多数据</Typography.Text>
-              )}
-            </div>
+            <ImagePanel value={selectedAssets} onChange={setSelectedAssets} />
           </Col>
         </Row>
       </Modal>

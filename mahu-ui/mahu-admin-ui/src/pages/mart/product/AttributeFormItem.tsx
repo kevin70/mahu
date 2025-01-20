@@ -17,17 +17,19 @@ export const AttributeFormItem = (props: AttributeFormItem) => {
     },
   });
 
+  const required = data?.required ?? false;
+
   if (data?.valueType === 'SELECT') {
     const options = data?.attributeValues?.map((o) => ({ label: o.value, value: o.id }));
     return (
-      <Form.Item label={data?.name} name={[...props.name, 'attributeValueId']}>
-        <Select options={options}></Select>
+      <Form.Item label={data?.name} name={[...props.name, 'attributeValueId']} rules={[{ required }]}>
+        <Select options={options} allowClear></Select>
       </Form.Item>
     );
   }
   return (
-    <Form.Item label={data?.name} name={[...props.name, 'value']}>
-      <Input />
+    <Form.Item label={data?.name} name={[...props.name, 'value']} rules={[{ required }]}>
+      <Input allowClear />
     </Form.Item>
   );
 };
