@@ -1,0 +1,78 @@
+type: object
+required:
+  - name
+  - images
+properties:
+  name:
+    type: string
+    description: 名称
+    maxLength: 128
+  description:
+    type: string
+    description: 描述
+    maxLength: 4096
+  images:
+    type: array
+    description: 轮播图片
+    maxLength: 36
+    items:
+      type: string
+  attributes:
+    type: array
+    description: 产品属性
+    maxLength: 99
+    items:
+      type: object
+      required:
+        - attribute_id
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: 产品属性 ID
+        attribute_id:
+          type: integer
+          format: int32
+          description: 属性 ID
+        attribute_value_id:
+          type: integer
+          format: int32
+          description: 属性值 ID
+        value:
+          type: string
+          description: 属性值（手动输入）
+  variants:
+    type: array
+    description: 产品变体
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: 变体 ID
+        cover:
+          type: string
+          description: 封面
+        attributes:
+          type: array
+          description: 变体属性（销售属性）
+          maxLength: 3
+          required:
+            - attribute_id
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: 变体属性 ID
+            attribute_id:
+              type: integer
+              format: int32
+              description: 属性 ID
+            attribute_value_id:
+              type: integer
+              format: int32
+              description: 属性值 ID
+            value:
+              type: string
+              description: 属性值

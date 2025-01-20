@@ -1,0 +1,35 @@
+post:
+  summary: 保存产品
+  operationId: addMartProduct
+  x-role-permit: MART_PRODUCT:W
+  tags:
+    - mart
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpsertMartProductRequest.yaml
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 产品列表
+  operationId: listMartProducts
+  x-role-permit: MART_PRODUCT:R
+  tags:
+    - mart
+  parameters:
+    - $ref: ../components/parameters/limit.yaml
+    - $ref: ../components/parameters/offset.yaml
+    - $ref: ../components/parameters/filter.yaml
+    - $ref: ../components/parameters/sort.yaml
+    - $ref: ../components/parameters/include_deleted.yaml
+    - $ref: ../components/parameters/no_total_count.yaml
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ListMartAttributesPageResponse.yaml
