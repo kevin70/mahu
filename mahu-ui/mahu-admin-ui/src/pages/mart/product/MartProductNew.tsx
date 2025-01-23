@@ -1,6 +1,6 @@
 import { HAssetMultipleSelect, HAssetSelect } from '@/components/mart/HAssetSelect';
 import { HAttributeChoose } from '@/components/mart/HAttributeChoose';
-import { PlusOutlined } from '@ant-design/icons';
+import { CloseOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   FooterToolbar,
   PageContainer,
@@ -10,13 +10,24 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { css } from '@emotion/react';
-import { Button, Card, Checkbox, Col, Form, Row, Table } from 'antd';
+import { Button, Card, Checkbox, Col, Form, Input, Row, Space, Table, Tag, Typography } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
 import { useDynamicList } from 'ahooks';
+import { AttributeName } from './AttributeName';
+import { VariantAttributeColumn } from './VariantAttributeColumn';
+import { useMartAttributeData } from '@/hooks';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);
   const variantAttributeList = useDynamicList<number>([]);
+
+  const variants = useDynamicList<{
+    cover: string;
+  }>([
+    {
+      cover: 'abcdefg',
+    },
+  ]);
 
   const basicPanel = (
     <>
@@ -51,19 +62,76 @@ export const MartProductNew = () => {
 
   const variantPanel = (
     <>
-      <Table>
+      <Table dataSource={variants.list}>
         <Table.Column
           title="封面"
-          dataIndex={'cover'}
-          render={(row) => {
-            return <></>;
+          render={() => {
+            return (
+              <Form.Item noStyle>
+                <HAssetSelect width={48} height={48} />
+              </Form.Item>
+            );
           }}
         />
-        <Table.Column title="长" dataIndex={'length'} />
-        <Table.Column title="宽" dataIndex={'width'} />
-        <Table.Column title="高" dataIndex={'height'} />
-        <Table.Column title="重量" dataIndex={'weight'} />
-        <Table.Column align="right" />
+
+        {/* ============= 规格属性 ============= */}
+        {variantAttributeList.list.map((o, i) => {
+          return (
+            <Table.Column
+              key={i}
+              title={
+                <Space>
+                  <AttributeName attributeId={o} />
+                  <Button
+                    size="small"
+                    variant="text"
+                    color="danger"
+                    icon={<CloseOutlined />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      variantAttributeList.remove(i);
+                    }}
+                  />
+                </Space>
+              }
+              render={() => {
+                return <AttributeFormItem name={[i]} attributeId={o} noStyle />;
+              }}
+            />
+          );
+        })}
+        {/* ============= 规格属性 ============= */}
+
+        <Table.Column
+          title="长"
+          render={(_row, _, i) => {
+            return <Input placeholder="长" />;
+          }}
+        />
+        <Table.Column
+          title="宽"
+          render={(_row, _, i) => {
+            return <Input placeholder="长" />;
+          }}
+        />
+        <Table.Column
+          title="高"
+          render={(_row, _, i) => {
+            return <Input placeholder="长" />;
+          }}
+        />
+        <Table.Column
+          title="重量"
+          render={(_row, _, i) => {
+            return <Input placeholder="长" />;
+          }}
+        />
+        <Table.Column
+          align="right"
+          render={(_row, _, i) => {
+            return <Button variant="text" color="danger" icon={<CloseOutlined />}></Button>;
+          }}
+        />
       </Table>
 
       <Form.Item layout="horizontal" label={'多规格'} name={'multiple'}>
@@ -121,7 +189,7 @@ export const MartProductNew = () => {
         </Card>
 
         <Card
-          title="规格"
+          title={<Typography.Text strong>规格</Typography.Text>}
           extra={
             <HAttributeChoose
               trigger={

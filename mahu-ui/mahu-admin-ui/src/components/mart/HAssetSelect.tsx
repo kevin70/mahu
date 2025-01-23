@@ -6,11 +6,13 @@ import { css } from '@emotion/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSet } from 'ahooks';
 import { Button, Col, Flex, Image, Modal, Row, Space, Typography } from 'antd';
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useShallow } from 'zustand/shallow';
 
 interface HAssetSelectProps {
+  width?: number;
+  height?: number;
   value?: string;
   onChange?(value?: string): void;
 }
@@ -117,21 +119,32 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
     <Flex gap={'middle'}>
       <div
         onClick={() => setOpen(true)}
-        css={css`
-          cursor: pointer;
-          width: 96px;
-          height: 96px;
-          border: 1px dashed var(--ant-color-border);
-          color: var(--ant-color-text-secondary);
-          display: inline-flex;
-          justify-content: center;
-          align-items: center;
-          background-size: cover;
-          ${selectedAsset && `background-image: url(${selectedAsset})`}
-        `}
-      >
-        {selectedAsset ? '' : '选择图片'}
-      </div>
+        style={
+          {
+            '--w': (props.width || 96) + 'px',
+            '--h': (props.height || 96) + 'px',
+          } as CSSProperties
+        }
+        css={[
+          css`
+            width: var(--w);
+            height: var(--h);
+            cursor: pointer;
+            border: 1px dashed var(--ant-color-border);
+            color: var(--ant-color-text-secondary);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+          `,
+          css([
+            selectedAsset && {
+              backgroundImage: `url(${selectedAsset})`,
+              backgroundSize: 'cover',
+              border: 'none',
+            },
+          ]),
+        ]}
+      ></div>
       {/* <Button
         type="dashed"
       >
@@ -157,7 +170,7 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
             value={selectedAsset ? [selectedAsset] : undefined}
             onChange={(value) => {
               if (value && value.length > 0) {
-                setSelectedAsset(value[0]);
+                setSelectedAsset(value[value.length - 1]);
               }
             }}
           />
