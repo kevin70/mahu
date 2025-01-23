@@ -169,7 +169,7 @@ export const MartProductNew = () => {
         <Card title="基本信息">{basicPanel}</Card>
 
         <Card
-          title="属性信息"
+          title="产品属性"
           extra={
             <HAttributeChoose
               trigger={
@@ -193,9 +193,12 @@ export const MartProductNew = () => {
           extra={
             <HAttributeChoose
               trigger={
-                <Button type="dashed" icon={<PlusOutlined />}>
-                  新增规格属性
-                </Button>
+                <Space>
+                  <Button icon={<PlusOutlined />}>规格</Button>
+                  <Button type="dashed" icon={<PlusOutlined />}>
+                    新增属性
+                  </Button>
+                </Space>
               }
               onChange={(value) => {
                 for (const v of value) {
