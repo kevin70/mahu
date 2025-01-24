@@ -10,12 +10,13 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { css } from '@emotion/react';
-import { Button, Card, Col, Form, Row, Space, Table } from 'antd';
+import { Button, Card, Col, Divider, Form, Row, Space, Table } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
 import { useDynamicList } from 'ahooks';
 import { useForm } from 'antd/es/form/Form';
 import { HCloseButton } from '@/components/HCloseButton';
 import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
+import { BatchSetNumber } from './BatchSetNumber';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);
@@ -91,6 +92,50 @@ export const MartProductNew = () => {
           title="产品规格"
           extra={
             <Space>
+              <div>批量设置:</div>
+              <BatchSetNumber
+                label="价格"
+                onChange={(v) => {
+                  variants.forEach((field) => {
+                    form.setFieldValue(['variants', field.name, 'price'], v);
+                  });
+                }}
+              />
+              <BatchSetNumber
+                label="长度"
+                onChange={(v) => {
+                  variants.forEach((field) => {
+                    form.setFieldValue(['variants', field.name, 'length'], v);
+                  });
+                }}
+              />
+              <BatchSetNumber
+                label="宽度"
+                onChange={(v) => {
+                  variants.forEach((field) => {
+                    form.setFieldValue(['variants', field.name, 'width'], v);
+                  });
+                }}
+              />
+              <BatchSetNumber
+                label="高度"
+                onChange={(v) => {
+                  variants.forEach((field) => {
+                    form.setFieldValue(['variants', field.name, 'height'], v);
+                  });
+                }}
+              />
+              <BatchSetNumber
+                label="重量"
+                onChange={(v) => {
+                  variants.forEach((field) => {
+                    form.setFieldValue(['variants', field.name, 'weight'], v);
+                  });
+                }}
+              />
+
+              <Divider type="vertical" />
+
               <Button
                 icon={<PlusOutlined />}
                 onClick={() => {
@@ -123,6 +168,7 @@ export const MartProductNew = () => {
               />
             </Space>
           }
+          actions={[]}
         >
           <Table dataSource={variants} pagination={false} rowKey={'key'}>
             <Table.Column
