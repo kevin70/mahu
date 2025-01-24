@@ -9,7 +9,7 @@ import { cloneElement, useState } from 'react';
 
 interface HAttributeChooseProps {
   trigger: JSX.Element;
-  value?: number[];
+  // value?: number[];
   onChange?: (value: number[]) => void;
 }
 
@@ -62,6 +62,9 @@ export const HAttributeChoose = (props: HAttributeChooseProps) => {
           setOpen(false);
 
           props.onChange?.(selectedKeys);
+
+          // 清除选中项
+          setSelectedKeys([]);
         }}
         width={'80%'}
       >
@@ -83,7 +86,7 @@ export const HAttributeChoose = (props: HAttributeChooseProps) => {
           rowSelection={{
             type: 'checkbox',
             selectedRowKeys: selectedKeys,
-            onChange(selectedRowKeys, selectedRows, info) {
+            onChange(selectedRowKeys) {
               setSelectedKeys(selectedRowKeys as number[]);
             },
           }}

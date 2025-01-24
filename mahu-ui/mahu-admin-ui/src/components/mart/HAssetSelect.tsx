@@ -5,8 +5,10 @@ import { CheckCard } from '@ant-design/pro-components';
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSet } from 'ahooks';
-import { Button, Col, Flex, Image, Modal, Row, Space, Typography } from 'antd';
+import { Button, Col, Flex, Form, Image, Modal, Row, Space, Typography } from 'antd';
+import { useWatch } from 'antd/es/form/Form';
 import { CSSProperties, useEffect, useState } from 'react';
+import { IoIosImage, IoIosImages } from 'react-icons/io';
 import { useInView } from 'react-intersection-observer';
 import { useShallow } from 'zustand/shallow';
 
@@ -110,6 +112,9 @@ const ImagePanel = ({ value, onChange }: { value?: string[]; onChange(value: str
 };
 
 export const HAssetSelect = (props: HAssetSelectProps) => {
+  /// 表单错误
+  const { errors } = Form.Item.useStatus();
+
   const [open, setOpen] = useState(false);
 
   // 选中的资源图片
@@ -131,7 +136,7 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
             height: var(--h);
             cursor: pointer;
             border: 1px dashed var(--ant-color-border);
-            color: var(--ant-color-text-secondary);
+            color: var(--ant-color-text-placeholder);
             display: inline-flex;
             justify-content: center;
             align-items: center;
@@ -142,13 +147,14 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
               backgroundSize: 'cover',
               border: 'none',
             },
+            errors.length > 0 && {
+              borderColor: 'var(--ant-color-error)',
+            },
           ]),
         ]}
-      ></div>
-      {/* <Button
-        type="dashed"
       >
-      </Button> */}
+        <IoIosImage size={24} />
+      </div>
 
       <Modal
         title={'选择图片'}
@@ -198,9 +204,10 @@ export const HAssetMultipleSelect = (props: HAssetMultipleSelectProps) => {
         css={css`
           width: 96px;
           height: 96px;
+          color: var(--ant-color-text-placeholder);
         `}
       >
-        选择图片
+        <IoIosImages size={32} />
       </Button>
 
       <Modal

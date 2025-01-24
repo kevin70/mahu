@@ -1,6 +1,6 @@
 import { HAssetMultipleSelect, HAssetSelect } from '@/components/mart/HAssetSelect';
 import { HAttributeChoose } from '@/components/mart/HAttributeChoose';
-import { CloseOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import {
   FooterToolbar,
   PageContainer,
@@ -10,164 +10,32 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { css } from '@emotion/react';
-import { Button, Card, Checkbox, Col, Form, Input, Row, Space, Table, Tag, Typography } from 'antd';
+import { Button, Card, Col, Form, Row, Space, Table } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
 import { useDynamicList } from 'ahooks';
 import { AttributeName } from './AttributeName';
-import { VariantAttributeColumn } from './VariantAttributeColumn';
-import { useMartAttributeData } from '@/hooks';
+import { useForm } from 'antd/es/form/Form';
+import { HCloseButton } from '@/components/HCloseButton';
+import { ulid } from 'ulid';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);
   const variantAttributeList = useDynamicList<number>([]);
-
-  const variants = useDynamicList<{
-    cover: string;
-  }>([
-    {
-      cover: 'abcdefg',
-    },
-  ]);
+  const [form] = useForm();
 
   const basicPanel = (
-    <>
+    <Card title="产品信息">
       <ProFormText label={'名称'} name={'name'} rules={[{ required: true }]} />
       <ProFormTextArea label={'描述'} name={'description'} />
       <Form.Item name={'images'} label={'轮播图片'} rules={[{ required: true }]}>
         <HAssetMultipleSelect />
       </Form.Item>
-    </>
+    </Card>
   );
 
   const attributePanel = (
     <Form.List name={'attributes'}>
-      {() => (
-        <Row gutter={[16, 16]}>
-          {attributeList.list.map((attributeId, i) => (
-            <Col span={12}>
-              <div
-                css={css`
-                  display: none;
-                `}
-              >
-                <ProFormDigit name={[attributeList.getKey(i), 'attributeId']} initialValue={attributeId} />
-              </div>
-              <AttributeFormItem key={i} name={[attributeList.getKey(i)]} attributeId={attributeId} />
-            </Col>
-          ))}
-        </Row>
-      )}
-    </Form.List>
-  );
-
-  const variantPanel = (
-    <>
-      <Table dataSource={variants.list}>
-        <Table.Column
-          title="封面"
-          render={() => {
-            return (
-              <Form.Item noStyle>
-                <HAssetSelect width={48} height={48} />
-              </Form.Item>
-            );
-          }}
-        />
-
-        {/* ============= 规格属性 ============= */}
-        {variantAttributeList.list.map((o, i) => {
-          return (
-            <Table.Column
-              key={i}
-              title={
-                <Space>
-                  <AttributeName attributeId={o} />
-                  <Button
-                    size="small"
-                    variant="text"
-                    color="danger"
-                    icon={<CloseOutlined />}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      variantAttributeList.remove(i);
-                    }}
-                  />
-                </Space>
-              }
-              render={() => {
-                return <AttributeFormItem name={[i]} attributeId={o} noStyle />;
-              }}
-            />
-          );
-        })}
-        {/* ============= 规格属性 ============= */}
-
-        <Table.Column
-          title="长"
-          render={(_row, _, i) => {
-            return <Input placeholder="长" />;
-          }}
-        />
-        <Table.Column
-          title="宽"
-          render={(_row, _, i) => {
-            return <Input placeholder="长" />;
-          }}
-        />
-        <Table.Column
-          title="高"
-          render={(_row, _, i) => {
-            return <Input placeholder="长" />;
-          }}
-        />
-        <Table.Column
-          title="重量"
-          render={(_row, _, i) => {
-            return <Input placeholder="长" />;
-          }}
-        />
-        <Table.Column
-          align="right"
-          render={(_row, _, i) => {
-            return <Button variant="text" color="danger" icon={<CloseOutlined />}></Button>;
-          }}
-        />
-      </Table>
-
-      <Form.Item layout="horizontal" label={'多规格'} name={'multiple'}>
-        <Checkbox />
-      </Form.Item>
-      <Form.Item noStyle>
-        <HAssetSelect />
-      </Form.Item>
-
-      <Form.Item>
-        <HAttributeChoose trigger={<Button>新增</Button>} />
-      </Form.Item>
-    </>
-  );
-
-  const submit = async (values: any) => {
-    console.log('new product', values);
-  };
-
-  return (
-    <PageContainer title={'新建产品'}>
-      <ProForm
-        submitter={{
-          render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
-        }}
-        onFinish={async (values) => {
-          await submit(values);
-        }}
-        css={css`
-          display: flex;
-          flex-direction: column;
-          row-gap: var(--ant-margin);
-        `}
-      >
-        <Card title="基本信息">{basicPanel}</Card>
-
+      {(_, { add, remove }) => (
         <Card
           title="产品属性"
           extra={
@@ -180,36 +48,236 @@ export const MartProductNew = () => {
               onChange={(value) => {
                 for (const v of value) {
                   attributeList.push(v);
+                  add({});
                 }
               }}
             />
           }
         >
-          {attributePanel}
+          <Row gutter={[48, 16]}>
+            {attributeList.list.map((attributeId, i) => (
+              <Col span={12}>
+                <div
+                  css={css`
+                    display: none;
+                  `}
+                >
+                  <ProFormDigit name={['attributes', i, 'attributeId']} initialValue={attributeId} />
+                </div>
+                <AttributeFormItem
+                  key={i}
+                  name={['attributes', i]}
+                  attributeId={attributeId}
+                  label={
+                    <HCloseButton
+                      css={css`
+                        margin-left: var(--ant-margin);
+                      `}
+                      onClick={() => {
+                        attributeList.remove(i);
+                        remove(i);
+                      }}
+                    />
+                  }
+                />
+              </Col>
+            ))}
+          </Row>
         </Card>
+      )}
+    </Form.List>
+  );
 
+  const variantPanel = (
+    <Form.List name={'variants'}>
+      {(variants, { add, remove }) => (
         <Card
-          title={<Typography.Text strong>规格</Typography.Text>}
+          title="产品规格"
           extra={
-            <HAttributeChoose
-              trigger={
-                <Space>
-                  <Button icon={<PlusOutlined />}>规格</Button>
+            <Space>
+              <Button
+                icon={<PlusOutlined />}
+                onClick={() => {
+                  add({});
+                }}
+              >
+                规格
+              </Button>
+
+              <HAttributeChoose
+                trigger={
                   <Button type="dashed" icon={<PlusOutlined />}>
                     新增属性
                   </Button>
-                </Space>
-              }
-              onChange={(value) => {
-                for (const v of value) {
-                  variantAttributeList.push(v);
                 }
-              }}
-            />
+                onChange={(value) => {
+                  if (value.length <= 0) {
+                    return;
+                  }
+
+                  for (const v of value) {
+                    variantAttributeList.push(v);
+                  }
+                  variants.forEach((variant) => {
+                    const names = ['variants', variant.name, 'attributes'];
+                    const v = form.getFieldValue(names) || [];
+                    form.setFieldValue(names, [...v, value.map((attributeId) => ({ attributeId }))]);
+                  });
+                }}
+              />
+            </Space>
           }
         >
-          {variantPanel}
+          <Table dataSource={variants} pagination={false} rowKey={'key'}>
+            <Table.Column
+              title="封面"
+              render={(_row, _record, rowIdx) => {
+                return (
+                  <Form.Item noStyle name={[rowIdx, 'cover']} rules={[{ required: true }]}>
+                    <HAssetSelect width={48} height={48} />
+                  </Form.Item>
+                );
+              }}
+            />
+
+            {/* ============= 规格属性 ============= */}
+            {variantAttributeList.list.map((o, attributeIdx) => {
+              return (
+                <Table.Column
+                  key={attributeIdx}
+                  title={
+                    <Space>
+                      <AttributeName attributeId={o} />
+                      <HCloseButton
+                        onClick={() => {
+                          variantAttributeList.remove(attributeIdx);
+
+                          variants.forEach((variant) => {
+                            const names = ['variants', variant.name, 'attributes'];
+                            const v: any[] = form.getFieldValue(names) || [];
+                            const newAttributes = v.filter((_value, i) => i !== attributeIdx);
+                            form.setFieldValue(names, newAttributes);
+                          });
+                        }}
+                      />
+                    </Space>
+                  }
+                  render={(_value, _record, rowIdx) => {
+                    return (
+                      <AttributeFormItem
+                        noStyle
+                        name={[rowIdx, 'attributes', attributeIdx]}
+                        attributeId={o}
+                        rules={[{ required: true }]}
+                      />
+                    );
+                  }}
+                />
+              );
+            })}
+            {/* ============= 规格属性 ============= */}
+
+            <Table.Column
+              title="长"
+              width={160}
+              shouldCellUpdate={() => true}
+              render={(_value, _record, rowIdx) => {
+                return (
+                  <ProFormDigit
+                    noStyle
+                    name={[rowIdx, 'length']}
+                    rules={[{ required: true }, { type: 'number', min: 1 }]}
+                    placeholder={'长'}
+                  />
+                );
+              }}
+            />
+            <Table.Column
+              title="宽"
+              width={160}
+              shouldCellUpdate={() => true}
+              render={(_value, _record, rowIdx) => {
+                return (
+                  <ProFormDigit
+                    noStyle
+                    name={[rowIdx, 'width']}
+                    rules={[{ required: true }, { type: 'number', min: 1 }]}
+                    placeholder={'宽'}
+                  />
+                );
+              }}
+            />
+            <Table.Column
+              title="高"
+              width={160}
+              render={(_value, _record, rowIdx) => {
+                return (
+                  <ProFormDigit
+                    noStyle
+                    name={[rowIdx, 'height']}
+                    rules={[{ required: true }, { type: 'number', min: 1 }]}
+                    placeholder={'高'}
+                  />
+                );
+              }}
+            />
+            <Table.Column
+              title="重量"
+              width={160}
+              render={(_value, _record, rowIdx) => {
+                return (
+                  <ProFormDigit
+                    noStyle
+                    name={[rowIdx, 'weight']}
+                    rules={[{ required: true }, { type: 'number', min: 1 }]}
+                    placeholder={'重量'}
+                  />
+                );
+              }}
+            />
+            <Table.Column
+              align="right"
+              render={(_value, _record, rowIdx) => {
+                return (
+                  <HCloseButton
+                    onClick={() => {
+                      remove(rowIdx);
+                    }}
+                  />
+                );
+              }}
+            />
+          </Table>
         </Card>
+      )}
+    </Form.List>
+  );
+
+  const submit = async (values: any) => {
+    console.log('new product', values);
+  };
+
+  return (
+    <PageContainer title={'新建产品'}>
+      <ProForm
+        form={form}
+        submitter={{
+          render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
+        }}
+        onFinish={async (values) => {
+          await submit(values);
+        }}
+        css={css`
+          display: flex;
+          flex-direction: column;
+          row-gap: var(--ant-margin);
+        `}
+      >
+        {basicPanel}
+
+        {attributePanel}
+
+        {variantPanel}
       </ProForm>
     </PageContainer>
   );
