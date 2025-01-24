@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.mart;
 
+import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.*;
@@ -27,6 +28,9 @@ public class ProductAttribute {
     /// 更新时间
     @WhenModified
     private Instant updateTime;
+    /// 软删除
+    @SoftDelete
+    private Boolean deleted;
     /// 产品
     @ManyToOne
     private Product product;
