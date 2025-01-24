@@ -13,10 +13,9 @@ import { css } from '@emotion/react';
 import { Button, Card, Col, Form, Row, Space, Table } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
 import { useDynamicList } from 'ahooks';
-import { AttributeName } from './AttributeName';
 import { useForm } from 'antd/es/form/Form';
 import { HCloseButton } from '@/components/HCloseButton';
-import { ulid } from 'ulid';
+import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);
@@ -57,17 +56,14 @@ export const MartProductNew = () => {
           <Row gutter={[48, 16]}>
             {attributeList.list.map((attributeId, i) => (
               <Col span={12}>
-                <div
-                  css={css`
-                    display: none;
-                  `}
-                >
-                  <ProFormDigit name={['attributes', i, 'attributeId']} initialValue={attributeId} />
-                </div>
                 <AttributeFormItem
                   key={i}
-                  name={['attributes', i]}
+                  name={[i]}
                   attributeId={attributeId}
+                  onLoaded={(data) => {
+                    form.setFieldValue(['attributes', i, 'attributeId'], data.id);
+                    form.setFieldValue(['attributes', i, 'valueType'], data.valueType);
+                  }}
                   label={
                     <HCloseButton
                       css={css`
@@ -119,7 +115,7 @@ export const MartProductNew = () => {
                     variantAttributeList.push(v);
                   }
                   variants.forEach((variant) => {
-                    const names = ['variants', variant.name, 'attributes'];
+                    const names = [variant.name, 'attributes'];
                     const v = form.getFieldValue(names) || [];
                     form.setFieldValue(names, [...v, value.map((attributeId) => ({ attributeId }))]);
                   });
@@ -147,7 +143,7 @@ export const MartProductNew = () => {
                   key={attributeIdx}
                   title={
                     <Space>
-                      <AttributeName attributeId={o} />
+                      <HMartAttributeMeta attributeId={o}>{(data) => data.name}</HMartAttributeMeta>
                       <HCloseButton
                         onClick={() => {
                           variantAttributeList.remove(attributeIdx);
@@ -165,6 +161,13 @@ export const MartProductNew = () => {
                   render={(_value, _record, rowIdx) => {
                     return (
                       <AttributeFormItem
+                        onLoaded={(data) => {
+                          form.setFieldValue(['variants', rowIdx, 'attributes', attributeIdx, 'attributeId'], data.id);
+                          form.setFieldValue(
+                            ['variants', rowIdx, 'attributes', attributeIdx, 'valueType'],
+                            data.valueType
+                          );
+                        }}
                         noStyle
                         name={[rowIdx, 'attributes', attributeIdx]}
                         attributeId={o}
