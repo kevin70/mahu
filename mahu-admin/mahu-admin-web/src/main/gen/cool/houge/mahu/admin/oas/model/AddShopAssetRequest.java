@@ -26,7 +26,7 @@ public class AddShopAssetRequest {
      * 资源 URIs
      */
     @NotNull
-
+ @Size(min=1,max=99)
     @com.fasterxml.jackson.annotation.JsonProperty("uris")
     private List<String> uris;
 }
