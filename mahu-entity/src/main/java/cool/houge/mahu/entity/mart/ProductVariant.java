@@ -32,7 +32,7 @@ public class ProductVariant {
     private Instant updateTime;
     /// 软删除
     @SoftDelete
-    private Boolean deleted;
+    private boolean deleted;
     /// 数据版本
     @Version
     private Integer ver;
@@ -50,7 +50,15 @@ public class ProductVariant {
     private String cover;
     /// 价格
     private BigDecimal price;
+    /// 长度
+    private Integer length;
+    /// 宽度
+    private Integer width;
+    /// 高度
+    private Integer height;
+    /// 重量
+    private Integer weight;
     /// 产品变体属性
-    @OneToMany(mappedBy = "productVariant")
+    @OneToMany(mappedBy = "productVariant", cascade = CascadeType.MERGE)
     private List<ProductVariantAttribute> productVariantAttributes;
 }

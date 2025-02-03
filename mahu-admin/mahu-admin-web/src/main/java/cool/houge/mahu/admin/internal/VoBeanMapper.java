@@ -9,10 +9,7 @@ import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
 import cool.houge.mahu.entity.Brand;
-import cool.houge.mahu.entity.mart.Asset;
-import cool.houge.mahu.entity.mart.Attribute;
-import cool.houge.mahu.entity.mart.AttributeValue;
-import cool.houge.mahu.entity.mart.Shop;
+import cool.houge.mahu.entity.mart.*;
 import cool.houge.mahu.entity.system.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -37,11 +34,11 @@ public interface VoBeanMapper {
 
     /// 分页对象映射
     ///
-    /// @param list 数据集合
+    /// @param list       数据集合
     /// @param totalCount 总记录数
-    /// @param fn    映射
-    /// @param <T>   数据对象类型
-    /// @param <R>   响应对象类型
+    /// @param fn         映射
+    /// @param <T>        数据对象类型
+    /// @param <R>        响应对象类型
     default <T, R> PageResponse<R> toPageResponse(List<T> list, Integer totalCount, Function<T, R> fn) {
         var resp = new PageResponse<R>();
         if (totalCount != null && totalCount > 0) {
@@ -133,4 +130,8 @@ public interface VoBeanMapper {
     AttributeValue toAttributeValue(Integer attributeId, UpsertMartAttributeValueRequest bean);
 
     GetMartAttributeValueResponse toGetMartAttributeValueResponse(AttributeValue bean);
+
+    Product.Type toProductType(ProductTypeEnum bean);
+
+    Product toProduct(UpsertMartProductRequest bean);
 }

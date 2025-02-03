@@ -29,7 +29,7 @@ public class ProductVariantAttribute {
     private Instant updateTime;
     /// 软删除
     @SoftDelete
-    private Boolean deleted;
+    private boolean deleted;
     /// 产品
     @ManyToOne
     private ProductVariant productVariant;

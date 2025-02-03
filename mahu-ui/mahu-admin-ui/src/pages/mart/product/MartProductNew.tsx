@@ -6,6 +6,7 @@ import {
   PageContainer,
   ProForm,
   ProFormDigit,
+  ProFormRadio,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
@@ -17,6 +18,8 @@ import { useForm } from 'antd/es/form/Form';
 import { HCloseButton } from '@/components/HCloseButton';
 import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
 import { BatchSetNumber } from './BatchSetNumber';
+import { ProductTypeEnum, UpsertMartAttributeRequest } from '@/services/generated';
+import { MART_API } from '@/services';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);
@@ -27,6 +30,15 @@ export const MartProductNew = () => {
     <Card title="产品信息">
       <ProFormText label={'名称'} name={'name'} rules={[{ required: true }]} />
       <ProFormTextArea label={'描述'} name={'description'} />
+      <ProFormRadio.Group
+        label={'类型'}
+        options={[
+          { label: '实体商品', value: ProductTypeEnum.Physical },
+          { label: '虚拟商品', value: ProductTypeEnum.Virtual },
+        ]}
+        name={'type'}
+        rules={[{ required: true }]}
+      />
       <Form.Item name={'images'} label={'轮播图片'} rules={[{ required: true }]}>
         <HAssetMultipleSelect />
       </Form.Item>
@@ -147,7 +159,7 @@ export const MartProductNew = () => {
 
               <HAttributeChoose
                 trigger={
-                  <Button type="dashed" icon={<PlusOutlined />}>
+                  <Button type="dashed" icon={<PlusOutlined />} disabled={variantAttributeList.list.length >= 3}>
                     新增属性
                   </Button>
                 }
@@ -156,19 +168,29 @@ export const MartProductNew = () => {
                     return;
                   }
 
+                  const addValues: number[] = [];
                   for (const v of value) {
-                    variantAttributeList.push(v);
+                    // 规格属性最多只能存在3个
+                    if (variantAttributeList.list.length >= 3) {
+                      break;
+                    }
+                    if (!variantAttributeList.list.includes(v)) {
+                      variantAttributeList.push(v);
+                      addValues.push(v);
+                    }
                   }
-                  variants.forEach((variant) => {
-                    const names = [variant.name, 'attributes'];
-                    const v = form.getFieldValue(names) || [];
-                    form.setFieldValue(names, [...v, value.map((attributeId) => ({ attributeId }))]);
-                  });
+
+                  if (addValues.length > 0) {
+                    variants.forEach((variant) => {
+                      const names = [variant.name, 'attributes'];
+                      const v = form.getFieldValue(names) || [];
+                      form.setFieldValue(names, [...v, addValues.map((attributeId) => ({ attributeId }))]);
+                    });
+                  }
                 }}
               />
             </Space>
           }
-          actions={[]}
         >
           <Table dataSource={variants} pagination={false} rowKey={'key'}>
             <Table.Column
@@ -225,17 +247,27 @@ export const MartProductNew = () => {
               );
             })}
             {/* ============= 规格属性 ============= */}
-
+            <Table.Column
+              title="价格"
+              render={(_value, _record, rowIdx) => {
+                return (
+                  <ProFormDigit
+                    noStyle
+                    name={[rowIdx, 'price']}
+                    rules={[{ required: true }, { type: 'number' }]}
+                    placeholder={'价格'}
+                  />
+                );
+              }}
+            />
             <Table.Column
               title="长"
-              width={160}
-              shouldCellUpdate={() => true}
               render={(_value, _record, rowIdx) => {
                 return (
                   <ProFormDigit
                     noStyle
                     name={[rowIdx, 'length']}
-                    rules={[{ required: true }, { type: 'number', min: 1 }]}
+                    rules={[{ type: 'number', min: 1 }]}
                     placeholder={'长'}
                   />
                 );
@@ -243,14 +275,12 @@ export const MartProductNew = () => {
             />
             <Table.Column
               title="宽"
-              width={160}
-              shouldCellUpdate={() => true}
               render={(_value, _record, rowIdx) => {
                 return (
                   <ProFormDigit
                     noStyle
                     name={[rowIdx, 'width']}
-                    rules={[{ required: true }, { type: 'number', min: 1 }]}
+                    rules={[{ type: 'number', min: 1 }]}
                     placeholder={'宽'}
                   />
                 );
@@ -258,13 +288,12 @@ export const MartProductNew = () => {
             />
             <Table.Column
               title="高"
-              width={160}
               render={(_value, _record, rowIdx) => {
                 return (
                   <ProFormDigit
                     noStyle
                     name={[rowIdx, 'height']}
-                    rules={[{ required: true }, { type: 'number', min: 1 }]}
+                    rules={[{ type: 'number', min: 1 }]}
                     placeholder={'高'}
                   />
                 );
@@ -272,13 +301,12 @@ export const MartProductNew = () => {
             />
             <Table.Column
               title="重量"
-              width={160}
               render={(_value, _record, rowIdx) => {
                 return (
                   <ProFormDigit
                     noStyle
                     name={[rowIdx, 'weight']}
-                    rules={[{ required: true }, { type: 'number', min: 1 }]}
+                    rules={[{ type: 'number', min: 1 }]}
                     placeholder={'重量'}
                   />
                 );
@@ -304,6 +332,7 @@ export const MartProductNew = () => {
 
   const submit = async (values: any) => {
     console.log('new product', values);
+    MART_API.addMartProduct({ upsertMartProductRequest: values });
   };
 
   return (

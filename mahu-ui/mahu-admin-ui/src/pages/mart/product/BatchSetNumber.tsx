@@ -33,7 +33,9 @@ export const BatchSetNumber = (props: BatchSetNumberProps) => {
         props.onChange(value);
       }}
     >
-      <Button type="text">{props.label}</Button>
+      <Button type="text" size="small">
+        {props.label}
+      </Button>
     </Popconfirm>
   );
 };

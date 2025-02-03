@@ -17,6 +17,8 @@ properties:
     maxLength: 36
     items:
       type: string
+  type:
+    $ref: ./ProductTypeEnum.yaml
   attributes:
     type: array
     description: 产品属性
@@ -54,25 +56,47 @@ properties:
         cover:
           type: string
           description: 封面
+        price:
+          type: number
+          format: double
+          description: 价格
+        length:
+          type: integer
+          format: int64
+          description: 长度
+        width:
+          type: integer
+          format: int64
+          description: 宽度
+        height:
+          type: integer
+          format: int64
+          description: 高度
+        weight:
+          type: integer
+          format: int64
+          description: 重量
         attributes:
           type: array
           description: 变体属性（销售属性）
           maxLength: 3
-          required:
-            - attribute_id
-          properties:
-            id:
-              type: integer
-              format: int64
-              description: 变体属性 ID
-            attribute_id:
-              type: integer
-              format: int32
-              description: 属性 ID
-            attribute_value_id:
-              type: integer
-              format: int32
-              description: 属性值 ID
-            value:
-              type: string
-              description: 属性值
+          items:
+            type: object
+            required:
+              - attribute_id
+            properties:
+              id:
+                type: integer
+                format: int64
+                description: 变体属性 ID
+              attribute_id:
+                type: integer
+                format: int32
+                description: 属性 ID
+              attribute_value_id:
+                type: integer
+                format: int32
+                description: 属性值 ID
+              value:
+                type: string
+                description: 属性值

@@ -30,7 +30,7 @@ public class ProductAttribute {
     private Instant updateTime;
     /// 软删除
     @SoftDelete
-    private Boolean deleted;
+    private boolean deleted;
     /// 产品
     @ManyToOne
     private Product product;
@@ -42,6 +42,4 @@ public class ProductAttribute {
     private AttributeValue attributeValue;
     /// 属性值（适用手动输入的属性）
     private String value;
-    /// 变体属性（规格）
-    private boolean variant;
 }

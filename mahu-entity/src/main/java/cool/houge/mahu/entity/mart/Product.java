@@ -33,7 +33,7 @@ public class Product {
     private Instant updateTime;
     /// 软删除
     @SoftDelete
-    private Boolean deleted;
+    private boolean deleted;
     /// 数据版本
     @Version
     private Integer ver;
@@ -53,21 +53,17 @@ public class Product {
     /// 商店
     @ManyToOne
     private Shop shop;
-    /// 商店 SLUG
-    private String shopSlug;
     /// 品牌
     @ManyToOne
     private Brand brand;
     /// 分类
     @ManyToOne
     private Category category;
-    /// 多个变体
-    private boolean multiple;
     /// 产品属性
-    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
     private List<ProductAttribute> productAttributes;
     /// 产品变体
-    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
     private List<ProductVariant> productVariants;
 
     public enum Type {

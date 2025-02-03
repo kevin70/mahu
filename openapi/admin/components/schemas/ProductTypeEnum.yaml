@@ -1,0 +1,8 @@
+type: string
+description: 产品类型
+enum:
+  - PHYSICAL
+  - VIRTUAL
+x-enum-descriptions:
+  - 实体商品
+  - 虚拟商品
