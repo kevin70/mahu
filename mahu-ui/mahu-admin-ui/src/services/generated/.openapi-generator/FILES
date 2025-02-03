@@ -49,6 +49,7 @@ models/LoginRequest.ts
 models/LoginResponse.ts
 models/MakeOssDirectUploadRequest.ts
 models/MakeOssDirectUploadResponse.ts
+models/ProductTypeEnum.ts
 models/TerminalTypeEnum.ts
 models/TokenPasswordForm.ts
 models/TokenRefreshTokenForm.ts
@@ -61,6 +62,10 @@ models/UpsertDictRequest.ts
 models/UpsertEmployeeRequest.ts
 models/UpsertMartAttributeRequest.ts
 models/UpsertMartAttributeValueRequest.ts
+models/UpsertMartProductRequest.ts
+models/UpsertMartProductRequestAttributesInner.ts
+models/UpsertMartProductRequestVariantsInner.ts
+models/UpsertMartProductRequestVariantsInnerAttributesInner.ts
 models/UpsertRoleRequest.ts
 models/UpsertShopRequest.ts
 models/index.ts

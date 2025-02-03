@@ -25,6 +25,7 @@ import type {
   ListShopsPageResponse,
   UpsertMartAttributeRequest,
   UpsertMartAttributeValueRequest,
+  UpsertMartProductRequest,
   UpsertShopRequest,
 } from '../models/index';
 import {
@@ -48,6 +49,8 @@ import {
     UpsertMartAttributeRequestToJSON,
     UpsertMartAttributeValueRequestFromJSON,
     UpsertMartAttributeValueRequestToJSON,
+    UpsertMartProductRequestFromJSON,
+    UpsertMartProductRequestToJSON,
     UpsertShopRequestFromJSON,
     UpsertShopRequestToJSON,
 } from '../models/index';
@@ -59,6 +62,10 @@ export interface AddMartAttributeRequest {
 export interface AddMartAttributeValueRequest {
     upsertMartAttributeValueRequest: UpsertMartAttributeValueRequest;
     attributeId?: number;
+}
+
+export interface AddMartProductRequest {
+    upsertMartProductRequest: UpsertMartProductRequest;
 }
 
 export interface AddShopRequest {
@@ -102,6 +109,15 @@ export interface GetShopRequest {
 }
 
 export interface ListMartAttributesRequest {
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: Array<string>;
+    includeDeleted?: number;
+    noTotalCount?: number;
+}
+
+export interface ListMartProductsRequest {
     limit?: number;
     offset?: number;
     filter?: string;
@@ -234,6 +250,49 @@ export class MartApi extends runtime.BaseAPI {
      */
     async addMartAttributeValue(requestParameters: AddMartAttributeValueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.addMartAttributeValueRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 保存产品
+     */
+    async addMartProductRaw(requestParameters: AddMartProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertMartProductRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertMartProductRequest',
+                'Required parameter "upsertMartProductRequest" was null or undefined when calling addMartProduct().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/mart/products`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertMartProductRequestToJSON(requestParameters['upsertMartProductRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 保存产品
+     */
+    async addMartProduct(requestParameters: AddMartProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addMartProductRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -635,6 +694,64 @@ export class MartApi extends runtime.BaseAPI {
      */
     async listMartAttributes(requestParameters: ListMartAttributesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListMartAttributesPageResponse> {
         const response = await this.listMartAttributesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 产品列表
+     */
+    async listMartProductsRaw(requestParameters: ListMartProductsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListMartAttributesPageResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        if (requestParameters['includeDeleted'] != null) {
+            queryParameters['include_deleted'] = requestParameters['includeDeleted'];
+        }
+
+        if (requestParameters['noTotalCount'] != null) {
+            queryParameters['no_total_count'] = requestParameters['noTotalCount'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/mart/products`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListMartAttributesPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 产品列表
+     */
+    async listMartProducts(requestParameters: ListMartProductsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListMartAttributesPageResponse> {
+        const response = await this.listMartProductsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
