@@ -23,7 +23,7 @@ export const MartProductList = () => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['MartProductList', queryOffsetLimit, queryFilter, querySort, incldeDeleted],
     async queryFn() {
-      return MART_API.listMartAttributes({
+      return MART_API.listMartProducts({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,

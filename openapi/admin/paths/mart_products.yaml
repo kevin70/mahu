@@ -32,4 +32,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ListMartAttributesPageResponse.yaml
+            $ref: ../components/schemas/ListMartProductsPageResponse.yaml

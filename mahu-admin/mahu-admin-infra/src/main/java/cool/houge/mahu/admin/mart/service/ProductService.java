@@ -2,7 +2,9 @@ package cool.houge.mahu.admin.mart.service;
 
 import cool.houge.mahu.admin.mart.repository.ProductRepository;
 import cool.houge.mahu.admin.mart.repository.ProductVariantRepository;
+import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.mart.Product;
+import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -35,5 +37,11 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Product findById(long id) {
         return productRepository.findById(id);
+    }
+
+    /// 分页查询
+    @Transactional(readOnly = true)
+    public PagedList<Product> findPage(DataFilter dataFilter) {
+        return productRepository.findPage(dataFilter);
     }
 }

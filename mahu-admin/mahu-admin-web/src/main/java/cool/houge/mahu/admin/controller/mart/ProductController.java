@@ -28,8 +28,17 @@ public class ProductController implements WebSupport, HttpService {
 
     @Override
     public void routing(HttpRules rules) {
+        rules.get("/mart/products", authz(MART_PRODUCT.R()).wrap(this::listMartProducts));
+
         rules.post("/mart/products", authz(MART_PRODUCT.W()).wrap(this::addMartProduct));
         rules.put("/mart/products/{product_id}", authz(MART_PRODUCT.W()).wrap(this::updateMartProduct));
+    }
+
+    private void listMartProducts(ServerRequest request, ServerResponse response) {
+        var dataFilter = dataFilter(request);
+        var plist = productService.findPage(dataFilter);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount());
+
     }
 
     private void addMartProduct(ServerRequest request, ServerResponse response) {
