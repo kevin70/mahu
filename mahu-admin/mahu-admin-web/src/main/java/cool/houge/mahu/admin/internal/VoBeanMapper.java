@@ -134,4 +134,6 @@ public interface VoBeanMapper {
     Product.Type toProductType(ProductTypeEnum bean);
 
     Product toProduct(UpsertMartProductRequest bean);
+
+    GetMartProductResponse toGetMartProductResponse(Product bean);
 }

@@ -37,8 +37,9 @@ public class ProductController implements WebSupport, HttpService {
     private void listMartProducts(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = productService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount());
-
+        var rs =
+                beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetMartProductResponse);
+        response.send(rs);
     }
 
     private void addMartProduct(ServerRequest request, ServerResponse response) {
