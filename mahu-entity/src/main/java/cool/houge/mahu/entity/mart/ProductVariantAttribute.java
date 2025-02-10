@@ -32,10 +32,10 @@ public class ProductVariantAttribute {
     private boolean deleted;
     /// 产品
     @ManyToOne
-    private ProductVariant productVariant;
+    private ProductVariant variant;
     /// 产品属性
     @ManyToOne
-    private ProductAttribute productAttribute;
+    private ProductAttribute attribute;
     /// 产品属性值
     @ManyToOne
     private AttributeValue attributeValue;

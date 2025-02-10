@@ -11,14 +11,14 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { css } from '@emotion/react';
-import { Button, Card, Col, Divider, Form, Row, Space, Table } from 'antd';
+import { Button, Card, Col, Divider, Form, message, Row, Space, Table } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
 import { useDynamicList } from 'ahooks';
 import { useForm } from 'antd/es/form/Form';
 import { HCloseButton } from '@/components/HCloseButton';
 import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
 import { BatchSetNumber } from './BatchSetNumber';
-import { ProductTypeEnum, UpsertMartAttributeRequest } from '@/services/generated';
+import { ProductTypeEnum } from '@/services/generated';
 import { MART_API } from '@/services';
 
 export const MartProductNew = () => {
@@ -333,6 +333,8 @@ export const MartProductNew = () => {
   const submit = async (values: any) => {
     console.log('new product', values);
     MART_API.addMartProduct({ upsertMartProductRequest: values });
+    message.success('新增成功');
+    // form.resetFields();
   };
 
   return (

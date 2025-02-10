@@ -7,8 +7,9 @@ import { useRSQLFilter } from '@/hooks';
 import { useTableHelper } from '@/hooks/useTableHelper';
 import { MART_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
+import { css } from '@emotion/react';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message } from 'antd';
+import { Avatar, Form, message, Table } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router';
 
@@ -67,7 +68,7 @@ export const MartProductList = () => {
         toolbar={{
           search: searchForm,
           actions: [
-            <Link to={'/mart/product-new'}>
+            <Link key={'product-new'} to={'/mart/product-new'}>
               <HNewButton />
             </Link>,
           ],
@@ -84,48 +85,73 @@ export const MartProductList = () => {
         rowKey={'id'}
         columns={[
           {
-            title: 'ID',
+            title: 'SPU',
             dataIndex: 'id',
+          },
+          {
+            key: 'create_time',
+            title: '创建时间',
+            dataIndex: 'createTime',
+            valueType: 'dateTime',
+            sorter: true,
+          },
+          {
+            key: 'update_time',
+            title: '更新时间',
+            dataIndex: 'updateTime',
+            valueType: 'dateTime',
+            sorter: true,
+            defaultSortOrder: 'descend',
           },
           {
             title: '名称',
             dataIndex: 'name',
           },
           {
-            title: '备注',
-            dataIndex: 'remark',
+            title: '描述',
+            dataIndex: 'description',
             ellipsis: true,
           },
           {
-            title: '排序',
-            dataIndex: 'ordering',
-            sorter: true,
-            defaultSortOrder: 'descend',
+            title: '类型',
+            dataIndex: 'type',
+            valueEnum: {
+              PHYSICAL: '实体',
+              VIRTUAL: '虚拟',
+            },
           },
           {
-            title: '值类型',
-            dataIndex: 'valueType',
+            title: '图片',
+            render(_dom, row) {
+              return (
+                <Avatar.Group shape="square">
+                  {row.images.map((uri) => (
+                    <Avatar key={uri} src={uri} />
+                  ))}
+                </Avatar.Group>
+              );
+            },
+          },
+          {
+            title: '状态',
+            dataIndex: 'status',
             valueEnum: {
-              INPUT: {
-                text: '输入',
-                status: 'default',
+              PENDING: {
+                text: '待定',
+                status: 'warning',
               },
-              SELECT: {
-                text: '选择',
+              ACTIVE: {
+                text: '上架',
                 status: 'success',
               },
-            },
-          },
-          {
-            title: '可搜索',
-            render(_dom, row) {
-              return row.searchable ? '️✓' : '✗';
-            },
-          },
-          {
-            title: '必填项',
-            render(_dom, row) {
-              return row.required ? '✓' : '✗';
+              INACTIVE: {
+                text: '下架',
+                status: 'error',
+              },
+              DRAFT: {
+                text: '草稿',
+                status: 'default',
+              },
             },
           },
           {
@@ -145,8 +171,88 @@ export const MartProductList = () => {
           },
         ]}
         expandable={{
+          rowExpandable(row) {
+            return (row.variants?.length || 0) > 0;
+          },
           expandedRowRender(row) {
-            return <></>;
+            const dataSource = row.variants ?? [];
+            return (
+              <ProTable
+                search={false}
+                options={false}
+                pagination={false}
+                size="small"
+                columns={[
+                  {
+                    title: 'SKU',
+                    dataIndex: 'id',
+                  },
+                  {
+                    title: '限定名',
+                    dataIndex: 'qn',
+                  },
+                  {
+                    title: '封面',
+                    dataIndex: 'cover',
+                    valueType: 'image',
+                  },
+                  {
+                    title: '价格',
+                    dataIndex: 'price',
+                    valueType: 'money',
+                  },
+                  {
+                    title: '长(cm)',
+                    dataIndex: 'length',
+                  },
+                  {
+                    title: '宽(cm)',
+                    dataIndex: 'width',
+                  },
+                  {
+                    title: '高(cm)',
+                    dataIndex: 'height',
+                  },
+                  {
+                    title: '重量(g)',
+                    dataIndex: 'weight',
+                  },
+                  {
+                    title: '状态',
+                    dataIndex: 'status',
+                    valueEnum: {
+                      PENDING: {
+                        text: '待定',
+                        status: 'warning',
+                      },
+                      ACTIVE: {
+                        text: '上架',
+                        status: 'success',
+                      },
+                      INACTIVE: {
+                        text: '下架',
+                        status: 'error',
+                      },
+                      DRAFT: {
+                        text: '草稿',
+                        status: 'default',
+                      },
+                    },
+                  },
+                  {
+                    title: '操作',
+                    align: 'right',
+                    render(_dom, subRow) {
+                      if (row.deleted || subRow.deleted) {
+                        return <></>;
+                      }
+                      return <></>;
+                    },
+                  },
+                ]}
+                dataSource={dataSource}
+              />
+            );
           },
         }}
       ></ProTable>

@@ -21,6 +21,7 @@ import type {
   GetMartAttributeValueResponse,
   GetShopResponse,
   ListMartAttributesPageResponse,
+  ListMartProductsPageResponse,
   ListShopAssetsPageResponse,
   ListShopsPageResponse,
   UpsertMartAttributeRequest,
@@ -41,6 +42,8 @@ import {
     GetShopResponseToJSON,
     ListMartAttributesPageResponseFromJSON,
     ListMartAttributesPageResponseToJSON,
+    ListMartProductsPageResponseFromJSON,
+    ListMartProductsPageResponseToJSON,
     ListShopAssetsPageResponseFromJSON,
     ListShopAssetsPageResponseToJSON,
     ListShopsPageResponseFromJSON,
@@ -700,7 +703,7 @@ export class MartApi extends runtime.BaseAPI {
     /**
      * 产品列表
      */
-    async listMartProductsRaw(requestParameters: ListMartProductsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListMartAttributesPageResponse>> {
+    async listMartProductsRaw(requestParameters: ListMartProductsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListMartProductsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -744,13 +747,13 @@ export class MartApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListMartAttributesPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListMartProductsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 产品列表
      */
-    async listMartProducts(requestParameters: ListMartProductsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListMartAttributesPageResponse> {
+    async listMartProducts(requestParameters: ListMartProductsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListMartProductsPageResponse> {
         const response = await this.listMartProductsRaw(requestParameters, initOverrides);
         return await response.value();
     }

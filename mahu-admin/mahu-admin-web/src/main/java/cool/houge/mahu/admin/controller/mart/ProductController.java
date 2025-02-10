@@ -48,6 +48,7 @@ public class ProductController implements WebSupport, HttpService {
 
         var entity = beanMapper.toProduct(vo);
         productService.save(entity);
+
         response.status(NO_CONTENT_204).send();
     }
 

@@ -39,12 +39,6 @@ export const MENUS: MenuDataItem[] = [
     atLeastOneChild: true,
     children: [
       {
-        path: '/mart/attribute-list',
-        icon: <LuListTree />,
-        name: '商品属性',
-        permits: [permits.MART_ATTRIBUTE.R],
-      },
-      {
         path: '/mart/shop-list',
         icon: <LuStore />,
         name: '商店列表',
@@ -53,8 +47,14 @@ export const MENUS: MenuDataItem[] = [
       {
         path: '/mart/asset-list',
         icon: <FaRegFile />,
-        name: '商店资源',
+        name: '产品图片',
         permits: [permits.MART_ASSET.R],
+      },
+      {
+        path: '/mart/attribute-list',
+        icon: <LuListTree />,
+        name: '产品属性',
+        permits: [permits.MART_ATTRIBUTE.R],
       },
       {
         path: '/mart/product-list',

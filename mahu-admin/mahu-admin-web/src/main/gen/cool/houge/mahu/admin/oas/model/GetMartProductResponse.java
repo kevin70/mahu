@@ -14,8 +14,8 @@ package cool.houge.mahu.admin.oas.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import cool.houge.mahu.admin.oas.model.GetMartProductResponseProductAttributesInner;
-import cool.houge.mahu.admin.oas.model.GetMartProductResponseProductVariantsInner;
+import cool.houge.mahu.admin.oas.model.GetMartProductResponseAttributesInner;
+import cool.houge.mahu.admin.oas.model.GetMartProductResponseVariantsInner;
 import cool.houge.mahu.admin.oas.model.ProductStatusEnum;
 import cool.houge.mahu.admin.oas.model.ProductTypeEnum;
 import java.time.OffsetDateTime;
@@ -92,13 +92,13 @@ public class GetMartProductResponse {
      * 产品属性
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("product_attributes")
-    private List<@Valid GetMartProductResponseProductAttributesInner> productAttributes;
+    @com.fasterxml.jackson.annotation.JsonProperty("attributes")
+    private List<@Valid GetMartProductResponseAttributesInner> attributes;
     /**
      * 产品变体
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("product_variants")
-    private List<@Valid GetMartProductResponseProductVariantsInner> productVariants;
+    @com.fasterxml.jackson.annotation.JsonProperty("variants")
+    private List<@Valid GetMartProductResponseVariantsInner> variants;
 }
 

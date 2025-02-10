@@ -37,7 +37,7 @@ properties:
     $ref: ./ProductStatusEnum.yaml
   type:
     $ref: ./ProductTypeEnum.yaml
-  product_attributes:
+  attributes:
     type: array
     description: 产品属性
     items:
@@ -71,7 +71,7 @@ properties:
         value:
           type: string
           description: 属性值
-  product_variants:
+  variants:
     type: array
     description: 产品变体
     items:

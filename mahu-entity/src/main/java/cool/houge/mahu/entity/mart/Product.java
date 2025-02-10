@@ -61,14 +61,12 @@ public class Product {
     private Category category;
     /// 产品属性
     @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
-    private List<ProductAttribute> productAttributes;
+    private List<ProductAttribute> attributes;
     /// 产品变体
     @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
-    private List<ProductVariant> productVariants;
+    private List<ProductVariant> variants;
 
     public enum Type {
-        /// 无
-        NONE,
         /// 实体商品
         PHYSICAL,
         /// 虚拟商品

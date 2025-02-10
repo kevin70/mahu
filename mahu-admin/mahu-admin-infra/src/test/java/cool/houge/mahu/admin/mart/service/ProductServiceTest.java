@@ -34,7 +34,7 @@ class ProductServiceTest extends TestTransactionBase {
         var entity = productService.findById(4);
         entity.setName("UPDATE product");
 
-        var attributes = entity.getProductAttributes();
+        var attributes = entity.getAttributes();
         for (ProductAttribute attribute : attributes) {
             attribute.setValue("NEW " + attribute.getValue()).setAttributeValue(new AttributeValue().setId(-1));
         }
