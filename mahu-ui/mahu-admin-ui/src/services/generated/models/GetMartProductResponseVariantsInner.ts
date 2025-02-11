@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { ProductStatusEnum } from './ProductStatusEnum';
+import {
+    ProductStatusEnumFromJSON,
+    ProductStatusEnumFromJSONTyped,
+    ProductStatusEnumToJSON,
+    ProductStatusEnumToJSONTyped,
+} from './ProductStatusEnum';
+
 /**
  * 
  * @export
@@ -44,12 +52,44 @@ export interface GetMartProductResponseVariantsInner {
      */
     cover?: string;
     /**
-     * 数据版本
+     * 价格
      * @type {number}
      * @memberof GetMartProductResponseVariantsInner
      */
-    ver?: number;
+    price?: number;
+    /**
+     * 长度
+     * @type {number}
+     * @memberof GetMartProductResponseVariantsInner
+     */
+    length?: number;
+    /**
+     * 宽度
+     * @type {number}
+     * @memberof GetMartProductResponseVariantsInner
+     */
+    width?: number;
+    /**
+     * 高度
+     * @type {number}
+     * @memberof GetMartProductResponseVariantsInner
+     */
+    height?: number;
+    /**
+     * 重量
+     * @type {number}
+     * @memberof GetMartProductResponseVariantsInner
+     */
+    weight?: number;
+    /**
+     * 
+     * @type {ProductStatusEnum}
+     * @memberof GetMartProductResponseVariantsInner
+     */
+    status?: ProductStatusEnum;
 }
+
+
 
 /**
  * Check if a given object implements the GetMartProductResponseVariantsInner interface.
@@ -72,7 +112,12 @@ export function GetMartProductResponseVariantsInnerFromJSONTyped(json: any, igno
         'deleted': json['deleted'] == null ? undefined : json['deleted'],
         'qn': json['qn'] == null ? undefined : json['qn'],
         'cover': json['cover'] == null ? undefined : json['cover'],
-        'ver': json['ver'] == null ? undefined : json['ver'],
+        'price': json['price'] == null ? undefined : json['price'],
+        'length': json['length'] == null ? undefined : json['length'],
+        'width': json['width'] == null ? undefined : json['width'],
+        'height': json['height'] == null ? undefined : json['height'],
+        'weight': json['weight'] == null ? undefined : json['weight'],
+        'status': json['status'] == null ? undefined : ProductStatusEnumFromJSON(json['status']),
     };
 }
 
@@ -91,7 +136,12 @@ export function GetMartProductResponseVariantsInnerToJSONTyped(value?: GetMartPr
         'deleted': value['deleted'],
         'qn': value['qn'],
         'cover': value['cover'],
-        'ver': value['ver'],
+        'price': value['price'],
+        'length': value['length'],
+        'width': value['width'],
+        'height': value['height'],
+        'weight': value['weight'],
+        'status': ProductStatusEnumToJSON(value['status']),
     };
 }
 

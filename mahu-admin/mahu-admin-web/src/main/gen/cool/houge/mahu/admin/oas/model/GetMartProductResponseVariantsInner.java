@@ -12,7 +12,10 @@
 
 package cool.houge.mahu.admin.oas.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import cool.houge.mahu.admin.oas.model.ProductStatusEnum;
 import io.avaje.validation.constraints.*;
 
 
@@ -45,10 +48,40 @@ public class GetMartProductResponseVariantsInner {
     @com.fasterxml.jackson.annotation.JsonProperty("cover")
     private String cover;
     /**
-     * 数据版本
+     * 价格
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("ver")
-    private Integer ver;
+    @com.fasterxml.jackson.annotation.JsonProperty("price")
+    private Double price;
+    /**
+     * 长度
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("length")
+    private Long length;
+    /**
+     * 宽度
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("width")
+    private Long width;
+    /**
+     * 高度
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("height")
+    private Long height;
+    /**
+     * 重量
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("weight")
+    private Long weight;
+    /**
+     * Get status
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("status")
+    private ProductStatusEnum status;
 }
 

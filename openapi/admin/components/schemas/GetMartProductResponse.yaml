@@ -90,7 +90,25 @@ properties:
         cover:
           type: string
           description: 封面图片
-        ver:
+        price:
+          type: number
+          format: double
+          description: 价格
+        length:
           type: integer
-          format: int32
-          description: 数据版本
+          format: int64
+          description: 长度
+        width:
+          type: integer
+          format: int64
+          description: 宽度
+        height:
+          type: integer
+          format: int64
+          description: 高度
+        weight:
+          type: integer
+          format: int64
+          description: 重量
+        status:
+          $ref: ./ProductStatusEnum.yaml
