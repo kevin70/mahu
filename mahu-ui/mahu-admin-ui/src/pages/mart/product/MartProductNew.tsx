@@ -10,7 +10,6 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
-import { css } from '@emotion/react';
 import { Button, Card, Col, Divider, Form, message, Row, Space, Table } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
 import { useDynamicList } from 'ahooks';
@@ -20,6 +19,7 @@ import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
 import { BatchSetNumber } from './BatchSetNumber';
 import { ProductTypeEnum } from '@/services/generated';
 import { MART_API } from '@/services';
+import { css } from '@emotion/css';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);
@@ -79,7 +79,7 @@ export const MartProductNew = () => {
                   }}
                   label={
                     <HCloseButton
-                      css={css`
+                      className={css`
                         margin-left: var(--ant-margin);
                       `}
                       onClick={() => {
@@ -347,7 +347,7 @@ export const MartProductNew = () => {
         onFinish={async (values) => {
           await submit(values);
         }}
-        css={css`
+        className={css`
           display: flex;
           flex-direction: column;
           row-gap: var(--ant-margin);

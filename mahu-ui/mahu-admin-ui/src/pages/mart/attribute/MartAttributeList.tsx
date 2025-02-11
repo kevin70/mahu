@@ -19,7 +19,7 @@ import {
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
-import { css } from '@emotion/react';
+import { css } from '@emotion/css';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useCounter } from 'ahooks';
 import { Button, Form, Input, message, Space, Table } from 'antd';
@@ -377,7 +377,7 @@ export const MartAttributeList = () => {
                 title={() => {
                   return (
                     <div
-                      css={css`
+                      className={css`
                         display: flex;
                         justify-content: space-between;
                         align-items: center;

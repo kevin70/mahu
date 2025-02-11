@@ -4,7 +4,7 @@ import { useProfileStore, useTokenStore } from '@/stores';
 import { message, Spin } from 'antd';
 import { useAsyncEffect, useInterval, useTimeout, useUnmount } from 'ahooks';
 import { resolveApiError } from './services';
-import { css } from '@emotion/react';
+import { css } from '@emotion/css';
 
 function App() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function App() {
   const SplashScreen = () => {
     return (
       <div
-        css={css`
+        className={css`
           height: 100vh;
           width: 100vw;
           display: flex;
@@ -27,7 +27,7 @@ function App() {
       >
         <Spin size="large" tip="加载中...">
           <div
-            css={css`
+            className={css`
               padding: 50px;
             `}
           ></div>

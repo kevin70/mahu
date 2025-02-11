@@ -16,8 +16,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
     "@ant-design/pro-components": "^2.8.2",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
+    "@emotion/css": "^11.13.5",
     "@rsql/ast": "^1.6.0",
     "@rsql/builder": "^1.6.0",
     "@rsql/emitter": "^1.6.0",

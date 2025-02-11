@@ -19,7 +19,7 @@ import { IconContext } from 'react-icons';
 import { useSet } from 'ahooks';
 import { AlertProps } from 'antd/lib/index';
 import { ulid } from 'ulid';
-import { css } from '@emotion/react';
+import { css } from '@emotion/css';
 
 export const Root = () => {
   const isLightTheme = useAppStore(useShallow((state) => state.isLightTheme()));
@@ -32,7 +32,7 @@ export const Root = () => {
   const alertMessages = useMemo(() => Array.from(alertSet.values()), [alertSet]);
   const GlobalAlert = () => (
     <div
-      css={css`
+      className={css`
         position: fixed;
         top: 0;
         left: 0;

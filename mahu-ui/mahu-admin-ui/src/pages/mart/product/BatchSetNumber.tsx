@@ -1,5 +1,5 @@
 import { EditOutlined } from '@ant-design/icons';
-import { css } from '@emotion/react';
+import { css } from '@emotion/css';
 import { Button, InputNumber, Popconfirm } from 'antd';
 import { useState } from 'react';
 
@@ -17,7 +17,7 @@ export const BatchSetNumber = (props: BatchSetNumberProps) => {
       description={
         <InputNumber
           min={0}
-          css={css`
+          className={css`
             margin: var(--ant-margin-xs) 0;
             min-width: 240px;
           `}

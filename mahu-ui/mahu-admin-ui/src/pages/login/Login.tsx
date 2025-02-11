@@ -6,8 +6,8 @@ import { useMutation } from '@tanstack/react-query';
 import { Alert, Button, Divider, Flex, message, Space } from 'antd';
 import { useNavigate } from 'react-router';
 import { SwitchLang } from '@/components/SwitchLang';
-import { css } from '@emotion/react';
 import { SwitchTheme } from '@/components/SwitchTheme';
+import { css } from '@emotion/css';
 
 export const Login = () => {
   const title = import.meta.env.VITE_APP_TITLE;
@@ -54,7 +54,7 @@ export const Login = () => {
     <Flex vertical justify="center" align="center">
       <Divider plain>
         <span
-          css={css`
+          className={css`
             color: var(--ant-color-text-placeholder);
           `}
         >
@@ -70,13 +70,13 @@ export const Login = () => {
 
   return (
     <div
-      css={css`
+      className={css`
         height: 100vh;
         box-sizing: border-box;
       `}
     >
       <div
-        css={css`
+        className={css`
           z-index: 999;
           position: fixed;
           top: 20px;
@@ -134,7 +134,7 @@ export const Login = () => {
         <Flex
           justify="space-between"
           align="center"
-          css={css`
+          className={css`
             margin-block-end: var(--ant-margin);
           `}
         >

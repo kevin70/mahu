@@ -3,7 +3,7 @@ import { BASIS_API, MART_API, resolveApiError, uploadFile } from '@/services';
 import { useProfileStore } from '@/stores';
 import { DeleteOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckCard, ModalForm, PageContainer, ProFormUploadDragger } from '@ant-design/pro-components';
-import { css } from '@emotion/react';
+import { css } from '@emotion/css';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCounter, useMap } from 'ahooks';
 import { Alert, Button, Flex, FormInstance, Image, message, Modal, Space, Typography } from 'antd';
@@ -185,7 +185,7 @@ export const MartAssetList = () => {
             justify="center"
             wrap
             gap={'small'}
-            css={css`
+            className={css`
               max-height: 480px;
               overflow: auto;
             `}

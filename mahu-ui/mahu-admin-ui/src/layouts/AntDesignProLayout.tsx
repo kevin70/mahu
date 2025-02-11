@@ -8,9 +8,9 @@ import { KeyOutlined, LogoutOutlined, ProfileOutlined } from '@ant-design/icons'
 import { useMemo } from 'react';
 import { ItemType } from 'antd/es/menu/interface';
 import { SwitchLang } from '@/components/SwitchLang';
-import { css } from '@emotion/react';
 import { SwitchTheme } from '@/components/SwitchTheme';
 import { HSwitchShop } from '@/components/HSwitchShop';
+import { css } from '@emotion/css';
 
 export const AndDesignProLayout = () => {
   const location = useLocation();
@@ -52,7 +52,7 @@ export const AndDesignProLayout = () => {
     {
       icon: (
         <LogoutOutlined
-          css={css`
+          className={css`
             color: var(--ant-color-error);
           `}
         />

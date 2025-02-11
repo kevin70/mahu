@@ -2,11 +2,10 @@ import { MART_API } from '@/services';
 import { useProfileStore } from '@/stores';
 import { LoadingOutlined } from '@ant-design/icons';
 import { CheckCard } from '@ant-design/pro-components';
-import { css } from '@emotion/react';
+import { css, cx } from '@emotion/css';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSet } from 'ahooks';
 import { Button, Col, Flex, Form, Image, Modal, Row, Space, Typography } from 'antd';
-import { useWatch } from 'antd/es/form/Form';
 import { CSSProperties, useEffect, useState } from 'react';
 import { IoIosImage, IoIosImages } from 'react-icons/io';
 import { useInView } from 'react-intersection-observer';
@@ -69,12 +68,12 @@ const ImagePanel = ({ value, onChange }: { value?: string[]; onChange(value: str
             <Col
               key={o.id}
               span={6}
-              css={css`
+              className={css`
                 padding: var(--ant-padding-xs);
               `}
             >
               <CheckCard
-                css={css`
+                className={css`
                   max-width: 100%;
                 `}
                 checked={selectedAssets.has(o.uri)}
@@ -93,7 +92,7 @@ const ImagePanel = ({ value, onChange }: { value?: string[]; onChange(value: str
       </Row>
       <div
         ref={ref}
-        css={css`
+        className={css`
           display: flex;
           justify-content: center;
         `}
@@ -130,7 +129,7 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
             '--h': (props.height || 96) + 'px',
           } as CSSProperties
         }
-        css={[
+        className={cx(
           css`
             width: var(--w);
             height: var(--h);
@@ -141,17 +140,21 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
             justify-content: center;
             align-items: center;
           `,
-          css([
-            selectedAsset && {
-              backgroundImage: `url(${selectedAsset})`,
-              backgroundSize: 'cover',
-              border: 'none',
-            },
-            errors.length > 0 && {
-              borderColor: 'var(--ant-color-error)',
-            },
-          ]),
-        ]}
+
+          // 选中状态
+          selectedAsset &&
+            css`
+              background-image: url(${selectedAsset});
+              background-size: cover;
+              border: none;
+            `,
+
+          // 错误状态
+          errors.length > 0 &&
+            css`
+              border-color: var(--ant-color-error);
+            `
+        )}
       >
         <IoIosImage size={24} />
       </div>
@@ -167,7 +170,7 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
         width={1000}
       >
         <div
-          css={css`
+          className={css`
             max-height: 700px;
             overflow: auto;
           `}
@@ -201,7 +204,7 @@ export const HAssetMultipleSelect = (props: HAssetMultipleSelectProps) => {
       <Button
         type="dashed"
         onClick={() => setOpen(true)}
-        css={css`
+        className={css`
           width: 96px;
           height: 96px;
           color: var(--ant-color-text-placeholder);
@@ -223,7 +226,7 @@ export const HAssetMultipleSelect = (props: HAssetMultipleSelectProps) => {
         <Row>
           <Col
             span={4}
-            css={css`
+            className={css`
               display: flex;
               flex-direction: column;
               row-gap: var(--ant-margin-sm);
@@ -238,7 +241,7 @@ export const HAssetMultipleSelect = (props: HAssetMultipleSelectProps) => {
           </Col>
           <Col
             span={20}
-            css={css`
+            className={css`
               max-height: 700px;
               overflow: auto;
               border-left: 4px solid var(--ant-color-border);

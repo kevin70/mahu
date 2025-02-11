@@ -12,8 +12,8 @@ import { DepartmentTreeSelect } from '@/components/system/DepartmentTreeSelect';
 import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
 import { useState } from 'react';
 import { HIncludeDetedCheckBox } from '@/components/HIncludeDeletedCheckbox';
-import { css } from '@emotion/react';
 import { useTableHelper } from '@/hooks/useTableHelper';
+import { css } from '@emotion/css';
 
 export const EmployeeList = () => {
   const noWrite = $checkNotPermit(permits.DEPARTMENT.W);
@@ -46,7 +46,7 @@ export const EmployeeList = () => {
           rsqlOps.comparisonEx('department_id', '=in=', values.searchDepartmentIds),
         ]);
       }}
-      css={css`
+      className={css`
         & > .ant-form-item {
           min-width: 240px;
         }
