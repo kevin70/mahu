@@ -82,6 +82,7 @@ export const Root = () => {
           theme={{
             algorithm: isLightTheme ? theme.defaultAlgorithm : theme.darkAlgorithm,
             cssVar: true,
+            hashed: false,
             token: {
               borderRadius: 0,
             },

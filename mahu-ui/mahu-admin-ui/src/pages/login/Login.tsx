@@ -79,16 +79,17 @@ export const Login = () => {
         className={css`
           z-index: 999;
           position: fixed;
-          top: 20px;
-          right: 20px;
-          color: var(--ant-blue);
+          top: 0;
+          right: 0;
+          background-color: var(--ant-color-primary-bg);
           display: flex;
           align-items: center;
+          padding: 4px;
           gap: 4px;
         `}
       >
-        <SwitchTheme />,
-        <SwitchLang />,
+        <SwitchTheme />
+        <SwitchLang />
       </div>
 
       <LoginFormPage
