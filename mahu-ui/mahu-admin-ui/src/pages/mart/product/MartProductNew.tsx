@@ -20,11 +20,15 @@ import { BatchSetNumber } from './BatchSetNumber';
 import { ProductTypeEnum } from '@/services/generated';
 import { MART_API } from '@/services';
 import { css } from '@styled-system/css';
+import { useState } from 'react';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);
   const variantAttributeList = useDynamicList<number>([]);
   const [form] = useForm();
+
+  // 变体的限定名称
+  const [variantErrors, setVariantErrors] = useState<string[]>([]);
 
   const basicPanel = (
     <Card title="产品信息">
@@ -192,7 +196,41 @@ export const MartProductNew = () => {
             </Space>
           }
         >
-          <Table dataSource={variants} pagination={false} rowKey={'key'}>
+          <Table
+            dataSource={variants}
+            pagination={false}
+            rowKey={'key'}
+            summary={() => {
+              if (variantErrors.length === 0) {
+                return <></>;
+              }
+
+              return (
+                <div
+                  className={css`
+                    color: var(--ant-color-error);
+                  `}
+                >
+                  产品规格错误
+                  {variantErrors.map((e) => (
+                    <div
+                      className={css`
+                        padding-left: var(--ant-padding-md);
+                      `}
+                    >
+                      {e}
+                    </div>
+                  ))}
+                </div>
+              );
+            }}
+          >
+            <Table.Column
+              title="#"
+              render={(_row, _record, rowIdx) => {
+                return <>{rowIdx + 1}</>;
+              }}
+            />
             <Table.Column
               title="封面"
               render={(_row, _record, rowIdx) => {
@@ -330,11 +368,34 @@ export const MartProductNew = () => {
     </Form.List>
   );
 
+  // 生成限定名称
   const submit = async (values: any) => {
     console.log('new product', values);
+
     MART_API.addMartProduct({ upsertMartProductRequest: values });
     message.success('新增成功');
     // form.resetFields();
+  };
+
+  const preCheck = (values: any) => {
+    const variants = values.variants || [];
+
+    // 限定名
+    const qns: string[] = [];
+    const variantErrors: string[] = [];
+    variants.forEach((variant: any) => {
+      const qn = (variant.attributes || []).map((o: any) => o.value).join('|');
+
+      debugger;
+      if (qns.indexOf(qn) === -1) {
+        qns.push(qn);
+      } else {
+        variantErrors.push('产品规格重复[' + qn + ']');
+      }
+    });
+
+    setVariantErrors(variantErrors);
+    return qns.length === variants.length;
   };
 
   return (
@@ -345,6 +406,9 @@ export const MartProductNew = () => {
           render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
         }}
         onFinish={async (values) => {
+          if (!preCheck(values)) {
+            return false;
+          }
           await submit(values);
         }}
         className={css`
