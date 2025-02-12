@@ -23,4 +23,11 @@ export default defineConfig({
 
   // The CSS Syntax to use to use
   syntax: 'template-literal',
+
+  // 全局样式
+  globalCss: {
+    '*': {
+      scrollbarWidth: 'thin',
+    },
+  },
 });
