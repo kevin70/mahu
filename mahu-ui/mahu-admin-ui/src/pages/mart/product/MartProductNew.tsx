@@ -19,7 +19,7 @@ import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
 import { BatchSetNumber } from './BatchSetNumber';
 import { ProductTypeEnum } from '@/services/generated';
 import { MART_API } from '@/services';
-import { css } from '@emotion/css';
+import { css } from '@styled-system/css';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);

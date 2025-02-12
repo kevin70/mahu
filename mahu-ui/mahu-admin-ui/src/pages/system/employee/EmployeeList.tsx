@@ -13,7 +13,7 @@ import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
 import { useState } from 'react';
 import { HIncludeDetedCheckBox } from '@/components/HIncludeDeletedCheckbox';
 import { useTableHelper } from '@/hooks/useTableHelper';
-import { css } from '@emotion/css';
+import { css } from '@styled-system/css';
 
 export const EmployeeList = () => {
   const noWrite = $checkNotPermit(permits.DEPARTMENT.W);

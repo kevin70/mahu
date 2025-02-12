@@ -4,7 +4,7 @@ import { useProfileStore, useTokenStore } from '@/stores';
 import { message, Spin } from 'antd';
 import { useAsyncEffect, useInterval, useTimeout, useUnmount } from 'ahooks';
 import { resolveApiError } from './services';
-import { css } from '@emotion/css';
+import { css } from '@styled-system/css';
 
 function App() {
   const navigate = useNavigate();

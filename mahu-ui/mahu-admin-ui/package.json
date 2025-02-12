@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "prepare": "panda codegen --clean",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -16,7 +17,6 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
     "@ant-design/pro-components": "^2.8.2",
-    "@emotion/css": "^11.13.5",
     "@rsql/ast": "^1.6.0",
     "@rsql/builder": "^1.6.0",
     "@rsql/emitter": "^1.6.0",
@@ -40,6 +40,7 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@openapitools/openapi-generator-cli": "^2.15.3",
+    "@pandacss/dev": "^0.53.0",
     "@redocly/cli": "^1.26.0",
     "@types/react": "^18.3.14",
     "@types/react-dom": "^18.3.3",

@@ -1,5 +1,5 @@
 import { EditOutlined } from '@ant-design/icons';
-import { css } from '@emotion/css';
+import { css } from '@styled-system/css';
 import { Button, InputNumber, Popconfirm } from 'antd';
 import { useState } from 'react';
 

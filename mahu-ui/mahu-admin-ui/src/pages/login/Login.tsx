@@ -7,7 +7,7 @@ import { Alert, Button, Divider, Flex, message, Space } from 'antd';
 import { useNavigate } from 'react-router';
 import { SwitchLang } from '@/components/SwitchLang';
 import { SwitchTheme } from '@/components/SwitchTheme';
-import { css } from '@emotion/css';
+import { css } from '@styled-system/css';
 
 export const Login = () => {
   const title = import.meta.env.VITE_APP_TITLE;

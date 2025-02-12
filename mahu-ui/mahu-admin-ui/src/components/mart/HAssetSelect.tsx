@@ -2,11 +2,11 @@ import { MART_API } from '@/services';
 import { useProfileStore } from '@/stores';
 import { LoadingOutlined } from '@ant-design/icons';
 import { CheckCard } from '@ant-design/pro-components';
-import { css, cx } from '@emotion/css';
+import { css } from '@styled-system/css';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSet } from 'ahooks';
 import { Button, Col, Flex, Form, Image, Modal, Row, Space, Typography } from 'antd';
-import { CSSProperties, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosImage, IoIosImages } from 'react-icons/io';
 import { useInView } from 'react-intersection-observer';
 import { useShallow } from 'zustand/shallow';
@@ -123,40 +123,23 @@ export const HAssetSelect = (props: HAssetSelectProps) => {
     <Flex gap={'middle'}>
       <div
         onClick={() => setOpen(true)}
-        style={
-          {
-            '--w': (props.width || 96) + 'px',
-            '--h': (props.height || 96) + 'px',
-          } as CSSProperties
-        }
-        className={cx(
-          css`
-            width: var(--w);
-            height: var(--h);
-            cursor: pointer;
-            border: 1px dashed var(--ant-color-border);
-            color: var(--ant-color-text-placeholder);
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-          `,
+        className={css`
+          width: 96px;
+          height: 96px;
+          cursor: pointer;
+          border: 1px dashed var(--ant-color-border);
+          color: var(--ant-color-text-placeholder);
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
 
-          // 选中状态
-          selectedAsset &&
-            css`
-              background-image: url(${selectedAsset});
-              background-size: cover;
-              border: none;
-            `,
-
-          // 错误状态
-          errors.length > 0 &&
-            css`
-              border-color: var(--ant-color-error);
-            `
-        )}
+          &[data-invalid='true'] {
+            border-color: var(--ant-color-error) !important;
+          }
+        `}
+        data-invalid={errors.length > 0}
       >
-        <IoIosImage size={24} />
+        {selectedAsset ? <Image src={selectedAsset} height={96} width={96} /> : <IoIosImage size={24} />}
       </div>
 
       <Modal
@@ -205,12 +188,16 @@ export const HAssetMultipleSelect = (props: HAssetMultipleSelectProps) => {
         type="dashed"
         onClick={() => setOpen(true)}
         className={css`
-          width: 96px;
-          height: 96px;
-          color: var(--ant-color-text-placeholder);
+          width: 96px !important;
+          height: 96px !important;
         `}
       >
-        <IoIosImages size={32} />
+        <IoIosImages
+          size={32}
+          className={css`
+            color: var(--ant-color-text-placeholder);
+          `}
+        />
       </Button>
 
       <Modal

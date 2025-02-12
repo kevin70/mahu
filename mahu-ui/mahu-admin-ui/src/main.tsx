@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import 'antd/dist/reset.css';
 import { Alert, ConfigProvider, theme } from 'antd';
+import './index.css';
 
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
@@ -19,7 +20,7 @@ import { IconContext } from 'react-icons';
 import { useSet } from 'ahooks';
 import { AlertProps } from 'antd/lib/index';
 import { ulid } from 'ulid';
-import { css } from '@emotion/css';
+import { css } from '@styled-system/css';
 
 export const Root = () => {
   const isLightTheme = useAppStore(useShallow((state) => state.isLightTheme()));
