@@ -65,6 +65,9 @@ public class Product {
     /// 产品变体
     @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
     private List<ProductVariant> variants;
+    /// 产品变体属性
+    @OneToMany(mappedBy = "product")
+    private List<ProductVariantAttribute> variantAttributes;
 
     public enum Type {
         /// 实体商品

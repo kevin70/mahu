@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+/// 产品变体属性
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
@@ -32,13 +33,13 @@ public class ProductVariantAttribute {
     private boolean deleted;
     /// 产品
     @ManyToOne
-    private ProductVariant variant;
+    private Product product;
+    /// 产品变体
+    @ManyToOne
+    private ProductVariant productVariant;
     /// 产品属性
     @ManyToOne
     private ProductAttribute attribute;
-    /// 产品属性值
-    @ManyToOne
-    private AttributeValue attributeValue;
-    /// 属性值（适用手动输入的属性）
+    /// 属性值
     private String value;
 }

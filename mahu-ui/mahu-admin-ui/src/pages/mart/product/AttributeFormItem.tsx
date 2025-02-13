@@ -1,7 +1,6 @@
 import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
 import { GetMartAttributeResponse } from '@/services/generated';
 import { Form, FormItemProps, Input, Select, Space } from 'antd';
-import { useEffect } from 'react';
 
 interface AttributeFormItem {
   attributeId: number;
@@ -24,7 +23,7 @@ export const AttributeFormItem = ({
         }
 
         if (data?.valueType === 'SELECT') {
-          const options = data?.attributeValues?.map((o) => ({ label: o.value, value: o.id }));
+          const options = data?.attributeValues?.map((o) => ({ label: o.value, value: o.value }));
           return (
             <Form.Item
               label={
@@ -33,7 +32,7 @@ export const AttributeFormItem = ({
                   {label}
                 </Space>
               }
-              name={[...name, 'attributeValueId']}
+              name={[...name, 'value']}
               rules={[{ required, message: '请选择属性值' }]}
               {...otherProps}
             >

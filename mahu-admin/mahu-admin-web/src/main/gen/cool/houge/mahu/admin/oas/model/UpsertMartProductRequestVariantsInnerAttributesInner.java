@@ -34,15 +34,10 @@ public class UpsertMartProductRequestVariantsInnerAttributesInner {
     @com.fasterxml.jackson.annotation.JsonProperty("attribute_id")
     private Integer attributeId;
     /**
-     * 属性值 ID
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("attribute_value_id")
-    private Integer attributeValueId;
-    /**
      * 属性值
      */
-  
+    @NotNull
+ @Size(max=400)
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
 }

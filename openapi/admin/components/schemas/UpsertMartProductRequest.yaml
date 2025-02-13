@@ -27,6 +27,7 @@ properties:
       type: object
       required:
         - attribute_id
+        - value
       properties:
         id:
           type: integer
@@ -36,13 +37,10 @@ properties:
           type: integer
           format: int32
           description: 属性 ID
-        attribute_value_id:
-          type: integer
-          format: int32
-          description: 属性值 ID
         value:
           type: string
-          description: 属性值（手动输入）
+          description: 属性值
+          maxLength: 400
   variants:
     type: array
     description: 产品变体
@@ -84,6 +82,7 @@ properties:
             type: object
             required:
               - attribute_id
+              - value
             properties:
               id:
                 type: integer
@@ -93,10 +92,7 @@ properties:
                 type: integer
                 format: int32
                 description: 属性 ID
-              attribute_value_id:
-                type: integer
-                format: int32
-                description: 属性值 ID
               value:
                 type: string
                 description: 属性值
+                maxLength: 400

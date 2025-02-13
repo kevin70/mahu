@@ -48,6 +48,7 @@ properties:
         - attribute_id
         - attribute_name
         - attribute_value_type
+        - value
       properties:
         id:
           type: integer

@@ -68,7 +68,7 @@ export interface GetMartProductResponseAttributesInner {
      * @type {string}
      * @memberof GetMartProductResponseAttributesInner
      */
-    value?: string;
+    value: string;
 }
 
 
@@ -82,6 +82,7 @@ export function instanceOfGetMartProductResponseAttributesInner(value: object): 
     if (!('attributeId' in value) || value['attributeId'] === undefined) return false;
     if (!('attributeName' in value) || value['attributeName'] === undefined) return false;
     if (!('attributeValueType' in value) || value['attributeValueType'] === undefined) return false;
+    if (!('value' in value) || value['value'] === undefined) return false;
     return true;
 }
 
@@ -101,7 +102,7 @@ export function GetMartProductResponseAttributesInnerFromJSONTyped(json: any, ig
         'attributeName': json['attribute_name'],
         'attributeValueType': AttributeValueTypeEnumFromJSON(json['attribute_value_type']),
         'attributeRemark': json['attribute_remark'] == null ? undefined : json['attribute_remark'],
-        'value': json['value'] == null ? undefined : json['value'],
+        'value': json['value'],
     };
 }
 

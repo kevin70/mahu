@@ -12,7 +12,7 @@ import {
 } from '@ant-design/pro-components';
 import { Button, Card, Col, Divider, Form, message, Row, Space, Table } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
-import { useDynamicList } from 'ahooks';
+import { useDynamicList, useSet } from 'ahooks';
 import { useForm } from 'antd/es/form/Form';
 import { HCloseButton } from '@/components/HCloseButton';
 import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
@@ -28,7 +28,7 @@ export const MartProductNew = () => {
   const [form] = useForm();
 
   // 变体的限定名称
-  const [variantErrors, setVariantErrors] = useState<string[]>([]);
+  const [variantErrors, variantErrorOpts] = useSet<number>([]);
 
   const basicPanel = (
     <Card title="产品信息">
@@ -201,7 +201,7 @@ export const MartProductNew = () => {
             pagination={false}
             rowKey={'key'}
             summary={() => {
-              if (variantErrors.length === 0) {
+              if (variantErrors.size === 0) {
                 return <></>;
               }
 
@@ -209,18 +209,10 @@ export const MartProductNew = () => {
                 <div
                   className={css`
                     color: var(--ant-color-error);
+                    font-weight: 600;
                   `}
                 >
-                  产品规格错误
-                  {variantErrors.map((e) => (
-                    <div
-                      className={css`
-                        padding-left: var(--ant-padding-md);
-                      `}
-                    >
-                      {e}
-                    </div>
-                  ))}
+                  产品规格重复
                 </div>
               );
             }}
@@ -277,7 +269,9 @@ export const MartProductNew = () => {
                         noStyle
                         name={[rowIdx, 'attributes', attributeIdx]}
                         attributeId={o}
+                        validateStatus={variantErrors.has(rowIdx) ? 'error' : ''}
                         rules={[{ required: true }]}
+                        normalize={(value) => value.trim()}
                       />
                     );
                   }}
@@ -377,24 +371,21 @@ export const MartProductNew = () => {
     // form.resetFields();
   };
 
+  // 检查产品规格
   const preCheck = (values: any) => {
     const variants = values.variants || [];
 
     // 限定名
     const qns: string[] = [];
-    const variantErrors: string[] = [];
-    variants.forEach((variant: any) => {
-      const qn = (variant.attributes || []).map((o: any) => o.value).join('|');
-
-      debugger;
+    variants.forEach((variant: any, i: number) => {
+      const qn = (variant.attributes || []).map((o: any) => o.value ?? o.attributeValueId).join('|');
       if (qns.indexOf(qn) === -1) {
         qns.push(qn);
+        variantErrorOpts.remove(i);
       } else {
-        variantErrors.push('产品规格重复[' + qn + ']');
+        variantErrorOpts.add(i);
       }
     });
-
-    setVariantErrors(variantErrors);
     return qns.length === variants.length;
   };
 

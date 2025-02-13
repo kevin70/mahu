@@ -32,17 +32,11 @@ export interface UpsertMartProductRequestAttributesInner {
      */
     attributeId: number;
     /**
-     * 属性值 ID
-     * @type {number}
-     * @memberof UpsertMartProductRequestAttributesInner
-     */
-    attributeValueId?: number;
-    /**
-     * 属性值（手动输入）
+     * 属性值
      * @type {string}
      * @memberof UpsertMartProductRequestAttributesInner
      */
-    value?: string;
+    value: string;
 }
 
 /**
@@ -50,6 +44,7 @@ export interface UpsertMartProductRequestAttributesInner {
  */
 export function instanceOfUpsertMartProductRequestAttributesInner(value: object): value is UpsertMartProductRequestAttributesInner {
     if (!('attributeId' in value) || value['attributeId'] === undefined) return false;
+    if (!('value' in value) || value['value'] === undefined) return false;
     return true;
 }
 
@@ -65,8 +60,7 @@ export function UpsertMartProductRequestAttributesInnerFromJSONTyped(json: any, 
         
         'id': json['id'] == null ? undefined : json['id'],
         'attributeId': json['attribute_id'],
-        'attributeValueId': json['attribute_value_id'] == null ? undefined : json['attribute_value_id'],
-        'value': json['value'] == null ? undefined : json['value'],
+        'value': json['value'],
     };
 }
 
@@ -83,7 +77,6 @@ export function UpsertMartProductRequestAttributesInnerToJSONTyped(value?: Upser
         
         'id': value['id'],
         'attribute_id': value['attributeId'],
-        'attribute_value_id': value['attributeValueId'],
         'value': value['value'],
     };
 }

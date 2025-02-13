@@ -67,7 +67,8 @@ public class GetMartProductResponseAttributesInner {
     /**
      * 属性值
      */
-  
+    @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
 }

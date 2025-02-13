@@ -38,8 +38,5 @@ public class ProductAttribute {
     @ManyToOne
     private Attribute attribute;
     /// 属性值
-    @ManyToOne
-    private AttributeValue attributeValue;
-    /// 属性值（适用手动输入的属性）
     private String value;
 }

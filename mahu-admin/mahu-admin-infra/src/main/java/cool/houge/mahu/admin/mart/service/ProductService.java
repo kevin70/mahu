@@ -6,10 +6,15 @@ import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.mart.Product;
 import cool.houge.mahu.entity.mart.ProductStatus;
 import cool.houge.mahu.entity.mart.ProductVariant;
+import cool.houge.mahu.entity.mart.ProductVariantAttribute;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+
+import java.util.List;
+
+import static java.util.Optional.ofNullable;
 
 /// 产品
 ///
@@ -30,6 +35,12 @@ public class ProductService {
 
         for (ProductVariant variant : product.getVariants()) {
             variant.setStatus(ProductStatus.DRAFT);
+
+            // 变体属性与产品关联
+            var attributes = ofNullable(variant.getAttributes()).orElseGet(List::of);
+            for (ProductVariantAttribute o : attributes) {
+                o.setProduct(product);
+            }
         }
         productRepository.save(product);
     }
