@@ -7,7 +7,7 @@ buildscript {
         guavaVersion = "33.1.0-jre"
         postgresqlVersion = "42.7.4"
         hikariVersion = "5.1.0"
-        avajeInjectVersion = "11.0"
+        avajeInjectVersion = "11.2"
         avajeValidatorVersion = "2.3"
         helidonVersion = "4.1.0"
         jacksonVersion = "2.17.0"
