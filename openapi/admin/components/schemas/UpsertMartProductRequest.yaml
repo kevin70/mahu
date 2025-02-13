@@ -95,4 +95,5 @@ properties:
               value:
                 type: string
                 description: 属性值
-                maxLength: 400
+                minLength: 1
+                maxLength: 32
