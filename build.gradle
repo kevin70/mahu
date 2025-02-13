@@ -12,7 +12,7 @@ buildscript {
         helidonVersion = "4.1.0"
         jacksonVersion = "2.17.0"
         log4jVersion = "2.23.1"
-        ebeanVersion = "15.8.1"
+        ebeanVersion = "15.9.0"
         rsqlVersion = "2.3.3"
         caffeineVersion = "3.1.8"
         password4jVersion = "1.8.1"
@@ -32,7 +32,7 @@ buildscript {
 plugins {
     id "java"
     id "application"
-    id "io.ebean" version "15.8.1"
+    id "io.ebean" version "15.9.0"
     id "org.hidetake.ssh" version "2.11.2"
     id "com.github.johnrengelman.shadow" version "8.1.1" apply false
     id "com.bmuschko.docker-remote-api" version "9.3.1"
