@@ -28,6 +28,7 @@ models/GetMartAttributeValueResponse.ts
 models/GetMartProductResponse.ts
 models/GetMartProductResponseAttributesInner.ts
 models/GetMartProductResponseVariantsInner.ts
+models/GetMartProductResponseVariantsInnerAttributesInner.ts
 models/GetMeProfileResponse.ts
 models/GetMeProfileResponseDepartment.ts
 models/GetMeProfileResponseShopsInner.ts

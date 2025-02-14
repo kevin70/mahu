@@ -60,14 +60,13 @@ public class Product {
     @ManyToOne
     private Category category;
     /// 产品属性
-    @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OrderBy("id")
     private List<ProductAttribute> attributes;
     /// 产品变体
     @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
+    @OrderBy("id")
     private List<ProductVariant> variants;
-    /// 产品变体属性
-    @OneToMany(mappedBy = "product")
-    private List<ProductVariantAttribute> variantAttributes;
 
     public enum Type {
         /// 实体商品

@@ -59,6 +59,7 @@ public class ProductVariant {
     /// 重量
     private Integer weight;
     /// 产品变体属性
-    @OneToMany(mappedBy = "productVariant", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "productVariant", cascade = CascadeType.ALL)
+    @OrderBy("id")
     private List<ProductVariantAttribute> attributes;
 }

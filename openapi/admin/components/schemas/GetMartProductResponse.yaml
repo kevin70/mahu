@@ -87,7 +87,7 @@ properties:
           description: 软删除的
         qn:
           type: string
-          description: 限定名称
+          description: 限定名
         cover:
           type: string
           description: 封面图片
@@ -113,3 +113,38 @@ properties:
           description: 重量
         status:
           $ref: ./ProductStatusEnum.yaml
+        attributes:
+          type: array
+          description: 产品变体属性
+          items:
+            type: object
+            required:
+              - id
+              - deleted
+              - attribute_id
+              - attribute_name
+              - attribute_value_type
+              - value
+            properties:
+              id:
+                type: integer
+                format: int32
+                description: 产品变体属性 ID
+              deleted:
+                type: boolean
+                description: 软删除的
+              attribute_id:
+                type: integer
+                format: int32
+                description: 属性 ID
+              attribute_name:
+                type: string
+                description: 属性名称
+              attribute_value_type:
+                $ref: ./AttributeValueTypeEnum.yaml
+              attribute_remark:
+                type: string
+                description: 属性备注
+              value:
+                type: string
+                description: 属性值

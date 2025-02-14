@@ -22,6 +22,7 @@ export * from './GetMartAttributeValueResponse';
 export * from './GetMartProductResponse';
 export * from './GetMartProductResponseAttributesInner';
 export * from './GetMartProductResponseVariantsInner';
+export * from './GetMartProductResponseVariantsInnerAttributesInner';
 export * from './GetMeProfileResponse';
 export * from './GetMeProfileResponseDepartment';
 export * from './GetMeProfileResponseShopsInner';

@@ -15,7 +15,11 @@ package cool.houge.mahu.admin.oas.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import cool.houge.mahu.admin.oas.model.GetMartProductResponseVariantsInnerAttributesInner;
 import cool.houge.mahu.admin.oas.model.ProductStatusEnum;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import io.avaje.validation.constraints.*;
 
 
@@ -36,7 +40,7 @@ public class GetMartProductResponseVariantsInner {
     @com.fasterxml.jackson.annotation.JsonProperty("deleted")
     private Boolean deleted;
     /**
-     * 限定名称
+     * 限定名
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("qn")
@@ -83,5 +87,11 @@ public class GetMartProductResponseVariantsInner {
   
     @com.fasterxml.jackson.annotation.JsonProperty("status")
     private ProductStatusEnum status;
+    /**
+     * 产品变体属性
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("attributes")
+    private List<@Valid GetMartProductResponseVariantsInnerAttributesInner> attributes;
 }
 

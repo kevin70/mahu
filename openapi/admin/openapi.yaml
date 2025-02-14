@@ -84,6 +84,8 @@ paths:
     $ref: paths/mart_attributes_{attribute_id}_values_{attribute_value_id}.yaml
   /mart/products:
     $ref: paths/mart_products.yaml
+  /mart/products/{product_id}:
+    $ref: paths/mart_products_{product_id}.yaml
 
   /samples:
     get:

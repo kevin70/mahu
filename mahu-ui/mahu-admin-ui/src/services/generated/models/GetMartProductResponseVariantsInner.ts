@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { GetMartProductResponseVariantsInnerAttributesInner } from './GetMartProductResponseVariantsInnerAttributesInner';
+import {
+    GetMartProductResponseVariantsInnerAttributesInnerFromJSON,
+    GetMartProductResponseVariantsInnerAttributesInnerFromJSONTyped,
+    GetMartProductResponseVariantsInnerAttributesInnerToJSON,
+    GetMartProductResponseVariantsInnerAttributesInnerToJSONTyped,
+} from './GetMartProductResponseVariantsInnerAttributesInner';
 import type { ProductStatusEnum } from './ProductStatusEnum';
 import {
     ProductStatusEnumFromJSON,
@@ -40,7 +47,7 @@ export interface GetMartProductResponseVariantsInner {
      */
     deleted?: boolean;
     /**
-     * 限定名称
+     * 限定名
      * @type {string}
      * @memberof GetMartProductResponseVariantsInner
      */
@@ -87,6 +94,12 @@ export interface GetMartProductResponseVariantsInner {
      * @memberof GetMartProductResponseVariantsInner
      */
     status?: ProductStatusEnum;
+    /**
+     * 产品变体属性
+     * @type {Array<GetMartProductResponseVariantsInnerAttributesInner>}
+     * @memberof GetMartProductResponseVariantsInner
+     */
+    attributes?: Array<GetMartProductResponseVariantsInnerAttributesInner>;
 }
 
 
@@ -118,6 +131,7 @@ export function GetMartProductResponseVariantsInnerFromJSONTyped(json: any, igno
         'height': json['height'] == null ? undefined : json['height'],
         'weight': json['weight'] == null ? undefined : json['weight'],
         'status': json['status'] == null ? undefined : ProductStatusEnumFromJSON(json['status']),
+        'attributes': json['attributes'] == null ? undefined : ((json['attributes'] as Array<any>).map(GetMartProductResponseVariantsInnerAttributesInnerFromJSON)),
     };
 }
 
@@ -142,6 +156,7 @@ export function GetMartProductResponseVariantsInnerToJSONTyped(value?: GetMartPr
         'height': value['height'],
         'weight': value['weight'],
         'status': ProductStatusEnumToJSON(value['status']),
+        'attributes': value['attributes'] == null ? undefined : ((value['attributes'] as Array<any>).map(GetMartProductResponseVariantsInnerAttributesInnerToJSON)),
     };
 }
 

@@ -29,6 +29,7 @@ public class ProductController implements WebSupport, HttpService {
     @Override
     public void routing(HttpRules rules) {
         rules.get("/mart/products", authz(MART_PRODUCT.R()).wrap(this::listMartProducts));
+        rules.get("/mart/products/{product_id}", authz(MART_PRODUCT.R()).wrap(this::getMartProduct));
 
         rules.post("/mart/products", authz(MART_PRODUCT.W()).wrap(this::addMartProduct));
         rules.put("/mart/products/{product_id}", authz(MART_PRODUCT.W()).wrap(this::updateMartProduct));
@@ -39,6 +40,15 @@ public class ProductController implements WebSupport, HttpService {
         var plist = productService.findPage(dataFilter);
         var rs =
                 beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetMartProductResponse);
+        response.send(rs);
+    }
+
+    private void getMartProduct(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var productId = pathParams.first("product_id").asLong().get();
+
+        var bean = productService.findById(productId);
+        var rs = beanMapper.toGetMartProductResponse(bean);
         response.send(rs);
     }
 
@@ -60,7 +70,7 @@ public class ProductController implements WebSupport, HttpService {
         validate(vo);
 
         var entity = beanMapper.toProduct(vo).setId(productId);
-        productService.save(entity);
+        productService.update(entity);
         response.status(NO_CONTENT_204).send();
     }
 }

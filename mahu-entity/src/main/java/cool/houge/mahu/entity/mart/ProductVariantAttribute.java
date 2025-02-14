@@ -37,9 +37,9 @@ public class ProductVariantAttribute {
     /// 产品变体
     @ManyToOne
     private ProductVariant productVariant;
-    /// 产品属性
+    /// 属性
     @ManyToOne
-    private ProductAttribute attribute;
+    private Attribute attribute;
     /// 属性值
     private String value;
 }

@@ -19,6 +19,7 @@ import type {
   BatchDeleteShopAssetRequest,
   GetMartAttributeResponse,
   GetMartAttributeValueResponse,
+  GetMartProductResponse,
   GetShopResponse,
   ListMartAttributesPageResponse,
   ListMartProductsPageResponse,
@@ -38,6 +39,8 @@ import {
     GetMartAttributeResponseToJSON,
     GetMartAttributeValueResponseFromJSON,
     GetMartAttributeValueResponseToJSON,
+    GetMartProductResponseFromJSON,
+    GetMartProductResponseToJSON,
     GetShopResponseFromJSON,
     GetShopResponseToJSON,
     ListMartAttributesPageResponseFromJSON,
@@ -94,6 +97,10 @@ export interface DeleteMartAttributeValueRequest {
     attributeValueId?: number;
 }
 
+export interface DeleteMartProductRequest {
+    productId?: number;
+}
+
 export interface DeleteShopRequest {
     id?: number;
 }
@@ -105,6 +112,10 @@ export interface GetMartAttributeRequest {
 export interface GetMartAttributeValueRequest {
     attributeId?: number;
     attributeValueId?: number;
+}
+
+export interface GetMartProductRequest {
+    productId?: number;
 }
 
 export interface GetShopRequest {
@@ -157,6 +168,11 @@ export interface UpdateMartAttributeValueRequest {
     upsertMartAttributeValueRequest: UpsertMartAttributeValueRequest;
     attributeId?: number;
     attributeValueId?: number;
+}
+
+export interface UpdateMartProductRequest {
+    upsertMartProductRequest: UpsertMartProductRequest;
+    productId?: number;
 }
 
 export interface UpdateShopRequest {
@@ -508,6 +524,39 @@ export class MartApi extends runtime.BaseAPI {
     }
 
     /**
+     * 删除产品
+     */
+    async deleteMartProductRaw(requestParameters: DeleteMartProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/mart/products/{product_id}`.replace(`{${"product_id"}}`, encodeURIComponent(String(requestParameters['productId']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 删除产品
+     */
+    async deleteMartProduct(requestParameters: DeleteMartProductRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteMartProductRaw(requestParameters, initOverrides);
+    }
+
+    /**
      * 删除门店
      */
     async deleteShopRaw(requestParameters: DeleteShopRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -605,6 +654,40 @@ export class MartApi extends runtime.BaseAPI {
      */
     async getMartAttributeValue(requestParameters: GetMartAttributeValueRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMartAttributeValueResponse> {
         const response = await this.getMartAttributeValueRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 获取指定的产品
+     */
+    async getMartProductRaw(requestParameters: GetMartProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMartProductResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/mart/products/{product_id}`.replace(`{${"product_id"}}`, encodeURIComponent(String(requestParameters['productId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetMartProductResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 获取指定的产品
+     */
+    async getMartProduct(requestParameters: GetMartProductRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMartProductResponse> {
+        const response = await this.getMartProductRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -965,6 +1048,49 @@ export class MartApi extends runtime.BaseAPI {
      */
     async updateMartAttributeValue(requestParameters: UpdateMartAttributeValueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.updateMartAttributeValueRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 更新产品信息
+     */
+    async updateMartProductRaw(requestParameters: UpdateMartProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertMartProductRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertMartProductRequest',
+                'Required parameter "upsertMartProductRequest" was null or undefined when calling updateMartProduct().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/mart/products/{product_id}`.replace(`{${"product_id"}}`, encodeURIComponent(String(requestParameters['productId']))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertMartProductRequestToJSON(requestParameters['upsertMartProductRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 更新产品信息
+     */
+    async updateMartProduct(requestParameters: UpdateMartProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateMartProductRaw(requestParameters, initOverrides);
     }
 
     /**

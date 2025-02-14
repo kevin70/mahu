@@ -142,4 +142,16 @@ public interface VoBeanMapper {
     ProductVariantAttribute toProductVariantAttribute(UpsertMartProductRequestVariantsInnerAttributesInner bean);
 
     GetMartProductResponse toGetMartProductResponse(Product bean);
+
+    @Mapping(target = "attributeId", source = "attribute.id")
+    @Mapping(target = "attributeName", source = "attribute.name")
+    @Mapping(target = "attributeRemark", source = "attribute.remark")
+    @Mapping(target = "attributeValueType", source = "attribute.valueType")
+    GetMartProductResponseAttributesInner toGetMartProductResponseAttributesInner(ProductAttribute bean);
+
+    @Mapping(target = "attributeId", source = "attribute.id")
+    @Mapping(target = "attributeName", source = "attribute.name")
+    @Mapping(target = "attributeRemark", source = "attribute.remark")
+    @Mapping(target = "attributeValueType", source = "attribute.valueType")
+    GetMartProductResponseVariantsInnerAttributesInner toGetMartProductResponseVariantsInnerAttributesInner(ProductVariantAttribute bean);
 }

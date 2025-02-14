@@ -1,4 +1,5 @@
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
+import { HEditButton } from '@/components/HEditButton';
 import { HIncludeDetedCheckBox } from '@/components/HIncludeDeletedCheckbox';
 import { HNewButton } from '@/components/HNewButton';
 import { HSearchButton } from '@/components/HSearchButton';
@@ -17,7 +18,7 @@ export const MartProductList = () => {
 
   const [incldeDeleted, setIncludeDeleted] = useState<number | undefined>();
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
-    sort: [{ columnKey: 'ordering', order: 'descend' }],
+    sort: [{ columnKey: 'update_time', order: 'descend' }],
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
@@ -163,6 +164,7 @@ export const MartProductList = () => {
               }
               return (
                 <>
+                  <HEditButton disabled={noWrite} href={`/mart/product-edit?product_id=${row.id}`} />
                   <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />
                 </>
               );
