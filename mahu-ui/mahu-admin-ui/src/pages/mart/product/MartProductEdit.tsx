@@ -12,7 +12,7 @@ import {
 } from '@ant-design/pro-components';
 import { Button, Card, Col, Divider, Form, Input, message, Row, Space, Table } from 'antd';
 import { AttributeFormItem } from './AttributeFormItem';
-import { useDynamicList, useSet } from 'ahooks';
+import { useCounter, useDynamicList, useSet } from 'ahooks';
 import { useForm } from 'antd/es/form/Form';
 import { HCloseButton } from '@/components/HCloseButton';
 import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
@@ -26,6 +26,7 @@ import FormItem from 'antd/es/form/FormItem';
 export const MartProductEdit = () => {
   const [searchParams] = useSearchParams();
   const productId = parseInt(searchParams.get('product_id')!);
+  const [ver, verOpts] = useCounter();
 
   const attributeList = useDynamicList<number>([]);
   const variantAttributeList = useDynamicList<number>([]);
@@ -399,6 +400,8 @@ export const MartProductEdit = () => {
 
     MART_API.updateMartProduct({ upsertMartProductRequest: values, productId: values.id });
     message.success('更新成功');
+
+    verOpts.inc();
   };
 
   // 检查产品规格
@@ -428,8 +431,13 @@ export const MartProductEdit = () => {
         }}
         params={{
           productId,
+          ver,
         }}
         request={async (params) => {
+          // 重置属性
+          attributeList.resetList([]);
+          variantAttributeList.resetList([]);
+
           const product = await MART_API.getMartProduct({
             productId: params.productId,
           });
