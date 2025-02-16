@@ -86,6 +86,8 @@ paths:
     $ref: paths/mart_products.yaml
   /mart/products/{product_id}:
     $ref: paths/mart_products_{product_id}.yaml
+  /mart/products/{product_id}/status:
+    $ref: paths/mart_products_{product_id}_status.yaml
 
   /samples:
     get:

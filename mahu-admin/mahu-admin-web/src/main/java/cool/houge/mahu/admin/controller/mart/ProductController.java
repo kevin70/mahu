@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.controller.mart;
 
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.ProductService;
+import cool.houge.mahu.admin.oas.model.UpdateMartProductStatusRequest;
 import cool.houge.mahu.admin.oas.model.UpsertMartProductRequest;
 import cool.houge.mahu.common.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
@@ -33,6 +34,9 @@ public class ProductController implements WebSupport, HttpService {
 
         rules.post("/mart/products", authz(MART_PRODUCT.W()).wrap(this::addMartProduct));
         rules.put("/mart/products/{product_id}", authz(MART_PRODUCT.W()).wrap(this::updateMartProduct));
+        rules.delete("/mart/products/{product_id}", authz(MART_PRODUCT.D()).wrap(this::deleteMartProduct));
+
+        rules.put("/mart/products/{product_id}/status", authz(MART_PRODUCT.W()).wrap(this::updateMartProductStatus));
     }
 
     private void listMartProducts(ServerRequest request, ServerResponse response) {
@@ -71,6 +75,26 @@ public class ProductController implements WebSupport, HttpService {
 
         var entity = beanMapper.toProduct(vo).setId(productId);
         productService.update(entity);
+        response.status(NO_CONTENT_204).send();
+    }
+
+    private void deleteMartProduct(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var productId = pathParams.first("product_id").asLong().get();
+
+        productService.delete(productId);
+        response.status(NO_CONTENT_204).send();
+    }
+
+    private void updateMartProductStatus(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var productId = pathParams.first("product_id").asLong().get();
+
+        var vo = request.content().as(UpdateMartProductStatusRequest.class);
+        validate(vo);
+
+        var bean = beanMapper.toProduct(vo).setId(productId);
+        productService.updateStatus(bean);
         response.status(NO_CONTENT_204).send();
     }
 }

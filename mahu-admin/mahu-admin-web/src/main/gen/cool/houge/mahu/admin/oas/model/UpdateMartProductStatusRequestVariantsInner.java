@@ -12,33 +12,30 @@
 
 package cool.houge.mahu.admin.oas.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import cool.houge.mahu.admin.oas.model.ProductStatusEnum;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class UpsertMartProductRequestVariantsInnerAttributesInner {
+public class UpdateMartProductStatusRequestVariantsInner {
 
     /**
-     * 变体属性 ID
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Long id;
-    /**
-     * 属性 ID
+     * 产品变体 ID
      */
     @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("attribute_id")
-    private Integer attributeId;
+    @com.fasterxml.jackson.annotation.JsonProperty("product_variant_id")
+    private Long productVariantId;
     /**
-     * 属性值
+     * Get status
      */
     @NotNull
- @Size(min=1,max=32)
-    @com.fasterxml.jackson.annotation.JsonProperty("value")
-    private String value;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("status")
+    private ProductStatusEnum status;
 }
 

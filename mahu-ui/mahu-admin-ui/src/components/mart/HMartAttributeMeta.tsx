@@ -17,6 +17,7 @@ export const HMartAttributeMeta = ({ attributeId, children }: HMartAttributeMeta
         id: attributeId,
       });
     },
+    staleTime: 5 * 60 * 1000,
   });
 
   if (data) {

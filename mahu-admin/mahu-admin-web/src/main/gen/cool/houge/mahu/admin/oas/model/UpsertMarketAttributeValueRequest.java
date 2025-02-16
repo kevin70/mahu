@@ -12,33 +12,27 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class UpsertMartProductRequestVariantsInnerAttributesInner {
+public class UpsertMarketAttributeValueRequest {
 
     /**
-     * 变体属性 ID
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Long id;
-    /**
-     * 属性 ID
-     */
-    @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("attribute_id")
-    private Integer attributeId;
-    /**
-     * 属性值
+     * 选项值
      */
     @NotNull
  @Size(min=1,max=32)
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
+    /**
+     * 排序值
+     * minimum: 0
+     * maximum: 999999
+     */
+   @Min(0) @Max(999999)
+    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
+    private Integer ordering;
 }
 

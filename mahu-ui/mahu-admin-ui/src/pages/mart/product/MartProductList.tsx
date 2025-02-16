@@ -7,9 +7,10 @@ import { permits } from '@/config/permit';
 import { useRSQLFilter } from '@/hooks';
 import { useTableHelper } from '@/hooks/useTableHelper';
 import { MART_API } from '@/services';
+import { EditFilled } from '@ant-design/icons';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Avatar, Form, message } from 'antd';
+import { Avatar, Button, Dropdown, Form, message } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router';
 
@@ -164,6 +165,22 @@ export const MartProductList = () => {
               }
               return (
                 <>
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          key: 'upload',
+                          label: '上架',
+                        },
+                        {
+                          key: 'download',
+                          label: '下架',
+                        },
+                      ],
+                    }}
+                  >
+                    <Button color="default" variant="link" icon={<EditFilled />} />
+                  </Dropdown>
                   <HEditButton disabled={noWrite} href={`/mart/product-edit?product_id=${row.id}`} />
                   <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />
                 </>

@@ -86,6 +86,25 @@ public class ProductService {
         productRepository.update(product);
     }
 
+    /// 更新产品状态
+    @Transactional
+    public void updateStatus(Product bean) {
+        if (bean.getStatus() != null) {
+            productRepository.update(bean);
+        }
+
+        if (bean.getVariants() != null && !bean.getVariants().isEmpty()) {
+            // FIXME 使用产品ID + 变体ID更新状态
+            productVariantRepository.saveAll(bean.getVariants());
+        }
+    }
+
+    /// 删除指定的产品
+    @Transactional
+    public void delete(long productId) {
+        productRepository.delete(new Product().setId(productId));
+    }
+
     /// 查询指定 ID 的产品
     @Transactional(readOnly = true)
     public Product findById(long id) {
