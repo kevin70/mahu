@@ -16,6 +16,7 @@ import { AuditJourList } from '@/pages/system/audit-jour/AuditJourList';
 
 import { BrandList } from '@/pages/brand/BrandList';
 
+import { MartCategoryList } from '@/pages/mart/category/MartCategoryList';
 import { MartShopList } from '@/pages/mart/shop/MartShopList';
 import { MartAssetList } from '@/pages/mart/asset/MartAssetList';
 import { MartAttributeList } from '@/pages/mart/attribute/MartAttributeList';
@@ -36,6 +37,7 @@ export const routes = createRoutesFromElements(
       <Route path="/brand-list" Component={BrandList} />
 
       {/** 商城模块 */}
+      <Route path="/mart/category-list" Component={MartCategoryList} />
       <Route path="/mart/attribute-list" Component={MartAttributeList} />
       <Route path="/mart/shop-list" Component={MartShopList} />
       <Route path="/mart/asset-list" Component={MartAssetList} />

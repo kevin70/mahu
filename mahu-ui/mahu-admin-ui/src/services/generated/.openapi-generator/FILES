@@ -25,6 +25,8 @@ models/GetEmployeeResponse.ts
 models/GetEmployeeResponseDepartment.ts
 models/GetMartAttributeResponse.ts
 models/GetMartAttributeValueResponse.ts
+models/GetMartCategoryResponse.ts
+models/GetMartCategoryResponseParent.ts
 models/GetMartProductResponse.ts
 models/GetMartProductResponseAttributesInner.ts
 models/GetMartProductResponseVariantsInner.ts
@@ -46,6 +48,7 @@ models/ListDictPredefineKindsResponseInner.ts
 models/ListDictsPageResponse.ts
 models/ListEmployeesPageResponse.ts
 models/ListMartAttributesPageResponse.ts
+models/ListMartCategoriesPageResponse.ts
 models/ListMartProductsPageResponse.ts
 models/ListRolesPageResponse.ts
 models/ListShopAssetsPageResponse.ts
@@ -59,6 +62,8 @@ models/ProductTypeEnum.ts
 models/TerminalTypeEnum.ts
 models/TokenPasswordForm.ts
 models/TokenRefreshTokenForm.ts
+models/UpdateMartProductStatusRequest.ts
+models/UpdateMartProductStatusRequestVariantsInner.ts
 models/UpdateMePasswordRequest.ts
 models/UpdateMeProfileRequest.ts
 models/UpsertBrandRequest.ts
@@ -68,6 +73,7 @@ models/UpsertDictRequest.ts
 models/UpsertEmployeeRequest.ts
 models/UpsertMartAttributeRequest.ts
 models/UpsertMartAttributeValueRequest.ts
+models/UpsertMartCategoryRequest.ts
 models/UpsertMartProductRequest.ts
 models/UpsertMartProductRequestAttributesInner.ts
 models/UpsertMartProductRequestVariantsInner.ts

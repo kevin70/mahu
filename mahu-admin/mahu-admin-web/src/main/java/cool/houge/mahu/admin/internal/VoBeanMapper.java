@@ -160,4 +160,8 @@ public interface VoBeanMapper {
     @Mapping(target = "attributeValueType", source = "attribute.valueType")
     GetMartProductResponseVariantsInnerAttributesInner toGetMartProductResponseVariantsInnerAttributesInner(
             ProductVariantAttribute bean);
+
+    Category toCategory(UpsertMartCategoryRequest bean);
+
+    GetMartCategoryResponse toGetMartCategoryResponse(Category bean);
 }

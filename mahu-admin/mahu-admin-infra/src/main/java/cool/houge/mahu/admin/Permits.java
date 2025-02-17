@@ -18,8 +18,9 @@ public enum Permits {
     BRAND(A, "品牌"),
     // 商城
     MART_SHOP(A, "商城-商店"),
+    MART_CATEGORY(A, "商城-分类"),
     MART_ASSET(A, "商城-资源"),
-    MART_ATTRIBUTE(A, "商城|商品属性"),
+    MART_ATTRIBUTE(A, "商城|产品属性"),
     MART_PRODUCT(A, "商城|产品"),
     ;
 

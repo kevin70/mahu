@@ -92,7 +92,18 @@ export const Root = () => {
           {/** 全局警告消息 */}
           <GlobalAlert />
 
-          <QueryClientProvider client={new QueryClient({})}>
+          <QueryClientProvider
+            client={
+              new QueryClient({
+                defaultOptions: {
+                  queries: {
+                    // 默认缓存5分钟
+                    staleTime: 5 * 60 * 1000,
+                  },
+                },
+              })
+            }
+          >
             <RouterProvider router={appRouter} />
           </QueryClientProvider>
         </ConfigProvider>

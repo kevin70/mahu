@@ -45,6 +45,12 @@ export const MENUS: MenuDataItem[] = [
         permits: [permits.MART_SHOP.R],
       },
       {
+        path: '/mart/category-list',
+        icon: <MdOutlineCategory />,
+        name: '产品分类',
+        permits: [permits.MART_ASSET.R],
+      },
+      {
         path: '/mart/asset-list',
         icon: <FaRegFile />,
         name: '产品图片',

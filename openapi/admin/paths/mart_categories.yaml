@@ -1,7 +1,7 @@
 post:
-  summary: 保存属性
-  operationId: addMartAttribute
-  x-role-permit: MART_ATTRIBUTE:W
+  summary: 新增分类
+  operationId: addMartCategory
+  x-role-permit: MART_CATEGORY:W
   tags:
     - mart
   requestBody:
@@ -14,9 +14,9 @@ post:
     "204":
       description: OK
 get:
-  summary: 属性列表
-  operationId: listMartAttributes
-  x-role-permit: MART_ATTRIBUTE:R
+  summary: 分类列表
+  operationId: listMartCategories
+  x-role-permit: MART_CATEGORY:R
   tags:
     - mart
   parameters:
@@ -32,4 +32,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ListMartAttributesPageResponse.yaml
+            $ref: ../components/schemas/ListMartCategoriesPageResponse.yaml

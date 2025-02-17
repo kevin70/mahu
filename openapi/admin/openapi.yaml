@@ -74,6 +74,8 @@ paths:
     $ref: paths/shops_{id}.yaml
   /shops/{shop_id}/assets:
     $ref: paths/shops_{shop_id}_assets.yaml
+  /mart/categories:
+    $ref: paths/mart_categories.yaml
   /mart/attributes:
     $ref: paths/mart_attributes.yaml
   /mart/attributes/{id}:
