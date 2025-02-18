@@ -1,0 +1,25 @@
+type: object
+required:
+  - id
+  - name
+  - ordering
+  - remark
+properties:
+  id:
+    type: integer
+    format: int32
+    description: ID
+  name:
+    type: string
+    description: 名称
+  ordering:
+    type: integer
+    format: int32
+  remark:
+    type: string
+    description: 备注
+  children:
+    type: array
+    description: 子元素
+    items:
+      $ref: "./MartCategory.yaml"

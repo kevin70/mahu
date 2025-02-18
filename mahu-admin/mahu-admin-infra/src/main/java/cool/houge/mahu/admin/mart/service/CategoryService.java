@@ -8,6 +8,8 @@ import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
+import java.util.List;
+
 /// 产品分类
 ///
 /// @author ZY (kzou227@qq.com)
@@ -27,5 +29,11 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public PagedList<Category> findPage(DataFilter dataFilter) {
         return categoryRepository.findPage(dataFilter);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Category> findTreeCategories() {
+        var all = categoryRepository.findAll();
+        return null;
     }
 }

@@ -29,6 +29,7 @@ public class CategoryController implements HttpService, WebSupport {
     @Override
     public void routing(HttpRules rules) {
         rules.get("/mart/categories", authz(MART_CATEGORY.R()).wrap(this::listMartCategories));
+        rules.get("/mart/categories.tree", authz(MART_CATEGORY.R()).wrap(this::treeMartCategories));
 
         rules.post("/mart/categories", authz(MART_CATEGORY.W()).wrap(this::addMartCategory));
     }
@@ -38,6 +39,10 @@ public class CategoryController implements HttpService, WebSupport {
         var plist = categoryService.findPage(dataFilter);
         var ret = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetMartCategoryResponse);
         response.send(ret);
+    }
+
+    private void treeMartCategories(ServerRequest request, ServerResponse response) {
+        //
     }
 
     private void addMartCategory(ServerRequest request, ServerResponse response) {
