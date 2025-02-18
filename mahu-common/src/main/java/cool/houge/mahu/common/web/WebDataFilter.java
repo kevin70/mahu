@@ -20,6 +20,8 @@ public class WebDataFilter implements DataFilter {
     private final List<String> sorts;
     private final String filter;
     private final String pageToken;
+
+    private final boolean hasPage;
     private final boolean includeDeleted;
     private final boolean noTotalCount;
 
@@ -52,6 +54,7 @@ public class WebDataFilter implements DataFilter {
 
         this.filter = query.first("filter").orElse(null);
         this.pageToken = query.first("page_token").orElse(null);
+        this.hasPage = query.contains("limit");
         this.includeDeleted =
                 query.first("include_deleted").map(v -> Objects.equals(v, "1")).orElse(false);
         this.noTotalCount =
@@ -81,6 +84,11 @@ public class WebDataFilter implements DataFilter {
     @Override
     public String pageToken() {
         return pageToken;
+    }
+
+    @Override
+    public boolean hasPage() {
+        return hasPage;
     }
 
     @Override

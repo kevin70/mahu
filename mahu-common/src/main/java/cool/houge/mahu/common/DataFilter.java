@@ -28,6 +28,11 @@ public interface DataFilter {
     /// 页面令牌
     String pageToken();
 
+    /// 是否需要分页
+    default boolean hasPage() {
+        return false;
+    }
+
     /// 返回是否包含软删除的数据
     default boolean isIncludeDeleted() {
         return false;
