@@ -10,6 +10,12 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            if (id.includes('i18next')) {
+              return 'i18next';
+            }
+            if (id.includes('antd') || id.includes('@ant-design')) {
+              return 'antd-pro';
+            }
             return 'vendor';
           }
         },
