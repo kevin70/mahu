@@ -88,20 +88,5 @@ export const resolveApiError = async (e: unknown) => {
   return _err;
 };
 
-/**
- * `fetch` 接口包装器
- * @param fn 回调
- * @returns 响应结果
- */
-export const hetch = async <T>(fn: () => Promise<T>) => {
-  // hetch
-  try {
-    return await fn();
-  } catch (e) {
-    const _err = await resolveApiError(e);
-    throw _err;
-  }
-};
-
 export * from './API';
 export * from './aliyun';
