@@ -35,11 +35,13 @@ public class DbBeanFactory {
         hikariConfig.setPassword(config.get("db.password").asString().get());
         hikariConfig.setMinimumIdle(config.get("db.min-idle").asInt().get());
         hikariConfig.setMaximumPoolSize(config.get("db.max-size").asInt().get());
+        hikariConfig.setConnectionTestQuery("SELECT 1");
+        hikariConfig.setMaxLifetime(TimeUnit.MINUTES.toMillis(10));
+
         hikariConfig.addDataSourceProperty("socketTimeout", 30);
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        hikariConfig.setKeepaliveTime(TimeUnit.SECONDS.toMillis(15));
         return new HikariDataSource(hikariConfig);
     }
 
