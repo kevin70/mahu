@@ -19,6 +19,11 @@ tags:
 security:
   - BearerAuth: [ ]
 paths:
+  ### =============================== 公共数据接口 =============================== ###
+  /p/mart/categories:
+    $ref: paths/p_mart_categories.yaml
+  ### =============================== 公共数据接口 =============================== ###
+
   /login/token:
     $ref: paths/login_token.yaml
   /oauth2/token:
