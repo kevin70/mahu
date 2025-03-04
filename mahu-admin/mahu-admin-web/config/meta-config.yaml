@@ -1,0 +1,16 @@
+sources:
+  ### =============== 生产配置 =============== ###
+  - type: "file"
+    properties:
+      path: /etc/houge/mahu.yaml
+      optional: true
+  ### =============== 生产配置 =============== ###
+
+  - type: environment-variables
+  - type: system-properties
+  - type: classpath
+    properties:
+      resource: application.yaml
+  - type: classpath
+    properties:
+      resource: mahu-admin.yaml

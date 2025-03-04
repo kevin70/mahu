@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration
+        xmlns="http://logging.apache.org/log4j/2.0/config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config Log4j-config.xsd"
+        status="INFO">
+
+    <Properties>
+        <Property name="LOG_DIR">/var/log/mahu-admin-web</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="mainFile" fileName="${LOG_DIR}/main.log"
+                     filePattern="${LOG_DIR}/bak-main.%d{yyyyMMdd}.%i.gz">
+            <PatternLayout
+                    pattern="%d{MM-dd'T'HH:mm:ss.SSS} %p{length=1} [%t] %c{5} %L; %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="1GB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="14"/>
+        </RollingFile>
+
+        <RollingFile name="sqlFile" fileName="${LOG_DIR}/sql.log"
+                     filePattern="${LOG_DIR}/bak-sql.%d{yyyyMMdd}.%i.gz">
+            <PatternLayout
+                    pattern="%d{MM-dd'T'HH:mm:ss.SSS} %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="14"/>
+        </RollingFile>
+        <RollingFile name="slowSqlFile" fileName="${LOG_DIR}/slow-sql.log"
+                     filePattern="${LOG_DIR}/bak-slow-sql.%d{yyyyMMdd}.%i.gz">
+            <PatternLayout
+                    pattern="%d{MM-dd'T'HH:mm:ss.SSS} %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="14"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.zaxxer.hikari.pool" level="INFO"/>
+        <Logger name="jdk.event.security" level="INFO"/>
+
+        <Logger name="io.ebean.TXN" level="INFO"/>
+        <Logger name="io.ebean.SUM" level="INFO"/>
+        <Logger name="io.ebean.datasource" level="INFO"/>
+        <Logger name="io.ebean.SQL" level="INFO" additivity="false">
+            <AppenderRef ref="sqlFile"/>
+        </Logger>
+        <Logger name="io.ebean.SlowQuery" level="DEBUG" additivity="false">
+            <AppenderRef ref="slowSqlFile"/>
+        </Logger>
+
+        <Logger name="com.password4j" level="ERROR"/>
+        <Logger name="io.helidon.webserver" level="INFO"/>
+
+        <Logger name="java.lang.Runtime" level="INFO"/>
+        <Root level="DEBUG" additivity="false">
+            <AppenderRef ref="mainFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
