@@ -14,7 +14,6 @@ import io.ebean.datasource.DataSourceConfig;
 import io.helidon.common.config.Config;
 
 import javax.sql.DataSource;
-import java.util.concurrent.TimeUnit;
 
 /// 数据库对象定义工厂
 ///
@@ -29,19 +28,24 @@ public class DbBeanFactory {
     public HikariDataSource dataSource(Config config) {
         var hikariConfig = new HikariConfig();
         hikariConfig.setPoolName(APP_NAME);
-        hikariConfig.setDriverClassName("org.postgresql.Driver");
+
+        hikariConfig.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
         hikariConfig.setJdbcUrl(config.get("db.url").asString().get());
         hikariConfig.setUsername(config.get("db.username").asString().get());
         hikariConfig.setPassword(config.get("db.password").asString().get());
         hikariConfig.setMinimumIdle(config.get("db.min-idle").asInt().get());
         hikariConfig.setMaximumPoolSize(config.get("db.max-size").asInt().get());
         hikariConfig.setConnectionTestQuery("SELECT 1");
-        hikariConfig.setMaxLifetime(TimeUnit.MINUTES.toMillis(10));
+        hikariConfig.setIdleTimeout(60000);
+        hikariConfig.setMaxLifetime(1800000);
+        hikariConfig.setConnectionTimeout(30000);
 
-        hikariConfig.addDataSourceProperty("socketTimeout", 30);
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        hikariConfig.addDataSourceProperty("useServerPrepStmts", "true");
+        hikariConfig.addDataSourceProperty("tcpKeepAlive", "true");
+        hikariConfig.addDataSourceProperty("socketTimeout", "30000");
         return new HikariDataSource(hikariConfig);
     }
 
