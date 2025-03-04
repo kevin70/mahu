@@ -19,6 +19,9 @@ tags:
 security:
   - BearerAuth: [ ]
 paths:
+  /hx801:
+    $ref: paths/hx801.yaml
+
   ### =============================== 公共数据接口 =============================== ###
   /p/mart/categories:
     $ref: paths/p_mart_categories.yaml

@@ -1,0 +1,57 @@
+post:
+  summary: 保存 HX801 的日志
+  operationId: addHx801Log
+  tags:
+    - basis
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - device_id
+          properties:
+            device_id:
+              type: string
+            bpb:
+              type: string
+            fpb:
+              type: string
+            dpb:
+              type: string
+            rpb:
+              type: string
+            pacc:
+              type: string
+            pv:
+              type: string
+            pa:
+              type: string
+            p1st:
+              type: string
+            temperature:
+              type: string
+            feiyeLiang:
+              type: string
+            touxiye_liang:
+              type: string
+            zhihuanye_liang:
+              type: string
+            tuoshui_liang:
+              type: string
+            hourmin:
+              type: string
+            zongfeiye_liang:
+              type: string
+            zongtouxiye_liang:
+              type: string
+            zongzhihuanye_liang:
+              type: string
+            treatment_seconds:
+              type: string
+            treatment_date:
+              type: string
+  responses:
+    "204":
+      description: OK
