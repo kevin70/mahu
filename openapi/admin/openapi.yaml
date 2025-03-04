@@ -19,6 +19,9 @@ tags:
 security:
   - BearerAuth: [ ]
 paths:
+  /version:
+    $ref: paths/version.yaml
+
   /hx801:
     $ref: paths/hx801.yaml
 

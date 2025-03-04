@@ -1,0 +1,12 @@
+get:
+  summary: 服务版本
+  operationId: gerVersion
+  tags:
+    - basis
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/GetVersionResponse.yaml"
