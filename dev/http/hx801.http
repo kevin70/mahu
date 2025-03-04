@@ -1,0 +1,8 @@
+### HX801
+POST https://p.heltron.world/hx801
+Content-Type: application/json
+
+{
+    "device_id": "010697605284801011231228102308210001",
+    "bpb": "111"
+}
