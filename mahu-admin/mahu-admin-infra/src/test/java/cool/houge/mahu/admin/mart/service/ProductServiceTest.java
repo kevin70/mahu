@@ -1,7 +1,6 @@
 package cool.houge.mahu.admin.mart.service;
 
 import cool.houge.mahu.admin.TestTransactionBase;
-import cool.houge.mahu.entity.mart.AttributeValue;
 import cool.houge.mahu.entity.mart.Product;
 import cool.houge.mahu.entity.mart.ProductAttribute;
 import io.ebean.annotation.SoftDelete;
@@ -36,7 +35,7 @@ class ProductServiceTest extends TestTransactionBase {
 
         var attributes = entity.getAttributes();
         for (ProductAttribute attribute : attributes) {
-            attribute.setValue("NEW " + attribute.getValue()).setAttributeValue(new AttributeValue().setId(-1));
+            attribute.setValue("NEW " + attribute.getValue());
         }
         var newAttribute = Instancio.of(ProductAttribute.class)
                 .ignore(fields().annotated(Id.class))

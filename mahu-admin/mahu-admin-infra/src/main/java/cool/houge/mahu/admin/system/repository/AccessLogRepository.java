@@ -23,13 +23,13 @@ public class AccessLogRepository extends HBeanRepository<Long, AccessLog> {
     ///
     /// | 字段 | 数据类型 |
     /// | --- | ----- |
-    /// | create_time | date-time |
+    /// | created_at | date-time |
     /// | employee_id | int |
     /// | ip_addr | string |
     public PagedList<AccessLog> findPage(DataFilter dataFilter) {
         var qb = new QAccessLog(db());
         var rsqlCtx = RSQLContext.of(qb)
-                .property("create_time", qb.createTime)
+                .property("created_at", qb.createdAt)
                 .property("employee_id", qb.employeeId)
                 .property("ip_addr", qb.ipAddr);
         super.apply(dataFilter, rsqlCtx);

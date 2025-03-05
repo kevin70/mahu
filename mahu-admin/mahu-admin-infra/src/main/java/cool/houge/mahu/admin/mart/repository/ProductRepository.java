@@ -23,8 +23,8 @@ public class ProductRepository extends HBeanRepository<Long, Product> {
     public PagedList<Product> findPage(DataFilter dataFilter) {
         var qb = new QProduct(db());
         var rsqlCtx = RSQLContext.of(qb)
-                .property("create_time", qb.createTime)
-                .property("update_time", qb.updateTime)
+                .property("created_at", qb.createdAt)
+                .property("updated_at", qb.updatedAt)
                 .property(qb.name)
                 .property(qb.status, ProductStatus::valueOf)
                 .property("brand_id", qb.brand.id);

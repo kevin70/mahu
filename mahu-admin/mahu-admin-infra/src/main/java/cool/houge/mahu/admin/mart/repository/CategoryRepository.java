@@ -23,8 +23,8 @@ public class CategoryRepository extends HBeanRepository<Integer, Category> {
     public PagedList<Category> findPage(DataFilter dataFilter) {
         var qb = new QCategory(db());
         var rsqlCtx = RSQLContext.of(qb)
-                .property("create_time", qb.createTime)
-                .property("update_time", qb.updateTime)
+                .property("created_at", qb.createdAt)
+                .property("updated_at", qb.updatedAt)
                 .property(qb.name)
                 .property(qb.ordering)
                 .property("parent_id", qb.parent.id);

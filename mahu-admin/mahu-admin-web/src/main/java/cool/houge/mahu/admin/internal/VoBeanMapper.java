@@ -8,6 +8,7 @@ import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
+import cool.houge.mahu.config.InfoConfig;
 import cool.houge.mahu.entity.Brand;
 import cool.houge.mahu.entity.Hx801Log;
 import cool.houge.mahu.entity.mart.*;
@@ -18,6 +19,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -31,6 +33,10 @@ public interface VoBeanMapper {
 
     default OffsetDateTime map(Instant b) {
         return b != null ? OffsetDateTime.ofInstant(b, ZoneOffset.UTC) : null;
+    }
+
+    default OffsetDateTime map(LocalDateTime b) {
+        return b != null ? b.atOffset(ZoneOffset.UTC) : null;
     }
 
     /// 分页对象映射

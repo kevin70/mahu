@@ -36,8 +36,8 @@ public class EmployeeRepository extends HBeanRepository<Long, Employee> {
         apply(
                 dataFilter,
                 RSQLContext.of(qb)
-                        .property("create_time", qb.createTime)
-                        .property("update_time", qb.updateTime)
+                        .property("created_at", qb.createdAt)
+                        .property("updated_at", qb.updatedAt)
                         .property(qb.nickname)
                         .property(qb.status, Employee.Status::valueOf)
                         .property("department_id", qb.department.id)

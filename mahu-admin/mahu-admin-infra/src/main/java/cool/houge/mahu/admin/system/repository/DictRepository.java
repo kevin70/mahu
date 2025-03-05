@@ -25,16 +25,16 @@ public class DictRepository extends HBeanRepository<Integer, Dict> {
     ///
     /// | 字段 | 数据类型 |
     /// | --- | ----- |
-    /// | create_time | date-time |
-    /// | update_time | date-time |
+    /// | created_at | date-time |
+    /// | updated_at | date-time |
     /// | kind | string |
     /// | slug | string |
     /// | ordering | int |
     public PagedList<Dict> findPage(DataFilter dataFilter) {
         var qb = new QDict(db());
         var rsqlCtx = RSQLContext.of(qb)
-                .property("create_time", qb.createTime)
-                .property("update_time", qb.updateTime)
+                .property("created_at", qb.createdAt)
+                .property("updated_at", qb.updatedAt)
                 .property(qb.kind)
                 .property(qb.slug)
                 .property(qb.ordering);

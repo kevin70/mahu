@@ -42,7 +42,9 @@ public class CategoryController implements HttpService, WebSupport {
     }
 
     private void treeMartCategories(ServerRequest request, ServerResponse response) {
-        //
+        var list = categoryService.findTreeCategories();
+        var ret = list.stream().map(beanMapper::toMartCategory);
+        response.send(ret);
     }
 
     private void addMartCategory(ServerRequest request, ServerResponse response) {

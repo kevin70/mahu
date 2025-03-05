@@ -25,15 +25,15 @@ public class DepartmentRepository extends HBeanRepository<Integer, Department> {
     ///
     /// | 字段 | 数据类型 |
     /// | --- | ----- |
-    /// | create_time | date-time |
-    /// | update_time | date-time |
+    /// | created_at | date-time |
+    /// | updated_at | date-time |
     /// | name | string |
     /// | ordering | int |
     public PagedList<Department> findPage(DataFilter filter) {
         var qb = new QDepartment(db());
         var rsqlCtx = RSQLContext.of(qb)
-                .property("create_time", qb.createTime)
-                .property("update_time", qb.updateTime)
+                .property("created_at", qb.createdAt)
+                .property("updated_at", qb.updatedAt)
                 .property(qb.name)
                 .property(qb.ordering);
         super.apply(filter, rsqlCtx);

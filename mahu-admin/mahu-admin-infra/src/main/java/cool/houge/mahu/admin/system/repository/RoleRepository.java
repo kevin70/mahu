@@ -27,15 +27,15 @@ public class RoleRepository extends HBeanRepository<Integer, Role> {
     ///
     /// | 字段 | 数据类型 |
     /// | --- | ----- |
-    /// | create_time | date-time |
-    /// | update_time | date-time |
+    /// | created_at | date-time |
+    /// | updated_at | date-time |
     /// | name | string |
     /// | ordering | int |
     public PagedList<Role> findPage(DataFilter dataFilter) {
         var qb = new QRole(db());
         var rsqlCtx = RSQLContext.of(qb)
-                .property("create_time", qb.createTime)
-                .property("update_time", qb.updateTime)
+                .property("created_at", qb.createdAt)
+                .property("updated_at", qb.updatedAt)
                 .property(qb.name)
                 .property(qb.ordering);
         super.apply(dataFilter, rsqlCtx);

@@ -38,15 +38,15 @@ public class ClientRepository extends HBeanRepository<String, Client> {
     ///
     /// | 字段 | 数据类型 |
     /// | --- | ----- |
-    /// | create_time | date-time |
-    /// | update_time | date-time |
+    /// | created_at | date-time |
+    /// | updated_at | date-time |
     /// | client_id | string |
     public PagedList<Client> findPage(DataFilter dataFilter) {
         var qb = new QClient(database);
         var rsqlCtx = RSQLContext.of(qb)
-                .property("create_time", qb.createTime)
-                .property("update_time", qb.updateTime)
-                .property("client_id", qb.clientId);
+            .property("created_at", qb.createdAt)
+            .property("updated_at", qb.updatedAt)
+            .property("client_id", qb.clientId);
         super.apply(dataFilter, rsqlCtx);
         return qb.findPagedList();
     }

@@ -10,7 +10,7 @@ import static cool.houge.mahu.config.InfoConfigBlueprint.PREFIX;
 /// @author ZY (kzou227@qq.com)
 @Prototype.Blueprint(builderPublic = false, createEmptyPublic = false)
 @Prototype.Configured(PREFIX)
-public interface InfoConfigBlueprint {
+interface InfoConfigBlueprint {
 
     /// 默认前缀
     String PREFIX = "info";
