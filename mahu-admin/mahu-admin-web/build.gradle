@@ -11,6 +11,16 @@ sourceSets {
     }
 }
 
+processResources {
+    filesMatching("application.yaml") {
+        filter(org.apache.tools.ant.filters.ReplaceTokens,
+            tokens: ["APP_VERSION": version],
+            beginToken: "@",
+            endToken: "@"
+        )
+    }
+}
+
 application {
     mainClass = "io.helidon.Main"
     applicationDefaultJvmArgs = ["-Dfile.encoding=UTF-8"]
