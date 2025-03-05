@@ -20,7 +20,7 @@ export const EmployeeList = () => {
 
   const [incldeDeleted, setIncludeDeleted] = useState<number | undefined>();
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
-    sort: [{ columnKey: 'update_time' }],
+    sort: [{ columnKey: 'updated_at' }],
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
@@ -101,16 +101,16 @@ export const EmployeeList = () => {
             dataIndex: 'id',
           },
           {
-            key: 'create_time',
+            key: 'created_at',
             title: '创建时间',
-            dataIndex: 'createTime',
+            dataIndex: 'createdAt',
             valueType: 'dateTime',
             sorter: true,
           },
           {
-            key: 'update_time',
+            key: 'updated_at',
             title: '更新时间',
-            dataIndex: 'updateTime',
+            dataIndex: 'updatedAt',
             valueType: 'dateTime',
             sorter: true,
             defaultSortOrder: 'descend',

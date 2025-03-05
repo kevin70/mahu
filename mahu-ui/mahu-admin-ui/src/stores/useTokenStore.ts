@@ -8,7 +8,7 @@ type AccessToken = {
   accessToken?: string;
   refreshToken?: string;
   expireTime?: number;
-  createTime?: number;
+  createdAt?: number;
   lastAccessTime?: number;
 };
 
@@ -63,16 +63,16 @@ export const useTokenStore = create<{
     return localState.accessToken!;
   },
   attachToken(accessToken, refreshToken, expireSecs, rememberMe) {
-    const createTime = Date.now();
-    const expireTime = createTime + expireSecs * 1000;
+    const createdAt = Date.now();
+    const expireTime = createdAt + expireSecs * 1000;
     if (rememberMe) {
       tokenLocalState.setState((state) => ({
         ...state,
         accessToken,
         refreshToken,
         expireTime,
-        createTime,
-        lastAccessTime: createTime,
+        createdAt,
+        lastAccessTime: createdAt,
       }));
     } else {
       tokenSessionState.setState((state) => ({
@@ -80,8 +80,8 @@ export const useTokenStore = create<{
         accessToken,
         refreshToken,
         expireTime,
-        createTime,
-        lastAccessTime: createTime,
+        createdAt,
+        lastAccessTime: createdAt,
       }));
     }
   },

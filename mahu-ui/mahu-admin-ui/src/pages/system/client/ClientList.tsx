@@ -13,7 +13,7 @@ import { useTableHelper } from '@/hooks/useTableHelper';
 export const ClientList = () => {
   const noWrite = $checkNotPermit(permits.CLIENT.W);
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
-    sort: [{ columnKey: 'create_time', order: 'descend' }],
+    sort: [{ columnKey: 'created_at', order: 'descend' }],
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
@@ -74,17 +74,17 @@ export const ClientList = () => {
             ellipsis: true,
           },
           {
-            key: 'create_time',
+            key: 'created_at',
             title: '创建时间',
-            dataIndex: 'createTime',
+            dataIndex: 'createdAt',
             valueType: 'dateTime',
             sorter: true,
             defaultSortOrder: 'descend',
           },
           {
-            key: 'update_time',
+            key: 'updated_at',
             title: '更新时间',
-            dataIndex: 'updateTime',
+            dataIndex: 'updatedAt',
             valueType: 'dateTime',
             sorter: true,
           },

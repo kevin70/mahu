@@ -13,7 +13,7 @@ import { useTableHelper } from '@/hooks/useTableHelper';
 export const DictList = () => {
   const noWrite = $checkNotPermit(permits.DICT.W);
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
-    sort: [{ columnKey: 'update_time' }],
+    sort: [{ columnKey: 'updated_at' }],
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({

@@ -8,7 +8,7 @@ import { Form } from 'antd';
 
 export const AccessLogList = () => {
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
-    sort: [{ columnKey: 'create_time', order: 'descend' }],
+    sort: [{ columnKey: 'created_at', order: 'descend' }],
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
@@ -71,9 +71,9 @@ export const AccessLogList = () => {
             dataIndex: 'id',
           },
           {
-            key: 'create_time',
+            key: 'created_at',
             title: '访问时间',
-            dataIndex: 'createTime',
+            dataIndex: 'createdAt',
             valueType: 'dateTime',
             sorter: true,
             defaultSortOrder: 'descend',

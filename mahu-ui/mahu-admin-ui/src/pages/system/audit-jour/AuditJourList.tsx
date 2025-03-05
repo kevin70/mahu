@@ -8,7 +8,7 @@ import { Form } from 'antd';
 
 export const AuditJourList = () => {
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
-    sort: [{ columnKey: 'create_time', order: 'descend' }],
+    sort: [{ columnKey: 'created_at', order: 'descend' }],
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
@@ -63,9 +63,9 @@ export const AuditJourList = () => {
             dataIndex: 'id',
           },
           {
-            key: 'create_time',
+            key: 'created_at',
             title: '操作时间',
-            dataIndex: 'createTime',
+            dataIndex: 'createdAt',
             valueType: 'dateTime',
             sorter: true,
             defaultSortOrder: 'descend',
