@@ -23,7 +23,7 @@ public class Attribute implements Auditable {
     private Integer id;
     /// 软删除
     @SoftDelete
-    private Boolean deleted;
+    private boolean deleted;
     /// 属性的值的来源类型
     @Enumerated
     private ValueType valueType;

@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /// 修改审计日志
 ///
@@ -27,7 +27,7 @@ public class AuditJour {
     private Long id;
     /// 创建时间
     @WhenCreated
-    private Instant createTime;
+    private LocalDateTime createdAt;
     /// 修改来源，应用名称
     private String source;
     /// 修改用户

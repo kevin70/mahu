@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /// 后台访问记录
 ///
@@ -25,7 +25,7 @@ public class AccessLog {
     private Long id;
     /// 创建时间
     @WhenCreated
-    private Instant createTime;
+    private LocalDateTime createdAt;
     /// 访问职员 ID
     private Long employeeId;
     /// 访问 IP

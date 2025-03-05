@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 /// 认证客户端
@@ -25,10 +26,10 @@ public class Client implements Auditable {
     private String clientId;
     /// 创建时间
     @WhenCreated
-    private Instant createTime;
+    private LocalDateTime createdAt;
     /// 更新时间
     @WhenModified
-    private Instant updateTime;
+    private LocalDateTime updatedAt;
     /// 软删除
     @SoftDelete
     private Boolean deleted;

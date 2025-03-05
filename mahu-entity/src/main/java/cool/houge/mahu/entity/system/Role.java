@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /// 角色.
@@ -26,13 +26,13 @@ public class Role implements Auditable {
     private Integer id;
     /// 创建时间
     @WhenCreated
-    private Instant createTime;
+    private LocalDateTime createdAt;
     /// 更新时间
     @WhenModified
-    private Instant updateTime;
+    private LocalDateTime updatedAt;
     /// 软删除
     @SoftDelete
-    private Boolean deleted;
+    private boolean deleted;
     /// 角色名称
     private String name;
     /// 备注

@@ -1,7 +1,7 @@
 type: object
 required:
   - id
-  - create_time
+  - created_at
   - source
   - user_id
   - ip_addr
@@ -14,7 +14,7 @@ properties:
     type: integer
     format: int64
     description: 数据 ID
-  create_time:
+  created_at:
     type: string
     format: date-time
     description: 创建时间

@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /// 产品变体
@@ -26,10 +27,10 @@ public class ProductVariant {
     private Long id;
     /// 创建时间
     @WhenCreated
-    private Instant createTime;
+    private LocalDateTime createdAt;
     /// 更新时间
     @WhenModified
-    private Instant updateTime;
+    private LocalDateTime updatedAt;
     /// 软删除
     @SoftDelete
     private boolean deleted;

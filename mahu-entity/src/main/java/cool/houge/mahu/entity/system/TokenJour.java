@@ -1,12 +1,13 @@
 package cool.houge.mahu.entity.system;
 
+import io.ebean.annotation.WhenCreated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /// 访问令牌日志
 ///
@@ -21,7 +22,8 @@ public class TokenJour {
     @Id
     private String id;
     /// 创建时间
-    private Instant createTime;
+    @WhenCreated
+    private LocalDateTime createdAt;
     /// 用户主体
     private String upn;
     /// 客户端ID

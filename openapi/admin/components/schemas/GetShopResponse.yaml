@@ -8,11 +8,11 @@ properties:
     type: integer
     format: int32
     description: ID
-  create_time:
+  created_at:
     type: string
     format: date-time
     description: 创建时间
-  update_time:
+  updated_at:
     type: string
     format: date-time
     description: 修改时间

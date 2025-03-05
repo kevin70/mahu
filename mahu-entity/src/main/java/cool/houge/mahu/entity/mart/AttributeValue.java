@@ -21,7 +21,7 @@ public class AttributeValue implements Auditable {
     private Integer id;
     /// 软删除
     @SoftDelete
-    private Boolean deleted;
+    private boolean deleted;
     /// 属性
     @ManyToOne
     private Attribute attribute;

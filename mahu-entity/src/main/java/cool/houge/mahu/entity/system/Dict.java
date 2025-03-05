@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /// 字典
 ///
@@ -27,10 +27,10 @@ public class Dict implements Auditable {
     private Integer id;
     /// 创建时间
     @WhenCreated
-    private Instant createTime;
+    private LocalDateTime createdAt;
     /// 更新时间
     @WhenModified
-    private Instant updateTime;
+    private LocalDateTime updatedAt;
     /// 别名（slug）是网址的唯一标识部分，通常位于 URL 的末尾
     private String slug;
     /// 种类

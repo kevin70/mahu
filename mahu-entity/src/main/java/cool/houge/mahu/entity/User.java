@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /// 用户
 ///
@@ -24,13 +24,13 @@ public class User implements Auditable {
     private Long id;
     /// 创建时间
     @WhenCreated
-    private Instant createTime;
+    private LocalDateTime createdAt;
     /// 更新时间
     @WhenModified
-    private Instant updateTime;
+    private LocalDateTime updatedAt;
     /// 软删除
     @SoftDelete
-    private Boolean deleted;
+    private boolean deleted;
     /// 头像地址
     private String avatar;
     /// 昵称
@@ -42,7 +42,7 @@ public class User implements Auditable {
     /// 登录密码
     private String password;
     /// 用户状态
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated
     private Status status;
     /// 微信 appid
     private String wechatAppid;
