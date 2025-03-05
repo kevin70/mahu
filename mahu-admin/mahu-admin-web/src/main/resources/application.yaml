@@ -1,3 +1,7 @@
+info:
+  name: "mahu-admin"
+  version: "@APP_VERSION@"
+
 server:
   port: 9093
   shutdown-hook: true
