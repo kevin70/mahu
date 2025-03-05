@@ -38,14 +38,14 @@ public class GetEmployeeResponse {
      * 创建时间
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("create_time")
-    private OffsetDateTime createTime;
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
+    private OffsetDateTime createdAt;
     /**
      * 修改时间
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("update_time")
-    private OffsetDateTime updateTime;
+    @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
+    private OffsetDateTime updatedAt;
     /**
      * 用户名
      */

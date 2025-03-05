@@ -12,52 +12,46 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import java.time.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class GetShopResponse {
+public class ListPMartCategories200ResponseInner {
 
     /**
-     * ID
+     * 分类 ID
      */
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("id")
     private Integer id;
     /**
-     * 创建时间
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private OffsetDateTime createdAt;
-    /**
-     * 修改时间
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private OffsetDateTime updatedAt;
-    /**
-     * 门店名称
+     * 分类名称
      */
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("name")
     private String name;
     /**
-     * 门店标识
+     * 排序值
      */
     @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("slug")
-    private String slug;
+    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
+    private Integer ordering;
     /**
-     * 描述
+     * 父分类 ID
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("description")
-    private String description;
+    @com.fasterxml.jackson.annotation.JsonProperty("parent_id")
+    private Integer parentId;
+    /**
+     * 备注
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("remark")
+    private String remark;
 }
 

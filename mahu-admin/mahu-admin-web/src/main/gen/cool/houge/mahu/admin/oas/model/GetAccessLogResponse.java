@@ -31,8 +31,8 @@ public class GetAccessLogResponse {
      * 创建时间
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("create_time")
-    private OffsetDateTime createTime;
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
+    private OffsetDateTime createdAt;
     /**
      * 职员 ID
      */

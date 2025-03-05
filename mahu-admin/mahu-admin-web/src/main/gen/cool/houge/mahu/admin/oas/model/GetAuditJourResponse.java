@@ -32,8 +32,8 @@ public class GetAuditJourResponse {
      */
     @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("create_time")
-    private OffsetDateTime createTime;
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
+    private OffsetDateTime createdAt;
     /**
      * 来源
      */
