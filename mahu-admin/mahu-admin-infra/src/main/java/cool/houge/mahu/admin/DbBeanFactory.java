@@ -29,7 +29,7 @@ public class DbBeanFactory {
         var hikariConfig = new HikariConfig();
         hikariConfig.setPoolName(APP_NAME);
 
-        hikariConfig.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
+        // hikariConfig.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
         hikariConfig.setJdbcUrl(config.get("db.url").asString().get());
         hikariConfig.setUsername(config.get("db.username").asString().get());
         hikariConfig.setPassword(config.get("db.password").asString().get());
