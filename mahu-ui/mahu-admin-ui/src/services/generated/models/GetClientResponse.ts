@@ -38,13 +38,13 @@ export interface GetClientResponse {
      * @type {Date}
      * @memberof GetClientResponse
      */
-    createTime?: Date;
+    createdAt?: Date;
     /**
      * 修改时间
      * @type {Date}
      * @memberof GetClientResponse
      */
-    updateTime?: Date;
+    updatedAt?: Date;
     /**
      * 客户端密钥
      * @type {string}
@@ -104,8 +104,8 @@ export function GetClientResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'clientId': json['client_id'],
-        'createTime': json['create_time'] == null ? undefined : (new Date(json['create_time'])),
-        'updateTime': json['update_time'] == null ? undefined : (new Date(json['update_time'])),
+        'createdAt': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
+        'updatedAt': json['updated_at'] == null ? undefined : (new Date(json['updated_at'])),
         'clientSecret': json['client_secret'] == null ? undefined : json['client_secret'],
         'label': json['label'] == null ? undefined : json['label'],
         'remark': json['remark'] == null ? undefined : json['remark'],
@@ -127,8 +127,8 @@ export function GetClientResponseToJSONTyped(value?: GetClientResponse | null, i
     return {
         
         'client_id': value['clientId'],
-        'create_time': value['createTime'] == null ? undefined : ((value['createTime']).toISOString()),
-        'update_time': value['updateTime'] == null ? undefined : ((value['updateTime']).toISOString()),
+        'created_at': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
+        'updated_at': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'client_secret': value['clientSecret'],
         'label': value['label'],
         'remark': value['remark'],

@@ -45,13 +45,13 @@ export interface GetEmployeeResponse {
      * @type {Date}
      * @memberof GetEmployeeResponse
      */
-    createTime?: Date;
+    createdAt?: Date;
     /**
      * 修改时间
      * @type {Date}
      * @memberof GetEmployeeResponse
      */
-    updateTime?: Date;
+    updatedAt?: Date;
     /**
      * 用户名
      * @type {string}
@@ -119,8 +119,8 @@ export function GetEmployeeResponseFromJSONTyped(json: any, ignoreDiscriminator:
     return {
         
         'id': json['id'],
-        'createTime': json['create_time'] == null ? undefined : (new Date(json['create_time'])),
-        'updateTime': json['update_time'] == null ? undefined : (new Date(json['update_time'])),
+        'createdAt': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
+        'updatedAt': json['updated_at'] == null ? undefined : (new Date(json['updated_at'])),
         'username': json['username'],
         'nickname': json['nickname'],
         'avatar': json['avatar'] == null ? undefined : json['avatar'],
@@ -143,8 +143,8 @@ export function GetEmployeeResponseToJSONTyped(value?: GetEmployeeResponse | nul
     return {
         
         'id': value['id'],
-        'create_time': value['createTime'] == null ? undefined : ((value['createTime']).toISOString()),
-        'update_time': value['updateTime'] == null ? undefined : ((value['updateTime']).toISOString()),
+        'created_at': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
+        'updated_at': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'username': value['username'],
         'nickname': value['nickname'],
         'avatar': value['avatar'],

@@ -38,13 +38,13 @@ export interface GetMartCategoryResponse {
      * @type {Date}
      * @memberof GetMartCategoryResponse
      */
-    createTime?: Date;
+    createdAt?: Date;
     /**
      * 修改时间
      * @type {Date}
      * @memberof GetMartCategoryResponse
      */
-    updateTime?: Date;
+    updatedAt?: Date;
     /**
      * 软删除的
      * @type {boolean}
@@ -97,8 +97,8 @@ export function GetMartCategoryResponseFromJSONTyped(json: any, ignoreDiscrimina
     return {
         
         'id': json['id'],
-        'createTime': json['create_time'] == null ? undefined : (new Date(json['create_time'])),
-        'updateTime': json['update_time'] == null ? undefined : (new Date(json['update_time'])),
+        'createdAt': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
+        'updatedAt': json['updated_at'] == null ? undefined : (new Date(json['updated_at'])),
         'deleted': json['deleted'] == null ? undefined : json['deleted'],
         'name': json['name'],
         'parent': json['parent'] == null ? undefined : GetMartCategoryResponseParentFromJSON(json['parent']),
@@ -119,8 +119,8 @@ export function GetMartCategoryResponseToJSONTyped(value?: GetMartCategoryRespon
     return {
         
         'id': value['id'],
-        'create_time': value['createTime'] == null ? undefined : ((value['createTime']).toISOString()),
-        'update_time': value['updateTime'] == null ? undefined : ((value['updateTime']).toISOString()),
+        'created_at': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
+        'updated_at': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'deleted': value['deleted'],
         'name': value['name'],
         'parent': GetMartCategoryResponseParentToJSON(value['parent']),

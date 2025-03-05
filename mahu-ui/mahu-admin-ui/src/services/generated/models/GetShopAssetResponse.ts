@@ -30,7 +30,7 @@ export interface GetShopAssetResponse {
      * @type {Date}
      * @memberof GetShopAssetResponse
      */
-    createTime: Date;
+    createdAt: Date;
     /**
      * 资源 URI
      * @type {string}
@@ -44,7 +44,7 @@ export interface GetShopAssetResponse {
  */
 export function instanceOfGetShopAssetResponse(value: object): value is GetShopAssetResponse {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if (!('createTime' in value) || value['createTime'] === undefined) return false;
+    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('uri' in value) || value['uri'] === undefined) return false;
     return true;
 }
@@ -60,7 +60,7 @@ export function GetShopAssetResponseFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'id': json['id'],
-        'createTime': (new Date(json['create_time'])),
+        'createdAt': (new Date(json['created_at'])),
         'uri': json['uri'],
     };
 }
@@ -77,7 +77,7 @@ export function GetShopAssetResponseToJSONTyped(value?: GetShopAssetResponse | n
     return {
         
         'id': value['id'],
-        'create_time': ((value['createTime']).toISOString()),
+        'created_at': ((value['createdAt']).toISOString()),
         'uri': value['uri'],
     };
 }

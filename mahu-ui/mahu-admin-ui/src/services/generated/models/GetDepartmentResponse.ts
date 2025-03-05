@@ -38,13 +38,13 @@ export interface GetDepartmentResponse {
      * @type {Date}
      * @memberof GetDepartmentResponse
      */
-    createTime?: Date;
+    createdAt?: Date;
     /**
      * 修改时间
      * @type {Date}
      * @memberof GetDepartmentResponse
      */
-    updateTime?: Date;
+    updatedAt?: Date;
     /**
      * 名称
      * @type {string}
@@ -92,8 +92,8 @@ export function GetDepartmentResponseFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'id': json['id'],
-        'createTime': json['create_time'] == null ? undefined : (new Date(json['create_time'])),
-        'updateTime': json['update_time'] == null ? undefined : (new Date(json['update_time'])),
+        'createdAt': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
+        'updatedAt': json['updated_at'] == null ? undefined : (new Date(json['updated_at'])),
         'name': json['name'],
         'parentId': json['parent_id'] == null ? undefined : json['parent_id'],
         'parent': json['parent'] == null ? undefined : GetDepartmentResponseParentFromJSON(json['parent']),
@@ -113,8 +113,8 @@ export function GetDepartmentResponseToJSONTyped(value?: GetDepartmentResponse |
     return {
         
         'id': value['id'],
-        'create_time': value['createTime'] == null ? undefined : ((value['createTime']).toISOString()),
-        'update_time': value['updateTime'] == null ? undefined : ((value['updateTime']).toISOString()),
+        'created_at': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
+        'updated_at': value['updatedAt'] == null ? undefined : ((value['updatedAt']).toISOString()),
         'name': value['name'],
         'parent_id': value['parentId'],
         'parent': GetDepartmentResponseParentToJSON(value['parent']),

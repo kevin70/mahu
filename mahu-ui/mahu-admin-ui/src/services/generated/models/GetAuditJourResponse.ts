@@ -30,7 +30,7 @@ export interface GetAuditJourResponse {
      * @type {Date}
      * @memberof GetAuditJourResponse
      */
-    createTime: Date;
+    createdAt: Date;
     /**
      * 来源
      * @type {string}
@@ -90,7 +90,7 @@ export interface GetAuditJourResponse {
  */
 export function instanceOfGetAuditJourResponse(value: object): value is GetAuditJourResponse {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if (!('createTime' in value) || value['createTime'] === undefined) return false;
+    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('source' in value) || value['source'] === undefined) return false;
     if (!('userId' in value) || value['userId'] === undefined) return false;
     if (!('ipAddr' in value) || value['ipAddr'] === undefined) return false;
@@ -112,7 +112,7 @@ export function GetAuditJourResponseFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'id': json['id'],
-        'createTime': (new Date(json['create_time'])),
+        'createdAt': (new Date(json['created_at'])),
         'source': json['source'],
         'userId': json['user_id'],
         'ipAddr': json['ip_addr'],
@@ -136,7 +136,7 @@ export function GetAuditJourResponseToJSONTyped(value?: GetAuditJourResponse | n
     return {
         
         'id': value['id'],
-        'create_time': ((value['createTime']).toISOString()),
+        'created_at': ((value['createdAt']).toISOString()),
         'source': value['source'],
         'user_id': value['userId'],
         'ip_addr': value['ipAddr'],

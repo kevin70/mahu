@@ -15,17 +15,26 @@
 
 import * as runtime from '../runtime';
 import type {
+  AddHx801LogRequest,
   GetBrandResponse,
+  GetVersionResponse,
   ListBrandsPageResponse,
+  ListPMartCategories200ResponseInner,
   MakeOssDirectUploadRequest,
   MakeOssDirectUploadResponse,
   UpsertBrandRequest,
 } from '../models/index';
 import {
+    AddHx801LogRequestFromJSON,
+    AddHx801LogRequestToJSON,
     GetBrandResponseFromJSON,
     GetBrandResponseToJSON,
+    GetVersionResponseFromJSON,
+    GetVersionResponseToJSON,
     ListBrandsPageResponseFromJSON,
     ListBrandsPageResponseToJSON,
+    ListPMartCategories200ResponseInnerFromJSON,
+    ListPMartCategories200ResponseInnerToJSON,
     MakeOssDirectUploadRequestFromJSON,
     MakeOssDirectUploadRequestToJSON,
     MakeOssDirectUploadResponseFromJSON,
@@ -36,6 +45,10 @@ import {
 
 export interface AddBrandRequest {
     upsertBrandRequest: UpsertBrandRequest;
+}
+
+export interface AddHx801LogOperationRequest {
+    addHx801LogRequest: AddHx801LogRequest;
 }
 
 export interface DeleteBrandRequest {
@@ -113,6 +126,49 @@ export class BasisApi extends runtime.BaseAPI {
     }
 
     /**
+     * 保存 HX801 的日志
+     */
+    async addHx801LogRaw(requestParameters: AddHx801LogOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['addHx801LogRequest'] == null) {
+            throw new runtime.RequiredError(
+                'addHx801LogRequest',
+                'Required parameter "addHx801LogRequest" was null or undefined when calling addHx801Log().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/hx801`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddHx801LogRequestToJSON(requestParameters['addHx801LogRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 保存 HX801 的日志
+     */
+    async addHx801Log(requestParameters: AddHx801LogOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addHx801LogRaw(requestParameters, initOverrides);
+    }
+
+    /**
      * 删除指定品牌
      */
     async deleteBrandRaw(requestParameters: DeleteBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -143,6 +199,40 @@ export class BasisApi extends runtime.BaseAPI {
      */
     async deleteBrand(requestParameters: DeleteBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteBrandRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 服务版本
+     */
+    async gerVersionRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetVersionResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/version`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetVersionResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 服务版本
+     */
+    async gerVersion(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetVersionResponse> {
+        const response = await this.gerVersionRaw(initOverrides);
+        return await response.value();
     }
 
     /**
@@ -234,6 +324,40 @@ export class BasisApi extends runtime.BaseAPI {
      */
     async listBrands(requestParameters: ListBrandsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListBrandsPageResponse> {
         const response = await this.listBrandsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 获取可用的商城分类
+     */
+    async listPMartCategoriesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ListPMartCategories200ResponseInner>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/p/mart/categories`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ListPMartCategories200ResponseInnerFromJSON));
+    }
+
+    /**
+     * 获取可用的商城分类
+     */
+    async listPMartCategories(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListPMartCategories200ResponseInner>> {
+        const response = await this.listPMartCategoriesRaw(initOverrides);
         return await response.value();
     }
 

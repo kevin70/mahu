@@ -6,6 +6,7 @@ apis/SystemApi.ts
 apis/TokenApi.ts
 apis/index.ts
 index.ts
+models/AddHx801LogRequest.ts
 models/AddShopAssetRequest.ts
 models/AttributeValueTypeEnum.ts
 models/BasePageResponse.ts
@@ -39,6 +40,7 @@ models/GetRoleResponse.ts
 models/GetShopAssetResponse.ts
 models/GetShopResponse.ts
 models/GetTokenResponse.ts
+models/GetVersionResponse.ts
 models/ListAccessLogsPageResponse.ts
 models/ListAuditJoursPageResponse.ts
 models/ListBrandsPageResponse.ts
@@ -50,6 +52,7 @@ models/ListEmployeesPageResponse.ts
 models/ListMartAttributesPageResponse.ts
 models/ListMartCategoriesPageResponse.ts
 models/ListMartProductsPageResponse.ts
+models/ListPMartCategories200ResponseInner.ts
 models/ListRolesPageResponse.ts
 models/ListShopAssetsPageResponse.ts
 models/ListShopsPageResponse.ts
@@ -57,6 +60,7 @@ models/LoginRequest.ts
 models/LoginResponse.ts
 models/MakeOssDirectUploadRequest.ts
 models/MakeOssDirectUploadResponse.ts
+models/MartCategory.ts
 models/ProductStatusEnum.ts
 models/ProductTypeEnum.ts
 models/TerminalTypeEnum.ts

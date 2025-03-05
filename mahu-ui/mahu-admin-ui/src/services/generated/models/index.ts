@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AddHx801LogRequest';
 export * from './AddShopAssetRequest';
 export * from './AttributeValueTypeEnum';
 export * from './BasePageResponse';
@@ -33,6 +34,7 @@ export * from './GetRoleResponse';
 export * from './GetShopAssetResponse';
 export * from './GetShopResponse';
 export * from './GetTokenResponse';
+export * from './GetVersionResponse';
 export * from './ListAccessLogsPageResponse';
 export * from './ListAuditJoursPageResponse';
 export * from './ListBrandsPageResponse';
@@ -44,6 +46,7 @@ export * from './ListEmployeesPageResponse';
 export * from './ListMartAttributesPageResponse';
 export * from './ListMartCategoriesPageResponse';
 export * from './ListMartProductsPageResponse';
+export * from './ListPMartCategories200ResponseInner';
 export * from './ListRolesPageResponse';
 export * from './ListShopAssetsPageResponse';
 export * from './ListShopsPageResponse';
@@ -51,6 +54,7 @@ export * from './LoginRequest';
 export * from './LoginResponse';
 export * from './MakeOssDirectUploadRequest';
 export * from './MakeOssDirectUploadResponse';
+export * from './MartCategory';
 export * from './ProductStatusEnum';
 export * from './ProductTypeEnum';
 export * from './TerminalTypeEnum';

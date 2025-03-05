@@ -30,7 +30,7 @@ export interface GetAccessLogResponse {
      * @type {Date}
      * @memberof GetAccessLogResponse
      */
-    createTime?: Date;
+    createdAt?: Date;
     /**
      * 职员 ID
      * @type {number}
@@ -120,7 +120,7 @@ export function GetAccessLogResponseFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'id': json['id'],
-        'createTime': json['create_time'] == null ? undefined : (new Date(json['create_time'])),
+        'createdAt': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
         'employeeId': json['employee_id'],
         'ipAddr': json['ip_addr'],
         'traceId': json['trace_id'] == null ? undefined : json['trace_id'],
@@ -147,7 +147,7 @@ export function GetAccessLogResponseToJSONTyped(value?: GetAccessLogResponse | n
     return {
         
         'id': value['id'],
-        'create_time': value['createTime'] == null ? undefined : ((value['createTime']).toISOString()),
+        'created_at': value['createdAt'] == null ? undefined : ((value['createdAt']).toISOString()),
         'employee_id': value['employeeId'],
         'ip_addr': value['ipAddr'],
         'trace_id': value['traceId'],
