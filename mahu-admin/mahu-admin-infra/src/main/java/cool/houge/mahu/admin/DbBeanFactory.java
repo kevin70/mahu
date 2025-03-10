@@ -29,16 +29,13 @@ public class DbBeanFactory {
         var hikariConfig = new HikariConfig();
         hikariConfig.setPoolName(APP_NAME);
 
-        // hikariConfig.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
         hikariConfig.setJdbcUrl(config.get("db.url").asString().get());
         hikariConfig.setUsername(config.get("db.username").asString().get());
         hikariConfig.setPassword(config.get("db.password").asString().get());
         hikariConfig.setMinimumIdle(config.get("db.min-idle").asInt().get());
+        // 推荐值：根据应用负载和数据库性能调整，通常为 CPU 核心数 * 2 + 1
         hikariConfig.setMaximumPoolSize(config.get("db.max-size").asInt().get());
         hikariConfig.setConnectionTestQuery("SELECT 1");
-        hikariConfig.setIdleTimeout(60000);
-        hikariConfig.setMaxLifetime(1800000);
-        hikariConfig.setConnectionTimeout(30000);
 
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
