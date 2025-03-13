@@ -8,7 +8,6 @@ import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
-import cool.houge.mahu.config.InfoConfig;
 import cool.houge.mahu.entity.Brand;
 import cool.houge.mahu.entity.Hx801Log;
 import cool.houge.mahu.entity.mart.*;
@@ -175,4 +174,7 @@ public interface VoBeanMapper {
     GetMartCategoryResponse toGetMartCategoryResponse(Category bean);
 
     MartCategory toMartCategory(Category bean);
+
+    @Mapping(target = "parentId", source = "parent.id")
+    ListPMartCategories200ResponseInner toListPMartCategories200ResponseInner(Category bean);
 }

@@ -28,22 +28,24 @@ public class CategoryController implements HttpService, WebSupport {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/mart/categories", authz(MART_CATEGORY.R()).wrap(this::listMartCategories));
-        rules.get("/mart/categories.tree", authz(MART_CATEGORY.R()).wrap(this::treeMartCategories));
+        rules.get("/p/mart/categories", this::listPMartCategories);
 
+        rules.get("/mart/categories", authz(MART_CATEGORY.R()).wrap(this::listMartCategories));
         rules.post("/mart/categories", authz(MART_CATEGORY.W()).wrap(this::addMartCategory));
+    }
+
+    private void listPMartCategories(ServerRequest request, ServerResponse response) {
+        var ret = categoryService.findAll().stream()
+                .map(beanMapper::toListPMartCategories200ResponseInner)
+                .toList();
+        response.send(ret);
     }
 
     private void listMartCategories(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = categoryService.findPage(dataFilter);
-        var ret = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetMartCategoryResponse);
-        response.send(ret);
-    }
-
-    private void treeMartCategories(ServerRequest request, ServerResponse response) {
-        var list = categoryService.findTreeCategories();
-        var ret = list.stream().map(beanMapper::toMartCategory);
+        var ret = beanMapper.toPageResponse(
+                plist.getList(), plist.getTotalCount(), beanMapper::toGetMartCategoryResponse);
         response.send(ret);
     }
 

@@ -8,11 +8,7 @@ import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static java.util.Optional.ofNullable;
 
 /// 产品分类
 ///
@@ -35,30 +31,9 @@ public class CategoryService {
         return categoryRepository.findPage(dataFilter);
     }
 
-    /// 查询分类树形结构
+    /// 查询所有分类
     @Transactional(readOnly = true)
-    public List<Category> findTreeCategories() {
-        var all = categoryRepository.findAll();
-
-        var list = new ArrayList<Category>();
-        arrange(all, null, list);
-        return list;
-    }
-
-    void arrange(List<Category> all, Category parent, List<Category> list) {
-        var pid = ofNullable(parent).map(Category::getId).orElse(null);
-        for (Category bean : all) {
-            var parentId = ofNullable(bean.getParent()).map(Category::getId).orElse(null);
-            if (Objects.equals(parentId, pid)) {
-                if (parent == null) {
-                    list.add(bean);
-                } else {
-                    var children = ofNullable(parent.getChildren()).orElseGet(ArrayList::new);
-                    children.add(bean);
-                    parent.setChildren(children);
-                }
-                arrange(all, bean, list);
-            }
-        }
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 }
