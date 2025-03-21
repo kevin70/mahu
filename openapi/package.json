@@ -1,0 +1,13 @@
+{
+  "name": "mahu-openapi",
+  "version": "1.0.0",
+  "description": "接口文档",
+  "scripts": {
+    "test": "build-docs"
+  },
+  "keywords": [],
+  "author": "ZY kzou227@qq.com",
+  "devDependencies": {
+    "@redocly/cli": "^1.34.0"
+  }
+}

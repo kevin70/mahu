@@ -1,4 +1,5 @@
 # See https://redocly.com/docs/cli/configuration/
+# See https://redocly.com/docs/redoc/config
 extends:
   - recommended
 
@@ -14,6 +15,22 @@ rules:
 
 theme:
   openapi:
+    pathInMiddlePanel: true
+    hideHostname: true
     generateCodeSamples:
       languages:
         - lang: curl
+
+### 构建文档的命令参考
+### redocly build-docs admin@v1 --theme.openapi.sideNavStyle=path-only
+apis:
+  admin@v1:
+    root: ./admin/openapi.yaml
+    decorators:
+      side-nav-style: path-first
+    rules:
+      no-ambiguous-paths: error
+  main@v1:
+    root: ./main/openapi.yaml
+    rules:
+      no-ambiguous-paths: error
