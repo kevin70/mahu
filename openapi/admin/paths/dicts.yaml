@@ -1,0 +1,12 @@
+get:
+  summary: 字典类型列表
+  operationId: listDicts
+  tags:
+    - base
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ListDictsResponse.yaml"

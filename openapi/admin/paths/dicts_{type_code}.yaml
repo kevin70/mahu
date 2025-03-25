@@ -1,0 +1,16 @@
+parameters:
+  - name: type_code
+    in: path
+    description: 数据类型代码
+    schema:
+      type: string
+get:
+  summary: 获取字典类型数据
+  operationId: getDict
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/DictResponse.yaml"

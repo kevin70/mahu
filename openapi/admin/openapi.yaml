@@ -8,6 +8,8 @@ servers:
 tags:
   - name: basis
     description: 基础模块
+  - name: base
+    description: 基础模块
   - name: token
     description: 访问令牌
   - name: me
@@ -26,6 +28,12 @@ paths:
     $ref: paths/hx801.yaml
 
   ### =============================== 公共数据接口 =============================== ###
+  /dicts:
+    $ref: paths/dicts.yaml
+  /dicts/{type_code}:
+    $ref: paths/dicts_{type_code}.yaml
+  /dicts/{type_code}/{data_code}:
+    $ref: paths/dicts_{type_code}_{data_code}.yaml
   /p/mart/categories:
     $ref: paths/p_mart_categories.yaml
   ### =============================== 公共数据接口 =============================== ###
@@ -38,7 +46,6 @@ paths:
     $ref: paths/me_profile.yaml
   /me/password:
     $ref: paths/me_password.yaml
-
   /system/employees:
     $ref: paths/system_employees.yaml
   /system/employees/{id}:
@@ -51,12 +58,12 @@ paths:
     $ref: paths/system_roles.yaml
   /system/roles/{id}:
     $ref: paths/system_roles_{id}.yaml
-  /system/dicts:
-    $ref: paths/system_dicts.yaml
-  /system/dicts/predefine-kinds:
-    $ref: paths/system_dicts_predefine_kinds.yaml
-  /system/dicts/{id}:
-    $ref: paths/system_dicts_{id}.yaml
+  /system/dict-types:
+    $ref: paths/system_dict_types.yaml
+  /system/dict-types/{type_code}:
+    $ref: paths/system_dict_types_{type_code}.yaml
+  /system/dict-types/{type_code}/{data_code}:
+    $ref: paths/system_dict_types_{type_code}_{data_code}.yaml
 
   /system/clients:
     $ref: paths/system_clients.yaml
