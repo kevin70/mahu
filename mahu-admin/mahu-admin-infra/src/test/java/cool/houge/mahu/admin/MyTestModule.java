@@ -3,7 +3,6 @@ package cool.houge.mahu.admin;
 import io.avaje.inject.spi.Builder;
 import io.avaje.inject.test.TestModule;
 import io.helidon.common.config.Config;
-import io.helidon.common.config.GlobalConfig;
 
 ///
 /// @author ZY (kzou227@qq.com)
@@ -16,6 +15,6 @@ public class MyTestModule implements TestModule {
 
     @Override
     public void build(Builder builder) {
-        builder.withBean(Config.class, GlobalConfig.config());
+        builder.withBean(Config.class, Config.create());
     }
 }
