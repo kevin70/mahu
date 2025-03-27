@@ -19,7 +19,7 @@ export const DictList = () => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/dicts', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      return SYSTEM_API.listDicts({
+      return SYSTEM_API.listSystemDicts({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
@@ -33,7 +33,7 @@ export const DictList = () => {
       onFinish={(values: any) => {
         gotoFirstPage();
         setRSQLFilters([
-          rsqlOps.comparisonEx('slug', '==', values.searchSlug),
+          rsqlOps.comparisonEx('type_code', '==', values.searchSlug),
           rsqlOps.comparisonEx('kind', '=contains=', values.searchKind),
         ]);
       }}
@@ -43,13 +43,6 @@ export const DictList = () => {
       <HSearchButton type="primary" htmlType="submit" loading={isFetching} />
     </Form>
   );
-
-  const onDelete = async (id: number) => {
-    await SYSTEM_API.deleteDict({ id });
-    message.success('字典删除成功');
-
-    await refetch();
-  };
 
   return (
     <PageContainer>
@@ -69,42 +62,38 @@ export const DictList = () => {
         dataSource={data?.items}
         pagination={{ ...pagination, total: data?.totalCount }}
         onChange={onTableChange}
-        rowKey={'id'}
+        columnsState={{
+          persistenceType: 'localStorage',
+          persistenceKey: 'atable.state.system.DictList',
+        }}
+        rowKey={'typeCode'}
         columns={[
           {
-            title: 'ID',
-            dataIndex: 'id',
-          },
-          {
-            title: 'SLUG',
-            dataIndex: 'slug',
-          },
-          {
-            title: '种类',
-            dataIndex: 'kind',
-          },
-          {
-            title: '值',
-            dataIndex: 'value',
-            ellipsis: true,
-          },
-          {
-            title: '文本',
-            dataIndex: 'label',
-            ellipsis: true,
-          },
-          {
-            title: '备注',
-            dataIndex: 'remark',
-            ellipsis: true,
-          },
-          {
-            title: '排序',
-            dataIndex: 'ordering',
-            key: 'ordering',
+            key: 'created_at',
+            title: '创建时间',
+            dataIndex: 'createdAt',
+            valueType: 'dateTime',
             sorter: true,
-            defaultSortOrder: 'descend',
-            showSorterTooltip: false,
+          },
+          {
+            key: 'updated_at',
+            title: '更新时间',
+            dataIndex: 'updatedAt',
+            valueType: 'dateTime',
+            sorter: true,
+          },
+          {
+            title: 'CODE',
+            dataIndex: 'typeCode',
+          },
+          {
+            title: '名称',
+            dataIndex: 'name',
+          },
+          {
+            title: '描述',
+            dataIndex: 'description',
+            ellipsis: true,
           },
           {
             title: '操作',
@@ -120,6 +109,45 @@ export const DictList = () => {
             },
           },
         ]}
+        expandable={{
+          rowExpandable(row) {
+            return (row.data?.length || 0) > 0;
+          },
+          expandedRowRender(row) {
+            const dataSource = row.data ?? [];
+            return (
+              <ProTable
+                search={false}
+                options={false}
+                pagination={false}
+                size="small"
+                columns={[
+                  {
+                    title: 'CODE',
+                    dataIndex: 'dataCode',
+                  },
+                  {
+                    title: '名称',
+                    dataIndex: 'name',
+                  },
+                  {
+                    title: '值',
+                    dataIndex: 'value',
+                  },
+                  {
+                    title: '排序值',
+                    dataIndex: 'ordering',
+                  },
+                  {
+                    title: '状态',
+                    dataIndex: 'status',
+                  },
+                ]}
+                dataSource={dataSource}
+              />
+            );
+          },
+        }}
       ></ProTable>
     </PageContainer>
   );
