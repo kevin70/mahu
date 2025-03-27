@@ -12,27 +12,32 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class UpsertMarketAttributeRequestAttributeValues {
+public class DictDataResponse {
 
     /**
-     * 可选值
+     * 字典数据代码，唯一
      */
     @NotNull
- @Size(max=250)
+ @Size(min=1,max=50)
+    @com.fasterxml.jackson.annotation.JsonProperty("data_code")
+    private String dataCode;
+    /**
+     * 字典数据名称
+     */
+    @NotNull
+ @Size(min=1,max=100)
+    @com.fasterxml.jackson.annotation.JsonProperty("name")
+    private String name;
+    /**
+     * 字典类型描述
+     */
+   @Size(max=4096)
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
-    /**
-     * 排序值
-     */
-    @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
-    private Integer ordering;
 }
 

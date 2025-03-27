@@ -18,31 +18,27 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class GetMarketAttributeResponseAttributeValuesInner {
+public class ListDictsResponseInner {
 
     /**
-     * 属性值 ID
+     * 字典类型代码，唯一
      */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Integer id;
+    @NotNull
+ @Size(min=1,max=50)
+    @com.fasterxml.jackson.annotation.JsonProperty("type_code")
+    private String typeCode;
     /**
-     * 软删除的
+     * 字典类型名称
      */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("deleted")
-    private Boolean deleted;
+    @NotNull
+ @Size(min=1,max=50)
+    @com.fasterxml.jackson.annotation.JsonProperty("name")
+    private String name;
     /**
-     * 属性值
+     * 字典类型描述
      */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("value")
-    private String value;
-    /**
-     * 排序值
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
-    private Integer ordering;
+   @Size(max=255)
+    @com.fasterxml.jackson.annotation.JsonProperty("description")
+    private String description;
 }
 

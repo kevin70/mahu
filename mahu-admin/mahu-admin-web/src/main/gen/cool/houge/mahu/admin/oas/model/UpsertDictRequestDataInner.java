@@ -12,58 +12,45 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class GetDictResponse {
+public class UpsertDictRequestDataInner {
 
     /**
-     * 数据 ID
+     * 字典数据代码，唯一
      */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Integer id;
+   @Size(min=1,max=50)
+    @com.fasterxml.jackson.annotation.JsonProperty("data_code")
+    private String dataCode;
     /**
-     * 别名（slug）是网址的唯一标识部分，通常位于 URL 的末尾
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("slug")
-    private String slug;
-    /**
-     * 种类
+     * 字典数据名称
      */
     @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("kind")
-    private String kind;
+ @Size(min=1,max=100)
+    @com.fasterxml.jackson.annotation.JsonProperty("name")
+    private String name;
     /**
-     * 值
+     * 字典类型描述
      */
-    @NotNull
-
+   @Size(max=4096)
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
-    /**
-     * 值
-     */
-    @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("label")
-    private String label;
     /**
      * 排序值
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("ordering")
-    private BigDecimal ordering;
+    private Integer ordering;
     /**
-     * 备注
+     * 状态（F:禁用, T:启用）
      */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("remark")
-    private String remark;
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("status")
+    private Boolean status;
 }
 

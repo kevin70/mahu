@@ -12,7 +12,7 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import cool.houge.mahu.admin.oas.model.UpsertDictRequestDataInner;
+import cool.houge.mahu.admin.oas.model.DictDataResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class UpsertDictRequest {
+public class DictResponse {
 
     /**
      * 字典类型代码，唯一
@@ -44,17 +44,10 @@ public class UpsertDictRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("description")
     private String description;
     /**
-     * 状态（F:禁用, T:启用）
-     */
-    @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("status")
-    private Boolean status;
-    /**
      * 字典数据
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("data")
-    private List<@Valid UpsertDictRequestDataInner> data;
+    private List<@Valid DictDataResponse> data;
 }
 

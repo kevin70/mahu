@@ -12,37 +12,56 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import cool.houge.mahu.admin.oas.model.UpsertDictRequestDataInner;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.time.OffsetDateTime;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class UpsertDictRequest {
+public class GetSystemDictResponseDataInner {
 
     /**
-     * 字典类型代码，唯一
+     * 创建时间
      */
     @NotNull
- @Size(min=1,max=50)
-    @com.fasterxml.jackson.annotation.JsonProperty("type_code")
-    private String typeCode;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
+    private OffsetDateTime createdAt;
     /**
-     * 字典类型名称
+     * 修改时间
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
+    private OffsetDateTime updatedAt;
+    /**
+     * 字典数据代码，唯一
      */
     @NotNull
  @Size(min=1,max=50)
+    @com.fasterxml.jackson.annotation.JsonProperty("data_code")
+    private String dataCode;
+    /**
+     * 字典数据名称
+     */
+    @NotNull
+ @Size(min=1,max=100)
     @com.fasterxml.jackson.annotation.JsonProperty("name")
     private String name;
     /**
      * 字典类型描述
      */
-   @Size(max=255)
-    @com.fasterxml.jackson.annotation.JsonProperty("description")
-    private String description;
+   @Size(max=4096)
+    @com.fasterxml.jackson.annotation.JsonProperty("value")
+    private String value;
+    /**
+     * 排序值
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
+    private Integer ordering;
     /**
      * 状态（F:禁用, T:启用）
      */
@@ -50,11 +69,5 @@ public class UpsertDictRequest {
 
     @com.fasterxml.jackson.annotation.JsonProperty("status")
     private Boolean status;
-    /**
-     * 字典数据
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("data")
-    private List<@Valid UpsertDictRequestDataInner> data;
 }
 
