@@ -13,6 +13,7 @@ sourceSets {
 
 processResources {
     filesMatching("application.yaml") {
+        //noinspection UnnecessaryQualifiedReference
         filter(org.apache.tools.ant.filters.ReplaceTokens,
             tokens: ["APP_VERSION": version],
             beginToken: "@",
@@ -48,10 +49,14 @@ shadowJar {
         "**/LICENSE*",
         "**/NOTICE*",
     )
+
+    //noinspection UnnecessaryQualifiedReference
     transform(com.github.jengelman.gradle.plugins.shadow.transformers.IncludeResourceTransformer.class) {
         file = file("$projectDir/config/log4j2.xml")
         resource = "log4j2.xml"
     }
+
+    //noinspection UnnecessaryQualifiedReference
     transform(com.github.jengelman.gradle.plugins.shadow.transformers.IncludeResourceTransformer.class) {
         file = file("$projectDir/config/meta-config.yaml")
         resource = "meta-config.yaml"
@@ -105,7 +110,7 @@ openApiGenerate {
 }
 
 tasks.named("openApiGenerate").configure {
-    dependsOn("redoclyBundleOpenApi")
+    dependsOn("clean", "redoclyBundleOpenApi")
     doLast {
         copy {
             from("${project.layout.buildDirectory.orNull}/generate-resources/main/src/main/java") {
@@ -117,6 +122,7 @@ tasks.named("openApiGenerate").configure {
     }
 }
 
+//noinspection UnnecessaryQualifiedReference
 tasks.register("redoclyBundleOpenApi", com.github.gradle.node.npm.task.NpxTask.class) {
     group("openapi tools")
     doLast {
