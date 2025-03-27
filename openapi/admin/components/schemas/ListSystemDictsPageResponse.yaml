@@ -6,4 +6,4 @@ properties:
     type: array
     description: 品牌列表
     items:
-      $ref: "./GetDictTypeResponse.yaml"
+      $ref: "./GetSystemDictResponse.yaml"

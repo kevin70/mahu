@@ -21,13 +21,9 @@ tags:
 security:
   - BearerAuth: [ ]
 paths:
+  ### =============================== 公共数据接口 =============================== ###
   /version:
     $ref: paths/version.yaml
-
-  /hx801:
-    $ref: paths/hx801.yaml
-
-  ### =============================== 公共数据接口 =============================== ###
   /dicts:
     $ref: paths/dicts.yaml
   /dicts/{type_code}:
@@ -58,12 +54,10 @@ paths:
     $ref: paths/system_roles.yaml
   /system/roles/{id}:
     $ref: paths/system_roles_{id}.yaml
-  /system/dict-types:
-    $ref: paths/system_dict_types.yaml
-  /system/dict-types/{type_code}:
-    $ref: paths/system_dict_types_{type_code}.yaml
-  /system/dict-types/{type_code}/{data_code}:
-    $ref: paths/system_dict_types_{type_code}_{data_code}.yaml
+  /system/dicts:
+    $ref: paths/system_dicts.yaml
+  /system/dicts/{type_code}:
+    $ref: paths/system_dicts_{type_code}.yaml
 
   /system/clients:
     $ref: paths/system_clients.yaml

@@ -14,7 +14,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertDictTypeRequest.yaml"
+          $ref: "../components/schemas/UpsertDictRequest.yaml"
   responses:
     "204":
       description: OK
