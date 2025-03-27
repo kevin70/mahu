@@ -8,36 +8,41 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-/// 数据字典类型
+/// 数据字典
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
 @Entity
-@Table(name = "dict_type", schema = "system")
-public class DictType implements Auditable {
+@Table(name = "dict_data", schema = "system")
+public class DictData implements Auditable {
 
-    /// 字典类型编码，唯一
+    /// 主键
     @Id
-    private String typeCode;
+    @GeneratedValue
+    private Integer id;
     /// 创建时间
     @WhenCreated
     private LocalDateTime createdAt;
     /// 更新时间
     @WhenModified
     private LocalDateTime updatedAt;
-    /// 字典类型名称
+    /// 数据字典代码，唯一
+    private String dataCode;
+    /// 数据字典类型
+    @ManyToOne
+    @JoinColumn(name = "type_code")
+    private DictType dictType;
+    /// 数据字典名称
     private String name;
-    /// 字典类型描述
-    private String description;
+    /// 数据字典值
+    private String value;
+    /// 排序值
+    private Integer ordering;
     /// 状态
     ///
     /// - `true`：启用
     /// - `false`：禁用
     private boolean status;
-    /// 字典数据
-    @OneToMany(mappedBy = "dictType", cascade = CascadeType.ALL)
-    private List<DictData> data;
 }

@@ -2,7 +2,6 @@ package cool.houge.mahu.internal;
 
 import cool.houge.mahu.entity.Region;
 import cool.houge.mahu.entity.User;
-import cool.houge.mahu.entity.system.Dict;
 import cool.houge.mahu.oas.model.*;
 import cool.houge.mahu.service.TokenPayload;
 import cool.houge.mahu.service.TokenResult;

@@ -9,7 +9,6 @@ import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
 import cool.houge.mahu.entity.Brand;
-import cool.houge.mahu.entity.Hx801Log;
 import cool.houge.mahu.entity.mart.*;
 import cool.houge.mahu.entity.system.*;
 import org.mapstruct.Mapper;
@@ -56,11 +55,9 @@ public interface VoBeanMapper {
         return resp;
     }
 
-    Hx801Log toHx801Log(AddHx801LogRequest bean);
+    DictType toDict(UpsertDictRequest bean);
 
-    GetDictResponse toGetDictResponse(Dict bean);
-
-    Dict toDict(UpsertDictRequest bean);
+    GetSystemDictResponse toGetSystemDictResponse(DictType bean);
 
     TokenPasswordForm toTokenPasswordForm(LoginRequest bean);
 
