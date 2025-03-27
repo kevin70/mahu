@@ -1,3 +1,5 @@
+.openapi-generator-ignore
+apis/BaseApi.ts
 apis/BasisApi.ts
 apis/DefaultApi.ts
 apis/MartApi.ts
@@ -6,11 +8,12 @@ apis/SystemApi.ts
 apis/TokenApi.ts
 apis/index.ts
 index.ts
-models/AddHx801LogRequest.ts
 models/AddShopAssetRequest.ts
 models/AttributeValueTypeEnum.ts
 models/BasePageResponse.ts
 models/BatchDeleteShopAssetRequest.ts
+models/DictDataResponse.ts
+models/DictResponse.ts
 models/EmployeeStatusEnum.ts
 models/ErrorResponse.ts
 models/ErrorResponseError.ts
@@ -21,7 +24,6 @@ models/GetBrandResponse.ts
 models/GetClientResponse.ts
 models/GetDepartmentResponse.ts
 models/GetDepartmentResponseParent.ts
-models/GetDictResponse.ts
 models/GetEmployeeResponse.ts
 models/GetEmployeeResponseDepartment.ts
 models/GetMartAttributeResponse.ts
@@ -39,6 +41,8 @@ models/GetPermitResponse.ts
 models/GetRoleResponse.ts
 models/GetShopAssetResponse.ts
 models/GetShopResponse.ts
+models/GetSystemDictResponse.ts
+models/GetSystemDictResponseDataInner.ts
 models/GetTokenResponse.ts
 models/GetVersionResponse.ts
 models/ListAccessLogsPageResponse.ts
@@ -46,8 +50,7 @@ models/ListAuditJoursPageResponse.ts
 models/ListBrandsPageResponse.ts
 models/ListClientsPageResponse.ts
 models/ListDepartmentsPageResponse.ts
-models/ListDictPredefineKindsResponseInner.ts
-models/ListDictsPageResponse.ts
+models/ListDictsResponseInner.ts
 models/ListEmployeesPageResponse.ts
 models/ListMartAttributesPageResponse.ts
 models/ListMartCategoriesPageResponse.ts
@@ -56,6 +59,7 @@ models/ListPMartCategories200ResponseInner.ts
 models/ListRolesPageResponse.ts
 models/ListShopAssetsPageResponse.ts
 models/ListShopsPageResponse.ts
+models/ListSystemDictsPageResponse.ts
 models/LoginRequest.ts
 models/LoginResponse.ts
 models/MakeOssDirectUploadRequest.ts
@@ -73,7 +77,9 @@ models/UpdateMeProfileRequest.ts
 models/UpsertBrandRequest.ts
 models/UpsertClientRequest.ts
 models/UpsertDepartmentRequest.ts
+models/UpsertDictDataRequest.ts
 models/UpsertDictRequest.ts
+models/UpsertDictRequestDataInner.ts
 models/UpsertEmployeeRequest.ts
 models/UpsertMartAttributeRequest.ts
 models/UpsertMartAttributeValueRequest.ts

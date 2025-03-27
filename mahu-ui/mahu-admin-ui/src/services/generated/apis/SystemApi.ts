@@ -17,7 +17,6 @@ import * as runtime from '../runtime';
 import type {
   GetClientResponse,
   GetDepartmentResponse,
-  GetDictResponse,
   GetEmployeeResponse,
   GetPermitResponse,
   GetRoleResponse,
@@ -25,12 +24,12 @@ import type {
   ListAuditJoursPageResponse,
   ListClientsPageResponse,
   ListDepartmentsPageResponse,
-  ListDictPredefineKindsResponseInner,
-  ListDictsPageResponse,
   ListEmployeesPageResponse,
   ListRolesPageResponse,
+  ListSystemDictsPageResponse,
   UpsertClientRequest,
   UpsertDepartmentRequest,
+  UpsertDictDataRequest,
   UpsertDictRequest,
   UpsertEmployeeRequest,
   UpsertRoleRequest,
@@ -40,8 +39,6 @@ import {
     GetClientResponseToJSON,
     GetDepartmentResponseFromJSON,
     GetDepartmentResponseToJSON,
-    GetDictResponseFromJSON,
-    GetDictResponseToJSON,
     GetEmployeeResponseFromJSON,
     GetEmployeeResponseToJSON,
     GetPermitResponseFromJSON,
@@ -56,18 +53,18 @@ import {
     ListClientsPageResponseToJSON,
     ListDepartmentsPageResponseFromJSON,
     ListDepartmentsPageResponseToJSON,
-    ListDictPredefineKindsResponseInnerFromJSON,
-    ListDictPredefineKindsResponseInnerToJSON,
-    ListDictsPageResponseFromJSON,
-    ListDictsPageResponseToJSON,
     ListEmployeesPageResponseFromJSON,
     ListEmployeesPageResponseToJSON,
     ListRolesPageResponseFromJSON,
     ListRolesPageResponseToJSON,
+    ListSystemDictsPageResponseFromJSON,
+    ListSystemDictsPageResponseToJSON,
     UpsertClientRequestFromJSON,
     UpsertClientRequestToJSON,
     UpsertDepartmentRequestFromJSON,
     UpsertDepartmentRequestToJSON,
+    UpsertDictDataRequestFromJSON,
+    UpsertDictDataRequestToJSON,
     UpsertDictRequestFromJSON,
     UpsertDictRequestToJSON,
     UpsertEmployeeRequestFromJSON,
@@ -84,10 +81,6 @@ export interface AddDepartmentRequest {
     upsertDepartmentRequest: UpsertDepartmentRequest;
 }
 
-export interface AddDictRequest {
-    upsertDictRequest?: UpsertDictRequest;
-}
-
 export interface AddEmployeeRequest {
     upsertEmployeeRequest: UpsertEmployeeRequest;
 }
@@ -96,15 +89,20 @@ export interface AddRoleRequest {
     upsertRoleRequest: UpsertRoleRequest;
 }
 
+export interface AddSystemDictRequest {
+    upsertDictRequest?: UpsertDictRequest;
+}
+
+export interface AddSystemDictDataRequest {
+    typeCode?: string;
+    upsertDictDataRequest?: UpsertDictDataRequest;
+}
+
 export interface DeleteClientRequest {
     clientId?: string;
 }
 
 export interface DeleteDepartmentRequest {
-    id?: number;
-}
-
-export interface DeleteDictRequest {
     id?: number;
 }
 
@@ -116,15 +114,15 @@ export interface DeleteRoleRequest {
     id?: number;
 }
 
+export interface DeleteSystemDictTypeRequest {
+    typeCode?: string;
+}
+
 export interface GetClientRequest {
     clientId?: string;
 }
 
 export interface GetDepartmentRequest {
-    id?: number;
-}
-
-export interface GetDictRequest {
     id?: number;
 }
 
@@ -164,14 +162,6 @@ export interface ListDepartmentsRequest {
     sort?: Array<string>;
 }
 
-export interface ListDictsRequest {
-    limit?: number;
-    offset?: number;
-    filter?: string;
-    sort?: Array<string>;
-    noTotalCount?: number;
-}
-
 export interface ListEmployeesRequest {
     limit?: number;
     offset?: number;
@@ -188,6 +178,14 @@ export interface ListRolesRequest {
     sort?: Array<string>;
 }
 
+export interface ListSystemDictsRequest {
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: Array<string>;
+    noTotalCount?: number;
+}
+
 export interface UpdateClientRequest {
     upsertClientRequest: UpsertClientRequest;
     clientId?: string;
@@ -198,11 +196,6 @@ export interface UpdateDepartmentRequest {
     id?: number;
 }
 
-export interface UpdateDictRequest {
-    id?: number;
-    upsertDictRequest?: UpsertDictRequest;
-}
-
 export interface UpdateEmployeeRequest {
     upsertEmployeeRequest: UpsertEmployeeRequest;
     id?: number;
@@ -211,6 +204,11 @@ export interface UpdateEmployeeRequest {
 export interface UpdateRoleRequest {
     upsertRoleRequest: UpsertRoleRequest;
     id?: number;
+}
+
+export interface UpdateSystemDictTypeRequest {
+    typeCode?: string;
+    upsertDictRequest?: UpsertDictRequest;
 }
 
 /**
@@ -305,42 +303,6 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
-     * 新增字典
-     */
-    async addDictRaw(requestParameters: AddDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/dicts`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertDictRequestToJSON(requestParameters['upsertDictRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 新增字典
-     */
-    async addDict(requestParameters: AddDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addDictRaw(requestParameters, initOverrides);
-    }
-
-    /**
      * 新增职员
      */
     async addEmployeeRaw(requestParameters: AddEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -424,6 +386,78 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async addRole(requestParameters: AddRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.addRoleRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 新增数据字典
+     */
+    async addSystemDictRaw(requestParameters: AddSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/dicts`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertDictRequestToJSON(requestParameters['upsertDictRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新增数据字典
+     */
+    async addSystemDict(requestParameters: AddSystemDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addSystemDictRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 新增字典数据
+     */
+    async addSystemDictDataRaw(requestParameters: AddSystemDictDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/dicts/{type_code}`.replace(`{${"type_code"}}`, encodeURIComponent(String(requestParameters['typeCode']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertDictDataRequestToJSON(requestParameters['upsertDictDataRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新增字典数据
+     */
+    async addSystemDictData(requestParameters: AddSystemDictDataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addSystemDictDataRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -527,39 +561,6 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
-     * 删除字典
-     */
-    async deleteDictRaw(requestParameters: DeleteDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/dicts/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 删除字典
-     */
-    async deleteDict(requestParameters: DeleteDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteDictRaw(requestParameters, initOverrides);
-    }
-
-    /**
      * 删除职员
      */
     async deleteEmployeeRaw(requestParameters: DeleteEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -623,6 +624,39 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async deleteRole(requestParameters: DeleteRoleRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteRoleRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 删除字典类型数据
+     */
+    async deleteSystemDictTypeRaw(requestParameters: DeleteSystemDictTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/dicts/{type_code}`.replace(`{${"type_code"}}`, encodeURIComponent(String(requestParameters['typeCode']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 删除字典类型数据
+     */
+    async deleteSystemDictType(requestParameters: DeleteSystemDictTypeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteSystemDictTypeRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -690,40 +724,6 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async getDepartment(requestParameters: GetDepartmentRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDepartmentResponse> {
         const response = await this.getDepartmentRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 分页查询字典数据
-     */
-    async getDictRaw(requestParameters: GetDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetDictResponse>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/dicts/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetDictResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 分页查询字典数据
-     */
-    async getDict(requestParameters: GetDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDictResponse> {
-        const response = await this.getDictRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -996,94 +996,6 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
-     * 获取系统字典的预定义种类
-     */
-    async listDictPredefineKindsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ListDictPredefineKindsResponseInner>>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/dicts/predefine-kinds`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ListDictPredefineKindsResponseInnerFromJSON));
-    }
-
-    /**
-     * 获取系统字典的预定义种类
-     */
-    async listDictPredefineKinds(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListDictPredefineKindsResponseInner>> {
-        const response = await this.listDictPredefineKindsRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 分页查询字典数据
-     */
-    async listDictsRaw(requestParameters: ListDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListDictsPageResponse>> {
-        const queryParameters: any = {};
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        if (requestParameters['offset'] != null) {
-            queryParameters['offset'] = requestParameters['offset'];
-        }
-
-        if (requestParameters['filter'] != null) {
-            queryParameters['filter'] = requestParameters['filter'];
-        }
-
-        if (requestParameters['sort'] != null) {
-            queryParameters['sort'] = requestParameters['sort'];
-        }
-
-        if (requestParameters['noTotalCount'] != null) {
-            queryParameters['no_total_count'] = requestParameters['noTotalCount'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/dicts`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListDictsPageResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 分页查询字典数据
-     */
-    async listDicts(requestParameters: ListDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListDictsPageResponse> {
-        const response = await this.listDictsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * 职员列表
      */
     async listEmployeesRaw(requestParameters: ListEmployeesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListEmployeesPageResponse>> {
@@ -1192,6 +1104,60 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
+     * 获取数据字典
+     */
+    async listSystemDictsRaw(requestParameters: ListSystemDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListSystemDictsPageResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        if (requestParameters['noTotalCount'] != null) {
+            queryParameters['no_total_count'] = requestParameters['noTotalCount'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/dicts`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListSystemDictsPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 获取数据字典
+     */
+    async listSystemDicts(requestParameters: ListSystemDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListSystemDictsPageResponse> {
+        const response = await this.listSystemDictsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * 修改客户端
      */
     async updateClientRaw(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -1278,42 +1244,6 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
-     * 修改字典
-     */
-    async updateDictRaw(requestParameters: UpdateDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/dicts/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertDictRequestToJSON(requestParameters['upsertDictRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 修改字典
-     */
-    async updateDict(requestParameters: UpdateDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateDictRaw(requestParameters, initOverrides);
-    }
-
-    /**
      * 修改职员
      */
     async updateEmployeeRaw(requestParameters: UpdateEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -1397,6 +1327,42 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async updateRole(requestParameters: UpdateRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.updateRoleRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 修改数据字典类型
+     */
+    async updateSystemDictTypeRaw(requestParameters: UpdateSystemDictTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/dicts/{type_code}`.replace(`{${"type_code"}}`, encodeURIComponent(String(requestParameters['typeCode']))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertDictRequestToJSON(requestParameters['upsertDictRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 修改数据字典类型
+     */
+    async updateSystemDictType(requestParameters: UpdateSystemDictTypeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateSystemDictTypeRaw(requestParameters, initOverrides);
     }
 
 }

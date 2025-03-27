@@ -15,7 +15,6 @@
 
 import * as runtime from '../runtime';
 import type {
-  AddHx801LogRequest,
   GetBrandResponse,
   GetVersionResponse,
   ListBrandsPageResponse,
@@ -25,8 +24,6 @@ import type {
   UpsertBrandRequest,
 } from '../models/index';
 import {
-    AddHx801LogRequestFromJSON,
-    AddHx801LogRequestToJSON,
     GetBrandResponseFromJSON,
     GetBrandResponseToJSON,
     GetVersionResponseFromJSON,
@@ -45,10 +42,6 @@ import {
 
 export interface AddBrandRequest {
     upsertBrandRequest: UpsertBrandRequest;
-}
-
-export interface AddHx801LogOperationRequest {
-    addHx801LogRequest: AddHx801LogRequest;
 }
 
 export interface DeleteBrandRequest {
@@ -123,49 +116,6 @@ export class BasisApi extends runtime.BaseAPI {
      */
     async addBrand(requestParameters: AddBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.addBrandRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 保存 HX801 的日志
-     */
-    async addHx801LogRaw(requestParameters: AddHx801LogOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['addHx801LogRequest'] == null) {
-            throw new runtime.RequiredError(
-                'addHx801LogRequest',
-                'Required parameter "addHx801LogRequest" was null or undefined when calling addHx801Log().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/hx801`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: AddHx801LogRequestToJSON(requestParameters['addHx801LogRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 保存 HX801 的日志
-     */
-    async addHx801Log(requestParameters: AddHx801LogOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addHx801LogRaw(requestParameters, initOverrides);
     }
 
     /**

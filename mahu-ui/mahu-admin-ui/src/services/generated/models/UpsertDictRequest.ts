@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { UpsertDictRequestDataInner } from './UpsertDictRequestDataInner';
+import {
+    UpsertDictRequestDataInnerFromJSON,
+    UpsertDictRequestDataInnerFromJSONTyped,
+    UpsertDictRequestDataInnerToJSON,
+    UpsertDictRequestDataInnerToJSONTyped,
+} from './UpsertDictRequestDataInner';
+
 /**
  * 
  * @export
@@ -20,51 +28,44 @@ import { mapValues } from '../runtime';
  */
 export interface UpsertDictRequest {
     /**
-     * 别名（slug）是网址的唯一标识部分，通常位于 URL 的末尾
+     * 字典类型代码，唯一
      * @type {string}
      * @memberof UpsertDictRequest
      */
-    slug?: string;
+    typeCode: string;
     /**
-     * 种类
+     * 字典类型名称
      * @type {string}
      * @memberof UpsertDictRequest
      */
-    kind: string;
+    name: string;
     /**
-     * 值
+     * 字典类型描述
      * @type {string}
      * @memberof UpsertDictRequest
      */
-    value: string;
+    description?: string;
     /**
-     * 值
-     * @type {string}
+     * 状态（F:禁用, T:启用）
+     * @type {boolean}
      * @memberof UpsertDictRequest
      */
-    label: string;
+    status: boolean;
     /**
-     * 排序值
-     * @type {number}
+     * 字典数据
+     * @type {Array<UpsertDictRequestDataInner>}
      * @memberof UpsertDictRequest
      */
-    ordering: number;
-    /**
-     * 备注
-     * @type {string}
-     * @memberof UpsertDictRequest
-     */
-    remark?: string;
+    data?: Array<UpsertDictRequestDataInner>;
 }
 
 /**
  * Check if a given object implements the UpsertDictRequest interface.
  */
 export function instanceOfUpsertDictRequest(value: object): value is UpsertDictRequest {
-    if (!('kind' in value) || value['kind'] === undefined) return false;
-    if (!('value' in value) || value['value'] === undefined) return false;
-    if (!('label' in value) || value['label'] === undefined) return false;
-    if (!('ordering' in value) || value['ordering'] === undefined) return false;
+    if (!('typeCode' in value) || value['typeCode'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -78,12 +79,11 @@ export function UpsertDictRequestFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'slug': json['slug'] == null ? undefined : json['slug'],
-        'kind': json['kind'],
-        'value': json['value'],
-        'label': json['label'],
-        'ordering': json['ordering'],
-        'remark': json['remark'] == null ? undefined : json['remark'],
+        'typeCode': json['type_code'],
+        'name': json['name'],
+        'description': json['description'] == null ? undefined : json['description'],
+        'status': json['status'],
+        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(UpsertDictRequestDataInnerFromJSON)),
     };
 }
 
@@ -98,12 +98,11 @@ export function UpsertDictRequestToJSONTyped(value?: UpsertDictRequest | null, i
 
     return {
         
-        'slug': value['slug'],
-        'kind': value['kind'],
-        'value': value['value'],
-        'label': value['label'],
-        'ordering': value['ordering'],
-        'remark': value['remark'],
+        'type_code': value['typeCode'],
+        'name': value['name'],
+        'description': value['description'],
+        'status': value['status'],
+        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(UpsertDictRequestDataInnerToJSON)),
     };
 }
 
