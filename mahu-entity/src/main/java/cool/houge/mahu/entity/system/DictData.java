@@ -39,6 +39,7 @@ public class DictData implements Auditable {
     /// 数据字典值
     private String value;
     /// 排序值
+    @OrderBy("DESC")
     private Integer ordering;
     /// 状态
     ///
