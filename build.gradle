@@ -20,6 +20,8 @@ buildscript {
         nimbusJoseJwtVersion = "9.37.3"
         ulidCreatorVersion = "5.2.3"
         jedisVersion = "5.1.5"
+        roaringbitmapVersion = "1.4.0"
+        dbSchedulerVersion = "15.3.0"
 
         assertjVersion = "3.25.3"
         junitVersion = "5.10.2"

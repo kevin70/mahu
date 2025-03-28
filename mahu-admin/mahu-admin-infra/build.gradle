@@ -45,7 +45,10 @@ dependencies {
     implementation("io.helidon.fault-tolerance:helidon-fault-tolerance:$helidonVersion")
     implementation("io.helidon.scheduling:helidon-scheduling:$helidonVersion")
     implementation("io.helidon.security:helidon-security-jwt:$helidonVersion")
+    implementation("io.helidon.security.providers:helidon-security-providers-oidc:$helidonVersion")
 
+    implementation("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
+    implementation("com.github.kagkarlsson:db-scheduler:$dbSchedulerVersion")
     implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
     implementation("redis.clients:jedis:$jedisVersion")
     implementation("com.github.f4b6a3:ulid-creator:$ulidCreatorVersion")
