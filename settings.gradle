@@ -19,3 +19,5 @@ include "mahu-admin:mahu-admin-web"
 
 include "mahu-main:mahu-main-infra"
 include "mahu-main:mahu-main-web"
+
+include "mahu-task"
