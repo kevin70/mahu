@@ -28,14 +28,14 @@ public class TaskSchedulerListener extends AbstractSchedulerListener {
     @Override
     public void onExecutionComplete(ExecutionComplete exec) {
         try {
-            saveLog(exec);
-        } catch (Exception e) {
+            saveExecutionLog(exec);
+        } catch (Throwable e) {
             log.error("保存定时任务执行日志 {}", exec.getExecution(), e);
         }
     }
 
     @Transactional
-    void saveLog(ExecutionComplete executionComplete) {
+    void saveExecutionLog(ExecutionComplete executionComplete) {
         var execution = executionComplete.getExecution();
         var task = new ScheduledTask()
                 .setTaskId(new ScheduledTask.TaskId()
