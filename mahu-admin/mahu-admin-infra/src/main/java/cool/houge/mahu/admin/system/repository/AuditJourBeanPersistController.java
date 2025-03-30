@@ -23,6 +23,8 @@ import java.io.UncheckedIOException;
 /// @author ZY (kzou227@qq.com)
 public class AuditJourBeanPersistController extends BeanPersistAdapter {
 
+    private final boolean deleteEnabled = true;
+
     @Override
     public boolean isRegisterFor(Class<?> cls) {
         return cls.isAssignableFrom(Auditable.class);
@@ -39,8 +41,11 @@ public class AuditJourBeanPersistController extends BeanPersistAdapter {
     }
 
     @Override
-    public void postDelete(BeanPersistRequest<?> request) {
-        saveAuditJour(ChangeType.DELETE, request);
+    public boolean preDelete(BeanPersistRequest<?> request) {
+        if (!deleteEnabled) {
+            throw new UnsupportedOperationException("禁止对数据库数据进行删除操作");
+        }
+        return true;
     }
 
     @Override
@@ -71,9 +76,9 @@ public class AuditJourBeanPersistController extends BeanPersistAdapter {
 
         // 获取请求的 IP 地址并设置
         var ipAddr = Contexts.context()
-            .flatMap(ctx -> ctx.get(Metadata.class))
-            .map(Metadata::clientAddr)
-            .orElse("UNKNOWN");
+                .flatMap(ctx -> ctx.get(Metadata.class))
+                .map(Metadata::clientAddr)
+                .orElse("UNKNOWN");
         entity.setIpAddr(ipAddr);
         server.save(entity);
     }
@@ -108,5 +113,4 @@ public class AuditJourBeanPersistController extends BeanPersistAdapter {
             throw new UncheckedIOException(e);
         }
     }
-
 }
