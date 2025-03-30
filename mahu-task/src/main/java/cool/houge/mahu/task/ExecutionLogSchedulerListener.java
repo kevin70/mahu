@@ -1,10 +1,11 @@
 package cool.houge.mahu.task;
 
+import com.github.f4b6a3.ulid.Ulid;
 import com.github.kagkarlsson.scheduler.event.AbstractSchedulerListener;
 import com.github.kagkarlsson.scheduler.task.ExecutionComplete;
 import cool.houge.mahu.entity.ScheduledTask;
 import cool.houge.mahu.entity.log.ScheduledExecutionLog;
-import cool.houge.mahu.task.repository.LogRepository;
+import io.ebean.Database;
 import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -18,12 +19,12 @@ import java.util.Arrays;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class TaskSchedulerListener extends AbstractSchedulerListener {
+public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
 
     private static final Logger log = LogManager.getLogger();
 
     @Inject
-    LogRepository logRepository;
+    Database db;
 
     @Override
     public void onExecutionComplete(ExecutionComplete exec) {
@@ -51,6 +52,7 @@ public class TaskSchedulerListener extends AbstractSchedulerListener {
                 .setStartedAt(startedAt)
                 .setFinishedAt(finishedAt)
                 .setSucceeded(ExecutionComplete.Result.OK.equals(executionComplete.getResult()));
+        bean.setId(Ulid.fast().toString());
 
         executionComplete.getCause().ifPresent((cause) -> {
             var lines = Arrays.stream(cause.getStackTrace())
@@ -59,6 +61,6 @@ public class TaskSchedulerListener extends AbstractSchedulerListener {
             bean.setCause(lines);
         });
 
-        logRepository.save(bean);
+        db.save(bean);
     }
 }

@@ -17,12 +17,12 @@ public class TaskBeanFactory {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Scheduler dbScheduler(
-            DataSource dataSource, List<Task<Void>> tasks, TaskSchedulerListener taskSchedulerListener) {
+            DataSource dataSource, List<Task<Void>> tasks, ExecutionLogSchedulerListener executionLogSchedulerListener) {
         var scheduler = Scheduler.create(dataSource, tasks.toArray(new Task[0]))
                 .missedHeartbeatsLimit(4)
                 .threads(Runtime.getRuntime().availableProcessors())
                 .serializer(new JacksonSerializer())
-                .addSchedulerListener(taskSchedulerListener)
+                .addSchedulerListener(executionLogSchedulerListener)
                 .enablePriority()
                 .build();
 
