@@ -2,6 +2,7 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
+    implementation(project(":mahu-entity"))
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("com.google.guava:guava:$guavaVersion")
     implementation("io.helidon.webserver:helidon-webserver:$helidonVersion")
@@ -11,6 +12,7 @@ dependencies {
     implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
         exclude module: "avaje-validator-http-plugin"
     }
+    implementation("org.zalando:problem:0.27.1")
 
     testAnnotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
     testImplementation("io.ebean:ebean-h2:$ebeanVersion")

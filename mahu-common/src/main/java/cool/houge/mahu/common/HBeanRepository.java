@@ -3,6 +3,7 @@ package cool.houge.mahu.common;
 import cool.houge.mahu.common.rsql.EBeanRSQLVisitor;
 import cool.houge.mahu.common.rsql.RSQLContext;
 import cool.houge.mahu.common.rsql.RSQLOperators;
+import cool.houge.mahu.entity.log.BaseBizLog;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.ebean.BeanRepository;
@@ -73,5 +74,11 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
                 property.original().desc();
             }
         }
+    }
+
+    /// 推送业务日志
+    /// @param bean 业务日志对象
+    public final void push(BaseBizLog bean) {
+        db().save(bean);
     }
 }
