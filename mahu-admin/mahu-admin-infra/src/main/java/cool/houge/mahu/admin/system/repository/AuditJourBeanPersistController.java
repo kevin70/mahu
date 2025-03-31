@@ -1,8 +1,8 @@
 package cool.houge.mahu.admin.system.repository;
 
+import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.entity.Auditable;
-import cool.houge.mahu.entity.system.AuditJour;
 import io.ebean.bean.EntityBean;
 import io.ebean.event.BeanPersistAdapter;
 import io.ebean.event.BeanPersistRequest;
@@ -58,7 +58,7 @@ public class AuditJourBeanPersistController extends BeanPersistAdapter {
         var bean = (EntityBean) request.bean();
         var descriptor = server.descriptor(bean.getClass());
 
-        var entity = new AuditJour()
+        var entity = new AdminAuditLog()
                 .setSource(server.config().getDataSourceConfig().getApplicationName())
                 .setTableName(descriptor.baseTable())
                 .setChangeType(changeType.getCode())

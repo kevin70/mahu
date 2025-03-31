@@ -1,7 +1,5 @@
 package cool.houge.mahu.admin.system.service;
 
-import com.github.f4b6a3.ulid.Ulid;
-import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.admin.DynamicPermit;
@@ -25,6 +23,7 @@ import io.helidon.security.jwt.JwtValidator;
 import io.helidon.security.jwt.SignedJwt;
 import io.helidon.security.jwt.jwk.Jwk;
 import io.helidon.security.jwt.jwk.JwkKeys;
+import io.hypersistence.tsid.TSID;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -149,16 +148,17 @@ public class TokenService implements TokenVerifier {
     @Transactional
     TokenResult makeToken(TokenPayload payload, Employee employee) {
         var jwk = obtainJwk();
-        var jwtId = UlidCreator.getUlid().toLowerCase();
+        var jwtId = TSID.fast().toString();
         var sub = String.valueOf(employee.getId());
         var iat = Instant.now();
+        var nonce = String.valueOf(Math.random());
         var atJwt = Jwt.builder()
                 .jwtId(jwtId)
                 .userPrincipal(sub)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.accessExpires()))
                 .addAudience(payload.getClientId())
-                .nonce(Ulid.fast().toLowerCase())
+                .nonce(nonce)
                 .build();
         var accessToken = EncryptedJwt.builder(SignedJwt.sign(atJwt, Jwk.NONE_JWK))
                 .jwks(jwkKeys, jwk.keyId())
@@ -169,7 +169,7 @@ public class TokenService implements TokenVerifier {
                 .userPrincipal(sub)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.refreshExpires()))
-                .nonce(Ulid.fast().toLowerCase())
+                .nonce(nonce)
                 .build();
         var refreshToken = EncryptedJwt.builder(SignedJwt.sign(rtJwt, Jwk.NONE_JWK))
                 .jwks(jwkKeys, jwk.keyId())

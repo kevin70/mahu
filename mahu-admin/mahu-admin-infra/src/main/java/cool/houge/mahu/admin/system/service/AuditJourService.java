@@ -1,9 +1,9 @@
 package cool.houge.mahu.admin.system.service;
 
+import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.AuditJourRepository;
 import cool.houge.mahu.common.DataFilter;
-import cool.houge.mahu.entity.system.AuditJour;
 import io.ebean.PagedList;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -21,7 +21,7 @@ public class AuditJourService {
     SharedToolService toolService;
 
     /// 分页查询
-    public PagedList<AuditJour> findPage(DataFilter dataFilter) {
+    public PagedList<AdminAuditLog> findPage(DataFilter dataFilter) {
         var plist = auditJourRepository.findPage(dataFilter);
         return toolService.wrap(plist, dataFilter);
     }

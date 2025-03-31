@@ -1,6 +1,8 @@
 package cool.houge.mahu.admin.internal;
 
 import cool.houge.mahu.admin.bean.Profile;
+import cool.houge.mahu.admin.entity.AdminAccessLog;
+import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.oas.model.*;
 import cool.houge.mahu.admin.service.MakeOssDirectUploadPayload;
 import cool.houge.mahu.admin.service.MakeOssDirectUploadResult;
@@ -77,7 +79,7 @@ public interface VoBeanMapper {
 
     GetMeProfileResponse toGetMeProfileResponse(Profile bean);
 
-    GetAccessLogResponse toGetAccessLogResponse(AccessLog bean);
+    GetAccessLogResponse toGetAccessLogResponse(AdminAccessLog bean);
 
     Client toClient(UpsertClientRequest bean);
 
@@ -87,7 +89,7 @@ public interface VoBeanMapper {
 
     GetRoleResponse toGetRoleResponse(Role bean);
 
-    GetAuditJourResponse toGetAuditJourResponse(AuditJour bean);
+    GetAuditJourResponse toGetAuditJourResponse(AdminAuditLog bean);
 
     GetDepartmentResponse toGetDepartmentResponse(Department bean);
 

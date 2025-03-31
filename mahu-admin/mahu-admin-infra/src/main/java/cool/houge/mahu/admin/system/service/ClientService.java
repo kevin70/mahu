@@ -1,12 +1,12 @@
 package cool.houge.mahu.admin.system.service;
 
-import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.ClientRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Client;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
+import io.hypersistence.tsid.TSID;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -27,9 +27,8 @@ public class ClientService {
     /// 新增认证客户端
     @Transactional
     public void save(Client client) {
-        var clientId = UlidCreator.getUlid().toString();
-        var clientSecret =
-                randomClientSecret();
+        var clientId = TSID.fast().toString();
+        var clientSecret = randomClientSecret();
         client.setDeleted(false).setClientId(clientId).setClientSecret(clientSecret);
         clientRepository.save(client);
     }

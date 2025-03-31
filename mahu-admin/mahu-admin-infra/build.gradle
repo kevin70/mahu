@@ -5,6 +5,7 @@ dependencies {
     annotationProcessor("io.helidon.builder:helidon-builder-processor:$helidonVersion")
     annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
     annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
+    annotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
 
     compileOnly("io.helidon.builder:helidon-builder-api:$helidonVersion")
     compileOnly("io.helidon.webserver:helidon-webserver:$helidonVersion")

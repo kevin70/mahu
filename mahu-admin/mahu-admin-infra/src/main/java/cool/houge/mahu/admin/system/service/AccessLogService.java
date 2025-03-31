@@ -1,9 +1,9 @@
 package cool.houge.mahu.admin.system.service;
 
+import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.AccessLogRepository;
 import cool.houge.mahu.common.DataFilter;
-import cool.houge.mahu.entity.system.AccessLog;
 import io.avaje.inject.events.Observes;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -23,13 +23,13 @@ public class AccessLogService {
     SharedToolService toolService;
 
     @Transactional
-    void handleAccessLog(@Observes AccessLog accessLog) {
+    void handleAccessLog(@Observes AdminAccessLog accessLog) {
         accessLogRepository.save(accessLog);
     }
 
     /// 分页查询访问日志
     @Transactional(readOnly = true)
-    public PagedList<AccessLog> findPage(DataFilter dataFilter) {
+    public PagedList<AdminAccessLog> findPage(DataFilter dataFilter) {
         var plist = accessLogRepository.findPage(dataFilter);
         return toolService.wrap(plist, dataFilter);
     }
