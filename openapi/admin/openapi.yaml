@@ -18,6 +18,8 @@ tags:
     description: 系统模块
   - name: mart
     description: 商城模块
+  - name: log
+    description: 业务日志模块
 security:
   - BearerAuth: [ ]
 paths:
@@ -66,10 +68,6 @@ paths:
 
   /system/permits:
     $ref: paths/system_permits.yaml
-  /system/access-logs:
-    $ref: paths/system_access_logs.yaml
-  /system/audit-jours:
-    $ref: paths/system_audit_jours.yaml
 
   # 设置
   /settings/oss-direct-upload:
@@ -104,6 +102,12 @@ paths:
     $ref: paths/mart_products_{product_id}.yaml
   /mart/products/{product_id}/status:
     $ref: paths/mart_products_{product_id}_status.yaml
+
+  # 日志
+  /logs/admin-access-logs:
+    $ref: paths/logs_admin_access_logs.yaml
+  /logs/admin-audit-logs:
+    $ref: paths/logs_admin_audit_logs.yaml
 
   /samples:
     get:

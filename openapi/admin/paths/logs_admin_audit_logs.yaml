@@ -1,7 +1,7 @@
 get:
-  summary: 分页查询访问记录
-  operationId: listAccessLogs
-  x-role-permit: ACCESS_LOG:R
+  summary: 分页查询管理员操作审计日志
+  operationId: listAdminAuditLogs
+  x-role-permit: ADMIN_AUDIT_LOG:R
   tags:
     - system
   parameters:
@@ -15,4 +15,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ListAccessLogsPageResponse.yaml"
+            $ref: "../components/schemas/ListAdminAuditLogsPageResponse.yaml"
