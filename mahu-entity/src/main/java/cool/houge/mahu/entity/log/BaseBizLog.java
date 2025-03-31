@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class BaseBizLog {
 
-    /// 日志追踪 ID
+    /// 日志追踪 ID。
     ///
-    /// [ULID](https://github.com/ulid/spec)
+    /// Time-Sorted Unique Identifiers [TSID](https://github.com/f4b6a3/tsid-creator)。
     @Id
-    protected String id;
+    protected Long id;
 
     /// 创建时间
     @WhenCreated

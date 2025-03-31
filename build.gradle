@@ -18,7 +18,7 @@ buildscript {
         password4jVersion = "1.8.1"
         bcprovVersion = "1.79"
         nimbusJoseJwtVersion = "9.37.3"
-        ulidCreatorVersion = "5.2.3"
+        hypersistenceTsidVersion = "2.1.4"
         jedisVersion = "5.1.5"
         roaringbitmapVersion = "1.4.0"
         dbSchedulerVersion = "15.3.0"

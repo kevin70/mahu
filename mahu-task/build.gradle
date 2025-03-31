@@ -39,7 +39,7 @@ dependencies {
     implementation("redis.clients:jedis:$jedisVersion")
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
-    implementation("com.github.f4b6a3:ulid-creator:$ulidCreatorVersion")
+    implementation("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
 
     testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
     testImplementation("org.instancio:instancio-junit:$instancioVersion")

@@ -1,12 +1,12 @@
 package cool.houge.mahu.task;
 
-import com.github.f4b6a3.ulid.Ulid;
 import com.github.kagkarlsson.scheduler.event.AbstractSchedulerListener;
 import com.github.kagkarlsson.scheduler.task.ExecutionComplete;
 import cool.houge.mahu.entity.ScheduledTask;
 import cool.houge.mahu.entity.log.ScheduledExecutionLog;
 import io.ebean.Database;
 import io.ebean.annotation.Transactional;
+import io.hypersistence.tsid.TSID;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
@@ -52,7 +52,7 @@ public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
                 .setStartedAt(startedAt)
                 .setFinishedAt(finishedAt)
                 .setSucceeded(ExecutionComplete.Result.OK.equals(executionComplete.getResult()));
-        bean.setId(Ulid.fast().toString());
+        bean.setId(TSID.fast().toLong());
 
         executionComplete.getCause().ifPresent((cause) -> {
             var lines = Arrays.stream(cause.getStackTrace())

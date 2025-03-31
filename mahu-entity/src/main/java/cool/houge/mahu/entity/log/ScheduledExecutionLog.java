@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(schema = "log", name = "scheduled_execution_log")
-public class ScheduledExecutionLog extends BaseLog {
+public class ScheduledExecutionLog extends BaseBizLog {
 
     /// 定时任务
     @ManyToOne
