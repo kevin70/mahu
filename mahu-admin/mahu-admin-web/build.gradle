@@ -1,4 +1,5 @@
 apply plugin: "application"
+apply plugin: "org.graalvm.buildtools.native"
 apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "com.bmuschko.docker-remote-api"
 apply plugin: "org.openapi.generator"

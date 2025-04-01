@@ -41,6 +41,7 @@ plugins {
     id "com.github.node-gradle.node" version "7.1.0"
     id "org.openapi.generator" version "7.10.0"
     id "com.palantir.java-format" version "2.50.0"
+    id "org.graalvm.buildtools.native" version "0.10.6"
 }
 
 allprojects {
