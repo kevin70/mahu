@@ -18,12 +18,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UncheckedIOException;
 
-/// 审计日志
+/// 管理员操作审计日志
 ///
 /// @author ZY (kzou227@qq.com)
-public class AuditJourBeanPersistController extends BeanPersistAdapter {
-
-    private final boolean deleteEnabled = true;
+public class AuditPersistController extends BeanPersistAdapter {
 
     @Override
     public boolean isRegisterFor(Class<?> cls) {
@@ -42,10 +40,7 @@ public class AuditJourBeanPersistController extends BeanPersistAdapter {
 
     @Override
     public boolean preDelete(BeanPersistRequest<?> request) {
-        if (!deleteEnabled) {
-            throw new UnsupportedOperationException("禁止对数据库数据进行删除操作");
-        }
-        return true;
+        throw new UnsupportedOperationException("禁止对数据库数据进行删除操作");
     }
 
     @Override

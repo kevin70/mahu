@@ -1,0 +1,18 @@
+get:
+  summary: 分页查询管理员登录日志
+  operationId: listAdminAuthLogs
+  x-role-permit: ADMIN_AUTH_LOG:R
+  tags:
+    - system
+  parameters:
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ListAdminAuthLogsPageResponse.yaml"

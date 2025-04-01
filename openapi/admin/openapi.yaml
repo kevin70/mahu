@@ -108,6 +108,8 @@ paths:
     $ref: paths/logs_admin_access_logs.yaml
   /logs/admin-audit-logs:
     $ref: paths/logs_admin_audit_logs.yaml
+  /logs/admin-auth-logs:
+    $ref: paths/logs_admin_auth_logs.yaml
 
   /samples:
     get:

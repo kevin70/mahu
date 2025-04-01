@@ -2,7 +2,7 @@ package cool.houge.mahu.admin;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import cool.houge.mahu.admin.system.repository.AuditJourBeanPersistController;
+import cool.houge.mahu.admin.system.repository.AuditPersistController;
 import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
 import io.ebean.Database;
@@ -64,7 +64,7 @@ public class DbBeanFactory {
 
         dbc.setJsonInclude(JsonConfig.Include.NON_NULL);
         dbc.setCurrentUserProvider(new ContextCurrentUserProvider());
-        dbc.add(new AuditJourBeanPersistController());
+        dbc.add(new AuditPersistController());
         return DatabaseFactory.create(dbc);
     }
 }

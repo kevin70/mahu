@@ -1,8 +1,6 @@
 package cool.houge.mahu.admin.internal;
 
 import cool.houge.mahu.admin.bean.Profile;
-import cool.houge.mahu.admin.entity.AdminAccessLog;
-import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.oas.model.*;
 import cool.houge.mahu.admin.service.MakeOssDirectUploadPayload;
 import cool.houge.mahu.admin.service.MakeOssDirectUploadResult;
@@ -29,7 +27,7 @@ import java.util.function.Function;
 ///
 /// @author ZY (kzou227@qq.com)
 @Mapper(componentModel = MappingConstants.ComponentModel.JAKARTA)
-public interface VoBeanMapper {
+public interface VoBeanMapper extends LogBeanMapper {
 
     default OffsetDateTime map(Instant b) {
         return b != null ? OffsetDateTime.ofInstant(b, ZoneOffset.UTC) : null;
@@ -79,8 +77,6 @@ public interface VoBeanMapper {
 
     GetMeProfileResponse toGetMeProfileResponse(Profile bean);
 
-    GetAccessLogResponse toGetAccessLogResponse(AdminAccessLog bean);
-
     Client toClient(UpsertClientRequest bean);
 
     GetClientResponse toGetClientResponse(Client bean);
@@ -88,8 +84,6 @@ public interface VoBeanMapper {
     Role toRole(UpsertRoleRequest bean);
 
     GetRoleResponse toGetRoleResponse(Role bean);
-
-    GetAuditJourResponse toGetAuditJourResponse(AdminAuditLog bean);
 
     GetDepartmentResponse toGetDepartmentResponse(Department bean);
 

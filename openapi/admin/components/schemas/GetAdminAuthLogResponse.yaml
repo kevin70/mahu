@@ -1,0 +1,36 @@
+type: object
+required:
+  - id
+  - created_at
+  - admin_id
+properties:
+  id:
+    type: integer
+    format: int64
+    description: 日志 ID
+  created_at:
+    type: string
+    format: date-time
+    description: 创建时间
+  admin_id:
+    type: integer
+    format: int64
+    description: 管理员 ID
+  auth_type:
+    type: string
+    description: |
+      认证方法
+      - `LOGIN`
+      - `TOKEN_REFRESH`
+  auth_method:
+    type: string
+    description: 认证方法
+  client_id:
+    type: string
+    description: 认证客户端 ID
+  ip_addr:
+    type: string
+    description: 访问 IP
+  user_agent:
+    type: string
+    description: HTTP User-Agent

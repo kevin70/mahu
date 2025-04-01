@@ -22,7 +22,12 @@ public enum Permits {
     MART_ASSET(A, "商城-资源"),
     MART_ATTRIBUTE(A, "商城|产品属性"),
     MART_PRODUCT(A, "商城|产品"),
-    ;
+    // 业务日志
+    ADMIN_ACCESS_LOG(R, "管理员|访问日志"),
+    ADMIN_AUDIT_LOG(R, "管理员|操作日志"),
+    ADMIN_AUTH_LOG(R, "管理员|认证日志"),
+//
+;
 
     private final int fnCodes;
     private final String label;
