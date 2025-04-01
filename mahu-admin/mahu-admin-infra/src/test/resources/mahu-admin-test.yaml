@@ -1,3 +1,7 @@
+info:
+  name: mahu-admin
+  version: SNAPSHOT
+
 db:
   application-name: "mahu-integration-test"
   driver: "org.postgresql.Driver"
