@@ -2,6 +2,7 @@ package cool.houge.mahu.config;
 
 import io.helidon.builder.api.Option;
 import io.helidon.builder.api.Prototype;
+import io.sundr.transform.annotations.TemplateTransformation;
 
 import static cool.houge.mahu.config.InfoConfigBlueprint.PREFIX;
 
@@ -10,6 +11,7 @@ import static cool.houge.mahu.config.InfoConfigBlueprint.PREFIX;
 /// @author ZY (kzou227@qq.com)
 @Prototype.Blueprint(builderPublic = false, createEmptyPublic = false)
 @Prototype.Configured(PREFIX)
+@TemplateTransformation("/codegen/refresh-config.vm")
 interface InfoConfigBlueprint {
 
     /// 默认前缀
