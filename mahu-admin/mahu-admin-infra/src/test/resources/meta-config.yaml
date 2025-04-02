@@ -11,6 +11,8 @@ sources:
     properties:
       path: C:/houge/mahu.yaml
       optional: true
+      change-watcher:
+        type: file
   ### =============== 开发配置 =============== ###
 
   - type: classpath
