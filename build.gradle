@@ -22,6 +22,7 @@ buildscript {
         jedisVersion = "5.1.5"
         roaringbitmapVersion = "1.4.0"
         dbSchedulerVersion = "15.3.0"
+        sundrCodegenVersion = "0.200.3"
 
         assertjVersion = "3.25.3"
         junitVersion = "5.10.2"
