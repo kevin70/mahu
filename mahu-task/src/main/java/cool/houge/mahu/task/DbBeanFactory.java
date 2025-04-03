@@ -10,7 +10,7 @@ import io.ebean.config.ContainerConfig;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.config.JsonConfig;
 import io.ebean.datasource.DataSourceConfig;
-import io.helidon.common.config.Config;
+import io.helidon.config.Config;
 
 import javax.sql.DataSource;
 

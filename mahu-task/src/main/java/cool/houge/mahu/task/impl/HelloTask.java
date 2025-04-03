@@ -4,7 +4,7 @@ import com.github.kagkarlsson.scheduler.task.ExecutionContext;
 import com.github.kagkarlsson.scheduler.task.Task;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
 import com.github.kagkarlsson.scheduler.task.helper.Tasks;
-import jakarta.inject.Provider;
+import cool.houge.mahu.task.TaskSupplier;
 import jakarta.inject.Singleton;
 
 import java.time.Duration;
@@ -15,7 +15,7 @@ import static com.github.kagkarlsson.scheduler.task.schedule.Schedules.fixedDela
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class HelloTask implements Provider<Task<Void>> {
+public class HelloTask implements TaskSupplier {
 
     @Override
     public Task<Void> get() {

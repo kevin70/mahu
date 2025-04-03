@@ -8,4 +8,4 @@
 package cool.houge.mahu.task;
 
 import io.avaje.inject.InjectModule;
-import io.helidon.common.config.Config;
+import io.helidon.config.Config;

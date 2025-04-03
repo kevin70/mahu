@@ -2,7 +2,7 @@ package cool.houge.mahu.task;
 
 import io.avaje.inject.BeanScope;
 import io.helidon.Main;
-import io.helidon.common.config.Config;
+import io.helidon.config.Config;
 import io.helidon.spi.HelidonStartupProvider;
 
 import java.time.Instant;
