@@ -40,5 +40,11 @@ public class ListDictsResponseInner {
    @Size(max=255)
     @com.fasterxml.jackson.annotation.JsonProperty("description")
     private String description;
+    /**
+     * 是否启用
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("status")
+    private Boolean status;
 }
 

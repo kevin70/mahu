@@ -5,6 +5,7 @@ post:
   tags:
     - system
   requestBody:
+    required: true
     content:
       application/json:
         schema:

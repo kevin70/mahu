@@ -20,8 +20,10 @@ import type {
   GetEmployeeResponse,
   GetPermitResponse,
   GetRoleResponse,
-  ListAccessLogsPageResponse,
-  ListAuditJoursPageResponse,
+  GetSystemDictResponse,
+  ListAdminAccessLogsPageResponse,
+  ListAdminAuditLogsPageResponse,
+  ListAdminAuthLogsPageResponse,
   ListClientsPageResponse,
   ListDepartmentsPageResponse,
   ListEmployeesPageResponse,
@@ -45,10 +47,14 @@ import {
     GetPermitResponseToJSON,
     GetRoleResponseFromJSON,
     GetRoleResponseToJSON,
-    ListAccessLogsPageResponseFromJSON,
-    ListAccessLogsPageResponseToJSON,
-    ListAuditJoursPageResponseFromJSON,
-    ListAuditJoursPageResponseToJSON,
+    GetSystemDictResponseFromJSON,
+    GetSystemDictResponseToJSON,
+    ListAdminAccessLogsPageResponseFromJSON,
+    ListAdminAccessLogsPageResponseToJSON,
+    ListAdminAuditLogsPageResponseFromJSON,
+    ListAdminAuditLogsPageResponseToJSON,
+    ListAdminAuthLogsPageResponseFromJSON,
+    ListAdminAuthLogsPageResponseToJSON,
     ListClientsPageResponseFromJSON,
     ListClientsPageResponseToJSON,
     ListDepartmentsPageResponseFromJSON,
@@ -90,11 +96,11 @@ export interface AddRoleRequest {
 }
 
 export interface AddSystemDictRequest {
-    upsertDictRequest?: UpsertDictRequest;
+    upsertDictRequest: UpsertDictRequest;
 }
 
 export interface AddSystemDictDataRequest {
-    typeCode?: string;
+    typeCode: string;
     upsertDictDataRequest?: UpsertDictDataRequest;
 }
 
@@ -115,7 +121,7 @@ export interface DeleteRoleRequest {
 }
 
 export interface DeleteSystemDictTypeRequest {
-    typeCode?: string;
+    typeCode: string;
 }
 
 export interface GetClientRequest {
@@ -134,14 +140,25 @@ export interface GetRoleRequest {
     id?: number;
 }
 
-export interface ListAccessLogsRequest {
+export interface GetSystemDictRequest {
+    typeCode: string;
+}
+
+export interface ListAdminAccessLogsRequest {
     limit?: number;
     offset?: number;
     filter?: string;
     sort?: Array<string>;
 }
 
-export interface ListAuditJoursRequest {
+export interface ListAdminAuditLogsRequest {
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: Array<string>;
+}
+
+export interface ListAdminAuthLogsRequest {
     limit?: number;
     offset?: number;
     filter?: string;
@@ -206,8 +223,8 @@ export interface UpdateRoleRequest {
     id?: number;
 }
 
-export interface UpdateSystemDictTypeRequest {
-    typeCode?: string;
+export interface UpdateSystemDictRequest {
+    typeCode: string;
     upsertDictRequest?: UpsertDictRequest;
 }
 
@@ -392,6 +409,13 @@ export class SystemApi extends runtime.BaseAPI {
      * 新增数据字典
      */
     async addSystemDictRaw(requestParameters: AddSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertDictRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertDictRequest',
+                'Required parameter "upsertDictRequest" was null or undefined when calling addSystemDict().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -420,7 +444,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 新增数据字典
      */
-    async addSystemDict(requestParameters: AddSystemDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async addSystemDict(requestParameters: AddSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.addSystemDictRaw(requestParameters, initOverrides);
     }
 
@@ -428,6 +452,13 @@ export class SystemApi extends runtime.BaseAPI {
      * 新增字典数据
      */
     async addSystemDictDataRaw(requestParameters: AddSystemDictDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['typeCode'] == null) {
+            throw new runtime.RequiredError(
+                'typeCode',
+                'Required parameter "typeCode" was null or undefined when calling addSystemDictData().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -456,7 +487,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 新增字典数据
      */
-    async addSystemDictData(requestParameters: AddSystemDictDataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async addSystemDictData(requestParameters: AddSystemDictDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.addSystemDictDataRaw(requestParameters, initOverrides);
     }
 
@@ -630,6 +661,13 @@ export class SystemApi extends runtime.BaseAPI {
      * 删除字典类型数据
      */
     async deleteSystemDictTypeRaw(requestParameters: DeleteSystemDictTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['typeCode'] == null) {
+            throw new runtime.RequiredError(
+                'typeCode',
+                'Required parameter "typeCode" was null or undefined when calling deleteSystemDictType().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -655,7 +693,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 删除字典类型数据
      */
-    async deleteSystemDictType(requestParameters: DeleteSystemDictTypeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async deleteSystemDictType(requestParameters: DeleteSystemDictTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteSystemDictTypeRaw(requestParameters, initOverrides);
     }
 
@@ -796,26 +834,17 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
-     * 分页查询访问记录
+     * 获取指定类型代码的数据
      */
-    async listAccessLogsRaw(requestParameters: ListAccessLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListAccessLogsPageResponse>> {
+    async getSystemDictRaw(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetSystemDictResponse>> {
+        if (requestParameters['typeCode'] == null) {
+            throw new runtime.RequiredError(
+                'typeCode',
+                'Required parameter "typeCode" was null or undefined when calling getSystemDict().'
+            );
+        }
+
         const queryParameters: any = {};
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        if (requestParameters['offset'] != null) {
-            queryParameters['offset'] = requestParameters['offset'];
-        }
-
-        if (requestParameters['filter'] != null) {
-            queryParameters['filter'] = requestParameters['filter'];
-        }
-
-        if (requestParameters['sort'] != null) {
-            queryParameters['sort'] = requestParameters['sort'];
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -828,27 +857,27 @@ export class SystemApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/system/access-logs`,
+            path: `/system/dicts/{type_code}`.replace(`{${"type_code"}}`, encodeURIComponent(String(requestParameters['typeCode']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListAccessLogsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetSystemDictResponseFromJSON(jsonValue));
     }
 
     /**
-     * 分页查询访问记录
+     * 获取指定类型代码的数据
      */
-    async listAccessLogs(requestParameters: ListAccessLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAccessLogsPageResponse> {
-        const response = await this.listAccessLogsRaw(requestParameters, initOverrides);
+    async getSystemDict(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetSystemDictResponse> {
+        const response = await this.getSystemDictRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * 分页查询审计操作日志
+     * 分页查询管理员后台访问记录
      */
-    async listAuditJoursRaw(requestParameters: ListAuditJoursRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListAuditJoursPageResponse>> {
+    async listAdminAccessLogsRaw(requestParameters: ListAdminAccessLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListAdminAccessLogsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -878,20 +907,120 @@ export class SystemApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/system/audit-jours`,
+            path: `/logs/admin-access-logs`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListAuditJoursPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListAdminAccessLogsPageResponseFromJSON(jsonValue));
     }
 
     /**
-     * 分页查询审计操作日志
+     * 分页查询管理员后台访问记录
      */
-    async listAuditJours(requestParameters: ListAuditJoursRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAuditJoursPageResponse> {
-        const response = await this.listAuditJoursRaw(requestParameters, initOverrides);
+    async listAdminAccessLogs(requestParameters: ListAdminAccessLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAdminAccessLogsPageResponse> {
+        const response = await this.listAdminAccessLogsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 分页查询管理员操作审计日志
+     */
+    async listAdminAuditLogsRaw(requestParameters: ListAdminAuditLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListAdminAuditLogsPageResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/logs/admin-audit-logs`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListAdminAuditLogsPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 分页查询管理员操作审计日志
+     */
+    async listAdminAuditLogs(requestParameters: ListAdminAuditLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAdminAuditLogsPageResponse> {
+        const response = await this.listAdminAuditLogsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 分页查询管理员登录日志
+     */
+    async listAdminAuthLogsRaw(requestParameters: ListAdminAuthLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListAdminAuthLogsPageResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/logs/admin-auth-logs`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListAdminAuthLogsPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 分页查询管理员登录日志
+     */
+    async listAdminAuthLogs(requestParameters: ListAdminAuthLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAdminAuthLogsPageResponse> {
+        const response = await this.listAdminAuthLogsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1332,7 +1461,14 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 修改数据字典类型
      */
-    async updateSystemDictTypeRaw(requestParameters: UpdateSystemDictTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async updateSystemDictRaw(requestParameters: UpdateSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['typeCode'] == null) {
+            throw new runtime.RequiredError(
+                'typeCode',
+                'Required parameter "typeCode" was null or undefined when calling updateSystemDict().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -1361,8 +1497,8 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 修改数据字典类型
      */
-    async updateSystemDictType(requestParameters: UpdateSystemDictTypeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateSystemDictTypeRaw(requestParameters, initOverrides);
+    async updateSystemDict(requestParameters: UpdateSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateSystemDictRaw(requestParameters, initOverrides);
     }
 
 }

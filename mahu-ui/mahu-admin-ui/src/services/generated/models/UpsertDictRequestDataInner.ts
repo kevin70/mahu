@@ -48,7 +48,7 @@ export interface UpsertDictRequestDataInner {
      * @type {boolean}
      * @memberof UpsertDictRequestDataInner
      */
-    status: boolean;
+    status?: boolean;
 }
 
 /**
@@ -56,7 +56,6 @@ export interface UpsertDictRequestDataInner {
  */
 export function instanceOfUpsertDictRequestDataInner(value: object): value is UpsertDictRequestDataInner {
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -74,7 +73,7 @@ export function UpsertDictRequestDataInnerFromJSONTyped(json: any, ignoreDiscrim
         'name': json['name'],
         'value': json['value'] == null ? undefined : json['value'],
         'ordering': json['ordering'] == null ? undefined : json['ordering'],
-        'status': json['status'],
+        'status': json['status'] == null ? undefined : json['status'],
     };
 }
 

@@ -37,6 +37,12 @@ export interface ListDictsResponseInner {
      * @memberof ListDictsResponseInner
      */
     description?: string;
+    /**
+     * 是否启用
+     * @type {boolean}
+     * @memberof ListDictsResponseInner
+     */
+    status?: boolean;
 }
 
 /**
@@ -61,6 +67,7 @@ export function ListDictsResponseInnerFromJSONTyped(json: any, ignoreDiscriminat
         'typeCode': json['type_code'],
         'name': json['name'],
         'description': json['description'] == null ? undefined : json['description'],
+        'status': json['status'] == null ? undefined : json['status'],
     };
 }
 
@@ -78,6 +85,7 @@ export function ListDictsResponseInnerToJSONTyped(value?: ListDictsResponseInner
         'type_code': value['typeCode'],
         'name': value['name'],
         'description': value['description'],
+        'status': value['status'],
     };
 }
 

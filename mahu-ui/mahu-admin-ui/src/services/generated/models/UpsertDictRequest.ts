@@ -50,7 +50,7 @@ export interface UpsertDictRequest {
      * @type {boolean}
      * @memberof UpsertDictRequest
      */
-    status: boolean;
+    status?: boolean;
     /**
      * 字典数据
      * @type {Array<UpsertDictRequestDataInner>}
@@ -65,7 +65,6 @@ export interface UpsertDictRequest {
 export function instanceOfUpsertDictRequest(value: object): value is UpsertDictRequest {
     if (!('typeCode' in value) || value['typeCode'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -82,7 +81,7 @@ export function UpsertDictRequestFromJSONTyped(json: any, ignoreDiscriminator: b
         'typeCode': json['type_code'],
         'name': json['name'],
         'description': json['description'] == null ? undefined : json['description'],
-        'status': json['status'],
+        'status': json['status'] == null ? undefined : json['status'],
         'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(UpsertDictRequestDataInnerFromJSON)),
     };
 }

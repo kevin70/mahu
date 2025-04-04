@@ -29,7 +29,10 @@ public class DictController implements HttpService, WebSupport {
     @Override
     public void routing(HttpRules rules) {
         rules.get("/system/dicts", authz(DICT.R()).wrap(this::listSystemDicts));
+        rules.get("/system/dicts/{type_code}", authz(DICT.R()).wrap(this::getSystemDict));
+
         rules.post("/system/dicts", authz(DICT.W()).wrap(this::addSystemDict));
+        rules.put("/system/dicts/{type_code}", authz(DICT.W()).wrap(this::updateSystemDict));
     }
 
     private void listSystemDicts(ServerRequest request, ServerResponse response) {
@@ -39,13 +42,31 @@ public class DictController implements HttpService, WebSupport {
         response.send(rs);
     }
 
+    private void getSystemDict(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var typeCode = pathParams.get("type_code");
+
+        var bean = dictService.findByTypeCode(typeCode);
+        var rs = beanMapper.toGetSystemDictResponse(bean);
+        response.send(rs);
+    }
+
     private void addSystemDict(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertDictRequest.class);
         validate(vo);
 
-        var bean = beanMapper.toDict(vo);
+        var bean = beanMapper.toDictType(vo);
         dictService.save(bean);
         response.status(NO_CONTENT_204).send();
     }
 
+    private void updateSystemDict(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var vo = request.content().as(UpsertDictRequest.class).setTypeCode(pathParams.get("type_code"));
+        validate(vo);
+
+        var bean = beanMapper.toDictType(vo);
+        dictService.update(bean);
+        response.status(NO_CONTENT_204).send();
+    }
 }

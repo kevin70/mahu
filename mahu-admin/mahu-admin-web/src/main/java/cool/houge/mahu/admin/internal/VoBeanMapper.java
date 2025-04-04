@@ -55,7 +55,7 @@ public interface VoBeanMapper extends LogBeanMapper {
         return resp;
     }
 
-    DictType toDict(UpsertDictRequest bean);
+    DictType toDictType(UpsertDictRequest bean);
 
     GetSystemDictResponse toGetSystemDictResponse(DictType bean);
 

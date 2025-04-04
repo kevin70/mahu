@@ -83,12 +83,26 @@ export const DictList = () => {
             sorter: true,
           },
           {
-            title: 'CODE',
+            title: '类型代码',
             dataIndex: 'typeCode',
           },
           {
             title: '名称',
             dataIndex: 'name',
+          },
+          {
+            title: '状态',
+            dataIndex: 'status',
+            valueEnum: {
+              true: {
+                text: '启用',
+                status: 'success',
+              },
+              false: {
+                text: '禁用',
+                status: 'error',
+              },
+            },
           },
           {
             title: '描述',
@@ -102,7 +116,7 @@ export const DictList = () => {
             render: (_dom, row) => {
               return (
                 <>
-                  <EditDictDrawerForm id={row.id!} onSuccess={refetch} />
+                  <EditDictDrawerForm typeCode={row.typeCode} onSuccess={refetch} />
                   <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />
                 </>
               );
@@ -123,7 +137,7 @@ export const DictList = () => {
                 size="small"
                 columns={[
                   {
-                    title: 'CODE',
+                    title: '数据代码',
                     dataIndex: 'dataCode',
                   },
                   {
@@ -141,6 +155,16 @@ export const DictList = () => {
                   {
                     title: '状态',
                     dataIndex: 'status',
+                    valueEnum: {
+                      true: {
+                        text: '启用',
+                        status: 'success',
+                      },
+                      false: {
+                        text: '禁用',
+                        status: 'error',
+                      },
+                    },
                   },
                 ]}
                 dataSource={dataSource}

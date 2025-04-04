@@ -19,3 +19,6 @@ items:
       type: string
       description: 字典类型描述
       maxLength: 255
+    status:
+      type: boolean
+      description: 是否启用

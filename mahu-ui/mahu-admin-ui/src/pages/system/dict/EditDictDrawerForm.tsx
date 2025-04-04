@@ -1,18 +1,25 @@
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
-import { DrawerForm, ProFormDigit, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import {
+  DrawerForm,
+  ProForm,
+  ProFormCheckbox,
+  ProFormDigit,
+  ProFormList,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Form, Input, message } from 'antd';
-import { DictKindAutoComplete } from './DictKindAutoComplete';
+import { Card, Flex, message } from 'antd';
 import { HEditButton } from '@/components/HEditButton';
 
-export const EditDictDrawerForm = (props: { id: number; onSuccess: () => void }) => {
+export const EditDictDrawerForm = (props: { typeCode: string; onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.DICT.W);
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['EditDictDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.updateDict({
-        id: props.id,
+      return SYSTEM_API.updateSystemDict({
+        typeCode: props.typeCode,
         upsertDictRequest: values,
       });
     },
@@ -41,20 +48,57 @@ export const EditDictDrawerForm = (props: { id: number; onSuccess: () => void })
         return true;
       }}
       request={() => {
-        return SYSTEM_API.getDict({ id: props.id });
+        return SYSTEM_API.getSystemDict({ typeCode: props.typeCode });
       }}
     >
-      <Form.Item label="ID">
-        <Input disabled value={props.id} />
-      </Form.Item>
-      <ProFormText label="SLUG" name="slug" disabled />
-      <ProFormItem label="种类" name="kind" required rules={[{ required: true }]}>
-        <DictKindAutoComplete />
-      </ProFormItem>
-      <ProFormTextArea label="值" required name="value" rules={[{ required: true }]} />
-      <ProFormTextArea label="文本" required name="label" rules={[{ required: true }]} />
-      <ProFormDigit label="排序" required name="ordering" initialValue={1} rules={[{ required: true }]} />
-      <ProFormTextArea label="备注" name="remark" />
+      <ProFormText
+        label="类型代码"
+        name="typeCode"
+        validateTrigger="onSubmit"
+        rules={[{ required: true }, { max: 32, message: '最长32个字符' }]}
+        tooltip={'代码最长32位字符可使用字母、数字、下划线及英文句号'}
+      />
+      <ProFormText label="名称" required name="name" rules={[{ required: true }]} />
+      <ProFormTextArea label="描述" name="description" />
+      <ProFormCheckbox label="状态" name="status" tooltip={'未选中为禁用'}>
+        启用
+      </ProFormCheckbox>
+      <ProFormList
+        name={'data'}
+        label={'字典数据'}
+        alwaysShowItemLabel
+        copyIconProps={false}
+        itemRender={({ listDom, action }) => {
+          return (
+            <ProForm.Item>
+              <Card size="small">
+                <Flex justify="end">{action}</Flex>
+                <div>{listDom}</div>
+              </Card>
+            </ProForm.Item>
+          );
+        }}
+      >
+        {() => {
+          return (
+            <>
+              <ProFormText
+                label="数据代码"
+                required
+                name={'dataCode'}
+                rules={[{ required: true }]}
+                tooltip={'代码最长32位字符可使用字母、数字、下划线及英文句号'}
+              />
+              <ProFormText label="数据名称" required name={'name'} rules={[{ required: true }]} />
+              <ProFormTextArea label="数据值" required name={'value'} rules={[{ required: true }]} />
+              <ProFormCheckbox label="状态" name="status" tooltip={'未选中为禁用'}>
+                启用
+              </ProFormCheckbox>
+              <ProFormDigit label="排序" required name="ordering" initialValue={1} rules={[{ required: true }]} />
+            </>
+          );
+        }}
+      </ProFormList>
     </DrawerForm>
   );
 };

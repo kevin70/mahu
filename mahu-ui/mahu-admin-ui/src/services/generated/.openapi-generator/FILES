@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/BaseApi.ts
 apis/BasisApi.ts
 apis/DefaultApi.ts
@@ -18,8 +17,9 @@ models/EmployeeStatusEnum.ts
 models/ErrorResponse.ts
 models/ErrorResponseError.ts
 models/ErrorResponseErrorInvalidParamsInner.ts
-models/GetAccessLogResponse.ts
-models/GetAuditJourResponse.ts
+models/GetAdminAccessLogResponse.ts
+models/GetAdminAuditLogResponse.ts
+models/GetAdminAuthLogResponse.ts
 models/GetBrandResponse.ts
 models/GetClientResponse.ts
 models/GetDepartmentResponse.ts
@@ -45,8 +45,9 @@ models/GetSystemDictResponse.ts
 models/GetSystemDictResponseDataInner.ts
 models/GetTokenResponse.ts
 models/GetVersionResponse.ts
-models/ListAccessLogsPageResponse.ts
-models/ListAuditJoursPageResponse.ts
+models/ListAdminAccessLogsPageResponse.ts
+models/ListAdminAuditLogsPageResponse.ts
+models/ListAdminAuthLogsPageResponse.ts
 models/ListBrandsPageResponse.ts
 models/ListClientsPageResponse.ts
 models/ListDepartmentsPageResponse.ts

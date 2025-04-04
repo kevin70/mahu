@@ -2,11 +2,25 @@ parameters:
   - name: type_code
     in: path
     description: 数据类型代码
+    required: true
     schema:
       type: string
+get:
+  summary: 获取指定类型代码的数据
+  operationId: getSystemDict
+  x-role-permit: DICT:R
+  tags:
+    - system
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/GetSystemDictResponse.yaml"
 put:
   summary: 修改数据字典类型
-  operationId: updateSystemDictType
+  operationId: updateSystemDict
   x-role-permit: DICT:W
   tags:
     - system

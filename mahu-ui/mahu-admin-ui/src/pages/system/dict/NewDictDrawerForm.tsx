@@ -1,17 +1,24 @@
 import { HNewButton } from '@/components/HNewButton';
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
-import { DrawerForm, ProFormDigit, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import {
+  DrawerForm,
+  ProForm,
+  ProFormCheckbox,
+  ProFormDigit,
+  ProFormList,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { DictKindAutoComplete } from './DictKindAutoComplete';
-import { message } from 'antd';
+import { Card, Flex, message } from 'antd';
 
 export const NewDictDrawerForm = (props: { onSuccess: () => void }) => {
   const noWrite = $checkNotPermit(permits.DICT.W);
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['NewDictDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.addDict(values);
+      return SYSTEM_API.addSystemDict({ upsertDictRequest: values });
     },
     onSuccess() {
       message.success('新增字典成功');
@@ -39,41 +46,53 @@ export const NewDictDrawerForm = (props: { onSuccess: () => void }) => {
       }}
     >
       <ProFormText
-        label="SLUG"
-        name="slug"
-        extra={'别名（SLUG）是网址的唯一标识部分，通常位于 URL 的末尾'}
+        label="类型代码"
+        name="typeCode"
         validateTrigger="onSubmit"
-        rules={[
-          { max: 32, message: '最长32个字符' },
-          {
-            async validator(_rule, value, _callback) {
-              try {
-                if (value) {
-                  const { items } = await SYSTEM_API.listDicts({
-                    limit: 1,
-                    filter: `slug==${value}`,
-                    noTotalCount: 0,
-                  });
-                  const exists = items && items.length > 0;
-                  if (exists) {
-                    return Promise.reject('字典 SLUG 已经存在');
-                  }
-                }
-              } catch (_: any) {
-                //
-              }
-              return Promise.resolve();
-            },
-          },
-        ]}
+        rules={[{ required: true }, { max: 32, message: '最长32个字符' }]}
+        tooltip={'代码最长32位字符可使用字母、数字、下划线及英文句号'}
       />
-      <ProFormItem label="种类" name="kind" required rules={[{ required: true }]}>
-        <DictKindAutoComplete />
-      </ProFormItem>
-      <ProFormTextArea label="值" required name="value" validateDebounce={1000} rules={[{ required: true }]} />
-      <ProFormTextArea label="文本" required name="label" rules={[{ required: true }]} />
-      <ProFormDigit label="排序" required name="ordering" initialValue={1} rules={[{ required: true }]} />
-      <ProFormTextArea label="备注" name="remark" />
+      <ProFormText label="名称" required name="name" rules={[{ required: true }]} />
+      <ProFormTextArea label="描述" name="description" />
+      <ProFormCheckbox label="状态" name="status" tooltip={'未选中为禁用'}>
+        启用
+      </ProFormCheckbox>
+      <ProFormList
+        name={'data'}
+        label={'字典数据'}
+        alwaysShowItemLabel
+        copyIconProps={false}
+        itemRender={({ listDom, action }) => {
+          return (
+            <ProForm.Item>
+              <Card size="small">
+                <Flex justify="end">{action}</Flex>
+                <div>{listDom}</div>
+              </Card>
+            </ProForm.Item>
+          );
+        }}
+      >
+        {() => {
+          return (
+            <>
+              <ProFormText
+                label="数据代码"
+                required
+                name={'dataCode'}
+                rules={[{ required: true }]}
+                tooltip={'代码最长32位字符可使用字母、数字、下划线及英文句号'}
+              />
+              <ProFormText label="数据名称" required name={'name'} rules={[{ required: true }]} />
+              <ProFormTextArea label="数据值" required name={'value'} rules={[{ required: true }]} />
+              <ProFormCheckbox label="状态" name="status" tooltip={'未选中为禁用'}>
+                启用
+              </ProFormCheckbox>
+              <ProFormDigit label="排序" required name="ordering" initialValue={1} rules={[{ required: true }]} />
+            </>
+          );
+        }}
+      </ProFormList>
     </DrawerForm>
   );
 };
