@@ -21,6 +21,7 @@
 
         <Logger name="com.password4j" level="ERROR"/>
         <Logger name="io.helidon.webserver" level="INFO"/>
+        <Logger name="io.helidon.service" level="INFO"/>
 
         <Root level="DEBUG" additivity="false">
             <AppenderRef ref="console"/>
