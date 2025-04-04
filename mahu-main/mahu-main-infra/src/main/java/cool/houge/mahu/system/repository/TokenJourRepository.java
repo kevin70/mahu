@@ -1,7 +1,6 @@
 package cool.houge.mahu.system.repository;
 
 import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.entity.system.TokenJour;
 import io.ebean.Database;
 import jakarta.inject.Singleton;
 

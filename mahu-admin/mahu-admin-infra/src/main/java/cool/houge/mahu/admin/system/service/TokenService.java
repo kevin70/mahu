@@ -8,7 +8,6 @@ import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.admin.system.repository.EmployeeRepository;
-import cool.houge.mahu.admin.system.repository.TokenJourRepository;
 import cool.houge.mahu.common.BizCodeException;
 import cool.houge.mahu.common.BizCodes;
 import cool.houge.mahu.common.GrantType;
@@ -49,9 +48,6 @@ public class TokenService implements TokenVerifier {
 
     @Inject
     EmployeeRepository employeeRepository;
-
-    @Inject
-    TokenJourRepository tokenJourRepository;
 
     @Override
     public AuthContext verify(String token) {

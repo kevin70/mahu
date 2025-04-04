@@ -10,7 +10,6 @@ import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.User;
-import cool.houge.mahu.entity.system.TokenJour;
 import cool.houge.mahu.remote.wechat.Jscode2SessionPayload;
 import cool.houge.mahu.remote.wechat.WechatClient;
 import cool.houge.mahu.remote.wechat.WechatEncryptPayload;
