@@ -1,6 +1,6 @@
 package cool.houge.mahu.entity.log;
 
-import cool.houge.mahu.entity.ScheduledTask;
+import cool.houge.mahu.entity.system.ScheduledTask;
 import io.ebean.annotation.DbJsonB;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

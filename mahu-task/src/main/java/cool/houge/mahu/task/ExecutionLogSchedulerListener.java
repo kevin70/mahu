@@ -2,7 +2,7 @@ package cool.houge.mahu.task;
 
 import com.github.kagkarlsson.scheduler.event.AbstractSchedulerListener;
 import com.github.kagkarlsson.scheduler.task.ExecutionComplete;
-import cool.houge.mahu.entity.ScheduledTask;
+import cool.houge.mahu.entity.system.ScheduledTask;
 import cool.houge.mahu.entity.log.ScheduledExecutionLog;
 import io.ebean.Database;
 import io.ebean.annotation.Transactional;

@@ -1,4 +1,4 @@
-package cool.houge.mahu.entity;
+package cool.houge.mahu.entity.system;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "scheduled_tasks")
+@Table(name = "scheduled_tasks", schema = "system")
 public class ScheduledTask {
 
     /// 主键
@@ -41,8 +41,6 @@ public class ScheduledTask {
     private long version;
     /// 执行优先级
     private int priority;
-    /// 任务描述
-    private String description;
 
     /// 任务 ID
     @Data
