@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "接口文档",
   "scripts": {
-    "test": "build-docs"
+    "test": "build-docs",
+    "build-admin": "redocly build-docs admin@v1 --output dist/mahu-admin-openapi.html"
   },
   "keywords": [],
   "author": "ZY kzou227@qq.com",
