@@ -15,12 +15,16 @@
 
 import * as runtime from '../runtime';
 import type {
-  ListDictsResponseInner,
+  DictResponse,
 } from '../models/index';
 import {
-    ListDictsResponseInnerFromJSON,
-    ListDictsResponseInnerToJSON,
+    DictResponseFromJSON,
+    DictResponseToJSON,
 } from '../models/index';
+
+export interface ListDictsRequest {
+    includeData?: boolean;
+}
 
 /**
  * 
@@ -30,8 +34,12 @@ export class BaseApi extends runtime.BaseAPI {
     /**
      * 字典类型列表
      */
-    async listDictsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ListDictsResponseInner>>> {
+    async listDictsRaw(requestParameters: ListDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DictResponse>>> {
         const queryParameters: any = {};
+
+        if (requestParameters['includeData'] != null) {
+            queryParameters['include_data'] = requestParameters['includeData'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -50,14 +58,14 @@ export class BaseApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ListDictsResponseInnerFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DictResponseFromJSON));
     }
 
     /**
      * 字典类型列表
      */
-    async listDicts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListDictsResponseInner>> {
-        const response = await this.listDictsRaw(initOverrides);
+    async listDicts(requestParameters: ListDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DictResponse>> {
+        const response = await this.listDictsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

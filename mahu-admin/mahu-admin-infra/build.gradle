@@ -53,6 +53,7 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
     implementation("redis.clients:jedis:$jedisVersion")
     implementation("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
+    implementation("com.rabbitmq:amqp-client:5.25.0")
 
     testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
     testImplementation("org.instancio:instancio-junit:$instancioVersion")

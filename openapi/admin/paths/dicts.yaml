@@ -3,10 +3,20 @@ get:
   operationId: listDicts
   tags:
     - base
+  parameters:
+    - name: include_data
+      in: query
+      description: 是否包涵 `data` 数据
+      schema:
+        type: boolean
+        default: false
   responses:
     "200":
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ListDictsResponse.yaml"
+            type: array
+            description: 字典列表
+            items:
+              $ref: "../components/schemas/DictResponse.yaml"

@@ -6,6 +6,7 @@ import cool.houge.mahu.admin.service.MakeOssDirectUploadPayload;
 import cool.houge.mahu.admin.service.MakeOssDirectUploadResult;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
+import cool.houge.mahu.admin.system.repository.DictTypeRepository;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
 import cool.houge.mahu.entity.Brand;
@@ -58,6 +59,13 @@ public interface VoBeanMapper extends LogBeanMapper {
     DictType toDictType(UpsertDictRequest bean);
 
     GetSystemDictResponse toGetSystemDictResponse(DictType bean);
+
+    DictResponse toDictResponse(DictType bean);
+
+    @Mapping(target = "data", ignore = true)
+    DictResponse toDictResponseIgnoreData(DictType bean);
+
+    DictDataResponse toDictDataResponse(DictData bean);
 
     TokenPasswordForm toTokenPasswordForm(LoginRequest bean);
 

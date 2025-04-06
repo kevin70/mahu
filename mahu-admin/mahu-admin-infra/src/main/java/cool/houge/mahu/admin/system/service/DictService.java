@@ -88,6 +88,19 @@ public class DictService {
         return bean;
     }
 
+    /// 查询指定字典数据
+    ///
+    /// @param typeCode 字典类型代码
+    /// @param dataCode 字典数据代码
+    @Transactional(readOnly = true)
+    public DictData findDictData(String typeCode, String dataCode) {
+        var bean = dictTypeRepository.findDictData(typeCode, dataCode);
+        if (bean == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND);
+        }
+        return bean;
+    }
+
     /// 分页查询数据
     ///
     /// @param dataFilter 数据过滤
@@ -95,6 +108,12 @@ public class DictService {
     public PagedList<DictType> findPage(DataFilter dataFilter) {
         var plist = dictTypeRepository.findPage(dataFilter);
         return toolService.wrap(plist, dataFilter);
+    }
+
+    /// 查询所有字典数据
+    @Transactional(readOnly = true)
+    public List<DictType> findAll() {
+        return dictTypeRepository.findAll();
     }
 
     void mergeDictData(List<DictData> dbDictData, List<DictData> dictData) {

@@ -44,7 +44,6 @@ export * from './ListAdminAuthLogsPageResponse';
 export * from './ListBrandsPageResponse';
 export * from './ListClientsPageResponse';
 export * from './ListDepartmentsPageResponse';
-export * from './ListDictsResponseInner';
 export * from './ListEmployeesPageResponse';
 export * from './ListMartAttributesPageResponse';
 export * from './ListMartCategoriesPageResponse';

@@ -39,5 +39,11 @@ public class DictDataResponse {
    @Size(max=4096)
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
+    /**
+     * 是否启用
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("status")
+    private Boolean status;
 }
 

@@ -1,5 +1,7 @@
-import { BasisApi, MartApi, MeApi, SystemApi, TokenApi } from './generated';
+import { BaseApi, BasisApi, MartApi, MeApi, SystemApi, TokenApi } from './generated';
 
+// 基础接口
+export const BASE_API = new BaseApi();
 // 访问令牌
 export const TOKEN_API = new TokenApi();
 // 个人信息接口

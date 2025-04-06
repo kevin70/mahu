@@ -51,7 +51,6 @@ models/ListAdminAuthLogsPageResponse.ts
 models/ListBrandsPageResponse.ts
 models/ListClientsPageResponse.ts
 models/ListDepartmentsPageResponse.ts
-models/ListDictsResponseInner.ts
 models/ListEmployeesPageResponse.ts
 models/ListMartAttributesPageResponse.ts
 models/ListMartCategoriesPageResponse.ts

@@ -1,14 +1,15 @@
 import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
-import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
+import { PageContainer, ProFormItem, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form, message } from 'antd';
+import { Form } from 'antd';
 import { NewDictDrawerForm } from './NewDictDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
 import { EditDictDrawerForm } from './EditDictDrawerForm';
 import { permits } from '@/config/permit';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { useTableHelper } from '@/hooks/useTableHelper';
+import { DictTypeSelect } from '@/components/DictTypeSelect';
 
 export const DictList = () => {
   const noWrite = $checkNotPermit(permits.DICT.W);
@@ -38,8 +39,9 @@ export const DictList = () => {
         ]);
       }}
     >
-      <ProFormText name="searchKind" label="种类" />
-      <ProFormText name="searchSlug" label="SLUG" />
+      <ProFormItem name={'typeCode'} label="类型代码">
+        <DictTypeSelect style={{ width: 240 }} mode="multiple" showSearch allowClear />
+      </ProFormItem>
       <HSearchButton type="primary" htmlType="submit" loading={isFetching} />
     </Form>
   );
