@@ -3,7 +3,6 @@ package cool.houge.mahu.admin;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
@@ -53,8 +52,7 @@ public class WebServerBeanFactory {
         return new ObjectMapper()
             .findAndRegisterModules()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            .setDefaultPropertyInclusion(JsonInclude.Include.NON_EMPTY)
-            .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
+            .setDefaultPropertyInclusion(JsonInclude.Include.NON_DEFAULT)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 }
