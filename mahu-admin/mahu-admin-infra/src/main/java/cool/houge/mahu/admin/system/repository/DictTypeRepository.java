@@ -36,7 +36,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
         var rsqlCtx = RSQLContext.of(qb)
                 .property("created_at", qb.createdAt)
                 .property("updated_at", qb.updatedAt)
-                .property(qb.typeCode)
+                .property("type_code", qb.typeCode)
                 .property(qb.name);
         super.apply(dataFilter, rsqlCtx);
         return qb.data.fetch().findPagedList();

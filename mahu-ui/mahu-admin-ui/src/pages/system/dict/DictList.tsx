@@ -33,10 +33,8 @@ export const DictList = () => {
       layout="inline"
       onFinish={(values: any) => {
         gotoFirstPage();
-        setRSQLFilters([
-          rsqlOps.comparisonEx('type_code', '==', values.searchSlug),
-          rsqlOps.comparisonEx('kind', '=contains=', values.searchKind),
-        ]);
+        setRSQLFilters([rsqlOps.comparisonEx('type_code', '=in=', values.typeCode)]);
+        refetch();
       }}
     >
       <ProFormItem name={'typeCode'} label="类型代码">
