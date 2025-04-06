@@ -56,11 +56,11 @@ export interface GetSystemDictResponseDataInner {
      */
     ordering: number;
     /**
-     * 状态（F:禁用, T:启用）
+     * 是否禁用
      * @type {boolean}
      * @memberof GetSystemDictResponseDataInner
      */
-    status: boolean;
+    disabled?: boolean;
 }
 
 /**
@@ -72,7 +72,6 @@ export function instanceOfGetSystemDictResponseDataInner(value: object): value i
     if (!('dataCode' in value) || value['dataCode'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('ordering' in value) || value['ordering'] === undefined) return false;
-    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -92,7 +91,7 @@ export function GetSystemDictResponseDataInnerFromJSONTyped(json: any, ignoreDis
         'name': json['name'],
         'value': json['value'] == null ? undefined : json['value'],
         'ordering': json['ordering'],
-        'status': json['status'],
+        'disabled': json['disabled'] == null ? undefined : json['disabled'],
     };
 }
 
@@ -113,7 +112,7 @@ export function GetSystemDictResponseDataInnerToJSONTyped(value?: GetSystemDictR
         'name': value['name'],
         'value': value['value'],
         'ordering': value['ordering'],
-        'status': value['status'],
+        'disabled': value['disabled'],
     };
 }
 

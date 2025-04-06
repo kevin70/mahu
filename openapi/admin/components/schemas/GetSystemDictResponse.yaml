@@ -28,9 +28,9 @@ properties:
     type: string
     description: 字典类型描述
     maxLength: 255
-  status:
+  disabled:
     type: boolean
-    description: 状态（F:禁用, T:启用）
+    description: 是否禁用
   data:
     type: array
     description: 字典数据
@@ -70,6 +70,6 @@ properties:
           type: integer
           format: int32
           description: 排序值
-        status:
+        disabled:
           type: boolean
-          description: 状态（F:禁用, T:启用）
+          description: 是否禁用

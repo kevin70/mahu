@@ -46,11 +46,11 @@ export interface UpsertDictRequest {
      */
     description?: string;
     /**
-     * 状态（F:禁用, T:启用）
+     * 是否禁用
      * @type {boolean}
      * @memberof UpsertDictRequest
      */
-    status?: boolean;
+    disabled?: boolean;
     /**
      * 字典数据
      * @type {Array<UpsertDictRequestDataInner>}
@@ -81,7 +81,7 @@ export function UpsertDictRequestFromJSONTyped(json: any, ignoreDiscriminator: b
         'typeCode': json['type_code'],
         'name': json['name'],
         'description': json['description'] == null ? undefined : json['description'],
-        'status': json['status'] == null ? undefined : json['status'],
+        'disabled': json['disabled'] == null ? undefined : json['disabled'],
         'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(UpsertDictRequestDataInnerFromJSON)),
     };
 }
@@ -100,7 +100,7 @@ export function UpsertDictRequestToJSONTyped(value?: UpsertDictRequest | null, i
         'type_code': value['typeCode'],
         'name': value['name'],
         'description': value['description'],
-        'status': value['status'],
+        'disabled': value['disabled'],
         'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(UpsertDictRequestDataInnerToJSON)),
     };
 }

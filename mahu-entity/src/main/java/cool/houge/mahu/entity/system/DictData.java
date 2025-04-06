@@ -41,9 +41,9 @@ public class DictData implements Auditable {
     /// 排序值
     @OrderBy("DESC")
     private Integer ordering;
-    /// 状态
+    /// 是否禁用
     ///
-    /// - `true`：启用
-    /// - `false`：禁用
-    private boolean status;
+    /// - `true`：禁用
+    /// - `false`：启用
+    private boolean disabled;
 }

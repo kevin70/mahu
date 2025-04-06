@@ -44,11 +44,11 @@ export interface UpsertDictRequestDataInner {
      */
     ordering?: number;
     /**
-     * 状态（F:禁用, T:启用）
+     * 是否禁用
      * @type {boolean}
      * @memberof UpsertDictRequestDataInner
      */
-    status?: boolean;
+    disabled?: boolean;
 }
 
 /**
@@ -73,7 +73,7 @@ export function UpsertDictRequestDataInnerFromJSONTyped(json: any, ignoreDiscrim
         'name': json['name'],
         'value': json['value'] == null ? undefined : json['value'],
         'ordering': json['ordering'] == null ? undefined : json['ordering'],
-        'status': json['status'] == null ? undefined : json['status'],
+        'disabled': json['disabled'] == null ? undefined : json['disabled'],
     };
 }
 
@@ -92,7 +92,7 @@ export function UpsertDictRequestDataInnerToJSONTyped(value?: UpsertDictRequestD
         'name': value['name'],
         'value': value['value'],
         'ordering': value['ordering'],
-        'status': value['status'],
+        'disabled': value['disabled'],
     };
 }
 

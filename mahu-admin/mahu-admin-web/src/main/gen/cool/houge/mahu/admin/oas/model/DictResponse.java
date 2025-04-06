@@ -44,6 +44,12 @@ public class DictResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("description")
     private String description;
     /**
+     * 是否禁用
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
+    private Boolean disabled;
+    /**
      * 字典数据
      */
   

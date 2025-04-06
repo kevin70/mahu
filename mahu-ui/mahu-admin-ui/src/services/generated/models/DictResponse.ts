@@ -46,6 +46,12 @@ export interface DictResponse {
      */
     description?: string;
     /**
+     * 是否禁用
+     * @type {boolean}
+     * @memberof DictResponse
+     */
+    disabled?: boolean;
+    /**
      * 字典数据
      * @type {Array<DictDataResponse>}
      * @memberof DictResponse
@@ -75,6 +81,7 @@ export function DictResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'typeCode': json['type_code'],
         'name': json['name'],
         'description': json['description'] == null ? undefined : json['description'],
+        'disabled': json['disabled'] == null ? undefined : json['disabled'],
         'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(DictDataResponseFromJSON)),
     };
 }
@@ -93,6 +100,7 @@ export function DictResponseToJSONTyped(value?: DictResponse | null, ignoreDiscr
         'type_code': value['typeCode'],
         'name': value['name'],
         'description': value['description'],
+        'disabled': value['disabled'],
         'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(DictDataResponseToJSON)),
     };
 }

@@ -60,8 +60,8 @@ export const EditDictDrawerForm = (props: { typeCode: string; onSuccess: () => v
       />
       <ProFormText label="名称" required name="name" rules={[{ required: true }]} />
       <ProFormTextArea label="描述" name="description" />
-      <ProFormCheckbox label="状态" name="status" tooltip={'未选中为禁用'}>
-        启用
+      <ProFormCheckbox label="状态" name="disabled" tooltip={'选中为禁用'}>
+        禁用
       </ProFormCheckbox>
       <ProFormList
         name={'data'}
@@ -91,8 +91,8 @@ export const EditDictDrawerForm = (props: { typeCode: string; onSuccess: () => v
               />
               <ProFormText label="数据名称" required name={'name'} rules={[{ required: true }]} />
               <ProFormTextArea label="数据值" required name={'value'} rules={[{ required: true }]} />
-              <ProFormCheckbox label="状态" name="status" tooltip={'未选中为禁用'}>
-                启用
+              <ProFormCheckbox label="状态" name="disabled" tooltip={'选中为禁用'}>
+                禁用
               </ProFormCheckbox>
               <ProFormDigit label="排序" required name="ordering" initialValue={1} rules={[{ required: true }]} />
             </>

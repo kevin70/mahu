@@ -59,12 +59,11 @@ public class GetSystemDictResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("description")
     private String description;
     /**
-     * 状态（F:禁用, T:启用）
+     * 是否禁用
      */
-    @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("status")
-    private Boolean status;
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
+    private Boolean disabled;
     /**
      * 字典数据
      */

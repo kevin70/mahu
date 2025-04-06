@@ -92,13 +92,13 @@ export const DictList = () => {
           },
           {
             title: '状态',
-            dataIndex: 'status',
+            dataIndex: 'disabled',
             valueEnum: {
-              true: {
+              false: {
                 text: '启用',
                 status: 'success',
               },
-              false: {
+              true: {
                 text: '禁用',
                 status: 'error',
               },
@@ -154,13 +154,13 @@ export const DictList = () => {
                   },
                   {
                     title: '状态',
-                    dataIndex: 'status',
+                    dataIndex: 'disabled',
                     valueEnum: {
-                      true: {
+                      false: {
                         text: '启用',
                         status: 'success',
                       },
-                      false: {
+                      true: {
                         text: '禁用',
                         status: 'error',
                       },

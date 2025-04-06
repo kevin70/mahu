@@ -40,10 +40,10 @@ public class DictDataResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
     /**
-     * 是否启用
+     * 是否禁用
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("status")
-    private Boolean status;
+    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
+    private Boolean disabled;
 }
 

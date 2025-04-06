@@ -32,11 +32,11 @@ public class DictType implements Auditable {
     private String name;
     /// 字典类型描述
     private String description;
-    /// 状态
+    /// 是否禁用
     ///
-    /// - `true`：启用
-    /// - `false`：禁用
-    private boolean status;
+    /// - `true`：禁用
+    /// - `false`：启用
+    private boolean disabled;
     /// 字典数据
     @OneToMany(mappedBy = "dictType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DictData> data;

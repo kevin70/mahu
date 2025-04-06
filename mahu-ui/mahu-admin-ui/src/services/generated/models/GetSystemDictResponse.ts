@@ -58,11 +58,11 @@ export interface GetSystemDictResponse {
      */
     description?: string;
     /**
-     * 状态（F:禁用, T:启用）
+     * 是否禁用
      * @type {boolean}
      * @memberof GetSystemDictResponse
      */
-    status: boolean;
+    disabled?: boolean;
     /**
      * 字典数据
      * @type {Array<GetSystemDictResponseDataInner>}
@@ -79,7 +79,6 @@ export function instanceOfGetSystemDictResponse(value: object): value is GetSyst
     if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
     if (!('typeCode' in value) || value['typeCode'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -98,7 +97,7 @@ export function GetSystemDictResponseFromJSONTyped(json: any, ignoreDiscriminato
         'typeCode': json['type_code'],
         'name': json['name'],
         'description': json['description'] == null ? undefined : json['description'],
-        'status': json['status'],
+        'disabled': json['disabled'] == null ? undefined : json['disabled'],
         'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(GetSystemDictResponseDataInnerFromJSON)),
     };
 }
@@ -119,7 +118,7 @@ export function GetSystemDictResponseToJSONTyped(value?: GetSystemDictResponse |
         'type_code': value['typeCode'],
         'name': value['name'],
         'description': value['description'],
-        'status': value['status'],
+        'disabled': value['disabled'],
         'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(GetSystemDictResponseDataInnerToJSON)),
     };
 }

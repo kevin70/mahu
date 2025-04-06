@@ -38,11 +38,11 @@ export interface DictDataResponse {
      */
     value?: string;
     /**
-     * 是否启用
+     * 是否禁用
      * @type {boolean}
      * @memberof DictDataResponse
      */
-    status?: boolean;
+    disabled?: boolean;
 }
 
 /**
@@ -67,7 +67,7 @@ export function DictDataResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
         'dataCode': json['data_code'],
         'name': json['name'],
         'value': json['value'] == null ? undefined : json['value'],
-        'status': json['status'] == null ? undefined : json['status'],
+        'disabled': json['disabled'] == null ? undefined : json['disabled'],
     };
 }
 
@@ -85,7 +85,7 @@ export function DictDataResponseToJSONTyped(value?: DictDataResponse | null, ign
         'data_code': value['dataCode'],
         'name': value['name'],
         'value': value['value'],
-        'status': value['status'],
+        'disabled': value['disabled'],
     };
 }
 

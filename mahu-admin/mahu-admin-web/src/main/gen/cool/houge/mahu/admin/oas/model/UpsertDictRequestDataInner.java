@@ -46,10 +46,10 @@ public class UpsertDictRequestDataInner {
     @com.fasterxml.jackson.annotation.JsonProperty("ordering")
     private Integer ordering;
     /**
-     * 状态（F:禁用, T:启用）
+     * 是否禁用
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("status")
-    private Boolean status;
+    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
+    private Boolean disabled;
 }
 
