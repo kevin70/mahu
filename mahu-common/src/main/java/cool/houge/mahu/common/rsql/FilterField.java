@@ -6,18 +6,18 @@ import io.ebean.typequery.TQPropertyBase;
 import io.ebean.util.CamelCaseHelper;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+
+import static java.util.Objects.requireNonNull;
 
 /// RSQL 过滤属性映射
 ///
 /// @author ZY (kzou227@qq.com)
 @Builder
 @Getter
-@RequiredArgsConstructor
 public class FilterField {
 
     /// 支持所有操作符
@@ -32,15 +32,24 @@ public class FilterField {
     /// 可接受的查询操作符
     private final List<ComparisonOperator> allowOperators;
 
+    private FilterField(String filterName, String columnName, Function<String, ?> valueConverter, List<ComparisonOperator> allowOperators) {
+        requireNonNull(filterName, "filterName cannot be null");
+        requireNonNull(columnName, "columnName cannot be null");
+        requireNonNull(valueConverter, "valueConverter cannot be null");
+        requireNonNull(allowOperators, "allowOperators cannot be null");
+
+        this.filterName = filterName;
+        this.columnName = columnName;
+        this.valueConverter = valueConverter;
+        this.allowOperators = allowOperators;
+    }
+
     /// 是否可接受指定的操作符
     public boolean isAllowOperator(ComparisonOperator operator) {
         if (allowOperators == ALL) {
             return true;
         }
-        if (allowOperators != null) {
-            return allowOperators.contains(operator);
-        }
-        return false;
+        return allowOperators.contains(operator);
     }
 
     ///
