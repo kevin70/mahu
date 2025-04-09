@@ -5,6 +5,19 @@ info:
 servers:
   - url: http://127.0.0.1:9093
     description: 本地测试服务
+components:
+  securitySchemes:
+    AT:
+      type: apiKey
+      in: query
+      name: access_token
+      description: 接口认证参数
+    BearerAuth:
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: [ ]
 tags:
   - name: basis
     description: 基础模块
@@ -20,9 +33,9 @@ tags:
     description: 商城模块
   - name: log
     description: 业务日志模块
-security:
-  - BearerAuth: [ ]
 paths:
+  /samples:
+    $ref: "paths/samples.yaml"
   ### =============================== 公共数据接口 =============================== ###
   /version:
     $ref: paths/version.yaml
@@ -110,45 +123,3 @@ paths:
     $ref: paths/logs_admin_audit_logs.yaml
   /logs/admin-auth-logs:
     $ref: paths/logs_admin_auth_logs.yaml
-
-  /samples:
-    get:
-      summary: 样例
-      description: |
-        HTTP 错误码响应 https://www.webfx.com/web-development/glossary/http-status-codes
-      responses:
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/ErrorResponse.yaml
-        403:
-          description: 拒绝访问
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/ErrorResponse.yaml
-        404:
-          description: 未找到请求资源
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/ErrorResponse.yaml
-        500:
-          description: 服务器错误
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/ErrorResponse.yaml
-components:
-  securitySchemes:
-    AT:
-      type: apiKey
-      in: query
-      name: access_token
-      description: 接口认证参数
-    BearerAuth:
-      type: http
-      scheme: Bearer
-      bearerFormat: JWT

@@ -2,20 +2,25 @@ openapi: 3.0.3
 info:
   title: Mahu 接口文档
   version: 1.0.0
-
 servers:
   - url: http://127.0.0.1:9093
     description: 本地测试服务
-
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: [ ]
 tags:
   - name: base
     description: 基础接口
   - name: me
     description: 当前认证用户
-
-security: [ ]
-
 paths:
+  /samples:
+    $ref: "paths/samples.yaml"
   /login/token:
     $ref: paths/login_token.yaml
   /me/profile:
@@ -30,43 +35,3 @@ paths:
     $ref: paths/dicts_{slug}.yaml
   /settings/oss-direct-upload:
     $ref: paths/settings_oss_direct_upload.yaml
-
-  /samples:
-    get:
-      summary: 样例
-      operationId: sample
-      description: |
-        HTTP 错误码响应 https://www.webfx.com/web-development/glossary/http-status-codes
-      responses:
-        200:
-          description: OK
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/ErrorResponse.yaml
-        403:
-          description: 拒绝访问
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/ErrorResponse.yaml
-        404:
-          description: 未找到请求资源
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/ErrorResponse.yaml
-        500:
-          description: 服务器错误
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/ErrorResponse.yaml
-components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: Bearer
-      bearerFormat: JWT
