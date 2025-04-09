@@ -32,6 +32,17 @@ public class FilterField {
     /// 可接受的查询操作符
     private final List<ComparisonOperator> allowOperators;
 
+    /// 是否可接受指定的操作符
+    public boolean isAllowOperator(ComparisonOperator operator) {
+        if (allowOperators == ALL) {
+            return true;
+        }
+        if (allowOperators != null) {
+            return allowOperators.contains(operator);
+        }
+        return false;
+    }
+
     ///
     public static Builder of(PInteger<?> p) {
         return of(p, Integer::parseInt);
