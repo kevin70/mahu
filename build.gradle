@@ -105,6 +105,7 @@ allprojects {
         testCompileOnly("org.projectlombok:lombok:$lombokVersion")
         testImplementation("org.assertj:assertj-core:$assertjVersion")
         testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
+        testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
         testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
         testImplementation("org.instancio:instancio-junit:$instancioVersion")
     }
