@@ -1,12 +1,13 @@
 package cool.houge.mahu.common.rsql;
 
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import io.ebean.typequery.PInteger;
-import io.ebean.typequery.TQPropertyBase;
+import io.ebean.typequery.*;
 import io.ebean.util.CamelCaseHelper;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -32,7 +33,11 @@ public class FilterField {
     /// 可接受的查询操作符
     private final List<ComparisonOperator> allowOperators;
 
-    private FilterField(String filterName, String columnName, Function<String, ?> valueConverter, List<ComparisonOperator> allowOperators) {
+    private FilterField(
+            String filterName,
+            String columnName,
+            Function<String, ?> valueConverter,
+            List<ComparisonOperator> allowOperators) {
         requireNonNull(filterName, "filterName cannot be null");
         requireNonNull(columnName, "columnName cannot be null");
         requireNonNull(valueConverter, "valueConverter cannot be null");
@@ -52,19 +57,40 @@ public class FilterField {
         return allowOperators.contains(operator);
     }
 
-    ///
-    public static Builder of(PInteger<?> p) {
-        return of(p, Integer::parseInt);
+    public static Builder with(PBoolean<?> p) {
+        return with(p, Boolean::parseBoolean);
     }
 
-    public static Builder of(TQPropertyBase<?, ?> p, Function<String, ?> valueConverter) {
-        var columnName = p.toString();
+    public static Builder with(PInteger<?> p) {
+        return with(p, Integer::parseInt);
+    }
 
-        var b = new Builder();
-        b.filterName(CamelCaseHelper.toUnderscoreFromCamel(columnName))
+    public static Builder with(PLong<?> p) {
+        return with(p, Long::parseLong);
+    }
+
+    public static Builder with(PDouble<?> p) {
+        return with(p, Double::parseDouble);
+    }
+
+    public static Builder with(PLocalDate<?> p) {
+        return with(p, LocalDate::parse);
+    }
+
+    public static Builder with(PLocalDateTime<?> p) {
+        return with(p, LocalDateTime::parse);
+    }
+
+    public static Builder with(PString<?> p) {
+        return with(p, Function.identity());
+    }
+
+    public static Builder with(TQPropertyBase<?, ?> p, Function<String, ?> valueConverter) {
+        var columnName = p.toString();
+        return builder()
+                .filterName(CamelCaseHelper.toUnderscoreFromCamel(columnName))
                 .columnName(columnName)
                 .valueConverter(valueConverter)
                 .allowOperators(ALL);
-        return b;
     }
 }
