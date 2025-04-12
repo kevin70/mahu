@@ -54,7 +54,6 @@ public class AuditPersistController extends BeanPersistAdapter {
         var descriptor = server.descriptor(bean.getClass());
 
         var entity = new AdminAuditLog()
-                .setSource(server.config().getDataSourceConfig().getApplicationName())
                 .setTableName(descriptor.baseTable())
                 .setChangeType(changeType.getCode())
                 .setData(changeData(server, descriptor, bean));

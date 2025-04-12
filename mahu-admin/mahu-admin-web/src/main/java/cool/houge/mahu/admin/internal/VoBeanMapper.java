@@ -17,10 +17,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.List;
 import java.util.function.Function;
 
@@ -31,11 +28,15 @@ import java.util.function.Function;
 public interface VoBeanMapper extends LogBeanMapper {
 
     default OffsetDateTime map(Instant b) {
-        return b != null ? OffsetDateTime.ofInstant(b, ZoneOffset.UTC) : null;
+        return b != null ? OffsetDateTime.ofInstant(b, ZoneOffset.ofHours(8)) : null;
     }
 
     default OffsetDateTime map(LocalDateTime b) {
-        return b != null ? b.atOffset(ZoneOffset.UTC) : null;
+        return b != null ? b.atOffset(ZoneOffset.ofHours(8)) : null;
+    }
+
+    default OffsetDateTime map(ZonedDateTime b) {
+        return b != null ? b.toOffsetDateTime() : null;
     }
 
     /// 分页对象映射
@@ -178,4 +179,8 @@ public interface VoBeanMapper extends LogBeanMapper {
 
     @Mapping(target = "parentId", source = "parent.id")
     ListPMartCategories200ResponseInner toListPMartCategories200ResponseInner(Category bean);
+
+    @Mapping(target = "taskName", source = "taskId.taskName")
+    @Mapping(target = "taskInstance", source = "taskId.taskInstance")
+    GetSystemScheduledTaskResponse toGetSystemScheduledTaskResponse(ScheduledTask bean);
 }

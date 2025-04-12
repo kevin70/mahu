@@ -43,6 +43,8 @@ models/GetShopAssetResponse.ts
 models/GetShopResponse.ts
 models/GetSystemDictResponse.ts
 models/GetSystemDictResponseDataInner.ts
+models/GetSystemScheduledTaskExecutionResponse.ts
+models/GetSystemScheduledTaskResponse.ts
 models/GetTokenResponse.ts
 models/GetVersionResponse.ts
 models/ListAdminAccessLogsPageResponse.ts
@@ -60,6 +62,8 @@ models/ListRolesPageResponse.ts
 models/ListShopAssetsPageResponse.ts
 models/ListShopsPageResponse.ts
 models/ListSystemDictsPageResponse.ts
+models/ListSystemScheduledTaskExecutionsPageResponse.ts
+models/ListSystemScheduledTasksPageResponse.ts
 models/LoginRequest.ts
 models/LoginResponse.ts
 models/MakeOssDirectUploadRequest.ts

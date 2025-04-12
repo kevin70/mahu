@@ -29,6 +29,8 @@ import type {
   ListEmployeesPageResponse,
   ListRolesPageResponse,
   ListSystemDictsPageResponse,
+  ListSystemScheduledTaskExecutionsPageResponse,
+  ListSystemScheduledTasksPageResponse,
   UpsertClientRequest,
   UpsertDepartmentRequest,
   UpsertDictDataRequest,
@@ -65,6 +67,10 @@ import {
     ListRolesPageResponseToJSON,
     ListSystemDictsPageResponseFromJSON,
     ListSystemDictsPageResponseToJSON,
+    ListSystemScheduledTaskExecutionsPageResponseFromJSON,
+    ListSystemScheduledTaskExecutionsPageResponseToJSON,
+    ListSystemScheduledTasksPageResponseFromJSON,
+    ListSystemScheduledTasksPageResponseToJSON,
     UpsertClientRequestFromJSON,
     UpsertClientRequestToJSON,
     UpsertDepartmentRequestFromJSON,
@@ -122,6 +128,16 @@ export interface DeleteRoleRequest {
 
 export interface DeleteSystemDictTypeRequest {
     typeCode: string;
+}
+
+export interface DeleteSystemScheduledTaskExecutionRequest {
+    taskName: string;
+    taskInstance: string;
+}
+
+export interface ExecuteSystemScheduledTaskRequest {
+    taskName: string;
+    taskInstance: string;
 }
 
 export interface GetClientRequest {
@@ -201,6 +217,22 @@ export interface ListSystemDictsRequest {
     filter?: string;
     sort?: Array<string>;
     noTotalCount?: number;
+}
+
+export interface ListSystemScheduledTaskExecutionsRequest {
+    taskName: string;
+    taskInstance: string;
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: Array<string>;
+}
+
+export interface ListSystemScheduledTasksRequest {
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: Array<string>;
 }
 
 export interface UpdateClientRequest {
@@ -695,6 +727,100 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async deleteSystemDictType(requestParameters: DeleteSystemDictTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteSystemDictTypeRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 删除当前执行状态
+     */
+    async deleteSystemScheduledTaskExecutionRaw(requestParameters: DeleteSystemScheduledTaskExecutionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['taskName'] == null) {
+            throw new runtime.RequiredError(
+                'taskName',
+                'Required parameter "taskName" was null or undefined when calling deleteSystemScheduledTaskExecution().'
+            );
+        }
+
+        if (requestParameters['taskInstance'] == null) {
+            throw new runtime.RequiredError(
+                'taskInstance',
+                'Required parameter "taskInstance" was null or undefined when calling deleteSystemScheduledTaskExecution().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/scheduled-tasks/{task_name}/{task_instance}/executions`.replace(`{${"task_name"}}`, encodeURIComponent(String(requestParameters['taskName']))).replace(`{${"task_instance"}}`, encodeURIComponent(String(requestParameters['taskInstance']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 删除当前执行状态
+     */
+    async deleteSystemScheduledTaskExecution(requestParameters: DeleteSystemScheduledTaskExecutionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteSystemScheduledTaskExecutionRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 立即执行任务
+     */
+    async executeSystemScheduledTaskRaw(requestParameters: ExecuteSystemScheduledTaskRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['taskName'] == null) {
+            throw new runtime.RequiredError(
+                'taskName',
+                'Required parameter "taskName" was null or undefined when calling executeSystemScheduledTask().'
+            );
+        }
+
+        if (requestParameters['taskInstance'] == null) {
+            throw new runtime.RequiredError(
+                'taskInstance',
+                'Required parameter "taskInstance" was null or undefined when calling executeSystemScheduledTask().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/scheduled-tasks/{task_name}/{task_instance}/executions`.replace(`{${"task_name"}}`, encodeURIComponent(String(requestParameters['taskName']))).replace(`{${"task_instance"}}`, encodeURIComponent(String(requestParameters['taskInstance']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 立即执行任务
+     */
+    async executeSystemScheduledTask(requestParameters: ExecuteSystemScheduledTaskRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.executeSystemScheduledTaskRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -1283,6 +1409,120 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async listSystemDicts(requestParameters: ListSystemDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListSystemDictsPageResponse> {
         const response = await this.listSystemDictsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 定时任务
+     */
+    async listSystemScheduledTaskExecutionsRaw(requestParameters: ListSystemScheduledTaskExecutionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListSystemScheduledTaskExecutionsPageResponse>> {
+        if (requestParameters['taskName'] == null) {
+            throw new runtime.RequiredError(
+                'taskName',
+                'Required parameter "taskName" was null or undefined when calling listSystemScheduledTaskExecutions().'
+            );
+        }
+
+        if (requestParameters['taskInstance'] == null) {
+            throw new runtime.RequiredError(
+                'taskInstance',
+                'Required parameter "taskInstance" was null or undefined when calling listSystemScheduledTaskExecutions().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/scheduled-tasks/{task_name}/{task_instance}/executions`.replace(`{${"task_name"}}`, encodeURIComponent(String(requestParameters['taskName']))).replace(`{${"task_instance"}}`, encodeURIComponent(String(requestParameters['taskInstance']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListSystemScheduledTaskExecutionsPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 定时任务
+     */
+    async listSystemScheduledTaskExecutions(requestParameters: ListSystemScheduledTaskExecutionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListSystemScheduledTaskExecutionsPageResponse> {
+        const response = await this.listSystemScheduledTaskExecutionsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 定时任务
+     */
+    async listSystemScheduledTasksRaw(requestParameters: ListSystemScheduledTasksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListSystemScheduledTasksPageResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/scheduled-tasks`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListSystemScheduledTasksPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 定时任务
+     */
+    async listSystemScheduledTasks(requestParameters: ListSystemScheduledTasksRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListSystemScheduledTasksPageResponse> {
+        const response = await this.listSystemScheduledTasksRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -32,7 +32,11 @@ public class LogController implements HttpService, WebSupport {
     }
 
     private void listAdminAuthLogs(ServerRequest request, ServerResponse response) {
-        //
+        var dataFilter = dataFilter(request);
+        var plist = logService.findPage4AdminAuthLog(dataFilter);
+        var rs = beanMapper.toPageResponse(
+                plist.getList(), plist.getTotalCount(), beanMapper::toGetAdminAuthLogResponse);
+        response.send(rs);
     }
 
     private void listAdminAuditLogs(ServerRequest request, ServerResponse response) {

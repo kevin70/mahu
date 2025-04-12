@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.service;
 
 import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.entity.AdminAuditLog;
+import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.repository.LogRepository;
 import cool.houge.mahu.common.DataFilter;
 import io.ebean.PagedList;
@@ -17,6 +18,12 @@ public class LogService {
 
     @Inject
     LogRepository logRepository;
+
+    /// 管理员后台登录记录
+    @Transactional(readOnly = true)
+    public PagedList<AdminAuthLog> findPage4AdminAuthLog(DataFilter dataFilter) {
+        return logRepository.findPage4AdminAuthLog(dataFilter);
+    }
 
     /// 管理员后台访问记录
     @Transactional(readOnly = true)

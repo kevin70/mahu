@@ -14,7 +14,7 @@ export const AccessLogList = () => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/access-logs', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      return SYSTEM_API.listAccessLogs({
+      return SYSTEM_API.listAdminAccessLogs({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
@@ -28,12 +28,12 @@ export const AccessLogList = () => {
       onFinish={(values: any) => {
         gotoFirstPage();
         setRSQLFilters([
-          rsqlOps.comparisonEx('employee_id', '==', values.employeeId),
+          rsqlOps.comparisonEx('admin_id', '==', values.adminId),
           rsqlOps.comparisonEx('ip_addr', '==', values.ipAddr),
         ]);
       }}
     >
-      <ProFormText name="employeeId" label="职员 ID" placeholder="职员 ID" />
+      <ProFormText name="adminId" label="管理员ID" placeholder="管理员ID" />
       <ProFormText name="ipAddr" label="IP" placeholder="访问 IP 地址" />
       <HSearchButton type="primary" htmlType="submit" loading={isFetching} />
     </Form>

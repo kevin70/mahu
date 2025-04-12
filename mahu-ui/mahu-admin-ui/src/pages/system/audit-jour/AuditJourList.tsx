@@ -14,7 +14,7 @@ export const AuditJourList = () => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/system/audit-jours', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      return SYSTEM_API.listAuditJours({
+      return SYSTEM_API.listAdminAuditLogs({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
@@ -28,12 +28,12 @@ export const AuditJourList = () => {
       onFinish={(values: any) => {
         gotoFirstPage();
         setRSQLFilters([
-          rsqlOps.comparisonEx('user_id', '==', values.userId),
+          rsqlOps.comparisonEx('admin_id', '==', values.adminId),
           rsqlOps.comparisonEx('ip_addr', '==', values.ipAddr),
         ]);
       }}
     >
-      <ProFormText name="userId" label="用户 ID" placeholder="用户 ID" />
+      <ProFormText name="adminId" label="管理员ID" placeholder="管理员ID" />
       <ProFormText name="ipAddr" label="IP" placeholder="访问 IP 地址" />
       <HSearchButton type="primary" htmlType="submit" loading={isFetching} />
     </Form>

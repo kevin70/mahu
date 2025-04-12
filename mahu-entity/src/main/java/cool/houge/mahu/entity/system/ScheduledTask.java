@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.nio.ByteBuffer;
 import java.time.ZonedDateTime;
 
 /// 定时任务
@@ -21,7 +20,7 @@ public class ScheduledTask {
     @EmbeddedId
     private TaskId taskId;
     /// 任务数据
-    private ByteBuffer taskData;
+    private String taskData;
     /// 执行时间
     private ZonedDateTime executionTime;
     /// 是否在执行中
