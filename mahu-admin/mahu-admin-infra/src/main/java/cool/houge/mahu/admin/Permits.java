@@ -14,6 +14,7 @@ public enum Permits {
     CLIENT(A, "终端"),
     ACCESS_LOG(R, "访问日志"),
     AUDIT_JOUR(R, "操作审计"),
+    SYSTEM_SCHEDULED_TASK(A, "系统|定时任务"),
     //
     BRAND(A, "品牌"),
     // 商城
@@ -26,6 +27,7 @@ public enum Permits {
     ADMIN_ACCESS_LOG(R, "管理员|访问日志"),
     ADMIN_AUDIT_LOG(R, "管理员|操作日志"),
     ADMIN_AUTH_LOG(R, "管理员|认证日志"),
+
 //
 ;
 

@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: "./BasePageResponse.yaml"
+properties:
+  items:
+    type: array
+    description: 列表
+    items:
+      $ref: "./GetSystemScheduledTaskResponse.yaml"

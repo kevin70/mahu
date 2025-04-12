@@ -1,0 +1,18 @@
+get:
+  summary: 定时任务
+  operationId: listSystemScheduledTasks
+  x-role-permit: SYSTEM_SCHEDULED_TASK:R
+  tags:
+    - system
+  parameters:
+    - $ref: ../components/parameters/limit.yaml
+    - $ref: ../components/parameters/offset.yaml
+    - $ref: ../components/parameters/filter.yaml
+    - $ref: ../components/parameters/sort.yaml
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ListSystemScheduledTasksPageResponse.yaml"

@@ -1,0 +1,37 @@
+type: object
+required:
+  - task_name
+  - task_instance
+  - picked_by
+  - started_at
+  - finished_at
+properties:
+  created_at:
+    type: string
+    format: date-time
+    description: 创建时间
+  task_name:
+    type: string
+    description: 任务名称
+  task_instance:
+    type: string
+    description: 任务实例
+  picked_by:
+    type: string
+    description: 任务执行者
+  started_at:
+    type: string
+    format: date-time
+    description: 执行开始时间
+  finished_at:
+    type: string
+    format: date-time
+    description: 执行结束时间
+  succeeded:
+    type: boolean
+    description: 是否执行成功
+  cause:
+    type: array
+    description: 失败原因
+    items:
+      type: string

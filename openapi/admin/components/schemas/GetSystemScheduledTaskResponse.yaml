@@ -1,0 +1,50 @@
+type: object
+required:
+  - task_name
+  - task_instance
+  - execution_time
+properties:
+  task_name:
+    type: string
+    description: 任务名称
+  task_instance:
+    type: string
+    description: 任务实例
+  task_data:
+    type: string
+    description: 任务数据
+  execution_time:
+    type: string
+    format: date-time
+    description: 下一次任务执行时间
+  picked:
+    type: boolean
+    description: 任务是否在执行中
+  picked_by:
+    type: string
+    description: 任务执行者
+  last_success:
+    type: string
+    format: date-time
+    description: 上次执行成功的时间
+  last_failure:
+    type: string
+    format: date-time
+    description: 上次执行失败的时间
+  consecutive_failures:
+    type: integer
+    format: int32
+    description: 连续执行失败的次数
+  last_heartbeat:
+    type: string
+    format: date-time
+    description: 最后健康检查的时间
+  version:
+    type: integer
+    format: int64
+    description: 任务版本号（乐观锁）
+  priority:
+    type: integer
+    format: int32
+    description: 任务优先级
+
