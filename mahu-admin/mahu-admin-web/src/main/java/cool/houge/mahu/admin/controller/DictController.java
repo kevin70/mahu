@@ -15,7 +15,7 @@ import jakarta.inject.Singleton;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class PDictController implements HttpService, WebSupport {
+public class DictController implements HttpService, WebSupport {
 
     @Inject
     DictService dictService;
