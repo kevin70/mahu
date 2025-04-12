@@ -1,5 +1,5 @@
 import { permits } from '@/config/permit';
-import { BASIS_API, MART_API, resolveApiError, uploadFile } from '@/services';
+import { BASE_API, MART_API, resolveApiError, uploadFile } from '@/services';
 import { useProfileStore } from '@/stores';
 import { DeleteOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckCard, ModalForm, PageContainer, ProFormUploadDragger } from '@ant-design/pro-components';
@@ -48,7 +48,7 @@ export const MartAssetList = () => {
   >([]);
 
   const uploadPolicy = async (fileName: string) => {
-    return BASIS_API.makeOssDirectUpload({
+    return BASE_API.makeOssDirectUpload({
       makeOssDirectUploadRequest: {
         kind: 'MART_ASSET',
         fileName: fileName,

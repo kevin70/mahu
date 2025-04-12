@@ -16,20 +16,203 @@
 import * as runtime from '../runtime';
 import type {
   DictResponse,
+  GetBrandResponse,
+  GetVersionResponse,
+  ListPMartCategories200ResponseInner,
+  MakeOssDirectUploadRequest,
+  MakeOssDirectUploadResponse,
+  UpsertBrandRequest,
 } from '../models/index';
 import {
     DictResponseFromJSON,
     DictResponseToJSON,
+    GetBrandResponseFromJSON,
+    GetBrandResponseToJSON,
+    GetVersionResponseFromJSON,
+    GetVersionResponseToJSON,
+    ListPMartCategories200ResponseInnerFromJSON,
+    ListPMartCategories200ResponseInnerToJSON,
+    MakeOssDirectUploadRequestFromJSON,
+    MakeOssDirectUploadRequestToJSON,
+    MakeOssDirectUploadResponseFromJSON,
+    MakeOssDirectUploadResponseToJSON,
+    UpsertBrandRequestFromJSON,
+    UpsertBrandRequestToJSON,
 } from '../models/index';
+
+export interface AddBrandRequest {
+    upsertBrandRequest: UpsertBrandRequest;
+}
+
+export interface DeleteBrandRequest {
+    id?: number;
+}
+
+export interface GetBrandRequest {
+    id?: number;
+}
 
 export interface ListDictsRequest {
     includeData?: boolean;
+}
+
+export interface MakeOssDirectUploadOperationRequest {
+    makeOssDirectUploadRequest: MakeOssDirectUploadRequest;
+}
+
+export interface UpdateBrandRequest {
+    upsertBrandRequest: UpsertBrandRequest;
+    id?: number;
 }
 
 /**
  * 
  */
 export class BaseApi extends runtime.BaseAPI {
+
+    /**
+     * 保存品牌
+     */
+    async addBrandRaw(requestParameters: AddBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertBrandRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertBrandRequest',
+                'Required parameter "upsertBrandRequest" was null or undefined when calling addBrand().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/brands`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertBrandRequestToJSON(requestParameters['upsertBrandRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 保存品牌
+     */
+    async addBrand(requestParameters: AddBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addBrandRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 删除指定品牌
+     */
+    async deleteBrandRaw(requestParameters: DeleteBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/brands/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 删除指定品牌
+     */
+    async deleteBrand(requestParameters: DeleteBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteBrandRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 服务版本
+     */
+    async gerVersionRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetVersionResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/version`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetVersionResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 服务版本
+     */
+    async gerVersion(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetVersionResponse> {
+        const response = await this.gerVersionRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 获取指定 ID 的品牌
+     */
+    async getBrandRaw(requestParameters: GetBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBrandResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/brands/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetBrandResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 获取指定 ID 的品牌
+     */
+    async getBrand(requestParameters: GetBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetBrandResponse> {
+        const response = await this.getBrandRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * 字典类型列表
@@ -67,6 +250,127 @@ export class BaseApi extends runtime.BaseAPI {
     async listDicts(requestParameters: ListDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DictResponse>> {
         const response = await this.listDictsRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * 获取可用的商城分类
+     */
+    async listPMartCategoriesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ListPMartCategories200ResponseInner>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/p/mart/categories`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ListPMartCategories200ResponseInnerFromJSON));
+    }
+
+    /**
+     * 获取可用的商城分类
+     */
+    async listPMartCategories(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListPMartCategories200ResponseInner>> {
+        const response = await this.listPMartCategoriesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * OSS 直接上传策略
+     */
+    async makeOssDirectUploadRaw(requestParameters: MakeOssDirectUploadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MakeOssDirectUploadResponse>> {
+        if (requestParameters['makeOssDirectUploadRequest'] == null) {
+            throw new runtime.RequiredError(
+                'makeOssDirectUploadRequest',
+                'Required parameter "makeOssDirectUploadRequest" was null or undefined when calling makeOssDirectUpload().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/settings/oss-direct-upload`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MakeOssDirectUploadRequestToJSON(requestParameters['makeOssDirectUploadRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MakeOssDirectUploadResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * OSS 直接上传策略
+     */
+    async makeOssDirectUpload(requestParameters: MakeOssDirectUploadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MakeOssDirectUploadResponse> {
+        const response = await this.makeOssDirectUploadRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 修改品牌
+     */
+    async updateBrandRaw(requestParameters: UpdateBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertBrandRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertBrandRequest',
+                'Required parameter "upsertBrandRequest" was null or undefined when calling updateBrand().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/brands/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertBrandRequestToJSON(requestParameters['upsertBrandRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 修改品牌
+     */
+    async updateBrand(requestParameters: UpdateBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateBrandRaw(requestParameters, initOverrides);
     }
 
 }

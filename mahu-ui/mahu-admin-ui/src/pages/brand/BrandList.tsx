@@ -1,7 +1,7 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { permits } from '@/config/permit';
 import { useRSQLFilter } from '@/hooks';
-import { BASIS_API } from '@/services';
+import { BASE_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
 import { Form, message } from 'antd';
@@ -19,7 +19,7 @@ export const BrandList = () => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['/brands', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      return BASIS_API.listBrands({
+      return BASE_API.listBrands({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
@@ -41,7 +41,7 @@ export const BrandList = () => {
   );
 
   const onDelete = async (id: number) => {
-    await BASIS_API.deleteBrand({ id });
+    await BASE_API.deleteBrand({ id });
     message.success('删除品牌成功');
 
     await refetch();

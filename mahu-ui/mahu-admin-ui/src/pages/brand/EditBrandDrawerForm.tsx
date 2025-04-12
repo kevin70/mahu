@@ -1,7 +1,7 @@
 import { HEditButton } from '@/components/HEditButton';
 import { permits } from '@/config/permit';
 import { RSQL_OPS } from '@/hooks';
-import { BASIS_API, resolveApiError, uploadFile } from '@/services';
+import { BASE_API, resolveApiError, uploadFile } from '@/services';
 import { DrawerForm, ProFormDigit, ProFormText, ProFormUploadButton } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
 import { Form, FormInstance, Input, message } from 'antd';
@@ -19,7 +19,7 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
       if (logoFiles && logoFiles.length > 0) {
         body.logo = logoFiles[0].url;
       }
-      return BASIS_API.updateBrand({
+      return BASE_API.updateBrand({
         id: props.id,
         upsertBrandRequest: values,
       });
@@ -35,7 +35,7 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
   });
 
   const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await BASIS_API.getBrand({ id: props.id });
+    const data = await BASE_API.getBrand({ id: props.id });
     form.setFieldsValue(data);
 
     if (data.logo) {
@@ -78,7 +78,7 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
             async validator(_rule, value, _callback) {
               try {
                 if (value) {
-                  const { items } = await BASIS_API.listBrands({
+                  const { items } = await BASE_API.listBrands({
                     limit: 1,
                     noTotalCount: 1,
                     filter: RSQL_OPS.encode(RSQL_OPS.eq('name', value)),
@@ -123,7 +123,7 @@ export const EditBrandDrawerForm = (props: { id: number; onSuccess: () => void }
             try {
               // @ts-ignore
               const fileName = options.file.name;
-              const policy = await BASIS_API.makeOssDirectUpload({
+              const policy = await BASE_API.makeOssDirectUpload({
                 makeOssDirectUploadRequest: { kind: 'BRAND', fileName: fileName },
               });
               const file: any = options.file;

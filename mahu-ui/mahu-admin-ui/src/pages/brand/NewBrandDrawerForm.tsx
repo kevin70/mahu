@@ -1,7 +1,7 @@
 import { HNewButton } from '@/components/HNewButton';
 import { permits } from '@/config/permit';
 import { RSQL_OPS } from '@/hooks';
-import { BASIS_API, resolveApiError, uploadFile } from '@/services';
+import { BASE_API, resolveApiError, uploadFile } from '@/services';
 import { DrawerForm, ProFormDigit, ProFormText, ProFormUploadButton } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
 import { message } from 'antd';
@@ -18,7 +18,7 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
       if (logoFiles && logoFiles.length > 0) {
         body.logo = logoFiles[0].url;
       }
-      return BASIS_API.addBrand(body);
+      return BASE_API.addBrand(body);
     },
     onSuccess() {
       message.success('新增品牌成功');
@@ -57,7 +57,7 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
             async validator(_rule, value, _callback) {
               try {
                 if (value) {
-                  const { items } = await BASIS_API.listBrands({
+                  const { items } = await BASE_API.listBrands({
                     limit: 1,
                     noTotalCount: 1,
                     filter: RSQL_OPS.encode(RSQL_OPS.eq('name', value)),
@@ -102,7 +102,7 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
             try {
               // @ts-ignore
               const fileName = options.file.name;
-              const policy = await BASIS_API.makeOssDirectUpload({
+              const policy = await BASE_API.makeOssDirectUpload({
                 makeOssDirectUploadRequest: { kind: 'BRAND', fileName: fileName },
               });
               const file: any = options.file;
