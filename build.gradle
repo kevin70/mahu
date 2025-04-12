@@ -3,7 +3,6 @@ buildscript {
         lombokVersion = "1.18.34"
         mapstructVersion = "1.6.2"
         swaggerVersion = "2.2.22"
-        pangulangVersion = "1.3.3-RC1"
         guavaVersion = "33.1.0-jre"
         postgresqlVersion = "42.7.4"
         hikariVersion = "5.1.0"
