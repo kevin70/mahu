@@ -2,12 +2,14 @@ package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.RSQLContext;
+import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.system.Department;
 import cool.houge.mahu.entity.system.query.QDepartment;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
+
+import java.util.List;
 
 /// 部门
 ///
@@ -31,12 +33,13 @@ public class DepartmentRepository extends HBeanRepository<Integer, Department> {
     /// | ordering | int |
     public PagedList<Department> findPage(DataFilter filter) {
         var qb = new QDepartment(db());
-        var rsqlCtx = RSQLContext.of(qb)
-                .property("created_at", qb.createdAt)
-                .property("updated_at", qb.updatedAt)
-                .property(qb.name)
-                .property(qb.ordering);
-        super.apply(filter, rsqlCtx);
+        var filterFields = List.of(
+            FF_CREATED_AT,
+            FF_UPDATED_AT,
+            FilterField.with(qb.name).build(),
+            FilterField.with(qb.ordering).build());
+
+        super.apply(filter, filterFields, qb.query());
         return qb.findPagedList();
     }
 }

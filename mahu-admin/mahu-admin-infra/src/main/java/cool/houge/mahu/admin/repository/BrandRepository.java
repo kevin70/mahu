@@ -2,12 +2,14 @@ package cool.houge.mahu.admin.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.RSQLContext;
+import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.Brand;
 import cool.houge.mahu.entity.query.QBrand;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
+
+import java.util.List;
 
 /// 品牌
 ///
@@ -29,12 +31,13 @@ public class BrandRepository extends HBeanRepository<Integer, Brand> {
     /// | ordering | int |
     public PagedList<Brand> findPage(DataFilter dataFilter) {
         var qb = new QBrand(db());
-        var rsqlCtx = RSQLContext.of(qb)
-                .property("created_at", qb.createdAt)
-                .property("updated_at", qb.updatedAt)
-                .property(qb.name)
-                .property(qb.ordering);
-        super.apply(dataFilter, rsqlCtx);
+        var filterFields = List.of(
+                FF_CREATED_AT,
+                FF_UPDATED_AT,
+                FilterField.with(qb.name).build(),
+                FilterField.with(qb.ordering).build());
+
+        super.apply(dataFilter, filterFields, qb.query());
         return qb.findPagedList();
     }
 }

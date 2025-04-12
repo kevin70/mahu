@@ -1,5 +1,8 @@
 package cool.houge.mahu.common.rsql;
 
+import com.google.common.base.Strings;
+import cool.houge.mahu.common.BizCodeException;
+import cool.houge.mahu.common.BizCodes;
 import cz.jirutka.rsql.parser.ast.*;
 import io.ebean.Expr;
 
@@ -20,61 +23,69 @@ public class EBeanRSQLVisitor implements RSQLVisitor<Void, RSQLContext> {
 
     @Override
     public Void visit(OrNode node, RSQLContext ctx) {
-        var qb = ctx.queryBean();
-        qb.or();
+        var where = ctx.query().where();
+        where.or();
         for (Node n : node.getChildren()) {
             n.accept(this, ctx);
         }
-        qb.endOr();
+        where.endOr();
         return null;
     }
 
     @Override
     public Void visit(ComparisonNode node, RSQLContext ctx) {
-        var op = node.getOperator();
-        var property = ctx.getProperty(node.getSelector());
-        if (property == null) {
+        var filterField = ctx.getFilterField(node.getSelector());
+        if (filterField == null) {
             return null;
+        }
+
+        var op = node.getOperator();
+        if (!filterField.isAllowOperator(op)) {
+            throw new BizCodeException(
+                    BizCodes.INVALID_ARGUMENT, Strings.lenientFormat("属性[%s]不支持[%]操作", node.getSelector(), op));
         }
 
         List<?> args;
         try {
-            args = node.getArguments().stream().map(property.converter()).toList();
+            args = node.getArguments().stream()
+                    .map(filterField.getValueConverter())
+                    .toList();
         } catch (IllegalArgumentException e) {
             return null;
         }
 
-        var qb = ctx.queryBean();
+        var columnName = filterField.getColumnName();
+        var where = ctx.query().where();
         if (op.equals(RSQLOperators.EQUAL)) {
-            qb.add(Expr.eq(property.propertyName(), args.getFirst()));
+            where.add(Expr.eq(columnName, args.getFirst()));
         } else if (op.equals(RSQLOperators.NOT_EQUAL)) {
-            qb.add(Expr.ne(property.propertyName(), args.getFirst()));
+            where.add(Expr.ne(columnName, args.getFirst()));
         } else if (op.equals(RSQLOperators.GREATER_THAN)) {
-            qb.add(Expr.gt(property.propertyName(), args.getFirst()));
+            where.add(Expr.gt(columnName, args.getFirst()));
         } else if (op.equals(RSQLOperators.LESS_THAN)) {
-            qb.add(Expr.lt(property.propertyName(), args.getFirst()));
+            where.add(Expr.lt(columnName, args.getFirst()));
         } else if (op.equals(RSQLOperators.GREATER_THAN_OR_EQUAL)) {
-            qb.add(Expr.ge(property.propertyName(), args.getFirst()));
+            where.add(Expr.ge(columnName, args.getFirst()));
         } else if (op.equals(RSQLOperators.LESS_THAN_OR_EQUAL)) {
-            qb.add(Expr.le(property.propertyName(), args.getFirst()));
+            where.add(Expr.le(columnName, args.getFirst()));
         } else if (op.equals(RSQLOperators.IN)) {
-            qb.add(Expr.in(property.propertyName(), args));
+            where.add(Expr.in(columnName, args));
         } else if (op.equals(RSQLOperators.NOT_IN)) {
-            qb.add(Expr.not(Expr.in(property.propertyName(), args)));
+            where.add(Expr.not(Expr.in(columnName, args)));
         } else if (op.equals(RSQLOperators.IS_NULL)) {
-            qb.add(Expr.isNull(property.propertyName()));
+            where.add(Expr.isNull(columnName));
         } else if (op.equals(RSQLOperators.NOT_NULL)) {
-            qb.add(Expr.isNotNull(property.propertyName()));
+            where.add(Expr.isNotNull(columnName));
         } else if (op.equals(RSQLOperators.LIKE)) {
-            qb.add(Expr.like(property.propertyName(), args.getFirst().toString()));
+            where.add(Expr.like(columnName, args.getFirst().toString()));
         } else if (op.equals(RSQLOperators.ILIKE)) {
-            qb.add(Expr.ilike(property.propertyName(), args.getFirst().toString()));
+            where.add(Expr.ilike(columnName, args.getFirst().toString()));
         } else if (op.equals(RSQLOperators.CONTAINS)) {
-            qb.add(Expr.contains(property.propertyName(), args.getFirst().toString()));
+            where.add(Expr.contains(columnName, args.getFirst().toString()));
         } else if (op.equals(RSQLOperators.ICONTAINS)) {
-            qb.add(Expr.icontains(property.propertyName(), args.getFirst().toString()));
+            where.add(Expr.icontains(columnName, args.getFirst().toString()));
         } else if (op.equals(RSQLOperators.BETWEEN)) {
-            qb.add(Expr.between(property.propertyName(), args.getFirst(), args.getLast()));
+            where.add(Expr.between(columnName, args.getFirst(), args.getLast()));
         }
         return null;
     }

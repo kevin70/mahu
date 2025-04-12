@@ -6,10 +6,12 @@ import cool.houge.mahu.admin.entity.query.QAdminAccessLog;
 import cool.houge.mahu.admin.entity.query.QAdminAuditLog;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.RSQLContext;
+import cool.houge.mahu.common.rsql.FilterField;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
+
+import java.util.List;
 
 /// 业务日志数据仓库
 ///
@@ -32,11 +34,12 @@ public class LogRepository extends HBeanRepository<Void, Void> {
     /// | ip_addr | string |
     public PagedList<AdminAccessLog> findPage4AdminAccessLog(DataFilter dataFilter) {
         var qb = new QAdminAccessLog(db());
-        var rsqlCtx = RSQLContext.of(qb)
-                .property("created_at", qb.createdAt)
-                .property("admin_id", qb.adminId)
-                .property("ip_addr", qb.ipAddr);
-        super.apply(dataFilter, rsqlCtx);
+        var filterFields = List.of(
+                FF_CREATED_AT,
+                FilterField.with(qb.adminId).build(),
+                FilterField.with(qb.ipAddr).build());
+
+        super.apply(dataFilter, filterFields, qb.query());
         return qb.findPagedList();
     }
 
@@ -51,11 +54,12 @@ public class LogRepository extends HBeanRepository<Void, Void> {
     /// | ip_addr | string |
     public PagedList<AdminAuditLog> findPage4AdminAuditLog(DataFilter dataFilter) {
         var qb = new QAdminAuditLog(db());
-        var rsqlCtx = RSQLContext.of(qb)
-                .property("created_at", qb.createdAt)
-                .property("admin_id", qb.adminId)
-                .property("ip_addr", qb.ipAddr);
-        super.apply(dataFilter, rsqlCtx);
+        var filterFields = List.of(
+            FF_CREATED_AT,
+            FilterField.with(qb.adminId).build(),
+            FilterField.with(qb.ipAddr).build());
+
+        super.apply(dataFilter, filterFields, qb.query());
         return qb.findPagedList();
     }
 }

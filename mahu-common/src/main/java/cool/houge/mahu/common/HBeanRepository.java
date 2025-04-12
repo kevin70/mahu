@@ -1,15 +1,22 @@
 package cool.houge.mahu.common;
 
 import cool.houge.mahu.common.rsql.EBeanRSQLVisitor;
+import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.common.rsql.RSQLContext;
 import cool.houge.mahu.common.rsql.RSQLOperators;
-import cool.houge.mahu.entity.log.BaseBizLog;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
+import io.ebean.Query;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static cool.houge.mahu.common.rsql.RSQLOperators.BETWEEN;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
 
 /// 扩展数据管理基类
 ///
@@ -20,6 +27,22 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
 
     /// RSQL 解析器
     private static final RSQLParser RSQL_PARSER = new RSQLParser(RSQLOperators.supportedOperators());
+    /// 常用的 created_at 属性过滤
+    protected static final FilterField FF_CREATED_AT = FilterField.builder()
+            .filterName("created_at")
+            .columnName("createdAt")
+            .valueConverter(LocalDateTime::parse)
+            .allowOperators(List.of(
+                    BETWEEN, GREATER_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL, EQUAL, NOT_EQUAL))
+            .build();
+    /// 常用的 updated_at 属性过滤
+    protected static final FilterField FF_UPDATED_AT = FilterField.builder()
+            .filterName("updated_at")
+            .columnName("updatedAt")
+            .valueConverter(LocalDateTime::parse)
+            .allowOperators(List.of(
+                    BETWEEN, GREATER_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL, EQUAL, NOT_EQUAL))
+            .build();
 
     /// {@inheritDoc}
     protected HBeanRepository(Class<T> type, Database database) {
@@ -29,8 +52,10 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
     /// 将过滤条件应用到查询上
     ///
     /// @param filter 数据过滤条件
-    /// @param ctx RSQL 上下文
-    protected void apply(DataFilter filter, RSQLContext ctx) {
+    /// @param filterFields 过滤字段
+    /// @param query 查询对象
+    protected void apply(DataFilter filter, List<FilterField> filterFields, Query<?> query) {
+        var ctx = new RSQLContext(filterFields, query);
         if (filter.filter() != null && !filter.filter().isEmpty()) {
             try {
                 var node = RSQL_PARSER.parse(filter.filter());
@@ -41,16 +66,16 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         }
 
         if (filter.offset() > 0) {
-            ctx.queryBean().setFirstRow(filter.offset());
+            query.setFirstRow(filter.offset());
         }
 
         if (filter.limit() > 0) {
-            ctx.queryBean().setMaxRows(filter.limit());
+            query.setMaxRows(filter.limit());
         }
 
         // 包含软删除的数据
         if (filter.isIncludeDeleted()) {
-            ctx.queryBean().setIncludeSoftDeletes();
+            query.setIncludeSoftDeletes();
         }
 
         // 排序
@@ -62,23 +87,17 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
 
             boolean ascending = s.charAt(0) != '-';
             String name = ascending ? s : s.substring(1);
-            var property = ctx.getProperty(name);
-            if (property == null) {
+            var filterField = ctx.getFilterField(name);
+            if (filterField == null) {
                 log.debug("不存在的排序属性 {}", name);
                 continue;
             }
 
             if (ascending) {
-                property.original().asc();
+                query.orderBy().asc(filterField.getColumnName());
             } else {
-                property.original().desc();
+                query.orderBy().desc(filterField.getColumnName());
             }
         }
-    }
-
-    /// 推送业务日志
-    /// @param bean 业务日志对象
-    public final void push(BaseBizLog bean) {
-        db().save(bean);
     }
 }

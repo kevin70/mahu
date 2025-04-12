@@ -2,12 +2,14 @@ package cool.houge.mahu.admin.mart.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.RSQLContext;
+import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.mart.Shop;
 import cool.houge.mahu.entity.mart.query.QShop;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
+
+import java.util.List;
 
 /// 商店
 ///
@@ -28,8 +30,12 @@ public class ShopRepository extends HBeanRepository<Integer, Shop> {
     /// | name | string |
     public PagedList<Shop> findPage(DataFilter dataFilter) {
         var qb = new QShop(db());
+        var filterFields = List.of(
+                FF_CREATED_AT, FF_UPDATED_AT, FilterField.with(qb.name).build()
+                //
+                );
 
-        super.apply(dataFilter, RSQLContext.of(qb).property(qb.name));
+        super.apply(dataFilter, filterFields, qb.query());
         return qb.findPagedList();
     }
 }

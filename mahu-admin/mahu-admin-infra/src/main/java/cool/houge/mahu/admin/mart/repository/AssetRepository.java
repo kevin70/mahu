@@ -2,7 +2,6 @@ package cool.houge.mahu.admin.mart.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.RSQLContext;
 import cool.houge.mahu.entity.mart.Asset;
 import cool.houge.mahu.entity.mart.query.QAsset;
 import io.ebean.Database;
@@ -26,7 +25,7 @@ public class AssetRepository extends HBeanRepository<Long, Asset> {
         var qb = new QAsset(db());
         qb.shop.id.eq(shopId);
 
-        super.apply(dataFilter, RSQLContext.of(qb));
+        super.apply(dataFilter, List.of(), qb.query());
         return qb.findPagedList();
     }
 

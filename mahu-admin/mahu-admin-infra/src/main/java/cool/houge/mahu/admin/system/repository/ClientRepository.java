@@ -2,7 +2,7 @@ package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.RSQLContext;
+import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.system.Client;
 import cool.houge.mahu.entity.system.query.QClient;
 import io.ebean.Database;
@@ -42,12 +42,11 @@ public class ClientRepository extends HBeanRepository<String, Client> {
     /// | updated_at | date-time |
     /// | client_id | string |
     public PagedList<Client> findPage(DataFilter dataFilter) {
-        var qb = new QClient(database);
-        var rsqlCtx = RSQLContext.of(qb)
-            .property("created_at", qb.createdAt)
-            .property("updated_at", qb.updatedAt)
-            .property("client_id", qb.clientId);
-        super.apply(dataFilter, rsqlCtx);
+        var qb = new QClient(db());
+        var filterFields = List.of(
+                FF_CREATED_AT, FF_UPDATED_AT, FilterField.with(qb.clientId).build());
+
+        super.apply(dataFilter, filterFields, qb.query());
         return qb.findPagedList();
     }
 

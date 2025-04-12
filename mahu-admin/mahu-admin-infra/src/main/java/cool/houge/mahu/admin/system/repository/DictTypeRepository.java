@@ -2,7 +2,7 @@ package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.RSQLContext;
+import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.system.DictData;
 import cool.houge.mahu.entity.system.DictType;
 import cool.houge.mahu.entity.system.query.QDictData;
@@ -10,6 +10,8 @@ import cool.houge.mahu.entity.system.query.QDictType;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
+
+import java.util.List;
 
 /// 数字字典类型
 ///
@@ -33,12 +35,15 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     /// | name | string |
     public PagedList<DictType> findPage(DataFilter dataFilter) {
         var qb = new QDictType(db());
-        var rsqlCtx = RSQLContext.of(qb)
-                .property("created_at", qb.createdAt)
-                .property("updated_at", qb.updatedAt)
-                .property("type_code", qb.typeCode)
-                .property(qb.name);
-        super.apply(dataFilter, rsqlCtx);
+        var filterFields = List.of(
+                FF_CREATED_AT,
+                FF_UPDATED_AT,
+                FilterField.with(qb.typeCode).build(),
+                FilterField.with(qb.name).build()
+                //
+                );
+
+        super.apply(dataFilter, filterFields, qb.query());
         return qb.data.fetch().findPagedList();
     }
 
