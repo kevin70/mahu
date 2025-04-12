@@ -10,7 +10,7 @@ get:
   operationId: getBrand
   x-role-permit: BRAND:R
   tags:
-    - basis
+    - base
   responses:
     "200":
       description: OK
@@ -23,7 +23,7 @@ delete:
   operationId: deleteBrand
   x-role-permit: BRAND:D
   tags:
-    - basis
+    - base
   responses:
     "204":
       description: OK
@@ -32,7 +32,7 @@ put:
   operationId: updateBrand
   x-role-permit: BRAND:U
   tags:
-    - basis
+    - base
   requestBody:
     required: true
     content:

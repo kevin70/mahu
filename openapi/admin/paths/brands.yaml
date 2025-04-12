@@ -3,7 +3,7 @@ post:
   operationId: addBrand
   x-role-permit: BRAND:W
   tags:
-    - basis
+    - base
   requestBody:
     required: true
     content:

@@ -19,8 +19,6 @@ components:
 security:
   - BearerAuth: [ ]
 tags:
-  - name: basis
-    description: 基础模块
   - name: base
     description: 基础模块
   - name: token

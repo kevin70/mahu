@@ -2,7 +2,7 @@ get:
   summary: 服务版本
   operationId: gerVersion
   tags:
-    - basis
+    - base
   responses:
     200:
       description: OK

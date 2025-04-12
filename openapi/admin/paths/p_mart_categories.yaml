@@ -2,7 +2,7 @@ get:
   summary: 获取可用的商城分类
   operationId: listPMartCategories
   tags:
-    - basis
+    - base
   responses:
     200:
       description: OK
