@@ -50,6 +50,7 @@ theme:
 
 plugins:
   - info
+  - optimize
   - offline
   - search:
       lang:
