@@ -1,6 +1,6 @@
 post:
-  summary: 新增数据字典
-  operationId: addSystemDict
+  summary: 新建数据字典
+  operationId: createSystemDict
   x-role-permit: DICT:W
   tags:
     - system
@@ -31,4 +31,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ListSystemDictsPageResponse.yaml"
+            $ref: "../components/schemas/SystemDictsPageResponse.yaml"

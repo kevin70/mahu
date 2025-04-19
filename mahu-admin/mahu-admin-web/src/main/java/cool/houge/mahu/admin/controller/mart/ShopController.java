@@ -31,7 +31,7 @@ public class ShopController implements HttpService, WebSupport {
         rules.get("/shops", authz(MART_SHOP.R()).wrap(this::listShops));
         rules.get("/shops/{id:\\d+}", authz(MART_SHOP.R()).wrap(this::getShop));
 
-        rules.post("/shops", authz(MART_SHOP.W()).wrap(this::addShop));
+        rules.post("/shops", authz(MART_SHOP.W()).wrap(this::createShop));
         rules.put("/shops/{id:\\d+}", authz(MART_SHOP.W()).wrap(this::updateShop));
         rules.delete("/shops/{id:\\d+}", authz(MART_SHOP.W()).wrap(this::deleteShop));
     }
@@ -39,7 +39,7 @@ public class ShopController implements HttpService, WebSupport {
     private void listShops(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = shopService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetShopResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toShopResponse);
         response.send(rs);
     }
 
@@ -48,11 +48,11 @@ public class ShopController implements HttpService, WebSupport {
         var id = pathParams.first("id").asInt().get();
 
         var bean = shopService.findById(id);
-        var rs = beanMapper.toGetShopResponse(bean);
+        var rs = beanMapper.toShopResponse(bean);
         response.send(rs);
     }
 
-    private void addShop(ServerRequest request, ServerResponse response) {
+    private void createShop(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertShopRequest.class);
         validate(vo);
 

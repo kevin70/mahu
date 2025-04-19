@@ -31,7 +31,7 @@ public class CategoryController implements HttpService, WebSupport {
         rules.get("/p/mart/categories", this::listPMartCategories);
 
         rules.get("/mart/categories", authz(MART_CATEGORY.R()).wrap(this::listMartCategories));
-        rules.post("/mart/categories", authz(MART_CATEGORY.W()).wrap(this::addMartCategory));
+        rules.post("/mart/categories", authz(MART_CATEGORY.W()).wrap(this::createMartCategory));
     }
 
     private void listPMartCategories(ServerRequest request, ServerResponse response) {
@@ -49,7 +49,7 @@ public class CategoryController implements HttpService, WebSupport {
         response.send(ret);
     }
 
-    private void addMartCategory(ServerRequest request, ServerResponse response) {
+    private void createMartCategory(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertMartCategoryRequest.class);
         validate(vo);
 

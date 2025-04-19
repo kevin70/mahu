@@ -35,7 +35,7 @@ public class LogController implements HttpService, WebSupport {
         var dataFilter = dataFilter(request);
         var plist = logService.findPage4AdminAuthLog(dataFilter);
         var rs = beanMapper.toPageResponse(
-                plist.getList(), plist.getTotalCount(), beanMapper::toGetAdminAuthLogResponse);
+                plist.getList(), plist.getTotalCount(), beanMapper::toAdminAuthLogResponse);
         response.send(rs);
     }
 
@@ -43,7 +43,7 @@ public class LogController implements HttpService, WebSupport {
         var dataFilter = dataFilter(request);
         var plist = logService.findPage4AdminAuditLog(dataFilter);
         var rs = beanMapper.toPageResponse(
-            plist.getList(), plist.getTotalCount(), beanMapper::toGetAdminAuditLogResponse);
+            plist.getList(), plist.getTotalCount(), beanMapper::toAdminAuditLogResponse);
         response.send(rs);
     }
 
@@ -51,7 +51,7 @@ public class LogController implements HttpService, WebSupport {
         var dataFilter = dataFilter(request);
         var plist = logService.findPage4AdminAccessLog(dataFilter);
         var rs = beanMapper.toPageResponse(
-                plist.getList(), plist.getTotalCount(), beanMapper::toGetAdminAccessLogResponse);
+                plist.getList(), plist.getTotalCount(), beanMapper::toAdminAccessLogResponse);
         response.send(rs);
     }
 }

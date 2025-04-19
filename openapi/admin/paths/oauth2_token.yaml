@@ -21,4 +21,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/GetTokenResponse.yaml
+            $ref: ../components/schemas/TokenResponse.yaml

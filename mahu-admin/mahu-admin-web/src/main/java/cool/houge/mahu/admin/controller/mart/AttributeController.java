@@ -31,7 +31,7 @@ public class AttributeController implements HttpService, WebSupport {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.post("/mart/attributes", authz(MART_ATTRIBUTE.W()).wrap(this::addMartAttribute));
+        rules.post("/mart/attributes", authz(MART_ATTRIBUTE.W()).wrap(this::createMartAttribute));
         rules.delete("/mart/attributes/{id}", authz(MART_ATTRIBUTE.W()).wrap(this::deleteMartAttribute));
         rules.put("/mart/attributes/{id}", authz(MART_ATTRIBUTE.W()).wrap(this::updateMartAttribute));
 
@@ -52,7 +52,7 @@ public class AttributeController implements HttpService, WebSupport {
             authz(MART_ATTRIBUTE.R()).wrap(this::getMartAttributeValue));
     }
 
-    private void addMartAttribute(ServerRequest request, ServerResponse response) {
+    private void createMartAttribute(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertMartAttributeRequest.class);
         validate(vo);
 
@@ -85,7 +85,7 @@ public class AttributeController implements HttpService, WebSupport {
         var id = pathParams.first("id").asInt().get();
 
         var bean = attributeService.findById(id);
-        var rs = beanMapper.toGetMartAttributeResponse(bean);
+        var rs = beanMapper.toMartAttributeResponse(bean);
         response.send(rs);
     }
 
@@ -94,7 +94,7 @@ public class AttributeController implements HttpService, WebSupport {
 
         var plist = attributeService.findPage(dataFilter);
         var rs = beanMapper.toPageResponse(
-                plist.getList(), plist.getTotalCount(), beanMapper::toGetMartAttributeResponse);
+                plist.getList(), plist.getTotalCount(), beanMapper::toMartAttributeResponse);
         response.send(rs);
     }
 
@@ -135,7 +135,7 @@ public class AttributeController implements HttpService, WebSupport {
         var attributeValueId = pathParams.first("attribute_value_id").asInt().get();
 
         var bean = attributeService.findValueById(attributeValueId);
-        var rs = beanMapper.toGetMartAttributeValueResponse(bean);
+        var rs = beanMapper.toMartAttributeValueResponse(bean);
         response.send(rs);
     }
 }

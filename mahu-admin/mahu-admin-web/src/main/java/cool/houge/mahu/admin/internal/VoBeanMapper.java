@@ -6,7 +6,6 @@ import cool.houge.mahu.admin.service.MakeOssDirectUploadPayload;
 import cool.houge.mahu.admin.service.MakeOssDirectUploadResult;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
-import cool.houge.mahu.admin.system.repository.DictTypeRepository;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
 import cool.houge.mahu.entity.Brand;
@@ -59,7 +58,7 @@ public interface VoBeanMapper extends LogBeanMapper {
 
     DictType toDictType(UpsertDictRequest bean);
 
-    GetSystemDictResponse toGetSystemDictResponse(DictType bean);
+    SystemDictResponse toSystemDictResponse(DictType bean);
 
     DictResponse toDictResponse(DictType bean);
 
@@ -78,23 +77,23 @@ public interface VoBeanMapper extends LogBeanMapper {
     @Mapping(target = "grantType", source = "type")
     TokenPayload toTokenPayload(TokenRefreshTokenForm bean, GrantType type);
 
-    GetTokenResponse toGetTokenResponse(TokenResult bean);
+    TokenResponse toTokenResponse(TokenResult bean);
 
     Employee toEmployee(UpdateMePasswordRequest bean);
 
     Employee toEmployee(UpdateMeProfileRequest bean);
 
-    GetMeProfileResponse toGetMeProfileResponse(Profile bean);
+    MeProfileResponse toGetMeProfileResponse(Profile bean);
 
     Client toClient(UpsertClientRequest bean);
 
-    GetClientResponse toGetClientResponse(Client bean);
+    ClientResponse toClientResponse(Client bean);
 
     Role toRole(UpsertRoleRequest bean);
 
-    GetRoleResponse toGetRoleResponse(Role bean);
+    RoleResponse toRoleResponse(Role bean);
 
-    GetDepartmentResponse toGetDepartmentResponse(Department bean);
+    DepartmentResponse toDepartmentResponse(Department bean);
 
     @Mapping(target = "parent.id", source = "parentId")
     Department toDepartment(UpsertDepartmentRequest bean);
@@ -116,11 +115,11 @@ public interface VoBeanMapper extends LogBeanMapper {
     Employee toEmployee(UpsertEmployeeRequest bean);
 
     @Mapping(target = "roleIds", source = "roles", qualifiedByName = "rolesToRoleIds")
-    GetEmployeeResponse toGetEmployeeResponse(Employee bean);
+    EmployeeResponse toEmployeeResponse(Employee bean);
 
     Brand toBrand(UpsertBrandRequest bean);
 
-    GetBrandResponse toGetBrandResponse(Brand bean);
+    BrandResponse toBrandResponse(Brand bean);
 
     MakeOssDirectUploadPayload toMakeOssDirectUploadPayload(MakeOssDirectUploadRequest bean);
 
@@ -128,18 +127,18 @@ public interface VoBeanMapper extends LogBeanMapper {
 
     Shop toShop(UpsertShopRequest bean);
 
-    GetShopResponse toGetShopResponse(Shop bean);
+    ShopResponse toShopResponse(Shop bean);
 
-    GetShopAssetResponse toGetShopAssetResponse(Asset bean);
+    ShopAssetResponse toShopAssetResponse(Asset bean);
 
     Attribute toAttribute(UpsertMartAttributeRequest bean);
 
-    GetMartAttributeResponse toGetMartAttributeResponse(Attribute bean);
+    MartAttributeResponse toMartAttributeResponse(Attribute bean);
 
     @Mapping(source = "attributeId", target = "attribute.id")
     AttributeValue toAttributeValue(Integer attributeId, UpsertMartAttributeValueRequest bean);
 
-    GetMartAttributeValueResponse toGetMartAttributeValueResponse(AttributeValue bean);
+    MartAttributeValueResponse toMartAttributeValueResponse(AttributeValue bean);
 
     Product.Type toProductType(ProductTypeEnum bean);
 
@@ -156,24 +155,24 @@ public interface VoBeanMapper extends LogBeanMapper {
     @Mapping(target = "attribute.id", source = "attributeId")
     ProductVariantAttribute toProductVariantAttribute(UpsertMartProductRequestVariantsInnerAttributesInner bean);
 
-    GetMartProductResponse toGetMartProductResponse(Product bean);
+    MartProductResponse toMartProductResponse(Product bean);
 
     @Mapping(target = "attributeId", source = "attribute.id")
     @Mapping(target = "attributeName", source = "attribute.name")
     @Mapping(target = "attributeRemark", source = "attribute.remark")
     @Mapping(target = "attributeValueType", source = "attribute.valueType")
-    GetMartProductResponseAttributesInner toGetMartProductResponseAttributesInner(ProductAttribute bean);
+    MartProductResponseAttributesInner toMartProductResponseAttributesInner(ProductAttribute bean);
 
     @Mapping(target = "attributeId", source = "attribute.id")
     @Mapping(target = "attributeName", source = "attribute.name")
     @Mapping(target = "attributeRemark", source = "attribute.remark")
     @Mapping(target = "attributeValueType", source = "attribute.valueType")
-    GetMartProductResponseVariantsInnerAttributesInner toGetMartProductResponseVariantsInnerAttributesInner(
+    MartProductResponseVariantsInnerAttributesInner toMartProductResponseVariantsInnerAttributesInner(
             ProductVariantAttribute bean);
 
     Category toCategory(UpsertMartCategoryRequest bean);
 
-    GetMartCategoryResponse toGetMartCategoryResponse(Category bean);
+    MartCategoryResponse toGetMartCategoryResponse(Category bean);
 
     MartCategory toMartCategory(Category bean);
 
@@ -182,5 +181,5 @@ public interface VoBeanMapper extends LogBeanMapper {
 
     @Mapping(target = "taskName", source = "taskId.taskName")
     @Mapping(target = "taskInstance", source = "taskId.taskInstance")
-    GetSystemScheduledTaskResponse toGetSystemScheduledTaskResponse(ScheduledTask bean);
+    ScheduledTaskResponse toScheduledTaskResponse(ScheduledTask bean);
 }

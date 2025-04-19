@@ -41,4 +41,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/GetMartProductResponse.yaml
+            $ref: ../components/schemas/MartProductResponse.yaml

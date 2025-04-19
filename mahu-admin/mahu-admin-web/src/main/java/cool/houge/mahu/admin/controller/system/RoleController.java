@@ -30,13 +30,13 @@ public class RoleController implements HttpService, WebSupport {
     @Override
     public void routing(HttpRules rules) {
         rules.get("/system/roles", authz(ROLE.R()).wrap(this::listRoles));
-        rules.post("/system/roles", authz(ROLE.W()).wrap(this::addRole));
+        rules.post("/system/roles", authz(ROLE.W()).wrap(this::createRole));
         rules.put("/system/roles/{id:\\d+}", authz(ROLE.W()).wrap(this::updateRole));
         rules.delete("/system/roles/{id:\\d+}", authz(ROLE.W()).wrap(this::deleteRole));
         rules.get("/system/roles/{id:\\d+}", authz(ROLE.R()).wrap(this::getRole));
     }
 
-    private void addRole(ServerRequest request, ServerResponse response) {
+    private void createRole(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertRoleRequest.class);
         validate(vo);
 
@@ -70,13 +70,13 @@ public class RoleController implements HttpService, WebSupport {
         var id = pathParams.first("id").asInt().get();
 
         var bean = roleService.findById(id);
-        var rs = beanMapper.toGetRoleResponse(bean);
+        var rs = beanMapper.toRoleResponse(bean);
         response.send(rs);
     }
 
     private void listRoles(ServerRequest request, ServerResponse response) {
         var plist = roleService.findPage(new WebDataFilter(request));
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetRoleResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toRoleResponse);
         response.send(rs);
     }
 }

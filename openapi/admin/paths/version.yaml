@@ -9,4 +9,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/GetVersionResponse.yaml"
+            $ref: "../components/schemas/VersionResponse.yaml"

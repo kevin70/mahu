@@ -6,8 +6,8 @@ parameters:
       type: integer
       format: int32
 post:
-  summary: 新增商品属性值
-  operationId: addMartAttributeValue
+  summary: 新建商品属性值
+  operationId: createMartAttributeValue
   x-role-permit: MART_ATTRIBUTE:W
   tags:
     - mart

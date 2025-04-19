@@ -31,7 +31,7 @@ public class ClientController implements HttpService, WebSupport {
     public void routing(HttpRules rules) {
         rules.get("/system/clients", authz(CLIENT.R()).wrap(this::listClients));
         rules.get("/system/clients/{client_id}", authz(CLIENT.R()).wrap(this::getClient));
-        rules.post("/system/clients", authz(CLIENT.W()).wrap(this::addClient));
+        rules.post("/system/clients", authz(CLIENT.W()).wrap(this::createClient));
         rules.put("/system/clients/{client_id}", authz(CLIENT.W()).wrap(this::updateClient));
         rules.delete("/system/clients/{client_id}", authz(CLIENT.W()).wrap(this::deleteClient));
     }
@@ -39,11 +39,11 @@ public class ClientController implements HttpService, WebSupport {
     void listClients(ServerRequest request, ServerResponse response) {
         var filter = dataFilter(request);
         var plist = clientService.findPage(filter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetClientResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toClientResponse);
         response.send(rs);
     }
 
-    void addClient(ServerRequest request, ServerResponse response) {
+    void createClient(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertClientRequest.class);
         validate(vo);
 
@@ -77,6 +77,6 @@ public class ClientController implements HttpService, WebSupport {
         var clientId = pathParams.first("client_id").get();
 
         var bean = clientService.findById(clientId);
-        response.send(beanMapper.toGetClientResponse(bean));
+        response.send(beanMapper.toClientResponse(bean));
     }
 }

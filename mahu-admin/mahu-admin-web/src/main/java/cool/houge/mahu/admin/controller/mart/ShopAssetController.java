@@ -3,8 +3,8 @@ package cool.houge.mahu.admin.controller.mart;
 import cool.houge.mahu.admin.controller.DynamicSecureHandler;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.AssetService;
-import cool.houge.mahu.admin.oas.model.AddShopAssetRequest;
 import cool.houge.mahu.admin.oas.model.BatchDeleteShopAssetRequest;
+import cool.houge.mahu.admin.oas.model.CreateShopAssetRequest;
 import cool.houge.mahu.common.web.WebSupport;
 import cool.houge.mahu.entity.mart.Asset;
 import cool.houge.mahu.entity.mart.Shop;
@@ -34,7 +34,7 @@ public class ShopAssetController implements WebSupport, HttpService, DynamicSecu
     public void routing(HttpRules rules) {
         rules.get("/shops/{shop_id}/assets", authz(MART_ASSET.R()).wrap(shopSecure(this::listShopAssets)));
 
-        rules.post("/shops/{shop_id}/assets", authz(MART_ASSET.W()).wrap(shopSecure(this::addShopAsset)));
+        rules.post("/shops/{shop_id}/assets", authz(MART_ASSET.W()).wrap(shopSecure(this::createShopAsset)));
         rules.delete("/shops/{shop_id}/assets", authz(MART_ASSET.W()).wrap(shopSecure(this::batchDeleteShopAsset)));
     }
 
@@ -44,14 +44,14 @@ public class ShopAssetController implements WebSupport, HttpService, DynamicSecu
         var shopId = pathParams.first("shop_id").asInt().get();
 
         var plist = assetService.findPage(shopId, dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetShopAssetResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toShopAssetResponse);
         response.send(rs);
     }
 
-    private void addShopAsset(ServerRequest request, ServerResponse response) {
+    private void createShopAsset(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var shopId = pathParams.first("shop_id").asInt().get();
-        var vo = request.content().as(AddShopAssetRequest.class);
+        var vo = request.content().as(CreateShopAssetRequest.class);
         validate(vo);
 
         var shop = new Shop().setId(shopId);

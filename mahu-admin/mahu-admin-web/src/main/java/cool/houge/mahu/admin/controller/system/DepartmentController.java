@@ -31,7 +31,7 @@ public class DepartmentController implements HttpService, WebSupport {
     public void routing(HttpRules rules) {
         rules.get("/system/departments", authz(DEPARTMENT.R()).wrap(this::listDepartments));
         rules.get("/system/departments/{id:\\d+}", authz(DEPARTMENT.R()).wrap(this::getDepartment));
-        rules.post("/system/departments", authz(DEPARTMENT.W()).wrap(this::addDepartment));
+        rules.post("/system/departments", authz(DEPARTMENT.W()).wrap(this::createDepartment));
         rules.put("/system/departments/{id:\\d+}", authz(DEPARTMENT.W()).wrap(this::updateDepartment));
         rules.delete("/system/departments/{id:\\d+}", authz(DEPARTMENT.W()).wrap(this::deleteDepartment));
     }
@@ -39,11 +39,11 @@ public class DepartmentController implements HttpService, WebSupport {
     void listDepartments(ServerRequest request, ServerResponse response) {
         var filter = dataFilter(request);
         var plist = departmentService.findPage(filter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetDepartmentResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toDepartmentResponse);
         response.send(rs);
     }
 
-    void addDepartment(ServerRequest request, ServerResponse response) {
+    void createDepartment(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertDepartmentRequest.class);
         validate(vo);
 
@@ -77,6 +77,6 @@ public class DepartmentController implements HttpService, WebSupport {
         var id = pathParams.first("id").asInt().get();
 
         var bean = departmentService.findById(id);
-        response.send(beanMapper.toGetDepartmentResponse(bean));
+        response.send(beanMapper.toDepartmentResponse(bean));
     }
 }

@@ -1,0 +1,10 @@
+type: object
+description: 商店资源分页响应
+allOf:
+  - $ref: ./BasePageResponse.yaml
+properties:
+  items:
+    type: array
+    description: 资源列表
+    items:
+      $ref: ./ShopAssetResponse.yaml

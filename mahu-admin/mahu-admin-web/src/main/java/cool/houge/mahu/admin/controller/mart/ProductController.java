@@ -32,7 +32,7 @@ public class ProductController implements WebSupport, HttpService {
         rules.get("/mart/products", authz(MART_PRODUCT.R()).wrap(this::listMartProducts));
         rules.get("/mart/products/{product_id}", authz(MART_PRODUCT.R()).wrap(this::getMartProduct));
 
-        rules.post("/mart/products", authz(MART_PRODUCT.W()).wrap(this::addMartProduct));
+        rules.post("/mart/products", authz(MART_PRODUCT.W()).wrap(this::createMartProduct));
         rules.put("/mart/products/{product_id}", authz(MART_PRODUCT.W()).wrap(this::updateMartProduct));
         rules.delete("/mart/products/{product_id}", authz(MART_PRODUCT.D()).wrap(this::deleteMartProduct));
 
@@ -43,7 +43,7 @@ public class ProductController implements WebSupport, HttpService {
         var dataFilter = dataFilter(request);
         var plist = productService.findPage(dataFilter);
         var rs =
-                beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetMartProductResponse);
+                beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toMartProductResponse);
         response.send(rs);
     }
 
@@ -52,11 +52,11 @@ public class ProductController implements WebSupport, HttpService {
         var productId = pathParams.first("product_id").asLong().get();
 
         var bean = productService.findById(productId);
-        var rs = beanMapper.toGetMartProductResponse(bean);
+        var rs = beanMapper.toMartProductResponse(bean);
         response.send(rs);
     }
 
-    private void addMartProduct(ServerRequest request, ServerResponse response) {
+    private void createMartProduct(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertMartProductRequest.class);
         validate(vo);
 

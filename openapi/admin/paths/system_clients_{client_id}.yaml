@@ -16,7 +16,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/GetClientResponse.yaml
+            $ref: ../components/schemas/ClientResponse.yaml
 delete:
   summary: 删除客户端
   operationId: deleteClient

@@ -47,4 +47,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/GetMartAttributeValueResponse.yaml
+            $ref: ../components/schemas/MartAttributeValueResponse.yaml

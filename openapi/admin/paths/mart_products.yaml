@@ -1,6 +1,6 @@
 post:
-  summary: 保存产品
-  operationId: addMartProduct
+  summary: 新建产品
+  operationId: createMartProduct
   x-role-permit: MART_PRODUCT:W
   tags:
     - mart
@@ -32,4 +32,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ListMartProductsPageResponse.yaml
+            $ref: ../components/schemas/MartProductsPageResponse.yaml

@@ -11,7 +11,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/AddShopAssetRequest.yaml
+          $ref: ../components/schemas/CreateShopAssetRequest.yaml
   responses:
     204:
       description: OK
@@ -57,5 +57,5 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ListShopAssetsPageResponse.yaml
+            $ref: ../components/schemas/ShopAssetsPageResponse.yaml
 

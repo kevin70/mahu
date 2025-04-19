@@ -41,4 +41,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/GetRoleResponse.yaml"
+            $ref: "../components/schemas/RoleResponse.yaml"

@@ -17,7 +17,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/GetBrandResponse.yaml
+            $ref: ../components/schemas/BrandResponse.yaml
 delete:
   summary: 删除指定品牌
   operationId: deleteBrand

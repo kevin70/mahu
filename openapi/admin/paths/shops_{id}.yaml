@@ -17,7 +17,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/GetShopResponse.yaml
+            $ref: ../components/schemas/ShopResponse.yaml
 put:
   summary: 修改门店
   operationId: updateShop

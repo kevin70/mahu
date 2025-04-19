@@ -1,6 +1,6 @@
 post:
-  summary: 增加客户端
-  operationId: addClient
+  summary: 新建客户端
+  operationId: createClient
   tags:
     - system
   x-role-permit: CLIENT:W
@@ -30,4 +30,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ListClientsPageResponse.yaml"
+            $ref: "../components/schemas/ClientsPageResponse.yaml"

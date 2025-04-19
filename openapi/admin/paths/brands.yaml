@@ -1,6 +1,6 @@
 post:
-  summary: 保存品牌
-  operationId: addBrand
+  summary: 新增品牌
+  operationId: createBrand
   x-role-permit: BRAND:W
   tags:
     - base
@@ -32,4 +32,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ListBrandsPageResponse.yaml
+            $ref: ../components/schemas/BrandsPageResponse.yaml

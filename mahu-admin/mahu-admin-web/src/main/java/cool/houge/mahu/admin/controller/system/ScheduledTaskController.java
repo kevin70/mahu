@@ -42,7 +42,7 @@ public class ScheduledTaskController implements WebSupport, HttpService {
         var dataFilter = dataFilter(request);
         var plist = scheduledTaskService.findPage(dataFilter);
         var rs = beanMapper.toPageResponse(
-                plist.getList(), plist.getTotalCount(), beanMapper::toGetSystemScheduledTaskResponse);
+                plist.getList(), plist.getTotalCount(), beanMapper::toScheduledTaskResponse);
         response.send(rs);
     }
 

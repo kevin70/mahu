@@ -46,4 +46,5 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ListSystemScheduledTaskExecutionsPageResponse.yaml"
+            $ref: "../components/schemas/ScheduledTaskExecutionsPageResponse.yam\
+                  l"

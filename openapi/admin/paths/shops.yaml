@@ -1,6 +1,6 @@
 post:
-  summary: 新增商店
-  operationId: addShop
+  summary: 新建商店
+  operationId: createShop
   x-role-permit: MART_SHOP:W
   tags:
     - mart
@@ -32,4 +32,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ListShopsPageResponse.yaml
+            $ref: ../components/schemas/ShopsPageResponse.yaml

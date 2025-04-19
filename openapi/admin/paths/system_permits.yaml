@@ -12,4 +12,4 @@ get:
             type: array
             description: 权限代码列表
             items:
-              $ref: "../components/schemas/GetPermitResponse.yaml"
+              $ref: "../components/schemas/PermitResponse.yaml"

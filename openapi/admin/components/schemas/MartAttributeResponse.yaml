@@ -1,0 +1,32 @@
+type: object
+properties:
+  id:
+    type: integer
+    format: int32
+    description: ID
+  deleted:
+    type: boolean
+    description: 软删除的
+  value_type:
+    $ref: ./AttributeValueTypeEnum.yaml
+  name:
+    type: string
+    description: 名称
+  remark:
+    type: string
+    description: 备注
+  ordering:
+    type: integer
+    format: int32
+    description: 排序值
+  searchable:
+    type: boolean
+    description: 是否为可搜索的
+  required:
+    type: boolean
+    description: 是否为必选项
+  attribute_values:
+    type: array
+    description: 可选属性值
+    items:
+      $ref: ./MartAttributeValueResponse.yaml

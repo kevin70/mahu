@@ -15,4 +15,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ListSystemScheduledTasksPageResponse.yaml"
+            $ref: "../components/schemas/ScheduledTasksPageResponse.yaml"

@@ -29,7 +29,7 @@ public class EmployeeController implements HttpService, WebSupport {
     @Override
     public void routing(HttpRules rules) {
         rules.get("/system/employees", authz(EMPLOYEE.R()).wrap(this::listEmployees));
-        rules.post("/system/employees", authz(EMPLOYEE.W()).wrap(this::addEmployee));
+        rules.post("/system/employees", authz(EMPLOYEE.W()).wrap(this::createEmployee));
         rules.put("/system/employees/{id:\\d+}", authz(EMPLOYEE.W()).wrap(this::updateEmployee));
         rules.delete("/system/employees/{id:\\d+}", authz(EMPLOYEE.W()).wrap(this::deleteEmployee));
         rules.get("/system/employees/{id:\\d+}", authz(EMPLOYEE.R()).wrap(this::getEmployee));
@@ -39,11 +39,11 @@ public class EmployeeController implements HttpService, WebSupport {
         var dataFilter = dataFilter(request);
 
         var plist = employeeService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetEmployeeResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toEmployeeResponse);
         response.send(rs);
     }
 
-    private void addEmployee(ServerRequest request, ServerResponse response) {
+    private void createEmployee(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertEmployeeRequest.class);
         validate(vo);
 
@@ -77,7 +77,7 @@ public class EmployeeController implements HttpService, WebSupport {
         var id = pathParams.first("id").asLong().get();
 
         var entity = employeeService.obtainById(id);
-        var rs = beanMapper.toGetEmployeeResponse(entity);
+        var rs = beanMapper.toEmployeeResponse(entity);
         response.send(rs);
     }
 }

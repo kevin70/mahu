@@ -39,7 +39,7 @@ public class BrandController implements HttpService, WebSupport {
         var dataFilter = dataFilter(request);
 
         var plist = brandService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toGetBrandResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toBrandResponse);
         response.send(rs);
     }
 
@@ -48,7 +48,7 @@ public class BrandController implements HttpService, WebSupport {
         var id = pathParams.first("id").asInt().get();
 
         var bean = brandService.findById(id);
-        var rs = beanMapper.toGetBrandResponse(bean);
+        var rs = beanMapper.toBrandResponse(bean);
         response.send(rs);
     }
 

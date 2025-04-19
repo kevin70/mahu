@@ -1,6 +1,6 @@
 post:
-  summary: 保存属性
-  operationId: addMartAttribute
+  summary: 新建属性
+  operationId: createMartAttribute
   x-role-permit: MART_ATTRIBUTE:W
   tags:
     - mart
@@ -32,4 +32,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ListMartAttributesPageResponse.yaml
+            $ref: ../components/schemas/MartAttributesPageResponse.yaml

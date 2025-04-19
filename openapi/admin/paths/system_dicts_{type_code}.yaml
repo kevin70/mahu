@@ -17,7 +17,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/GetSystemDictResponse.yaml"
+            $ref: "../components/schemas/SystemDictResponse.yaml"
 put:
   summary: 修改数据字典类型
   operationId: updateSystemDict
