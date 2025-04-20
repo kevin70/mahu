@@ -1,21 +1,14 @@
 import { MenuDataItem } from '@ant-design/pro-components';
 import { permits } from './permit';
 
-import {
-  AuditOutlined,
-  DashboardOutlined,
-  GroupOutlined,
-  KeyOutlined,
-  ProductOutlined,
-  ScheduleOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { AuditOutlined, DashboardOutlined, GroupOutlined, ProductOutlined, UserOutlined } from '@ant-design/icons';
 import { BsJournalText } from 'react-icons/bs';
-import { FaRegFile } from 'react-icons/fa';
+import { FaRegFile, FaTasks } from 'react-icons/fa';
 import { FiFileText } from 'react-icons/fi';
-import { IoMdApps } from 'react-icons/io';
 import { LuListTree, LuPlus, LuStore } from 'react-icons/lu';
 import { MdOutlineCategory, MdSecurity } from 'react-icons/md';
+import { TiDeviceDesktop } from 'react-icons/ti';
+import { VscSignIn } from 'react-icons/vsc';
 
 export const MENUS: MenuDataItem[] = [
   {
@@ -109,13 +102,13 @@ export const MENUS: MenuDataItem[] = [
       },
       {
         path: '/system/client-list',
-        icon: <IoMdApps />,
+        icon: <TiDeviceDesktop />,
         name: '终端配置',
         permits: [permits.CLIENT.R],
       },
       {
         path: '/system/scheduled-tasks',
-        icon: <ScheduleOutlined />,
+        icon: <FaTasks />,
         name: '定时任务',
         permits: [permits.SCHEDULED_TASK.R],
       },
@@ -133,7 +126,7 @@ export const MENUS: MenuDataItem[] = [
       },
       {
         path: '/logs/admin-auth-logs',
-        icon: <KeyOutlined />,
+        icon: <VscSignIn />,
         name: '登录记录',
         permits: [permits.AUDIT_JOUR.R],
       },
