@@ -13,8 +13,8 @@ parameters:
       type: string
 post:
   summary: 立即执行任务
-  operationId: executeSystemScheduledTask
-  x-role-permit: SYSTEM_SCHEDULED_TASK:W
+  operationId: executeScheduledTask
+  x-role-permit: SCHEDULED_TASK:W
   tags:
     - system
   responses:
@@ -22,7 +22,7 @@ post:
       description: OK
 delete:
   summary: 删除当前执行状态
-  operationId: deleteSystemScheduledTaskExecution
+  operationId: deleteScheduledTaskExecution
   x-role-permit: SYSTEM_SCHEDULED_TASK:W
   tags:
     - system
@@ -31,8 +31,8 @@ delete:
       description: OK
 get:
   summary: 定时任务
-  operationId: listSystemScheduledTaskExecutions
-  x-role-permit: SYSTEM_SCHEDULED_TASK:R
+  operationId: listScheduledTaskExecutions
+  x-role-permit: SCHEDULED_TASK:R
   tags:
     - system
   parameters:
@@ -46,5 +46,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ScheduledTaskExecutionsPageResponse.yam\
-                  l"
+            $ref: "../components/schemas/ScheduledTaskExecutionsPageResponse.yaml"

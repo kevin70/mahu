@@ -1,7 +1,7 @@
 get:
   summary: 定时任务
-  operationId: listSystemScheduledTasks
-  x-role-permit: SYSTEM_SCHEDULED_TASK:R
+  operationId: listScheduledTasks
+  x-role-permit: SCHEDULED_TASK:R
   tags:
     - system
   parameters:

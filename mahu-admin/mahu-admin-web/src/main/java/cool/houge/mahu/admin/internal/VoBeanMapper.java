@@ -9,6 +9,7 @@ import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.PageResponse;
 import cool.houge.mahu.entity.Brand;
+import cool.houge.mahu.entity.log.ScheduledExecutionLog;
 import cool.houge.mahu.entity.mart.*;
 import cool.houge.mahu.entity.system.*;
 import org.mapstruct.Mapper;
@@ -182,4 +183,8 @@ public interface VoBeanMapper extends LogBeanMapper {
     @Mapping(target = "taskName", source = "taskId.taskName")
     @Mapping(target = "taskInstance", source = "taskId.taskInstance")
     ScheduledTaskResponse toScheduledTaskResponse(ScheduledTask bean);
+
+    @Mapping(target = "taskName", source = "scheduledTask.taskId.taskName")
+    @Mapping(target = "taskInstance", source = "scheduledTask.taskId.taskInstance")
+    ScheduledTaskExecutionResponse toScheduledTaskExecutionResponse(ScheduledExecutionLog bean);
 }

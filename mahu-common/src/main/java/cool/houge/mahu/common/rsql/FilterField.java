@@ -8,6 +8,8 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -73,12 +75,24 @@ public class FilterField {
         return with(p, Double::parseDouble);
     }
 
+    public static Builder with(PInstant<?> p) {
+        return with(p, LocalDate::parse);
+    }
+
     public static Builder with(PLocalDate<?> p) {
         return with(p, LocalDate::parse);
     }
 
     public static Builder with(PLocalDateTime<?> p) {
         return with(p, LocalDateTime::parse);
+    }
+
+    public static Builder with(PZonedDateTime<?> p) {
+        return with(p, ZonedDateTime::parse);
+    }
+
+    public static Builder with(POffsetDateTime<?> p) {
+        return with(p, OffsetDateTime::parse);
     }
 
     public static Builder with(PString<?> p) {

@@ -32,8 +32,11 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
     public PagedList<ScheduledTask> findPage(DataFilter dataFilter) {
         var qb = new QScheduledTask(db());
         var filterFields = List.of(
-                FilterField.with(qb.taskId.taskName).build(),
-                FilterField.with(qb.taskId.taskInstance).build());
+                FilterField.with(qb.taskId.taskName).filterName("task_name").build(),
+                FilterField.with(qb.taskId.taskInstance)
+                        .filterName("task_instance")
+                        .build(),
+                FilterField.with(qb.lastFailure).build());
 
         super.apply(dataFilter, filterFields, qb.query());
         return qb.findPagedList();

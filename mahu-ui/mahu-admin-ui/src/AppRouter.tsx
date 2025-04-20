@@ -14,6 +14,7 @@ import { RoleList } from '@/pages/system/role/RoleList';
 import { AccessLogList } from '@/pages/system/admin-access-log/AccessLogList';
 import { AuditLogList } from '@/pages/system/admin-audit-log/AuditLogList';
 import { AuthLogList } from '@/pages/system/admin-auth-log/AuthLogList';
+import { ScheduledTaskList } from '@/pages/system/scheduled-task/ScheduledTaskList';
 
 import { BrandList } from '@/pages/brand/BrandList';
 
@@ -52,6 +53,7 @@ export const routes = createRoutesFromElements(
       <Route path="/system/role-list" Component={RoleList} />
       <Route path="/system/dict-list" Component={DictList} />
       <Route path="/system/client-list" Component={ClientList} />
+      <Route path="/system/scheduled-tasks" Component={ScheduledTaskList} />
       <Route path="/logs/admin-access-logs" Component={AccessLogList} />
       <Route path="/logs/admin-audit-logs" Component={AuditLogList} />
       <Route path="/logs/admin-auth-logs" Component={AuthLogList} />

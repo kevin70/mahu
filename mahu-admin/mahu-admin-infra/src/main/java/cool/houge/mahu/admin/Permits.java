@@ -13,8 +13,8 @@ public enum Permits {
     DEPARTMENT(A, "部门"),
     CLIENT(A, "终端"),
     ACCESS_LOG(R, "访问日志"),
-    AUDIT_JOUR(R, "操作审计"),
-    SYSTEM_SCHEDULED_TASK(A, "系统|定时任务"),
+    AUDIT_LOG(R, "操作审计"),
+    SCHEDULED_TASK(A, "系统|定时任务"),
     //
     BRAND(A, "品牌"),
     // 商城

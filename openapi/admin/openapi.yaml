@@ -80,10 +80,10 @@ paths:
   /system/permits:
     $ref: paths/system_permits.yaml
   # 定时任务
-  /system/scheduled-tasks:
-    $ref: paths/system_scheduled-tasks.yaml
-  /system/scheduled-tasks/{task_name}/{task_instance}/executions:
-    $ref: paths/system_scheduled-tasks_{task_name}_{task_instance}_executions.yaml
+  /scheduled-tasks:
+    $ref: paths/scheduled-tasks.yaml
+  /scheduled-tasks/{task_name}/{task_instance}/executions:
+    $ref: paths/scheduled-tasks_{task_name}_{task_instance}_executions.yaml
 
   # 设置
   /settings/oss-direct-upload:

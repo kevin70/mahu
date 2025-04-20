@@ -24,6 +24,7 @@ export const permits = {
   ACCESS_LOG: p('ACCESS_LOG'),
   AUDIT_JOUR: p('AUDIT_JOUR'),
   BRAND: p('BRAND'),
+  SCHEDULED_TASK: p('SCHEDULED_TASK'),
 
   MART_SHOP: p('MART_SHOP'),
   MART_ASSET: p('MART_ASSET'),

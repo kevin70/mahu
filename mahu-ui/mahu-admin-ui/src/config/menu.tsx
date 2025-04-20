@@ -7,6 +7,7 @@ import {
   GroupOutlined,
   KeyOutlined,
   ProductOutlined,
+  ScheduleOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { BsJournalText } from 'react-icons/bs';
@@ -111,6 +112,12 @@ export const MENUS: MenuDataItem[] = [
         icon: <IoMdApps />,
         name: '终端配置',
         permits: [permits.CLIENT.R],
+      },
+      {
+        path: '/system/scheduled-tasks',
+        icon: <ScheduleOutlined />,
+        name: '定时任务',
+        permits: [permits.SCHEDULED_TASK.R],
       },
       {
         path: '/logs/admin-access-logs',
