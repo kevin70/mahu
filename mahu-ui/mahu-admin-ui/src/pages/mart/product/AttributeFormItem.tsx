@@ -1,10 +1,10 @@
 import { HMartAttributeMeta } from '@/components/mart/HMartAttributeMeta';
-import { GetMartAttributeResponse } from '@/services/generated';
+import { MartAttributeResponse } from '@/services/generated';
 import { Form, FormItemProps, Input, Select, Space } from 'antd';
 
 interface AttributeFormItem {
   attributeId: number;
-  onLoaded?: (data: GetMartAttributeResponse) => void;
+  onLoaded?: (data: MartAttributeResponse) => void;
 }
 
 export const AttributeFormItem = ({

@@ -18,7 +18,7 @@ get:
   operationId: listBrands
   x-role-permit: BRAND:R
   tags:
-    - basis
+    - base
   parameters:
     - $ref: ../components/parameters/limit.yaml
     - $ref: ../components/parameters/offset.yaml

@@ -15,17 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetTokenResponse,
   LoginRequest,
   LoginResponse,
+  TokenResponse,
 } from '../models/index';
 import {
-    GetTokenResponseFromJSON,
-    GetTokenResponseToJSON,
     LoginRequestFromJSON,
     LoginRequestToJSON,
     LoginResponseFromJSON,
     LoginResponseToJSON,
+    TokenResponseFromJSON,
+    TokenResponseToJSON,
 } from '../models/index';
 
 export interface GetOAuth2TokenRequest {
@@ -49,7 +49,7 @@ export class TokenApi extends runtime.BaseAPI {
      * 获取令牌
      * 使用 OAuth2 获取访问令牌
      */
-    async getOAuth2TokenRaw(requestParameters: GetOAuth2TokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetTokenResponse>> {
+    async getOAuth2TokenRaw(requestParameters: GetOAuth2TokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TokenResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -96,14 +96,14 @@ export class TokenApi extends runtime.BaseAPI {
             body: formParams,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetTokenResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TokenResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取令牌
      * 使用 OAuth2 获取访问令牌
      */
-    async getOAuth2Token(requestParameters: GetOAuth2TokenRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetTokenResponse> {
+    async getOAuth2Token(requestParameters: GetOAuth2TokenRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TokenResponse> {
         const response = await this.getOAuth2TokenRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -11,7 +11,7 @@ export const NewMartShopForm = (props: { onSuccess: () => void }) => {
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['NewMarketShopForm'],
     mutationFn(values: any) {
-      return MART_API.addShop(values);
+      return MART_API.createShop(values);
     },
     onSuccess() {
       message.success('新增商店成功');

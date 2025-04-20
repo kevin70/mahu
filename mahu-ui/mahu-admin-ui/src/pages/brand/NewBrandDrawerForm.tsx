@@ -18,7 +18,7 @@ export const NewBrandDrawerForm = (props: { onSuccess: () => void }) => {
       if (logoFiles && logoFiles.length > 0) {
         body.logo = logoFiles[0].url;
       }
-      return BASE_API.addBrand(body);
+      return BASE_API.createBrand(body);
     },
     onSuccess() {
       message.success('新增品牌成功');

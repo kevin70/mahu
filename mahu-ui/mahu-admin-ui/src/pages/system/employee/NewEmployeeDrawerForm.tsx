@@ -13,7 +13,7 @@ export const NewEmployeeDrawerForm = (props: { onSuccess: () => void }) => {
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['NewEmployeeDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.addEmployee(values);
+      return SYSTEM_API.createEmployee(values);
     },
     onSuccess() {
       message.success('新增职员成功');

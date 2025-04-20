@@ -12,7 +12,7 @@ export const NewDepartmentDrawerForm = (props: { onSuccess: () => void }) => {
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['NewDepartmentDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.addDepartment(values);
+      return SYSTEM_API.createDepartment(values);
     },
     onSuccess() {
       message.success('新增部门成功');

@@ -10,15 +10,13 @@ import { MART_API, resolveApiError } from '@/services';
 import {
   DrawerForm,
   PageContainer,
-  ProFormCheckbox,
   ProFormDigit,
-  ProFormSelect,
   ProFormText,
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Form, Input, message, Space } from 'antd';
+import { Form, Input, message } from 'antd';
 import { useState } from 'react';
 
 export const MartCategoryList = () => {
@@ -72,7 +70,7 @@ export const MartCategoryList = () => {
     const { mutateAsync } = useMutation<any>({
       mutationKey: ['MarketCategoryList.NewForm'],
       mutationFn(values: any) {
-        return MART_API.addMartCategory({
+        return MART_API.createMartCategory({
           upsertMartCategoryRequest: values,
         });
       },

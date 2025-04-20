@@ -15,21 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
+  BrandResponse,
+  BrandsPageResponse,
   DictResponse,
-  GetBrandResponse,
-  GetVersionResponse,
   ListPMartCategories200ResponseInner,
   MakeOssDirectUploadRequest,
   MakeOssDirectUploadResponse,
   UpsertBrandRequest,
+  VersionResponse,
 } from '../models/index';
 import {
+    BrandResponseFromJSON,
+    BrandResponseToJSON,
+    BrandsPageResponseFromJSON,
+    BrandsPageResponseToJSON,
     DictResponseFromJSON,
     DictResponseToJSON,
-    GetBrandResponseFromJSON,
-    GetBrandResponseToJSON,
-    GetVersionResponseFromJSON,
-    GetVersionResponseToJSON,
     ListPMartCategories200ResponseInnerFromJSON,
     ListPMartCategories200ResponseInnerToJSON,
     MakeOssDirectUploadRequestFromJSON,
@@ -38,9 +39,11 @@ import {
     MakeOssDirectUploadResponseToJSON,
     UpsertBrandRequestFromJSON,
     UpsertBrandRequestToJSON,
+    VersionResponseFromJSON,
+    VersionResponseToJSON,
 } from '../models/index';
 
-export interface AddBrandRequest {
+export interface CreateBrandRequest {
     upsertBrandRequest: UpsertBrandRequest;
 }
 
@@ -50,6 +53,15 @@ export interface DeleteBrandRequest {
 
 export interface GetBrandRequest {
     id?: number;
+}
+
+export interface ListBrandsRequest {
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: Array<string>;
+    includeDeleted?: number;
+    noTotalCount?: number;
 }
 
 export interface ListDictsRequest {
@@ -71,13 +83,13 @@ export interface UpdateBrandRequest {
 export class BaseApi extends runtime.BaseAPI {
 
     /**
-     * 保存品牌
+     * 新增品牌
      */
-    async addBrandRaw(requestParameters: AddBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createBrandRaw(requestParameters: CreateBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['upsertBrandRequest'] == null) {
             throw new runtime.RequiredError(
                 'upsertBrandRequest',
-                'Required parameter "upsertBrandRequest" was null or undefined when calling addBrand().'
+                'Required parameter "upsertBrandRequest" was null or undefined when calling createBrand().'
             );
         }
 
@@ -107,10 +119,10 @@ export class BaseApi extends runtime.BaseAPI {
     }
 
     /**
-     * 保存品牌
+     * 新增品牌
      */
-    async addBrand(requestParameters: AddBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addBrandRaw(requestParameters, initOverrides);
+    async createBrand(requestParameters: CreateBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createBrandRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -149,7 +161,7 @@ export class BaseApi extends runtime.BaseAPI {
     /**
      * 服务版本
      */
-    async gerVersionRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetVersionResponse>> {
+    async gerVersionRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VersionResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -169,13 +181,13 @@ export class BaseApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetVersionResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => VersionResponseFromJSON(jsonValue));
     }
 
     /**
      * 服务版本
      */
-    async gerVersion(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetVersionResponse> {
+    async gerVersion(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VersionResponse> {
         const response = await this.gerVersionRaw(initOverrides);
         return await response.value();
     }
@@ -183,7 +195,7 @@ export class BaseApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的品牌
      */
-    async getBrandRaw(requestParameters: GetBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBrandResponse>> {
+    async getBrandRaw(requestParameters: GetBrandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BrandResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -203,14 +215,72 @@ export class BaseApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetBrandResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => BrandResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取指定 ID 的品牌
      */
-    async getBrand(requestParameters: GetBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetBrandResponse> {
+    async getBrand(requestParameters: GetBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BrandResponse> {
         const response = await this.getBrandRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 品牌列表
+     */
+    async listBrandsRaw(requestParameters: ListBrandsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BrandsPageResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        if (requestParameters['includeDeleted'] != null) {
+            queryParameters['include_deleted'] = requestParameters['includeDeleted'];
+        }
+
+        if (requestParameters['noTotalCount'] != null) {
+            queryParameters['no_total_count'] = requestParameters['noTotalCount'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/brands`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => BrandsPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 品牌列表
+     */
+    async listBrands(requestParameters: ListBrandsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BrandsPageResponse> {
+        const response = await this.listBrandsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

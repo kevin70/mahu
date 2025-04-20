@@ -61,12 +61,12 @@ export const MartAssetList = () => {
     const formRef = useRef<FormInstance>();
     const submit = async (values: any) => {
       const uris = values.files.filter((f: any) => f.status === 'done').map((f: any) => f.response.accessUrl);
-      await MART_API.addShopAsset({
-        shopId,
-        addShopAssetRequest: {
-          uris,
-        },
-      });
+      // await MART_API.create({
+      //   shopId,
+      //   addShopAssetRequest: {
+      //     uris,
+      //   },
+      // });
       message.success('上传成功');
     };
 

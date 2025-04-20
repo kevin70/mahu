@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.controller;
 
 import cool.houge.mahu.admin.internal.VoBeanMapper;
-import cool.houge.mahu.admin.oas.model.GetVersionResponse;
+import cool.houge.mahu.admin.oas.model.VersionResponse;
 import cool.houge.mahu.admin.service.HelpService;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
@@ -30,7 +30,7 @@ public class HelpController implements HttpService {
     private void getVersion(ServerRequest request, ServerResponse response) {
         var c = helpService.info();
 
-        var ret = new GetVersionResponse();
+        var ret = new VersionResponse();
         ret.setName(c.name()).setVersion(c.version());
         response.send(ret);
     }

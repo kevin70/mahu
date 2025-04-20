@@ -97,7 +97,7 @@ export const MartAttributeList = () => {
     const { mutateAsync } = useMutation<any>({
       mutationKey: ['MarketAttributeList.NewForm'],
       mutationFn(values: any) {
-        return MART_API.addMartAttribute({
+        return MART_API.createMartAttribute({
           upsertMartAttributeRequest: values,
         });
       },
@@ -179,7 +179,7 @@ export const MartAttributeList = () => {
     const formRef = useRef<FormInstance>();
     const submit = async (values: any) => {
       try {
-        await MART_API.addMartAttributeValue({
+        await MART_API.createMartAttributeValue({
           attributeId,
           upsertMartAttributeValueRequest: {
             ...values,

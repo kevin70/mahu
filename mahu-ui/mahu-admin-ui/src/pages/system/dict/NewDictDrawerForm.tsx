@@ -18,7 +18,7 @@ export const NewDictDrawerForm = (props: { onSuccess: () => void }) => {
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['NewDictDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.addSystemDict({ upsertDictRequest: values });
+      return SYSTEM_API.createSystemDict({ upsertDictRequest: values });
     },
     onSuccess() {
       message.success('新增字典成功');

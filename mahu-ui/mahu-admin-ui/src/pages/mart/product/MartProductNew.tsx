@@ -20,7 +20,6 @@ import { BatchSetNumber } from './BatchSetNumber';
 import { ProductTypeEnum } from '@/services/generated';
 import { MART_API } from '@/services';
 import { css } from '@styled-system/css';
-import { useState } from 'react';
 
 export const MartProductNew = () => {
   const attributeList = useDynamicList<number>([]);
@@ -366,7 +365,7 @@ export const MartProductNew = () => {
   const submit = async (values: any) => {
     console.log('new product', values);
 
-    MART_API.addMartProduct({ upsertMartProductRequest: values });
+    MART_API.createMartProduct({ upsertMartProductRequest: values });
     message.success('新增成功');
     // form.resetFields();
   };

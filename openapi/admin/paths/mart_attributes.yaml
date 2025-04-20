@@ -9,7 +9,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpsertMartCategoryRequest.yaml
+          $ref: "../components/schemas/UpsertMartAttributeRequest.yaml"
   responses:
     "204":
       description: OK

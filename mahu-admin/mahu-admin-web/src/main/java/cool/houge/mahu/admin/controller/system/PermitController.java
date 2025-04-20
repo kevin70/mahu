@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.controller.system;
 
 import cool.houge.mahu.admin.Permits;
-import cool.houge.mahu.admin.oas.model.GetPermitResponse;
+import cool.houge.mahu.admin.oas.model.PermitResponse;
 import cool.houge.mahu.common.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
@@ -23,16 +23,16 @@ public class PermitController implements HttpService, WebSupport {
     }
 
     private void allPermits(ServerRequest request, ServerResponse response) {
-        var list = new ArrayList<GetPermitResponse>();
+        var list = new ArrayList<PermitResponse>();
         for (Permits value : Permits.values()) {
             if (value.canRead()) {
-                list.add(new GetPermitResponse().setCode(value.R()).setLabel(value.label() + "|读取"));
+                list.add(new PermitResponse().setCode(value.R()).setLabel(value.label() + "|读取"));
             }
             if (value.canWrite()) {
-                list.add(new GetPermitResponse().setCode(value.W()).setLabel(value.label() + "|写入"));
+                list.add(new PermitResponse().setCode(value.W()).setLabel(value.label() + "|写入"));
             }
             if (value.canDelete()) {
-                list.add(new GetPermitResponse().setCode(value.D()).setLabel(value.label() + "|删除"));
+                list.add(new PermitResponse().setCode(value.D()).setLabel(value.label() + "|删除"));
             }
         }
         response.send(list);

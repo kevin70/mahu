@@ -15,13 +15,13 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetMeProfileResponse,
+  MeProfileResponse,
   UpdateMePasswordRequest,
   UpdateMeProfileRequest,
 } from '../models/index';
 import {
-    GetMeProfileResponseFromJSON,
-    GetMeProfileResponseToJSON,
+    MeProfileResponseFromJSON,
+    MeProfileResponseToJSON,
     UpdateMePasswordRequestFromJSON,
     UpdateMePasswordRequestToJSON,
     UpdateMeProfileRequestFromJSON,
@@ -45,7 +45,7 @@ export class MeApi extends runtime.BaseAPI {
      * 获取个人登录信息
      * 获取个人登录信息
      */
-    async getMeProfileRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMeProfileResponse>> {
+    async getMeProfileRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MeProfileResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -65,14 +65,14 @@ export class MeApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetMeProfileResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MeProfileResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取个人登录信息
      * 获取个人登录信息
      */
-    async getMeProfile(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMeProfileResponse> {
+    async getMeProfile(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MeProfileResponse> {
         const response = await this.getMeProfileRaw(initOverrides);
         return await response.value();
     }

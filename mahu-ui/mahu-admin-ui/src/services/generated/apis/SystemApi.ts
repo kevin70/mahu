@@ -15,22 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetClientResponse,
-  GetDepartmentResponse,
-  GetEmployeeResponse,
-  GetPermitResponse,
-  GetRoleResponse,
-  GetSystemDictResponse,
-  ListAdminAccessLogsPageResponse,
-  ListAdminAuditLogsPageResponse,
-  ListAdminAuthLogsPageResponse,
-  ListClientsPageResponse,
-  ListDepartmentsPageResponse,
-  ListEmployeesPageResponse,
-  ListRolesPageResponse,
-  ListSystemDictsPageResponse,
-  ListSystemScheduledTaskExecutionsPageResponse,
-  ListSystemScheduledTasksPageResponse,
+  AdminAccessLogsPageResponse,
+  AdminAuditLogsPageResponse,
+  AdminAuthLogsPageResponse,
+  ClientResponse,
+  ClientsPageResponse,
+  DepartmentResponse,
+  DepartmentsPageResponse,
+  EmployeeResponse,
+  EmployeesPageResponse,
+  PermitResponse,
+  RoleResponse,
+  RolesPageResponse,
+  ScheduledTaskExecutionsPageResponse,
+  ScheduledTasksPageResponse,
+  SystemDictResponse,
+  SystemDictsPageResponse,
   UpsertClientRequest,
   UpsertDepartmentRequest,
   UpsertDictDataRequest,
@@ -39,38 +39,38 @@ import type {
   UpsertRoleRequest,
 } from '../models/index';
 import {
-    GetClientResponseFromJSON,
-    GetClientResponseToJSON,
-    GetDepartmentResponseFromJSON,
-    GetDepartmentResponseToJSON,
-    GetEmployeeResponseFromJSON,
-    GetEmployeeResponseToJSON,
-    GetPermitResponseFromJSON,
-    GetPermitResponseToJSON,
-    GetRoleResponseFromJSON,
-    GetRoleResponseToJSON,
-    GetSystemDictResponseFromJSON,
-    GetSystemDictResponseToJSON,
-    ListAdminAccessLogsPageResponseFromJSON,
-    ListAdminAccessLogsPageResponseToJSON,
-    ListAdminAuditLogsPageResponseFromJSON,
-    ListAdminAuditLogsPageResponseToJSON,
-    ListAdminAuthLogsPageResponseFromJSON,
-    ListAdminAuthLogsPageResponseToJSON,
-    ListClientsPageResponseFromJSON,
-    ListClientsPageResponseToJSON,
-    ListDepartmentsPageResponseFromJSON,
-    ListDepartmentsPageResponseToJSON,
-    ListEmployeesPageResponseFromJSON,
-    ListEmployeesPageResponseToJSON,
-    ListRolesPageResponseFromJSON,
-    ListRolesPageResponseToJSON,
-    ListSystemDictsPageResponseFromJSON,
-    ListSystemDictsPageResponseToJSON,
-    ListSystemScheduledTaskExecutionsPageResponseFromJSON,
-    ListSystemScheduledTaskExecutionsPageResponseToJSON,
-    ListSystemScheduledTasksPageResponseFromJSON,
-    ListSystemScheduledTasksPageResponseToJSON,
+    AdminAccessLogsPageResponseFromJSON,
+    AdminAccessLogsPageResponseToJSON,
+    AdminAuditLogsPageResponseFromJSON,
+    AdminAuditLogsPageResponseToJSON,
+    AdminAuthLogsPageResponseFromJSON,
+    AdminAuthLogsPageResponseToJSON,
+    ClientResponseFromJSON,
+    ClientResponseToJSON,
+    ClientsPageResponseFromJSON,
+    ClientsPageResponseToJSON,
+    DepartmentResponseFromJSON,
+    DepartmentResponseToJSON,
+    DepartmentsPageResponseFromJSON,
+    DepartmentsPageResponseToJSON,
+    EmployeeResponseFromJSON,
+    EmployeeResponseToJSON,
+    EmployeesPageResponseFromJSON,
+    EmployeesPageResponseToJSON,
+    PermitResponseFromJSON,
+    PermitResponseToJSON,
+    RoleResponseFromJSON,
+    RoleResponseToJSON,
+    RolesPageResponseFromJSON,
+    RolesPageResponseToJSON,
+    ScheduledTaskExecutionsPageResponseFromJSON,
+    ScheduledTaskExecutionsPageResponseToJSON,
+    ScheduledTasksPageResponseFromJSON,
+    ScheduledTasksPageResponseToJSON,
+    SystemDictResponseFromJSON,
+    SystemDictResponseToJSON,
+    SystemDictsPageResponseFromJSON,
+    SystemDictsPageResponseToJSON,
     UpsertClientRequestFromJSON,
     UpsertClientRequestToJSON,
     UpsertDepartmentRequestFromJSON,
@@ -85,29 +85,29 @@ import {
     UpsertRoleRequestToJSON,
 } from '../models/index';
 
-export interface AddClientRequest {
-    upsertClientRequest: UpsertClientRequest;
-}
-
-export interface AddDepartmentRequest {
-    upsertDepartmentRequest: UpsertDepartmentRequest;
-}
-
-export interface AddEmployeeRequest {
-    upsertEmployeeRequest: UpsertEmployeeRequest;
-}
-
-export interface AddRoleRequest {
-    upsertRoleRequest: UpsertRoleRequest;
-}
-
-export interface AddSystemDictRequest {
-    upsertDictRequest: UpsertDictRequest;
-}
-
 export interface AddSystemDictDataRequest {
     typeCode: string;
     upsertDictDataRequest?: UpsertDictDataRequest;
+}
+
+export interface CreateClientRequest {
+    upsertClientRequest: UpsertClientRequest;
+}
+
+export interface CreateDepartmentRequest {
+    upsertDepartmentRequest: UpsertDepartmentRequest;
+}
+
+export interface CreateEmployeeRequest {
+    upsertEmployeeRequest: UpsertEmployeeRequest;
+}
+
+export interface CreateRoleRequest {
+    upsertRoleRequest: UpsertRoleRequest;
+}
+
+export interface CreateSystemDictRequest {
+    upsertDictRequest: UpsertDictRequest;
 }
 
 export interface DeleteClientRequest {
@@ -266,221 +266,6 @@ export interface UpdateSystemDictRequest {
 export class SystemApi extends runtime.BaseAPI {
 
     /**
-     * 增加客户端
-     */
-    async addClientRaw(requestParameters: AddClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['upsertClientRequest'] == null) {
-            throw new runtime.RequiredError(
-                'upsertClientRequest',
-                'Required parameter "upsertClientRequest" was null or undefined when calling addClient().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/clients`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertClientRequestToJSON(requestParameters['upsertClientRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 增加客户端
-     */
-    async addClient(requestParameters: AddClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addClientRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 新增部门
-     */
-    async addDepartmentRaw(requestParameters: AddDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['upsertDepartmentRequest'] == null) {
-            throw new runtime.RequiredError(
-                'upsertDepartmentRequest',
-                'Required parameter "upsertDepartmentRequest" was null or undefined when calling addDepartment().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/departments`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertDepartmentRequestToJSON(requestParameters['upsertDepartmentRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 新增部门
-     */
-    async addDepartment(requestParameters: AddDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addDepartmentRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 新增职员
-     */
-    async addEmployeeRaw(requestParameters: AddEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['upsertEmployeeRequest'] == null) {
-            throw new runtime.RequiredError(
-                'upsertEmployeeRequest',
-                'Required parameter "upsertEmployeeRequest" was null or undefined when calling addEmployee().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/employees`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertEmployeeRequestToJSON(requestParameters['upsertEmployeeRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 新增职员
-     */
-    async addEmployee(requestParameters: AddEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addEmployeeRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 新增角色
-     */
-    async addRoleRaw(requestParameters: AddRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['upsertRoleRequest'] == null) {
-            throw new runtime.RequiredError(
-                'upsertRoleRequest',
-                'Required parameter "upsertRoleRequest" was null or undefined when calling addRole().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/roles`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertRoleRequestToJSON(requestParameters['upsertRoleRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 新增角色
-     */
-    async addRole(requestParameters: AddRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addRoleRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 新增数据字典
-     */
-    async addSystemDictRaw(requestParameters: AddSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['upsertDictRequest'] == null) {
-            throw new runtime.RequiredError(
-                'upsertDictRequest',
-                'Required parameter "upsertDictRequest" was null or undefined when calling addSystemDict().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/dicts`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertDictRequestToJSON(requestParameters['upsertDictRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 新增数据字典
-     */
-    async addSystemDict(requestParameters: AddSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addSystemDictRaw(requestParameters, initOverrides);
-    }
-
-    /**
      * 新增字典数据
      */
     async addSystemDictDataRaw(requestParameters: AddSystemDictDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -526,7 +311,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 查询系统所有的权限代码
      */
-    async allPermitsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetPermitResponse>>> {
+    async allPermitsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PermitResponse>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -546,15 +331,230 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetPermitResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PermitResponseFromJSON));
     }
 
     /**
      * 查询系统所有的权限代码
      */
-    async allPermits(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetPermitResponse>> {
+    async allPermits(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PermitResponse>> {
         const response = await this.allPermitsRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     * 新建客户端
+     */
+    async createClientRaw(requestParameters: CreateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertClientRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertClientRequest',
+                'Required parameter "upsertClientRequest" was null or undefined when calling createClient().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/clients`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertClientRequestToJSON(requestParameters['upsertClientRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新建客户端
+     */
+    async createClient(requestParameters: CreateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createClientRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 新建部门
+     */
+    async createDepartmentRaw(requestParameters: CreateDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertDepartmentRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertDepartmentRequest',
+                'Required parameter "upsertDepartmentRequest" was null or undefined when calling createDepartment().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/departments`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertDepartmentRequestToJSON(requestParameters['upsertDepartmentRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新建部门
+     */
+    async createDepartment(requestParameters: CreateDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createDepartmentRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 新建职员
+     */
+    async createEmployeeRaw(requestParameters: CreateEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertEmployeeRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertEmployeeRequest',
+                'Required parameter "upsertEmployeeRequest" was null or undefined when calling createEmployee().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/employees`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertEmployeeRequestToJSON(requestParameters['upsertEmployeeRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新建职员
+     */
+    async createEmployee(requestParameters: CreateEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createEmployeeRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 新建角色
+     */
+    async createRoleRaw(requestParameters: CreateRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertRoleRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertRoleRequest',
+                'Required parameter "upsertRoleRequest" was null or undefined when calling createRole().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/roles`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertRoleRequestToJSON(requestParameters['upsertRoleRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新建角色
+     */
+    async createRole(requestParameters: CreateRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createRoleRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 新建数据字典
+     */
+    async createSystemDictRaw(requestParameters: CreateSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertDictRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertDictRequest',
+                'Required parameter "upsertDictRequest" was null or undefined when calling createSystemDict().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/dicts`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertDictRequestToJSON(requestParameters['upsertDictRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新建数据字典
+     */
+    async createSystemDict(requestParameters: CreateSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createSystemDictRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -826,7 +826,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定客户端
      */
-    async getClientRaw(requestParameters: GetClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetClientResponse>> {
+    async getClientRaw(requestParameters: GetClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClientResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -846,13 +846,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetClientResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ClientResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取指定客户端
      */
-    async getClient(requestParameters: GetClientRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetClientResponse> {
+    async getClient(requestParameters: GetClientRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ClientResponse> {
         const response = await this.getClientRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -860,7 +860,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的部门信息
      */
-    async getDepartmentRaw(requestParameters: GetDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetDepartmentResponse>> {
+    async getDepartmentRaw(requestParameters: GetDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DepartmentResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -880,13 +880,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetDepartmentResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DepartmentResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取指定 ID 的部门信息
      */
-    async getDepartment(requestParameters: GetDepartmentRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDepartmentResponse> {
+    async getDepartment(requestParameters: GetDepartmentRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DepartmentResponse> {
         const response = await this.getDepartmentRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -894,7 +894,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的职员信息
      */
-    async getEmployeeRaw(requestParameters: GetEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetEmployeeResponse>> {
+    async getEmployeeRaw(requestParameters: GetEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EmployeeResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -914,13 +914,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetEmployeeResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeeResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取指定 ID 的职员信息
      */
-    async getEmployee(requestParameters: GetEmployeeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEmployeeResponse> {
+    async getEmployee(requestParameters: GetEmployeeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EmployeeResponse> {
         const response = await this.getEmployeeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -928,7 +928,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定 ID 的角色信息
      */
-    async getRoleRaw(requestParameters: GetRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetRoleResponse>> {
+    async getRoleRaw(requestParameters: GetRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RoleResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -948,13 +948,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetRoleResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RoleResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取指定 ID 的角色信息
      */
-    async getRole(requestParameters: GetRoleRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetRoleResponse> {
+    async getRole(requestParameters: GetRoleRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RoleResponse> {
         const response = await this.getRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -962,7 +962,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定类型代码的数据
      */
-    async getSystemDictRaw(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetSystemDictResponse>> {
+    async getSystemDictRaw(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SystemDictResponse>> {
         if (requestParameters['typeCode'] == null) {
             throw new runtime.RequiredError(
                 'typeCode',
@@ -989,13 +989,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetSystemDictResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SystemDictResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取指定类型代码的数据
      */
-    async getSystemDict(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetSystemDictResponse> {
+    async getSystemDict(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SystemDictResponse> {
         const response = await this.getSystemDictRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1003,7 +1003,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 分页查询管理员后台访问记录
      */
-    async listAdminAccessLogsRaw(requestParameters: ListAdminAccessLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListAdminAccessLogsPageResponse>> {
+    async listAdminAccessLogsRaw(requestParameters: ListAdminAccessLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminAccessLogsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1039,13 +1039,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListAdminAccessLogsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => AdminAccessLogsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 分页查询管理员后台访问记录
      */
-    async listAdminAccessLogs(requestParameters: ListAdminAccessLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAdminAccessLogsPageResponse> {
+    async listAdminAccessLogs(requestParameters: ListAdminAccessLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminAccessLogsPageResponse> {
         const response = await this.listAdminAccessLogsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1053,7 +1053,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 分页查询管理员操作审计日志
      */
-    async listAdminAuditLogsRaw(requestParameters: ListAdminAuditLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListAdminAuditLogsPageResponse>> {
+    async listAdminAuditLogsRaw(requestParameters: ListAdminAuditLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminAuditLogsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1089,13 +1089,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListAdminAuditLogsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => AdminAuditLogsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 分页查询管理员操作审计日志
      */
-    async listAdminAuditLogs(requestParameters: ListAdminAuditLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAdminAuditLogsPageResponse> {
+    async listAdminAuditLogs(requestParameters: ListAdminAuditLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminAuditLogsPageResponse> {
         const response = await this.listAdminAuditLogsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1103,7 +1103,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 分页查询管理员登录日志
      */
-    async listAdminAuthLogsRaw(requestParameters: ListAdminAuthLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListAdminAuthLogsPageResponse>> {
+    async listAdminAuthLogsRaw(requestParameters: ListAdminAuthLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminAuthLogsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1139,13 +1139,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListAdminAuthLogsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => AdminAuthLogsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 分页查询管理员登录日志
      */
-    async listAdminAuthLogs(requestParameters: ListAdminAuthLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListAdminAuthLogsPageResponse> {
+    async listAdminAuthLogs(requestParameters: ListAdminAuthLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminAuthLogsPageResponse> {
         const response = await this.listAdminAuthLogsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1153,7 +1153,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 客户端列表
      */
-    async listClientsRaw(requestParameters: ListClientsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListClientsPageResponse>> {
+    async listClientsRaw(requestParameters: ListClientsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClientsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1189,13 +1189,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListClientsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ClientsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 客户端列表
      */
-    async listClients(requestParameters: ListClientsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListClientsPageResponse> {
+    async listClients(requestParameters: ListClientsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ClientsPageResponse> {
         const response = await this.listClientsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1203,7 +1203,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 部门列表
      */
-    async listDepartmentsRaw(requestParameters: ListDepartmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListDepartmentsPageResponse>> {
+    async listDepartmentsRaw(requestParameters: ListDepartmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DepartmentsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1239,13 +1239,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListDepartmentsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DepartmentsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 部门列表
      */
-    async listDepartments(requestParameters: ListDepartmentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListDepartmentsPageResponse> {
+    async listDepartments(requestParameters: ListDepartmentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DepartmentsPageResponse> {
         const response = await this.listDepartmentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1253,7 +1253,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 职员列表
      */
-    async listEmployeesRaw(requestParameters: ListEmployeesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListEmployeesPageResponse>> {
+    async listEmployeesRaw(requestParameters: ListEmployeesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EmployeesPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1297,13 +1297,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListEmployeesPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeesPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 职员列表
      */
-    async listEmployees(requestParameters: ListEmployeesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListEmployeesPageResponse> {
+    async listEmployees(requestParameters: ListEmployeesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EmployeesPageResponse> {
         const response = await this.listEmployeesRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1311,7 +1311,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 角色列表
      */
-    async listRolesRaw(requestParameters: ListRolesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListRolesPageResponse>> {
+    async listRolesRaw(requestParameters: ListRolesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RolesPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1347,13 +1347,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListRolesPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RolesPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 角色列表
      */
-    async listRoles(requestParameters: ListRolesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListRolesPageResponse> {
+    async listRoles(requestParameters: ListRolesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RolesPageResponse> {
         const response = await this.listRolesRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1361,7 +1361,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取数据字典
      */
-    async listSystemDictsRaw(requestParameters: ListSystemDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListSystemDictsPageResponse>> {
+    async listSystemDictsRaw(requestParameters: ListSystemDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SystemDictsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1401,13 +1401,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListSystemDictsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SystemDictsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取数据字典
      */
-    async listSystemDicts(requestParameters: ListSystemDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListSystemDictsPageResponse> {
+    async listSystemDicts(requestParameters: ListSystemDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SystemDictsPageResponse> {
         const response = await this.listSystemDictsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1415,7 +1415,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 定时任务
      */
-    async listSystemScheduledTaskExecutionsRaw(requestParameters: ListSystemScheduledTaskExecutionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListSystemScheduledTaskExecutionsPageResponse>> {
+    async listSystemScheduledTaskExecutionsRaw(requestParameters: ListSystemScheduledTaskExecutionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScheduledTaskExecutionsPageResponse>> {
         if (requestParameters['taskName'] == null) {
             throw new runtime.RequiredError(
                 'taskName',
@@ -1465,13 +1465,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListSystemScheduledTaskExecutionsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ScheduledTaskExecutionsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 定时任务
      */
-    async listSystemScheduledTaskExecutions(requestParameters: ListSystemScheduledTaskExecutionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListSystemScheduledTaskExecutionsPageResponse> {
+    async listSystemScheduledTaskExecutions(requestParameters: ListSystemScheduledTaskExecutionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ScheduledTaskExecutionsPageResponse> {
         const response = await this.listSystemScheduledTaskExecutionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1479,7 +1479,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 定时任务
      */
-    async listSystemScheduledTasksRaw(requestParameters: ListSystemScheduledTasksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListSystemScheduledTasksPageResponse>> {
+    async listSystemScheduledTasksRaw(requestParameters: ListSystemScheduledTasksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScheduledTasksPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1515,13 +1515,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListSystemScheduledTasksPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ScheduledTasksPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 定时任务
      */
-    async listSystemScheduledTasks(requestParameters: ListSystemScheduledTasksRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListSystemScheduledTasksPageResponse> {
+    async listSystemScheduledTasks(requestParameters: ListSystemScheduledTasksRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ScheduledTasksPageResponse> {
         const response = await this.listSystemScheduledTasksRaw(requestParameters, initOverrides);
         return await response.value();
     }

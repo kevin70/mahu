@@ -117,7 +117,7 @@ export const DictList = () => {
               return (
                 <>
                   <EditDictDrawerForm typeCode={row.typeCode} onSuccess={refetch} />
-                  <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} />
+                  {/* <HDeletePopconfirmButton onConfirm={() => onDelete(row.id!)} disabled={noWrite} /> */}
                 </>
               );
             },

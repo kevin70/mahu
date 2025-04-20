@@ -15,11 +15,11 @@
 
 import * as runtime from '../runtime';
 import type {
-  ListBrandsPageResponse,
+  BrandsPageResponse,
 } from '../models/index';
 import {
-    ListBrandsPageResponseFromJSON,
-    ListBrandsPageResponseToJSON,
+    BrandsPageResponseFromJSON,
+    BrandsPageResponseToJSON,
 } from '../models/index';
 
 export interface ListBrandsRequest {
@@ -39,7 +39,7 @@ export class BasisApi extends runtime.BaseAPI {
     /**
      * 品牌列表
      */
-    async listBrandsRaw(requestParameters: ListBrandsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListBrandsPageResponse>> {
+    async listBrandsRaw(requestParameters: ListBrandsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BrandsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -83,13 +83,13 @@ export class BasisApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListBrandsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => BrandsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 品牌列表
      */
-    async listBrands(requestParameters: ListBrandsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListBrandsPageResponse> {
+    async listBrands(requestParameters: ListBrandsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BrandsPageResponse> {
         const response = await this.listBrandsRaw(requestParameters, initOverrides);
         return await response.value();
     }

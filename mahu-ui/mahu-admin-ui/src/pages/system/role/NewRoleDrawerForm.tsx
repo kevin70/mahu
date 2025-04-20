@@ -12,7 +12,7 @@ export const NewRoleDrawerForm = (props: { onSuccess: () => void }) => {
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['NewRoleDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.addRole(values);
+      return SYSTEM_API.createRole(values);
     },
     onSuccess() {
       message.success('新增角色成功');
