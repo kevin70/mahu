@@ -10,9 +10,10 @@ import { EmployeeList } from '@/pages/system/employee/EmployeeList';
 import { DepartmentList } from '@/pages/system/department/DepartmentList';
 import { DictList } from '@/pages/system/dict/DictList';
 import { ClientList } from '@/pages/system/client/ClientList';
-import { AccessLogList } from '@/pages/system/access-log/AccessLogList';
 import { RoleList } from '@/pages/system/role/RoleList';
-import { AuditJourList } from '@/pages/system/audit-jour/AuditJourList';
+import { AccessLogList } from '@/pages/system/admin-access-log/AccessLogList';
+import { AuditLogList } from '@/pages/system/admin-audit-log/AuditLogList';
+import { AuthLogList } from '@/pages/system/admin-auth-log/AuthLogList';
 
 import { BrandList } from '@/pages/brand/BrandList';
 
@@ -51,8 +52,9 @@ export const routes = createRoutesFromElements(
       <Route path="/system/role-list" Component={RoleList} />
       <Route path="/system/dict-list" Component={DictList} />
       <Route path="/system/client-list" Component={ClientList} />
-      <Route path="/system/access-log-list" Component={AccessLogList} />
-      <Route path="/system/audit-jour-list" Component={AuditJourList} />
+      <Route path="/logs/admin-access-logs" Component={AccessLogList} />
+      <Route path="/logs/admin-audit-logs" Component={AuditLogList} />
+      <Route path="/logs/admin-auth-logs" Component={AuthLogList} />
     </Route>
   </Route>
 );

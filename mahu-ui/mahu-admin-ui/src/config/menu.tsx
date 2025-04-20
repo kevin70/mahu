@@ -1,7 +1,14 @@
 import { MenuDataItem } from '@ant-design/pro-components';
 import { permits } from './permit';
 
-import { AuditOutlined, DashboardOutlined, GroupOutlined, ProductOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  AuditOutlined,
+  DashboardOutlined,
+  GroupOutlined,
+  KeyOutlined,
+  ProductOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { BsJournalText } from 'react-icons/bs';
 import { FaRegFile } from 'react-icons/fa';
 import { FiFileText } from 'react-icons/fi';
@@ -106,15 +113,21 @@ export const MENUS: MenuDataItem[] = [
         permits: [permits.CLIENT.R],
       },
       {
-        path: '/system/access-log-list',
+        path: '/logs/admin-access-logs',
         icon: <BsJournalText />,
         name: '访问记录',
         permits: [permits.ACCESS_LOG.R],
       },
       {
-        path: '/system/audit-jour-list',
+        path: '/logs/admin-audit-logs',
         icon: <AuditOutlined />,
         name: '操作审计',
+        permits: [permits.AUDIT_JOUR.R],
+      },
+      {
+        path: '/logs/admin-auth-logs',
+        icon: <KeyOutlined />,
+        name: '登录记录',
         permits: [permits.AUDIT_JOUR.R],
       },
     ],

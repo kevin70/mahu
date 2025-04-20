@@ -1,5 +1,6 @@
 apis/BaseApi.ts
 apis/DefaultApi.ts
+apis/LogApi.ts
 apis/MartApi.ts
 apis/MeApi.ts
 apis/SystemApi.ts

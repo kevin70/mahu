@@ -15,9 +15,6 @@
 
 import * as runtime from '../runtime';
 import type {
-  AdminAccessLogsPageResponse,
-  AdminAuditLogsPageResponse,
-  AdminAuthLogsPageResponse,
   ClientResponse,
   ClientsPageResponse,
   DepartmentResponse,
@@ -39,12 +36,6 @@ import type {
   UpsertRoleRequest,
 } from '../models/index';
 import {
-    AdminAccessLogsPageResponseFromJSON,
-    AdminAccessLogsPageResponseToJSON,
-    AdminAuditLogsPageResponseFromJSON,
-    AdminAuditLogsPageResponseToJSON,
-    AdminAuthLogsPageResponseFromJSON,
-    AdminAuthLogsPageResponseToJSON,
     ClientResponseFromJSON,
     ClientResponseToJSON,
     ClientsPageResponseFromJSON,
@@ -158,27 +149,6 @@ export interface GetRoleRequest {
 
 export interface GetSystemDictRequest {
     typeCode: string;
-}
-
-export interface ListAdminAccessLogsRequest {
-    limit?: number;
-    offset?: number;
-    filter?: string;
-    sort?: Array<string>;
-}
-
-export interface ListAdminAuditLogsRequest {
-    limit?: number;
-    offset?: number;
-    filter?: string;
-    sort?: Array<string>;
-}
-
-export interface ListAdminAuthLogsRequest {
-    limit?: number;
-    offset?: number;
-    filter?: string;
-    sort?: Array<string>;
 }
 
 export interface ListClientsRequest {
@@ -997,156 +967,6 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async getSystemDict(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SystemDictResponse> {
         const response = await this.getSystemDictRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 分页查询管理员后台访问记录
-     */
-    async listAdminAccessLogsRaw(requestParameters: ListAdminAccessLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminAccessLogsPageResponse>> {
-        const queryParameters: any = {};
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        if (requestParameters['offset'] != null) {
-            queryParameters['offset'] = requestParameters['offset'];
-        }
-
-        if (requestParameters['filter'] != null) {
-            queryParameters['filter'] = requestParameters['filter'];
-        }
-
-        if (requestParameters['sort'] != null) {
-            queryParameters['sort'] = requestParameters['sort'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/logs/admin-access-logs`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => AdminAccessLogsPageResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 分页查询管理员后台访问记录
-     */
-    async listAdminAccessLogs(requestParameters: ListAdminAccessLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminAccessLogsPageResponse> {
-        const response = await this.listAdminAccessLogsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 分页查询管理员操作审计日志
-     */
-    async listAdminAuditLogsRaw(requestParameters: ListAdminAuditLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminAuditLogsPageResponse>> {
-        const queryParameters: any = {};
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        if (requestParameters['offset'] != null) {
-            queryParameters['offset'] = requestParameters['offset'];
-        }
-
-        if (requestParameters['filter'] != null) {
-            queryParameters['filter'] = requestParameters['filter'];
-        }
-
-        if (requestParameters['sort'] != null) {
-            queryParameters['sort'] = requestParameters['sort'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/logs/admin-audit-logs`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => AdminAuditLogsPageResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 分页查询管理员操作审计日志
-     */
-    async listAdminAuditLogs(requestParameters: ListAdminAuditLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminAuditLogsPageResponse> {
-        const response = await this.listAdminAuditLogsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 分页查询管理员登录日志
-     */
-    async listAdminAuthLogsRaw(requestParameters: ListAdminAuthLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminAuthLogsPageResponse>> {
-        const queryParameters: any = {};
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        if (requestParameters['offset'] != null) {
-            queryParameters['offset'] = requestParameters['offset'];
-        }
-
-        if (requestParameters['filter'] != null) {
-            queryParameters['filter'] = requestParameters['filter'];
-        }
-
-        if (requestParameters['sort'] != null) {
-            queryParameters['sort'] = requestParameters['sort'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/logs/admin-auth-logs`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => AdminAuthLogsPageResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 分页查询管理员登录日志
-     */
-    async listAdminAuthLogs(requestParameters: ListAdminAuthLogsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminAuthLogsPageResponse> {
-        const response = await this.listAdminAuthLogsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

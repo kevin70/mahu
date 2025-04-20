@@ -1,7 +1,7 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { useRSQLFilter } from '@/hooks';
 import { useTableHelper } from '@/hooks/useTableHelper';
-import { SYSTEM_API } from '@/services';
+import { LOG_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
 import { Form } from 'antd';
@@ -12,9 +12,9 @@ export const AccessLogList = () => {
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ['/system/access-logs', queryOffsetLimit, queryFilter, querySort],
+    queryKey: ['listAdminAccessLogs', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      return SYSTEM_API.listAdminAccessLogs({
+      return LOG_API.listAdminAccessLogs({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
@@ -83,8 +83,8 @@ export const AccessLogList = () => {
             dataIndex: 'ipAddr',
           },
           {
-            title: '职员 ID',
-            dataIndex: 'employeeId',
+            title: '管理员 ID',
+            dataIndex: 'adminId',
           },
           {
             title: '方法',

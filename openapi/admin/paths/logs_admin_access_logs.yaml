@@ -3,7 +3,7 @@ get:
   operationId: listAdminAccessLogs
   x-role-permit: ADMIN_ACCESS_LOG:R
   tags:
-    - system
+    - log
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"

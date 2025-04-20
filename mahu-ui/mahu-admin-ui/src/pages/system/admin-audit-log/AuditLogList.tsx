@@ -1,20 +1,20 @@
 import { HSearchButton } from '@/components/HSearchButton';
 import { useRSQLFilter } from '@/hooks';
 import { useTableHelper } from '@/hooks/useTableHelper';
-import { SYSTEM_API } from '@/services';
+import { LOG_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
 import { Form } from 'antd';
 
-export const AuditJourList = () => {
+export const AuditLogList = () => {
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
     sort: [{ columnKey: 'created_at', order: 'descend' }],
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ['/system/audit-jours', queryOffsetLimit, queryFilter, querySort],
+    queryKey: ['listAdminAuditLogs', queryOffsetLimit, queryFilter, querySort],
     async queryFn() {
-      return SYSTEM_API.listAdminAuditLogs({
+      return LOG_API.listAdminAuditLogs({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
