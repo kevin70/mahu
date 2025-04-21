@@ -38,7 +38,7 @@ public class DictController implements HttpService, WebSupport {
     private void listSystemDicts(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = dictService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toSystemDictResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toDictResponse);
         response.send(rs);
     }
 
@@ -47,7 +47,7 @@ public class DictController implements HttpService, WebSupport {
         var typeCode = pathParams.get("type_code");
 
         var bean = dictService.findByTypeCode(typeCode);
-        var rs = beanMapper.toSystemDictResponse(bean);
+        var rs = beanMapper.toDictResponse(bean);
         response.send(rs);
     }
 

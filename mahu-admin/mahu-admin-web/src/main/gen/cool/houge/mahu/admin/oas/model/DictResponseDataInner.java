@@ -12,13 +12,29 @@
 
 package cool.houge.mahu.admin.oas.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.time.OffsetDateTime;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class DictDataResponse {
+public class DictResponseDataInner {
 
+    /**
+     * 创建时间
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
+    private OffsetDateTime createdAt;
+    /**
+     * 修改时间
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
+    private OffsetDateTime updatedAt;
     /**
      * 字典数据代码，唯一
      */
@@ -39,6 +55,13 @@ public class DictDataResponse {
    @Size(max=4096)
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
+    /**
+     * 排序值
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
+    private Integer ordering;
     /**
      * 是否禁用
      */

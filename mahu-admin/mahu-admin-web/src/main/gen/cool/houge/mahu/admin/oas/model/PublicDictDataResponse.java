@@ -12,49 +12,38 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class MartCategory {
+public class PublicDictDataResponse {
 
     /**
-     * ID
+     * 字典数据代码，唯一
      */
     @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Integer id;
+ @Size(min=1,max=50)
+    @com.fasterxml.jackson.annotation.JsonProperty("data_code")
+    private String dataCode;
     /**
-     * 名称
+     * 字典数据名称
      */
     @NotNull
-
+ @Size(min=1,max=100)
     @com.fasterxml.jackson.annotation.JsonProperty("name")
     private String name;
     /**
-     * Get ordering
+     * 字典类型描述
      */
-    @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("ordering")
-    private Integer ordering;
+   @Size(max=4096)
+    @com.fasterxml.jackson.annotation.JsonProperty("value")
+    private String value;
     /**
-     * 备注
-     */
-    @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("remark")
-    private String remark;
-    /**
-     * 子元素
+     * 是否禁用
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("children")
-    private List<@Valid MartCategory> children;
+    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
+    private Boolean disabled;
 }
 

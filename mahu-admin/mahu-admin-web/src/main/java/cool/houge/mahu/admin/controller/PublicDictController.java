@@ -15,7 +15,7 @@ import jakarta.inject.Singleton;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class DictController implements HttpService, WebSupport {
+public class PublicDictController implements HttpService, WebSupport {
 
     @Inject
     DictService dictService;
@@ -25,9 +25,9 @@ public class DictController implements HttpService, WebSupport {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/dicts", this::listDicts);
-        rules.get("/dicts/{type_code}", this::getDict);
-        rules.get("/dicts/{type_code}/{data_code}", this::getDictData);
+        rules.get("/p/dicts", this::listDicts);
+        rules.get("/p/dicts/{type_code}", this::getDict);
+        rules.get("/p/dicts/{type_code}/{data_code}", this::getDictData);
     }
 
     private void listDicts(ServerRequest request, ServerResponse response) {
@@ -36,7 +36,8 @@ public class DictController implements HttpService, WebSupport {
 
         var list = dictService.findAll();
         var rs = Lists.transform(
-                list, (o) -> includeData ? beanMapper.toDictResponse(o) : beanMapper.toDictResponseIgnoreData(o));
+                list,
+                (o) -> includeData ? beanMapper.toPublicDictResponse(o) : beanMapper.toPublicDictResponseIgnoreData(o));
         response.send(rs);
     }
 
@@ -55,7 +56,7 @@ public class DictController implements HttpService, WebSupport {
         var dataCode = pathParams.get("data_code");
 
         var bean = dictService.findDictData(typeCode, dataCode);
-        var rs = beanMapper.toDictDataResponse(bean);
+        var rs = beanMapper.toPublicDictDataResponse(bean);
         response.send(rs);
     }
 }

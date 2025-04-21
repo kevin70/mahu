@@ -59,14 +59,14 @@ public interface VoBeanMapper extends LogBeanMapper {
 
     DictType toDictType(UpsertDictRequest bean);
 
-    SystemDictResponse toSystemDictResponse(DictType bean);
-
     DictResponse toDictResponse(DictType bean);
 
     @Mapping(target = "data", ignore = true)
-    DictResponse toDictResponseIgnoreData(DictType bean);
+    PublicDictResponse toPublicDictResponseIgnoreData(DictType bean);
 
-    DictDataResponse toDictDataResponse(DictData bean);
+    PublicDictResponse toPublicDictResponse(DictType bean);
+
+    PublicDictDataResponse toPublicDictDataResponse(DictData bean);
 
     TokenPasswordForm toTokenPasswordForm(LoginRequest bean);
 
@@ -174,8 +174,6 @@ public interface VoBeanMapper extends LogBeanMapper {
     Category toCategory(UpsertMartCategoryRequest bean);
 
     MartCategoryResponse toGetMartCategoryResponse(Category bean);
-
-    MartCategory toMartCategory(Category bean);
 
     @Mapping(target = "parentId", source = "parent.id")
     ListPMartCategories200ResponseInner toListPMartCategories200ResponseInner(Category bean);

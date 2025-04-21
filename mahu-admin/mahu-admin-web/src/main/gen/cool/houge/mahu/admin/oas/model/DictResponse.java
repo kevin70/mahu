@@ -12,7 +12,8 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import cool.houge.mahu.admin.oas.model.DictDataResponse;
+import cool.houge.mahu.admin.oas.model.DictResponseDataInner;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,20 @@ import io.avaje.validation.constraints.*;
 @io.avaje.validation.constraints.Valid
 public class DictResponse {
 
+    /**
+     * 创建时间
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
+    private OffsetDateTime createdAt;
+    /**
+     * 修改时间
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
+    private OffsetDateTime updatedAt;
     /**
      * 字典类型代码，唯一
      */
@@ -54,6 +69,6 @@ public class DictResponse {
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("data")
-    private List<@Valid DictDataResponse> data;
+    private List<@Valid DictResponseDataInner> data;
 }
 
