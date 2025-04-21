@@ -38,11 +38,11 @@ paths:
   /version:
     $ref: "paths/version.yaml"
   /p/dicts:
-    $ref: "paths/dicts.yaml"
+    $ref: "paths/p_dicts.yaml"
   /p/dicts/{type_code}:
-    $ref: "paths/dicts_{type_code}.yaml"
+    $ref: "paths/p_dicts_{type_code}.yaml"
   /p/dicts/{type_code}/{data_code}:
-    $ref: "paths/dicts_{type_code}_{data_code}.yaml"
+    $ref: "paths/p_dicts_{type_code}_{data_code}.yaml"
   /p/mart/categories:
     $ref: "paths/p_mart_categories.yaml"
   ### =============================== 公共数据接口 =============================== ###
