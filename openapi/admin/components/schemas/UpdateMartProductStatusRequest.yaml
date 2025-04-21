@@ -1,7 +1,7 @@
 type: object
 properties:
   status:
-    $ref: ./ProductStatusEnum.yaml
+    $ref: "./ProductStatusEnum.yaml"
   variants:
     type: array
     description: 修改产品变体的状态
@@ -16,4 +16,4 @@ properties:
           format: int64
           description: 产品变体 ID
         status:
-          $ref: ./ProductStatusEnum.yaml
+          $ref: "./ProductStatusEnum.yaml"

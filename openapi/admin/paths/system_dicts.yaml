@@ -20,15 +20,15 @@ get:
   tags:
     - system
   parameters:
-    - $ref: ../components/parameters/limit.yaml
-    - $ref: ../components/parameters/offset.yaml
-    - $ref: ../components/parameters/filter.yaml
-    - $ref: ../components/parameters/sort.yaml
-    - $ref: ../components/parameters/no_total_count.yaml
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+    - $ref: "../components/parameters/no_total_count.yaml"
   responses:
     "200":
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SystemDictsPageResponse.yaml"
+            $ref: "../components/schemas/DictsPageResponse.yaml"

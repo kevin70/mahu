@@ -13,12 +13,12 @@ post:
         schema:
           type: object
           oneOf:
-            - $ref: ../components/schemas/TokenPasswordForm.yaml
-            - $ref: ../components/schemas/TokenRefreshTokenForm.yaml
+            - $ref: "../components/schemas/TokenPasswordForm.yaml"
+            - $ref: "../components/schemas/TokenRefreshTokenForm.yaml"
   responses:
     "200":
       description: OK
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/TokenResponse.yaml
+            $ref: "../components/schemas/TokenResponse.yaml"

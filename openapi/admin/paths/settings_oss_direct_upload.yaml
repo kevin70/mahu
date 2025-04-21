@@ -34,4 +34,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/MakeOssDirectUploadResponse.yaml
+            $ref: "../components/schemas/MakeOssDirectUploadResponse.yaml"

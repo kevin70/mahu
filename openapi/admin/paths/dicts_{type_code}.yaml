@@ -6,11 +6,14 @@ parameters:
       type: string
 get:
   summary: 获取字典类型数据
-  operationId: getDict
+  operationId: getPublicDict
+  security: [ ]
+  tags:
+    - base
   responses:
     200:
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/DictResponse.yaml"
+            $ref: "../components/schemas/PublicDictResponse.yaml"

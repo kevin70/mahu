@@ -36,93 +36,89 @@ paths:
     $ref: "paths/samples.yaml"
   ### =============================== 公共数据接口 =============================== ###
   /version:
-    $ref: paths/version.yaml
-  /dicts:
-    $ref: paths/dicts.yaml
-  /dicts/{type_code}:
-    $ref: paths/dicts_{type_code}.yaml
-  /dicts/{type_code}/{data_code}:
-    $ref: paths/dicts_{type_code}_{data_code}.yaml
+    $ref: "paths/version.yaml"
+  /p/dicts:
+    $ref: "paths/dicts.yaml"
+  /p/dicts/{type_code}:
+    $ref: "paths/dicts_{type_code}.yaml"
+  /p/dicts/{type_code}/{data_code}:
+    $ref: "paths/dicts_{type_code}_{data_code}.yaml"
   /p/mart/categories:
-    $ref: paths/p_mart_categories.yaml
+    $ref: "paths/p_mart_categories.yaml"
   ### =============================== 公共数据接口 =============================== ###
 
   /login/token:
-    $ref: paths/login_token.yaml
+    $ref: "paths/login_token.yaml"
   /oauth2/token:
-    $ref: paths/oauth2_token.yaml
+    $ref: "paths/oauth2_token.yaml"
   /me/profile:
-    $ref: paths/me_profile.yaml
+    $ref: "paths/me_profile.yaml"
   /me/password:
-    $ref: paths/me_password.yaml
+    $ref: "paths/me_password.yaml"
   /system/employees:
-    $ref: paths/system_employees.yaml
+    $ref: "paths/system_employees.yaml"
   /system/employees/{id}:
-    $ref: paths/system_employees_{id}.yaml
+    $ref: "paths/system_employees_{id}.yaml"
   /system/departments:
-    $ref: paths/system_departments.yaml
+    $ref: "paths/system_departments.yaml"
   /system/departments/{id}:
-    $ref: paths/system_departments_{id}.yaml
+    $ref: "paths/system_departments_{id}.yaml"
   /system/roles:
-    $ref: paths/system_roles.yaml
+    $ref: "paths/system_roles.yaml"
   /system/roles/{id}:
-    $ref: paths/system_roles_{id}.yaml
+    $ref: "paths/system_roles_{id}.yaml"
   /system/dicts:
-    $ref: paths/system_dicts.yaml
+    $ref: "paths/system_dicts.yaml"
   /system/dicts/{type_code}:
-    $ref: paths/system_dicts_{type_code}.yaml
-
+    $ref: "paths/system_dicts_{type_code}.yaml"
   /system/clients:
-    $ref: paths/system_clients.yaml
+    $ref: "paths/system_clients.yaml"
   /system/clients/{client_id}:
-    $ref: paths/system_clients_{client_id}.yaml
-
+    $ref: "paths/system_clients_{client_id}.yaml"
   /system/permits:
-    $ref: paths/system_permits.yaml
+    $ref: "paths/system_permits.yaml"
   # 定时任务
   /scheduled-tasks:
-    $ref: paths/scheduled-tasks.yaml
+    $ref: "paths/scheduled-tasks.yaml"
   /scheduled-tasks/{task_name}/{task_instance}/executions:
-    $ref: paths/scheduled-tasks_{task_name}_{task_instance}_executions.yaml
+    $ref: "paths/scheduled-tasks_{task_name}_{task_instance}_executions.yaml"
 
   # 设置
   /settings/oss-direct-upload:
-    $ref: paths/settings_oss_direct_upload.yaml
+    $ref: "paths/settings_oss_direct_upload.yaml"
 
   # 品牌管理
   /brands:
-    $ref: paths/brands.yaml
+    $ref: "paths/brands.yaml"
   /brands/{id}:
-    $ref: paths/brands_{id}.yaml
+    $ref: "paths/brands_{id}.yaml"
   /shops:
-    $ref: paths/shops.yaml
+    $ref: "paths/shops.yaml"
   /shops/{id}:
-    $ref: paths/shops_{id}.yaml
+    $ref: "paths/shops_{id}.yaml"
   /shops/{shop_id}/assets:
-    $ref: paths/shops_{shop_id}_assets.yaml
+    $ref: "paths/shops_{shop_id}_assets.yaml"
   /mart/categories:
-    $ref: paths/mart_categories.yaml
-  /mart/categories.tree:
-    $ref: paths/mart_categories.tree.yaml
+    $ref: "paths/mart_categories.yaml"
   /mart/attributes:
-    $ref: paths/mart_attributes.yaml
+    $ref: "paths/mart_attributes.yaml"
   /mart/attributes/{id}:
-    $ref: paths/mart_attributes_{id}.yaml
+    $ref: "paths/mart_attributes_{id}.yaml"
   /mart/attributes/{attribute_id}/values:
-    $ref: paths/mart_attributes_{attribute_id}_values.yaml
+    $ref: "paths/mart_attributes_{attribute_id}_values.yaml"
   /mart/attributes/{attribute_id}/values/{attribute_value_id}:
-    $ref: paths/mart_attributes_{attribute_id}_values_{attribute_value_id}.yaml
+    $ref: "paths/mart_attributes_{attribute_id}_values_{attribute_value_id}.yaml"
   /mart/products:
-    $ref: paths/mart_products.yaml
+    $ref: "paths/mart_products.yaml"
   /mart/products/{product_id}:
-    $ref: paths/mart_products_{product_id}.yaml
+    $ref: "paths/mart_products_{product_id}.yaml"
   /mart/products/{product_id}/status:
-    $ref: paths/mart_products_{product_id}_status.yaml
+    $ref: "paths/mart_products_{product_id}_status.yaml"
 
   # 日志
   /logs/admin-access-logs:
-    $ref: paths/logs_admin_access_logs.yaml
+    $ref: "paths/logs_admin_access_logs.yaml"
   /logs/admin-audit-logs:
-    $ref: paths/logs_admin_audit_logs.yaml
+    $ref: "paths/logs_admin_audit_logs.yaml"
   /logs/admin-auth-logs:
-    $ref: paths/logs_admin_auth_logs.yaml
+    $ref: "paths/logs_admin_auth_logs.yaml"

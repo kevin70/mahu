@@ -17,7 +17,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/BrandResponse.yaml
+            $ref: "../components/schemas/BrandResponse.yaml"
 delete:
   summary: 删除指定品牌
   operationId: deleteBrand
@@ -38,7 +38,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpsertBrandRequest.yaml
+          $ref: "../components/schemas/UpsertBrandRequest.yaml"
   responses:
     "204":
       description: OK

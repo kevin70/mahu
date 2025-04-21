@@ -17,7 +17,7 @@ properties:
     type: string
     description: 头像地址
   status:
-    $ref: ./EmployeeStatusEnum.yaml
+    $ref: "./EmployeeStatusEnum.yaml"
   department_id:
     type: integer
     format: int32

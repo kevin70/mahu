@@ -16,7 +16,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpdateMartProductStatusRequest.yaml
+          $ref: "../components/schemas/UpdateMartProductStatusRequest.yaml"
   responses:
     "204":
       description: OK

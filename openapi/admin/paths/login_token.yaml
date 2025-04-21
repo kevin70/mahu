@@ -12,8 +12,8 @@ post:
         schema:
           type: object
           oneOf:
-            - $ref: ../components/schemas/TokenPasswordForm.yaml
-            - $ref: ../components/schemas/TokenRefreshTokenForm.yaml
+            - $ref: "../components/schemas/TokenPasswordForm.yaml"
+            - $ref: "../components/schemas/TokenRefreshTokenForm.yaml"
           discriminator:
             propertyName: grant_type
             mapping:
@@ -25,4 +25,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/LoginResponse.yaml
+            $ref: "../components/schemas/LoginResponse.yaml"

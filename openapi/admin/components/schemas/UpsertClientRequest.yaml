@@ -7,7 +7,7 @@ properties:
     type: string
     description: 备注
   terminal_type:
-    $ref: ./TerminalTypeEnum.yaml
+    $ref: "./TerminalTypeEnum.yaml"
   wechat_appid:
     type: string
     description: 微信应用 ID

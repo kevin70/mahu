@@ -18,7 +18,7 @@ properties:
     items:
       type: string
   type:
-    $ref: ./ProductTypeEnum.yaml
+    $ref: "./ProductTypeEnum.yaml"
   attributes:
     type: array
     description: 产品属性

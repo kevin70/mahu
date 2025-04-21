@@ -9,7 +9,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpsertEmployeeRequest.yaml
+          $ref: "../components/schemas/UpsertEmployeeRequest.yaml"
   responses:
     "204":
       description: OK
@@ -20,16 +20,16 @@ get:
   tags:
     - system
   parameters:
-    - $ref: ../components/parameters/limit.yaml
-    - $ref: ../components/parameters/offset.yaml
-    - $ref: ../components/parameters/filter.yaml
-    - $ref: ../components/parameters/sort.yaml
-    - $ref: ../components/parameters/include_deleted.yaml
-    - $ref: ../components/parameters/no_total_count.yaml
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+    - $ref: "../components/parameters/include_deleted.yaml"
+    - $ref: "../components/parameters/no_total_count.yaml"
   responses:
     "200":
       description: OK
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/EmployeesPageResponse.yaml
+            $ref: "../components/schemas/EmployeesPageResponse.yaml"

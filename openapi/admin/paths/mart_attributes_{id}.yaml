@@ -16,7 +16,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpsertMartAttributeRequest.yaml
+          $ref: "../components/schemas/UpsertMartAttributeRequest.yaml"
   responses:
     "204":
       description: OK
@@ -41,4 +41,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/MartAttributeResponse.yaml
+            $ref: "../components/schemas/MartAttributeResponse.yaml"

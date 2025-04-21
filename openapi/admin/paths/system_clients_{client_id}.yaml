@@ -16,7 +16,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ClientResponse.yaml
+            $ref: "../components/schemas/ClientResponse.yaml"
 delete:
   summary: 删除客户端
   operationId: deleteClient
@@ -37,7 +37,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpsertClientRequest.yaml
+          $ref: "../components/schemas/UpsertClientRequest.yaml"
   responses:
     "204":
       description: OK

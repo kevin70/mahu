@@ -1,6 +1,7 @@
 get:
   summary: 字典类型列表
-  operationId: listDicts
+  operationId: listPublicDicts
+  security: [ ]
   tags:
     - base
   parameters:
@@ -19,4 +20,4 @@ get:
             type: array
             description: 字典列表
             items:
-              $ref: "../components/schemas/DictResponse.yaml"
+              $ref: "../components/schemas/PublicDictResponse.yaml"

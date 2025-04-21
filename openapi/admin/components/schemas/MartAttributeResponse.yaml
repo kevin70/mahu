@@ -8,7 +8,7 @@ properties:
     type: boolean
     description: 软删除的
   value_type:
-    $ref: ./AttributeValueTypeEnum.yaml
+    $ref: "./AttributeValueTypeEnum.yaml"
   name:
     type: string
     description: 名称
@@ -29,4 +29,4 @@ properties:
     type: array
     description: 可选属性值
     items:
-      $ref: ./MartAttributeValueResponse.yaml
+      $ref: "./MartAttributeValueResponse.yaml"

@@ -10,7 +10,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/MeProfileResponse.yaml
+            $ref: "../components/schemas/MeProfileResponse.yaml"
 put:
   summary: 更新个人信息
   description: 更新个人信息

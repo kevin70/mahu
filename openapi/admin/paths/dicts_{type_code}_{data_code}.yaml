@@ -11,11 +11,14 @@ parameters:
       type: string
 get:
   summary: 获取字典类型
-  operationId: getDictData
+  operationId: getPublicDictData
+  security: [ ]
+  tags:
+    - base
   responses:
     200:
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/DictDataResponse.yaml"
+            $ref: "../components/schemas/PublicDictDataResponse.yaml"

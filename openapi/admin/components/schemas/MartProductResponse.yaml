@@ -34,9 +34,9 @@ properties:
     items:
       type: string
   status:
-    $ref: ./ProductStatusEnum.yaml
+    $ref: "./ProductStatusEnum.yaml"
   type:
-    $ref: ./ProductTypeEnum.yaml
+    $ref: "./ProductTypeEnum.yaml"
   attributes:
     type: array
     description: 产品属性
@@ -65,7 +65,7 @@ properties:
           type: string
           description: 属性名称
         attribute_value_type:
-          $ref: ./AttributeValueTypeEnum.yaml
+          $ref: "./AttributeValueTypeEnum.yaml"
         attribute_remark:
           type: string
           description: 属性备注
@@ -112,7 +112,7 @@ properties:
           format: int64
           description: 重量
         status:
-          $ref: ./ProductStatusEnum.yaml
+          $ref: "./ProductStatusEnum.yaml"
         attributes:
           type: array
           description: 产品变体属性
@@ -141,7 +141,7 @@ properties:
                 type: string
                 description: 属性名称
               attribute_value_type:
-                $ref: ./AttributeValueTypeEnum.yaml
+                $ref: "./AttributeValueTypeEnum.yaml"
               attribute_remark:
                 type: string
                 description: 属性备注

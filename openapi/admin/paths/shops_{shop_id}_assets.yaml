@@ -1,5 +1,5 @@
 parameters:
-  - $ref: ../components/parameters/path_shop_id.yaml
+  - $ref: "../components/parameters/path_shop_id.yaml"
 post:
   summary: 新增资源
   operationId: addShopAsset
@@ -11,7 +11,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/CreateShopAssetRequest.yaml
+          $ref: "../components/schemas/CreateShopAssetRequest.yaml"
   responses:
     204:
       description: OK
@@ -45,17 +45,17 @@ get:
   tags:
     - mart
   parameters:
-    - $ref: ../components/parameters/limit.yaml
-    - $ref: ../components/parameters/offset.yaml
-    - $ref: ../components/parameters/filter.yaml
-    - $ref: ../components/parameters/sort.yaml
-    - $ref: ../components/parameters/include_deleted.yaml
-    - $ref: ../components/parameters/no_total_count.yaml
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+    - $ref: "../components/parameters/include_deleted.yaml"
+    - $ref: "../components/parameters/no_total_count.yaml"
   responses:
     200:
       description: OK
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ShopAssetsPageResponse.yaml
+            $ref: "../components/schemas/ShopAssetsPageResponse.yaml"
 

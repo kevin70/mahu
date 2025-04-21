@@ -9,7 +9,7 @@ properties:
     description: 名称
     maxLength: 32
   value_type:
-    $ref: ./AttributeValueTypeEnum.yaml
+    $ref: "./AttributeValueTypeEnum.yaml"
   remark:
     type: string
     description: 备注

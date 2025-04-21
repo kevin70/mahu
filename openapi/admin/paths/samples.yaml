@@ -1,5 +1,6 @@
 get:
   summary: 样例
+  operationId: getSamples
   description: |
     HTTP 错误码响应 https://www.webfx.com/web-development/glossary/http-status-codes
   responses:
@@ -8,22 +9,22 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ErrorResponse.yaml
+            $ref: "../components/schemas/ErrorResponse.yaml"
     403:
       description: 拒绝访问
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ErrorResponse.yaml
+            $ref: "../components/schemas/ErrorResponse.yaml"
     404:
       description: 未找到请求资源
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ErrorResponse.yaml
+            $ref: "../components/schemas/ErrorResponse.yaml"
     500:
       description: 服务器错误
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/ErrorResponse.yaml
+            $ref: "../components/schemas/ErrorResponse.yaml"

@@ -1,8 +1,19 @@
 type: object
 required:
+  - created_at
+  - updated_at
   - type_code
   - name
+  - status
 properties:
+  created_at:
+    type: string
+    format: date-time
+    description: 创建时间
+  updated_at:
+    type: string
+    format: date-time
+    description: 修改时间
   type_code:
     type: string
     description: 字典类型代码，唯一
@@ -24,4 +35,41 @@ properties:
     type: array
     description: 字典数据
     items:
-      $ref: "./DictDataResponse.yaml"
+      type: object
+      required:
+        - created_at
+        - updated_at
+        - data_code
+        - name
+        - ordering
+        - status
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: 创建时间
+        updated_at:
+          type: string
+          format: date-time
+          description: 修改时间
+        data_code:
+          type: string
+          description: 字典数据代码，唯一
+          minLength: 1
+          maxLength: 50
+        name:
+          type: string
+          description: 字典数据名称
+          minLength: 1
+          maxLength: 100
+        value:
+          type: string
+          description: 字典类型描述
+          maxLength: 4096
+        ordering:
+          type: integer
+          format: int32
+          description: 排序值
+        disabled:
+          type: boolean
+          description: 是否禁用

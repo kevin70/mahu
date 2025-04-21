@@ -16,7 +16,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/UpsertMartAttributeValueRequest.yaml
+          $ref: "../components/schemas/UpsertMartAttributeValueRequest.yaml"
   responses:
     "204":
       description: OK

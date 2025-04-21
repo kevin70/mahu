@@ -1,6 +1,7 @@
 get:
   summary: 服务版本
   operationId: gerVersion
+  security: [ ]
   tags:
     - base
   responses:
