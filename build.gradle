@@ -37,7 +37,7 @@ plugins {
     id "io.ebean" version "15.9.0"
     id "org.hidetake.ssh" version "2.11.2"
     id "com.github.johnrengelman.shadow" version "8.1.1" apply false
-    id "com.bmuschko.docker-remote-api" version "9.3.1"
+    id "com.bmuschko.docker-remote-api" version "9.4.0"
     id "com.github.node-gradle.node" version "7.1.0"
     id "org.openapi.generator" version "7.10.0"
     id "com.palantir.java-format" version "2.50.0"
