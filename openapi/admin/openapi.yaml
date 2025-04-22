@@ -116,9 +116,9 @@ paths:
     $ref: "paths/mart_products_{product_id}_status.yaml"
 
   # 日志
-  /logs/admin-access-logs:
-    $ref: "paths/logs_admin_access_logs.yaml"
-  /logs/admin-audit-logs:
-    $ref: "paths/logs_admin_audit_logs.yaml"
-  /logs/admin-auth-logs:
-    $ref: "paths/logs_admin_auth_logs.yaml"
+  /logs/admin-access:
+    $ref: "paths/logs_admin_access.yaml"
+  /logs/admin-audit:
+    $ref: "paths/logs_admin_audit.yaml"
+  /logs/admin-auth:
+    $ref: "paths/logs_admin_auth.yaml"
