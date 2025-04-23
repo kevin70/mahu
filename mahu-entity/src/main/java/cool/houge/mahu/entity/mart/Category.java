@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 /// 商品分类
@@ -24,10 +24,10 @@ public class Category {
     private Integer id;
     /// 创建时间
     @WhenCreated
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     /// 更新时间
     @WhenModified
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
     /// 品牌名称
     private String name;
     /// 父分类

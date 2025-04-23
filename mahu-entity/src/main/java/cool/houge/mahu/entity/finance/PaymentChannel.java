@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /// 支付渠道
 ///
@@ -24,10 +24,10 @@ public class PaymentChannel {
     private String id;
     /// 创建时间
     @WhenCreated
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     /// 更新时间
     @WhenModified
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
     /// 支付渠道名称（如：支付宝、微信支付、银行卡）
     private String name;
     /// 渠道状态

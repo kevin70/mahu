@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 ///
@@ -28,9 +28,9 @@ public class ScheduledExecutionLog extends BaseBizLog {
     /// 任务执行者
     private String pickedBy;
     /// 任务开始时间
-    private LocalDateTime startedAt;
+    private Instant startedAt;
     /// 任务结束时间
-    private LocalDateTime finishedAt;
+    private Instant finishedAt;
     /// 执行是否成功
     private boolean succeeded;
     /// 异常日志

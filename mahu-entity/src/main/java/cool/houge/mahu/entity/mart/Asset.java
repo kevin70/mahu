@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /// 图片、视频资源
 ///
@@ -22,7 +22,7 @@ public class Asset {
     private Long id;
     /// 创建时间
     @WhenCreated
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     /// 资源 URI
     private String uri;
     /// 所属商店

@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /// 品牌
 ///
@@ -26,10 +26,10 @@ public class Brand {
     private Integer id;
     /// 创建时间
     @WhenCreated
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     /// 更新时间
     @WhenModified
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
     /// 品牌名称
     private String name;
     /// 品牌 LOGO

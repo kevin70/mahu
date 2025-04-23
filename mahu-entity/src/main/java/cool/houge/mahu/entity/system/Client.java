@@ -9,8 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 /// 认证客户端
 ///
@@ -26,10 +24,10 @@ public class Client implements Auditable {
     private String clientId;
     /// 创建时间
     @WhenCreated
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     /// 更新时间
     @WhenModified
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
     /// 软删除
     @SoftDelete
     private Boolean deleted;
@@ -49,5 +47,5 @@ public class Client implements Auditable {
     /// 微信客户端访问令牌
     private String wechatAccessToken;
     /// 微信访问令牌过期时间
-    private OffsetDateTime wechatAccessTokenExpireTime;
+    private Instant wechatAccessTokenExpireTime;
 }
