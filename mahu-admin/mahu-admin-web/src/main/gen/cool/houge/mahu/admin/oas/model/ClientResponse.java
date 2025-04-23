@@ -15,7 +15,7 @@ package cool.houge.mahu.admin.oas.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import cool.houge.mahu.admin.oas.model.TerminalTypeEnum;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import io.avaje.validation.constraints.*;
 
     /**
@@ -37,13 +37,13 @@ public class ClientResponse {
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
     /**
      * 修改时间
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
     /**
      * 客户端密钥
      */

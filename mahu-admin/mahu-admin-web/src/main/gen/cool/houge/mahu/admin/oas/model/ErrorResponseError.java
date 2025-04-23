@@ -14,7 +14,7 @@ package cool.houge.mahu.admin.oas.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import cool.houge.mahu.admin.oas.model.ErrorResponseErrorInvalidParamsInner;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +38,7 @@ public class ErrorResponseError {
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("timestamp")
-    private OffsetDateTime timestamp;
+    private LocalDateTime timestamp;
     /**
      * 请求路径
      */

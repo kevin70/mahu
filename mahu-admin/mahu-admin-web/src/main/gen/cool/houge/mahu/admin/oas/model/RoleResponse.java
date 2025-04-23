@@ -12,7 +12,7 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,13 +35,13 @@ public class RoleResponse {
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
     /**
      * 修改时间
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
     /**
      * 名称
      */

@@ -1,4 +1,4 @@
-name: type_code
+name: data_code
 in: path
 required: true
 description: |

@@ -27,16 +27,8 @@ import java.util.function.Function;
 @Mapper(componentModel = MappingConstants.ComponentModel.JAKARTA)
 public interface VoBeanMapper extends LogBeanMapper {
 
-    default OffsetDateTime map(Instant b) {
-        return b != null ? OffsetDateTime.ofInstant(b, ZoneOffset.ofHours(8)) : null;
-    }
-
-    default OffsetDateTime map(LocalDateTime b) {
-        return b != null ? b.atOffset(ZoneOffset.ofHours(8)) : null;
-    }
-
-    default OffsetDateTime map(ZonedDateTime b) {
-        return b != null ? b.toOffsetDateTime() : null;
+    default LocalDateTime toLocalDateTime(Instant b) {
+        return b != null ? b.atZone(ZoneId.systemDefault()).toLocalDateTime() : null;
     }
 
     /// 分页对象映射

@@ -12,7 +12,7 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +28,7 @@ public class ScheduledTaskExecutionResponse {
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
     /**
      * 任务名称
      */
@@ -56,14 +56,14 @@ public class ScheduledTaskExecutionResponse {
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("started_at")
-    private OffsetDateTime startedAt;
+    private LocalDateTime startedAt;
     /**
      * 执行结束时间
      */
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("finished_at")
-    private OffsetDateTime finishedAt;
+    private LocalDateTime finishedAt;
     /**
      * 是否执行成功
      */

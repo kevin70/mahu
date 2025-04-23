@@ -13,7 +13,7 @@
 package cool.houge.mahu.admin.oas.model;
 
 import cool.houge.mahu.admin.oas.model.DictResponseDataInner;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,14 +30,14 @@ public class DictResponse {
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
     /**
      * 修改时间
      */
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
     /**
      * 字典类型代码，唯一
      */

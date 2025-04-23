@@ -12,7 +12,7 @@
 
 package cool.houge.mahu.admin.oas.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import io.avaje.validation.constraints.*;
 
 
@@ -32,7 +32,7 @@ public class AdminAccessLogResponse {
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
     /**
      * 管理员 ID
      */
