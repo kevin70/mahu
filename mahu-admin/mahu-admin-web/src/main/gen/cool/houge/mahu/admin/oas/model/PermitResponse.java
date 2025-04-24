@@ -31,5 +31,23 @@ public class PermitResponse {
   
     @com.fasterxml.jackson.annotation.JsonProperty("label")
     private String label;
+    /**
+     * 是否可读取
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("can_read")
+    private Boolean canRead;
+    /**
+     * 是否可写入
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("can_write")
+    private Boolean canWrite;
+    /**
+     * 是否可删除
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("can_delete")
+    private Boolean canDelete;
 }
 
