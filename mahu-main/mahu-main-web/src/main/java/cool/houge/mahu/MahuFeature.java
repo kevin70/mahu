@@ -1,6 +1,5 @@
 package cool.houge.mahu;
 
-import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Splitter;
 import cool.houge.mahu.common.Metadata;
 import io.helidon.common.configurable.Resource;
@@ -69,8 +68,7 @@ public class MahuFeature implements HttpFeature, Filter {
 
             @Override
             public String traceId() {
-                return req.headers().first(X_REQUEST_ID).orElseGet(() -> UlidCreator.getUlid()
-                        .toLowerCase());
+                return req.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
             }
         });
 

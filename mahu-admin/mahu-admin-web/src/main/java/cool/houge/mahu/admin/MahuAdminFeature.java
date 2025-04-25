@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin;
 
 import com.google.common.base.Splitter;
+import cool.houge.mahu.TraceIdGenerator;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.common.Metadata;
@@ -11,7 +12,6 @@ import io.helidon.http.HeaderName;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.Method;
 import io.helidon.webserver.http.*;
-import io.hypersistence.tsid.TSID;
 import jakarta.inject.Singleton;
 
 import java.util.List;
@@ -72,8 +72,7 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
             @Override
             public String traceId() {
-                return req.headers().first(X_REQUEST_ID).orElseGet(() -> TSID.fast()
-                        .toString());
+                return req.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
             }
         });
 
