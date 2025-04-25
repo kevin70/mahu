@@ -2,10 +2,13 @@ package cool.houge.mahu;
 
 import com.google.common.base.Splitter;
 import cool.houge.mahu.common.Metadata;
+import io.helidon.common.Weight;
+import io.helidon.common.Weighted;
 import io.helidon.common.configurable.Resource;
 import io.helidon.common.media.type.MediaTypes;
 import io.helidon.http.HeaderName;
 import io.helidon.http.HeaderNames;
+import io.helidon.logging.common.HelidonMdc;
 import io.helidon.webserver.http.*;
 import jakarta.inject.Singleton;
 
@@ -18,6 +21,7 @@ import static io.helidon.http.HeaderNames.X_FORWARDED_FOR;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@Weight(Weighted.DEFAULT_WEIGHT + 100)
 public class MahuFeature implements HttpFeature, Filter {
 
     private static final Splitter COMMA_SPLITTER = Splitter.on(',').omitEmptyStrings();
@@ -49,6 +53,9 @@ public class MahuFeature implements HttpFeature, Filter {
 
     @Override
     public void filter(FilterChain chain, RoutingRequest req, RoutingResponse res) {
+        var traceId = req.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
+        HelidonMdc.set("MAHU_TRACE_ID", traceId);
+
         // 设置请求访问元数据
         req.context().supply(Metadata.class, () -> new Metadata() {
 
@@ -68,10 +75,14 @@ public class MahuFeature implements HttpFeature, Filter {
 
             @Override
             public String traceId() {
-                return req.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
+                return traceId;
             }
         });
 
+        res.whenSent(() -> {
+            // 清理追踪 ID
+            HelidonMdc.remove("MAHU_TRACE_ID");
+        });
         chain.proceed();
     }
 }

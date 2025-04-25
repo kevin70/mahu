@@ -6,13 +6,18 @@ import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.common.Metadata;
 import io.avaje.inject.events.Event;
+import io.helidon.common.Weight;
+import io.helidon.common.Weighted;
 import io.helidon.common.configurable.Resource;
 import io.helidon.common.media.type.MediaTypes;
 import io.helidon.http.HeaderName;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.Method;
+import io.helidon.logging.common.HelidonMdc;
 import io.helidon.webserver.http.*;
 import jakarta.inject.Singleton;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -22,8 +27,10 @@ import static io.helidon.http.HeaderNames.X_FORWARDED_FOR;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@Weight(Weighted.DEFAULT_WEIGHT + 100)
 public class MahuAdminFeature implements HttpFeature, Filter {
 
+    private static final Logger log = LogManager.getLogger(MahuAdminFeature.class);
     private static final HeaderName X_REQUEST_ID = HeaderNames.create("x-request-id");
 
     private final MahuAdminSecurity security;
@@ -55,6 +62,9 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
     @Override
     public void filter(FilterChain chain, RoutingRequest req, RoutingResponse res) {
+        var traceId = req.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
+        HelidonMdc.set("MAHU_TRACE_ID", traceId);
+
         // 设置请求访问元数据
         req.context().supply(Metadata.class, () -> new Metadata() {
 
@@ -72,12 +82,21 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
             @Override
             public String traceId() {
-                return req.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
+                return traceId;
             }
         });
 
-        // 记录后台访问日志
-        res.whenSent(() -> fireAccessLog(req, res));
+        res.whenSent(() -> {
+            try {
+                // 记录后台访问日志
+                fireAccessLog(req, res);
+            } catch (Throwable e) {
+                log.error("记录访问日志出现异常", e);
+            } finally {
+                // 清理追踪 ID
+                HelidonMdc.remove("MAHU_TRACE_ID");
+            }
+        });
         chain.proceed();
     }
 
