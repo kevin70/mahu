@@ -80,7 +80,7 @@ public class TokenService implements TokenVerifier {
 
         var userId = jwt.userPrincipal()
                 .map(Long::valueOf)
-                .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
+                .orElseThrow(() -> new BizCodeException(BizCodes.INTERNAL, "访问令牌缺少UPN"));
         var userLv = LazyValue.create(() -> userRepository.findById(userId));
         return new AuthContext() {
 
