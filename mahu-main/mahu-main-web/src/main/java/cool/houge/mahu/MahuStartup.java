@@ -1,10 +1,8 @@
 package cool.houge.mahu;
 
-import cool.houge.mahu.common.PidFile;
 import io.avaje.inject.BeanScope;
 import io.helidon.Main;
-import io.helidon.common.config.Config;
-import io.helidon.common.config.GlobalConfig;
+import io.helidon.config.Config;
 import io.helidon.spi.HelidonStartupProvider;
 
 import java.util.Set;
@@ -33,7 +31,7 @@ public class MahuStartup implements HelidonStartupProvider {
         }
 
         beanScope = BeanScope.builder()
-                .bean(Config.class, GlobalConfig.config())
+                .bean(Config.class, io.helidon.config.Config.create())
                 .modules(new MahuWebModule(), new MahuInfraModule())
                 .shutdownHook(false)
                 .build();
