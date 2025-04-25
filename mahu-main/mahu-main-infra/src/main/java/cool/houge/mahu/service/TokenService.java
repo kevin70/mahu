@@ -1,9 +1,8 @@
 package cool.houge.mahu.service;
 
-import com.github.f4b6a3.ulid.Ulid;
-import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Strings;
 import com.password4j.Password;
+import cool.houge.mahu.Base58;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.GrantType;
@@ -32,6 +31,7 @@ import jakarta.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
@@ -118,40 +118,42 @@ public class TokenService implements TokenVerifier {
     @Transactional
     TokenResult makeToken(Metadata metadata, TokenPayload payload, User user) {
         var jwk = obtainJwk();
-        var jwtId = UlidCreator.getUlid().toLowerCase();
+
+        var tokenId = generateTokenId(user.getId());
         var upn = String.valueOf(user.getId());
         var iat = Instant.now();
+
         var atJwt = Jwt.builder()
-                .jwtId(jwtId)
+                .jwtId(tokenId)
                 .userPrincipal(upn)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.accessExpires()))
                 .addAudience(payload.getClientId())
-                .nonce(Ulid.fast().toLowerCase())
+                .nonce(nonce())
                 .build();
         var accessToken = EncryptedJwt.builder(SignedJwt.sign(atJwt, Jwk.NONE_JWK))
                 .jwks(jwkKeys, jwk.keyId())
                 .build();
 
         var rtJwt = Jwt.builder()
-                .jwtId(jwtId)
+                .jwtId(tokenId)
                 .userPrincipal(upn)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.refreshExpires()))
-                .nonce(Ulid.fast().toLowerCase())
+                .nonce(nonce())
                 .build();
         var refreshToken = EncryptedJwt.builder(SignedJwt.sign(rtJwt, Jwk.NONE_JWK))
                 .jwks(jwkKeys, jwk.keyId())
                 .build();
 
         // 保存登录记录
-        var tokenJour = new TokenJour()
-                .setId(jwtId)
-                .setUpn(upn)
-                .setClientId(payload.getClientId())
-                .setClientAddr(metadata.clientAddr())
-                .setGrantType(payload.getGrantType().getCode());
-        tokenJourRepository.save(tokenJour);
+//        var tokenJour = new TokenJour()
+//                .setId(tokenId)
+//                .setUpn(upn)
+//                .setClientId(payload.getClientId())
+//                .setClientAddr(metadata.clientAddr())
+//                .setGrantType(payload.getGrantType().getCode());
+//        tokenJourRepository.save(tokenJour);
 
         return new TokenResult()
                 .setExpiresIn(tokenConfig.accessExpires().toSeconds())
@@ -248,6 +250,20 @@ public class TokenService implements TokenVerifier {
             userRepository.save(user);
         }
         return user;
+    }
+
+    String generateTokenId(Long uid) {
+        var bytes = ByteBuffer.allocate(16);
+        bytes.putLong(uid);
+        bytes.putLong(System.currentTimeMillis());
+        return Base58.encode(bytes.array());
+    }
+
+    String nonce() {
+        var bytes = new byte[16];
+        var random = ThreadLocalRandom.current();
+        random.nextBytes(bytes);
+        return Base58.encode(bytes);
     }
 
     record NicknameAvatar(String nickname, String avatar) {}
