@@ -1,8 +1,9 @@
 package cool.houge.mahu;
 
-import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.common.Metadata;
 import org.instancio.Instancio;
+
+import java.util.UUID;
 
 /// 测试元数据对象
 ///
@@ -16,6 +17,7 @@ public class TestMetadataBean implements Metadata {
 
     @Override
     public String traceId() {
+        var uuid = UUID.randomUUID();
         return UlidCreator.getUlid().toLowerCase();
     }
 }

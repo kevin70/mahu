@@ -1,8 +1,8 @@
 package cool.houge.mahu.common.rsql;
 
 import com.google.common.base.Strings;
-import cool.houge.mahu.common.BizCodeException;
-import cool.houge.mahu.common.BizCodes;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cz.jirutka.rsql.parser.ast.*;
 import io.ebean.Expr;
 

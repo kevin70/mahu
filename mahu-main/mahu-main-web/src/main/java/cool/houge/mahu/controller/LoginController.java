@@ -1,8 +1,8 @@
 package cool.houge.mahu.controller;
 
 import com.google.common.base.Strings;
-import cool.houge.mahu.common.BizCodeException;
-import cool.houge.mahu.common.BizCodes;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.web.WebSupport;
 import cool.houge.mahu.internal.VoBeanMapper;

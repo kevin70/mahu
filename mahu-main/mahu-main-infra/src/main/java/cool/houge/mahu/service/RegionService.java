@@ -1,7 +1,7 @@
 package cool.houge.mahu.service;
 
-import cool.houge.mahu.common.BizCodeException;
-import cool.houge.mahu.common.BizCodes;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.entity.Region;
 import cool.houge.mahu.repository.RegionRepository;
 import io.ebean.annotation.Transactional;

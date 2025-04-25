@@ -2,8 +2,8 @@ package cool.houge.mahu.admin.controller;
 
 import cool.houge.mahu.admin.DynamicPermit;
 import cool.houge.mahu.admin.security.AuthContext;
-import cool.houge.mahu.common.BizCodeException;
-import cool.houge.mahu.common.BizCodes;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import io.helidon.webserver.http.Handler;
 
 /// 动态安全校验

@@ -114,6 +114,12 @@ openApiGenerate {
     importMappings.set([
         "LocalDateTime": "java.time.LocalDateTime"
     ])
+    typeMappings.set([
+        DateTime: "LocalDateTime"
+    ])
+    importMappings.set([
+        LocalDateTime: "java.time.LocalDateTime"
+    ])
 }
 
 tasks.named("openApiGenerate").configure {

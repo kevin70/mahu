@@ -1,5 +1,7 @@
 package cool.houge.mahu.common;
 
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.rsql.EBeanRSQLVisitor;
 import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.common.rsql.RSQLContext;

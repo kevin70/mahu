@@ -2,8 +2,8 @@ package cool.houge.mahu.remote.wechat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cool.houge.mahu.common.BizCodeException;
-import cool.houge.mahu.common.BizCodes;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.config.WechatPayConfig;
 import io.helidon.common.configurable.Resource;
 import io.helidon.common.media.type.MediaTypes;

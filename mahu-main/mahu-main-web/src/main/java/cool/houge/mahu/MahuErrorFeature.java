@@ -1,7 +1,5 @@
 package cool.houge.mahu;
 
-import cool.houge.mahu.common.BizCodeException;
-import cool.houge.mahu.common.BizCodes;
 import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.common.web.ErrorResponse;
 import io.avaje.validation.ConstraintViolationException;
@@ -21,7 +19,7 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
-import static cool.houge.mahu.common.BizCodes.*;
+import static cool.houge.mahu.BizCodes.*;
 
 /// 错误处理
 ///

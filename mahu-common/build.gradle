@@ -2,6 +2,7 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
+    api(project(":mahu-base"))
     implementation(project(":mahu-entity"))
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("com.google.guava:guava:$guavaVersion")

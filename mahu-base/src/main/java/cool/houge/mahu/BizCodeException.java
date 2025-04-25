@@ -1,4 +1,4 @@
-package cool.houge.mahu.common;
+package cool.houge.mahu;
 
 import lombok.Getter;
 
