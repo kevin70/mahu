@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { DictDataResponse } from './DictDataResponse';
+import type { DictResponseDataInner } from './DictResponseDataInner';
 import {
-    DictDataResponseFromJSON,
-    DictDataResponseFromJSONTyped,
-    DictDataResponseToJSON,
-    DictDataResponseToJSONTyped,
-} from './DictDataResponse';
+    DictResponseDataInnerFromJSON,
+    DictResponseDataInnerFromJSONTyped,
+    DictResponseDataInnerToJSON,
+    DictResponseDataInnerToJSONTyped,
+} from './DictResponseDataInner';
 
 /**
  * 
@@ -27,6 +27,18 @@ import {
  * @interface DictResponse
  */
 export interface DictResponse {
+    /**
+     * 创建时间
+     * @type {Date}
+     * @memberof DictResponse
+     */
+    createdAt: Date;
+    /**
+     * 修改时间
+     * @type {Date}
+     * @memberof DictResponse
+     */
+    updatedAt: Date;
     /**
      * 字典类型代码，唯一
      * @type {string}
@@ -53,16 +65,18 @@ export interface DictResponse {
     disabled?: boolean;
     /**
      * 字典数据
-     * @type {Array<DictDataResponse>}
+     * @type {Array<DictResponseDataInner>}
      * @memberof DictResponse
      */
-    data?: Array<DictDataResponse>;
+    data?: Array<DictResponseDataInner>;
 }
 
 /**
  * Check if a given object implements the DictResponse interface.
  */
 export function instanceOfDictResponse(value: object): value is DictResponse {
+    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
+    if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
     if (!('typeCode' in value) || value['typeCode'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     return true;
@@ -78,11 +92,13 @@ export function DictResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
+        'createdAt': (new Date(json['created_at'])),
+        'updatedAt': (new Date(json['updated_at'])),
         'typeCode': json['type_code'],
         'name': json['name'],
         'description': json['description'] == null ? undefined : json['description'],
         'disabled': json['disabled'] == null ? undefined : json['disabled'],
-        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(DictDataResponseFromJSON)),
+        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(DictResponseDataInnerFromJSON)),
     };
 }
 
@@ -97,11 +113,13 @@ export function DictResponseToJSONTyped(value?: DictResponse | null, ignoreDiscr
 
     return {
         
+        'created_at': ((value['createdAt']).toISOString()),
+        'updated_at': ((value['updatedAt']).toISOString()),
         'type_code': value['typeCode'],
         'name': value['name'],
         'description': value['description'],
         'disabled': value['disabled'],
-        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(DictDataResponseToJSON)),
+        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(DictResponseDataInnerToJSON)),
     };
 }
 

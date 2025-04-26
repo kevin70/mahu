@@ -24,8 +24,9 @@ models/CreateShopAssetRequest.ts
 models/DepartmentResponse.ts
 models/DepartmentResponseParent.ts
 models/DepartmentsPageResponse.ts
-models/DictDataResponse.ts
 models/DictResponse.ts
+models/DictResponseDataInner.ts
+models/DictsPageResponse.ts
 models/EmployeeResponse.ts
 models/EmployeeResponseDepartment.ts
 models/EmployeeStatusEnum.ts
@@ -42,7 +43,6 @@ models/MartAttributeResponse.ts
 models/MartAttributeValueResponse.ts
 models/MartAttributesPageResponse.ts
 models/MartCategoriesPageResponse.ts
-models/MartCategory.ts
 models/MartCategoryResponse.ts
 models/MartCategoryResponseParent.ts
 models/MartProductResponse.ts
@@ -56,6 +56,8 @@ models/MeProfileResponseShopsInner.ts
 models/PermitResponse.ts
 models/ProductStatusEnum.ts
 models/ProductTypeEnum.ts
+models/PublicDictDataResponse.ts
+models/PublicDictResponse.ts
 models/RoleResponse.ts
 models/RolesPageResponse.ts
 models/ScheduledTaskExecutionResponse.ts
@@ -66,9 +68,6 @@ models/ShopAssetResponse.ts
 models/ShopAssetsPageResponse.ts
 models/ShopResponse.ts
 models/ShopsPageResponse.ts
-models/SystemDictResponse.ts
-models/SystemDictResponseDataInner.ts
-models/SystemDictsPageResponse.ts
 models/TerminalTypeEnum.ts
 models/TokenPasswordForm.ts
 models/TokenRefreshTokenForm.ts

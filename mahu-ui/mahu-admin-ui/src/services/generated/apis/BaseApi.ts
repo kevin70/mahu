@@ -17,10 +17,11 @@ import * as runtime from '../runtime';
 import type {
   BrandResponse,
   BrandsPageResponse,
-  DictResponse,
   ListPMartCategories200ResponseInner,
   MakeOssDirectUploadRequest,
   MakeOssDirectUploadResponse,
+  PublicDictDataResponse,
+  PublicDictResponse,
   UpsertBrandRequest,
   VersionResponse,
 } from '../models/index';
@@ -29,14 +30,16 @@ import {
     BrandResponseToJSON,
     BrandsPageResponseFromJSON,
     BrandsPageResponseToJSON,
-    DictResponseFromJSON,
-    DictResponseToJSON,
     ListPMartCategories200ResponseInnerFromJSON,
     ListPMartCategories200ResponseInnerToJSON,
     MakeOssDirectUploadRequestFromJSON,
     MakeOssDirectUploadRequestToJSON,
     MakeOssDirectUploadResponseFromJSON,
     MakeOssDirectUploadResponseToJSON,
+    PublicDictDataResponseFromJSON,
+    PublicDictDataResponseToJSON,
+    PublicDictResponseFromJSON,
+    PublicDictResponseToJSON,
     UpsertBrandRequestFromJSON,
     UpsertBrandRequestToJSON,
     VersionResponseFromJSON,
@@ -55,6 +58,15 @@ export interface GetBrandRequest {
     id?: number;
 }
 
+export interface GetPublicDictRequest {
+    typeCode: string;
+}
+
+export interface GetPublicDictDataRequest {
+    typeCode: string;
+    dataCode: string;
+}
+
 export interface ListBrandsRequest {
     limit?: number;
     offset?: number;
@@ -64,7 +76,7 @@ export interface ListBrandsRequest {
     noTotalCount?: number;
 }
 
-export interface ListDictsRequest {
+export interface ListPublicDictsRequest {
     includeData?: boolean;
 }
 
@@ -166,14 +178,6 @@ export class BaseApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const response = await this.request({
             path: `/version`,
             method: 'GET',
@@ -223,6 +227,79 @@ export class BaseApi extends runtime.BaseAPI {
      */
     async getBrand(requestParameters: GetBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BrandResponse> {
         const response = await this.getBrandRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 获取字典类型数据
+     */
+    async getPublicDictRaw(requestParameters: GetPublicDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicDictResponse>> {
+        if (requestParameters['typeCode'] == null) {
+            throw new runtime.RequiredError(
+                'typeCode',
+                'Required parameter "typeCode" was null or undefined when calling getPublicDict().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/p/dicts/{type_code}`.replace(`{${"type_code"}}`, encodeURIComponent(String(requestParameters['typeCode']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PublicDictResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 获取字典类型数据
+     */
+    async getPublicDict(requestParameters: GetPublicDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublicDictResponse> {
+        const response = await this.getPublicDictRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 获取字典类型
+     */
+    async getPublicDictDataRaw(requestParameters: GetPublicDictDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicDictDataResponse>> {
+        if (requestParameters['typeCode'] == null) {
+            throw new runtime.RequiredError(
+                'typeCode',
+                'Required parameter "typeCode" was null or undefined when calling getPublicDictData().'
+            );
+        }
+
+        if (requestParameters['dataCode'] == null) {
+            throw new runtime.RequiredError(
+                'dataCode',
+                'Required parameter "dataCode" was null or undefined when calling getPublicDictData().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/p/dicts/{type_code}/{data_code}`.replace(`{${"type_code"}}`, encodeURIComponent(String(requestParameters['typeCode']))).replace(`{${"data_code"}}`, encodeURIComponent(String(requestParameters['dataCode']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PublicDictDataResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 获取字典类型
+     */
+    async getPublicDictData(requestParameters: GetPublicDictDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublicDictDataResponse> {
+        const response = await this.getPublicDictDataRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -285,44 +362,6 @@ export class BaseApi extends runtime.BaseAPI {
     }
 
     /**
-     * 字典类型列表
-     */
-    async listDictsRaw(requestParameters: ListDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DictResponse>>> {
-        const queryParameters: any = {};
-
-        if (requestParameters['includeData'] != null) {
-            queryParameters['include_data'] = requestParameters['includeData'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/dicts`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DictResponseFromJSON));
-    }
-
-    /**
-     * 字典类型列表
-     */
-    async listDicts(requestParameters: ListDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DictResponse>> {
-        const response = await this.listDictsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * 获取可用的商城分类
      */
     async listPMartCategoriesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ListPMartCategories200ResponseInner>>> {
@@ -353,6 +392,36 @@ export class BaseApi extends runtime.BaseAPI {
      */
     async listPMartCategories(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ListPMartCategories200ResponseInner>> {
         const response = await this.listPMartCategoriesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 字典类型列表
+     */
+    async listPublicDictsRaw(requestParameters: ListPublicDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PublicDictResponse>>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['includeData'] != null) {
+            queryParameters['include_data'] = requestParameters['includeData'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/p/dicts`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PublicDictResponseFromJSON));
+    }
+
+    /**
+     * 字典类型列表
+     */
+    async listPublicDicts(requestParameters: ListPublicDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PublicDictResponse>> {
+        const response = await this.listPublicDictsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

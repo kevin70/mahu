@@ -19,6 +19,8 @@ import type {
   ClientsPageResponse,
   DepartmentResponse,
   DepartmentsPageResponse,
+  DictResponse,
+  DictsPageResponse,
   EmployeeResponse,
   EmployeesPageResponse,
   PermitResponse,
@@ -26,8 +28,6 @@ import type {
   RolesPageResponse,
   ScheduledTaskExecutionsPageResponse,
   ScheduledTasksPageResponse,
-  SystemDictResponse,
-  SystemDictsPageResponse,
   UpsertClientRequest,
   UpsertDepartmentRequest,
   UpsertDictDataRequest,
@@ -44,6 +44,10 @@ import {
     DepartmentResponseToJSON,
     DepartmentsPageResponseFromJSON,
     DepartmentsPageResponseToJSON,
+    DictResponseFromJSON,
+    DictResponseToJSON,
+    DictsPageResponseFromJSON,
+    DictsPageResponseToJSON,
     EmployeeResponseFromJSON,
     EmployeeResponseToJSON,
     EmployeesPageResponseFromJSON,
@@ -58,10 +62,6 @@ import {
     ScheduledTaskExecutionsPageResponseToJSON,
     ScheduledTasksPageResponseFromJSON,
     ScheduledTasksPageResponseToJSON,
-    SystemDictResponseFromJSON,
-    SystemDictResponseToJSON,
-    SystemDictsPageResponseFromJSON,
-    SystemDictsPageResponseToJSON,
     UpsertClientRequestFromJSON,
     UpsertClientRequestToJSON,
     UpsertDepartmentRequestFromJSON,
@@ -932,7 +932,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取指定类型代码的数据
      */
-    async getSystemDictRaw(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SystemDictResponse>> {
+    async getSystemDictRaw(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DictResponse>> {
         if (requestParameters['typeCode'] == null) {
             throw new runtime.RequiredError(
                 'typeCode',
@@ -959,13 +959,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SystemDictResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DictResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取指定类型代码的数据
      */
-    async getSystemDict(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SystemDictResponse> {
+    async getSystemDict(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DictResponse> {
         const response = await this.getSystemDictRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1295,7 +1295,7 @@ export class SystemApi extends runtime.BaseAPI {
     /**
      * 获取数据字典
      */
-    async listSystemDictsRaw(requestParameters: ListSystemDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SystemDictsPageResponse>> {
+    async listSystemDictsRaw(requestParameters: ListSystemDictsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DictsPageResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters['limit'] != null) {
@@ -1335,13 +1335,13 @@ export class SystemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SystemDictsPageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DictsPageResponseFromJSON(jsonValue));
     }
 
     /**
      * 获取数据字典
      */
-    async listSystemDicts(requestParameters: ListSystemDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SystemDictsPageResponse> {
+    async listSystemDicts(requestParameters: ListSystemDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DictsPageResponse> {
         const response = await this.listSystemDictsRaw(requestParameters, initOverrides);
         return await response.value();
     }

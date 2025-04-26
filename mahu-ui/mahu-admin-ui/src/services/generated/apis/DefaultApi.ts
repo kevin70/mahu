@@ -15,27 +15,12 @@
 
 import * as runtime from '../runtime';
 import type {
-  DictDataResponse,
-  DictResponse,
   ErrorResponse,
 } from '../models/index';
 import {
-    DictDataResponseFromJSON,
-    DictDataResponseToJSON,
-    DictResponseFromJSON,
-    DictResponseToJSON,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
 } from '../models/index';
-
-export interface GetDictRequest {
-    typeCode?: string;
-}
-
-export interface GetDictDataRequest {
-    typeCode?: string;
-    dataCode?: string;
-}
 
 /**
  * 
@@ -43,78 +28,10 @@ export interface GetDictDataRequest {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * 获取字典类型数据
-     */
-    async getDictRaw(requestParameters: GetDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DictResponse>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/dicts/{type_code}`.replace(`{${"type_code"}}`, encodeURIComponent(String(requestParameters['typeCode']))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DictResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 获取字典类型数据
-     */
-    async getDict(requestParameters: GetDictRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DictResponse> {
-        const response = await this.getDictRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 获取字典类型
-     */
-    async getDictDataRaw(requestParameters: GetDictDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DictDataResponse>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/dicts/{type_code}/{data_code}`.replace(`{${"type_code"}}`, encodeURIComponent(String(requestParameters['typeCode']))).replace(`{${"data_code"}}`, encodeURIComponent(String(requestParameters['dataCode']))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DictDataResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 获取字典类型
-     */
-    async getDictData(requestParameters: GetDictDataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DictDataResponse> {
-        const response = await this.getDictDataRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * HTTP 错误码响应 https://www.webfx.com/web-development/glossary/http-status-codes 
      * 样例
      */
-    async samplesGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getSamplesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -141,8 +58,8 @@ export class DefaultApi extends runtime.BaseAPI {
      * HTTP 错误码响应 https://www.webfx.com/web-development/glossary/http-status-codes 
      * 样例
      */
-    async samplesGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.samplesGetRaw(initOverrides);
+    async getSamples(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.getSamplesRaw(initOverrides);
     }
 
 }

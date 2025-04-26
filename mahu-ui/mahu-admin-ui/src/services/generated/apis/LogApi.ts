@@ -87,7 +87,7 @@ export class LogApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/logs/admin-access-logs`,
+            path: `/logs/admin-access`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -137,7 +137,7 @@ export class LogApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/logs/admin-audit-logs`,
+            path: `/logs/admin-audit`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -187,7 +187,7 @@ export class LogApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/logs/admin-auth-logs`,
+            path: `/logs/admin-auth`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

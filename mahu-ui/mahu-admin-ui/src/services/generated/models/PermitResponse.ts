@@ -31,6 +31,24 @@ export interface PermitResponse {
      * @memberof PermitResponse
      */
     label?: string;
+    /**
+     * 是否可读取
+     * @type {boolean}
+     * @memberof PermitResponse
+     */
+    canRead?: boolean;
+    /**
+     * 是否可写入
+     * @type {boolean}
+     * @memberof PermitResponse
+     */
+    canWrite?: boolean;
+    /**
+     * 是否可删除
+     * @type {boolean}
+     * @memberof PermitResponse
+     */
+    canDelete?: boolean;
 }
 
 /**
@@ -52,6 +70,9 @@ export function PermitResponseFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'code': json['code'] == null ? undefined : json['code'],
         'label': json['label'] == null ? undefined : json['label'],
+        'canRead': json['can_read'] == null ? undefined : json['can_read'],
+        'canWrite': json['can_write'] == null ? undefined : json['can_write'],
+        'canDelete': json['can_delete'] == null ? undefined : json['can_delete'],
     };
 }
 
@@ -68,6 +89,9 @@ export function PermitResponseToJSONTyped(value?: PermitResponse | null, ignoreD
         
         'code': value['code'],
         'label': value['label'],
+        'can_read': value['canRead'],
+        'can_write': value['canWrite'],
+        'can_delete': value['canDelete'],
     };
 }
 

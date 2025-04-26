@@ -21,7 +21,6 @@ import type {
   MartAttributeValueResponse,
   MartAttributesPageResponse,
   MartCategoriesPageResponse,
-  MartCategory,
   MartProductResponse,
   MartProductsPageResponse,
   ShopAssetsPageResponse,
@@ -47,8 +46,6 @@ import {
     MartAttributesPageResponseToJSON,
     MartCategoriesPageResponseFromJSON,
     MartCategoriesPageResponseToJSON,
-    MartCategoryFromJSON,
-    MartCategoryToJSON,
     MartProductResponseFromJSON,
     MartProductResponseToJSON,
     MartProductsPageResponseFromJSON,
@@ -1092,40 +1089,6 @@ export class MartApi extends runtime.BaseAPI {
      */
     async listShops(requestParameters: ListShopsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ShopsPageResponse> {
         const response = await this.listShopsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 分类树形列表
-     */
-    async treeMartCategoriesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MartCategory>>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/mart/categories.tree`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MartCategoryFromJSON));
-    }
-
-    /**
-     * 分类树形列表
-     */
-    async treeMartCategories(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MartCategory>> {
-        const response = await this.treeMartCategoriesRaw(initOverrides);
         return await response.value();
     }
 
