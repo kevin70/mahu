@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.system;
 
+import cool.houge.mahu.entity.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "scheduled_tasks", schema = "system")
-public class ScheduledTask {
+public class ScheduledTask implements Auditable {
 
     /// 主键
     @EmbeddedId
@@ -40,6 +41,16 @@ public class ScheduledTask {
     private long version;
     /// 执行优先级
     private int priority;
+
+    /// 返回任务名称
+    public String taskName() {
+        return taskId.getTaskName();
+    }
+
+    /// 返回任务实例
+    public String taskInstance() {
+        return taskId.getTaskInstance();
+    }
 
     /// 任务 ID
     @Data

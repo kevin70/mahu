@@ -11,6 +11,10 @@ import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.time.Instant;
 
 /// 定时任务
 ///
@@ -18,6 +22,7 @@ import jakarta.inject.Singleton;
 @Singleton
 public class ScheduledTaskService {
 
+    private static final Logger log = LogManager.getLogger(ScheduledTaskService.class);
     @Inject
     ScheduledTaskRepository scheduledTaskRepository;
 
@@ -27,10 +32,16 @@ public class ScheduledTaskService {
     /// 立即执行定时任务
     @Transactional
     public void execute(ScheduledTask entity) {
-        var b = scheduledTaskRepository.execute(entity);
-        if (!b) {
+        var dbEntity = scheduledTaskRepository.findForUpdate(entity.taskName(), entity.taskInstance());
+        if (dbEntity == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND, "未找到定时任务");
+        }
+        if (dbEntity.isPicked()) {
             throw new BizCodeException(BizCodes.FAILED_PRECONDITION, "任务不存在或正在执行中");
         }
+        dbEntity.setExecutionTime(Instant.now());
+        scheduledTaskRepository.update(dbEntity);
+        log.debug("立即执行定时任务 [taskName={}]", entity.taskName());
     }
 
     /// 分页查询系统定时任务
