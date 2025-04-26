@@ -49,13 +49,12 @@ public class MahuErrorFeature implements HttpFeature {
 
     void handleHttpException(ServerRequest request, ServerResponse response, HttpException e) {
         var error = new ErrorResponse.Error();
-        error.setStatus(e.status().code())
-            .setCode(e.status().code())
-            .setMessage(e.getMessage());
+        error.setStatus(e.status().code()).setCode(e.status().code()).setMessage(e.getMessage());
         this.send(request, response, error, e);
     }
 
-    void handleConstraintViolationException(ServerRequest request, ServerResponse response, ConstraintViolationException e) {
+    void handleConstraintViolationException(
+            ServerRequest request, ServerResponse response, ConstraintViolationException e) {
         var violations = e.violations().stream()
                 .map(cv -> new ErrorResponse.InvalidParam(cv.field(), cv.message()))
                 .toList();
@@ -125,9 +124,12 @@ public class MahuErrorFeature implements HttpFeature {
             log.debug("{}", error);
         }
 
-        response.header(HeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
-                .header(HeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
-                .status(error.getStatus())
-                .send(new ErrorResponse().setError(error));
+        // CORS 请求
+        if (request.headers().first(HeaderNames.ACCESS_CONTROL_REQUEST_METHOD).isPresent()) {
+            response.header(HeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
+                    .header(HeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                    .header(HeaderNames.VARY, HeaderNames.ORIGIN.toString());
+        }
+        response.status(error.getStatus()).send(new ErrorResponse().setError(error));
     }
 }

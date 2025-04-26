@@ -6,6 +6,7 @@ import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.common.web.ErrorResponse;
 import io.avaje.validation.ConstraintViolationException;
 import io.ebean.DuplicateKeyException;
+import io.helidon.common.Weighted;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.HttpException;
 import io.helidon.http.Status;
@@ -23,11 +24,10 @@ import java.util.Arrays;
 
 import static cool.houge.mahu.BizCodes.*;
 
-
 /// 错误处理
 ///
 /// @author ZY (kzou227@qq.com)
-public class MahuAdminErrorFeature implements HttpFeature {
+public class MahuAdminErrorFeature implements Weighted, HttpFeature {
 
     private static final Logger log = LoggerFactory.getLogger(MahuAdminErrorFeature.class);
 
@@ -52,9 +52,7 @@ public class MahuAdminErrorFeature implements HttpFeature {
 
     void handleHttpException(ServerRequest request, ServerResponse response, HttpException e) {
         var error = new ErrorResponse.Error();
-        error.setStatus(e.status().code())
-                .setCode(e.status().code())
-                .setMessage(e.getMessage());
+        error.setStatus(e.status().code()).setCode(e.status().code()).setMessage(e.getMessage());
         this.send(request, response, error, e);
     }
 
@@ -129,9 +127,12 @@ public class MahuAdminErrorFeature implements HttpFeature {
             log.debug("{}", error);
         }
 
-        response.header(HeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
-                .header(HeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
-                .status(error.getStatus())
-                .send(new ErrorResponse().setError(error));
+        // CORS 请求
+        if (request.headers().first(HeaderNames.ACCESS_CONTROL_REQUEST_METHOD).isPresent()) {
+            response.header(HeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
+                    .header(HeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                    .header(HeaderNames.VARY, HeaderNames.ORIGIN.toString());
+        }
+        response.status(error.getStatus()).send(new ErrorResponse().setError(error));
     }
 }
