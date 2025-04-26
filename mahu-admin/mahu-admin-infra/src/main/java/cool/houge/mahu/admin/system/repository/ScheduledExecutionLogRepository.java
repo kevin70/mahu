@@ -37,7 +37,11 @@ public class ScheduledExecutionLogRepository extends HBeanRepository<Long, Sched
                 .scheduledTask
                 .taskId
                 .taskInstance
-                .eq(taskInstance);
+                .eq(taskInstance)
+                // 排序
+                .orderBy()
+                .startedAt
+                .desc();
 
         super.apply(dataFilter, List.of(), qb.query());
         return qb.findPagedList();

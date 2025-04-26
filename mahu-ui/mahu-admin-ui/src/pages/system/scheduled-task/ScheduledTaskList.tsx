@@ -103,7 +103,7 @@ export const ScheduledTaskList = () => {
             tooltip: '任务下次的执行时间',
           },
           {
-            title: '执行者',
+            title: '执行器',
             dataIndex: 'pickedBy',
             tooltip: '任务正在被哪台实例执行',
           },

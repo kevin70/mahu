@@ -39,7 +39,7 @@ export const ScheduledTaskExecutionList = ({ taskName, taskInstance }: { taskNam
           dataIndex: 'taskInstance',
         },
         {
-          title: '执行者',
+          title: '执行器',
           dataIndex: 'pickedBy',
         },
         {
@@ -70,7 +70,7 @@ export const ScheduledTaskExecutionList = ({ taskName, taskInstance }: { taskNam
           },
         },
         {
-          title: '失败原因',
+          title: '错误原因',
           dataIndex: 'cause',
           width: 30,
           renderText(text, record, index, action) {
