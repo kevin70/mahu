@@ -128,7 +128,7 @@ public class MahuAdminErrorFeature implements Weighted, HttpFeature {
         }
 
         // CORS 请求
-        if (request.headers().first(HeaderNames.ACCESS_CONTROL_REQUEST_METHOD).isPresent()) {
+        if (request.headers().first(HeaderNames.ACCESS_CONTROL_REQUEST_METHOD).isEmpty()) {
             response.header(HeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                     .header(HeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
                     .header(HeaderNames.VARY, HeaderNames.ORIGIN.toString());
