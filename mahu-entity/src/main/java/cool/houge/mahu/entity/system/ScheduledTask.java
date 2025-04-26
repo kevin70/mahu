@@ -24,7 +24,7 @@ public class ScheduledTask {
     /// 执行时间
     private Instant executionTime;
     /// 是否在执行中
-    private String picked;
+    private boolean picked;
     /// 执行者
     private String pickedBy;
     /// 最后执行成功时间

@@ -44,9 +44,9 @@ export const ScheduledTaskList = () => {
     </Form>
   );
 
-  const onDelete = async (id: number) => {
-    await SYSTEM_API.deleteEmployee({ id });
-    message.success('删除职员成功');
+  const onExecute = async (taskName: string, taskInstance: string) => {
+    await SYSTEM_API.executeScheduledTask({ taskName, taskInstance });
+    message.success('任务执行成功');
 
     await refetch();
   };
@@ -119,17 +119,6 @@ export const ScheduledTaskList = () => {
             },
           },
           {
-            title: '连续失败次数',
-            dataIndex: 'consecutiveFailures',
-            valueType: 'dateTime',
-            render(dom, row) {
-              if (row.consecutiveFailures) {
-                return <Typography.Text type="danger">{dom}</Typography.Text>;
-              }
-              return dom;
-            },
-          },
-          {
             key: 'last_failure',
             title: '上次失败时间',
             dataIndex: 'lastFailure',
@@ -137,6 +126,17 @@ export const ScheduledTaskList = () => {
             sorter: true,
             render(dom, row) {
               if (row.lastFailure) {
+                return <Typography.Text type="danger">{dom}</Typography.Text>;
+              }
+              return dom;
+            },
+          },
+          {
+            title: '连续失败次数',
+            dataIndex: 'consecutiveFailures',
+            valueType: 'dateTime',
+            render(dom, row) {
+              if (row.consecutiveFailures) {
                 return <Typography.Text type="danger">{dom}</Typography.Text>;
               }
               return dom;
@@ -154,7 +154,15 @@ export const ScheduledTaskList = () => {
             render: (_dom, row) => {
               return (
                 <>
-                  <Button color="default" variant="link" disabled={noWrite || row.picked} icon={<VscPlayCircle />} />
+                  <Button
+                    color="default"
+                    variant="link"
+                    disabled={noWrite || row.picked}
+                    icon={<VscPlayCircle size={22} />}
+                    onClick={() => {
+                      onExecute(row.taskName, row.taskInstance);
+                    }}
+                  />
                 </>
               );
             },

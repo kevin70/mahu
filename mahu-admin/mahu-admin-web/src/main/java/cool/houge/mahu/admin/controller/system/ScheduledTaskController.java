@@ -11,6 +11,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import static cool.houge.mahu.admin.Permits.SCHEDULED_TASK;
+import static io.helidon.http.Status.NO_CONTENT_204;
 
 /// 定时任务
 ///
@@ -33,9 +34,6 @@ public class ScheduledTaskController implements WebSupport, HttpService {
         rules.post(
                 "/scheduled-tasks/{task_name}/{task_instance}/executions",
                 authz(SCHEDULED_TASK.W()).wrap(this::executeScheduledTask));
-        rules.delete(
-                "/scheduled-tasks/{task_name}/{task_instance}/executions",
-                authz(SCHEDULED_TASK.W()).wrap(this::deleteScheduledTaskExecution));
     }
 
     private void listScheduledTasks(ServerRequest request, ServerResponse response) {
@@ -58,10 +56,12 @@ public class ScheduledTaskController implements WebSupport, HttpService {
     }
 
     private void executeScheduledTask(ServerRequest request, ServerResponse response) {
-        //
-    }
+        var pathParams = request.path().pathParameters();
+        var taskName = pathParams.get("task_name");
+        var taskInstance = pathParams.get("task_instance");
 
-    private void deleteScheduledTaskExecution(ServerRequest request, ServerResponse response) {
-        //
+        var entity = beanMapper.toScheduledTask(taskName, taskInstance);
+        scheduledTaskService.execute(entity);
+        response.status(NO_CONTENT_204).send();
     }
 }

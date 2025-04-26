@@ -9,6 +9,7 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
 
+import java.time.Instant;
 import java.util.List;
 
 /// 定时任务
@@ -19,6 +20,19 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
 
     public ScheduledTaskRepository(Database db) {
         super(ScheduledTask.class, db);
+    }
+
+    /// 立即执行指定的任务
+    public boolean execute(ScheduledTask entity) {
+        // language=SQL
+        var sql =
+                "update system.scheduled_tasks set execution_time=:executionTime where task_name=:taskName and task_instance=:taskInstance and picked=false";
+        return db().sqlUpdate(sql)
+                        .setParameter("executionTime", Instant.now())
+                        .setParameter("taskName", entity.getTaskId().getTaskName())
+                        .setParameter("taskInstance", entity.getTaskId().getTaskInstance())
+                        .execute()
+                == 1;
     }
 
     /// 分页查询

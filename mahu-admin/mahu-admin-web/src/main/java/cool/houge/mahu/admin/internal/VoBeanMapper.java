@@ -177,4 +177,8 @@ public interface VoBeanMapper extends LogBeanMapper {
     @Mapping(target = "taskName", source = "scheduledTask.taskId.taskName")
     @Mapping(target = "taskInstance", source = "scheduledTask.taskId.taskInstance")
     ScheduledTaskExecutionResponse toScheduledTaskExecutionResponse(ScheduledExecutionLog bean);
+
+    @Mapping(target = "taskId.taskName", source = "taskName")
+    @Mapping(target = "taskId.taskInstance", source = "taskInstance")
+    ScheduledTask toScheduledTask(String taskName, String taskInstance);
 }
