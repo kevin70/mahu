@@ -13,6 +13,7 @@ import io.ebeaninternal.server.deploy.BeanProperty;
 import io.ebeaninternal.server.deploy.BeanPropertyAssocMany;
 import io.ebeaninternal.server.deploy.BeanPropertyAssocOne;
 import io.helidon.common.context.Contexts;
+import io.hypersistence.tsid.TSID;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -25,17 +26,17 @@ public class AuditPersistController extends BeanPersistAdapter {
 
     @Override
     public boolean isRegisterFor(Class<?> cls) {
-        return cls.isAssignableFrom(Auditable.class);
+        return Auditable.class.isAssignableFrom(cls);
     }
 
     @Override
     public void postInsert(BeanPersistRequest<?> request) {
-        saveAuditJour(ChangeType.INSERT, request);
+        saveAuditLog(ChangeType.INSERT, request);
     }
 
     @Override
     public void postUpdate(BeanPersistRequest<?> request) {
-        saveAuditJour(ChangeType.UPDATE, request);
+        saveAuditLog(ChangeType.UPDATE, request);
     }
 
     @Override
@@ -45,10 +46,10 @@ public class AuditPersistController extends BeanPersistAdapter {
 
     @Override
     public void postSoftDelete(BeanPersistRequest<?> request) {
-        saveAuditJour(ChangeType.UPDATE, request);
+        saveAuditLog(ChangeType.UPDATE, request);
     }
 
-    void saveAuditJour(ChangeType changeType, BeanPersistRequest<?> request) {
+    void saveAuditLog(ChangeType changeType, BeanPersistRequest<?> request) {
         var server = (DefaultServer) request.database();
         var bean = (EntityBean) request.bean();
         var descriptor = server.descriptor(bean.getClass());
@@ -57,10 +58,11 @@ public class AuditPersistController extends BeanPersistAdapter {
                 .setTableName(descriptor.baseTable())
                 .setChangeType(changeType.getCode())
                 .setData(changeData(server, descriptor, bean));
+        entity.setId(TSID.fast().toLong());
 
         var id = descriptor.getId(bean);
         if (id != null) {
-            entity.setDataId(descriptor.idProperty().format(id));
+            entity.setDataId(id.toString());
         }
 
         if (descriptor.isMultiTenant()) {
@@ -87,6 +89,9 @@ public class AuditPersistController extends BeanPersistAdapter {
                     continue;
                 }
                 if (prop.isImportedPrimaryKey()) {
+                    continue;
+                }
+                if (!entityBean._ebean_intercept().isChangedProperty(prop.propertyIndex())) {
                     continue;
                 }
                 prop.jsonWrite(jsonWriter, entityBean);
