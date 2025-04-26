@@ -71,16 +71,12 @@ export const AuditLogList = () => {
             defaultSortOrder: 'descend',
           },
           {
-            title: '操作 IP',
+            title: '访问 IP',
             dataIndex: 'ipAddr',
           },
           {
-            title: '操作用户',
-            dataIndex: 'userId',
-          },
-          {
-            title: '来源',
-            dataIndex: 'source',
+            title: '管理员 ID',
+            dataIndex: 'adminId',
           },
           {
             title: '类型',

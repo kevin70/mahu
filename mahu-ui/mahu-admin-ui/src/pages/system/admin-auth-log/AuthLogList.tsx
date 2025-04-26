@@ -71,7 +71,7 @@ export const AuthLogList = () => {
             defaultSortOrder: 'descend',
           },
           {
-            title: '操作 IP',
+            title: '访问 IP',
             dataIndex: 'ipAddr',
           },
           {
