@@ -64,7 +64,7 @@ export const AuthLogList = () => {
           },
           {
             key: 'created_at',
-            title: '操作时间',
+            title: '访问时间',
             dataIndex: 'createdAt',
             valueType: 'dateTime',
             sorter: true,
