@@ -28,31 +28,31 @@ public class WebServerBeanFactory {
     @Bean(initMethod = "start", destroyMethod = "stop")
     public WebServer webServer(Config config, List<HttpFeature> httpFeatures) {
         return WebServerConfig.builder()
-            .config(config.get("server"))
-            .shutdownHook(false)
-            .mediaContext(mediaContext())
-            .routing(builder -> {
-                for (HttpFeature httpFeature : httpFeatures) {
-                    builder.addFeature(httpFeature);
-                }
-            })
-            .addFeature(CorsFeature.create(config))
-            .addFeature(ContextFeature.create())
-            .addFeature(OpenApiFeature.create())
-            .build();
+                .config(config.get("server"))
+                .shutdownHook(false)
+                .mediaContext(mediaContext())
+                .addFeature(CorsFeature.create(config))
+                .addFeature(ContextFeature.create())
+                .addFeature(OpenApiFeature.create())
+                .routing(builder -> {
+                    for (HttpFeature httpFeature : httpFeatures) {
+                        builder.addFeature(httpFeature);
+                    }
+                })
+                .build();
     }
 
     private MediaContext mediaContext() {
         return MediaContextConfig.builder()
-            .addMediaSupport(JacksonSupport.create(objectMapper()))
-            .build();
+                .addMediaSupport(JacksonSupport.create(objectMapper()))
+                .build();
     }
 
     private ObjectMapper objectMapper() {
         return new ObjectMapper()
-            .findAndRegisterModules()
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            .setDefaultPropertyInclusion(JsonInclude.Include.NON_DEFAULT)
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+                .findAndRegisterModules()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .setDefaultPropertyInclusion(JsonInclude.Include.NON_DEFAULT)
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 }
