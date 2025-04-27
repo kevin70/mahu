@@ -125,9 +125,11 @@ public class AuditPersistController extends BeanPersistAdapter {
             var newValue = prop.getValue(entityBean);
             if (prop instanceof BeanPropertyAssocMany<?> p) {
                 if (oldValue != null) {
-                    p.jsonWriteCollection(oldValue);
+                    oldWriter.writeFieldName(prop.name());
+                    oldWriter.writeRawValue(p.jsonWriteCollection(oldValue));
                 }
-                p.jsonWriteCollection(newValue != null ? newValue : List.of());
+                newWriter.writeFieldName(prop.name());
+                newWriter.writeRawValue(p.jsonWriteCollection(newValue != null ? newValue : List.of()));
             } else {
                 prop.jsonWriteValue(oldWriter, oldValue);
                 prop.jsonWriteValue(newWriter, newValue);
