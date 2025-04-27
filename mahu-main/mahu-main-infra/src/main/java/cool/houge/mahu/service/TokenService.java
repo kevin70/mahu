@@ -5,6 +5,7 @@ import com.password4j.Password;
 import cool.houge.mahu.Base58;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.RandomUtils;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.config.TokenConfig;
@@ -16,7 +17,6 @@ import cool.houge.mahu.repository.UserRepository;
 import cool.houge.mahu.security.AuthContext;
 import cool.houge.mahu.security.TokenVerifier;
 import cool.houge.mahu.system.repository.ClientRepository;
-import cool.houge.mahu.system.repository.TokenJourRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.common.Errors;
 import io.helidon.common.LazyValue;
@@ -60,9 +60,6 @@ public class TokenService implements TokenVerifier {
     @Inject
     UserRepository userRepository;
 
-    @Inject
-    TokenJourRepository tokenJourRepository;
-
     @Override
     public AuthContext verify(String token) {
         Jwt jwt;
@@ -78,15 +75,15 @@ public class TokenService implements TokenVerifier {
             throw new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌");
         }
 
-        var userId = jwt.userPrincipal()
+        var uid = jwt.userPrincipal()
                 .map(Long::valueOf)
                 .orElseThrow(() -> new BizCodeException(BizCodes.INTERNAL, "访问令牌缺少UPN"));
-        var userLv = LazyValue.create(() -> userRepository.findById(userId));
+        var userLv = LazyValue.create(() -> userRepository.findById(uid));
         return new AuthContext() {
 
             @Override
             public long uid() {
-                return userId;
+                return uid;
             }
 
             @Override
@@ -112,7 +109,7 @@ public class TokenService implements TokenVerifier {
         if (user.getStatus() == User.Status.BLOCKED) {
             throw new BizCodeException(BizCodes.FAILED_PRECONDITION, "帐号已被封禁");
         }
-        return makeToken(Metadata.get(), payload, user);
+        return makeToken(Metadata.metadata(), payload, user);
     }
 
     @Transactional
@@ -129,7 +126,7 @@ public class TokenService implements TokenVerifier {
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.accessExpires()))
                 .addAudience(payload.getClientId())
-                .nonce(nonce())
+                .nonce(RandomUtils.nonce())
                 .build();
         var accessToken = EncryptedJwt.builder(SignedJwt.sign(atJwt, Jwk.NONE_JWK))
                 .jwks(jwkKeys, jwk.keyId())
@@ -140,7 +137,9 @@ public class TokenService implements TokenVerifier {
                 .userPrincipal(upn)
                 .issueTime(iat)
                 .expirationTime(iat.plus(tokenConfig.refreshExpires()))
-                .nonce(nonce())
+                .nonce(RandomUtils.nonce())
+                .addAudience(payload.getClientId())
+                .addScope("refresh_token")
                 .build();
         var refreshToken = EncryptedJwt.builder(SignedJwt.sign(rtJwt, Jwk.NONE_JWK))
                 .jwks(jwkKeys, jwk.keyId())
@@ -257,13 +256,6 @@ public class TokenService implements TokenVerifier {
         bytes.putLong(uid);
         bytes.putLong(System.currentTimeMillis());
         return Base58.encode(bytes.array());
-    }
-
-    String nonce() {
-        var bytes = new byte[16];
-        var random = ThreadLocalRandom.current();
-        random.nextBytes(bytes);
-        return Base58.encode(bytes);
     }
 
     record NicknameAvatar(String nickname, String avatar) {}
