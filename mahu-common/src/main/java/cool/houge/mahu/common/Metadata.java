@@ -16,7 +16,7 @@ public interface Metadata {
     String traceId();
 
     /// 返回当前上下文中的元数据
-    static Metadata get() {
+    static Metadata metadata() {
         return Contexts.context()
                 .orElseThrow(() -> new BizCodeException(BizCodes.UNAVAILABLE, "缺少 Context"))
                 .get(Metadata.class)
