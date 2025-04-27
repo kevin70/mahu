@@ -30,7 +30,10 @@ public class AdminAuditLog extends BaseBizLog {
     private String dataTenantId;
     /// 数据 ID
     private String dataId;
-    /// 更新数据
+    /// 新数据
     @DbJsonB
     private String data;
+    /// 旧数据
+    @DbJsonB
+    private String oldData;
 }

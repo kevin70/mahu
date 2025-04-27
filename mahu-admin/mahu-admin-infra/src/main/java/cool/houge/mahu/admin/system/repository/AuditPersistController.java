@@ -7,17 +7,18 @@ import io.ebean.bean.EntityBean;
 import io.ebean.event.BeanPersistAdapter;
 import io.ebean.event.BeanPersistRequest;
 import io.ebean.event.changelog.ChangeType;
+import io.ebeaninternal.api.json.SpiJsonWriter;
 import io.ebeaninternal.server.core.DefaultServer;
 import io.ebeaninternal.server.deploy.BeanDescriptor;
 import io.ebeaninternal.server.deploy.BeanProperty;
 import io.ebeaninternal.server.deploy.BeanPropertyAssocMany;
-import io.ebeaninternal.server.deploy.BeanPropertyAssocOne;
 import io.helidon.common.context.Contexts;
 import io.hypersistence.tsid.TSID;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UncheckedIOException;
+import java.util.List;
 
 /// 管理员操作审计日志
 ///
@@ -54,11 +55,9 @@ public class AuditPersistController extends BeanPersistAdapter {
         var bean = (EntityBean) request.bean();
         var descriptor = server.descriptor(bean.getClass());
 
-        var entity = new AdminAuditLog()
-                .setTableName(descriptor.baseTable())
-                .setChangeType(changeType.getCode())
-                .setData(changeData(server, descriptor, bean));
+        var entity = new AdminAuditLog().setTableName(descriptor.baseTable()).setChangeType(changeType.getCode());
         entity.setId(TSID.fast().toLong());
+        this.changedData(server, descriptor, bean, entity);
 
         var id = descriptor.getId(bean);
         if (id != null) {
@@ -79,37 +78,60 @@ public class AuditPersistController extends BeanPersistAdapter {
         server.save(entity);
     }
 
-    private String changeData(DefaultServer server, BeanDescriptor<?> descriptor, EntityBean entityBean) {
+    void changedData(
+            DefaultServer server, BeanDescriptor<?> descriptor, EntityBean entityBean, AdminAuditLog auditLog) {
         try {
-            var writer = new StringWriter(200);
-            var jsonWriter = server.jsonExtended().createJsonWriter(writer);
-            jsonWriter.writeStartObject();
-            for (BeanProperty prop : descriptor.propertiesBaseScalar()) {
-                if (prop.isGenerated()) {
-                    continue;
-                }
-                if (prop.isImportedPrimaryKey()) {
-                    continue;
-                }
-                if (!entityBean._ebean_intercept().isChangedProperty(prop.propertyIndex())) {
-                    continue;
-                }
-                prop.jsonWrite(jsonWriter, entityBean);
-            }
-            for (BeanPropertyAssocOne<?> prop : descriptor.propertiesOne()) {
-                prop.jsonWrite(jsonWriter, entityBean);
-            }
-            for (BeanPropertyAssocOne<?> prop : descriptor.propertiesEmbedded()) {
-                prop.jsonWrite(jsonWriter, entityBean);
-            }
-            for (BeanPropertyAssocMany<?> prop : descriptor.propertiesMany()) {
-                prop.jsonWrite(jsonWriter, entityBean);
-            }
-            jsonWriter.writeEndObject();
-            jsonWriter.flush();
-            return writer.toString();
+            var oldWriter = new StringWriter(200);
+            var oldJsonWriter = server.jsonExtended().createJsonWriter(oldWriter);
+            oldJsonWriter.writeStartObject();
+
+            var newWriter = new StringWriter(200);
+            var newJsonWriter = server.jsonExtended().createJsonWriter(newWriter);
+            newJsonWriter.writeStartObject();
+
+            this.changedData(descriptor.propertiesBaseScalar(), entityBean, oldJsonWriter, newJsonWriter);
+            this.changedData(descriptor.propertiesEmbedded(), entityBean, oldJsonWriter, newJsonWriter);
+            this.changedData(descriptor.propertiesOne(), entityBean, oldJsonWriter, newJsonWriter);
+            this.changedData(descriptor.propertiesMany(), entityBean, oldJsonWriter, newJsonWriter);
+
+            newJsonWriter.writeEndObject();
+            newJsonWriter.flush();
+
+            oldJsonWriter.writeEndObject();
+            oldJsonWriter.flush();
+
+            // 设置修改数据与旧的数据
+            auditLog.setData(newWriter.toString()).setOldData(oldWriter.toString());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    private void changedData(
+            BeanProperty[] properties, EntityBean entityBean, SpiJsonWriter oldWriter, SpiJsonWriter newWriter)
+            throws IOException {
+        for (BeanProperty prop : properties) {
+            if (prop.isGenerated()) {
+                continue;
+            }
+            if (prop.isImportedPrimaryKey()) {
+                continue;
+            }
+            if (!entityBean._ebean_intercept().isChangedProperty(prop.propertyIndex())) {
+                continue;
+            }
+
+            var oldValue = entityBean._ebean_intercept().origValue(prop.propertyIndex());
+            var newValue = prop.getValue(entityBean);
+            if (prop instanceof BeanPropertyAssocMany<?> p) {
+                if (oldValue != null) {
+                    p.jsonWriteCollection(oldValue);
+                }
+                p.jsonWriteCollection(newValue != null ? newValue : List.of());
+            } else {
+                prop.jsonWriteValue(oldWriter, oldValue);
+                prop.jsonWriteValue(newWriter, newValue);
+            }
         }
     }
 }

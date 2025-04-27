@@ -12,14 +12,14 @@ import org.junit.jupiter.api.BeforeEach;
 public abstract class TestTransactionBase extends TestBase {
 
     @Inject
-    Database database;
+    public Database database;
 
     protected boolean rollbackOnly = true;
     private Transaction transaction;
 
     @BeforeEach
     void before() {
-        transaction = getDatabase().beginTransaction();
+        transaction = db().beginTransaction();
     }
 
     @AfterEach
@@ -36,7 +36,7 @@ public abstract class TestTransactionBase extends TestBase {
         this.rollbackOnly = false;
     }
 
-    protected Database getDatabase() {
+    protected Database db() {
         return database;
     }
 }
