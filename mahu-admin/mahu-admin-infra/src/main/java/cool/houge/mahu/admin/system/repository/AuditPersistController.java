@@ -61,7 +61,7 @@ public class AuditPersistController extends BeanPersistAdapter {
 
         var id = descriptor.getId(bean);
         if (id != null) {
-            entity.setDataId(id.toString());
+            entity.setDataId(formatDataId(server, descriptor.idProperty(), id));
         }
 
         if (descriptor.isMultiTenant()) {
@@ -76,6 +76,20 @@ public class AuditPersistController extends BeanPersistAdapter {
                 .orElse("UNKNOWN");
         entity.setIpAddr(ipAddr);
         server.save(entity);
+    }
+
+    String formatDataId(DefaultServer server, BeanProperty idProperty, Object value) {
+        try {
+            var writer = new StringWriter();
+            var jsonWriter = server.jsonExtended().createJsonWriter(writer);
+            jsonWriter.writeStartObject();
+            idProperty.jsonWriteValue(jsonWriter, value);
+            jsonWriter.writeEndObject();
+            jsonWriter.flush();
+            return writer.toString();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     void changedData(

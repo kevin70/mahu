@@ -106,8 +106,13 @@ export const AuditLogList = () => {
             ellipsis: true,
           },
           {
-            title: '修改数据',
+            title: '新数据',
             dataIndex: 'data',
+            ellipsis: true,
+          },
+          {
+            title: '旧数据',
+            dataIndex: 'oldData',
             ellipsis: true,
           },
         ]}

@@ -42,4 +42,7 @@ properties:
     description: 数据 ID
   data:
     type: string
-    description: 修改内容
+    description: 新数据
+  old_data:
+    type: string
+    description: 旧数据

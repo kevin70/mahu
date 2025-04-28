@@ -76,11 +76,17 @@ public class AdminAuditLogResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("data_id")
     private String dataId;
     /**
-     * 修改内容
+     * 新数据
      */
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("data")
     private String data;
+    /**
+     * 旧数据
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("old_data")
+    private String oldData;
 }
 

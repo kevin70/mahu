@@ -72,11 +72,17 @@ export interface AdminAuditLogResponse {
      */
     dataId: string;
     /**
-     * 修改内容
+     * 新数据
      * @type {string}
      * @memberof AdminAuditLogResponse
      */
     data: string;
+    /**
+     * 旧数据
+     * @type {string}
+     * @memberof AdminAuditLogResponse
+     */
+    oldData?: string;
 }
 
 /**
@@ -113,6 +119,7 @@ export function AdminAuditLogResponseFromJSONTyped(json: any, ignoreDiscriminato
         'changeType': json['change_type'],
         'dataId': json['data_id'],
         'data': json['data'],
+        'oldData': json['old_data'] == null ? undefined : json['old_data'],
     };
 }
 
@@ -136,6 +143,7 @@ export function AdminAuditLogResponseToJSONTyped(value?: AdminAuditLogResponse |
         'change_type': value['changeType'],
         'data_id': value['dataId'],
         'data': value['data'],
+        'old_data': value['oldData'],
     };
 }
 

@@ -81,6 +81,11 @@ export interface AddSystemDictDataRequest {
     upsertDictDataRequest?: UpsertDictDataRequest;
 }
 
+export interface CancelScheduledTaskExecutionRequest {
+    taskName: string;
+    taskInstance: string;
+}
+
 export interface CreateClientRequest {
     upsertClientRequest: UpsertClientRequest;
 }
@@ -115,11 +120,6 @@ export interface DeleteEmployeeRequest {
 
 export interface DeleteRoleRequest {
     id?: number;
-}
-
-export interface DeleteScheduledTaskExecutionRequest {
-    taskName: string;
-    taskInstance: string;
 }
 
 export interface DeleteSystemDictTypeRequest {
@@ -310,6 +310,53 @@ export class SystemApi extends runtime.BaseAPI {
     async allPermits(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PermitResponse>> {
         const response = await this.allPermitsRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     * 取消执行任务
+     */
+    async cancelScheduledTaskExecutionRaw(requestParameters: CancelScheduledTaskExecutionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['taskName'] == null) {
+            throw new runtime.RequiredError(
+                'taskName',
+                'Required parameter "taskName" was null or undefined when calling cancelScheduledTaskExecution().'
+            );
+        }
+
+        if (requestParameters['taskInstance'] == null) {
+            throw new runtime.RequiredError(
+                'taskInstance',
+                'Required parameter "taskInstance" was null or undefined when calling cancelScheduledTaskExecution().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scheduled-tasks/{task_name}/{task_instance}/executions`.replace(`{${"task_name"}}`, encodeURIComponent(String(requestParameters['taskName']))).replace(`{${"task_instance"}}`, encodeURIComponent(String(requestParameters['taskInstance']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 取消执行任务
+     */
+    async cancelScheduledTaskExecution(requestParameters: CancelScheduledTaskExecutionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.cancelScheduledTaskExecutionRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -657,53 +704,6 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async deleteRole(requestParameters: DeleteRoleRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteRoleRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 删除当前执行状态
-     */
-    async deleteScheduledTaskExecutionRaw(requestParameters: DeleteScheduledTaskExecutionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['taskName'] == null) {
-            throw new runtime.RequiredError(
-                'taskName',
-                'Required parameter "taskName" was null or undefined when calling deleteScheduledTaskExecution().'
-            );
-        }
-
-        if (requestParameters['taskInstance'] == null) {
-            throw new runtime.RequiredError(
-                'taskInstance',
-                'Required parameter "taskInstance" was null or undefined when calling deleteScheduledTaskExecution().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/scheduled-tasks/{task_name}/{task_instance}/executions`.replace(`{${"task_name"}}`, encodeURIComponent(String(requestParameters['taskName']))).replace(`{${"task_instance"}}`, encodeURIComponent(String(requestParameters['taskInstance']))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 删除当前执行状态
-     */
-    async deleteScheduledTaskExecution(requestParameters: DeleteScheduledTaskExecutionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteScheduledTaskExecutionRaw(requestParameters, initOverrides);
     }
 
     /**
