@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 public abstract class TestTransactionBase extends TestBase {
 
     @Inject
-    public Database database;
+    Database database;
 
     protected boolean rollbackOnly = true;
     private Transaction transaction;
