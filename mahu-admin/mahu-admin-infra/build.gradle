@@ -36,7 +36,6 @@ dependencies {
         exclude module: "classpath-scanner"
     }
     implementation("io.ebean:ebean-jackson-mapper:$ebeanVersion")
-    implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
     implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
         exclude module: "avaje-validator-http-plugin"
