@@ -29,7 +29,6 @@ public class AdminAuditLog extends BaseBizLog {
     /// 数据租户 ID
     private String dataTenantId;
     /// 数据 ID
-    @DbJsonB
     private String dataId;
     /// 新数据
     @DbJsonB

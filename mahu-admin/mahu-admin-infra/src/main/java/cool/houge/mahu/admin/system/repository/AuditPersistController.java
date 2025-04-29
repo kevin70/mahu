@@ -3,22 +3,23 @@ package cool.houge.mahu.admin.system.repository;
 import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.entity.Auditable;
-import io.ebean.bean.EntityBean;
+import io.ebean.PersistenceIOException;
+import io.ebean.bean.BeanDiffVisitor;
 import io.ebean.event.BeanPersistAdapter;
 import io.ebean.event.BeanPersistRequest;
 import io.ebean.event.changelog.ChangeType;
+import io.ebeaninternal.api.SpiEbeanServer;
 import io.ebeaninternal.api.json.SpiJsonWriter;
-import io.ebeaninternal.server.core.DefaultServer;
+import io.ebeaninternal.server.core.PersistRequestBean;
 import io.ebeaninternal.server.deploy.BeanDescriptor;
 import io.ebeaninternal.server.deploy.BeanProperty;
-import io.ebeaninternal.server.deploy.BeanPropertyAssocMany;
+import io.ebeaninternal.server.deploy.BeanPropertyAssocOne;
+import io.ebeaninternal.server.util.ArrayStack;
 import io.helidon.common.context.Contexts;
 import io.hypersistence.tsid.TSID;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.UncheckedIOException;
-import java.util.List;
 
 /// 管理员操作审计日志
 ///
@@ -50,24 +51,31 @@ public class AuditPersistController extends BeanPersistAdapter {
         saveAuditLog(ChangeType.UPDATE, request);
     }
 
-    void saveAuditLog(ChangeType changeType, BeanPersistRequest<?> request) {
-        var server = (DefaultServer) request.database();
-        var bean = (EntityBean) request.bean();
-        var descriptor = server.descriptor(bean.getClass());
+    void saveAuditLog(ChangeType changeType, BeanPersistRequest<?> persistRequest) {
+        var request = (PersistRequestBean<?>) persistRequest;
+        var server = request.server();
+        var descriptor = request.descriptor();
 
         var entity = new AdminAuditLog().setTableName(descriptor.baseTable()).setChangeType(changeType.getCode());
         entity.setId(TSID.fast().toLong());
-        this.changedData(server, descriptor, bean, entity);
 
-        var id = descriptor.getId(bean);
-        if (id != null) {
-            entity.setDataId(formatDataId(server, descriptor.idProperty(), id));
+        var beanId = request.beanId();
+        if (beanId != null) {
+            entity.setDataId(beanId.toString());
         }
 
-        if (descriptor.isMultiTenant()) {
-            var tenantValue = descriptor.tenantProperty().getValue(bean);
-            entity.setDataTenantId(tenantValue.toString());
+        if (changeType == ChangeType.UPDATE) {
+            this.changeData(server, request, entity);
         }
+
+        var currentTenantId = server.currentTenantId();
+        if (currentTenantId != null) {
+            entity.setDataTenantId(currentTenantId.toString());
+        }
+
+        // 当前操作用户
+        var currentUser = server.config().getCurrentUserProvider().currentUser();
+        entity.setAdminId((long) currentUser);
 
         // 获取请求的 IP 地址并设置
         var ipAddr = Contexts.context()
@@ -78,76 +86,105 @@ public class AuditPersistController extends BeanPersistAdapter {
         server.save(entity);
     }
 
-    String formatDataId(DefaultServer server, BeanProperty idProperty, Object value) {
-        try {
-            var writer = new StringWriter();
-            var jsonWriter = server.jsonExtended().createJsonWriter(writer);
-            jsonWriter.writeStartObject();
-            idProperty.jsonWriteValue(jsonWriter, value);
-            jsonWriter.writeEndObject();
-            jsonWriter.flush();
-            return writer.toString();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+    void changeData(SpiEbeanServer server, PersistRequestBean<?> request, AdminAuditLog auditLog) {
+        var changeJson = new BeanChangeJson(server, request.descriptor(), request.isStatelessUpdate());
+        request.intercept().addDirtyPropertyValues(changeJson);
+        changeJson.flush();
+
+        auditLog.setData(changeJson.newJson()).setOldData(changeJson.oldJson());
     }
 
-    void changedData(
-            DefaultServer server, BeanDescriptor<?> descriptor, EntityBean entityBean, AdminAuditLog auditLog) {
-        try {
-            var oldWriter = new StringWriter(200);
-            var oldJsonWriter = server.jsonExtended().createJsonWriter(oldWriter);
-            oldJsonWriter.writeStartObject();
+    /**
+     * Builds the 'new values' and 'old values' in JSON form for ChangeLog.
+     */
+    private static final class BeanChangeJson implements BeanDiffVisitor {
 
-            var newWriter = new StringWriter(200);
-            var newJsonWriter = server.jsonExtended().createJsonWriter(newWriter);
-            newJsonWriter.writeStartObject();
+        private final StringWriter newData;
+        private final StringWriter oldData;
+        private final SpiJsonWriter newJson;
+        private final SpiJsonWriter oldJson;
+        private final ArrayStack<BeanDescriptor<?>> stack = new ArrayStack<>();
+        private BeanDescriptor<?> descriptor;
 
-            this.changedData(descriptor.propertiesBaseScalar(), entityBean, oldJsonWriter, newJsonWriter);
-            this.changedData(descriptor.propertiesEmbedded(), entityBean, oldJsonWriter, newJsonWriter);
-            this.changedData(descriptor.propertiesOne(), entityBean, oldJsonWriter, newJsonWriter);
-            this.changedData(descriptor.propertiesMany(), entityBean, oldJsonWriter, newJsonWriter);
-
-            newJsonWriter.writeEndObject();
-            newJsonWriter.flush();
-
-            oldJsonWriter.writeEndObject();
-            oldJsonWriter.flush();
-
-            // 设置修改数据与旧的数据
-            auditLog.setData(newWriter.toString()).setOldData(oldWriter.toString());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    private void changedData(
-            BeanProperty[] properties, EntityBean entityBean, SpiJsonWriter oldWriter, SpiJsonWriter newWriter)
-            throws IOException {
-        for (BeanProperty prop : properties) {
-            if (prop.isGenerated()) {
-                continue;
-            }
-            if (prop.isImportedPrimaryKey()) {
-                continue;
-            }
-            if (!entityBean._ebean_intercept().isChangedProperty(prop.propertyIndex())) {
-                continue;
-            }
-
-            var oldValue = entityBean._ebean_intercept().origValue(prop.propertyIndex());
-            var newValue = prop.getValue(entityBean);
-            if (prop instanceof BeanPropertyAssocMany<?> p) {
-                if (oldValue != null) {
-                    oldWriter.writeFieldName(prop.name());
-                    oldWriter.writeRawValue(p.jsonWriteCollection(oldValue));
-                }
-                newWriter.writeFieldName(prop.name());
-                newWriter.writeRawValue(p.jsonWriteCollection(newValue != null ? newValue : List.of()));
+        BeanChangeJson(SpiEbeanServer server, BeanDescriptor<?> descriptor, boolean statelessUpdate) {
+            this.descriptor = descriptor;
+            this.newData = new StringWriter(200);
+            this.newJson = server.jsonExtended().createJsonWriter(newData);
+            newJson.writeStartObject();
+            if (statelessUpdate) {
+                this.oldJson = null;
+                this.oldData = null;
             } else {
-                prop.jsonWriteValue(oldWriter, oldValue);
-                prop.jsonWriteValue(newWriter, newValue);
+                this.oldData = new StringWriter(200);
+                this.oldJson = server.jsonExtended().createJsonWriter(oldData);
+                oldJson.writeStartObject();
             }
         }
+
+        @Override
+        public void visit(int position, Object newVal, Object oldVal) {
+            try {
+                BeanProperty prop = descriptor.propertyByIndex(position);
+                if (!prop.isGenerated() && prop.isDbUpdatable()) {
+                    prop.jsonWriteValue(newJson, newVal);
+                    if (oldJson != null) {
+                        prop.jsonWriteValue(oldJson, oldVal);
+                    }
+                }
+            } catch (IOException e) {
+                throw new PersistenceIOException(e);
+            }
+        }
+
+        @Override
+        public void visitPush(int position) {
+            stack.push(descriptor);
+            BeanPropertyAssocOne<?> embedded = (BeanPropertyAssocOne<?>) descriptor.propertyByIndex(position);
+            descriptor = embedded.targetDescriptor();
+            newJson.writeStartObject(embedded.name());
+            if (oldJson != null) {
+                oldJson.writeStartObject(embedded.name());
+            }
+        }
+
+        @Override
+        public void visitPop() {
+            newJson.writeEndObject();
+            if (oldJson != null) {
+                oldJson.writeEndObject();
+            }
+            descriptor = stack.pop();
+        }
+
+        /**
+         * Flush the buffers.
+         */
+        void flush() {
+            try {
+                newJson.writeEndObject();
+                newJson.flush();
+                if (oldJson != null) {
+                    oldJson.writeEndObject();
+                    oldJson.flush();
+                }
+            } catch (IOException e) {
+                throw new PersistenceIOException(e);
+            }
+        }
+
+        /**
+         * Return the new values JSON.
+         */
+        String newJson() {
+            return newData.toString();
+        }
+
+        /**
+         * Return the old values JSON.
+         */
+        String oldJson() {
+            return oldData == null ? null : oldData.toString();
+        }
     }
+
 }
