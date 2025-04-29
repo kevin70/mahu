@@ -5,14 +5,16 @@ import { LOG_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
 import { Form } from 'antd';
+import { useLocation } from 'react-router';
 
 export const AuditLogList = () => {
+  const location = useLocation();
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
     sort: [{ columnKey: 'created_at', order: 'descend' }],
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ['listAdminAuditLogs', queryOffsetLimit, queryFilter, querySort],
+    queryKey: ['listAdminAuditLogs', queryOffsetLimit, queryFilter, querySort, location],
     async queryFn() {
       return LOG_API.listAdminAuditLogs({
         ...queryOffsetLimit,
@@ -103,6 +105,7 @@ export const AuditLogList = () => {
           {
             title: '数据 ID',
             dataIndex: 'dataId',
+            copyable: true,
             ellipsis: true,
           },
           {
