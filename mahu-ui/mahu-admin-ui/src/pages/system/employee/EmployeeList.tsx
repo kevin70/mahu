@@ -47,6 +47,7 @@ export const EmployeeList = () => {
         ]);
       }}
       className={css`
+        gap: var(--ant-margin-xs);
         & > .ant-form-item {
           min-width: 240px;
         }
