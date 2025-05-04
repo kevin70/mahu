@@ -13,7 +13,7 @@ class NoTotalCountPagedList<T> implements PagedList<T> {
 
     private final PagedList<T> plist;
 
-    private NoTotalCountPagedList(PagedList<T> plist) {
+    NoTotalCountPagedList(PagedList<T> plist) {
         this.plist = plist;
     }
 
