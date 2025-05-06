@@ -1,7 +1,6 @@
 package cool.houge.mahu.entity.system;
 
 import cool.houge.mahu.entity.Auditable;
-import cool.houge.mahu.entity.mart.Shop;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -14,14 +13,14 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-/// 用户表
+/// 管理员表
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
 @Entity
-@Table(name = "employee", schema = "system")
-public class Employee implements Auditable {
+@Table(name = "admin", schema = "system")
+public class Admin implements Auditable {
 
     /// 主键
     @Id
@@ -54,16 +53,11 @@ public class Employee implements Auditable {
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "ref_employee_role",
+            name = "admin_role",
             schema = "system",
-            joinColumns = @JoinColumn(name = "employee_id"),
+            joinColumns = @JoinColumn(name = "admin_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
-
-    /// 用户拥有的商店
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "ref_shop_employee", schema = "mart")
-    private List<Shop> shops;
 
     /// 原始密码（修改密码）
     private transient String originalPassword;
@@ -90,7 +84,5 @@ public class Employee implements Auditable {
         ///
         /// _是由管理员手动禁用_
         BLOCKED,
-        /// 离职的
-        RESIGN,
     }
 }

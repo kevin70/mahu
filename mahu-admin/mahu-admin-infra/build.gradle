@@ -46,6 +46,7 @@ dependencies {
     implementation("io.helidon.scheduling:helidon-scheduling:$helidonVersion")
     implementation("io.helidon.security:helidon-security-jwt:$helidonVersion")
     implementation("io.helidon.security.providers:helidon-security-providers-oidc:$helidonVersion")
+    implementation("com.rabbitmq:amqp-client:5.25.0")
 
     implementation("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
     implementation("com.github.kagkarlsson:db-scheduler:$dbSchedulerVersion")

@@ -1,7 +1,7 @@
 post:
-  summary: 新建职员
-  operationId: createEmployee
-  x-role-permit: EMPLOYEE:W
+  summary: 新建管理员
+  operationId: createAdmin
+  x-role-permit: ADMIN:W
   tags:
     - system
   requestBody:
@@ -9,14 +9,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertEmployeeRequest.yaml"
+          $ref: "../components/schemas/UpsertAdminRequest.yaml"
   responses:
     "204":
       description: OK
 get:
-  summary: 职员列表
-  operationId: listEmployees
-  x-role-permit: EMPLOYEE:R
+  summary: 管理员列表
+  operationId: listAdmins
+  x-role-permit: ADMIN:R
   tags:
     - system
   parameters:
@@ -32,4 +32,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/EmployeesPageResponse.yaml"
+            $ref: "../components/schemas/AdminsPageResponse.yaml"

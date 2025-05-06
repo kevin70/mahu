@@ -4,8 +4,8 @@ import com.google.common.base.Strings;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
 import cool.houge.mahu.common.rsql.FilterField;
-import cool.houge.mahu.entity.system.Employee;
-import cool.houge.mahu.entity.system.query.QEmployee;
+import cool.houge.mahu.entity.system.Admin;
+import cool.houge.mahu.entity.system.query.QAdmin;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
@@ -13,33 +13,33 @@ import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 
-/// 职员
+/// 管理员
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class EmployeeRepository extends HBeanRepository<Long, Employee> {
+public class AdminRepository extends HBeanRepository<Long, Admin> {
 
-    public EmployeeRepository(Database db) {
-        super(Employee.class, db);
+    public AdminRepository(Database db) {
+        super(Admin.class, db);
     }
 
-    public Employee obtainById(long id) {
+    public Admin obtainById(long id) {
         return findByIdOrEmpty(id)
                 .orElseThrow(() -> new EntityNotFoundException(Strings.lenientFormat("未找到用户[id=%s]", id)));
     }
 
-    public Employee findByUsername(String username) {
-        return new QEmployee(db()).username.eq(username).findOne();
+    public Admin findByUsername(String username) {
+        return new QAdmin(db()).username.eq(username).findOne();
     }
 
     /// 分页查询
-    public PagedList<Employee> findPage(DataFilter dataFilter) {
-        var qb = new QEmployee(db());
+    public PagedList<Admin> findPage(DataFilter dataFilter) {
+        var qb = new QAdmin(db());
         var filterFields = List.of(
                 FF_CREATED_AT,
                 FF_UPDATED_AT,
                 FilterField.with(qb.nickname).build(),
-                FilterField.with(qb.status, Employee.Status::valueOf).build(),
+                FilterField.with(qb.status, Admin.Status::valueOf).build(),
                 FilterField.with(qb.department.id).filterName("department_id").build()
                 //
                 );

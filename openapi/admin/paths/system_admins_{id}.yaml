@@ -1,14 +1,14 @@
 parameters:
   - name: id
     in: path
-    description: 职员 ID
+    description: 管理员 ID
     schema:
       type: integer
       format: int32
 put:
-  summary: 修改职员
-  operationId: updateEmployee
-  x-role-permit: EMPLOYEE:W
+  summary: 修改管理员
+  operationId: updateAdmin
+  x-role-permit: ADMIN:W
   tags:
     - system
   requestBody:
@@ -16,23 +16,23 @@ put:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertEmployeeRequest.yaml"
+          $ref: "../components/schemas/UpsertAdminRequest.yaml"
   responses:
     "204":
       description: OK
 delete:
-  summary: 删除职员
-  operationId: deleteEmployee
-  x-role-permit: EMPLOYEE:W
+  summary: 删除管理员
+  operationId: deleteAdmin
+  x-role-permit: ADMIN:W
   tags:
     - system
   responses:
     "204":
       description: OK
 get:
-  summary: 获取指定 ID 的职员信息
-  operationId: getEmployee
-  x-role-permit: EMPLOYEE:R
+  summary: 获取指定 ID 的管理员信息
+  operationId: getAdmin
+  x-role-permit: ADMIN:R
   tags:
     - system
   responses:
@@ -41,4 +41,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/EmployeeResponse.yaml"
+            $ref: "../components/schemas/AdminResponse.yaml"

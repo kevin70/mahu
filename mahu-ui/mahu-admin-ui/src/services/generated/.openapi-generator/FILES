@@ -13,6 +13,10 @@ models/AdminAuditLogResponse.ts
 models/AdminAuditLogsPageResponse.ts
 models/AdminAuthLogResponse.ts
 models/AdminAuthLogsPageResponse.ts
+models/AdminResponse.ts
+models/AdminResponseDepartment.ts
+models/AdminStatusEnum.ts
+models/AdminsPageResponse.ts
 models/AttributeValueTypeEnum.ts
 models/BasePageResponse.ts
 models/BatchDeleteShopAssetRequest.ts
@@ -27,10 +31,6 @@ models/DepartmentsPageResponse.ts
 models/DictResponse.ts
 models/DictResponseDataInner.ts
 models/DictsPageResponse.ts
-models/EmployeeResponse.ts
-models/EmployeeResponseDepartment.ts
-models/EmployeeStatusEnum.ts
-models/EmployeesPageResponse.ts
 models/ErrorResponse.ts
 models/ErrorResponseError.ts
 models/ErrorResponseErrorInvalidParamsInner.ts
@@ -76,13 +76,13 @@ models/UpdateMartProductStatusRequest.ts
 models/UpdateMartProductStatusRequestVariantsInner.ts
 models/UpdateMePasswordRequest.ts
 models/UpdateMeProfileRequest.ts
+models/UpsertAdminRequest.ts
 models/UpsertBrandRequest.ts
 models/UpsertClientRequest.ts
 models/UpsertDepartmentRequest.ts
 models/UpsertDictDataRequest.ts
 models/UpsertDictRequest.ts
 models/UpsertDictRequestDataInner.ts
-models/UpsertEmployeeRequest.ts
 models/UpsertMartAttributeRequest.ts
 models/UpsertMartAttributeValueRequest.ts
 models/UpsertMartCategoryRequest.ts

@@ -18,21 +18,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * 职员状态类型
+ * 管理员状态
  */
-public enum EmployeeStatusEnum {
+public enum AdminStatusEnum {
   
   NONE("NONE"),
   
   ACTIVE("ACTIVE"),
   
-  BLOCKED("BLOCKED"),
-  
-  RESIGN("RESIGN");
+  BLOCKED("BLOCKED");
 
   private String value;
 
-  EmployeeStatusEnum(String value) {
+  AdminStatusEnum(String value) {
     this.value = value;
   }
 
@@ -40,8 +38,8 @@ public enum EmployeeStatusEnum {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-    public static EmployeeStatusEnum fromString(String s) {
-      for (EmployeeStatusEnum b : EmployeeStatusEnum.values()) {
+    public static AdminStatusEnum fromString(String s) {
+      for (AdminStatusEnum b : AdminStatusEnum.values()) {
         // using Objects.toString() to be safe if value type non-object type
         // because types like 'int' etc. will be auto-boxed
         if (java.util.Objects.toString(b.value).equals(s)) {
@@ -58,8 +56,8 @@ public enum EmployeeStatusEnum {
   }
 
   @JsonCreator
-  public static EmployeeStatusEnum fromValue(String value) {
-    for (EmployeeStatusEnum b : EmployeeStatusEnum.values()) {
+  public static AdminStatusEnum fromValue(String value) {
+    for (AdminStatusEnum b : AdminStatusEnum.values()) {
       if (b.value.equals(value)) {
         return b;
       }

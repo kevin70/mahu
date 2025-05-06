@@ -6,7 +6,7 @@ import { Login } from '@/pages/login/Login';
 import { Dashboard } from '@/pages/dashboard/Dashboard';
 import { MeProfile } from '@/pages/me/MeProfile';
 
-import { EmployeeList } from '@/pages/system/employee/EmployeeList';
+import { AdminList } from '@/pages/system/admin/AdminList';
 import { DepartmentList } from '@/pages/system/department/DepartmentList';
 import { DictList } from '@/pages/system/dict/DictList';
 import { ClientList } from '@/pages/system/client/ClientList';
@@ -48,7 +48,7 @@ export const routes = createRoutesFromElements(
       <Route path="/mart/product-edit" Component={MartProductEdit} />
 
       {/** 系统模块 */}
-      <Route path="/system/employee-list" Component={EmployeeList} />
+      <Route path="/system/admin-list" Component={AdminList} />
       <Route path="/system/department-list" Component={DepartmentList} />
       <Route path="/system/role-list" Component={RoleList} />
       <Route path="/system/dict-list" Component={DictList} />

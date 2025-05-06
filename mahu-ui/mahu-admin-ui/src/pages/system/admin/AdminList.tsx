@@ -3,20 +3,20 @@ import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormText, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
 import { Form, message } from 'antd';
-import { NewEmployeeDrawerForm } from './NewEmployeeDrawerForm';
+import { NewAdminDrawerForm } from './NewAdminDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
-import { EditEmployeeDrawerForm } from './EditEmployeeDrawerForm';
+import { EditAdminDrawerForm } from './EditAdminDrawerForm';
 import { permits } from '@/config/permit';
 import { HDeletePopconfirmButton } from '@/components/HDeletePopconfirmButton';
 import { DepartmentTreeSelect } from '@/components/system/DepartmentTreeSelect';
-import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
+import { AdminStatusSelect } from '@/components/system/AdminStatusSelect';
 import { useState } from 'react';
 import { HIncludeDetedCheckBox } from '@/components/HIncludeDeletedCheckbox';
 import { useTableHelper } from '@/hooks/useTableHelper';
 import { css } from '@styled-system/css';
 
-export const EmployeeList = () => {
-  const noWrite = $checkNotPermit(permits.DEPARTMENT.W);
+export const AdminList = () => {
+  const noWrite = $checkNotPermit(permits.ADMIN.W);
 
   const [incldeDeleted, setIncludeDeleted] = useState<number | undefined>();
   const { onTableChange, pagination, gotoFirstPage, queryOffsetLimit, querySort } = useTableHelper({
@@ -24,9 +24,9 @@ export const EmployeeList = () => {
   });
   const { setRSQLFilters, rsqlOps, queryFilter } = useRSQLFilter();
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ['/system/employees', queryOffsetLimit, queryFilter, querySort, incldeDeleted],
+    queryKey: ['/system/admins', queryOffsetLimit, queryFilter, querySort, incldeDeleted],
     async queryFn() {
-      return SYSTEM_API.listEmployees({
+      return SYSTEM_API.listAdmins({
         ...queryOffsetLimit,
         sort: querySort,
         filter: queryFilter,
@@ -55,7 +55,7 @@ export const EmployeeList = () => {
     >
       <ProFormText name="searchNickname" label="昵称" />
       <Form.Item name="searchStatus" label="状态">
-        <EmployeeStatusSelect mode="multiple" placeholder="请选择" allowClear />
+        <AdminStatusSelect mode="multiple" placeholder="请选择" allowClear />
       </Form.Item>
       <Form.Item label="部门" name="searchDepartmentIds">
         <DepartmentTreeSelect multiple placeholder="选择部门" allowClear treeDefaultExpandAll />
@@ -65,8 +65,8 @@ export const EmployeeList = () => {
   );
 
   const onDelete = async (id: number) => {
-    await SYSTEM_API.deleteEmployee({ id });
-    message.success('删除职员成功');
+    await SYSTEM_API.deleteAdmin({ id });
+    message.success('删除管理员成功');
 
     await refetch();
   };
@@ -84,7 +84,7 @@ export const EmployeeList = () => {
         }}
         toolbar={{
           search: searchForm,
-          actions: [<NewEmployeeDrawerForm onSuccess={refetch} />],
+          actions: [<NewAdminDrawerForm onSuccess={refetch} />],
           filter: <HIncludeDetedCheckBox onChange={(e) => setIncludeDeleted(e.target.checked ? 1 : undefined)} />,
         }}
         loading={isFetching}
@@ -161,7 +161,7 @@ export const EmployeeList = () => {
               }
               return (
                 <>
-                  <EditEmployeeDrawerForm id={row.id} onSuccess={refetch} />
+                  <EditAdminDrawerForm id={row.id} onSuccess={refetch} />
                   <HDeletePopconfirmButton onConfirm={() => onDelete(row.id)} disabled={noWrite || row.id === 1} />
                 </>
               );

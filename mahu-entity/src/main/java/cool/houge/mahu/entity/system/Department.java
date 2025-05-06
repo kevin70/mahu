@@ -36,7 +36,7 @@ public class Department implements Auditable {
     private Department parent;
     /// 负责人
     @ManyToOne
-    private Employee leader;
+    private Admin leader;
     /// 排序值
     private Integer ordering;
 

@@ -2,18 +2,17 @@ package cool.houge.mahu.admin.system.service;
 
 import com.google.common.base.Strings;
 import com.password4j.Password;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.DynamicPermit;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
-import cool.houge.mahu.admin.system.repository.EmployeeRepository;
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.system.repository.AdminRepository;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.config.TokenConfig;
-import cool.houge.mahu.entity.mart.Shop;
-import cool.houge.mahu.entity.system.Employee;
+import cool.houge.mahu.entity.system.Admin;
 import io.ebean.annotation.Transactional;
 import io.helidon.common.LazyValue;
 import io.helidon.security.jwt.EncryptedJwt;
@@ -47,7 +46,7 @@ public class TokenService implements TokenVerifier {
     TokenConfig tokenConfig;
 
     @Inject
-    EmployeeRepository employeeRepository;
+    AdminRepository adminRepository;
 
     @Override
     public AuthContext verify(String token) {
@@ -57,7 +56,7 @@ public class TokenService implements TokenVerifier {
                 .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
 
         var employeeLv = LazyValue.create(() -> {
-            var emp = employeeRepository.findById(employeeId);
+            var emp = adminRepository.findById(employeeId);
             if (emp == null) {
                 throw new BizCodeException(BizCodes.UNAUTHENTICATED, "未找到管理员");
             }
@@ -110,7 +109,7 @@ public class TokenService implements TokenVerifier {
 
             @Override
             public List<Integer> shopIds() {
-                return employeeLv.get().getShops().stream().map(Shop::getId).toList();
+                return List.of();
             }
         };
     }
@@ -119,33 +118,33 @@ public class TokenService implements TokenVerifier {
     public TokenResult token(TokenPayload payload) {
         var grantType = payload.getGrantType();
 
-        Employee employee;
+        Admin admin;
         if (grantType == GrantType.PASSWORD) {
-            employee = loginByUsername(payload);
+            admin = loginByUsername(payload);
         } else if (grantType == GrantType.REFRESH_TOKEN) {
-            employee = loginByRefreshToken(payload);
+            admin = loginByRefreshToken(payload);
         } else {
             throw new BizCodeException(BizCodes.UNIMPLEMENTED);
         }
 
-        if (employee == null) {
+        if (admin == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, "登录用户未找到");
         }
 
-        var status = employee.getStatus();
-        if (status != Employee.Status.ACTIVE) {
+        var status = admin.getStatus();
+        if (status != Admin.Status.ACTIVE) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "该帐号禁止登录");
         }
-        var ret = makeToken(payload, employee);
-        log.info("用户成功获取令牌 id={}", employee.getId());
+        var ret = makeToken(payload, admin);
+        log.info("用户成功获取令牌 id={}", admin.getId());
         return ret;
     }
 
     @Transactional
-    TokenResult makeToken(TokenPayload payload, Employee employee) {
+    TokenResult makeToken(TokenPayload payload, Admin admin) {
         var jwk = obtainJwk();
         var jwtId = TSID.fast().toString();
-        var sub = String.valueOf(employee.getId());
+        var sub = String.valueOf(admin.getId());
         var iat = Instant.now();
         var nonce = String.valueOf(Math.random());
         var atJwt = Jwt.builder()
@@ -177,8 +176,8 @@ public class TokenService implements TokenVerifier {
                 .setRefreshToken(refreshToken.token());
     }
 
-    Employee loginByUsername(TokenPayload payload) {
-        var user = employeeRepository.findByUsername(payload.getUsername());
+    Admin loginByUsername(TokenPayload payload) {
+        var user = adminRepository.findByUsername(payload.getUsername());
         if (user == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", payload.getUsername()));
         }
@@ -190,10 +189,10 @@ public class TokenService implements TokenVerifier {
         return user;
     }
 
-    Employee loginByRefreshToken(TokenPayload payload) {
+    Admin loginByRefreshToken(TokenPayload payload) {
         var jwt = parseToken(payload.getRefreshToken());
         var sub = jwt.userPrincipal().orElseThrow();
-        return employeeRepository.findById(Long.valueOf(sub));
+        return adminRepository.findById(Long.valueOf(sub));
     }
 
     Jwt parseToken(String token) {

@@ -1,26 +1,22 @@
-import { HEditButton } from '@/components/HEditButton';
+import { HNewButton } from '@/components/HNewButton';
 import { DepartmentTreeSelect } from '@/components/system/DepartmentTreeSelect';
-import { EmployeeStatusSelect } from '@/components/system/EmployeeStatusSelect';
 import { RoleSelect } from '@/components/system/RoleSelect';
 import { permits } from '@/config/permit';
 import { resolveApiError, SYSTEM_API } from '@/services';
 import { DrawerForm, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Form, FormInstance, Input, message } from 'antd';
+import { message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 
-export const EditEmployeeDrawerForm = (props: { id: number; onSuccess: () => void }) => {
-  const noWrite = $checkNotPermit(permits.EMPLOYEE.W);
+export const NewAdminDrawerForm = (props: { onSuccess: () => void }) => {
+  const noWrite = $checkNotPermit(permits.ADMIN.W);
   const { mutateAsync, reset } = useMutation<any>({
-    mutationKey: ['EditEmployeeDrawerForm'],
+    mutationKey: ['NewAdminDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.updateEmployee({
-        id: props.id,
-        upsertEmployeeRequest: values,
-      });
+      return SYSTEM_API.createAdmin(values);
     },
     onSuccess() {
-      message.success('修改职员成功');
+      message.success('新增职员成功');
       props.onSuccess();
     },
     async onError(error) {
@@ -28,12 +24,6 @@ export const EditEmployeeDrawerForm = (props: { id: number; onSuccess: () => voi
       message.error(err.message);
     },
   });
-
-  const onInit = async (_: any, form: FormInstance<any>) => {
-    const data = await SYSTEM_API.getEmployee({ id: props.id });
-    form.setFieldsValue(data);
-    form.setFieldValue('departmentId', data.department?.id);
-  };
 
   return (
     <DrawerForm
@@ -43,28 +33,16 @@ export const EditEmployeeDrawerForm = (props: { id: number; onSuccess: () => voi
           reset();
         },
       }}
-      title="编辑职员"
-      trigger={<HEditButton disabled={noWrite || props.id === 1} />}
+      title="新增管理员"
+      trigger={<HNewButton disabled={noWrite} />}
       onFinish={async (values: any) => {
         await mutateAsync(values);
         return true;
       }}
-      onInit={onInit}
     >
-      <FormItem label="ID">
-        <Input disabled value={props.id} />
-      </FormItem>
       <ProFormText label="用户名" required name="username" rules={[{ required: true }]} />
       <ProFormText label="昵称" required name="nickname" rules={[{ required: true }]} />
-      <ProFormText.Password
-        label="密码"
-        name="password"
-        placeholder={'输入重置选手密码'}
-        extra={'如果输入值则会重置职员的登录密码'}
-      />
-      <Form.Item label="状态" name="status" required>
-        <EmployeeStatusSelect placeholder="请选择" />
-      </Form.Item>
+      <ProFormText label="密码" required name="password" rules={[{ required: true }]} />
       <FormItem label="部门" name="departmentId">
         <DepartmentTreeSelect treeDefaultExpandAll />
       </FormItem>

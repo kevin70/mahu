@@ -18,7 +18,7 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class EmployeeResponseDepartment {
+public class AdminResponseDepartment {
 
     /**
      * 部门 ID

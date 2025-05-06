@@ -9,7 +9,7 @@ import static cool.houge.mahu.admin.Permits.Constants.R;
 public enum Permits {
     DICT(A, "字典"),
     ROLE(A, "角色"),
-    EMPLOYEE(A, "员工"),
+    ADMIN(A, "管理员"),
     DEPARTMENT(A, "部门"),
     CLIENT(A, "终端"),
     ACCESS_LOG(R, "访问日志"),

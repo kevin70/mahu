@@ -14,7 +14,9 @@ package cool.houge.mahu.admin.oas.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import cool.houge.mahu.admin.oas.model.EmployeeStatusEnum;
+import cool.houge.mahu.admin.oas.model.AdminResponseDepartment;
+import cool.houge.mahu.admin.oas.model.AdminStatusEnum;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,8 +25,27 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class UpsertEmployeeRequest {
+public class AdminResponse {
 
+    /**
+     * ID
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("id")
+    private Integer id;
+    /**
+     * 创建时间
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
+    private LocalDateTime createdAt;
+    /**
+     * 修改时间
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
     /**
      * 用户名
      */
@@ -32,12 +53,6 @@ public class UpsertEmployeeRequest {
 
     @com.fasterxml.jackson.annotation.JsonProperty("username")
     private String username;
-    /**
-     * 登录密码
-     */
-  
-    @com.fasterxml.jackson.annotation.JsonProperty("password")
-    private String password;
     /**
      * 昵称
      */
@@ -48,8 +63,7 @@ public class UpsertEmployeeRequest {
     /**
      * 头像地址
      */
-    @NotNull
-
+  
     @com.fasterxml.jackson.annotation.JsonProperty("avatar")
     private String avatar;
     /**
@@ -57,13 +71,19 @@ public class UpsertEmployeeRequest {
      */
   
     @com.fasterxml.jackson.annotation.JsonProperty("status")
-    private EmployeeStatusEnum status;
+    private AdminStatusEnum status;
     /**
-     * 部门 ID
+     * 是否已经删除的数据
      */
   
-    @com.fasterxml.jackson.annotation.JsonProperty("department_id")
-    private Integer departmentId;
+    @com.fasterxml.jackson.annotation.JsonProperty("deleted")
+    private Boolean deleted;
+    /**
+     * Get department
+     */
+  
+    @com.fasterxml.jackson.annotation.JsonProperty("department")
+    private AdminResponseDepartment department;
     /**
      * 角色 IDs
      */

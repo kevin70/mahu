@@ -15,27 +15,31 @@
 
 import * as runtime from '../runtime';
 import type {
+  AdminResponse,
+  AdminsPageResponse,
   ClientResponse,
   ClientsPageResponse,
   DepartmentResponse,
   DepartmentsPageResponse,
   DictResponse,
   DictsPageResponse,
-  EmployeeResponse,
-  EmployeesPageResponse,
   PermitResponse,
   RoleResponse,
   RolesPageResponse,
   ScheduledTaskExecutionsPageResponse,
   ScheduledTasksPageResponse,
+  UpsertAdminRequest,
   UpsertClientRequest,
   UpsertDepartmentRequest,
   UpsertDictDataRequest,
   UpsertDictRequest,
-  UpsertEmployeeRequest,
   UpsertRoleRequest,
 } from '../models/index';
 import {
+    AdminResponseFromJSON,
+    AdminResponseToJSON,
+    AdminsPageResponseFromJSON,
+    AdminsPageResponseToJSON,
     ClientResponseFromJSON,
     ClientResponseToJSON,
     ClientsPageResponseFromJSON,
@@ -48,10 +52,6 @@ import {
     DictResponseToJSON,
     DictsPageResponseFromJSON,
     DictsPageResponseToJSON,
-    EmployeeResponseFromJSON,
-    EmployeeResponseToJSON,
-    EmployeesPageResponseFromJSON,
-    EmployeesPageResponseToJSON,
     PermitResponseFromJSON,
     PermitResponseToJSON,
     RoleResponseFromJSON,
@@ -62,6 +62,8 @@ import {
     ScheduledTaskExecutionsPageResponseToJSON,
     ScheduledTasksPageResponseFromJSON,
     ScheduledTasksPageResponseToJSON,
+    UpsertAdminRequestFromJSON,
+    UpsertAdminRequestToJSON,
     UpsertClientRequestFromJSON,
     UpsertClientRequestToJSON,
     UpsertDepartmentRequestFromJSON,
@@ -70,8 +72,6 @@ import {
     UpsertDictDataRequestToJSON,
     UpsertDictRequestFromJSON,
     UpsertDictRequestToJSON,
-    UpsertEmployeeRequestFromJSON,
-    UpsertEmployeeRequestToJSON,
     UpsertRoleRequestFromJSON,
     UpsertRoleRequestToJSON,
 } from '../models/index';
@@ -86,16 +86,16 @@ export interface CancelScheduledTaskExecutionRequest {
     taskInstance: string;
 }
 
+export interface CreateAdminRequest {
+    upsertAdminRequest: UpsertAdminRequest;
+}
+
 export interface CreateClientRequest {
     upsertClientRequest: UpsertClientRequest;
 }
 
 export interface CreateDepartmentRequest {
     upsertDepartmentRequest: UpsertDepartmentRequest;
-}
-
-export interface CreateEmployeeRequest {
-    upsertEmployeeRequest: UpsertEmployeeRequest;
 }
 
 export interface CreateRoleRequest {
@@ -106,15 +106,15 @@ export interface CreateSystemDictRequest {
     upsertDictRequest: UpsertDictRequest;
 }
 
+export interface DeleteAdminRequest {
+    id?: number;
+}
+
 export interface DeleteClientRequest {
     clientId?: string;
 }
 
 export interface DeleteDepartmentRequest {
-    id?: number;
-}
-
-export interface DeleteEmployeeRequest {
     id?: number;
 }
 
@@ -131,15 +131,15 @@ export interface ExecuteScheduledTaskRequest {
     taskInstance: string;
 }
 
+export interface GetAdminRequest {
+    id?: number;
+}
+
 export interface GetClientRequest {
     clientId?: string;
 }
 
 export interface GetDepartmentRequest {
-    id?: number;
-}
-
-export interface GetEmployeeRequest {
     id?: number;
 }
 
@@ -149,6 +149,15 @@ export interface GetRoleRequest {
 
 export interface GetSystemDictRequest {
     typeCode: string;
+}
+
+export interface ListAdminsRequest {
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: Array<string>;
+    includeDeleted?: number;
+    noTotalCount?: number;
 }
 
 export interface ListClientsRequest {
@@ -163,15 +172,6 @@ export interface ListDepartmentsRequest {
     offset?: number;
     filter?: string;
     sort?: Array<string>;
-}
-
-export interface ListEmployeesRequest {
-    limit?: number;
-    offset?: number;
-    filter?: string;
-    sort?: Array<string>;
-    includeDeleted?: number;
-    noTotalCount?: number;
 }
 
 export interface ListRolesRequest {
@@ -205,6 +205,11 @@ export interface ListSystemDictsRequest {
     noTotalCount?: number;
 }
 
+export interface UpdateAdminRequest {
+    upsertAdminRequest: UpsertAdminRequest;
+    id?: number;
+}
+
 export interface UpdateClientRequest {
     upsertClientRequest: UpsertClientRequest;
     clientId?: string;
@@ -212,11 +217,6 @@ export interface UpdateClientRequest {
 
 export interface UpdateDepartmentRequest {
     upsertDepartmentRequest: UpsertDepartmentRequest;
-    id?: number;
-}
-
-export interface UpdateEmployeeRequest {
-    upsertEmployeeRequest: UpsertEmployeeRequest;
     id?: number;
 }
 
@@ -360,6 +360,49 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
+     * 新建管理员
+     */
+    async createAdminRaw(requestParameters: CreateAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertAdminRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertAdminRequest',
+                'Required parameter "upsertAdminRequest" was null or undefined when calling createAdmin().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/admins`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertAdminRequestToJSON(requestParameters['upsertAdminRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 新建管理员
+     */
+    async createAdmin(requestParameters: CreateAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createAdminRaw(requestParameters, initOverrides);
+    }
+
+    /**
      * 新建客户端
      */
     async createClientRaw(requestParameters: CreateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -443,49 +486,6 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async createDepartment(requestParameters: CreateDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.createDepartmentRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 新建职员
-     */
-    async createEmployeeRaw(requestParameters: CreateEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['upsertEmployeeRequest'] == null) {
-            throw new runtime.RequiredError(
-                'upsertEmployeeRequest',
-                'Required parameter "upsertEmployeeRequest" was null or undefined when calling createEmployee().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/employees`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertEmployeeRequestToJSON(requestParameters['upsertEmployeeRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 新建职员
-     */
-    async createEmployee(requestParameters: CreateEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createEmployeeRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -575,6 +575,39 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
+     * 删除管理员
+     */
+    async deleteAdminRaw(requestParameters: DeleteAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/admins/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 删除管理员
+     */
+    async deleteAdmin(requestParameters: DeleteAdminRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteAdminRaw(requestParameters, initOverrides);
+    }
+
+    /**
      * 删除客户端
      */
     async deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -638,39 +671,6 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async deleteDepartment(requestParameters: DeleteDepartmentRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteDepartmentRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 删除职员
-     */
-    async deleteEmployeeRaw(requestParameters: DeleteEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/employees/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 删除职员
-     */
-    async deleteEmployee(requestParameters: DeleteEmployeeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteEmployeeRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -794,6 +794,40 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
+     * 获取指定 ID 的管理员信息
+     */
+    async getAdminRaw(requestParameters: GetAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/admins/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AdminResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 获取指定 ID 的管理员信息
+     */
+    async getAdmin(requestParameters: GetAdminRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminResponse> {
+        const response = await this.getAdminRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * 获取指定客户端
      */
     async getClientRaw(requestParameters: GetClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClientResponse>> {
@@ -858,40 +892,6 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async getDepartment(requestParameters: GetDepartmentRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DepartmentResponse> {
         const response = await this.getDepartmentRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 获取指定 ID 的职员信息
-     */
-    async getEmployeeRaw(requestParameters: GetEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EmployeeResponse>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/employees/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeeResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 获取指定 ID 的职员信息
-     */
-    async getEmployee(requestParameters: GetEmployeeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EmployeeResponse> {
-        const response = await this.getEmployeeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -967,6 +967,64 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async getSystemDict(requestParameters: GetSystemDictRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DictResponse> {
         const response = await this.getSystemDictRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 管理员列表
+     */
+    async listAdminsRaw(requestParameters: ListAdminsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminsPageResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['filter'] != null) {
+            queryParameters['filter'] = requestParameters['filter'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        if (requestParameters['includeDeleted'] != null) {
+            queryParameters['include_deleted'] = requestParameters['includeDeleted'];
+        }
+
+        if (requestParameters['noTotalCount'] != null) {
+            queryParameters['no_total_count'] = requestParameters['noTotalCount'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/admins`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AdminsPageResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 管理员列表
+     */
+    async listAdmins(requestParameters: ListAdminsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminsPageResponse> {
+        const response = await this.listAdminsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1067,64 +1125,6 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async listDepartments(requestParameters: ListDepartmentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DepartmentsPageResponse> {
         const response = await this.listDepartmentsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * 职员列表
-     */
-    async listEmployeesRaw(requestParameters: ListEmployeesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EmployeesPageResponse>> {
-        const queryParameters: any = {};
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        if (requestParameters['offset'] != null) {
-            queryParameters['offset'] = requestParameters['offset'];
-        }
-
-        if (requestParameters['filter'] != null) {
-            queryParameters['filter'] = requestParameters['filter'];
-        }
-
-        if (requestParameters['sort'] != null) {
-            queryParameters['sort'] = requestParameters['sort'];
-        }
-
-        if (requestParameters['includeDeleted'] != null) {
-            queryParameters['include_deleted'] = requestParameters['includeDeleted'];
-        }
-
-        if (requestParameters['noTotalCount'] != null) {
-            queryParameters['no_total_count'] = requestParameters['noTotalCount'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/employees`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeesPageResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * 职员列表
-     */
-    async listEmployees(requestParameters: ListEmployeesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EmployeesPageResponse> {
-        const response = await this.listEmployeesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1347,6 +1347,49 @@ export class SystemApi extends runtime.BaseAPI {
     }
 
     /**
+     * 修改管理员
+     */
+    async updateAdminRaw(requestParameters: UpdateAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['upsertAdminRequest'] == null) {
+            throw new runtime.RequiredError(
+                'upsertAdminRequest',
+                'Required parameter "upsertAdminRequest" was null or undefined when calling updateAdmin().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/system/admins/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertAdminRequestToJSON(requestParameters['upsertAdminRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 修改管理员
+     */
+    async updateAdmin(requestParameters: UpdateAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateAdminRaw(requestParameters, initOverrides);
+    }
+
+    /**
      * 修改客户端
      */
     async updateClientRaw(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -1430,49 +1473,6 @@ export class SystemApi extends runtime.BaseAPI {
      */
     async updateDepartment(requestParameters: UpdateDepartmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.updateDepartmentRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 修改职员
-     */
-    async updateEmployeeRaw(requestParameters: UpdateEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['upsertEmployeeRequest'] == null) {
-            throw new runtime.RequiredError(
-                'upsertEmployeeRequest',
-                'Required parameter "upsertEmployeeRequest" was null or undefined when calling updateEmployee().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/system/employees/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-            body: UpsertEmployeeRequestToJSON(requestParameters['upsertEmployeeRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * 修改职员
-     */
-    async updateEmployee(requestParameters: UpdateEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.updateEmployeeRaw(requestParameters, initOverrides);
     }
 
     /**

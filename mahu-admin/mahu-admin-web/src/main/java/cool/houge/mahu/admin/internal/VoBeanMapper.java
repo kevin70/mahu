@@ -72,9 +72,9 @@ public interface VoBeanMapper extends LogBeanMapper {
 
     TokenResponse toTokenResponse(TokenResult bean);
 
-    Employee toEmployee(UpdateMePasswordRequest bean);
+    Admin toAdmin(UpdateMePasswordRequest bean);
 
-    Employee toEmployee(UpdateMeProfileRequest bean);
+    Admin toAdmin(UpdateMeProfileRequest bean);
 
     MeProfileResponse toGetMeProfileResponse(Profile bean);
 
@@ -105,10 +105,10 @@ public interface VoBeanMapper extends LogBeanMapper {
 
     @Mapping(target = "department.id", source = "departmentId")
     @Mapping(target = "roles", source = "roleIds", qualifiedByName = "roleIdsToRoles")
-    Employee toEmployee(UpsertEmployeeRequest bean);
+    Admin toAdmin(UpsertAdminRequest bean);
 
     @Mapping(target = "roleIds", source = "roles", qualifiedByName = "rolesToRoleIds")
-    EmployeeResponse toEmployeeResponse(Employee bean);
+    AdminResponse toAdminResponse(Admin bean);
 
     Brand toBrand(UpsertBrandRequest bean);
 

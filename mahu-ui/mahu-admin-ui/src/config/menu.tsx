@@ -77,10 +77,10 @@ export const MENUS: MenuDataItem[] = [
     atLeastOneChild: true,
     children: [
       {
-        path: '/system/employee-list',
+        path: '/system/admin-list',
         icon: <UserOutlined />,
-        name: '职员列表',
-        permits: [permits.EMPLOYEE.R],
+        name: '管理员列表',
+        permits: [permits.ADMIN.R],
       },
       {
         path: '/system/department-list',

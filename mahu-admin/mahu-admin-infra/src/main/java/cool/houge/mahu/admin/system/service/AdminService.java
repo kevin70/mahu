@@ -2,15 +2,15 @@ package cool.houge.mahu.admin.system.service;
 
 import com.google.common.base.Strings;
 import com.password4j.Password;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.GeneralBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
 import cool.houge.mahu.admin.shared.SharedToolService;
-import cool.houge.mahu.admin.system.repository.EmployeeRepository;
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.system.repository.AdminRepository;
 import cool.houge.mahu.common.DataFilter;
-import cool.houge.mahu.entity.system.Employee;
+import cool.houge.mahu.entity.system.Admin;
 import io.avaje.inject.events.Event;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -23,12 +23,12 @@ import org.slf4j.LoggerFactory;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class EmployeeService {
+public class AdminService {
 
-    private static final Logger log = LoggerFactory.getLogger(EmployeeService.class);
+    private static final Logger log = LoggerFactory.getLogger(AdminService.class);
 
     @Inject
-    EmployeeRepository employeeRepository;
+    AdminRepository adminRepository;
 
     @Inject
     SharedToolService toolService;
@@ -44,8 +44,8 @@ public class EmployeeService {
     /// @param uid 用户 ID
     @Transactional
     public Profile getProfile(long uid) {
-        var user = employeeRepository.obtainById(uid);
-        if (user.getStatus() != Employee.Status.ACTIVE) {
+        var user = adminRepository.obtainById(uid);
+        if (user.getStatus() != Admin.Status.ACTIVE) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "帐号已被禁止");
         }
 
@@ -57,28 +57,28 @@ public class EmployeeService {
 
     /// 保存
     @Transactional
-    public void save(Employee entity) {
-        entity.setDeleted(false).setStatus(Employee.Status.ACTIVE);
+    public void save(Admin entity) {
+        entity.setDeleted(false).setStatus(Admin.Status.ACTIVE);
         encryptPassword(entity);
-        employeeRepository.save(entity);
+        adminRepository.save(entity);
     }
 
     /// 更新
     @Transactional
-    public void update(Employee entity) {
+    public void update(Admin entity) {
         encryptPassword(entity);
-        employeeRepository.update(entity);
+        adminRepository.update(entity);
     }
 
     /// 删除指定 ID 的职员
     @Transactional
     public void delete(long id) {
-        employeeRepository.delete(new Employee().setId(id));
+        adminRepository.delete(new Admin().setId(id));
     }
 
     /// 更新密码
     @Transactional
-    public void updatePassword(Employee entity) {
+    public void updatePassword(Admin entity) {
         var dbEntity = obtainById(entity.getId());
         var matched = Password.check(entity.getOriginalPassword(), dbEntity.getPassword())
                 .withArgon2();
@@ -87,26 +87,26 @@ public class EmployeeService {
         }
 
         encryptPassword(entity);
-        employeeRepository.update(entity);
+        adminRepository.update(entity);
         log.debug("用户 {} 密码修改完成", entity.getId());
     }
 
     /// 查询指定 ID 的职员
     @Transactional(readOnly = true)
-    public Employee obtainById(long id) {
-        var entity = employeeRepository.obtainById(id);
+    public Admin obtainById(long id) {
+        var entity = adminRepository.obtainById(id);
         log.debug("加载职员角色 {}", entity.getRoles());
         return entity;
     }
 
     /// 分页查询
     @Transactional(readOnly = true)
-    public PagedList<Employee> findPage(DataFilter dataFilter) {
-        var plist = employeeRepository.findPage(dataFilter);
+    public PagedList<Admin> findPage(DataFilter dataFilter) {
+        var plist = adminRepository.findPage(dataFilter);
         return toolService.wrap(plist, dataFilter);
     }
 
-    void encryptPassword(Employee bean) {
+    void encryptPassword(Admin bean) {
         if (!Strings.isNullOrEmpty(bean.getPassword())) {
             var p = Password.hash(bean.getPassword()).addRandomSalt().withArgon2();
             bean.setPassword(p.getResult());

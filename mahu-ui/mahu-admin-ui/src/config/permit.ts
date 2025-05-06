@@ -16,7 +16,7 @@ const p = (name: string): Permit => {
  * 系统权限定义.
  */
 export const permits = {
-  EMPLOYEE: p('EMPLOYEE'),
+  ADMIN: p('ADMIN'),
   ROLE: p('ROLE'),
   DEPARTMENT: p('DEPARTMENT'),
   DICT: p('DICT'),

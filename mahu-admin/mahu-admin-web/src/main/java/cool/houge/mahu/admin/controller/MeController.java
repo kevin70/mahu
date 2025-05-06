@@ -4,7 +4,7 @@ import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpdateMePasswordRequest;
 import cool.houge.mahu.admin.oas.model.UpdateMeProfileRequest;
 import cool.houge.mahu.admin.security.AuthContext;
-import cool.houge.mahu.admin.system.service.EmployeeService;
+import cool.houge.mahu.admin.system.service.AdminService;
 import cool.houge.mahu.common.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
@@ -26,7 +26,7 @@ public class MeController implements HttpService, WebSupport {
     VoBeanMapper beanMapper;
 
     @Inject
-    EmployeeService employeeService;
+    AdminService adminService;
 
     @Override
     public void routing(HttpRules rules) {
@@ -37,7 +37,7 @@ public class MeController implements HttpService, WebSupport {
 
     void getMeProfile(ServerRequest request, ServerResponse response) {
         var ac = AuthContext.get();
-        var dto = employeeService.getProfile(ac.uid());
+        var dto = adminService.getProfile(ac.uid());
         dto.setPermits(ac.permits());
 
         var rs = beanMapper.toGetMeProfileResponse(dto);
@@ -49,8 +49,8 @@ public class MeController implements HttpService, WebSupport {
         validate(vo);
 
         var ac = AuthContext.get();
-        var user = beanMapper.toEmployee(vo).setId(ac.uid());
-        employeeService.update(user);
+        var user = beanMapper.toAdmin(vo).setId(ac.uid());
+        adminService.update(user);
 
         response.status(NO_CONTENT_204).send();
     }
@@ -60,8 +60,8 @@ public class MeController implements HttpService, WebSupport {
         validate(vo);
 
         var ac = AuthContext.get();
-        var entity = beanMapper.toEmployee(vo).setId(ac.uid());
-        employeeService.updatePassword(entity);
+        var entity = beanMapper.toAdmin(vo).setId(ac.uid());
+        adminService.updatePassword(entity);
 
         response.status(NO_CONTENT_204).send();
     }

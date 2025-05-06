@@ -55,10 +55,10 @@ paths:
     $ref: "paths/me_profile.yaml"
   /me/password:
     $ref: "paths/me_password.yaml"
-  /system/employees:
-    $ref: "paths/system_employees.yaml"
-  /system/employees/{id}:
-    $ref: "paths/system_employees_{id}.yaml"
+  /system/admins:
+    $ref: "paths/system_admins.yaml"
+  /system/admins/{id}:
+    $ref: "paths/system_admins_{id}.yaml"
   /system/departments:
     $ref: "paths/system_departments.yaml"
   /system/departments/{id}:
