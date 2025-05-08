@@ -49,6 +49,8 @@ public class DbBeanFactory {
         var nodeIdProvider = new DatabaseNodeIdProvider("admin_node_seq", dataSource);
         // 此处实现代表集群应用实例最多 256 个节点，如果节点超出 256，应该修改此处的逻辑
         var nodeId = nodeIdProvider.getNodeId() % 256 + 1;
+        System.setProperty("tsid.node", String.valueOf(nodeId));
+        System.setProperty("tsid.node.count", "256");
         return new AppInstance(config.name(), config.version(), nodeId);
     }
 
