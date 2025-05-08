@@ -2,7 +2,10 @@ package cool.houge.mahu.admin;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import cool.houge.mahu.AppInstance;
 import cool.houge.mahu.admin.system.repository.AuditPersistController;
+import cool.houge.mahu.common.DatabaseNodeIdProvider;
+import cool.houge.mahu.config.InfoConfig;
 import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
 import io.ebean.Database;
@@ -21,14 +24,9 @@ import javax.sql.DataSource;
 @Factory
 public class DbBeanFactory {
 
-    // 应用名称
-    private static final String APP_NAME = "mahu-admin";
-
     @Bean(destroyPriority = 9999)
     public HikariDataSource dataSource(Config config) {
         var hikariConfig = new HikariConfig();
-        hikariConfig.setPoolName(APP_NAME);
-
         hikariConfig.setJdbcUrl(config.get("db.url").asString().get());
         hikariConfig.setUsername(config.get("db.username").asString().get());
         hikariConfig.setPassword(config.get("db.password").asString().get());
@@ -46,13 +44,21 @@ public class DbBeanFactory {
         return new HikariDataSource(hikariConfig);
     }
 
+    @Bean
+    public AppInstance appInstance(InfoConfig config, DataSource dataSource) {
+        var nodeIdProvider = new DatabaseNodeIdProvider("admin_node_seq", dataSource);
+        // 此处实现代表集群应用实例最多 256 个节点，如果节点超出 256，应该修改此处的逻辑
+        var nodeId = nodeIdProvider.getNodeId() % 256 + 1;
+        return new AppInstance(config.name(), config.version(), nodeId);
+    }
+
     @Bean(destroyMethod = "shutdown", destroyPriority = 9998)
-    public Database database(DataSource ds) {
+    public Database database(AppInstance appInstance, DataSource ds) {
         var dbc = new DatabaseConfig();
         dbc.setContainerConfig(new ContainerConfig());
         dbc.setDataSourceConfig(
                 new DataSourceConfig()
-                        .setApplicationName(APP_NAME)
+                        .setApplicationName(appInstance.getQualifiedName())
                         .dataSource(ds)
                         .setHeartbeatSql("select 1")
                         .setHeartbeatFreqSecs(15)

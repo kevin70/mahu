@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin;
 
+import cool.houge.mahu.config.InfoConfig;
 import cool.houge.mahu.config.TokenConfig;
 import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
@@ -18,6 +19,11 @@ public class ConfigBeanFactory {
         return JwkKeys.builder()
                 .resource(Resource.create(config.get("jwt.keys")))
                 .build();
+    }
+
+    @Bean
+    public InfoConfig infoConfig(Config config) {
+        return InfoConfig.create(config.get(InfoConfig.PREFIX));
     }
 
     @Bean
