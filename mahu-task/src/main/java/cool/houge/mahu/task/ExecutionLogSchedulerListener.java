@@ -2,8 +2,8 @@ package cool.houge.mahu.task;
 
 import com.github.kagkarlsson.scheduler.event.AbstractSchedulerListener;
 import com.github.kagkarlsson.scheduler.task.ExecutionComplete;
-import cool.houge.mahu.entity.system.ScheduledTask;
 import cool.houge.mahu.entity.log.ScheduledExecutionLog;
+import cool.houge.mahu.entity.system.ScheduledTask;
 import io.ebean.Database;
 import io.ebean.annotation.Transactional;
 import io.hypersistence.tsid.TSID;
@@ -12,7 +12,6 @@ import jakarta.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.time.ZoneId;
 import java.util.Arrays;
 
 /// 任务执行日志
@@ -43,8 +42,7 @@ public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
                         .setTaskName(execution.getTaskName())
                         .setTaskInstance(execution.getId()));
 
-        var finishedAt =
-                executionComplete.getTimeDone().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        var finishedAt = executionComplete.getTimeDone();
         var startedAt = finishedAt.minus(executionComplete.getDuration());
         var bean = new ScheduledExecutionLog()
                 .setScheduledTask(task)
