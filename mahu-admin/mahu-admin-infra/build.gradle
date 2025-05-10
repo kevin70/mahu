@@ -55,10 +55,7 @@ dependencies {
     implementation("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
     implementation("com.rabbitmq:amqp-client:5.25.0")
 
-    testAnnotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
-    testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
     testImplementation("io.ebean:ebean-test:$ebeanVersion")
-    testImplementation("org.instancio:instancio-junit:$instancioVersion")
     testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
         exclude module: "logback-classic"
     }
