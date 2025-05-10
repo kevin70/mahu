@@ -14,7 +14,6 @@ dependencies {
     implementation(project(":mahu-common"))
     implementation(project(":mahu-entity"))
     implementation(project(":mahu-config"))
-    implementation(project(":mahu-remote"))
     implementation("io.avaje:avaje-inject:$avajeInjectVersion")
     implementation("com.google.guava:guava:$guavaVersion")
     implementation("io.helidon:helidon:$helidonVersion")
