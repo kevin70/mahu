@@ -19,11 +19,14 @@ public class DepartmentService {
 
     private static final Logger log = LogManager.getLogger(DepartmentService.class);
 
-    @Inject
-    DepartmentRepository departmentRepository;
+    private final DepartmentRepository departmentRepository;
+    private final SharedToolService toolService;
 
     @Inject
-    SharedToolService toolService;
+    public DepartmentService(DepartmentRepository departmentRepository, SharedToolService toolService) {
+        this.departmentRepository = departmentRepository;
+        this.toolService = toolService;
+    }
 
     /// 新增部门
     @Transactional

@@ -39,14 +39,16 @@ public class TokenService implements TokenVerifier {
 
     private static final Logger log = LoggerFactory.getLogger(TokenService.class);
 
-    @Inject
-    JwkKeys jwkKeys;
+    private final JwkKeys jwkKeys;
+    private final TokenConfig tokenConfig;
+    private final AdminRepository adminRepository;
 
     @Inject
-    TokenConfig tokenConfig;
-
-    @Inject
-    AdminRepository adminRepository;
+    public TokenService(JwkKeys jwkKeys, TokenConfig tokenConfig, AdminRepository adminRepository) {
+        this.jwkKeys = jwkKeys;
+        this.tokenConfig = tokenConfig;
+        this.adminRepository = adminRepository;
+    }
 
     @Override
     public AuthContext verify(String token) {

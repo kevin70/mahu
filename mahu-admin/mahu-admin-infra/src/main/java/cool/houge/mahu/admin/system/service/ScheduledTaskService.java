@@ -23,11 +23,15 @@ import java.time.Instant;
 public class ScheduledTaskService {
 
     private static final Logger log = LogManager.getLogger(ScheduledTaskService.class);
-    @Inject
-    ScheduledTaskRepository scheduledTaskRepository;
+
+    private final ScheduledTaskRepository scheduledTaskRepository;
+    private final ScheduledExecutionLogRepository scheduledExecutionLogRepository;
 
     @Inject
-    ScheduledExecutionLogRepository scheduledExecutionLogRepository;
+    public ScheduledTaskService(ScheduledTaskRepository scheduledTaskRepository, ScheduledExecutionLogRepository scheduledExecutionLogRepository) {
+        this.scheduledTaskRepository = scheduledTaskRepository;
+        this.scheduledExecutionLogRepository = scheduledExecutionLogRepository;
+    }
 
     /// 立即执行定时任务
     @Transactional

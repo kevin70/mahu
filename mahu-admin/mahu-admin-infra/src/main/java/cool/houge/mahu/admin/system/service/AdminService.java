@@ -27,17 +27,22 @@ public class AdminService {
 
     private static final Logger log = LoggerFactory.getLogger(AdminService.class);
 
-    @Inject
-    AdminRepository adminRepository;
+    private final AdminRepository adminRepository;
+    private final SharedToolService toolService;
+    private final Event<CollectProfileEvent> collectProfileEvent;
+    private final GeneralBeanMapper beanMapper;
 
     @Inject
-    SharedToolService toolService;
-
-    @Inject
-    Event<CollectProfileEvent> collectProfileEvent;
-
-    @Inject
-    GeneralBeanMapper beanMapper;
+    public AdminService(
+            AdminRepository adminRepository,
+            SharedToolService toolService,
+            Event<CollectProfileEvent> collectProfileEvent,
+            GeneralBeanMapper beanMapper) {
+        this.adminRepository = adminRepository;
+        this.toolService = toolService;
+        this.collectProfileEvent = collectProfileEvent;
+        this.beanMapper = beanMapper;
+    }
 
     /// 获取个人信息
     ///

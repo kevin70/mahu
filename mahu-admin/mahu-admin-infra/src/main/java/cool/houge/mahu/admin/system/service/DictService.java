@@ -1,11 +1,11 @@
 package cool.houge.mahu.admin.system.service;
 
 import com.google.common.collect.Lists;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.GeneralBeanMapper;
 import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.DictTypeRepository;
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.DictData;
 import cool.houge.mahu.entity.system.DictType;
@@ -23,14 +23,17 @@ import java.util.Objects;
 @Singleton
 public class DictService {
 
-    @Inject
-    DictTypeRepository dictTypeRepository;
+    private final DictTypeRepository dictTypeRepository;
+    private final GeneralBeanMapper beanMapper;
+    private final SharedToolService toolService;
 
     @Inject
-    GeneralBeanMapper beanMapper;
-
-    @Inject
-    SharedToolService toolService;
+    public DictService(
+            DictTypeRepository dictTypeRepository, GeneralBeanMapper beanMapper, SharedToolService toolService) {
+        this.dictTypeRepository = dictTypeRepository;
+        this.beanMapper = beanMapper;
+        this.toolService = toolService;
+    }
 
     /// 保存字典数据
     @Transactional

@@ -18,11 +18,14 @@ import java.util.Random;
 @Singleton
 public class ClientService {
 
-    @Inject
-    ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
+    private final SharedToolService toolService;
 
     @Inject
-    SharedToolService toolService;
+    public ClientService(ClientRepository clientRepository, SharedToolService toolService) {
+        this.clientRepository = clientRepository;
+        this.toolService = toolService;
+    }
 
     /// 新增认证客户端
     @Transactional

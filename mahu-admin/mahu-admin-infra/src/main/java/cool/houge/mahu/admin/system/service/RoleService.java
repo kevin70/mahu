@@ -15,11 +15,14 @@ import jakarta.inject.Singleton;
 @Singleton
 public class RoleService {
 
-    @Inject
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+    private final SharedToolService toolService;
 
     @Inject
-    SharedToolService toolService;
+    public RoleService(RoleRepository roleRepository, SharedToolService toolService) {
+        this.roleRepository = roleRepository;
+        this.toolService = toolService;
+    }
 
     @Transactional
     public void save(Role role) {
