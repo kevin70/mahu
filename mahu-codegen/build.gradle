@@ -1,0 +1,6 @@
+apply plugin: "java-library"
+
+dependencies {
+    implementation("io.helidon.codegen:helidon-codegen-scan:$helidonVersion")
+    implementation("com.palantir.javapoet:javapoet:0.7.0")
+}

@@ -9,11 +9,13 @@ pluginManagement {
 rootProject.name = "mahu"
 
 include "mahu-base"
+include "mahu-codegen"
 include "mahu-db"
 include "mahu-config"
 include "mahu-entity"
 include "mahu-common"
 include "mahu-remote"
+include "mahu-web"
 
 include "mahu-admin:mahu-admin-infra"
 include "mahu-admin:mahu-admin-web"

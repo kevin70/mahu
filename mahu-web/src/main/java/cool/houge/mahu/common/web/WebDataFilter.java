@@ -44,7 +44,7 @@ public class WebDataFilter implements DataFilter {
                         throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "非法的参数[limit=" + v + "]");
                     }
                 })
-                .orElse(DEFAULT_LIMIT);
+                .orElse(DataFilter.DEFAULT_LIMIT);
 
         if (query.contains("sort")) {
             this.sorts = query.all("sort");
