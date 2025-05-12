@@ -3,7 +3,7 @@ package cool.houge.mahu.admin.controller.system;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertDictRequest;
 import cool.houge.mahu.admin.system.service.DictService;
-import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;

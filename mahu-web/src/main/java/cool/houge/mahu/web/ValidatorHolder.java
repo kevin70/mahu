@@ -1,4 +1,4 @@
-package cool.houge.mahu.common.web;
+package cool.houge.mahu.web;
 
 import io.avaje.validation.Validator;
 

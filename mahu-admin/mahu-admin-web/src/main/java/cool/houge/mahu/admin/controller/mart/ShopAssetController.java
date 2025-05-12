@@ -5,7 +5,7 @@ import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.AssetService;
 import cool.houge.mahu.admin.oas.model.BatchDeleteShopAssetRequest;
 import cool.houge.mahu.admin.oas.model.CreateShopAssetRequest;
-import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.web.WebSupport;
 import cool.houge.mahu.entity.mart.Asset;
 import cool.houge.mahu.entity.mart.Shop;
 import io.helidon.webserver.http.HttpRules;

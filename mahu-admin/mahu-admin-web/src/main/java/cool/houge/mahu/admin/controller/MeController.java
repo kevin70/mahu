@@ -5,7 +5,7 @@ import cool.houge.mahu.admin.oas.model.UpdateMePasswordRequest;
 import cool.houge.mahu.admin.oas.model.UpdateMeProfileRequest;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.system.service.AdminService;
-import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;

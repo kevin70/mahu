@@ -1,4 +1,4 @@
-package cool.houge.mahu.common.web;
+package cool.houge.mahu.web;
 
 import com.google.common.base.Splitter;
 import cool.houge.mahu.common.DataFilter;

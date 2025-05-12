@@ -1,4 +1,4 @@
-package cool.houge.mahu.common.web;
+package cool.houge.mahu.web;
 
 import com.google.common.primitives.UnsignedInts;
 import cool.houge.mahu.BizCodeException;

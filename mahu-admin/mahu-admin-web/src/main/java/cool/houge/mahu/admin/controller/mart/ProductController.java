@@ -4,7 +4,7 @@ import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.ProductService;
 import cool.houge.mahu.admin.oas.model.UpdateMartProductStatusRequest;
 import cool.houge.mahu.admin.oas.model.UpsertMartProductRequest;
-import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;

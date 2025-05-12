@@ -3,7 +3,7 @@ package cool.houge.mahu.admin;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.Metadata;
-import cool.houge.mahu.common.web.ErrorResponse;
+import cool.houge.mahu.web.ErrorResponse;
 import io.avaje.validation.ConstraintViolationException;
 import io.ebean.DuplicateKeyException;
 import io.helidon.common.Weighted;

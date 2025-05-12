@@ -3,7 +3,7 @@ package cool.houge.mahu.admin.controller.mart;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.ShopService;
 import cool.houge.mahu.admin.oas.model.UpsertShopRequest;
-import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;

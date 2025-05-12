@@ -4,7 +4,7 @@ import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.AttributeService;
 import cool.houge.mahu.admin.oas.model.UpsertMartAttributeRequest;
 import cool.houge.mahu.admin.oas.model.UpsertMartAttributeValueRequest;
-import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.web.WebSupport;
 import cool.houge.mahu.entity.mart.Attribute;
 import cool.houge.mahu.entity.mart.AttributeValue;
 import io.helidon.webserver.http.HttpRules;

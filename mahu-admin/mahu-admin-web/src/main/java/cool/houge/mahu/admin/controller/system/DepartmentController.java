@@ -3,7 +3,7 @@ package cool.houge.mahu.admin.controller.system;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertDepartmentRequest;
 import cool.houge.mahu.admin.system.service.DepartmentService;
-import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.web.WebSupport;
 import cool.houge.mahu.entity.system.Department;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;

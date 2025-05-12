@@ -7,7 +7,7 @@ import cool.houge.mahu.admin.system.service.TokenService;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.GrantType;
-import cool.houge.mahu.common.web.WebSupport;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.common.parameters.Parameters;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
