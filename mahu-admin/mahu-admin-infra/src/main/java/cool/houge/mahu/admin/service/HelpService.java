@@ -11,8 +11,12 @@ import jakarta.inject.Singleton;
 @Singleton
 public class HelpService {
 
+    private final Config config;
+
     @Inject
-    Config config;
+    public HelpService(Config config) {
+        this.config = config;
+    }
 
     /// 应用信息
     public InfoConfig info() {

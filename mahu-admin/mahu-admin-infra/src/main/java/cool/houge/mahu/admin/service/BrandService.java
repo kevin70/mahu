@@ -15,11 +15,14 @@ import jakarta.inject.Singleton;
 @Singleton
 public class BrandService {
 
-    @Inject
-    BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
+    private final SharedToolService toolService;
 
     @Inject
-    SharedToolService toolService;
+    public BrandService(BrandRepository brandRepository, SharedToolService toolService) {
+        this.brandRepository = brandRepository;
+        this.toolService = toolService;
+    }
 
     @Transactional
     public void save(Brand brand) {

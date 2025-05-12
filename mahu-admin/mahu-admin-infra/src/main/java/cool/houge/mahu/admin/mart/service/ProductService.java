@@ -1,12 +1,12 @@
 package cool.houge.mahu.admin.mart.service;
 
 import com.google.common.base.Joiner;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.mart.repository.ProductAttributeRepository;
 import cool.houge.mahu.admin.mart.repository.ProductRepository;
 import cool.houge.mahu.admin.mart.repository.ProductVariantAttributeRepository;
 import cool.houge.mahu.admin.mart.repository.ProductVariantRepository;
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.mart.*;
 import io.ebean.PagedList;
@@ -26,17 +26,22 @@ import static java.util.Optional.ofNullable;
 @Singleton
 public class ProductService {
 
-    @Inject
-    ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final ProductAttributeRepository productAttributeRepository;
+    private final ProductVariantRepository productVariantRepository;
+    private final ProductVariantAttributeRepository productVariantAttributeRepository;
 
     @Inject
-    ProductAttributeRepository productAttributeRepository;
-
-    @Inject
-    ProductVariantRepository productVariantRepository;
-
-    @Inject
-    ProductVariantAttributeRepository productVariantAttributeRepository;
+    public ProductService(
+            ProductRepository productRepository,
+            ProductAttributeRepository productAttributeRepository,
+            ProductVariantRepository productVariantRepository,
+            ProductVariantAttributeRepository productVariantAttributeRepository) {
+        this.productRepository = productRepository;
+        this.productAttributeRepository = productAttributeRepository;
+        this.productVariantRepository = productVariantRepository;
+        this.productVariantAttributeRepository = productVariantAttributeRepository;
+    }
 
     /// 保存产品
     @Transactional

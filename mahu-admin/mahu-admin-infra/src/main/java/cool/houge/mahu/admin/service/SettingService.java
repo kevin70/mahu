@@ -17,11 +17,14 @@ import java.util.Optional;
 @Singleton
 public class SettingService {
 
-    @Inject
-    Config config;
+    private final Config config;
+    private final AliyunClient aliyunClient;
 
     @Inject
-    AliyunClient aliyunClient;
+    public SettingService(Config config, AliyunClient aliyunClient) {
+        this.config = config;
+        this.aliyunClient = aliyunClient;
+    }
 
     /// 构建 OSS 直接上传参数
     public MakeOssDirectUploadResult makeOssDirectUpload(MakeOssDirectUploadPayload payload) {

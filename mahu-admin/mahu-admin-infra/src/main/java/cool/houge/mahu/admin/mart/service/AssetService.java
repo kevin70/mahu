@@ -17,11 +17,14 @@ import java.util.List;
 @Singleton
 public class AssetService {
 
-    @Inject
-    AssetRepository assetRepository;
+    private final AssetRepository assetRepository;
+    private final SharedToolService toolService;
 
     @Inject
-    SharedToolService toolService;
+    public AssetService(AssetRepository assetRepository, SharedToolService toolService) {
+        this.assetRepository = assetRepository;
+        this.toolService = toolService;
+    }
 
     /// 批量保存
     @Transactional

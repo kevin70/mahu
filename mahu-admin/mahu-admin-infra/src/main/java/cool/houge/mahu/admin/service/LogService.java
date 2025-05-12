@@ -16,8 +16,12 @@ import jakarta.inject.Singleton;
 @Singleton
 public class LogService {
 
+    private final LogRepository logRepository;
+
     @Inject
-    LogRepository logRepository;
+    public LogService(LogRepository logRepository) {
+        this.logRepository = logRepository;
+    }
 
     /// 管理员后台登录记录
     @Transactional(readOnly = true)

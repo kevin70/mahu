@@ -16,8 +16,12 @@ import java.util.List;
 @Singleton
 public class CategoryService {
 
+    private final CategoryRepository categoryRepository;
+
     @Inject
-    CategoryRepository categoryRepository;
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     /// 保存分类
     @Transactional

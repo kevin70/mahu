@@ -20,11 +20,15 @@ public class AttributeService {
 
     private static final Logger log = LogManager.getLogger(AttributeService.class);
 
-    @Inject
-    AttributeRepository attributeRepository;
+    private final AttributeRepository attributeRepository;
+    private final AttributeValueRepository attributeValueRepository;
 
     @Inject
-    AttributeValueRepository attributeValueRepository;
+    public AttributeService(
+            AttributeRepository attributeRepository, AttributeValueRepository attributeValueRepository) {
+        this.attributeRepository = attributeRepository;
+        this.attributeValueRepository = attributeValueRepository;
+    }
 
     /// 保存商品属性
     @Transactional
