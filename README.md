@@ -8,7 +8,7 @@
     - [JPA Buddy](https://plugins.jetbrains.com/plugin/15075-jpa-buddy)
     - [String Manipulation](https://plugins.jetbrains.com/plugin/2162-string-manipulation)
     - [Palantir Java Format](https://plugins.jetbrains.com/plugin/13180-palantir-java-format)
-    - [SonarLint](https://www.sonarlint.org/intellij)
+    - [SonarQube for IDE](https://plugins.jetbrains.com/plugin/7973-sonarqube-for-ide)
 
 ### Google Java Format 配置
 
