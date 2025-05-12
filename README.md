@@ -6,6 +6,7 @@
 - IntelliJ IDEA
     - [Lombok](https://plugins.jetbrains.com/plugin/6317-lombok)
     - [JPA Buddy](https://plugins.jetbrains.com/plugin/15075-jpa-buddy)
+    - [MapStruct Support](https://plugins.jetbrains.com/plugin/10036-mapstruct-support)
     - [String Manipulation](https://plugins.jetbrains.com/plugin/2162-string-manipulation)
     - [Palantir Java Format](https://plugins.jetbrains.com/plugin/13180-palantir-java-format)
     - [SonarQube for IDE](https://plugins.jetbrains.com/plugin/7973-sonarqube-for-ide)
@@ -20,14 +21,12 @@
 
 ## Java Package 规范
 
+* `util` 工具类
 * `entity` 数据实体与数据库表一一对应
 * `repository` 数据库访问对象（类名以 `Repository` 结尾）
 * `service` 业务服务对象（类名以 `Service` 结尾）
 * `shared` 共享内部公共业务逻辑
 * `controller` REST 接口对象（类名以 `Controller` 结尾）
-* MapStruct 转换接口定义（类名以 `Mapper` 结尾）
-* `constants` 常量、枚举定义
-* `util` 工具类
 
 ```
 +----------+         +------------+
@@ -46,11 +45,13 @@
                           |   | Output  +--------------+
                           |   +-------->|  dto/entity  |
                           |             +--------------+
-+----------+  Input  +------------+
-|   vo     |<--------| controller |
++----------+  Input  +------------+           |
+| request  |-------->| controller |<----------+
 +----------+         +------------+
-```
-
+                          |
++----------+              |
+| response |<-------------+
++----------+
 ## 构建文档
 
 ```
