@@ -55,6 +55,7 @@ dependencies {
     api("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
     api("com.rabbitmq:amqp-client:5.25.0")
 
+    testImplementation("io.helidon.testing:helidon-testing-junit5:$helidonVersion")
     testImplementation("io.ebean:ebean-test:$ebeanVersion")
     testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
         exclude module: "logback-classic"

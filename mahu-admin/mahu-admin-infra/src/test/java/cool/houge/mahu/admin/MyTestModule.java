@@ -2,7 +2,7 @@ package cool.houge.mahu.admin;
 
 import io.avaje.inject.spi.Builder;
 import io.avaje.inject.test.TestModule;
-import io.helidon.common.config.Config;
+import io.helidon.config.Config;
 
 ///
 /// @author ZY (kzou227@qq.com)

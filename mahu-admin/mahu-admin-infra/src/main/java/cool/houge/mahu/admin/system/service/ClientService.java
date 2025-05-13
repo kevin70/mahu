@@ -9,8 +9,7 @@ import io.ebean.annotation.Transactional;
 import io.hypersistence.tsid.TSID;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /// 认证客户端
 ///
@@ -64,9 +63,9 @@ public class ClientService {
     private String randomClientSecret() {
         var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_+^#*()!";
         var salt = new StringBuilder();
-        var rnd = new Random();
+        var rnd = ThreadLocalRandom.current();
         while (salt.length() < 256) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * chars.length());
+            int index = rnd.nextInt(chars.length());
             salt.append(chars.charAt(index));
         }
         return salt.toString();

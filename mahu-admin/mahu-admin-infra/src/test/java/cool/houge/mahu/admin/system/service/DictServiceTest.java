@@ -7,25 +7,24 @@ import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.inject.Inject;
 import jakarta.persistence.Id;
+import java.util.List;
 import org.instancio.Instancio;
 import org.instancio.Model;
 import org.instancio.Select;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 /// @author ZY (kzou227@qq.com)
 class DictServiceTest extends TestTransactionBase {
 
     private static final Model<DictType> DICT_TYPE_MODEL = Instancio.of(DictType.class)
-        .ignore(Select.fields().annotated(WhenCreated.class))
-        .ignore(Select.fields().annotated(WhenModified.class))
-        .toModel();
+            .ignore(Select.fields().annotated(WhenCreated.class))
+            .ignore(Select.fields().annotated(WhenModified.class))
+            .toModel();
     private static final Model<DictData> DICT_DATA_MODEL = Instancio.of(DictData.class)
-        .ignore(Select.fields().annotated(Id.class))
-        .ignore(Select.fields().annotated(WhenCreated.class))
-        .ignore(Select.fields().annotated(WhenModified.class))
-        .toModel();
+            .ignore(Select.fields().annotated(Id.class))
+            .ignore(Select.fields().annotated(WhenCreated.class))
+            .ignore(Select.fields().annotated(WhenModified.class))
+            .toModel();
 
     @Inject
     DictService dictService;
@@ -42,5 +41,4 @@ class DictServiceTest extends TestTransactionBase {
 
         disableRollback();
     }
-
 }

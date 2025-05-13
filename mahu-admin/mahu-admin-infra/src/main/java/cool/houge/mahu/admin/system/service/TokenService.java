@@ -24,12 +24,12 @@ import io.helidon.security.jwt.jwk.JwkKeys;
 import io.hypersistence.tsid.TSID;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.random.RandomGenerator;
+import org.jspecify.annotations.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /// 令牌服务
 ///
@@ -57,7 +57,7 @@ public class TokenService implements TokenVerifier {
                 .map(Long::valueOf)
                 .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
 
-        var employeeLv = LazyValue.create(() -> {
+        LazyValue<@NonNull Admin> adminLv = LazyValue.create(() -> {
             var emp = adminRepository.findById(employeeId);
             if (emp == null) {
                 throw new BizCodeException(BizCodes.UNAUTHENTICATED, "未找到管理员");
@@ -74,7 +74,7 @@ public class TokenService implements TokenVerifier {
 
             @Override
             public String name() {
-                return employeeLv.get().getNickname();
+                return adminLv.get().getNickname();
             }
 
             @Override
@@ -86,32 +86,22 @@ public class TokenService implements TokenVerifier {
                 }
 
                 // 拥有指定的权限代码
-                if (object instanceof String p) {
-                    if (codes.contains(p)) {
-                        return true;
-                    }
+                if (object instanceof String p && codes.contains(p)) {
+                    return true;
                 }
 
-                if (object instanceof DynamicPermit p) {
-                    // 用户拥有操作指定商店数据的权限
-                    if (DynamicPermit.KIND_SHOP.equals(p.kind())) {
-                        var shopId = p.parameters().first("shop_id").asInt().get();
-                        var shopIds = shopIds();
-                        return shopIds.contains(shopId);
-                    }
+                if (object instanceof DynamicPermit(String kind, io.helidon.common.parameters.Parameters parameters)
+                        && DynamicPermit.KIND_SHOP.equals(kind)) {
+                    var shopId = parameters.first("shop_id").asInt().get();
+                    var shopIds = shopIds();
+                    return shopIds.contains(shopId);
                 }
-
                 return false;
             }
 
             @Override
             public List<String> permits() {
-                return List.copyOf(employeeLv.get().allRolePermits());
-            }
-
-            @Override
-            public List<Integer> shopIds() {
-                return List.of();
+                return List.copyOf(adminLv.get().allRolePermits());
             }
         };
     }

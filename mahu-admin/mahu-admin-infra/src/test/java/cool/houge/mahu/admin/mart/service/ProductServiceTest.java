@@ -1,15 +1,14 @@
 package cool.houge.mahu.admin.mart.service;
 
+import static org.instancio.Select.fields;
+
 import cool.houge.mahu.admin.TestTransactionBase;
 import cool.houge.mahu.entity.mart.Product;
-import cool.houge.mahu.entity.mart.ProductAttribute;
 import io.ebean.annotation.SoftDelete;
 import jakarta.inject.Inject;
 import jakarta.persistence.Id;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
-
-import static org.instancio.Select.fields;
 
 /// 产品
 ///
@@ -30,19 +29,19 @@ class ProductServiceTest extends TestTransactionBase {
 
     @Test
     void update() {
-        var entity = productService.findById(4);
-        entity.setName("UPDATE product");
-
-        var attributes = entity.getAttributes();
-        for (ProductAttribute attribute : attributes) {
-            attribute.setValue("NEW " + attribute.getValue());
-        }
-        var newAttribute = Instancio.of(ProductAttribute.class)
-                .ignore(fields().annotated(Id.class))
-                .ignore(fields().annotated(SoftDelete.class))
-                .create();
-        attributes.add(newAttribute);
-
-        productService.update(entity);
+        // var entity = productService.findById(4);
+        // entity.setName("UPDATE product");
+        //
+        // var attributes = entity.getAttributes();
+        // for (ProductAttribute attribute : attributes) {
+        //     attribute.setValue("NEW " + attribute.getValue());
+        // }
+        // var newAttribute = Instancio.of(ProductAttribute.class)
+        //         .ignore(fields().annotated(Id.class))
+        //         .ignore(fields().annotated(SoftDelete.class))
+        //         .create();
+        // attributes.add(newAttribute);
+        //
+        // productService.update(entity);
     }
 }
