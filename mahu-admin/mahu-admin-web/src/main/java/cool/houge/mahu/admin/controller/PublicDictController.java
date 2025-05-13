@@ -17,11 +17,14 @@ import jakarta.inject.Singleton;
 @Singleton
 public class PublicDictController implements HttpService, WebSupport {
 
-    @Inject
-    DictService dictService;
+    private final VoBeanMapper beanMapper;
+    private final DictService dictService;
 
     @Inject
-    VoBeanMapper beanMapper;
+    public PublicDictController(VoBeanMapper beanMapper, DictService dictService) {
+        this.beanMapper = beanMapper;
+        this.dictService = dictService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

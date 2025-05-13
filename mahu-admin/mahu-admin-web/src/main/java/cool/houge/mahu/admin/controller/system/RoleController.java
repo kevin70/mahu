@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller.system;
 
+import static cool.houge.mahu.admin.Permits.ROLE;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertRoleRequest;
 import cool.houge.mahu.admin.system.service.RoleService;
@@ -12,20 +15,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.ROLE;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 角色
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class RoleController implements HttpService, WebSupport {
 
-    @Inject
-    RoleService roleService;
+    private final VoBeanMapper beanMapper;
+    private final RoleService roleService;
 
     @Inject
-    VoBeanMapper beanMapper;
+    public RoleController(VoBeanMapper beanMapper, RoleService roleService) {
+        this.beanMapper = beanMapper;
+        this.roleService = roleService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.service;
 
 import cool.houge.mahu.config.InfoConfig;
-import io.helidon.common.config.Config;
+import io.helidon.config.Config;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 

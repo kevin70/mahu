@@ -1,10 +1,13 @@
 package cool.houge.mahu.admin.controller.system;
 
+import static cool.houge.mahu.admin.Permits.CLIENT;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertClientRequest;
 import cool.houge.mahu.admin.system.service.ClientService;
-import cool.houge.mahu.web.WebSupport;
 import cool.houge.mahu.entity.system.Client;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
@@ -12,20 +15,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.CLIENT;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 认证客户端
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class ClientController implements HttpService, WebSupport {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final ClientService clientService;
 
     @Inject
-    ClientService clientService;
+    public ClientController(VoBeanMapper beanMapper, ClientService clientService) {
+        this.beanMapper = beanMapper;
+        this.clientService = clientService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

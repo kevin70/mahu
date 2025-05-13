@@ -1,35 +1,39 @@
 package cool.houge.mahu.remote.aliyun;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.nonNull;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.helidon.webclient.api.WebClient;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.nonNull;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SimpleTimeZone;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 /// 阿里云 HTTP 客户端
 ///
 /// @author ZY (kzou227@qq.com)
-@Singleton
 public class AliyunClient {
 
-    @Inject
-    WebClient webClient;
+    private final WebClient webClient;
+    private final ObjectMapper objectMapper;
 
-    @Inject
-    ObjectMapper objectMapper;
+    public AliyunClient(WebClient webClient, ObjectMapper objectMapper) {
+        this.webClient = webClient;
+        this.objectMapper = objectMapper;
+    }
 
     /// 连接文件名称.
     ///
@@ -82,9 +86,9 @@ public class AliyunClient {
         var signature = Base64.getEncoder().encodeToString(signData);
 
         return new DirectUploadResponse()
-            .setKey(request.getKey())
-            .setPolicy(policyB64)
-            .setSignature(signature);
+                .setKey(request.getKey())
+                .setPolicy(policyB64)
+                .setSignature(signature);
     }
 
     /// @param region  区域
@@ -125,15 +129,15 @@ public class AliyunClient {
 
     String signature(String accessKeySecret, String method, Map<String, String> signParams) {
         var entries = signParams.entrySet().stream()
-            .sorted(Map.Entry.comparingByKey())
-            .toList();
+                .sorted(Map.Entry.comparingByKey())
+                .toList();
         var canonQuery = new StringBuilder();
         for (Map.Entry<String, String> entry : entries) {
             canonQuery
-                .append('&')
-                .append(percentEncode(entry.getKey()))
-                .append('=')
-                .append(percentEncode(entry.getValue()));
+                    .append('&')
+                    .append(percentEncode(entry.getKey()))
+                    .append('=')
+                    .append(percentEncode(entry.getValue()));
         }
 
         String str = method + '&' + percentEncode("/") + '&' + percentEncode(canonQuery.substring(1));
@@ -159,11 +163,11 @@ public class AliyunClient {
 
     String percentEncode(String value) {
         return value != null
-            ? URLEncoder.encode(value, UTF_8)
-            .replace("+", "%20")
-            .replace("*", "%2A")
-            .replace("%7E", "~")
-            : null;
+                ? URLEncoder.encode(value, UTF_8)
+                        .replace("+", "%20")
+                        .replace("*", "%2A")
+                        .replace("%7E", "~")
+                : null;
     }
 
     String timestamp() {

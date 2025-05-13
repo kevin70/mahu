@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller;
 
+import static cool.houge.mahu.admin.Permits.BRAND;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertBrandRequest;
 import cool.houge.mahu.admin.service.BrandService;
@@ -11,20 +14,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.BRAND;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 品牌
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class BrandController implements HttpService, WebSupport {
 
-    @Inject
-    BrandService brandService;
+    private final VoBeanMapper beanMapper;
+    private final BrandService brandService;
 
     @Inject
-    VoBeanMapper beanMapper;
+    public BrandController(VoBeanMapper beanMapper, BrandService brandService) {
+        this.beanMapper = beanMapper;
+        this.brandService = brandService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

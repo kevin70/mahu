@@ -1,12 +1,15 @@
 package cool.houge.mahu.admin.controller.mart;
 
+import static cool.houge.mahu.admin.Permits.MART_ATTRIBUTE;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.AttributeService;
 import cool.houge.mahu.admin.oas.model.UpsertMartAttributeRequest;
 import cool.houge.mahu.admin.oas.model.UpsertMartAttributeValueRequest;
-import cool.houge.mahu.web.WebSupport;
 import cool.houge.mahu.entity.mart.Attribute;
 import cool.houge.mahu.entity.mart.AttributeValue;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
@@ -14,20 +17,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.MART_ATTRIBUTE;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 商品属性
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class AttributeController implements HttpService, WebSupport {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final AttributeService attributeService;
 
     @Inject
-    AttributeService attributeService;
+    public AttributeController(VoBeanMapper beanMapper, AttributeService attributeService) {
+        this.beanMapper = beanMapper;
+        this.attributeService = attributeService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

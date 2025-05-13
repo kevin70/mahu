@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller.mart;
 
+import static cool.houge.mahu.admin.Permits.MART_SHOP;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.ShopService;
 import cool.houge.mahu.admin.oas.model.UpsertShopRequest;
@@ -11,20 +14,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.MART_SHOP;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 商店
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class ShopController implements HttpService, WebSupport {
 
-    @Inject
-    ShopService shopService;
+    private final VoBeanMapper beanMapper;
+    private final ShopService shopService;
 
     @Inject
-    VoBeanMapper beanMapper;
+    public ShopController(VoBeanMapper beanMapper, ShopService shopService) {
+        this.beanMapper = beanMapper;
+        this.shopService = shopService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

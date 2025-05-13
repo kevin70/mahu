@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller.mart;
 
+import static cool.houge.mahu.admin.Permits.MART_CATEGORY;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.CategoryService;
 import cool.houge.mahu.admin.oas.model.UpsertMartCategoryRequest;
@@ -11,20 +14,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.MART_CATEGORY;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 产品分类
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class CategoryController implements HttpService, WebSupport {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final CategoryService categoryService;
 
     @Inject
-    CategoryService categoryService;
+    public CategoryController(VoBeanMapper beanMapper, CategoryService categoryService) {
+        this.beanMapper = beanMapper;
+        this.categoryService = categoryService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

@@ -12,7 +12,6 @@ import cool.houge.mahu.common.rsql.FilterField;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 业务日志数据仓库
@@ -37,11 +36,11 @@ public class LogRepository extends HBeanRepository<Void, Void> {
     public PagedList<AdminAuthLog> findPage4AdminAuthLog(DataFilter dataFilter) {
         var qb = new QAdminAuthLog(db());
         var filterFields = List.of(
-            FF_CREATED_AT,
-            FilterField.with(qb.adminId).build(),
-            FilterField.with(qb.ipAddr).build());
+                FF_CREATED_AT,
+                FilterField.builder().with(qb.adminId).build(),
+                FilterField.builder().with(qb.ipAddr).build());
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 
@@ -58,10 +57,10 @@ public class LogRepository extends HBeanRepository<Void, Void> {
         var qb = new QAdminAccessLog(db());
         var filterFields = List.of(
                 FF_CREATED_AT,
-                FilterField.with(qb.adminId).build(),
-                FilterField.with(qb.ipAddr).build());
+                FilterField.builder().with(qb.adminId).build(),
+                FilterField.builder().with(qb.ipAddr).build());
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 
@@ -77,11 +76,11 @@ public class LogRepository extends HBeanRepository<Void, Void> {
     public PagedList<AdminAuditLog> findPage4AdminAuditLog(DataFilter dataFilter) {
         var qb = new QAdminAuditLog(db());
         var filterFields = List.of(
-            FF_CREATED_AT,
-            FilterField.with(qb.adminId).build(),
-            FilterField.with(qb.ipAddr).build());
+                FF_CREATED_AT,
+                FilterField.builder().with(qb.adminId).build(),
+                FilterField.builder().with(qb.ipAddr).build());
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 }

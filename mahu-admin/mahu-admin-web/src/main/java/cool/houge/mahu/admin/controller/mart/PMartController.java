@@ -12,8 +12,12 @@ import jakarta.inject.Singleton;
 @Singleton
 public class PMartController implements HttpService {
 
+    private final VoBeanMapper beanMapper;
+
     @Inject
-    VoBeanMapper beanMapper;
+    public PMartController(VoBeanMapper beanMapper) {
+        this.beanMapper = beanMapper;
+    }
 
     @Override
     public void routing(HttpRules rules) {

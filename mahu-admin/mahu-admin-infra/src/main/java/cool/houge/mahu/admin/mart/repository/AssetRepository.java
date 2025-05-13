@@ -7,7 +7,6 @@ import cool.houge.mahu.entity.mart.query.QAsset;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 商店资源
@@ -25,7 +24,7 @@ public class AssetRepository extends HBeanRepository<Long, Asset> {
         var qb = new QAsset(db());
         qb.shop.id.eq(shopId);
 
-        super.apply(dataFilter, List.of(), qb.query());
+        super.apply(dataFilter, List.of(), qb);
         return qb.findPagedList();
     }
 

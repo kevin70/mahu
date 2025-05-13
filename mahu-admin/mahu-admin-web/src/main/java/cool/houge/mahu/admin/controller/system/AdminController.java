@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller.system;
 
+import static cool.houge.mahu.admin.Permits.ADMIN;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertAdminRequest;
 import cool.houge.mahu.admin.system.service.AdminService;
@@ -11,20 +14,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.ADMIN;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 职员
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class AdminController implements HttpService, WebSupport {
 
-    @Inject
-    AdminService adminService;
+    private final VoBeanMapper beanMapper;
+    private final AdminService adminService;
 
     @Inject
-    VoBeanMapper beanMapper;
+    public AdminController(VoBeanMapper beanMapper, AdminService adminService) {
+        this.beanMapper = beanMapper;
+        this.adminService = adminService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

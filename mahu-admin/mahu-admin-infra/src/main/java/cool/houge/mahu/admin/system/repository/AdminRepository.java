@@ -10,7 +10,6 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityNotFoundException;
-
 import java.util.List;
 
 /// 管理员
@@ -38,13 +37,16 @@ public class AdminRepository extends HBeanRepository<Long, Admin> {
         var filterFields = List.of(
                 FF_CREATED_AT,
                 FF_UPDATED_AT,
-                FilterField.with(qb.nickname).build(),
-                FilterField.with(qb.status, Admin.Status::valueOf).build(),
-                FilterField.with(qb.department.id).filterName("department_id").build()
+                FilterField.builder().with(qb.nickname).build(),
+                FilterField.builder().with(qb.status, Admin.Status::valueOf).build(),
+                FilterField.builder()
+                        .with(qb.department.id)
+                        .filterName("department_id")
+                        .build()
                 //
                 );
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 }

@@ -8,7 +8,6 @@ import cool.houge.mahu.entity.mart.query.QCategory;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 产品分类
@@ -27,12 +26,12 @@ public class CategoryRepository extends HBeanRepository<Integer, Category> {
         var filterFields = List.of(
                 FF_CREATED_AT,
                 FF_UPDATED_AT,
-                FilterField.with(qb.name).build(),
-                FilterField.with(qb.ordering).build(),
-                FilterField.with(qb.parent.id).filterName("parent_id").build()
+                FilterField.builder().with(qb.name).build(),
+                FilterField.builder().with(qb.ordering).build(),
+                FilterField.builder().with(qb.parent.id).filterName("parent_id").build()
                 //
                 );
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 }

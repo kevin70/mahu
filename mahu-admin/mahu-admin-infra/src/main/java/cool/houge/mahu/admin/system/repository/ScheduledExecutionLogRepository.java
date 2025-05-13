@@ -7,7 +7,6 @@ import cool.houge.mahu.entity.log.query.QScheduledExecutionLog;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 定时任务执行日志
@@ -43,7 +42,7 @@ public class ScheduledExecutionLogRepository extends HBeanRepository<Long, Sched
                 .startedAt
                 .desc();
 
-        super.apply(dataFilter, List.of(), qb.query());
+        super.apply(dataFilter, List.of(), qb);
         return qb.findPagedList();
     }
 }

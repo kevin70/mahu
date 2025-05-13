@@ -1,10 +1,13 @@
 package cool.houge.mahu.admin.controller.system;
 
+import static cool.houge.mahu.admin.Permits.DEPARTMENT;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertDepartmentRequest;
 import cool.houge.mahu.admin.system.service.DepartmentService;
-import cool.houge.mahu.web.WebSupport;
 import cool.houge.mahu.entity.system.Department;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
@@ -12,20 +15,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.DEPARTMENT;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 部门
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class DepartmentController implements HttpService, WebSupport {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final DepartmentService departmentService;
 
     @Inject
-    DepartmentService departmentService;
+    public DepartmentController(VoBeanMapper beanMapper, DepartmentService departmentService) {
+        this.beanMapper = beanMapper;
+        this.departmentService = departmentService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

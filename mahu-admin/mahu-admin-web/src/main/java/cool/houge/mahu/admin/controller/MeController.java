@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller;
 
+import static io.helidon.http.Status.NO_CONTENT_204;
+import static io.helidon.webserver.http.SecureHandler.authenticate;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpdateMePasswordRequest;
 import cool.houge.mahu.admin.oas.model.UpdateMeProfileRequest;
@@ -13,20 +16,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static io.helidon.http.Status.NO_CONTENT_204;
-import static io.helidon.webserver.http.SecureHandler.authenticate;
-
 /// 个人信息
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class MeController implements HttpService, WebSupport {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final AdminService adminService;
 
     @Inject
-    AdminService adminService;
+    public MeController(VoBeanMapper beanMapper, AdminService adminService) {
+        this.beanMapper = beanMapper;
+        this.adminService = adminService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

@@ -8,7 +8,6 @@ import cool.houge.mahu.entity.mart.query.QShop;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 商店
@@ -31,11 +30,13 @@ public class ShopRepository extends HBeanRepository<Integer, Shop> {
     public PagedList<Shop> findPage(DataFilter dataFilter) {
         var qb = new QShop(db());
         var filterFields = List.of(
-                FF_CREATED_AT, FF_UPDATED_AT, FilterField.with(qb.name).build()
+                FF_CREATED_AT,
+                FF_UPDATED_AT,
+                FilterField.builder().with(qb.name).build()
                 //
                 );
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 }

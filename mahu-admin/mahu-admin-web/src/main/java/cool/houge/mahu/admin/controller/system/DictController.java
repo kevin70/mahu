@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller.system;
 
+import static cool.houge.mahu.admin.Permits.DICT;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertDictRequest;
 import cool.houge.mahu.admin.system.service.DictService;
@@ -11,20 +14,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.DICT;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 字典
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class DictController implements HttpService, WebSupport {
 
-    @Inject
-    DictService dictService;
+    private final VoBeanMapper beanMapper;
+    private final DictService dictService;
 
     @Inject
-    VoBeanMapper beanMapper;
+    public DictController(VoBeanMapper beanMapper, DictService dictService) {
+        this.beanMapper = beanMapper;
+        this.dictService = dictService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

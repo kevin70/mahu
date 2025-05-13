@@ -1,10 +1,10 @@
 package cool.houge.mahu.admin;
 
 import com.google.common.base.Strings;
-import cool.houge.mahu.admin.security.AuthContext;
-import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.security.AuthContext;
+import cool.houge.mahu.admin.security.TokenVerifier;
 import io.helidon.http.ForbiddenException;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.UnauthorizedException;
@@ -21,8 +21,12 @@ import jakarta.inject.Singleton;
 @Singleton
 public class MahuAdminSecurity implements HttpSecurity {
 
+    private final TokenVerifier tokenVerifier;
+
     @Inject
-    TokenVerifier tokenVerifier;
+    public MahuAdminSecurity(TokenVerifier tokenVerifier) {
+        this.tokenVerifier = tokenVerifier;
+    }
 
     @Override
     public boolean authenticate(ServerRequest request, ServerResponse response, boolean requiredHint)
@@ -55,14 +59,12 @@ public class MahuAdminSecurity implements HttpSecurity {
     @Override
     public boolean authorize(ServerRequest request, ServerResponse response, String... roleHint)
             throws ForbiddenException {
-        if (roleHint.length == 0) {
-            return true;
-        }
-
-        var ac = AuthContext.get();
-        for (String s : roleHint) {
-            if (!ac.checkPermit(s)) {
-                throw new BizCodeException(BizCodes.PERMISSION_DENIED, "没有访问权限");
+        if (roleHint.length != 0) {
+            var ac = AuthContext.get();
+            for (String s : roleHint) {
+                if (!ac.checkPermit(s)) {
+                    throw new BizCodeException(BizCodes.PERMISSION_DENIED, "没有访问权限");
+                }
             }
         }
         return true;

@@ -4,8 +4,8 @@ import cool.houge.mahu.config.InfoConfig;
 import cool.houge.mahu.config.TokenConfig;
 import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
-import io.helidon.common.config.Config;
 import io.helidon.common.configurable.Resource;
+import io.helidon.config.Config;
 import io.helidon.security.jwt.jwk.JwkKeys;
 
 /// 系统配置对象工厂

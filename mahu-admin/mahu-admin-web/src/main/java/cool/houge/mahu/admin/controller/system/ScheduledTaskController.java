@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller.system;
 
+import static cool.houge.mahu.admin.Permits.SCHEDULED_TASK;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.system.service.ScheduledTaskService;
 import cool.houge.mahu.web.WebSupport;
@@ -10,20 +13,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.SCHEDULED_TASK;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 定时任务
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class ScheduledTaskController implements WebSupport, HttpService {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final ScheduledTaskService scheduledTaskService;
 
     @Inject
-    ScheduledTaskService scheduledTaskService;
+    public ScheduledTaskController(VoBeanMapper beanMapper, ScheduledTaskService scheduledTaskService) {
+        this.beanMapper = beanMapper;
+        this.scheduledTaskService = scheduledTaskService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

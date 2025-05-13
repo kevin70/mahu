@@ -8,7 +8,6 @@ import cool.houge.mahu.entity.system.query.QDepartment;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 部门
@@ -34,12 +33,12 @@ public class DepartmentRepository extends HBeanRepository<Integer, Department> {
     public PagedList<Department> findPage(DataFilter filter) {
         var qb = new QDepartment(db());
         var filterFields = List.of(
-            FF_CREATED_AT,
-            FF_UPDATED_AT,
-            FilterField.with(qb.name).build(),
-            FilterField.with(qb.ordering).build());
+                FF_CREATED_AT,
+                FF_UPDATED_AT,
+                FilterField.builder().with(qb.name).build(),
+                FilterField.builder().with(qb.ordering).build());
 
-        super.apply(filter, filterFields, qb.query());
+        super.apply(filter, filterFields, qb);
         return qb.findPagedList();
     }
 }

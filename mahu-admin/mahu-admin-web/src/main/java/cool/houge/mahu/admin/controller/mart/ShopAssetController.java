@@ -1,13 +1,16 @@
 package cool.houge.mahu.admin.controller.mart;
 
+import static cool.houge.mahu.admin.Permits.MART_ASSET;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.controller.DynamicSecureHandler;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.AssetService;
 import cool.houge.mahu.admin.oas.model.BatchDeleteShopAssetRequest;
 import cool.houge.mahu.admin.oas.model.CreateShopAssetRequest;
-import cool.houge.mahu.web.WebSupport;
 import cool.houge.mahu.entity.mart.Asset;
 import cool.houge.mahu.entity.mart.Shop;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
@@ -15,20 +18,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.MART_ASSET;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 商店资源
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class ShopAssetController implements WebSupport, HttpService, DynamicSecureHandler {
 
-    @Inject
-    AssetService assetService;
+    private final VoBeanMapper beanMapper;
+    private final AssetService assetService;
 
     @Inject
-    VoBeanMapper beanMapper;
+    public ShopAssetController(VoBeanMapper beanMapper, AssetService assetService) {
+        this.beanMapper = beanMapper;
+        this.assetService = assetService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

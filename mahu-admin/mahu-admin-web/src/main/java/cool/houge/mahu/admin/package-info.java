@@ -7,4 +7,4 @@
 package cool.houge.mahu.admin;
 
 import io.avaje.inject.InjectModule;
-import io.helidon.common.config.Config;
+import io.helidon.config.Config;

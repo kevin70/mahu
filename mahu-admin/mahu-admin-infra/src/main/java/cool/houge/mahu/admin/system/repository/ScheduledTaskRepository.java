@@ -8,7 +8,6 @@ import cool.houge.mahu.entity.system.query.QScheduledTask;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 定时任务
@@ -45,13 +44,17 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
     public PagedList<ScheduledTask> findPage(DataFilter dataFilter) {
         var qb = new QScheduledTask(db());
         var filterFields = List.of(
-                FilterField.with(qb.taskId.taskName).filterName("task_name").build(),
-                FilterField.with(qb.taskId.taskInstance)
+                FilterField.builder()
+                        .with(qb.taskId.taskName)
+                        .filterName("task_name")
+                        .build(),
+                FilterField.builder()
+                        .with(qb.taskId.taskInstance)
                         .filterName("task_instance")
                         .build(),
-                FilterField.with(qb.lastFailure).build());
+                FilterField.builder().with(qb.lastFailure).build());
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 }

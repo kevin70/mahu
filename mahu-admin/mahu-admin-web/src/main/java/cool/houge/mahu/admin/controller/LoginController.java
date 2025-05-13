@@ -1,11 +1,13 @@
 package cool.houge.mahu.admin.controller;
 
+import static com.google.common.base.Strings.lenientFormat;
+
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.LoginRequest;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.service.TokenService;
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.common.parameters.Parameters;
@@ -16,19 +18,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static com.google.common.base.Strings.lenientFormat;
-
 /// [获取访问令牌](https://oauth.net/2/)
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class LoginController implements HttpService, WebSupport {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final TokenService tokenService;
 
     @Inject
-    TokenService tokenService;
+    public LoginController(VoBeanMapper beanMapper, TokenService tokenService) {
+        this.beanMapper = beanMapper;
+        this.tokenService = tokenService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

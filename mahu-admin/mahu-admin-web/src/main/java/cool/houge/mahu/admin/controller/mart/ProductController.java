@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.controller.mart;
 
+import static cool.houge.mahu.admin.Permits.MART_PRODUCT;
+import static io.helidon.http.Status.NO_CONTENT_204;
+
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.mart.service.ProductService;
 import cool.houge.mahu.admin.oas.model.UpdateMartProductStatusRequest;
@@ -12,20 +15,20 @@ import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import static cool.houge.mahu.admin.Permits.MART_PRODUCT;
-import static io.helidon.http.Status.NO_CONTENT_204;
-
 /// 产品
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class ProductController implements WebSupport, HttpService {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final ProductService productService;
 
     @Inject
-    ProductService productService;
+    public ProductController(VoBeanMapper beanMapper, ProductService productService) {
+        this.beanMapper = beanMapper;
+        this.productService = productService;
+    }
 
     @Override
     public void routing(HttpRules rules) {
@@ -42,8 +45,7 @@ public class ProductController implements WebSupport, HttpService {
     private void listMartProducts(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = productService.findPage(dataFilter);
-        var rs =
-                beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toMartProductResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toMartProductResponse);
         response.send(rs);
     }
 

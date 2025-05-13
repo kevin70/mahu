@@ -1,44 +1,47 @@
 package cool.houge.mahu.remote.wechat;
 
+import static java.util.Objects.requireNonNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import io.helidon.common.media.type.MediaTypes;
 import io.helidon.webclient.api.WebClient;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
-import lombok.extern.log4j.Log4j2;
-
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.security.AlgorithmParameters;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.Security;
+import java.security.spec.InvalidParameterSpecException;
+import java.util.Base64;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.security.*;
-import java.security.spec.InvalidParameterSpecException;
-import java.util.Base64;
-
-import static java.util.Objects.requireNonNull;
+import lombok.extern.log4j.Log4j2;
 
 /// 微信 API 客户端.
 ///
 /// @author ZY (kzou227@qq.com)
 @Log4j2
-@Singleton
 public class WechatClient {
 
     static {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     }
 
-    @Inject
-    WebClient webClient;
+    private final WebClient webClient;
+    private final ObjectMapper objectMapper;
 
-    @Inject
-    ObjectMapper objectMapper;
+    public WechatClient(WebClient webClient, ObjectMapper objectMapper) {
+        this.webClient = webClient;
+        this.objectMapper = objectMapper;
+    }
 
     /// 获取微信接口访问令牌.
     /// @param payload 请求数据

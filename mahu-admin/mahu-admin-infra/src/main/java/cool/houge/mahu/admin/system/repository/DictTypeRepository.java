@@ -10,7 +10,6 @@ import cool.houge.mahu.entity.system.query.QDictType;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 数字字典类型
@@ -38,12 +37,12 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
         var filterFields = List.of(
                 FF_CREATED_AT,
                 FF_UPDATED_AT,
-                FilterField.with(qb.typeCode).build(),
-                FilterField.with(qb.name).build()
+                FilterField.builder().with(qb.typeCode).build(),
+                FilterField.builder().with(qb.name).build()
                 //
                 );
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.data.fetch().findPagedList();
     }
 

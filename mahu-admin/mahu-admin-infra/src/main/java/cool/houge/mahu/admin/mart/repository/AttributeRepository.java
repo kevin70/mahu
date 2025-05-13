@@ -8,7 +8,6 @@ import cool.houge.mahu.entity.mart.query.QAttribute;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 商品属性
@@ -24,11 +23,12 @@ public class AttributeRepository extends HBeanRepository<Integer, Attribute> {
     public PagedList<Attribute> findPage(DataFilter dataFilter) {
         var qb = new QAttribute(db());
         var filterFields = List.of(
-                FilterField.with(qb.name).build(), FilterField.with(qb.ordering).build()
+                FilterField.builder().with(qb.name).build(),
+                FilterField.builder().with(qb.ordering).build()
                 //
                 );
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.attributeValues
                 .fetch()
                 .attributeValues

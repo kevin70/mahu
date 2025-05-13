@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
-import io.helidon.common.config.Config;
+import io.helidon.config.Config;
 import io.helidon.http.media.MediaContext;
 import io.helidon.http.media.MediaContextConfig;
 import io.helidon.http.media.jackson.JacksonSupport;
@@ -16,7 +16,6 @@ import io.helidon.webserver.WebServerConfig;
 import io.helidon.webserver.context.ContextFeature;
 import io.helidon.webserver.cors.CorsFeature;
 import io.helidon.webserver.http.HttpFeature;
-
 import java.util.List;
 
 /// Helidon 配置

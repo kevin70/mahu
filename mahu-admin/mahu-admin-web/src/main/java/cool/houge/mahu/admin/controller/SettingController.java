@@ -17,11 +17,14 @@ import jakarta.inject.Singleton;
 @Singleton
 public class SettingController implements HttpService, WebSupport {
 
-    @Inject
-    SettingService settingService;
+    private final VoBeanMapper beanMapper;
+    private final SettingService settingService;
 
     @Inject
-    VoBeanMapper beanMapper;
+    public SettingController(VoBeanMapper beanMapper, SettingService settingService) {
+        this.beanMapper = beanMapper;
+        this.settingService = settingService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

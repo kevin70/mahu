@@ -16,11 +16,14 @@ import jakarta.inject.Singleton;
 @Singleton
 public class HelpController implements HttpService {
 
-    @Inject
-    VoBeanMapper beanMapper;
+    private final VoBeanMapper beanMapper;
+    private final HelpService helpService;
 
     @Inject
-    HelpService helpService;
+    public HelpController(VoBeanMapper beanMapper, HelpService helpService) {
+        this.beanMapper = beanMapper;
+        this.helpService = helpService;
+    }
 
     @Override
     public void routing(HttpRules rules) {

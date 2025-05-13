@@ -8,7 +8,6 @@ import cool.houge.mahu.entity.query.QBrand;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 品牌
@@ -34,10 +33,10 @@ public class BrandRepository extends HBeanRepository<Integer, Brand> {
         var filterFields = List.of(
                 FF_CREATED_AT,
                 FF_UPDATED_AT,
-                FilterField.with(qb.name).build(),
-                FilterField.with(qb.ordering).build());
+                FilterField.builder().with(qb.name).build(),
+                FilterField.builder().with(qb.ordering).build());
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 }

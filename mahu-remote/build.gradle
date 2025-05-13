@@ -1,9 +1,6 @@
 apply plugin: "java-library"
 
 dependencies {
-    annotationProcessor("io.helidon.builder:helidon-builder-processor:$helidonVersion")
-    annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
-
     implementation(project(":mahu-config"))
     implementation(project(":mahu-common"))
     implementation("io.avaje:avaje-inject:$avajeInjectVersion")
@@ -13,7 +10,6 @@ dependencies {
     implementation("io.helidon.http.media:helidon-http-media-jackson:$helidonVersion")
     implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
 
-    testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
     testImplementation("org.instancio:instancio-junit:$instancioVersion")
     testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
         exclude module: "logback-classic"

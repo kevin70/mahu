@@ -8,7 +8,6 @@ import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
 import io.helidon.http.media.jackson.JacksonSupport;
 import io.helidon.webclient.api.WebClient;
-
 import java.time.Duration;
 
 /// 通用对象定义工厂

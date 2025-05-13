@@ -9,7 +9,6 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityNotFoundException;
-
 import java.util.List;
 
 /// 认证客户端
@@ -44,9 +43,11 @@ public class ClientRepository extends HBeanRepository<String, Client> {
     public PagedList<Client> findPage(DataFilter dataFilter) {
         var qb = new QClient(db());
         var filterFields = List.of(
-                FF_CREATED_AT, FF_UPDATED_AT, FilterField.with(qb.clientId).build());
+                FF_CREATED_AT,
+                FF_UPDATED_AT,
+                FilterField.builder().with(qb.clientId).build());
 
-        super.apply(dataFilter, filterFields, qb.query());
+        super.apply(dataFilter, filterFields, qb);
         return qb.findPagedList();
     }
 
