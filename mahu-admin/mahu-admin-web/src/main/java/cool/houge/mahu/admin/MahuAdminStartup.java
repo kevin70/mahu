@@ -26,7 +26,6 @@ public class MahuAdminStartup implements HelidonStartupProvider {
 
         beanScope = BeanScope.builder()
                 .bean(Config.class, Config.create())
-                // .modules(new MahuAdminInfraModule(), new MahuAdminModule())
                 .shutdownHook(false)
                 .build();
         Main.addShutdownHandler(beanScope::close);
