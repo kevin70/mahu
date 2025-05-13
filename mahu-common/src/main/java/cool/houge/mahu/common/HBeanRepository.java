@@ -1,5 +1,13 @@
 package cool.houge.mahu.common;
 
+import static cool.houge.mahu.common.rsql.RSQLOperators.BETWEEN;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.EQUAL;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.GREATER_THAN;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.GREATER_THAN_OR_EQUAL;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.LESS_THAN;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.LESS_THAN_OR_EQUAL;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.NOT_EQUAL;
+
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.rsql.EBeanRSQLVisitor;
@@ -11,14 +19,10 @@ import cz.jirutka.rsql.parser.RSQLParserException;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.Query;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static cool.houge.mahu.common.rsql.RSQLOperators.BETWEEN;
-import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /// 扩展数据管理基类
 ///
@@ -63,10 +67,20 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
                 var node = RSQL_PARSER.parse(filter.filter());
                 node.accept(new EBeanRSQLVisitor(), ctx);
             } catch (RSQLParserException e) {
-                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "错误RSQL过滤条件");
+                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "RSQL解析错误", e);
             }
         }
 
+        this.applyPage(filter, query);
+        this.applySort(filter, query, ctx);
+
+        // 包含软删除的数据
+        if (filter.isIncludeDeleted()) {
+            query.setIncludeSoftDeletes();
+        }
+    }
+
+    void applyPage(DataFilter filter, Query<?> query) {
         if (filter.offset() > 0) {
             query.setFirstRow(filter.offset());
         }
@@ -74,31 +88,24 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         if (filter.limit() > 0) {
             query.setMaxRows(filter.limit());
         }
+    }
 
-        // 包含软删除的数据
-        if (filter.isIncludeDeleted()) {
-            query.setIncludeSoftDeletes();
-        }
-
-        // 排序
-        var sorts = filter.sorts();
-        for (String s : sorts) {
+    void applySort(DataFilter filter, Query<?> query, RSQLContext ctx) {
+        for (String s : filter.sorts()) {
             if (s == null || s.isEmpty()) {
                 continue;
             }
 
             boolean ascending = s.charAt(0) != '-';
             String name = ascending ? s : s.substring(1);
-            var filterField = ctx.getFilterField(name);
-            if (filterField == null) {
-                log.debug("不存在的排序属性 {}", name);
-                continue;
-            }
-
-            if (ascending) {
-                query.orderBy().asc(filterField.getColumnName());
-            } else {
-                query.orderBy().desc(filterField.getColumnName());
+            var field = ctx.getFilterField(name);
+            if (field != null) {
+                log.debug("找到排序属性 {}: {}", name, field);
+                if (ascending) {
+                    query.orderBy().asc(field.getColumnName());
+                } else {
+                    query.orderBy().desc(field.getColumnName());
+                }
             }
         }
     }
