@@ -9,6 +9,7 @@
     - [MapStruct Support](https://plugins.jetbrains.com/plugin/10036-mapstruct-support)
     - [String Manipulation](https://plugins.jetbrains.com/plugin/2162-string-manipulation)
     - [Palantir Java Format](https://plugins.jetbrains.com/plugin/13180-palantir-java-format)
+    - [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea)
     - [SonarQube for IDE](https://plugins.jetbrains.com/plugin/7973-sonarqube-for-ide)
 
 ### Google Java Format 配置
