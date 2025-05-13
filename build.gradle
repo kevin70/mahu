@@ -2,7 +2,7 @@ plugins {
     id("java")
     id("application")
     id("io.avaje.inject") version("11.1")
-    id("io.ebean") version("15.9.0")
+    id("io.ebean") version("15.12.0")
     id("org.openapi.generator") version("7.13.0")
 
     id("checkstyle")
