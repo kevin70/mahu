@@ -22,14 +22,18 @@ public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
 
     private static final Logger log = LogManager.getLogger();
 
+    private final Database db;
+
     @Inject
-    Database db;
+    public ExecutionLogSchedulerListener(Database db) {
+        this.db = db;
+    }
 
     @Override
     public void onExecutionComplete(ExecutionComplete exec) {
         try {
             saveExecutionLog(exec);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error("保存定时任务执行日志 {}", exec.getExecution(), e);
         }
     }
@@ -52,7 +56,7 @@ public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
                 .setSucceeded(ExecutionComplete.Result.OK.equals(executionComplete.getResult()));
         bean.setId(TSID.fast().toLong());
 
-        executionComplete.getCause().ifPresent((cause) -> {
+        executionComplete.getCause().ifPresent(cause -> {
             var lines = Arrays.stream(cause.getStackTrace())
                     .map(StackTraceElement::toString)
                     .toList();
