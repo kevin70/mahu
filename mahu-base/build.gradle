@@ -1,1 +1,14 @@
-apply plugin: "java-library"
+apply plugin: "java"
+apply plugin: "checkstyle"
+apply plugin: "name.remal.sonarlint"
+apply plugin: "com.palantir.java-format"
+
+sonarLint {
+    languages {
+        include("java")
+    }
+    ignoredPaths = [
+        "cool/houge/mahu/Base58.java"
+    ]
+    testSourceSets = sourceSets.matching { true }
+}
