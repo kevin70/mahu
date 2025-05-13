@@ -59,7 +59,7 @@ export const ClientList = () => {
         }}
         toolbar={{
           search: searchForm,
-          actions: [<NewClientDrawerForm onSuccess={refetch} />],
+          actions: [<NewClientDrawerForm key={"newForm"} onSuccess={refetch} />],
         }}
         loading={isFetching}
         dataSource={data?.items}
