@@ -60,13 +60,13 @@ public class Admin implements Auditable {
     private List<Role> roles;
 
     /// 原始密码（修改密码）
-    private transient String originalPassword;
+    @Transient
+    private String originalPassword;
 
     /// 返回用户拥有的所有角色代码
     public Collection<String> allRolePermits() {
-        var roles = this.getRoles();
         var codes = new LinkedHashSet<String>();
-        for (Role role : roles) {
+        for (Role role : this.getRoles()) {
             if (role.getPermits() == null || role.getPermits().isEmpty()) {
                 continue;
             }
