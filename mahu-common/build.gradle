@@ -17,5 +17,6 @@ dependencies {
 
     testAnnotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
     testImplementation("io.ebean:ebean-h2:$ebeanVersion")
+    testImplementation("io.ebean:ebean-jackson-mapper:$ebeanVersion")
     testImplementation("com.h2database:h2:2.3.232")
 }

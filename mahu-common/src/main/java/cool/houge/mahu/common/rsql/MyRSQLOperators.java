@@ -2,20 +2,19 @@ package cool.houge.mahu.common.rsql;
 
 import cz.jirutka.rsql.parser.ast.Arity;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-
 import java.util.HashSet;
 import java.util.Set;
 
 /// RSQL 操作符
 ///
 /// @author ZY (kzou227@qq.com)
-public abstract class RSQLOperators extends cz.jirutka.rsql.parser.ast.RSQLOperators {
+public abstract class MyRSQLOperators extends cz.jirutka.rsql.parser.ast.RSQLOperators {
 
-    public static final ComparisonOperator LIKE = new ComparisonOperator("=ke=", "=like=", Arity.nary(1)),
-            ILIKE = new ComparisonOperator("=ik=", "=ilike=", Arity.nary(1)),
-            CONTAINS = new ComparisonOperator("=cs=", "=contains=", Arity.nary(1)),
-            ICONTAINS = new ComparisonOperator("=ics=", "=icontains=", Arity.nary(1)),
-            BETWEEN = new ComparisonOperator("=bt=", "=between=", Arity.nary(2));
+    public static final ComparisonOperator LIKE = new ComparisonOperator("=ke=", "=like=", Arity.nary(1));
+    public static final ComparisonOperator ILIKE = new ComparisonOperator("=ik=", "=ilike=", Arity.nary(1));
+    public static final ComparisonOperator CONTAINS = new ComparisonOperator("=cs=", "=contains=", Arity.nary(1));
+    public static final ComparisonOperator ICONTAINS = new ComparisonOperator("=ics=", "=icontains=", Arity.nary(1));
+    public static final ComparisonOperator BETWEEN = new ComparisonOperator("=bt=", "=between=", Arity.nary(2));
 
     private static final Set<ComparisonOperator> OPERATORS;
 

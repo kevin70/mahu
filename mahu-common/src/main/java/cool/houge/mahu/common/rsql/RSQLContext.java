@@ -1,11 +1,10 @@
 package cool.houge.mahu.common.rsql;
 
-import io.ebean.Query;
+import static java.util.Objects.requireNonNull;
 
+import io.ebean.typequery.QueryBean;
 import java.util.List;
 import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
 
 /// RSQL 查询上下文
 ///
@@ -13,16 +12,16 @@ import static java.util.Objects.requireNonNull;
 public class RSQLContext {
 
     private final List<FilterField> filterFields;
-    private final Query<?> query;
+    private final QueryBean<?, ?> query;
 
-    public RSQLContext(List<FilterField> filterFields, Query<?> query) {
+    public RSQLContext(List<FilterField> filterFields, QueryBean<?, ?> query) {
         requireNonNull(filterFields);
         requireNonNull(query);
         this.filterFields = filterFields;
         this.query = query;
     }
 
-    public Query<?> query() {
+    public QueryBean<?, ?> query() {
         return query;
     }
 

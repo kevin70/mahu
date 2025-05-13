@@ -1,6 +1,6 @@
 package cool.houge.mahu.common;
 
-import static cool.houge.mahu.common.rsql.RSQLOperators.BETWEEN;
+import static cool.houge.mahu.common.rsql.MyRSQLOperators.BETWEEN;
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.EQUAL;
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.GREATER_THAN;
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.GREATER_THAN_OR_EQUAL;
@@ -12,13 +12,13 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.common.rsql.EBeanRSQLVisitor;
 import cool.houge.mahu.common.rsql.FilterField;
+import cool.houge.mahu.common.rsql.MyRSQLOperators;
 import cool.houge.mahu.common.rsql.RSQLContext;
-import cool.houge.mahu.common.rsql.RSQLOperators;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
-import io.ebean.Query;
+import io.ebean.typequery.QueryBean;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +32,7 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
     private static final Logger log = LogManager.getLogger(HBeanRepository.class);
 
     /// RSQL 解析器
-    private static final RSQLParser RSQL_PARSER = new RSQLParser(RSQLOperators.supportedOperators());
+    private static final RSQLParser RSQL_PARSER = new RSQLParser(MyRSQLOperators.supportedOperators());
     /// 常用的 created_at 属性过滤
     protected static final FilterField FF_CREATED_AT = FilterField.builder()
             .filterName("created_at")
@@ -50,7 +50,6 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
                     BETWEEN, GREATER_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL, EQUAL, NOT_EQUAL))
             .build();
 
-    /// {@inheritDoc}
     protected HBeanRepository(Class<T> type, Database database) {
         super(type, database);
     }
@@ -60,7 +59,7 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
     /// @param filter 数据过滤条件
     /// @param filterFields 过滤字段
     /// @param query 查询对象
-    protected void apply(DataFilter filter, List<FilterField> filterFields, Query<?> query) {
+    protected void apply(DataFilter filter, List<FilterField> filterFields, QueryBean<?, ?> query) {
         var ctx = new RSQLContext(filterFields, query);
         if (filter.filter() != null && !filter.filter().isEmpty()) {
             try {
@@ -71,7 +70,7 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
             }
         }
 
-        this.applyPage(filter, query);
+        this.applyOffsetLimit(filter, query);
         this.applySort(filter, query, ctx);
 
         // 包含软删除的数据
@@ -80,7 +79,7 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         }
     }
 
-    void applyPage(DataFilter filter, Query<?> query) {
+    void applyOffsetLimit(DataFilter filter, QueryBean<?, ?> query) {
         if (filter.offset() > 0) {
             query.setFirstRow(filter.offset());
         }
@@ -90,7 +89,7 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         }
     }
 
-    void applySort(DataFilter filter, Query<?> query, RSQLContext ctx) {
+    void applySort(DataFilter filter, QueryBean<?, ?> query, RSQLContext ctx) {
         for (String s : filter.sorts()) {
             if (s == null || s.isEmpty()) {
                 continue;
@@ -102,9 +101,9 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
             if (field != null) {
                 log.debug("找到排序属性 {}: {}", name, field);
                 if (ascending) {
-                    query.orderBy().asc(field.getColumnName());
+                    query.query().orderBy().asc(field.getColumnName());
                 } else {
-                    query.orderBy().desc(field.getColumnName());
+                    query.query().orderBy().desc(field.getColumnName());
                 }
             }
         }

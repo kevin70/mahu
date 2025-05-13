@@ -1,38 +1,37 @@
 package cool.houge.mahu.common.rsql;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import cool.houge.mahu.common.rsql.query.QBean;
 import cz.jirutka.rsql.parser.RSQLParser;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.datasource.DataSourceConfig;
+import java.util.List;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class EBeanRSQLVisitorTest {
 
     @Test
     void parse() {
         var filter = "genres=in=(sci-fi,action) and (director=='Christopher Nolan' or actor==*Bale) and year>=2000";
-        var parser = new RSQLParser(RSQLOperators.supportedOperators());
+        var parser = new RSQLParser(MyRSQLOperators.supportedOperators());
 
         var qb = new QBean(db());
         var node = parser.parse(filter);
-
-        qb.orderBy().actor.desc();
-
-        node.accept(
-                new EBeanRSQLVisitor(),
-                RSQLContext.of(qb)
-                        .property(qb.genres)
-                        .property(qb.actor)
-                        .property(qb.director)
-                        .property(qb.year));
+        var ctx = new RSQLContext(
+                List.of(
+                        FilterField.builder().with(qb.genres).build(),
+                        FilterField.builder().with(qb.actor).build(),
+                        FilterField.builder().with(qb.director).build(),
+                        FilterField.builder().with(qb.year).build()),
+                qb);
+        node.accept(new EBeanRSQLVisitor(), ctx);
 
         try {
             qb.findList();
-        } catch (Exception e) {
+        } catch (Exception _) {
             // ignore
         }
 
@@ -51,7 +50,6 @@ class EBeanRSQLVisitorTest {
                 .build();
         var dbc = new DatabaseConfig();
         dbc.setDataSource(pool);
-        var db = DatabaseFactory.create(dbc);
-        return db;
+        return DatabaseFactory.create(dbc);
     }
 }
