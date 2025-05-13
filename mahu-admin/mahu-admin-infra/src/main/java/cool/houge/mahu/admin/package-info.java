@@ -4,8 +4,7 @@
 ///
 @InjectModule(
         name = "MahuAdminInfra",
-        requires = {Config.class},
-        provides = {MahuAdminInfra.class})
+        requires = {Config.class})
 package cool.houge.mahu.admin;
 
 import io.avaje.inject.InjectModule;
