@@ -12,13 +12,13 @@
     - [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea)
     - [SonarQube for IDE](https://plugins.jetbrains.com/plugin/7973-sonarqube-for-ide)
 
-### Google Java Format 配置
+### Palantir Java Format 配置
 
 1. 去到 `File → Settings → Editor → Code Style`
 2. 单击带有工具提示的扳手图标显示计划动作
 3. 点击 `Import Scheme`
-4. 选择项目根目录下 `dev/intellij-java-google-style.xml` 文件
-5. 确保选择 GoogleStyle 作为当前方案
+4. 选择项目根目录下 `config/idea/intellij-java-palantir-style.xml` 文件
+5. 确保选择 **PalantirStyle** 作为当前方案
 
 ## Java Package 规范
 
