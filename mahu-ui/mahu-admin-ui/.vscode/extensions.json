@@ -12,6 +12,7 @@
     "vunguyentuan.vscode-postcss",
     "esbenp.prettier-vscode",
     "styled-components.vscode-styled-components",
-    "lokalise.i18n-ally"
+    "lokalise.i18n-ally",
+    "sonarsource.sonarlint-vscode"
   ]
 }
