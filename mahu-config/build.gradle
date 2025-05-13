@@ -2,7 +2,7 @@ apply plugin: "java-library"
 
 dependencies {
     annotationProcessor("io.helidon.builder:helidon-builder-processor:$helidonVersion")
-    annotationProcessor("io.helidon.config:helidon-config-metadata-processor:$helidonVersion")
+    annotationProcessor("io.helidon.config.metadata:helidon-config-metadata-codegen:$helidonVersion")
     annotationProcessor("io.sundr:transform-annotations:$sundrCodegenVersion")
     annotationProcessor("io.sundr:sundr-codegen-velocity-nodeps:$sundrCodegenVersion")
 
