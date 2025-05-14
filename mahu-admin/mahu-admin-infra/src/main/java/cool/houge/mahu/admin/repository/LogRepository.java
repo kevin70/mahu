@@ -9,6 +9,7 @@ import cool.houge.mahu.admin.entity.query.QAdminAuthLog;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.common.HBeanRepository;
 import cool.houge.mahu.common.rsql.FilterField;
+import cool.houge.mahu.entity.log.BaseBizLog;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.inject.Singleton;
@@ -22,6 +23,11 @@ public class LogRepository extends HBeanRepository<Void, Void> {
 
     public LogRepository(Database db) {
         super(Void.class, db);
+    }
+
+    /// 保存业务日志
+    public void save(BaseBizLog bizLog) {
+        db().save(bizLog);
     }
 
     /// 管理员后台访问记录
