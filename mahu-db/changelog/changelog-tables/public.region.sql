@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 
 
--- changeset kzou227@qq.com:202412031539
+-- changeset kzou227@qq.com:0KPYD7H65XP61
 create table public.region
 (
     code        character varying(12) primary key not null, -- 行政区代码
@@ -33,7 +33,7 @@ create index region_parent_code_idx on region using btree (parent_code);
 -- rollback drop table public.region;
 
 
--- changeset kzou227@qq.com:202412031550
+-- changeset kzou227@qq.com:0KPYD7H65XP62
 INSERT INTO public.region (code, name, depth, parent_code)
 VALUES  ('11', '北京市', 1, null),
         ('12', '天津市', 1, null),

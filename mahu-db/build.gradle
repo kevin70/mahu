@@ -1,9 +1,7 @@
-import io.helidon.config.Config
-import io.helidon.config.ConfigSources
-
 buildscript {
     dependencies {
         classpath("io.helidon.config:helidon-config-yaml:$helidonVersion")
+        classpath("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
     }
 }
 
@@ -14,8 +12,9 @@ plugins {
 // TIPS:
 // Gradle 回滚数据库版本命令：gradle rollbackCount -PliquibaseCommandValue=1
 
-def config = Config.builder()
-    .addSource(ConfigSources.file("C:/houge/mahu.yaml").optional())
+//noinspection UnnecessaryQualifiedReference
+def config = io.helidon.config.Config.builder()
+    .addSource(io.helidon.config.ConfigSources.file("C:/houge/mahu.yaml").optional())
     .build()
 
 liquibase {
@@ -24,10 +23,22 @@ liquibase {
         // 配置属性参考文档：https://docs.liquibase.com/concepts/connections/creating-config-properties.html
         changelogFile "changelog-root.yaml"
 //        url config.get("db.url").asString().orElse(System.getenv("MAHU_DB_URL"))
-        url "jdbc:postgresql://106.14.192.224:5432/mahu3"
+        url "jdbc:postgresql://106.14.192.224:5432/mahu4"
 //        url "jdbc:postgresql://106.14.192.224:5432/mahu-prod"
         username config.get("db.username").asString().orElse(System.getenv("MAHU_DB_USERNAME"))
         password config.get("db.password").asString().orElse(System.getenv("MAHU_DB_PASSWORD"))
+    }
+}
+
+tasks.register("randomNextVersion") {
+    doLast {
+        println("versions:")
+        println("==========================================================")
+        for (n in 1..10) {
+            //noinspection UnnecessaryQualifiedReference
+            println(io.hypersistence.tsid.TSID.fast())
+        }
+        println("==========================================================")
     }
 }
 
