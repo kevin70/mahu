@@ -5,12 +5,15 @@ import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.DynamicPermit;
+import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
+import cool.houge.mahu.admin.shared.SharedService;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.admin.system.repository.AdminRepository;
 import cool.houge.mahu.common.GrantType;
+import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.system.Admin;
 import io.ebean.annotation.Transactional;
@@ -41,12 +44,15 @@ public class TokenService implements TokenVerifier {
 
     private final JwkKeys jwkKeys;
     private final TokenConfig tokenConfig;
+    private final SharedService sharedService;
     private final AdminRepository adminRepository;
 
     @Inject
-    public TokenService(JwkKeys jwkKeys, TokenConfig tokenConfig, AdminRepository adminRepository) {
+    public TokenService(
+            JwkKeys jwkKeys, TokenConfig tokenConfig, SharedService sharedService, AdminRepository adminRepository) {
         this.jwkKeys = jwkKeys;
         this.tokenConfig = tokenConfig;
+        this.sharedService = sharedService;
         this.adminRepository = adminRepository;
     }
 
@@ -129,6 +135,19 @@ public class TokenService implements TokenVerifier {
         }
         var ret = makeToken(payload, admin);
         log.info("用户成功获取令牌 id={}", admin.getId());
+
+        // 保存登录记录日志
+        var metadata = Metadata.metadata();
+        sharedService.save(
+                new AdminAuthLog()
+                        .setAdminId(admin.getId())
+                        .setAuthType(payload.getGrantType().name())
+                        .setClientId(payload.getGrantType().name())
+                        .setClientId(payload.getClientId())
+                        .setIpAddr(metadata.clientAddr())
+                        .setUserAgent(metadata.userAgent())
+                //
+                );
         return ret;
     }
 
