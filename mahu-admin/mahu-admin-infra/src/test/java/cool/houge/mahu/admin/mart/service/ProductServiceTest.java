@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.mart.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.instancio.Select.fields;
 
 import cool.houge.mahu.admin.TestTransactionBase;
@@ -25,23 +26,6 @@ class ProductServiceTest extends TestTransactionBase {
                 .ignore(fields().annotated(SoftDelete.class))
                 .create();
         productService.save(entity);
-    }
-
-    @Test
-    void update() {
-        // var entity = productService.findById(4);
-        // entity.setName("UPDATE product");
-        //
-        // var attributes = entity.getAttributes();
-        // for (ProductAttribute attribute : attributes) {
-        //     attribute.setValue("NEW " + attribute.getValue());
-        // }
-        // var newAttribute = Instancio.of(ProductAttribute.class)
-        //         .ignore(fields().annotated(Id.class))
-        //         .ignore(fields().annotated(SoftDelete.class))
-        //         .create();
-        // attributes.add(newAttribute);
-        //
-        // productService.update(entity);
+        assertThat(entity.getId()).isNotNull();
     }
 }

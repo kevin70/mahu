@@ -1,5 +1,7 @@
 package cool.houge.mahu.admin.system.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import cool.houge.mahu.admin.TestTransactionBase;
 import cool.houge.mahu.entity.system.DictData;
 import cool.houge.mahu.entity.system.DictType;
@@ -38,7 +40,6 @@ class DictServiceTest extends TestTransactionBase {
         type.setData(List.of(data1, data2));
 
         dictService.save(type);
-
-        disableRollback();
+        assertThat(type.getCreatedAt()).isNotNull();
     }
 }
