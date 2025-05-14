@@ -60,10 +60,10 @@ public class MahuAdminFeature implements HttpFeature, Filter {
             routing.register(httpService);
         }
 
-        routing.get("/openapi/ui", (req, res) -> {
+        routing.get("/openapi/ui", (_, res) -> {
+            res.header(HeaderNames.CONTENT_TYPE, MediaTypes.TEXT_HTML.type());
             // 输出接口文档界面
-            res.header(HeaderNames.CONTENT_TYPE, MediaTypes.TEXT_HTML.type())
-                    .send(Resource.create("META-INF/openapi-ui.html").bytes());
+            res.send(Resource.create("META-INF/openapi-ui.html").bytes());
         });
     }
 
