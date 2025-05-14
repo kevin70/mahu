@@ -7,6 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 /// @author ZY (kzou227@qq.com)
 public final class TraceIdGenerator {
 
+    private TraceIdGenerator() {}
+
     /// 生成任务追踪 ID
     public static String generate() {
         var random = ThreadLocalRandom.current();
