@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin;
 
+import static io.helidon.http.HeaderNames.USER_AGENT;
+import static io.helidon.http.HeaderNames.X_FORWARDED_FOR;
+
 import com.google.common.base.Splitter;
 import cool.houge.mahu.TraceIdGenerator;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
@@ -14,14 +17,19 @@ import io.helidon.http.HeaderName;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.Method;
 import io.helidon.logging.common.HelidonMdc;
-import io.helidon.webserver.http.*;
+import io.helidon.webserver.http.Filter;
+import io.helidon.webserver.http.FilterChain;
+import io.helidon.webserver.http.HttpFeature;
+import io.helidon.webserver.http.HttpRouting;
+import io.helidon.webserver.http.HttpService;
+import io.helidon.webserver.http.RoutingRequest;
+import io.helidon.webserver.http.RoutingResponse;
+import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Singleton;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.List;
-
-import static io.helidon.http.HeaderNames.X_FORWARDED_FOR;
 
 /// 功能注册
 ///
@@ -78,6 +86,11 @@ public class MahuAdminFeature implements HttpFeature, Filter {
                             return ipList.getFirst();
                         })
                         .orElseGet(() -> req.remotePeer().host());
+            }
+
+            @Override
+            public String userAgent() {
+                return req.headers().first(USER_AGENT).orElse("UNKNOWN");
             }
 
             @Override

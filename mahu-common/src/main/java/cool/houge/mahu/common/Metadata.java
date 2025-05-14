@@ -12,6 +12,9 @@ public interface Metadata {
     /// 客户端请求地址
     String clientAddr();
 
+    /// 客户端请求 User-Agent
+    String userAgent();
+
     /// 追踪 ID
     String traceId();
 
