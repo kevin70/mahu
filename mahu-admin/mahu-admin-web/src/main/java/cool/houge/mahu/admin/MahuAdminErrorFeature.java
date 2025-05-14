@@ -74,7 +74,7 @@ public class MahuAdminErrorFeature implements Weighted, HttpFeature {
         var error = new ErrorResponse.Error();
         error.setStatus(Status.NOT_FOUND_404.code())
                 .setCode(BizCodes.NOT_FOUND.code())
-                .setMessage(BizCodes.NOT_FOUND.message());
+                .setMessage(e.getMessage());
         this.send(request, response, error, e);
     }
 
@@ -105,8 +105,7 @@ public class MahuAdminErrorFeature implements Weighted, HttpFeature {
     }
 
     void send(ServerRequest request, ServerResponse response, ErrorResponse.Error error, Throwable cause) {
-        // 通用响应
-        var metadata = request.context().get(Metadata.class).orElseThrow();
+        var metadata = Metadata.metadata();
         error.setTraceId(metadata.traceId())
                 .setTimestamp(OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                 .setPath(request.path().rawPath())
