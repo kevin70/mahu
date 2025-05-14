@@ -7,8 +7,8 @@ import com.google.common.base.Splitter;
 import cool.houge.mahu.TraceIdGenerator;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.security.AuthContext;
+import cool.houge.mahu.admin.shared.SharedService;
 import cool.houge.mahu.common.Metadata;
-import io.avaje.inject.events.Event;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
 import io.helidon.common.configurable.Resource;
@@ -43,13 +43,12 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
     private final MahuAdminSecurity security;
     private final List<HttpService> httpServices;
-    private final Event<AdminAccessLog> accessLogEvent;
+    private final SharedService sharedService;
 
-    public MahuAdminFeature(
-            MahuAdminSecurity security, List<HttpService> httpServices, Event<AdminAccessLog> accessLogEvent) {
+    public MahuAdminFeature(MahuAdminSecurity security, List<HttpService> httpServices, SharedService sharedService) {
         this.security = security;
         this.httpServices = httpServices;
-        this.accessLogEvent = accessLogEvent;
+        this.sharedService = sharedService;
     }
 
     @Override
@@ -102,18 +101,18 @@ public class MahuAdminFeature implements HttpFeature, Filter {
         res.whenSent(() -> {
             try {
                 // 记录后台访问日志
-                fireAccessLog(req, res);
-            } catch (Throwable e) {
+                saveAccessLog(req, res);
+            } catch (Exception e) {
                 log.error("记录访问日志出现异常", e);
-            } finally {
-                // 清理追踪 ID
-                HelidonMdc.remove("MAHU_TRACE_ID");
             }
         });
+
         chain.proceed();
+        // 清理追踪 ID
+        res.whenSent(() -> HelidonMdc.remove("MAHU_TRACE_ID"));
     }
 
-    void fireAccessLog(ServerRequest req, ServerResponse res) {
+    void saveAccessLog(ServerRequest req, ServerResponse res) {
         var prologue = req.prologue();
         var routedPath = req.path().rawPath();
         // 访问日志不记录日志
@@ -132,10 +131,11 @@ public class MahuAdminFeature implements HttpFeature, Filter {
             return;
         }
 
-        var metadata = ctx.get(Metadata.class).orElseThrow();
+        var metadata = Metadata.metadata();
         var accessLog = new AdminAccessLog()
                 .setAdminId(authContextOpt.get().uid())
                 .setIpAddr(metadata.clientAddr())
+                .setUserAgent(metadata.userAgent())
                 .setMethod(prologue.method().text())
                 .setUriPath(prologue.uriPath().rawPath())
                 .setUriQuery(prologue.query().rawValue())
@@ -145,7 +145,6 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
         var headers = req.headers();
         headers.first(HeaderNames.REFERER).ifPresent(accessLog::setReferer);
-        headers.first(HeaderNames.USER_AGENT).ifPresent(accessLog::setUserAgent);
-        accessLogEvent.fire(accessLog);
+        sharedService.save(accessLog);
     }
 }
