@@ -7,7 +7,6 @@ plugins {
 
     id("jacoco")
     id("checkstyle")
-    id("project-report")
     id("name.remal.sonarlint") version("6.0.0-rc-2")
     id("com.palantir.java-format") version("2.66.0")
 
@@ -124,10 +123,6 @@ allprojects {
         mavenLocal()
         mavenCentral()
     }
-}
-
-htmlDependencyReport {
-    projects = project.allprojects
 }
 
 //noinspection UnnecessaryQualifiedReference
