@@ -12,6 +12,7 @@ import cool.houge.mahu.admin.shared.SharedService;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.admin.system.repository.AdminRepository;
+import cool.houge.mahu.admin.system.repository.ClientRepository;
 import cool.houge.mahu.common.GrantType;
 import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.config.TokenConfig;
@@ -27,12 +28,13 @@ import io.helidon.security.jwt.jwk.JwkKeys;
 import io.hypersistence.tsid.TSID;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.time.Instant;
-import java.util.List;
-import java.util.random.RandomGenerator;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.random.RandomGenerator;
 
 /// 令牌服务
 ///
@@ -46,14 +48,20 @@ public class TokenService implements TokenVerifier {
     private final TokenConfig tokenConfig;
     private final SharedService sharedService;
     private final AdminRepository adminRepository;
+    private final ClientRepository clientRepository;
 
     @Inject
     public TokenService(
-            JwkKeys jwkKeys, TokenConfig tokenConfig, SharedService sharedService, AdminRepository adminRepository) {
+            JwkKeys jwkKeys,
+            TokenConfig tokenConfig,
+            SharedService sharedService,
+            AdminRepository adminRepository,
+            ClientRepository clientRepository) {
         this.jwkKeys = jwkKeys;
         this.tokenConfig = tokenConfig;
         this.sharedService = sharedService;
         this.adminRepository = adminRepository;
+        this.clientRepository = clientRepository;
     }
 
     @Override
@@ -114,6 +122,7 @@ public class TokenService implements TokenVerifier {
 
     @Transactional
     public TokenResult token(TokenPayload payload) {
+        var client = clientRepository.obtainClient(payload.getClientId());
         var grantType = payload.getGrantType();
 
         Admin admin;
@@ -123,10 +132,6 @@ public class TokenService implements TokenVerifier {
             admin = loginByRefreshToken(payload);
         } else {
             throw new BizCodeException(BizCodes.UNIMPLEMENTED);
-        }
-
-        if (admin == null) {
-            throw new BizCodeException(BizCodes.NOT_FOUND, "登录用户未找到");
         }
 
         var status = admin.getStatus();
@@ -142,8 +147,7 @@ public class TokenService implements TokenVerifier {
                 new AdminAuthLog()
                         .setAdminId(admin.getId())
                         .setAuthType(payload.getGrantType().name())
-                        .setClientId(payload.getGrantType().name())
-                        .setClientId(payload.getClientId())
+                        .setClientId(client.getClientId())
                         .setIpAddr(metadata.clientAddr())
                         .setUserAgent(metadata.userAgent())
                 //
@@ -187,6 +191,7 @@ public class TokenService implements TokenVerifier {
                 .setRefreshToken(refreshToken.token());
     }
 
+    @NonNull
     Admin loginByUsername(TokenPayload payload) {
         var user = adminRepository.findByUsername(payload.getUsername());
         if (user == null) {
@@ -200,10 +205,15 @@ public class TokenService implements TokenVerifier {
         return user;
     }
 
+    @NonNull
     Admin loginByRefreshToken(TokenPayload payload) {
         var jwt = parseToken(payload.getRefreshToken());
         var sub = jwt.userPrincipal().orElseThrow();
-        return adminRepository.findById(Long.valueOf(sub));
+        var user = adminRepository.findById(Long.valueOf(sub));
+        if (user == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", sub));
+        }
+        return user;
     }
 
     Jwt parseToken(String token) {

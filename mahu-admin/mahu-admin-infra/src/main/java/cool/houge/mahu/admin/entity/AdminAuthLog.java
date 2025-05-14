@@ -1,7 +1,6 @@
 package cool.houge.mahu.admin.entity;
 
 import cool.houge.mahu.entity.log.BaseBizLog;
-import io.ebean.annotation.WhoCreated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -17,7 +16,9 @@ import lombok.Setter;
 public class AdminAuthLog extends BaseBizLog {
 
     /// 操作管理员 ID
-    @WhoCreated
+    ///
+    /// 管理员认证记录，此时认证还未完成缺少上下文对象无法使用 `@WhoCreated` 获取当前认证用户信息。
+    /// 此处需要在创建位置手动赋值。
     private Long adminId;
     /// 认证类型
     private String authType;
