@@ -147,7 +147,7 @@ tasks.register("redoclyBundleOpenApi", com.github.gradle.node.npm.task.NpxTask.c
             "${layout.buildDirectory.orNull}/resources/main/META-INF/openapi.yaml"
     ]
 }
-classes.dependsOn("redoclyBundleOpenApi")
+jar.dependsOn("redoclyBundleOpenApi")
 
 tasks.register("deployTest") {
     group("distribution")
