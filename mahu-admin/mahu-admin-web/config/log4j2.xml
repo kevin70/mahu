@@ -13,7 +13,7 @@
         <RollingFile name="mainFile" fileName="${LOG_DIR}/main.log"
                      filePattern="${LOG_DIR}/bak-main.%d{yyyyMMdd}.%i.gz">
             <PatternLayout
-                    pattern="%d{MM-dd'T'HH:mm:ss.SSS} %p{length=1} [%t] %c{5} %L; %m%n"/>
+                pattern="%d{YYYY-MM-dd'T'HH:mm:ss.SSS} %p{length=1} %c{5}/%L %m%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="1GB"/>
