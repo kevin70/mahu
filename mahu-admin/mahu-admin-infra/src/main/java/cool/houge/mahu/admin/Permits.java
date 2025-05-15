@@ -1,28 +1,31 @@
 package cool.houge.mahu.admin;
 
 import static cool.houge.mahu.admin.Permits.Constants.A;
+import static cool.houge.mahu.admin.Permits.Constants.B;
 import static cool.houge.mahu.admin.Permits.Constants.R;
 
 /// 权限定义
 ///
 /// @author ZY (kzou227@qq.com)
 public enum Permits {
-    DICT(A, "字典"),
-    ROLE(A, "角色"),
-    ADMIN(A, "管理员"),
-    DEPARTMENT(A, "部门"),
-    CLIENT(A, "终端"),
-    ACCESS_LOG(R, "访问日志"),
-    AUDIT_LOG(R, "操作审计"),
-    SCHEDULED_TASK(A, "系统|定时任务"),
-    //
-    BRAND(A, "品牌"),
+    // 系统相关
+    DICT(A, "系统|字典管理"),
+    ROLE(A, "系统|角色管理"),
+    ADMIN(A, "系统|管理员"),
+    DEPARTMENT(A, "系统|部门管理"),
+    CLIENT(A, "系统|认证终端"),
+    SCHEDULED_TASK(B, "系统|定时任务"),
+
+    // 基础
+    BRAND(A, "基础|品牌管理"),
+
     // 商城
-    MART_SHOP(A, "商城-商店"),
-    MART_CATEGORY(A, "商城-分类"),
-    MART_ASSET(A, "商城-资源"),
+    MART_SHOP(A, "商城|商店"),
+    MART_CATEGORY(A, "商城|分类"),
+    MART_ASSET(A, "商城|资源"),
     MART_ATTRIBUTE(A, "商城|产品属性"),
     MART_PRODUCT(A, "商城|产品"),
+
     // 业务日志
     ADMIN_ACCESS_LOG(R, "管理员|访问日志"),
     ADMIN_AUDIT_LOG(R, "管理员|操作日志"),
@@ -83,5 +86,7 @@ public enum Permits {
         static final int D = 1 << 2;
         /// 支持所有功能
         static final int A = R | W | D;
+        /// 支持读取写入
+        static final int B = R | W;
     }
 }
