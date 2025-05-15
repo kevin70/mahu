@@ -2,7 +2,7 @@ import { useRSQLFilter } from '@/hooks';
 import { SYSTEM_API } from '@/services';
 import { PageContainer, ProFormItem, ProTable } from '@ant-design/pro-components';
 import { useQuery } from '@tanstack/react-query';
-import { Form } from 'antd';
+import { Form, Typography } from 'antd';
 import { NewDictDrawerForm } from './NewDictDrawerForm';
 import { HSearchButton } from '@/components/HSearchButton';
 import { EditDictDrawerForm } from './EditDictDrawerForm';
@@ -56,7 +56,7 @@ export const DictList = () => {
         }}
         toolbar={{
           search: searchForm,
-          actions: [<NewDictDrawerForm onSuccess={refetch} />],
+          actions: [<NewDictDrawerForm key={'newForm'} onSuccess={refetch} />],
         }}
         loading={isFetching}
         dataSource={data?.items}
@@ -91,17 +91,10 @@ export const DictList = () => {
             dataIndex: 'name',
           },
           {
-            title: '状态',
+            title: '已禁用',
             dataIndex: 'disabled',
-            valueEnum: {
-              false: {
-                text: '启用',
-                status: 'success',
-              },
-              true: {
-                text: '禁用',
-                status: 'error',
-              },
+            render(_dom, row) {
+              return row.disabled ? <Typography.Text type="secondary">✓</Typography.Text> : '✗';
             },
           },
           {
@@ -153,17 +146,10 @@ export const DictList = () => {
                     dataIndex: 'ordering',
                   },
                   {
-                    title: '状态',
+                    title: '已禁用',
                     dataIndex: 'disabled',
-                    valueEnum: {
-                      false: {
-                        text: '启用',
-                        status: 'success',
-                      },
-                      true: {
-                        text: '禁用',
-                        status: 'error',
-                      },
+                    render(_dom, row) {
+                      return row.disabled ? <Typography.Text type="secondary">✓</Typography.Text> : '✗';
                     },
                   },
                 ]}
