@@ -25,13 +25,18 @@ export const PermitSelect = (props: {
   });
 
   return (
-    <Checkbox.Group value={props.value} onChange={props.onChange}>
+    <Checkbox.Group
+      value={props.value}
+      onChange={props.onChange}
+      className={css`
+        width: 100%;
+      `}
+    >
       <ProTable
         className={css`
-          flex-grow: 1;
+          width: 100%;
         `}
         bordered
-        sticky
         search={false}
         toolBarRender={false}
         pagination={false}
