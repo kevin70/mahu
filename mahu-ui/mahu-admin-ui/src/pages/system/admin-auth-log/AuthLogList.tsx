@@ -87,10 +87,6 @@ export const AuthLogList = () => {
             dataIndex: 'authType',
           },
           {
-            title: '认证方法',
-            dataIndex: 'authMethod',
-          },
-          {
             title: 'User Agent',
             dataIndex: 'userAgent',
             ellipsis: true,
