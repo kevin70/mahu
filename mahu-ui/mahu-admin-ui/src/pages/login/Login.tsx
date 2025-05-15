@@ -36,6 +36,10 @@ export const Login = () => {
         // 刷新个人信息
         const profile = await profileStore.refreshProfile();
         message.info(`欢迎回来 - ${profile.nickname}！`);
+
+        // 保存上次登录的用户名
+        localStorage.setItem("username", values.username)
+
         return rs;
       } catch (e) {
         // FIXME 处理密码错误
@@ -97,6 +101,9 @@ export const Login = () => {
         title={title}
         subTitle={appName}
         loading={isPending}
+        initialValues={{
+          username: localStorage.getItem("username")
+        }}
         onFinish={async (values) => {
           await mutateAsync(values);
         }}
