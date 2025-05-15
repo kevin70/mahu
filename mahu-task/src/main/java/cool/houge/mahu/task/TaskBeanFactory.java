@@ -5,11 +5,10 @@ import com.github.kagkarlsson.scheduler.task.Task;
 import cool.houge.mahu.config.SwitchConfig;
 import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
+import java.util.List;
+import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.sql.DataSource;
-import java.util.List;
 
 /// 定时任务对象工厂
 ///
@@ -36,6 +35,7 @@ public class TaskBeanFactory {
 
         //noinspection unchecked
         var scheduler = Scheduler.create(dataSource, (List<Task<?>>) tasks)
+                .tableName("system.scheduled_task")
                 .missedHeartbeatsLimit(4)
                 .threads(Runtime.getRuntime().availableProcessors())
                 .addSchedulerListener(executionLogSchedulerListener)

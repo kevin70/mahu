@@ -1,12 +1,15 @@
 package cool.houge.mahu.entity.system;
 
 import cool.houge.mahu.entity.Auditable;
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
+import java.time.Instant;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.Instant;
 
 /// 定时任务
 ///
@@ -14,7 +17,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "scheduled_tasks", schema = "system")
+@Table(name = "scheduled_task", schema = "system")
 public class ScheduledTask implements Auditable {
 
     /// 主键
