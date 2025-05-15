@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Input, message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { FormInstance } from 'antd/lib';
-import { PermitTransfer } from './PermitTransfer';
+import { PermitSelect } from './PermitSelect';
 import { HEditButton } from '@/components/HEditButton';
 
 export const EditRoleDrawerForm = (props: { id: number; onSuccess: () => void }) => {
@@ -15,7 +15,7 @@ export const EditRoleDrawerForm = (props: { id: number; onSuccess: () => void })
     mutationFn(values: any) {
       return SYSTEM_API.updateRole({
         id: props.id,
-        upsertRoleRequest: values,
+        upsertRoleRequest: { id: props.id, ...values },
       });
     },
     onSuccess() {
@@ -55,8 +55,8 @@ export const EditRoleDrawerForm = (props: { id: number; onSuccess: () => void })
       <ProFormText label="名称" required name="name" rules={[{ required: true }]} />
       <ProFormTextArea label="备注" name="remark" />
       <ProFormDigit label="排序" required name="ordering" initialValue={1} rules={[{ required: true }]} />
-      <FormItem label="权限" name="permits" required rules={[{ required: true }]}>
-        <PermitTransfer />
+      <FormItem label="权限" name="permits" required rules={[{ required: true, message: '至少选择一个权限' }]}>
+        <PermitSelect />
       </FormItem>
     </DrawerForm>
   );
