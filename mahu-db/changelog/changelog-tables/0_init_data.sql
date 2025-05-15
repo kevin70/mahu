@@ -16,7 +16,7 @@ VALUES (current_timestamp, current_timestamp, 'F',
 INSERT INTO system.role (id, created_at, updated_at, deleted, name, remark,
                          ordering, permits)
 VALUES (1, current_timestamp, current_timestamp, 'F', '超级管理员',
-        '系统超级管理员，拥有系统所有权限', 9999, '{*}');
+        '系统超级管理员，拥有系统所有权限', 9999, '["*"]'::jsonb);
 -- rollback delete from system.role where id=1;
 
 

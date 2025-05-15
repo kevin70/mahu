@@ -40,6 +40,6 @@ public class Role implements Auditable {
     /// 排序值
     private Integer ordering;
     /// 权限代码
-    @DbArray
+    @DbJson(storage = DbJsonType.JSONB)
     private List<String> permits;
 }

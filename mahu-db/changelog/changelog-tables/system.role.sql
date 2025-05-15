@@ -5,25 +5,24 @@
 create table system.role
 (
     id         integer not null
-        constraint role_pk primary key,
+        constraint role_pk
+            primary key,
     created_at timestamp,
     updated_at timestamp,
     deleted    "char" default 'F'::"char",
     name       varchar(32),
     remark     varchar(255),
     ordering   smallint,
-    permits    character varying[]
+    permits    jsonb
 );
 
 comment on table system.role is '权限表';
 
 comment on column system.role.id is '主键';
 
-comment
-on column system.role.created_at is '创建时间';
+comment on column system.role.created_at is '创建时间';
 
-comment
-on column system.role.updated_at is '更新时间';
+comment on column system.role.updated_at is '更新时间';
 
 comment on column system.role.deleted is '软删除标识';
 
