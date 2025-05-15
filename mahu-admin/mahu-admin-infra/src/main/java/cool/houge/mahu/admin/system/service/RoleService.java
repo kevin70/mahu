@@ -1,6 +1,8 @@
 package cool.houge.mahu.admin.system.service;
 
-import cool.houge.mahu.admin.shared.SharedToolService;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.bean.GeneralBeanMapper;
 import cool.houge.mahu.admin.system.repository.RoleRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Role;
@@ -8,6 +10,8 @@ import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /// 角色
 ///
@@ -15,13 +19,14 @@ import jakarta.inject.Singleton;
 @Singleton
 public class RoleService {
 
+    private static final Logger log = LogManager.getLogger();
+    private final GeneralBeanMapper beanMapper;
     private final RoleRepository roleRepository;
-    private final SharedToolService toolService;
 
     @Inject
-    public RoleService(RoleRepository roleRepository, SharedToolService toolService) {
+    public RoleService(GeneralBeanMapper beanMapper, RoleRepository roleRepository) {
+        this.beanMapper = beanMapper;
         this.roleRepository = roleRepository;
-        this.toolService = toolService;
     }
 
     @Transactional
@@ -31,22 +36,30 @@ public class RoleService {
 
     @Transactional
     public void update(Role role) {
-        roleRepository.update(role);
+        var dbEntity = this.findById(role.getId());
+        beanMapper.map(dbEntity, role);
+        roleRepository.update(dbEntity);
+        log.debug("系统角色[{}]更新完成", role.getId());
     }
 
     @Transactional
     public void deleteById(Integer id) {
-        roleRepository.deleteById(id);
+        var dbEntity = this.findById(id);
+        roleRepository.delete(dbEntity);
+        log.debug("系统角色[{}]删除完成", id);
     }
 
     @Transactional(readOnly = true)
     public Role findById(Integer id) {
-        return roleRepository.findById(id);
+        var bean = roleRepository.findById(id);
+        if (bean == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND, "未找到系统角色[" + id + "]");
+        }
+        return bean;
     }
 
     @Transactional(readOnly = true)
     public PagedList<Role> findPage(DataFilter dataFilter) {
-        var plist = roleRepository.findPage(dataFilter);
-        return toolService.wrap(plist, dataFilter);
+        return roleRepository.findPage(dataFilter);
     }
 }

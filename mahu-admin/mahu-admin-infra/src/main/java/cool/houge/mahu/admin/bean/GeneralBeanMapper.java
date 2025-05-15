@@ -3,6 +3,7 @@ package cool.houge.mahu.admin.bean;
 import cool.houge.mahu.entity.system.Admin;
 import cool.houge.mahu.entity.system.DictData;
 import cool.houge.mahu.entity.system.DictType;
+import cool.houge.mahu.entity.system.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -22,4 +23,6 @@ public interface GeneralBeanMapper {
 
     @Mapping(target = "dictType", ignore = true)
     void map(@MappingTarget DictData target, DictData bean);
+
+    void map(@MappingTarget Role target, Role bean);
 }
