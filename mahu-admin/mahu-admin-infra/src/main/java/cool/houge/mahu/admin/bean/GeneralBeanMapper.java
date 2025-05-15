@@ -24,5 +24,6 @@ public interface GeneralBeanMapper {
     @Mapping(target = "dictType", ignore = true)
     void map(@MappingTarget DictData target, DictData bean);
 
+    @Mapping(target = "permits", expression = "java(bean.getPermits())")
     void map(@MappingTarget Role target, Role bean);
 }
