@@ -10,11 +10,8 @@ import io.helidon.config.Config;
 import io.helidon.http.media.MediaContext;
 import io.helidon.http.media.MediaContextConfig;
 import io.helidon.http.media.jackson.JacksonSupport;
-import io.helidon.openapi.OpenApiFeature;
 import io.helidon.webserver.WebServer;
 import io.helidon.webserver.WebServerConfig;
-import io.helidon.webserver.context.ContextFeature;
-import io.helidon.webserver.cors.CorsFeature;
 import io.helidon.webserver.http.HttpFeature;
 import java.util.List;
 
@@ -30,9 +27,6 @@ public class WebServerBeanFactory {
                 .config(config.get("server"))
                 .shutdownHook(false)
                 .mediaContext(mediaContext())
-                .addFeature(CorsFeature.create(config))
-                .addFeature(ContextFeature.create())
-                .addFeature(OpenApiFeature.create())
                 .routing(builder -> {
                     for (HttpFeature httpFeature : httpFeatures) {
                         builder.addFeature(httpFeature);
