@@ -36,6 +36,7 @@ public class MahuAdminStartup implements HelidonStartupProvider {
         var beanScore = this.startIoC();
         var webServer = this.startWeb(beanScore);
 
+        // 优先停止 WEB 服务
         addShutdownHandler(new WeightedShutdownHandler(webServer::stop, 0));
         addShutdownHandler(new WeightedShutdownHandler(beanScore::close, -9999));
         stopWatch.stop();
