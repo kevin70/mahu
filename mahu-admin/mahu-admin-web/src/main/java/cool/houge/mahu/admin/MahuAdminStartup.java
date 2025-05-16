@@ -17,6 +17,8 @@ import io.helidon.http.media.jackson.JacksonSupport;
 import io.helidon.spi.HelidonStartupProvider;
 import io.helidon.webserver.WebServer;
 import io.helidon.webserver.WebServerConfig;
+import io.helidon.webserver.context.ContextFeature;
+import io.helidon.webserver.cors.CorsFeature;
 import io.helidon.webserver.http.HttpFeature;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,6 +60,8 @@ public class MahuAdminStartup implements HelidonStartupProvider {
                 .config(config.get("server"))
                 .shutdownHook(false)
                 .mediaContext(mediaContext())
+                .addFeature(CorsFeature.create(config))
+                .addFeature(ContextFeature.create())
                 .routing(builder -> {
                     for (HttpFeature httpFeature : httpFeatures) {
                         builder.addFeature(httpFeature);
