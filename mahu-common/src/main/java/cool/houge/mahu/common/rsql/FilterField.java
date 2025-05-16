@@ -20,19 +20,22 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import lombok.Getter;
+import lombok.ToString;
 
 /// RSQL 过滤属性映射
 ///
 /// @author ZY (kzou227@qq.com)
 @lombok.Builder
 @Getter
+@ToString
 public class FilterField {
 
     /// 支持所有操作符
-    public static final List<ComparisonOperator> ALL = new ArrayList<>();
+    public static final List<ComparisonOperator> ALL = Collections.unmodifiableList(new ArrayList<>());
 
     /// 过滤查询中的属性名称
     private final String filterName;
