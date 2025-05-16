@@ -1,6 +1,8 @@
 package cool.houge.mahu.admin.system.service;
 
-import cool.houge.mahu.admin.shared.SharedToolService;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.bean.GeneralBeanMapper;
 import cool.houge.mahu.admin.system.repository.ClientRepository;
 import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Client;
@@ -17,13 +19,13 @@ import java.util.concurrent.ThreadLocalRandom;
 @Singleton
 public class ClientService {
 
+    private final GeneralBeanMapper beanMapper;
     private final ClientRepository clientRepository;
-    private final SharedToolService toolService;
 
     @Inject
-    public ClientService(ClientRepository clientRepository, SharedToolService toolService) {
+    public ClientService(GeneralBeanMapper beanMapper, ClientRepository clientRepository) {
+        this.beanMapper = beanMapper;
         this.clientRepository = clientRepository;
-        this.toolService = toolService;
     }
 
     /// 新增认证客户端
@@ -38,7 +40,9 @@ public class ClientService {
     /// 更新认证客户端
     @Transactional
     public void update(Client client) {
-        clientRepository.update(client);
+        var dbEntity = this.findById(client.getClientId());
+        beanMapper.map(dbEntity, client);
+        clientRepository.update(dbEntity);
     }
 
     /// 删除认证客户端
@@ -50,14 +54,17 @@ public class ClientService {
     /// 分页查询
     @Transactional(readOnly = true)
     public PagedList<Client> findPage(DataFilter dataFilter) {
-        var plist = clientRepository.findPage(dataFilter);
-        return toolService.wrap(plist, dataFilter);
+        return clientRepository.findPage(dataFilter);
     }
 
     /// 查询指定 ID 的客户端
     @Transactional(readOnly = true)
     public Client findById(String id) {
-        return clientRepository.findById(id);
+        var bean = clientRepository.findById(id);
+        if (bean == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND, "未找到认证客户端[" + id + "]");
+        }
+        return bean;
     }
 
     private String randomClientSecret() {

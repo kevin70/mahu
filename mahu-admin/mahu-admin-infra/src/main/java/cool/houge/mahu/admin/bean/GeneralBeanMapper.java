@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.bean;
 
 import cool.houge.mahu.entity.system.Admin;
+import cool.houge.mahu.entity.system.Client;
 import cool.houge.mahu.entity.system.DictData;
 import cool.houge.mahu.entity.system.DictType;
 import cool.houge.mahu.entity.system.Role;
@@ -26,4 +27,6 @@ public interface GeneralBeanMapper {
 
     @Mapping(target = "permits", expression = "java(bean.getPermits())")
     void map(@MappingTarget Role target, Role bean);
+
+    void map(@MappingTarget Client target, Client bean);
 }

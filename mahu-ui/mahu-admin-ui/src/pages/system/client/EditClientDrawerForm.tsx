@@ -11,7 +11,10 @@ export const EditClientDrawerForm = (props: { clientId: string; onSuccess: () =>
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['EditClientDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.updateClient(values, values.clientId);
+      return SYSTEM_API.updateClient({
+        clientId: props.clientId,
+        upsertClientRequest: values,
+      });
     },
     onSuccess() {
       message.success('修改认证终端成功');

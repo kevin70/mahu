@@ -10,7 +10,9 @@ export const NewClientDrawerForm = (props: { onSuccess: () => void }) => {
   const { mutateAsync, reset } = useMutation<any>({
     mutationKey: ['NewClientDrawerForm'],
     mutationFn(values: any) {
-      return SYSTEM_API.createClient(values);
+      return SYSTEM_API.createClient({
+        upsertClientRequest: values,
+      });
     },
     onSuccess() {
       message.success('新增认证终端成功');
