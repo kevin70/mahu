@@ -41,12 +41,11 @@ public class FilterField {
     private final String filterName;
     /// 数据库列名或JPA属性名称
     private final String columnName;
-    /// 可接受的查询操作符
-    private final List<ComparisonOperator> allowOperators;
-
     /// 值转换器
     @ToString.Exclude
     private final Function<String, ?> valueConverter;
+    /// 可接受的查询操作符
+    private final List<ComparisonOperator> allowOperators;
 
     FilterField(
             String filterName,
