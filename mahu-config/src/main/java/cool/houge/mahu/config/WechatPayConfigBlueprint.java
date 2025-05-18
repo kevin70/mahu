@@ -9,14 +9,15 @@ import static cool.houge.mahu.config.WechatPayConfigBlueprint.PREFIX;
 /// 微信支付配置
 ///
 /// @author ZY (kzou227@qq.com)
-@Prototype.Blueprint(builderPublic = false, createEmptyPublic = false)
+@Prototype.Blueprint
 @Prototype.Configured(PREFIX)
 interface WechatPayConfigBlueprint {
 
     /// 默认前缀
     String PREFIX = "wechat-pay";
 
-    /// 微信下单基础[地址](https://pay.weixin.qq.com/docs/merchant/development/practices/cross-city-disaster-escalation-guidelines.html)
+    ///
+    // 微信下单基础[地址](https://pay.weixin.qq.com/docs/merchant/development/practices/cross-city-disaster-escalation-guidelines.html)
     ///
     /// - 【主域名】 <a href="https://api.mch.weixin.qq.com">https://api.mch.weixin.qq.com</a>
     /// - 【备域名】 <a href="https://api2.mch.weixin.qq.com">https://api2.mch.weixin.qq.com</a>

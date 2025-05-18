@@ -10,7 +10,7 @@ import static cool.houge.mahu.config.TokenConfigBlueprint.PREFIX;
 /// 访问令牌配置蓝图
 ///
 /// @author ZY (kzou227@qq.com)
-@Prototype.Blueprint(builderPublic = false, createEmptyPublic = false)
+@Prototype.Blueprint
 @Prototype.Configured(PREFIX)
 interface TokenConfigBlueprint {
 

@@ -10,7 +10,7 @@ import static cool.houge.mahu.config.OssConfigBlueprint.PREFIX;
 /// 阿里云存储配置
 ///
 /// @author ZY (kzou227@qq.com)
-@Prototype.Blueprint(builderPublic = false, createEmptyPublic = false)
+@Prototype.Blueprint
 @Prototype.Configured(PREFIX)
 interface OssConfigBlueprint {
 
