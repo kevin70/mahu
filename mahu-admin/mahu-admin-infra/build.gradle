@@ -46,7 +46,6 @@ dependencies {
     api("io.helidon.scheduling:helidon-scheduling:$helidonVersion")
     api("io.helidon.security:helidon-security-jwt:$helidonVersion")
     api("io.helidon.security.providers:helidon-security-providers-oidc:$helidonVersion")
-    api("com.rabbitmq:amqp-client:5.25.0")
 
     api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
     api("com.github.kagkarlsson:db-scheduler:$dbSchedulerVersion")
