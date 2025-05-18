@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 
 ///
 /// @author ZY (kzou227@qq.com)
-class RefreshableCodegenExtension implements CodegenExtension {
+class RefreshableCodegen implements CodegenExtension {
 
-    private static final TypeName GENERATOR = TypeName.create(RefreshableCodegenExtension.class);
+    private static final TypeName GENERATOR = TypeName.create(RefreshableCodegen.class);
 
     private final CodegenContext ctx;
 
-    RefreshableCodegenExtension(CodegenContext ctx) {
+    RefreshableCodegen(CodegenContext ctx) {
         this.ctx = ctx;
     }
 

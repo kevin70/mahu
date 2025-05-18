@@ -13,7 +13,7 @@ public class RefreshableCodegenProvider implements CodegenExtensionProvider {
 
     @Override
     public CodegenExtension create(CodegenContext ctx, TypeName generatorType) {
-        return new RefreshableCodegenExtension(ctx);
+        return new RefreshableCodegen(ctx);
     }
 
     @Override
