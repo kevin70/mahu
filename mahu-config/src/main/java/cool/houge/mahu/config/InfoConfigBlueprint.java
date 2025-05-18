@@ -1,17 +1,17 @@
 package cool.houge.mahu.config;
 
+import cool.houge.mahu.config.annotation.Refreshable;
 import io.helidon.builder.api.Option;
 import io.helidon.builder.api.Prototype;
-import io.sundr.transform.annotations.TemplateTransformation;
 
 import static cool.houge.mahu.config.InfoConfigBlueprint.PREFIX;
 
 /// 应用信息配置
 ///
 /// @author ZY (kzou227@qq.com)
-@Prototype.Blueprint(builderPublic = false, createEmptyPublic = false)
+@Refreshable
+@Prototype.Blueprint
 @Prototype.Configured(PREFIX)
-@TemplateTransformation("/codegen/refresh-config.vm")
 interface InfoConfigBlueprint {
 
     /// 默认前缀
