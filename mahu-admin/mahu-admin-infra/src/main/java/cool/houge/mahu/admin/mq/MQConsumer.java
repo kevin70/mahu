@@ -81,6 +81,7 @@ public class MQConsumer implements Closeable {
 
         try {
             channel.basicConsume(queue, false, callback);
+            log.info("开始消费MQ消息 queue={} exchange={} routingKey={}", queue, exchange, routingKey);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -100,8 +101,10 @@ public class MQConsumer implements Closeable {
     }
 
     private Channel queueBind(String queue, String exchange, String routingKey) {
-        var conn = obtainConnection();
         try {
+            var conn = connectionFactory.newConnection();
+            connections.add(conn);
+
             var channel = conn.createChannel();
             conn.addShutdownListener(cause -> {
                 try {
@@ -114,17 +117,6 @@ public class MQConsumer implements Closeable {
 
             channel.queueBind(queue, exchange, routingKey);
             return channel;
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    private Connection obtainConnection() {
-        try {
-            var conn = connectionFactory.newConnection();
-            conn.addShutdownListener(cause -> connections.remove(conn));
-            connections.add(conn);
-            return conn;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         } catch (TimeoutException e) {
