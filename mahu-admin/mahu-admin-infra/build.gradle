@@ -52,7 +52,7 @@ dependencies {
     api("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
     api("redis.clients:jedis:$jedisVersion")
     api("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
-    api("com.rabbitmq:amqp-client:5.25.0")
+    api("com.rabbitmq:amqp-client:$rabbitmqVersion")
 
     testImplementation("io.helidon.testing:helidon-testing-junit5:$helidonVersion")
     testImplementation("io.ebean:ebean-test:$ebeanVersion")
