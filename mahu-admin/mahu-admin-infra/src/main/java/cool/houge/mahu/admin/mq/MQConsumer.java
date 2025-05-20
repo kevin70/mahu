@@ -5,12 +5,11 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.UncheckedTimeoutException;
 import com.rabbitmq.client.AMQP.BasicProperties;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
-import com.rabbitmq.client.ShutdownSignalException;
+import com.rabbitmq.client.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
@@ -18,12 +17,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 ///
 /// @author ZY (kzou227@qq.com)
-public class MQConsumer implements AutoCloseable {
+public class MQConsumer implements Closeable {
 
     private static final Logger log = LogManager.getLogger(MQConsumer.class);
 
@@ -44,40 +41,46 @@ public class MQConsumer implements AutoCloseable {
         }
 
         Channel channel = queueBind(queue, exchange, routingKey);
-        try {
-            channel.basicConsume(queue, false, new DefaultConsumer(channel) {
-                @Override
-                public void handleShutdownSignal(String consumerTag, ShutdownSignalException sig) {
-                    log.info("收到RabbitMQ停止信号 {}", consumerTag, sig);
+        var callback = new DefaultConsumer(channel) {
+            @Override
+            public void handleShutdownSignal(String consumerTag, ShutdownSignalException sig) {
+                log.info("收到RabbitMQ停止信号 {}", consumerTag, sig);
+            }
+
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body) {
+                if (!running.get()) {
+                    log.info("MQConsumer已经关闭，暂停消费消息 {}", () -> new String(body, StandardCharsets.UTF_8));
+                    return;
                 }
 
-                @Override
-                public void handleDelivery(
-                        String consumerTag, Envelope envelope, BasicProperties properties, byte[] body) {
-                    try {
-                        T obj = objectMapper.readValue(body, bodyType);
-                        consumer.accept(obj);
-                        getChannel().basicAck(envelope.getDeliveryTag(), false);
-                    } catch (JsonProcessingException e) {
-                        log.error(
-                                "RabbitMQ消息解析JSON错误 queue={} exchange={} routerKey={} bodyType={} " + "body={}",
-                                queue,
-                                exchange,
-                                routingKey,
-                                new String(body, StandardCharsets.UTF_8),
-                                bodyType,
-                                e);
-                    } catch (Exception e) {
-                        log.error(
-                                "RabbitMQ消息消费错误 queue={} exchange={} routerKey={} body={}",
-                                queue,
-                                exchange,
-                                routingKey,
-                                new String(body, StandardCharsets.UTF_8),
-                                e);
-                    }
+                try {
+                    T obj = objectMapper.readValue(body, bodyType);
+                    consumer.accept(obj);
+                    getChannel().basicAck(envelope.getDeliveryTag(), false);
+                } catch (JsonProcessingException e) {
+                    log.error(
+                            "RabbitMQ消息解析错误 queue={} exchange={} routerKey={} bodyType={} " + "body={}",
+                            queue,
+                            exchange,
+                            routingKey,
+                            new String(body, StandardCharsets.UTF_8),
+                            bodyType,
+                            e);
+                } catch (Exception e) {
+                    log.error(
+                            "RabbitMQ消息处理错误 queue={} exchange={} routerKey={} body={}",
+                            queue,
+                            exchange,
+                            routingKey,
+                            new String(body, StandardCharsets.UTF_8),
+                            e);
                 }
-            });
+            }
+        };
+
+        try {
+            channel.basicConsume(queue, false, callback);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -85,14 +88,15 @@ public class MQConsumer implements AutoCloseable {
 
     @Override
     public void close() {
-        for (Connection connection : connections) {
-            try {
-                connection.close();
-            } catch (IOException e) {
-                log.warn("关闭RabbitMQ [{}]错误", connection, e);
+        if (running.compareAndSet(true, false)) {
+            for (Connection connection : connections) {
+                try {
+                    connection.close();
+                } catch (IOException e) {
+                    log.warn("关闭RabbitMQ [{}]错误", connection, e);
+                }
             }
         }
-        running.set(false);
     }
 
     private Channel queueBind(String queue, String exchange, String routingKey) {
@@ -118,6 +122,7 @@ public class MQConsumer implements AutoCloseable {
     private Connection obtainConnection() {
         try {
             var conn = connectionFactory.newConnection();
+            conn.addShutdownListener(cause -> connections.remove(conn));
             connections.add(conn);
             return conn;
         } catch (IOException e) {
