@@ -28,7 +28,8 @@ public class RabbitMQBeanFactory {
             connectionFactory.setAutomaticRecoveryEnabled(true);
             connectionFactory.setNetworkRecoveryInterval(5000);
             connectionFactory.setClientProperties(Map.of("client_name", appInstance.getQualifiedName()));
-            connectionFactory.setSharedExecutor(Executors.newVirtualThreadPerTaskExecutor());
+            connectionFactory.setSharedExecutor(Executors.newThreadPerTaskExecutor(
+                    Thread.ofVirtual().name("RabbitMQ-", 0).factory()));
             connectionFactory.setUri(uri);
             return connectionFactory;
         } catch (URISyntaxException | NoSuchAlgorithmException | KeyManagementException e) {
