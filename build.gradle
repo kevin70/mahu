@@ -116,6 +116,7 @@ allprojects {
         testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
         testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
         testImplementation("org.instancio:instancio-junit:$instancioVersion")
+        testImplementation("org.awaitility:awaitility:$awaitilityVersion")
     }
 
     repositories {
