@@ -102,6 +102,7 @@ allprojects {
 
     dependencies {
         implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
+        implementation(enforcedPlatform("org.testcontainers:testcontainers-bom:$testcontainersVersion"))
 
         annotationProcessor("org.projectlombok:lombok:$lombokVersion")
         compileOnly("org.projectlombok:lombok:$lombokVersion")

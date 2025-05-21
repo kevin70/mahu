@@ -62,4 +62,7 @@ dependencies {
     testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
     testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:rabbitmq")
 }
