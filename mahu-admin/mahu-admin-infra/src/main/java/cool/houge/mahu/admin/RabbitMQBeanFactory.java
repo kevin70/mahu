@@ -1,8 +1,6 @@
 package cool.houge.mahu.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.google.common.util.concurrent.UncaughtExceptionHandlers;
 import com.rabbitmq.client.ConnectionFactory;
 import cool.houge.mahu.AppInstance;
 import cool.houge.mahu.admin.mq.MQConsumer;
@@ -13,6 +11,7 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 /// RabbitMQ 对象定义工厂
 ///
@@ -29,11 +28,7 @@ public class RabbitMQBeanFactory {
             connectionFactory.setAutomaticRecoveryEnabled(true);
             connectionFactory.setNetworkRecoveryInterval(5000);
             connectionFactory.setClientProperties(Map.of("client_name", appInstance.getQualifiedName()));
-            connectionFactory.setThreadFactory(new ThreadFactoryBuilder()
-                    .setDaemon(true)
-                    .setNameFormat("RabbitMQ-%d")
-                    .setUncaughtExceptionHandler(UncaughtExceptionHandlers.systemExit())
-                    .build());
+            connectionFactory.setSharedExecutor(Executors.newVirtualThreadPerTaskExecutor());
             connectionFactory.setUri(uri);
             return connectionFactory;
         } catch (URISyntaxException | NoSuchAlgorithmException | KeyManagementException e) {
