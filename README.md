@@ -61,7 +61,7 @@
 podman run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build
 ```
 
-## 应用环境可选名称
+## 应用环境名称规范
 
 | 简写   | 全称                         | 用途                     |
 |------|----------------------------|------------------------|
