@@ -21,7 +21,7 @@ public class RabbitMQBeanFactory {
 
     @Bean
     public ConnectionFactory connectionFactory(Config config, AppInstance appInstance) {
-        var uri = config.get("rabbitmq.uri").asString().get();
+        var uri = config.get("rabbitmq.url").asString().get();
         var connectionFactory = new ConnectionFactory();
         try {
             connectionFactory.setConnectionTimeout(5000);
