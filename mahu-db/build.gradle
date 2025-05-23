@@ -6,6 +6,7 @@ buildscript {
 }
 
 plugins {
+    id "java-library"
     id "org.liquibase.gradle" version "2.2.1"
 }
 
@@ -48,7 +49,7 @@ dependencies {
     liquibaseRuntime("info.picocli:picocli:4.7.5")
     liquibaseRuntime("org.postgresql:postgresql:$postgresqlVersion")
 
-    implementation("org.liquibase:liquibase-core:4.26.0")
-    implementation("info.picocli:picocli:4.7.5")
+    api("org.liquibase:liquibase-core:4.26.0")
+    api("info.picocli:picocli:4.7.5")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
 }

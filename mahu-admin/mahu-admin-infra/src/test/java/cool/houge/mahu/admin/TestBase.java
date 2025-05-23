@@ -13,11 +13,12 @@ import org.testcontainers.junit.jupiter.TestcontainersExtension;
 /// 测试基类
 ///
 /// @author ZY (kzou227@qq.com)
-@ExtendWith({TestcontainersExtension.class, InjectJunitExtension.class})
+@ExtendWith({TestcontainersExtension.class, SetupDatabaseExtension.class, InjectJunitExtension.class})
 @Testcontainers
 public abstract class TestBase {
 
     /// PostgreSQL 测试容器
+    @Container
     public static final PostgreSQLContainer<?> POSTGRE_SQL_TEST_CONTAINER =
             new PostgreSQLContainer("postgres:17.5-alpine").withDatabaseName("mahu-sit");
     /// RabbitMQ 测试容器

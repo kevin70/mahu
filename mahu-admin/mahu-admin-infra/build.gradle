@@ -66,5 +66,5 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:rabbitmq")
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:redis")
+    testImplementation(project(":mahu-db"))
 }
