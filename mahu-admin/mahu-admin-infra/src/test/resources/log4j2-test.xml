@@ -11,6 +11,8 @@
         </Console>
     </Appenders>
     <Loggers>
+        <Logger name="org.testcontainers" level="INFO"/>
+        <Logger name="com.github.dockerjava.zerodep" level="INFO"/>
         <Root level="DEBUG" additivity="false">
             <AppenderRef ref="console"/>
         </Root>
