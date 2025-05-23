@@ -19,10 +19,10 @@ def config = io.helidon.config.Config.builder()
     .build()
 
 liquibase {
-    jvmArgs = ["-Dliquibase.searchPath=${projectDir}/src/main/resources/db/changelog"]
+    jvmArgs = ["-Dliquibase.searchPath=${projectDir}/src/main/resources"]
     activities.register("main") {
         // 配置属性参考文档：https://docs.liquibase.com/concepts/connections/creating-config-properties.html
-        changelogFile "changelog-root.yaml"
+        changelogFile "db/changelog/changelog-root.yaml"
 //        url config.get("db.url").asString().orElse(System.getenv("MAHU_DB_URL"))
         url "jdbc:postgresql://106.14.192.224:5432/mahu4"
 //        url "jdbc:postgresql://106.14.192.224:5432/mahu-prod"

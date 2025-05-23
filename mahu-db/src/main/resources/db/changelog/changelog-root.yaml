@@ -1,37 +1,37 @@
 databaseChangeLog:
   - include:
-      file: "changelog-schemas/schemas.sql"
+      file: "db/changelog/changelog-schemas/schemas.sql"
 
   ### 系统表
   - include:
-      file: "changelog-tables/system.client.sql"
+      file: "db/changelog/changelog-tables/system.client.sql"
   - include:
-      file: "changelog-tables/system.scheduled_task.sql"
+      file: "db/changelog/changelog-tables/system.scheduled_task.sql"
   - include:
-      file: "changelog-tables/system.dict.sql"
+      file: "db/changelog/changelog-tables/system.dict.sql"
   - include:
-      file: "changelog-tables/system.role.sql"
+      file: "db/changelog/changelog-tables/system.role.sql"
   - include:
-      file: "changelog-tables/system.admin.sql"
+      file: "db/changelog/changelog-tables/system.admin.sql"
   - include:
-      file: "changelog-tables/system.admin_role.sql"
+      file: "db/changelog/changelog-tables/system.admin_role.sql"
   - include:
-      file: "changelog-tables/system.department.sql"
+      file: "db/changelog/changelog-tables/system.department.sql"
   - include:
-      file: "changelog-tables/public.users.sql"
+      file: "db/changelog/changelog-tables/public.users.sql"
   - include:
-      file: "changelog-tables/public.region.sql"
+      file: "db/changelog/changelog-tables/public.region.sql"
 
   ### 业务日志表
   - include:
-      file: "changelog-tables/log.admin_access_log.sql"
+      file: "db/changelog/changelog-tables/log.admin_access_log.sql"
   - include:
-      file: "changelog-tables/log.admin_audit_log.sql"
+      file: "db/changelog/changelog-tables/log.admin_audit_log.sql"
   - include:
-      file: "changelog-tables/log.admin_auth_log.sql"
+      file: "db/changelog/changelog-tables/log.admin_auth_log.sql"
   - include:
-      file: "changelog-tables/log.scheduled_execution_log.sql"
+      file: "db/changelog/changelog-tables/log.scheduled_execution_log.sql"
 
   ### 初始化业务数据
   - include:
-      file: "changelog-tables/0_init_data.sql"
+      file: "db/changelog/changelog-tables/0_init_data.sql"

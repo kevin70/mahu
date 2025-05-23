@@ -4,7 +4,6 @@ import io.avaje.inject.spi.Builder;
 import io.avaje.inject.test.TestModule;
 import io.helidon.config.Config;
 import io.helidon.config.ConfigSources;
-
 import java.util.Map;
 
 ///
@@ -22,6 +21,10 @@ public class MyTestModule implements TestModule {
                 .addSource(ConfigSources.create(Map.of(
                         "db.url",
                         TestBase.POSTGRE_SQL_TEST_CONTAINER.getJdbcUrl(),
+                        "db.username",
+                        TestBase.POSTGRE_SQL_TEST_CONTAINER.getUsername(),
+                        "db.password",
+                        TestBase.POSTGRE_SQL_TEST_CONTAINER.getPassword(),
                         "rabbitmq.url",
                         TestBase.RABBITMQ_TEST_CONTAINER.getAmqpUrl())))
                 .addSource(ConfigSources.environmentVariables())
