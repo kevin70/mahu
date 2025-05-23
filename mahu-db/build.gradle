@@ -18,7 +18,7 @@ def config = io.helidon.config.Config.builder()
     .build()
 
 liquibase {
-    jvmArgs = ["-Dliquibase.searchPath=${projectDir}/changelog"]
+    jvmArgs = ["-Dliquibase.searchPath=${projectDir}/src/main/resources/db/changelog"]
     activities.register("main") {
         // 配置属性参考文档：https://docs.liquibase.com/concepts/connections/creating-config-properties.html
         changelogFile "changelog-root.yaml"
@@ -49,4 +49,6 @@ dependencies {
     liquibaseRuntime("org.postgresql:postgresql:$postgresqlVersion")
 
     implementation("org.liquibase:liquibase-core:4.26.0")
+    implementation("info.picocli:picocli:4.7.5")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
 }
