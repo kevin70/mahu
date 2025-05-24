@@ -7,8 +7,8 @@ create table system.role
     id         integer not null
         constraint role_pk
             primary key,
-    created_at timestamp,
-    updated_at timestamp,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     deleted    "char" default 'F'::"char",
     name       varchar(32),
     remark     varchar(255),

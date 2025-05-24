@@ -7,7 +7,7 @@ create table log.admin_access_log
     id              bigint not null
         constraint admin_access_log_pk
             primary key,
-    created_at      timestamp,
+    created_at      timestamp without time zone,
     admin_id        bigint,
     ip_addr         varchar(64),
     method          varchar(16),
@@ -21,13 +21,13 @@ create table log.admin_access_log
 );
 
 comment
-on column log.admin_access_log.id is '主键';
+    on column log.admin_access_log.id is '主键';
 
 comment
-on column log.admin_access_log.created_at is '创建时间';
+    on column log.admin_access_log.created_at is '创建时间';
 
 comment
-on column log.admin_access_log.admin_id is '管理员 ID';
+    on column log.admin_access_log.admin_id is '管理员 ID';
 
 create index admin_access_log_admin_id_idx
     on log.admin_access_log (admin_id);

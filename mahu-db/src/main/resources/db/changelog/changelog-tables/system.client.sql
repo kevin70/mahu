@@ -7,8 +7,8 @@ create table system.client
     client_id        varchar(32) not null
         constraint client_pk
             primary key,
-    created_at       timestamp,
-    updated_at       timestamp,
+    created_at       timestamp without time zone,
+    updated_at       timestamp without time zone,
     deleted          "char" default 'F'::"char",
     client_secret    varchar(4000),
     remark           varchar(500),
@@ -22,11 +22,9 @@ comment on table system.client is '认证客户端';
 
 comment on column system.client.client_id is '客户端 ID';
 
-comment
-on column system.client.created_at is '创建时间';
+comment on column system.client.created_at is '创建时间';
 
-comment
-on column system.client.updated_at is '修改时间';
+comment on column system.client.updated_at is '修改时间';
 
 comment on column system.client.deleted is '软删除标识';
 

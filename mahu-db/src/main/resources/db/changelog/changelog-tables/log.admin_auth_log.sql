@@ -7,7 +7,7 @@ create table log.admin_auth_log
     id          bigint not null
         constraint admin_auth_log_pk
             primary key,
-    created_at  timestamp,
+    created_at  timestamp without time zone,
     admin_id    bigint,
     auth_type   varchar(50),
     auth_method varchar(50),
@@ -17,34 +17,34 @@ create table log.admin_auth_log
 );
 
 comment
-on table log.admin_auth_log is '管理员认证日志';
+    on table log.admin_auth_log is '管理员认证日志';
 
 comment
-on column log.admin_auth_log.id is '主键';
+    on column log.admin_auth_log.id is '主键';
 
 comment
-on column log.admin_auth_log.created_at is '创建时间';
+    on column log.admin_auth_log.created_at is '创建时间';
 
 comment
-on column log.admin_auth_log.admin_id is '管理员用户 ID';
+    on column log.admin_auth_log.admin_id is '管理员用户 ID';
 
 comment
-on column log.admin_auth_log.auth_type is '认证类型
+    on column log.admin_auth_log.auth_type is '认证类型
 LOGIN
 TOKEN_REFRESH';
 
 comment
-on column log.admin_auth_log.auth_method is '认证类型
+    on column log.admin_auth_log.auth_method is '认证类型
 PASSWORD';
 
 comment
-on column log.admin_auth_log.client_id is '认证客户端 ID';
+    on column log.admin_auth_log.client_id is '认证客户端 ID';
 
 comment
-on column log.admin_auth_log.ip_addr is '认证 IP';
+    on column log.admin_auth_log.ip_addr is '认证 IP';
 
 comment
-on column log.admin_auth_log.user_agent is '认证的 User Agent';
+    on column log.admin_auth_log.user_agent is '认证的 User Agent';
 
 create index admin_auth_log_admin_id_idx
     on log.admin_auth_log (admin_id);

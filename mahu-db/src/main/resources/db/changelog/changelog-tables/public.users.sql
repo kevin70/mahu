@@ -7,8 +7,8 @@ create table public.users
     id             bigserial
         constraint users_pk
             primary key,
-    created_at     timestamp,
-    updated_at     timestamp,
+    created_at     timestamp without time zone,
+    updated_at     timestamp without time zone,
     deleted        "char" default 'F'::"char",
     avatar         varchar(1024),
     nickname       varchar(128),
@@ -22,46 +22,46 @@ create table public.users
 );
 
 comment
-on table public.users is '用户表';
+    on table public.users is '用户表';
 
 comment
-on column public.users.id is '用户ID';
+    on column public.users.id is '用户ID';
 
 comment
-on column public.users.created_at is '创建时间';
+    on column public.users.created_at is '创建时间';
 
 comment
-on column public.users.updated_at is '更新时间';
+    on column public.users.updated_at is '更新时间';
 
 comment
-on column public.users.deleted is '软删除';
+    on column public.users.deleted is '软删除';
 
 comment
-on column public.users.avatar is '头像地址';
+    on column public.users.avatar is '头像地址';
 
 comment
-on column public.users.nickname is '昵称';
+    on column public.users.nickname is '昵称';
 
 comment
-on column public.users.mobile is '手机号码';
+    on column public.users.mobile is '手机号码';
 
 comment
-on column public.users.username is '登录名';
+    on column public.users.username is '登录名';
 
 comment
-on column public.users.password is '登录密码';
+    on column public.users.password is '登录密码';
 
 comment
-on column public.users.status is '状态';
+    on column public.users.status is '状态';
 
 comment
-on column public.users.wechat_appid is '微信 appid';
+    on column public.users.wechat_appid is '微信 appid';
 
 comment
-on column public.users.wechat_openid is '微信 openid';
+    on column public.users.wechat_openid is '微信 openid';
 
 comment
-on column public.users.wechat_unionid is '微信 unionid';
+    on column public.users.wechat_unionid is '微信 unionid';
 
 alter sequence public.users_id_seq restart with 100001;
 -- rollback drop table public.users;
