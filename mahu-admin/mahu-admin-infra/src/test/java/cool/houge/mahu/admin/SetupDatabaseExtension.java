@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
+/// 安装数据库
 ///
 /// @author ZY (kzou227@qq.com)
 public class SetupDatabaseExtension implements BeforeAllCallback {

@@ -1,9 +1,6 @@
 package cool.houge.mahu.admin.mart.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.instancio.Select.fields;
-
-import cool.houge.mahu.admin.TestTransactionBase;
+import cool.houge.mahu.admin.TestBase;
 import cool.houge.mahu.entity.mart.Attribute;
 import cool.houge.mahu.entity.mart.AttributeValue;
 import jakarta.inject.Inject;
@@ -11,10 +8,13 @@ import jakarta.persistence.Id;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.instancio.Select.fields;
+
 /// 商品属性
 ///
 /// @author ZY (kzou227@qq.com)
-class AttributeRepositoryTest extends TestTransactionBase {
+class AttributeRepositoryTest extends TestBase {
 
     @Inject
     AttributeRepository attributeRepository;

@@ -1,10 +1,6 @@
 package cool.houge.mahu.admin.mart.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.instancio.Select.field;
-import static org.instancio.Select.fields;
-
-import cool.houge.mahu.admin.TestTransactionBase;
+import cool.houge.mahu.admin.TestBase;
 import cool.houge.mahu.entity.mart.Asset;
 import cool.houge.mahu.entity.mart.Shop;
 import io.ebean.annotation.WhenCreated;
@@ -14,9 +10,13 @@ import jakarta.persistence.Id;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.instancio.Select.field;
+import static org.instancio.Select.fields;
+
 ///
 /// @author ZY (kzou227@qq.com)
-class AssetRepositoryTest extends TestTransactionBase {
+class AssetRepositoryTest extends TestBase {
 
     @Inject
     AssetRepository assetRepository;

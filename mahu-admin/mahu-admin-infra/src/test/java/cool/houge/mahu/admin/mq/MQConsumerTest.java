@@ -1,19 +1,19 @@
 package cool.houge.mahu.admin.mq;
 
-import static org.awaitility.Awaitility.await;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import io.avaje.inject.test.InjectTest;
+import cool.houge.mahu.admin.TestBase;
 import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
+
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.junit.jupiter.api.Test;
+
+import static org.awaitility.Awaitility.await;
 
 ///
 /// @author ZY (kzou227@qq.com)
-@InjectTest
-class MQConsumerTest {
+class MQConsumerTest extends TestBase {
 
     @Inject
     MQConsumer mqConsumer;

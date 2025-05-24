@@ -7,6 +7,7 @@ import io.helidon.config.Config;
 import io.helidon.config.ConfigSources;
 import java.util.Map;
 
+/// 测试模块
 ///
 /// @author ZY (kzou227@qq.com)
 public class MyTestModule implements TestModule {
@@ -18,8 +19,8 @@ public class MyTestModule implements TestModule {
 
     @Override
     public void build(Builder builder) {
-        var config = Config.builder()
-                .addSource(ConfigSources.create(Map.of(
+        var memoryConfigSource = ConfigSources.create(
+                Map.of(
                         "db.url",
                         TestBase.POSTGRE_SQL_TEST_CONTAINER.getJdbcUrl(),
                         "db.username",
@@ -27,7 +28,11 @@ public class MyTestModule implements TestModule {
                         "db.password",
                         TestBase.POSTGRE_SQL_TEST_CONTAINER.getPassword(),
                         "rabbitmq.url",
-                        TestBase.RABBITMQ_TEST_CONTAINER.getAmqpUrl())))
+                        TestBase.RABBITMQ_TEST_CONTAINER.getAmqpUrl())
+                //
+                );
+        var config = Config.builder()
+                .addSource(memoryConfigSource)
                 .addSource(ConfigSources.environmentVariables())
                 .addSource(ConfigSources.systemProperties())
                 .addSource(ConfigSources.file("/Users/yein/houge/mahu.yaml").optional())

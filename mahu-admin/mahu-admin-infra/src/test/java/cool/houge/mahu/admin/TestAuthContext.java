@@ -24,7 +24,7 @@ import cool.houge.mahu.admin.security.AuthContext;
 public class TestAuthContext implements AuthContext {
 
     /// 默认集成测试默认认证上下文
-    public static final AuthContext DEFAULT = new TestAuthContext(-1, "INTEGRATION-TEST");
+    public static final AuthContext DEFAULT = new TestAuthContext(2, "INTEGRATION-TEST");
 
     private final int uid;
     private final String name;
