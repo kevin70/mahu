@@ -105,6 +105,7 @@ allprojects {
         implementation(enforcedPlatform("org.testcontainers:testcontainers-bom:$testcontainersVersion"))
 
         annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+        annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
         compileOnly("org.projectlombok:lombok:$lombokVersion")
         compileOnly("org.mapstruct:mapstruct:$mapstructVersion")
         compileOnly("io.swagger.core.v3:swagger-annotations:$swaggerVersion")
