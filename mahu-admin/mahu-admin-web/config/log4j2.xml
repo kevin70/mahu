@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration
-        xmlns="http://logging.apache.org/log4j/2.0/config"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config Log4j-config.xsd"
-        status="INFO">
+    xmlns="http://logging.apache.org/log4j/2.0/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config Log4j-config.xsd"
+    status="INFO">
 
     <Properties>
         <Property name="LOG_DIR">/var/log/mahu-admin-web</Property>
@@ -24,7 +24,7 @@
         <RollingFile name="sqlFile" fileName="${LOG_DIR}/sql.log"
                      filePattern="${LOG_DIR}/bak-sql.%d{yyyyMMdd}.%i.gz">
             <PatternLayout
-                    pattern="%d{MM-dd'T'HH:mm:ss.SSS} %m%n"/>
+                pattern="%d{MM-dd'T'HH:mm:ss.SSS} %m%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
             </Policies>
@@ -33,7 +33,7 @@
         <RollingFile name="slowSqlFile" fileName="${LOG_DIR}/slow-sql.log"
                      filePattern="${LOG_DIR}/bak-slow-sql.%d{yyyyMMdd}.%i.gz">
             <PatternLayout
-                    pattern="%d{MM-dd'T'HH:mm:ss.SSS} %m%n"/>
+                pattern="%d{MM-dd'T'HH:mm:ss.SSS} %m%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
             </Policies>

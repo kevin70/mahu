@@ -1,17 +1,16 @@
 package cool.houge.mahu.admin.system.service;
 
+import static cool.houge.mahu.admin.Utils.GEN_IGNORE_FIELDS;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import cool.houge.mahu.admin.TestBase;
 import cool.houge.mahu.entity.system.DictData;
 import cool.houge.mahu.entity.system.DictType;
 import jakarta.inject.Inject;
+import java.util.List;
 import org.instancio.Instancio;
 import org.instancio.InstancioApi;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static cool.houge.mahu.admin.Utils.GEN_IGNORE_FIELDS;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /// @author ZY (kzou227@qq.com)
 class DictServiceTest extends TestBase {

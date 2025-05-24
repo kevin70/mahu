@@ -28,7 +28,9 @@ public class ScheduledTaskService {
     private final ScheduledExecutionLogRepository scheduledExecutionLogRepository;
 
     @Inject
-    public ScheduledTaskService(ScheduledTaskRepository scheduledTaskRepository, ScheduledExecutionLogRepository scheduledExecutionLogRepository) {
+    public ScheduledTaskService(
+            ScheduledTaskRepository scheduledTaskRepository,
+            ScheduledExecutionLogRepository scheduledExecutionLogRepository) {
         this.scheduledTaskRepository = scheduledTaskRepository;
         this.scheduledExecutionLogRepository = scheduledExecutionLogRepository;
     }

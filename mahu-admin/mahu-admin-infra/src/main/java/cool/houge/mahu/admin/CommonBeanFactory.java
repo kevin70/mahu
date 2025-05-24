@@ -19,20 +19,20 @@ public class CommonBeanFactory {
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper()
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-            .findAndRegisterModules();
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .findAndRegisterModules();
     }
 
     @Bean
     public WebClient webClient() {
         var objectMapper = new ObjectMapper()
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            .findAndRegisterModules();
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .findAndRegisterModules();
         return WebClient.builder()
-            .connectTimeout(Duration.ofSeconds(15))
-            .addMediaSupport(JacksonSupport.create(objectMapper))
-            .build();
+                .connectTimeout(Duration.ofSeconds(15))
+                .addMediaSupport(JacksonSupport.create(objectMapper))
+                .build();
     }
 }
