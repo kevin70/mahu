@@ -33,7 +33,7 @@ public class MeController implements HttpService, WebSupport {
     }
 
     private void getMeProfile(ServerRequest request, ServerResponse response) {
-        var ac = AuthContext.get();
+        var ac = AuthContext.current();
         var user = userService.getProfile(ac.uid());
         var rs = beanMapper.toGetMeProfileResponse(user);
         response.send(rs);
@@ -43,7 +43,7 @@ public class MeController implements HttpService, WebSupport {
         var vo = request.content().as(UpdateMeProfileRequest.class);
         validate(vo);
 
-        var ac = AuthContext.get();
+        var ac = AuthContext.current();
         var entity = beanMapper.toUser(vo).setId(ac.uid());
         userService.update(entity);
 

@@ -35,8 +35,8 @@ public interface AuthContext {
         return List.of();
     }
 
-    /// 获取当前线程上下文中的认证用户信息
-    static @Nonnull AuthContext get() {
+    /// 获取当前认证用户信息
+    static @Nonnull AuthContext current() {
         return Contexts.context()
                 .orElseThrow(() -> new BizCodeException(BizCodes.DATA_LOSS, "没有发现 helidon 上下文对象"))
                 .get(AuthContext.class)

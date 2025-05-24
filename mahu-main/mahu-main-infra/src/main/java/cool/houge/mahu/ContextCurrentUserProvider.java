@@ -10,6 +10,6 @@ public class ContextCurrentUserProvider implements CurrentUserProvider {
 
     @Override
     public Object currentUser() {
-        return AuthContext.get().uid();
+        return AuthContext.current().uid();
     }
 }

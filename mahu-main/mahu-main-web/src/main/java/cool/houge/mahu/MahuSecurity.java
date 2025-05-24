@@ -57,7 +57,7 @@ public class MahuSecurity implements HttpSecurity {
             return true;
         }
 
-        var ac = AuthContext.get();
+        var ac = AuthContext.current();
         for (String s : roleHint) {
             if (!ac.checkPermit(s)) {
                 throw new BizCodeException(BizCodes.PERMISSION_DENIED, "没有访问权限");
