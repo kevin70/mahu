@@ -1,32 +1,25 @@
 package cool.houge.mahu.admin.system.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import cool.houge.mahu.admin.TestTransactionBase;
 import cool.houge.mahu.entity.system.DictData;
 import cool.houge.mahu.entity.system.DictType;
-import io.ebean.annotation.WhenCreated;
-import io.ebean.annotation.WhenModified;
 import jakarta.inject.Inject;
-import jakarta.persistence.Id;
-import java.util.List;
 import org.instancio.Instancio;
 import org.instancio.Model;
-import org.instancio.Select;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static cool.houge.mahu.admin.Utils.GEN_IGNORE_FIELDS;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /// @author ZY (kzou227@qq.com)
 class DictServiceTest extends TestTransactionBase {
 
-    private static final Model<DictType> DICT_TYPE_MODEL = Instancio.of(DictType.class)
-            .ignore(Select.fields().annotated(WhenCreated.class))
-            .ignore(Select.fields().annotated(WhenModified.class))
-            .toModel();
-    private static final Model<DictData> DICT_DATA_MODEL = Instancio.of(DictData.class)
-            .ignore(Select.fields().annotated(Id.class))
-            .ignore(Select.fields().annotated(WhenCreated.class))
-            .ignore(Select.fields().annotated(WhenModified.class))
-            .toModel();
+    private static final Model<DictType> DICT_TYPE_MODEL =
+            Instancio.of(DictType.class).ignore(GEN_IGNORE_FIELDS).toModel();
+    private static final Model<DictData> DICT_DATA_MODEL =
+            Instancio.of(DictData.class).ignore(GEN_IGNORE_FIELDS).toModel();
 
     @Inject
     DictService dictService;
