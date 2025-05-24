@@ -37,3 +37,7 @@ databaseChangeLog:
   ### 初始化业务数据
   - include:
       file: "db/changelog/changelog-tables/0_init_data.sql"
+
+  ### 初始化SIT环境专用的测试数据
+  - include:
+      file: "db/changelog/changelog-tables/0_init_data_sit.sql"
