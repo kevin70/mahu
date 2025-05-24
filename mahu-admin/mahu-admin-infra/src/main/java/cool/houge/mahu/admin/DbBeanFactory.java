@@ -11,6 +11,7 @@ import io.avaje.inject.Factory;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.ContainerConfig;
+import io.ebean.config.CurrentUserProvider;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.config.JsonConfig;
 import io.ebean.datasource.DataSourceConfig;
@@ -54,8 +55,13 @@ public class DbBeanFactory {
         return new AppInstance(config.name(), config.version(), nodeId);
     }
 
+    @Bean
+    public CurrentUserProvider currentUserProvider() {
+        return new ContextCurrentUserProvider();
+    }
+
     @Bean(destroyMethod = "shutdown", destroyPriority = 9998)
-    public Database database(AppInstance appInstance, DataSource ds) {
+    public Database database(AppInstance appInstance, DataSource ds, CurrentUserProvider currentUserProvider) {
         var dbc = new DatabaseConfig();
         dbc.setContainerConfig(new ContainerConfig());
         dbc.setDataSourceConfig(
@@ -71,7 +77,7 @@ public class DbBeanFactory {
         dbc.setDatabaseBooleanFalse("F");
 
         dbc.setJsonInclude(JsonConfig.Include.NON_NULL);
-        dbc.setCurrentUserProvider(new ContextCurrentUserProvider());
+        dbc.setCurrentUserProvider(currentUserProvider);
         dbc.add(new AuditPersistController());
         return DatabaseFactory.create(dbc);
     }

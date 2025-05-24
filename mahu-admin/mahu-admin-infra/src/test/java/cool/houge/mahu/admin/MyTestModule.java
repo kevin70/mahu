@@ -2,6 +2,7 @@ package cool.houge.mahu.admin;
 
 import io.avaje.inject.spi.Builder;
 import io.avaje.inject.test.TestModule;
+import io.ebean.config.CurrentUserProvider;
 import io.helidon.config.Config;
 import io.helidon.config.ConfigSources;
 import java.util.Map;
@@ -35,5 +36,7 @@ public class MyTestModule implements TestModule {
                 .addSource(ConfigSources.classpath("mahu-admin-test.yaml"))
                 .build();
         builder.withBean(Config.class, config);
+        // SIT 环境专属测试用户
+        builder.withBean(CurrentUserProvider.class, () -> 2L);
     }
 }
