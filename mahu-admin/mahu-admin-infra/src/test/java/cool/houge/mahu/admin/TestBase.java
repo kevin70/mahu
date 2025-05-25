@@ -25,11 +25,12 @@ public abstract class TestBase {
     /// PostgreSQL 测试容器
     @Container
     public static final PostgreSQLContainer<?> POSTGRE_SQL_TEST_CONTAINER =
-            new PostgreSQLContainer("postgres:17.5-alpine").withDatabaseName("mahu-sit");
+            new PostgreSQLContainer<>("postgres:17.5-alpine").withReuse(true).withDatabaseName("mahu-sit");
+
     /// RabbitMQ 测试容器
     @Container
     public static final RabbitMQContainer RABBITMQ_TEST_CONTAINER =
-            new RabbitMQContainer("rabbitmq:4.1.0-management-alpine");
+            new RabbitMQContainer("rabbitmq:4.1.0-management-alpine").withReuse(true);
 
     /// 数据库连接
     @Inject
