@@ -1,6 +1,7 @@
 info:
   name: mahu-admin
   version: SNAPSHOT
+  env: sit
 
 db:
   application-name: "mahu-integration-test"
