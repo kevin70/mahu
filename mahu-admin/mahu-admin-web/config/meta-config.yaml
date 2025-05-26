@@ -1,4 +1,7 @@
 sources:
+  - type: environment-variables
+  - type: system-properties
+
   ### =============== 生产配置 =============== ###
   - type: "file"
     properties:
@@ -6,8 +9,6 @@ sources:
       optional: true
   ### =============== 生产配置 =============== ###
 
-  - type: environment-variables
-  - type: system-properties
   - type: classpath
     properties:
       resource: application.yaml
