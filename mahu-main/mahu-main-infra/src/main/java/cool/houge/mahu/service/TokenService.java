@@ -28,14 +28,13 @@ import io.helidon.security.jwt.jwk.Jwk;
 import io.helidon.security.jwt.jwk.JwkKeys;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /// 令牌
 ///
@@ -109,7 +108,7 @@ public class TokenService implements TokenVerifier {
         if (user.getStatus() == User.Status.BLOCKED) {
             throw new BizCodeException(BizCodes.FAILED_PRECONDITION, "帐号已被封禁");
         }
-        return makeToken(Metadata.metadata(), payload, user);
+        return makeToken(Metadata.current(), payload, user);
     }
 
     @Transactional

@@ -113,7 +113,7 @@ public class MahuAdminErrorFeature implements Weighted, HttpFeature {
     }
 
     void send(ServerRequest request, ServerResponse response, ErrorResponse.Error error, Throwable cause) {
-        var metadata = Metadata.metadata();
+        var metadata = Metadata.current();
         error.setTraceId(metadata.traceId())
                 .setTimestamp(OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                 .setPath(request.path().rawPath())

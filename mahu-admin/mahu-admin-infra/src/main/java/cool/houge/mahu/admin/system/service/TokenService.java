@@ -28,13 +28,12 @@ import io.helidon.security.jwt.jwk.JwkKeys;
 import io.hypersistence.tsid.TSID;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.random.RandomGenerator;
+import org.jspecify.annotations.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /// 令牌服务
 ///
@@ -142,7 +141,7 @@ public class TokenService implements TokenVerifier {
         log.info("用户成功获取令牌 id={}", admin.getId());
 
         // 保存登录记录日志
-        var metadata = Metadata.metadata();
+        var metadata = Metadata.current();
         sharedService.save(
                 new AdminAuthLog()
                         .setAdminId(admin.getId())

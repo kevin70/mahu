@@ -131,7 +131,7 @@ public class MahuAdminFeature implements HttpFeature, Filter {
             return;
         }
 
-        var metadata = Metadata.metadata();
+        var metadata = Metadata.current();
         var accessLog = new AdminAccessLog()
                 .setAdminId(authContextOpt.get().uid())
                 .setIpAddr(metadata.clientAddr())
