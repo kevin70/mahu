@@ -39,7 +39,7 @@ public class MeController implements HttpService, WebSupport {
     }
 
     void getMeProfile(ServerRequest request, ServerResponse response) {
-        var ac = AuthContext.get();
+        var ac = AuthContext.current();
         var dto = adminService.getProfile(ac.uid());
         dto.setPermits(ac.permits());
 
@@ -51,7 +51,7 @@ public class MeController implements HttpService, WebSupport {
         var vo = request.content().as(UpdateMeProfileRequest.class);
         validate(vo);
 
-        var ac = AuthContext.get();
+        var ac = AuthContext.current();
         var user = beanMapper.toAdmin(vo).setId(ac.uid());
         adminService.update(user);
 
@@ -62,7 +62,7 @@ public class MeController implements HttpService, WebSupport {
         var vo = request.content().as(UpdateMePasswordRequest.class);
         validate(vo);
 
-        var ac = AuthContext.get();
+        var ac = AuthContext.current();
         var entity = beanMapper.toAdmin(vo).setId(ac.uid());
         adminService.updatePassword(entity);
 

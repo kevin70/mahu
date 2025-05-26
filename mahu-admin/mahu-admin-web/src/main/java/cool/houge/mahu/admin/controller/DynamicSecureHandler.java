@@ -14,7 +14,7 @@ public interface DynamicSecureHandler {
     /// @param directHandler 校验成功执行处理器
     default Handler shopSecure(Handler directHandler) {
         return (request, response) -> {
-            var ac = AuthContext.get();
+            var ac = AuthContext.current();
             var path = request.path();
             var p = new DynamicPermit(DynamicPermit.KIND_SHOP, path.pathParameters());
             if (!ac.checkPermit(p)) {

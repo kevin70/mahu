@@ -3,9 +3,8 @@ package cool.houge.mahu.admin.security;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import io.helidon.common.context.Contexts;
-
-import javax.annotation.Nonnull;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 /// 认证用户的信息
 ///
@@ -36,7 +35,7 @@ public interface AuthContext {
     }
 
     /// 获取当前线程上下文中的认证用户信息
-    static @Nonnull AuthContext get() {
+    static @Nonnull AuthContext current() {
         return Contexts.context()
                 .orElseThrow(() -> new BizCodeException(BizCodes.DATA_LOSS, "没有发现 helidon 上下文对象"))
                 .get(AuthContext.class)

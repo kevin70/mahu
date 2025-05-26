@@ -60,7 +60,7 @@ public class MahuAdminSecurity implements HttpSecurity {
     public boolean authorize(ServerRequest request, ServerResponse response, String... roleHint)
             throws ForbiddenException {
         if (roleHint.length != 0) {
-            var ac = AuthContext.get();
+            var ac = AuthContext.current();
             for (String s : roleHint) {
                 if (!ac.checkPermit(s)) {
                     throw new BizCodeException(BizCodes.PERMISSION_DENIED, "没有访问权限");
