@@ -36,10 +36,6 @@ dependencies {
         exclude module: "classpath-scanner"
     }
     api("io.ebean:ebean-jackson-mapper:$ebeanVersion")
-    api("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
-    api("io.avaje:avaje-validator:$avajeValidatorVersion") {
-        exclude module: "avaje-validator-http-plugin"
-    }
     api("com.github.ben-manes.caffeine:caffeine:$caffeineVersion")
     api("io.helidon.webclient:helidon-webclient:$helidonVersion")
     api("io.helidon.fault-tolerance:helidon-fault-tolerance:$helidonVersion")
