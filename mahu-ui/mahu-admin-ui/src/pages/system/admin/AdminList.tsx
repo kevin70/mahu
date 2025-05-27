@@ -156,7 +156,7 @@ export const AdminList = () => {
             align: 'right',
             fixed: 'right',
             render: (_dom, row) => {
-              if (row.deleted) {
+              if (row.deleted || row.id === 1) {
                 return <></>;
               }
               return (
