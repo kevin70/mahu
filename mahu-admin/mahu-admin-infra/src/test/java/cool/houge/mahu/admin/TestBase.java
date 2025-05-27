@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.testcontainers.containers.MinIOContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -31,6 +32,11 @@ public abstract class TestBase {
     @Container
     public static final RabbitMQContainer RABBITMQ_TEST_CONTAINER =
             new RabbitMQContainer("rabbitmq:4.1.0-management-alpine").withReuse(true);
+
+    /// MinIO 测试容器
+    @Container
+    public static final MinIOContainer MIN_IO_TEST_CONTAINER =
+            new MinIOContainer("minio/minio:RELEASE.2025-05-24T17-08-30Z").withReuse(true);
 
     /// 数据库连接
     @Inject
