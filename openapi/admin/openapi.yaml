@@ -86,6 +86,8 @@ paths:
   # 设置
   /settings/oss-direct-upload:
     $ref: "paths/settings_oss_direct_upload.yaml"
+  /oss/presigned-put-object:
+    $ref: "paths/oss_presigned-url.yaml"
 
   # 品牌管理
   /brands:
