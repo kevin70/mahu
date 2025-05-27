@@ -53,6 +53,8 @@ dependencies {
     api("redis.clients:jedis:$jedisVersion")
     api("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
     api("com.rabbitmq:amqp-client:$rabbitmqVersion")
+    api("org.apache.kafka:kafka-clients:4.0.0")
+    api("io.minio:minio:$minioVersion")
 
     testImplementation("io.helidon.testing:helidon-testing-junit5:$helidonVersion")
     testImplementation("io.ebean:ebean-test:$ebeanVersion")
@@ -66,5 +68,6 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:rabbitmq")
     testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:kafka")
     testImplementation(project(":mahu-db"))
 }
