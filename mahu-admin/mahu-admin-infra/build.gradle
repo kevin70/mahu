@@ -52,7 +52,6 @@ dependencies {
     api("org.apache.kafka:kafka-clients:4.0.0")
     api("io.minio:minio:$minioVersion")
 
-    testImplementation("io.helidon.testing:helidon-testing-junit5:$helidonVersion")
     testImplementation("io.ebean:ebean-test:$ebeanVersion")
     testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
         exclude module: "logback-classic"
