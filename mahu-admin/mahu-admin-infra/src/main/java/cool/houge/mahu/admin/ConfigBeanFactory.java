@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin;
 
 import cool.houge.mahu.config.InfoConfig;
+import cool.houge.mahu.config.OssConfig;
 import cool.houge.mahu.config.TokenConfig;
 import io.avaje.inject.Bean;
 import io.avaje.inject.Factory;
@@ -29,5 +30,10 @@ public class ConfigBeanFactory {
     @Bean
     public TokenConfig tokenConfig(Config config) {
         return TokenConfig.create(config.get(TokenConfig.PREFIX));
+    }
+
+    @Bean
+    public OssConfig ossConfig(Config config) {
+        return OssConfig.create(config.get(OssConfig.PREFIX));
     }
 }

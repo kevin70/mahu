@@ -19,18 +19,28 @@ public class MyTestModule implements TestModule {
 
     @Override
     public void build(Builder builder) {
-        var memoryConfigSource = ConfigSources.create(
-                Map.of(
-                        "db.url",
-                        TestBase.POSTGRE_SQL_TEST_CONTAINER.getJdbcUrl(),
-                        "db.username",
-                        TestBase.POSTGRE_SQL_TEST_CONTAINER.getUsername(),
-                        "db.password",
-                        TestBase.POSTGRE_SQL_TEST_CONTAINER.getPassword(),
-                        "rabbitmq.url",
-                        TestBase.RABBITMQ_TEST_CONTAINER.getAmqpUrl())
+        var memoryConfigSource = ConfigSources.create(Map.of(
+                // 数据库
+                "db.url",
+                TestBase.POSTGRE_SQL_TEST_CONTAINER.getJdbcUrl(),
+                "db.username",
+                TestBase.POSTGRE_SQL_TEST_CONTAINER.getUsername(),
+                "db.password",
+                TestBase.POSTGRE_SQL_TEST_CONTAINER.getPassword(),
+
+                // RabbitMQ
+                "rabbitmq.url",
+                TestBase.RABBITMQ_TEST_CONTAINER.getAmqpUrl(),
+
+                // 对象存储
+                "oss.endpoint",
+                TestBase.MIN_IO_TEST_CONTAINER.getS3URL(),
+                "oss.access-key",
+                TestBase.MIN_IO_TEST_CONTAINER.getUserName(),
+                "oss.secret-key",
+                TestBase.MIN_IO_TEST_CONTAINER.getPassword()
                 //
-                );
+                ));
         var config = Config.builder()
                 .addSource(memoryConfigSource)
                 .addSource(ConfigSources.environmentVariables())
