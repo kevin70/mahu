@@ -1,0 +1,14 @@
+type: object
+description: 商店资源预上传
+required:
+  - kind
+  - shop_id
+properties:
+  kind:
+    type: string
+    description: 类型
+    default: SHOP_ASSET
+  shop_id:
+    type: integer
+    format: int32
+    description: 商店 ID

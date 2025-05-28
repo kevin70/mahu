@@ -83,11 +83,9 @@ paths:
   /scheduled-tasks/{task_name}/{task_instance}/executions:
     $ref: "paths/scheduled-tasks_{task_name}_{task_instance}_executions.yaml"
 
-  # 设置
-  /settings/oss-direct-upload:
-    $ref: "paths/settings_oss_direct_upload.yaml"
-  /oss/presigned-put-object:
-    $ref: "paths/oss_presigned-url.yaml"
+  # OSS对象存储
+  /oss/presigned-upload:
+    $ref: "paths/oss_presigned-upload.yaml"
 
   # 品牌管理
   /brands:

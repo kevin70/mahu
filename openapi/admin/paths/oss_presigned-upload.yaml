@@ -1,0 +1,26 @@
+post:
+  summary: 获取对象存储预签名上传数据
+  operationId: getPresignedUpload
+  tags:
+    - base
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          oneOf:
+            - $ref: "../components/schemas/GetPresignedUploadAdminAvatarForm.yaml"
+            - $ref: "../components/schemas/GetPresignedUploadShopAssetForm.yaml"
+          discriminator:
+            propertyName: kind
+            mapping:
+              ADMIN_AVATAR: "../components/schemas/GetPresignedUploadAdminAvatarForm.yaml"
+              SHOP_ASSET: "../components/schemas/GetPresignedUploadShopAssetForm.yaml"
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/GetPresignedUploadResponse.yaml"

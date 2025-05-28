@@ -1,0 +1,7 @@
+type: object
+required:
+  - presigned_upload_url
+properties:
+  presigned_upload_url:
+    type: string
+    description: 预上传 URL
