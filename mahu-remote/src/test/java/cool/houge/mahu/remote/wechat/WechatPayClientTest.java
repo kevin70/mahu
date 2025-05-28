@@ -1,13 +1,12 @@
 package cool.houge.mahu.remote.wechat;
 
-import com.github.f4b6a3.ulid.Ulid;
 import cool.houge.mahu.config.WechatPayConfig;
 import cool.houge.mahu.remote.TestBase;
-import io.helidon.common.config.GlobalConfig;
+import io.helidon.common.config.Config;
+import io.hypersistence.tsid.TSID;
 import jakarta.inject.Inject;
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author ZY (kzou227@qq.com)
@@ -18,7 +17,7 @@ class WechatPayClientTest extends TestBase {
     WechatPayClient wechatPayClient;
 
     WechatPayConfig config() {
-        return WechatPayConfig.create(GlobalConfig.config().get(WechatPayConfig.PREFIX));
+        return WechatPayConfig.create(Config.create().get(WechatPayConfig.PREFIX));
     }
 
     @Test
@@ -29,7 +28,7 @@ class WechatPayClientTest extends TestBase {
                 .setAppid("wx83333d7720183438")
                 .setMchid("1667418951")
                 .setDescription("测试订单 " + LocalDate.now())
-                .setOutTradeNo(Ulid.fast().toString())
+                .setOutTradeNo(TSID.fast().toString())
                 .setPayer(new PrepayPayload.Payer().setOpenid("odng_5SoIPelKzA1uMinCHeCwhlw"));
         var result = wechatPayClient.prepayJsapi(config(), payload);
         System.out.println(result);
@@ -40,8 +39,8 @@ class WechatPayClientTest extends TestBase {
         var payload = new WechatRefundPayload()
                 .setNotifyUrl("https://ec-api.crosshealth.club/payments/wechat-callback")
                 .setAmount(new WechatRefundPayload.Amount().setRefund(1).setTotal(1))
-                .setOutRefundNo(Ulid.fast().toString())
-                .setOutTradeNo(Ulid.fast().toString());
+                .setOutRefundNo(TSID.fast().toString())
+                .setOutTradeNo(TSID.fast().toString());
         var result = wechatPayClient.refund(config(), payload);
         System.out.println(result);
     }

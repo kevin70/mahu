@@ -1,5 +1,13 @@
 package cool.houge.mahu.remote.wechat;
 
+import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
+import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
+import static io.specto.hoverfly.junit.dsl.HttpBodyConverter.json;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.instancio.Instancio.gen;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cool.houge.mahu.remote.TestBase;
 import io.helidon.webclient.api.Proxy;
 import io.helidon.webclient.api.WebClient;
@@ -10,18 +18,11 @@ import io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers;
 import io.specto.hoverfly.junit5.HoverflyExtension;
 import io.specto.hoverfly.junit5.api.HoverflyConfig;
 import io.specto.hoverfly.junit5.api.HoverflyCore;
+import jakarta.inject.Inject;
+import java.util.Map;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.Map;
-
-import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
-import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
-import static io.specto.hoverfly.junit.dsl.HttpBodyConverter.json;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.instancio.Instancio.gen;
 
 /// 微信 API 客户端
 ///
@@ -30,16 +31,18 @@ import static org.instancio.Instancio.gen;
 @ExtendWith(HoverflyExtension.class)
 class WechatClientTest extends TestBase {
 
+    @Inject
+    ObjectMapper objectMapper;
+
     WechatClient getWechatClient(Hoverfly hoverfly) {
-        var client = new WechatClient();
         var proxy = Proxy.builder()
-            .type(Proxy.ProxyType.HTTP)
-            .host(hoverfly.getHoverflyConfig().getHost())
-            .port(hoverfly.getHoverflyConfig().getProxyPort())
-            .build();
-        client.webClient =
-            WebClient.builder().tls(b -> b.trustAll(true)).proxy(proxy).build();
-        return client;
+                .type(Proxy.ProxyType.HTTP)
+                .host(hoverfly.getHoverflyConfig().getHost())
+                .port(hoverfly.getHoverflyConfig().getProxyPort())
+                .build();
+        var webClient =
+                WebClient.builder().tls(b -> b.trustAll(true)).proxy(proxy).build();
+        return new WechatClient(webClient, objectMapper);
     }
 
     @Test
@@ -49,11 +52,11 @@ class WechatClientTest extends TestBase {
 
         var response = HoverflyDsl.response().body(json(Map.of("access_token", accessToken, "expires_in", 7200)));
         var simulate = dsl(service(HoverflyMatchers.contains("api.weixin.qq.com"))
-            .get("/cgi-bin/token")
-            .queryParam("grant_type", "client_credential")
-            .queryParam("appid", payload.getAppid())
-            .queryParam("secret", payload.getSecret())
-            .willReturn(response));
+                .get("/cgi-bin/token")
+                .queryParam("grant_type", "client_credential")
+                .queryParam("appid", payload.getAppid())
+                .queryParam("secret", payload.getSecret())
+                .willReturn(response));
         hoverfly.simulate(simulate);
 
         var wechatClient = getWechatClient(hoverfly);
@@ -72,19 +75,19 @@ class WechatClientTest extends TestBase {
 
         var response = HoverflyDsl.response().body(json(Map.of("errcode", 110)));
         var simulate = dsl(service(HoverflyMatchers.contains("api.weixin.qq.com"))
-            .get("/cgi-bin/token")
-            .queryParam("grant_type", "client_credential")
-            .queryParam("appid", payload.getAppid())
-            .queryParam("secret", payload.getSecret())
-            .willReturn(response));
+                .get("/cgi-bin/token")
+                .queryParam("grant_type", "client_credential")
+                .queryParam("appid", payload.getAppid())
+                .queryParam("secret", payload.getSecret())
+                .willReturn(response));
         hoverfly.simulate(simulate);
 
         var wechatClient = getWechatClient(hoverfly);
         assertThatExceptionOfType(WechatRemoteException.class)
-            .isThrownBy(() -> wechatClient.accessToken(payload))
-            .satisfiesAnyOf(e -> {
-                assertThat(e).extracting(WechatRemoteException::getCode).isEqualTo(110);
-            });
+                .isThrownBy(() -> wechatClient.accessToken(payload))
+                .satisfiesAnyOf(e -> {
+                    assertThat(e).extracting(WechatRemoteException::getCode).isEqualTo(110);
+                });
 
         hoverfly.verifyAll();
     }
@@ -97,18 +100,18 @@ class WechatClientTest extends TestBase {
         var openid = gen().string().hex().get();
 
         var response = HoverflyDsl.response()
-            .body(json(Map.of(
-                "errcode", 0,
-                "session_key", sessionKey,
-                "unionid", unionid,
-                "openid", openid)));
+                .body(json(Map.of(
+                        "errcode", 0,
+                        "session_key", sessionKey,
+                        "unionid", unionid,
+                        "openid", openid)));
         var simulate = dsl(service(HoverflyMatchers.contains("api.weixin.qq.com"))
-            .get("/sns/jscode2session")
-            .queryParam("grant_type", "authorization_code")
-            .queryParam("appid", payload.getAppid())
-            .queryParam("secret", payload.getSecret())
-            .queryParam("js_code", payload.getJsCode())
-            .willReturn(response));
+                .get("/sns/jscode2session")
+                .queryParam("grant_type", "authorization_code")
+                .queryParam("appid", payload.getAppid())
+                .queryParam("secret", payload.getSecret())
+                .queryParam("js_code", payload.getJsCode())
+                .willReturn(response));
         hoverfly.simulate(simulate);
 
         var wechatClient = getWechatClient(hoverfly);

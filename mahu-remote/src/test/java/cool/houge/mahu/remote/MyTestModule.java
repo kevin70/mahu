@@ -7,10 +7,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.avaje.inject.spi.Builder;
 import io.avaje.inject.test.TestModule;
 import io.helidon.common.config.Config;
-import io.helidon.common.config.GlobalConfig;
 import io.helidon.http.media.jackson.JacksonSupport;
 import io.helidon.webclient.api.WebClient;
-
 import java.time.Duration;
 
 /// 测试模块
@@ -25,7 +23,7 @@ public class MyTestModule implements TestModule {
 
     @Override
     public void build(Builder builder) {
-        builder.withBean(Config.class, GlobalConfig.config());
+        builder.withBean(Config.class, Config.create());
         builder.withBean(ObjectMapper.class, objectMapper());
         builder.withBean(WebClient.class, webClient());
     }
