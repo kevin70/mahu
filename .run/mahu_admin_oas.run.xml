@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="mahu:admin:oais" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="mahu:admin:oas" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
