@@ -14,7 +14,7 @@
 
 
 /**
- * 职员状态类型
+ * 管理员状态
  * @export
  */
 export const AdminStatusEnum = {
@@ -29,11 +29,7 @@ export const AdminStatusEnum = {
     /**
     * 冻结
     */
-    Blocked: 'BLOCKED',
-    /**
-    * 离职
-    */
-    Resign: 'RESIGN'
+    Blocked: 'BLOCKED'
 } as const;
 export type AdminStatusEnum = typeof AdminStatusEnum[keyof typeof AdminStatusEnum];
 

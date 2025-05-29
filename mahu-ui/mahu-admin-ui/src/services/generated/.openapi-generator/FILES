@@ -34,11 +34,13 @@ models/DictsPageResponse.ts
 models/ErrorResponse.ts
 models/ErrorResponseError.ts
 models/ErrorResponseErrorInvalidParamsInner.ts
+models/GetPresignedUploadAdminAvatarForm.ts
+models/GetPresignedUploadRequest.ts
+models/GetPresignedUploadResponse.ts
+models/GetPresignedUploadShopAssetForm.ts
 models/ListPMartCategories200ResponseInner.ts
 models/LoginRequest.ts
 models/LoginResponse.ts
-models/MakeOssDirectUploadRequest.ts
-models/MakeOssDirectUploadResponse.ts
 models/MartAttributeResponse.ts
 models/MartAttributeValueResponse.ts
 models/MartAttributesPageResponse.ts

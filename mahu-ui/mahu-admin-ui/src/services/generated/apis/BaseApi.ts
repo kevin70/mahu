@@ -17,9 +17,9 @@ import * as runtime from '../runtime';
 import type {
   BrandResponse,
   BrandsPageResponse,
+  GetPresignedUploadRequest,
+  GetPresignedUploadResponse,
   ListPMartCategories200ResponseInner,
-  MakeOssDirectUploadRequest,
-  MakeOssDirectUploadResponse,
   PublicDictDataResponse,
   PublicDictResponse,
   UpsertBrandRequest,
@@ -30,12 +30,12 @@ import {
     BrandResponseToJSON,
     BrandsPageResponseFromJSON,
     BrandsPageResponseToJSON,
+    GetPresignedUploadRequestFromJSON,
+    GetPresignedUploadRequestToJSON,
+    GetPresignedUploadResponseFromJSON,
+    GetPresignedUploadResponseToJSON,
     ListPMartCategories200ResponseInnerFromJSON,
     ListPMartCategories200ResponseInnerToJSON,
-    MakeOssDirectUploadRequestFromJSON,
-    MakeOssDirectUploadRequestToJSON,
-    MakeOssDirectUploadResponseFromJSON,
-    MakeOssDirectUploadResponseToJSON,
     PublicDictDataResponseFromJSON,
     PublicDictDataResponseToJSON,
     PublicDictResponseFromJSON,
@@ -58,6 +58,10 @@ export interface GetBrandRequest {
     id?: number;
 }
 
+export interface GetPresignedUploadOperationRequest {
+    getPresignedUploadRequest: GetPresignedUploadRequest;
+}
+
 export interface GetPublicDictRequest {
     typeCode: string;
 }
@@ -78,10 +82,6 @@ export interface ListBrandsRequest {
 
 export interface ListPublicDictsRequest {
     includeData?: boolean;
-}
-
-export interface MakeOssDirectUploadOperationRequest {
-    makeOssDirectUploadRequest: MakeOssDirectUploadRequest;
 }
 
 export interface UpdateBrandRequest {
@@ -227,6 +227,50 @@ export class BaseApi extends runtime.BaseAPI {
      */
     async getBrand(requestParameters: GetBrandRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BrandResponse> {
         const response = await this.getBrandRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 获取对象存储预签名上传数据
+     */
+    async getPresignedUploadRaw(requestParameters: GetPresignedUploadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPresignedUploadResponse>> {
+        if (requestParameters['getPresignedUploadRequest'] == null) {
+            throw new runtime.RequiredError(
+                'getPresignedUploadRequest',
+                'Required parameter "getPresignedUploadRequest" was null or undefined when calling getPresignedUpload().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/oss/presigned-upload`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: GetPresignedUploadRequestToJSON(requestParameters['getPresignedUploadRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetPresignedUploadResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 获取对象存储预签名上传数据
+     */
+    async getPresignedUpload(requestParameters: GetPresignedUploadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetPresignedUploadResponse> {
+        const response = await this.getPresignedUploadRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -422,50 +466,6 @@ export class BaseApi extends runtime.BaseAPI {
      */
     async listPublicDicts(requestParameters: ListPublicDictsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PublicDictResponse>> {
         const response = await this.listPublicDictsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * OSS 直接上传策略
-     */
-    async makeOssDirectUploadRaw(requestParameters: MakeOssDirectUploadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MakeOssDirectUploadResponse>> {
-        if (requestParameters['makeOssDirectUploadRequest'] == null) {
-            throw new runtime.RequiredError(
-                'makeOssDirectUploadRequest',
-                'Required parameter "makeOssDirectUploadRequest" was null or undefined when calling makeOssDirectUpload().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/settings/oss-direct-upload`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: MakeOssDirectUploadRequestToJSON(requestParameters['makeOssDirectUploadRequest']),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => MakeOssDirectUploadResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * OSS 直接上传策略
-     */
-    async makeOssDirectUpload(requestParameters: MakeOssDirectUploadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MakeOssDirectUploadResponse> {
-        const response = await this.makeOssDirectUploadRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
