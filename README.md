@@ -88,5 +88,5 @@ podman run -d --name rabbitmq -p 15672:5672 -e RABBITMQ_DEFAULT_USER=guest -e RA
 ### 启动 MinIO
 
 ```
-podman run -d --name minio -p 19000:9000 -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin m.daocloud.io/docker.io/minio/minio:RELEASE.2025-05-24T17-08-30Z server --console-address :9001 /data
+podman run -d --name minio -p 19000:9000 -p 19001:9001 -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin m.daocloud.io/docker.io/minio/minio:RELEASE.2025-05-24T17-08-30Z server --console-address :9001 /data
 ```
