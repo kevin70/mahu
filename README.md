@@ -70,3 +70,23 @@ podman run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material bui
 | UAT  | User Acceptance Testing    | 用户验收测试环境，业务方验证功能是否符合需求 |
 | STG  | Staging Environment        | 预发布环境，功能与PROD一致，用于最终验证 |
 | PROD | Production Environment     | 生产环境，面向真实用户的线上环境       |
+
+## 开发环境搭建
+
+### 启动 PostgreSQL
+
+```
+podman run -d --name postgres -p 15432:5432 -e POSTGRES_DB=mahu-dev -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test m.daocloud.io/docker.io/postgres:17.5-alpine postgres -c fsync=off
+```
+
+### 启动 RabbitMQ
+
+```
+podman run -d --name rabbitmq -p 15672:5672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest m.daocloud.io/docker.io/rabbitmq:4.1.0-management-alpine
+```
+
+### 启动 MinIO
+
+```
+podman run -d --name minio -p 19000:9000 -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin m.daocloud.io/docker.io/minio/minio:RELEASE.2025-05-24T17-08-30Z server --console-address :9001 /data
+```
