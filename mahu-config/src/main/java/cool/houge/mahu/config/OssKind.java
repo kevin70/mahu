@@ -20,4 +20,9 @@ public enum OssKind {
     public String getPrefix() {
         return prefix;
     }
+
+    /// 匹配指定名称
+    public boolean matches(String name) {
+        return this.name().equals(name);
+    }
 }

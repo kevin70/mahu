@@ -6,10 +6,11 @@ import cool.houge.mahu.admin.oas.model.BrandResponse;
 import cool.houge.mahu.admin.oas.model.ClientResponse;
 import cool.houge.mahu.admin.oas.model.DepartmentResponse;
 import cool.houge.mahu.admin.oas.model.DictResponse;
+import cool.houge.mahu.admin.oas.model.GetPresignedUploadAdminAvatarForm;
+import cool.houge.mahu.admin.oas.model.GetPresignedUploadRequest;
+import cool.houge.mahu.admin.oas.model.GetPresignedUploadShopAssetForm;
 import cool.houge.mahu.admin.oas.model.ListPMartCategories200ResponseInner;
 import cool.houge.mahu.admin.oas.model.LoginRequest;
-import cool.houge.mahu.admin.oas.model.MakeOssDirectUploadRequest;
-import cool.houge.mahu.admin.oas.model.MakeOssDirectUploadResponse;
 import cool.houge.mahu.admin.oas.model.MartAttributeResponse;
 import cool.houge.mahu.admin.oas.model.MartAttributeValueResponse;
 import cool.houge.mahu.admin.oas.model.MartCategoryResponse;
@@ -45,8 +46,7 @@ import cool.houge.mahu.admin.oas.model.UpsertMartProductRequestAttributesInner;
 import cool.houge.mahu.admin.oas.model.UpsertMartProductRequestVariantsInnerAttributesInner;
 import cool.houge.mahu.admin.oas.model.UpsertRoleRequest;
 import cool.houge.mahu.admin.oas.model.UpsertShopRequest;
-import cool.houge.mahu.admin.service.MakeOssDirectUploadPayload;
-import cool.houge.mahu.admin.service.MakeOssDirectUploadResult;
+import cool.houge.mahu.admin.service.PresignedUploadPayload;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.common.GrantType;
@@ -172,10 +172,6 @@ public interface VoBeanMapper extends LogBeanMapper {
 
     BrandResponse toBrandResponse(Brand bean);
 
-    MakeOssDirectUploadPayload toMakeOssDirectUploadPayload(MakeOssDirectUploadRequest bean);
-
-    MakeOssDirectUploadResponse toMakeOssDirectUploadResponse(MakeOssDirectUploadResult bean);
-
     Shop toShop(UpsertShopRequest bean);
 
     ShopResponse toShopResponse(Shop bean);
@@ -239,4 +235,12 @@ public interface VoBeanMapper extends LogBeanMapper {
     @Mapping(target = "taskId.taskName", source = "taskName")
     @Mapping(target = "taskId.taskInstance", source = "taskInstance")
     ScheduledTask toScheduledTask(String taskName, String taskInstance);
+
+    GetPresignedUploadAdminAvatarForm toGetPresignedUploadAdminAvatarForm(GetPresignedUploadRequest bean);
+
+    GetPresignedUploadShopAssetForm toGetPresignedUploadShopAssetForm(GetPresignedUploadRequest bean);
+
+    PresignedUploadPayload toPresignedUploadPayload(GetPresignedUploadAdminAvatarForm bean);
+
+    PresignedUploadPayload toPresignedUploadPayload(GetPresignedUploadShopAssetForm bean);
 }
