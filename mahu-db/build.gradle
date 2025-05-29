@@ -23,11 +23,11 @@ liquibase {
     activities.register("main") {
         // 配置属性参考文档：https://docs.liquibase.com/concepts/connections/creating-config-properties.html
         changelogFile "db/changelog/changelog-root.yaml"
-//        url config.get("db.url").asString().orElse(System.getenv("MAHU_DB_URL"))
-        url "jdbc:postgresql://106.14.192.224:5432/mahu4"
-//        url "jdbc:postgresql://106.14.192.224:5432/mahu-prod"
-        username config.get("db.username").asString().orElse(System.getenv("MAHU_DB_USERNAME"))
-        password config.get("db.password").asString().orElse(System.getenv("MAHU_DB_PASSWORD"))
+        url "jdbc:postgresql://127.0.0.1:15432/mahu-dev"
+        username "test"
+        password "test"
+        //        username config.get("db.username").asString().orElse(System.getenv("MAHU_DB_USERNAME"))
+        //        password config.get("db.password").asString().orElse(System.getenv("MAHU_DB_PASSWORD"))
     }
 }
 
