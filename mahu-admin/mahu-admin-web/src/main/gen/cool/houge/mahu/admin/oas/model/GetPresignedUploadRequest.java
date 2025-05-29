@@ -33,12 +33,12 @@ public class GetPresignedUploadRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("kind")
     private String kind;
     /**
-     * 管理员 ID
+     * 上传文件的名称
      */
     @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("admin_id")
-    private Integer adminId;
+    @com.fasterxml.jackson.annotation.JsonProperty("file_name")
+    private String fileName;
     /**
      * 商店 ID
      */

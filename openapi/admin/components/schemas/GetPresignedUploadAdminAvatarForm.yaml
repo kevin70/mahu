@@ -2,13 +2,12 @@ type: object
 description: 管理员头像预上传
 required:
   - kind
-  - admin_id
+  - file_name
 properties:
   kind:
     type: string
     description: 类型
     default: ADMIN_AVATAR
-  admin_id:
-    type: integer
-    format: int32
-    description: 管理员 ID
+  file_name:
+    type: string
+    description: 上传文件的名称

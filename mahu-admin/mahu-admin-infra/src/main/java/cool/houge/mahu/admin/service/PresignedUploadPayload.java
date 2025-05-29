@@ -17,7 +17,7 @@ public class PresignedUploadPayload {
     ///
     /// 在以下类型需要的参数
     /// - [OssKind#ADMIN_AVATAR]
-    private Integer adminId;
+    private Long adminId;
     /// 商店 ID
     ///
     /// 在以下类型需要的参数

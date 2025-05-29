@@ -29,6 +29,13 @@ public class GetPresignedUploadShopAssetForm {
     @com.fasterxml.jackson.annotation.JsonProperty("kind")
     private String kind;
     /**
+     * 上传文件的名称
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("file_name")
+    private String fileName;
+    /**
      * 商店 ID
      */
     @NotNull

@@ -2,12 +2,16 @@ type: object
 description: 商店资源预上传
 required:
   - kind
+  - file_name
   - shop_id
 properties:
   kind:
     type: string
     description: 类型
     default: SHOP_ASSET
+  file_name:
+    type: string
+    description: 上传文件的名称
   shop_id:
     type: integer
     format: int32

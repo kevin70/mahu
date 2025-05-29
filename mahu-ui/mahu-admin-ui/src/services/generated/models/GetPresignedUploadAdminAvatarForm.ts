@@ -26,11 +26,11 @@ export interface GetPresignedUploadAdminAvatarForm {
      */
     kind: string;
     /**
-     * 管理员 ID
-     * @type {number}
+     * 上传文件的名称
+     * @type {string}
      * @memberof GetPresignedUploadAdminAvatarForm
      */
-    adminId: number;
+    fileName: string;
 }
 
 /**
@@ -38,7 +38,7 @@ export interface GetPresignedUploadAdminAvatarForm {
  */
 export function instanceOfGetPresignedUploadAdminAvatarForm(value: object): value is GetPresignedUploadAdminAvatarForm {
     if (!('kind' in value) || value['kind'] === undefined) return false;
-    if (!('adminId' in value) || value['adminId'] === undefined) return false;
+    if (!('fileName' in value) || value['fileName'] === undefined) return false;
     return true;
 }
 
@@ -53,7 +53,7 @@ export function GetPresignedUploadAdminAvatarFormFromJSONTyped(json: any, ignore
     return {
         
         'kind': json['kind'],
-        'adminId': json['admin_id'],
+        'fileName': json['file_name'],
     };
 }
 
@@ -69,7 +69,7 @@ export function GetPresignedUploadAdminAvatarFormToJSONTyped(value?: GetPresigne
     return {
         
         'kind': value['kind'],
-        'admin_id': value['adminId'],
+        'file_name': value['fileName'],
     };
 }
 

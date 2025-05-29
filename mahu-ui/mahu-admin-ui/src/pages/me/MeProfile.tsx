@@ -1,9 +1,10 @@
-import { ME_API, resolveApiError } from '@/services';
+import { BASE_API, ME_API, resolveApiError } from '@/services';
 import { useProfileStore } from '@/stores';
-import { UploadOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { PageContainer, ProCard, ProForm, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@tanstack/react-query';
-import { Avatar, Button, Col, Form, message, Row, Space, Upload } from 'antd';
+import { Col, Form, message, Row, Upload } from 'antd';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 export const MeProfile = () => {
@@ -28,13 +29,57 @@ export const MeProfile = () => {
     });
 
     const AvatarUpload = ({ value }: { value?: string; onChange?: (v: string) => void }) => {
+      const [loading, setLoading] = useState(false);
+      const uploadButton = (
+        <button style={{ border: 0, background: 'none' }} type="button">
+          {loading ? <LoadingOutlined /> : <PlusOutlined />}
+          <div style={{ marginTop: 8 }}>上传</div>
+        </button>
+      );
+
       return (
-        <Space direction="vertical" align="center">
-          <Avatar size={128} src={value} />
-          <Upload>
-            <Button icon={<UploadOutlined />}>上传头像</Button>
-          </Upload>
-        </Space>
+        <Upload
+          listType="picture-circle"
+          showUploadList={false}
+          beforeUpload={(file) => {
+            // 限制文件类型
+            const allowedTypes = ['image/jpeg', 'image/png'];
+            if (!allowedTypes.includes(file.type)) {
+              message.error('头像只能上传JPG/PNG文件');
+              return false;
+            }
+
+            // 限制文件大小MB
+            const sizeLimit = 2;
+            if (file.size > sizeLimit * 1024 * 1024) {
+              message.error(`图片大小不能超过${sizeLimit}MB`);
+              return false;
+            }
+            return true;
+          }}
+          customRequest={async (options) => {
+            const { presignedUploadUrl } = await BASE_API.getPresignedUpload({
+              getPresignedUploadRequest: {
+                kind: 'ADMIN_AVATAR',
+                fileName: (options.file as any).name,
+              },
+            });
+
+            const response = await fetch(presignedUploadUrl, {
+              method: 'PUT',
+              body: options.file, // 直接上传整个文件
+            });
+            if (!response.ok) {
+              const data = await response.json();
+              console.log('文件上传响应', data);
+              // options.onSuccess();
+            }
+
+            console.log('File uploaded successfully');
+          }}
+        >
+          {value ? <img src={value} alt="用户头像" style={{ width: '100%' }} /> : uploadButton}
+        </Upload>
       );
     };
 

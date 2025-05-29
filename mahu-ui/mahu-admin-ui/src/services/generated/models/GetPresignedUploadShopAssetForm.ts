@@ -26,6 +26,12 @@ export interface GetPresignedUploadShopAssetForm {
      */
     kind: string;
     /**
+     * 上传文件的名称
+     * @type {string}
+     * @memberof GetPresignedUploadShopAssetForm
+     */
+    fileName: string;
+    /**
      * 商店 ID
      * @type {number}
      * @memberof GetPresignedUploadShopAssetForm
@@ -38,6 +44,7 @@ export interface GetPresignedUploadShopAssetForm {
  */
 export function instanceOfGetPresignedUploadShopAssetForm(value: object): value is GetPresignedUploadShopAssetForm {
     if (!('kind' in value) || value['kind'] === undefined) return false;
+    if (!('fileName' in value) || value['fileName'] === undefined) return false;
     if (!('shopId' in value) || value['shopId'] === undefined) return false;
     return true;
 }
@@ -53,6 +60,7 @@ export function GetPresignedUploadShopAssetFormFromJSONTyped(json: any, ignoreDi
     return {
         
         'kind': json['kind'],
+        'fileName': json['file_name'],
         'shopId': json['shop_id'],
     };
 }
@@ -69,6 +77,7 @@ export function GetPresignedUploadShopAssetFormToJSONTyped(value?: GetPresignedU
     return {
         
         'kind': value['kind'],
+        'file_name': value['fileName'],
         'shop_id': value['shopId'],
     };
 }

@@ -5,6 +5,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.GetPresignedUploadRequest;
 import cool.houge.mahu.admin.oas.model.GetPresignedUploadResponse;
+import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.service.OssService;
 import cool.houge.mahu.admin.service.PresignedUploadPayload;
 import cool.houge.mahu.config.OssKind;
@@ -31,7 +32,7 @@ public class OssController implements WebSupport, HttpService {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/oss/presigned-upload", authz().wrap(this::getPresignedUpload));
+        rules.post("/oss/presigned-upload", authz().wrap(this::getPresignedUpload));
     }
 
     private void getPresignedUpload(ServerRequest request, ServerResponse response) {
@@ -40,7 +41,9 @@ public class OssController implements WebSupport, HttpService {
         if (OssKind.ADMIN_AVATAR.matches(vo.getKind())) {
             var bean = beanMapper.toGetPresignedUploadAdminAvatarForm(vo);
             validate(bean);
-            payload = beanMapper.toPresignedUploadPayload(bean);
+            payload = beanMapper
+                    .toPresignedUploadPayload(bean)
+                    .setAdminId(AuthContext.current().uid());
         } else if (OssKind.SHOP_ASSET.matches(vo.getKind())) {
             var bean = beanMapper.toGetPresignedUploadShopAssetForm(vo);
             validate(bean);
