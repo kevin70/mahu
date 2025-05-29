@@ -1,8 +1,8 @@
 package cool.houge.mahu;
 
-import java.util.Optional;
-
 import static java.util.Objects.requireNonNull;
+
+import java.util.Optional;
 
 /// 业务错误状态定义及使用。
 ///
@@ -38,7 +38,7 @@ public enum BizCodes implements BizCode {
     /// 此错误代码并不意味着请求有效、请求实体存在或满足其他前置条件。
     PERMISSION_DENIED(140307, "调用方没有执行指定操作的权限"),
     /// 某些资源已耗尽，可能是每个用户的配额，也可能是整个文件系统空间不足。
-    RESOURCE_EXHAUSTED(150008, "资源已耗尽"),
+    RESOURCE_EXHAUSTED(142908, "资源已耗尽"),
     /// 操作被拒绝，因为系统未处于执行操作所需的状态。
     ///
     /// 例如，要删除的目录不为空，对非目录应用了`rmdir`操作等。
