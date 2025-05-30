@@ -33,7 +33,7 @@ create index region_parent_code_idx on region using btree (parent_code);
 -- rollback drop table public.region;
 
 
--- changeset kzou227@qq.com:0KPYD7H65XP62
+-- changeset kzou227@qq.com:0KPYD7H65XP62 context:!sit
 INSERT INTO public.region (code, name, depth, parent_code)
 VALUES  ('11', '北京市', 1, null),
         ('12', '天津市', 1, null),
