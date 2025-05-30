@@ -68,21 +68,6 @@ public enum Permits {
         return (fnCodes >> 2 & 1) == 1;
     }
 
-    /// 读取权限代码
-    public String R() {
-        return name() + ":R";
-    }
-
-    /// 写入权限代码
-    public String W() {
-        return name() + ":W";
-    }
-
-    /// 删除权限代码
-    public String D() {
-        return name() + ":D";
-    }
-
     /// 权限文本
     public String label() {
         return label;

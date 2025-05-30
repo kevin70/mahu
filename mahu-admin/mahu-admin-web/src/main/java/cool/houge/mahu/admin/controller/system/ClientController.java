@@ -37,7 +37,7 @@ public class ClientController implements HttpService, WebSupport {
         rules.get("/system/clients/{client_id}", s(this::getClient, CLIENT.R));
         rules.post("/system/clients", s(this::createClient, CLIENT.W));
         rules.put("/system/clients/{client_id}", s(this::updateClient, CLIENT.W));
-        rules.delete("/system/clients/{client_id}", s(this::deleteClient, CLIENT.W()));
+        rules.delete("/system/clients/{client_id}", s(this::deleteClient, CLIENT.W));
     }
 
     void listClients(ServerRequest request, ServerResponse response) {
