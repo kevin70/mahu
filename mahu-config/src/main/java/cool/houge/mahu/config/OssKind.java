@@ -5,11 +5,11 @@ package cool.houge.mahu.config;
 /// @author ZY (kzou227@qq.com)
 public enum OssKind {
     /// 品牌
-    BRAND("brands"),
+    BRAND("/p/brands"),
     /// 管理员头像
-    ADMIN_AVATAR("admin-avatars"),
+    ADMIN_AVATAR("/p/admin-avatars"),
     /// 商店资源
-    SHOP_ASSET("shop-assets");
+    SHOP_ASSET("/p/shop-assets");
 
     private final String prefix;
 
