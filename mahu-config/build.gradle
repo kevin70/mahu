@@ -5,16 +5,10 @@ dependencies {
     annotationProcessor("io.helidon.config.metadata:helidon-config-metadata-codegen:$helidonVersion")
     annotationProcessor("io.helidon.builder:helidon-builder-codegen:$helidonVersion")
     annotationProcessor(project(":mahu-codegen"))
-    //annotationProcessor("io.helidon.builder:helidon-builder-processor:$helidonVersion")
-//    annotationProcessor("io.sundr:transform-annotations:$sundrCodegenVersion")
-//    annotationProcessor("io.sundr:sundr-codegen-velocity-nodeps:$sundrCodegenVersion")
-//    compileOnly("io.sundr:transform-annotations:$sundrCodegenVersion")
 
     compileOnly("io.helidon.builder:helidon-builder-api:$helidonVersion")
     compileOnly("io.helidon.config.metadata:helidon-config-metadata-codegen:$helidonVersion")
     compileOnly("io.helidon.builder:helidon-builder-codegen:$helidonVersion")
-    // compileOnly("io.helidon.config:helidon-config-metadata:$helidonVersion")
-    // compileOnly("io.helidon.config:helidon-config-metadata-codegen:$helidonVersion")
-    // compileOnly("io.helidon.config:helidon-codegen-apt:$helidonVersion")
     api("io.helidon.config:helidon-config-yaml:$helidonVersion")
+    api("io.helidon.config:helidon-config-encryption:$helidonVersion")
 }
