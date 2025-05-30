@@ -30,13 +30,11 @@ public class ScheduledTaskController implements WebSupport, HttpService {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/scheduled-tasks", authz(SCHEDULED_TASK.R()).wrap(this::listScheduledTasks));
-        rules.get(
-                "/scheduled-tasks/{task_name}/{task_instance}/executions",
-                authz(SCHEDULED_TASK.R()).wrap(this::listScheduledTaskExecutions));
-        rules.post(
-                "/scheduled-tasks/{task_name}/{task_instance}/executions",
-                authz(SCHEDULED_TASK.W()).wrap(this::executeScheduledTask));
+        rules.get("/scheduled-tasks", s(this::listScheduledTasks, SCHEDULED_TASK.R));
+
+        var executions = "/scheduled-tasks/{task_name}/{task_instance}/executions";
+        rules.get(executions, s(this::listScheduledTaskExecutions, SCHEDULED_TASK.R));
+        rules.post(executions, s(this::executeScheduledTask, SCHEDULED_TASK.W));
     }
 
     private void listScheduledTasks(ServerRequest request, ServerResponse response) {

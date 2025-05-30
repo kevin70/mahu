@@ -31,9 +31,9 @@ public class LogController implements HttpService, WebSupport {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/logs/admin-auth", authz(ADMIN_AUTH_LOG.R()).wrap(this::listAdminAuthLogs));
-        rules.get("/logs/admin-audit", authz(ADMIN_AUDIT_LOG.R()).wrap(this::listAdminAuditLogs));
-        rules.get("/logs/admin-access", authz(ADMIN_ACCESS_LOG.R()).wrap(this::listAdminAccessLogs));
+        rules.get("/logs/admin-auth", s(this::listAdminAuthLogs, ADMIN_AUTH_LOG.R));
+        rules.get("/logs/admin-audit", s(this::listAdminAuditLogs, ADMIN_AUDIT_LOG.R));
+        rules.get("/logs/admin-access", s(this::listAdminAccessLogs, ADMIN_ACCESS_LOG.R));
     }
 
     private void listAdminAuthLogs(ServerRequest request, ServerResponse response) {

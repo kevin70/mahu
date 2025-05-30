@@ -1,35 +1,31 @@
 package cool.houge.mahu.admin;
 
-import static cool.houge.mahu.admin.Permits.Constants.A;
-import static cool.houge.mahu.admin.Permits.Constants.B;
-import static cool.houge.mahu.admin.Permits.Constants.R;
-
 /// 权限定义
 ///
 /// @author ZY (kzou227@qq.com)
 public enum Permits {
     // 系统相关
-    DICT(A, "系统|字典管理"),
-    ROLE(A, "系统|角色管理"),
-    ADMIN(A, "系统|管理员"),
-    DEPARTMENT(A, "系统|部门管理"),
-    CLIENT(A, "系统|认证终端"),
-    SCHEDULED_TASK(B, "系统|定时任务"),
+    DICT(Var.A, "系统|字典管理"),
+    ROLE(Var.A, "系统|角色管理"),
+    ADMIN(Var.A, "系统|管理员"),
+    DEPARTMENT(Var.A, "系统|部门管理"),
+    CLIENT(Var.A, "系统|认证终端"),
+    SCHEDULED_TASK(Var.B, "系统|定时任务"),
 
     // 基础
-    BRAND(A, "基础|品牌管理"),
+    BRAND(Var.A, "基础|品牌管理"),
 
     // 商城
-    MART_SHOP(A, "商城|商店"),
-    MART_CATEGORY(A, "商城|分类"),
-    MART_ASSET(A, "商城|资源"),
-    MART_ATTRIBUTE(A, "商城|产品属性"),
-    MART_PRODUCT(A, "商城|产品"),
+    MART_SHOP(Var.A, "商城|商店"),
+    MART_CATEGORY(Var.A, "商城|分类"),
+    MART_ASSET(Var.A, "商城|资源"),
+    MART_ATTRIBUTE(Var.A, "商城|产品属性"),
+    MART_PRODUCT(Var.A, "商城|产品"),
 
     // 业务日志
-    ADMIN_ACCESS_LOG(R, "管理员|访问日志"),
-    ADMIN_AUDIT_LOG(R, "管理员|操作日志"),
-    ADMIN_AUTH_LOG(R, "管理员|认证日志"),
+    ADMIN_ACCESS_LOG(Var.R, "管理员|访问日志"),
+    ADMIN_AUDIT_LOG(Var.R, "管理员|操作日志"),
+    ADMIN_AUTH_LOG(Var.R, "管理员|认证日志"),
 
 //
 ;
@@ -37,9 +33,24 @@ public enum Permits {
     private final int fnCodes;
     private final String label;
 
+    /// 读取权限代码
+    @SuppressWarnings("java:S116")
+    public final String R;
+
+    /// 写入权限代码
+    @SuppressWarnings("java:S116")
+    public final String W;
+
+    /// 删除权限代码
+    @SuppressWarnings("java:S116")
+    public final String D;
+
     Permits(int fnCodes, String label) {
         this.fnCodes = fnCodes;
         this.label = label;
+        this.R = name() + ":R";
+        this.W = name() + ":W";
+        this.D = name() + ":D";
     }
 
     /// 是否能读取
@@ -77,7 +88,7 @@ public enum Permits {
         return label;
     }
 
-    static class Constants {
+    private static class Var {
         /// 读取功能
         static final int R = 1;
         /// 写入功能

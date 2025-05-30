@@ -33,8 +33,8 @@ public class CategoryController implements HttpService, WebSupport {
     public void routing(HttpRules rules) {
         rules.get("/p/mart/categories", this::listPMartCategories);
 
-        rules.get("/mart/categories", authz(MART_CATEGORY.R()).wrap(this::listMartCategories));
-        rules.post("/mart/categories", authz(MART_CATEGORY.W()).wrap(this::createMartCategory));
+        rules.get("/mart/categories", s(this::listMartCategories, MART_CATEGORY.R));
+        rules.post("/mart/categories", s(this::createMartCategory, MART_CATEGORY.W));
     }
 
     private void listPMartCategories(ServerRequest request, ServerResponse response) {

@@ -29,13 +29,14 @@ public class DictController implements HttpService, WebSupport {
         this.dictService = dictService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/system/dicts", authz(DICT.R()).wrap(this::listSystemDicts));
-        rules.get("/system/dicts/{type_code}", authz(DICT.R()).wrap(this::getSystemDict));
+        rules.get("/system/dicts", s(this::listSystemDicts, DICT.R));
+        rules.get("/system/dicts/{type_code}", s(this::getSystemDict, DICT.R));
 
-        rules.post("/system/dicts", authz(DICT.W()).wrap(this::createSystemDict));
-        rules.put("/system/dicts/{type_code}", authz(DICT.W()).wrap(this::updateSystemDict));
+        rules.post("/system/dicts", s(this::createSystemDict, DICT.W));
+        rules.put("/system/dicts/{type_code}", s(this::updateSystemDict, DICT.W));
     }
 
     private void listSystemDicts(ServerRequest request, ServerResponse response) {

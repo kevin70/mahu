@@ -32,7 +32,7 @@ public class OssController implements WebSupport, HttpService {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.post("/oss/presigned-upload", authz().wrap(this::getPresignedUpload));
+        rules.post("/oss/presigned-upload", s(this::getPresignedUpload));
     }
 
     private void getPresignedUpload(ServerRequest request, ServerResponse response) {

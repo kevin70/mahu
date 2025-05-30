@@ -1,7 +1,6 @@
 package cool.houge.mahu.admin.controller;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
-import static io.helidon.webserver.http.SecureHandler.authenticate;
 
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpdateMePasswordRequest;
@@ -33,9 +32,9 @@ public class MeController implements HttpService, WebSupport {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/me/profile", authenticate().wrap(this::getMeProfile));
-        rules.put("/me/profile", authenticate().wrap(this::updateMeProfile));
-        rules.put("/me/password", authenticate().wrap(this::updateMePassword));
+        rules.get("/me/profile", s(this::getMeProfile));
+        rules.put("/me/profile", s(this::updateMeProfile));
+        rules.put("/me/password", s(this::updateMePassword));
     }
 
     void getMeProfile(ServerRequest request, ServerResponse response) {

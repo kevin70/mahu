@@ -30,13 +30,14 @@ public class RoleController implements HttpService, WebSupport {
         this.roleService = roleService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/system/roles", authz(ROLE.R()).wrap(this::listRoles));
-        rules.post("/system/roles", authz(ROLE.W()).wrap(this::createRole));
-        rules.put("/system/roles/{id:\\d+}", authz(ROLE.W()).wrap(this::updateRole));
-        rules.delete("/system/roles/{id:\\d+}", authz(ROLE.W()).wrap(this::deleteRole));
-        rules.get("/system/roles/{id:\\d+}", authz(ROLE.R()).wrap(this::getRole));
+        rules.get("/system/roles", s(this::listRoles, ROLE.R));
+        rules.post("/system/roles", s(this::createRole, ROLE.W));
+        rules.put("/system/roles/{id:\\d+}", s(this::updateRole, ROLE.W));
+        rules.delete("/system/roles/{id:\\d+}", s(this::deleteRole, ROLE.W));
+        rules.get("/system/roles/{id:\\d+}", s(this::getRole, ROLE.R));
     }
 
     private void createRole(ServerRequest request, ServerResponse response) {

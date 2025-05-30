@@ -30,13 +30,14 @@ public class DepartmentController implements HttpService, WebSupport {
         this.departmentService = departmentService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/system/departments", authz(DEPARTMENT.R()).wrap(this::listDepartments));
-        rules.get("/system/departments/{id:\\d+}", authz(DEPARTMENT.R()).wrap(this::getDepartment));
-        rules.post("/system/departments", authz(DEPARTMENT.W()).wrap(this::createDepartment));
-        rules.put("/system/departments/{id:\\d+}", authz(DEPARTMENT.W()).wrap(this::updateDepartment));
-        rules.delete("/system/departments/{id:\\d+}", authz(DEPARTMENT.W()).wrap(this::deleteDepartment));
+        rules.get("/system/departments", s(this::listDepartments, DEPARTMENT.R));
+        rules.get("/system/departments/{id:\\d+}", s(this::getDepartment, DEPARTMENT.R));
+        rules.post("/system/departments", s(this::createDepartment, DEPARTMENT.W));
+        rules.put("/system/departments/{id:\\d+}", s(this::updateDepartment, DEPARTMENT.W));
+        rules.delete("/system/departments/{id:\\d+}", s(this::deleteDepartment, DEPARTMENT.W));
     }
 
     void listDepartments(ServerRequest request, ServerResponse response) {

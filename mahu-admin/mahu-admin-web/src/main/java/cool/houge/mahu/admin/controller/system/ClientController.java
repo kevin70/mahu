@@ -30,13 +30,14 @@ public class ClientController implements HttpService, WebSupport {
         this.clientService = clientService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/system/clients", authz(CLIENT.R()).wrap(this::listClients));
-        rules.get("/system/clients/{client_id}", authz(CLIENT.R()).wrap(this::getClient));
-        rules.post("/system/clients", authz(CLIENT.W()).wrap(this::createClient));
-        rules.put("/system/clients/{client_id}", authz(CLIENT.W()).wrap(this::updateClient));
-        rules.delete("/system/clients/{client_id}", authz(CLIENT.W()).wrap(this::deleteClient));
+        rules.get("/system/clients", s(this::listClients, CLIENT.R));
+        rules.get("/system/clients/{client_id}", s(this::getClient, CLIENT.R));
+        rules.post("/system/clients", s(this::createClient, CLIENT.W));
+        rules.put("/system/clients/{client_id}", s(this::updateClient, CLIENT.W));
+        rules.delete("/system/clients/{client_id}", s(this::deleteClient, CLIENT.W()));
     }
 
     void listClients(ServerRequest request, ServerResponse response) {

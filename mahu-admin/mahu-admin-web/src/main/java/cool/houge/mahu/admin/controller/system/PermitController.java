@@ -18,7 +18,7 @@ public class PermitController implements HttpService, WebSupport {
 
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/system/permits", authz().wrap(this::allPermits));
+        rules.get("/system/permits", s(this::allPermits));
     }
 
     private void allPermits(ServerRequest request, ServerResponse response) {

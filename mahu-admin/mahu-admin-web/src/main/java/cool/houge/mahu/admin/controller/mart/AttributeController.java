@@ -32,27 +32,22 @@ public class AttributeController implements HttpService, WebSupport {
         this.attributeService = attributeService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.post("/mart/attributes", authz(MART_ATTRIBUTE.W()).wrap(this::createMartAttribute));
-        rules.delete("/mart/attributes/{id}", authz(MART_ATTRIBUTE.W()).wrap(this::deleteMartAttribute));
-        rules.put("/mart/attributes/{id}", authz(MART_ATTRIBUTE.W()).wrap(this::updateMartAttribute));
+        rules.post("/mart/attributes", s(this::createMartAttribute, MART_ATTRIBUTE.W));
+        rules.delete("/mart/attributes/{id}", s(this::deleteMartAttribute, MART_ATTRIBUTE.W));
+        rules.put("/mart/attributes/{id}", s(this::updateMartAttribute, MART_ATTRIBUTE.W));
 
-        rules.get("/mart/attributes/{id}", authz(MART_ATTRIBUTE.R()).wrap(this::getMartAttribute));
-        rules.get("/mart/attributes", authz(MART_ATTRIBUTE.R()).wrap(this::listMartAttributes));
+        rules.get("/mart/attributes/{id}", s(this::getMartAttribute, MART_ATTRIBUTE.R));
+        rules.get("/mart/attributes", s(this::listMartAttributes, MART_ATTRIBUTE.R));
 
-        rules.post(
-                "/mart/attributes/{attribute_id}/values",
-                authz(MART_ATTRIBUTE.W()).wrap(this::addMartAttributeValue));
-        rules.delete(
-            "/mart/attributes/{attribute_id}/values/{attribute_value_id}",
-            authz(MART_ATTRIBUTE.D()).wrap(this::deleteMartAttributeValue));
-        rules.put(
-            "/mart/attributes/{attribute_id}/values/{attribute_value_id}",
-            authz(MART_ATTRIBUTE.D()).wrap(this::updateMartAttributeValue));
-        rules.get(
-            "/mart/attributes/{attribute_id}/values/{attribute_value_id}",
-            authz(MART_ATTRIBUTE.R()).wrap(this::getMartAttributeValue));
+        rules.post("/mart/attributes/{attribute_id}/values", s(this::addMartAttributeValue, MART_ATTRIBUTE.W));
+
+        var values = "/mart/attributes/{attribute_id}/values/{attribute_value_id}";
+        rules.delete(values, s(this::deleteMartAttributeValue, MART_ATTRIBUTE.D));
+        rules.put(values, s(this::updateMartAttributeValue, MART_ATTRIBUTE.D));
+        rules.get(values, s(this::getMartAttributeValue, MART_ATTRIBUTE.R));
     }
 
     private void createMartAttribute(ServerRequest request, ServerResponse response) {
@@ -96,8 +91,7 @@ public class AttributeController implements HttpService, WebSupport {
         var dataFilter = dataFilter(request);
 
         var plist = attributeService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(
-                plist.getList(), plist.getTotalCount(), beanMapper::toMartAttributeResponse);
+        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toMartAttributeResponse);
         response.send(rs);
     }
 

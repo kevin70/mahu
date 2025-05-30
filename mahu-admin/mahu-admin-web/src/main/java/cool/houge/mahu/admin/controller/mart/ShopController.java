@@ -29,14 +29,15 @@ public class ShopController implements HttpService, WebSupport {
         this.shopService = shopService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/shops", authz(MART_SHOP.R()).wrap(this::listShops));
-        rules.get("/shops/{id:\\d+}", authz(MART_SHOP.R()).wrap(this::getShop));
+        rules.get("/shops", s(this::listShops, MART_SHOP.R));
+        rules.get("/shops/{id:\\d+}", s(this::getShop, MART_SHOP.R));
 
-        rules.post("/shops", authz(MART_SHOP.W()).wrap(this::createShop));
-        rules.put("/shops/{id:\\d+}", authz(MART_SHOP.W()).wrap(this::updateShop));
-        rules.delete("/shops/{id:\\d+}", authz(MART_SHOP.W()).wrap(this::deleteShop));
+        rules.post("/shops", s(this::createShop, MART_SHOP.W));
+        rules.put("/shops/{id:\\d+}", s(this::updateShop, MART_SHOP.W));
+        rules.delete("/shops/{id:\\d+}", s(this::deleteShop, MART_SHOP.W));
     }
 
     private void listShops(ServerRequest request, ServerResponse response) {

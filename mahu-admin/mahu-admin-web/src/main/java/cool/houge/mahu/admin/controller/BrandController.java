@@ -29,13 +29,14 @@ public class BrandController implements HttpService, WebSupport {
         this.brandService = brandService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/brands", authz(BRAND.R()).wrap(this::listBrands));
-        rules.post("/brands", authz(BRAND.W()).wrap(this::addBrand));
-        rules.get("/brands/{id:\\d+}", authz(BRAND.R()).wrap(this::getBrand));
-        rules.put("/brands/{id:\\d+}", authz(BRAND.W()).wrap(this::updateBrand));
-        rules.delete("/brands/{id:\\d+}", authz(BRAND.D()).wrap(this::deleteBrand));
+        rules.get("/brands", s(this::listBrands, BRAND.R));
+        rules.post("/brands", s(this::addBrand, BRAND.W));
+        rules.get("/brands/{id:\\d+}", s(this::getBrand, BRAND.R));
+        rules.put("/brands/{id:\\d+}", s(this::updateBrand, BRAND.W));
+        rules.delete("/brands/{id:\\d+}", s(this::deleteBrand, BRAND.D));
     }
 
     private void listBrands(ServerRequest request, ServerResponse response) {

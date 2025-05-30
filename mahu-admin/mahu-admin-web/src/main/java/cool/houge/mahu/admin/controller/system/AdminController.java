@@ -29,13 +29,14 @@ public class AdminController implements HttpService, WebSupport {
         this.adminService = adminService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/system/admins", authz(ADMIN.R()).wrap(this::listAdmins));
-        rules.post("/system/admins", authz(ADMIN.W()).wrap(this::createAdmin));
-        rules.put("/system/admins/{id:\\d+}", authz(ADMIN.W()).wrap(this::updateAdmin));
-        rules.delete("/system/admins/{id:\\d+}", authz(ADMIN.W()).wrap(this::deleteAdmin));
-        rules.get("/system/admins/{id:\\d+}", authz(ADMIN.R()).wrap(this::getAdmin));
+        rules.get("/system/admins", s(this::listAdmins, ADMIN.R));
+        rules.post("/system/admins", s(this::createAdmin, ADMIN.W));
+        rules.put("/system/admins/{id:\\d+}", s(this::updateAdmin, ADMIN.W));
+        rules.delete("/system/admins/{id:\\d+}", s(this::deleteAdmin, ADMIN.W));
+        rules.get("/system/admins/{id:\\d+}", s(this::getAdmin, ADMIN.R));
     }
 
     private void listAdmins(ServerRequest request, ServerResponse response) {

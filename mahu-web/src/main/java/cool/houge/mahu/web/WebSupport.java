@@ -1,12 +1,12 @@
 package cool.houge.mahu.web;
 
+import static io.helidon.webserver.http.SecureHandler.authenticate;
+
 import com.google.common.base.Splitter;
 import cool.houge.mahu.common.DataFilter;
 import io.helidon.http.HeaderNames;
-import io.helidon.webserver.http.SecureHandler;
+import io.helidon.webserver.http.Handler;
 import io.helidon.webserver.http.ServerRequest;
-
-import static io.helidon.webserver.http.SecureHandler.authenticate;
 
 /// Web 支持接口
 ///
@@ -41,11 +41,26 @@ public interface WebSupport {
                 .orElseGet(() -> request.remotePeer().host());
     }
 
-    /// @param permits 权限名称
-    default SecureHandler authz(String... permits) {
-        if (permits.length == 0) {
-            return authenticate();
-        }
-        return authenticate().andAuthorize(permits);
+    /// 需要用户认证的接口
+    ///
+    /// @param next 认证成功执行
+    default Handler s(Handler next) {
+        return authenticate().wrap(next);
+    }
+
+    /// 需要用户认证与权限认证的接口
+    ///
+    /// @param next 认证成功执行
+    /// @param permit 权限代码
+    default Handler s(Handler next, String permit) {
+        return authenticate().andAuthorize(permit).wrap(next);
+    }
+
+    /// 需要用户认证与权限认证的接口
+    ///
+    /// @param next 认证成功执行
+    /// @param permits 权限代码
+    default Handler s(Handler next, String[] permits) {
+        return authenticate().andAuthorize(permits).wrap(next);
     }
 }

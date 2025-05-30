@@ -30,16 +30,17 @@ public class ProductController implements WebSupport, HttpService {
         this.productService = productService;
     }
 
+    @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/mart/products", authz(MART_PRODUCT.R()).wrap(this::listMartProducts));
-        rules.get("/mart/products/{product_id}", authz(MART_PRODUCT.R()).wrap(this::getMartProduct));
+        rules.get("/mart/products", s(this::listMartProducts, MART_PRODUCT.R));
+        rules.get("/mart/products/{product_id}", s(this::getMartProduct, MART_PRODUCT.R));
 
-        rules.post("/mart/products", authz(MART_PRODUCT.W()).wrap(this::createMartProduct));
-        rules.put("/mart/products/{product_id}", authz(MART_PRODUCT.W()).wrap(this::updateMartProduct));
-        rules.delete("/mart/products/{product_id}", authz(MART_PRODUCT.D()).wrap(this::deleteMartProduct));
+        rules.post("/mart/products", s(this::createMartProduct, MART_PRODUCT.W));
+        rules.put("/mart/products/{product_id}", s(this::updateMartProduct, MART_PRODUCT.W));
+        rules.delete("/mart/products/{product_id}", s(this::deleteMartProduct, MART_PRODUCT.D));
 
-        rules.put("/mart/products/{product_id}/status", authz(MART_PRODUCT.W()).wrap(this::updateMartProductStatus));
+        rules.put("/mart/products/{product_id}/status", s(this::updateMartProductStatus, MART_PRODUCT.W));
     }
 
     private void listMartProducts(ServerRequest request, ServerResponse response) {

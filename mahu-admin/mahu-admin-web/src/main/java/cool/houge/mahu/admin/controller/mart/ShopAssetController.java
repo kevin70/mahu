@@ -35,10 +35,10 @@ public class ShopAssetController implements WebSupport, HttpService, DynamicSecu
 
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/shops/{shop_id}/assets", authz(MART_ASSET.R()).wrap(shopSecure(this::listShopAssets)));
+        rules.get("/shops/{shop_id}/assets", s(shopSecure(this::listShopAssets), MART_ASSET.R));
 
-        rules.post("/shops/{shop_id}/assets", authz(MART_ASSET.W()).wrap(shopSecure(this::createShopAsset)));
-        rules.delete("/shops/{shop_id}/assets", authz(MART_ASSET.W()).wrap(shopSecure(this::batchDeleteShopAsset)));
+        rules.post("/shops/{shop_id}/assets", s(shopSecure(this::createShopAsset), MART_ASSET.W));
+        rules.delete("/shops/{shop_id}/assets", s(shopSecure(this::batchDeleteShopAsset), MART_ASSET.W));
     }
 
     private void listShopAssets(ServerRequest request, ServerResponse response) {
