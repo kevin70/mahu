@@ -17,7 +17,7 @@ class OssServiceTest extends TestBase {
     @Test
     void presignedUpload() {
         var payload = new PresignedUploadPayload();
-        payload.setKind(OssKind.ADMIN_AVATAR).setAdminId(2).setFileName("hello.png");
+        payload.setKind(OssKind.ADMIN_AVATAR).setAdminId(2L).setFileName("hello.png");
         var presignedUrl = ossService.presignedUpload(payload);
         assertThat(presignedUrl).isNotNull();
     }
