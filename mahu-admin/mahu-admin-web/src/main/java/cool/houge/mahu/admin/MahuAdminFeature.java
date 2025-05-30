@@ -70,7 +70,7 @@ public class MahuAdminFeature implements HttpFeature, Filter {
     @Override
     public void filter(FilterChain chain, RoutingRequest req, RoutingResponse res) {
         var traceId = req.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
-        HelidonMdc.set("MAHU_TRACE_ID", traceId);
+        HelidonMdc.set("traceId", traceId);
 
         // 设置请求访问元数据
         req.context().supply(Metadata.class, () -> new Metadata() {
@@ -109,7 +109,7 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
         chain.proceed();
         // 清理追踪 ID
-        res.whenSent(() -> HelidonMdc.remove("MAHU_TRACE_ID"));
+        res.whenSent(() -> HelidonMdc.remove("traceId"));
     }
 
     void saveAccessLog(ServerRequest req, ServerResponse res) {
