@@ -90,3 +90,33 @@ podman run -d --name rabbitmq -p 15672:5672 -e RABBITMQ_DEFAULT_USER=guest -e RA
 ```
 podman run -d --name minio -p 19000:9000 -p 19001:9001 -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin m.daocloud.io/docker.io/minio/minio:RELEASE.2025-05-24T17-08-30Z server --console-address :9001 /data
 ```
+
+## 申请 HTTPS 证书
+
+```
+podman run --rm -it -v certs_volume:/acme.sh -e Ali_Key=$Ali_Key -e Ali_Secret=$Ali_Secret\
+ m.daocloud.io/docker.io/neilpang/acme.sh --issue --server zerossl\
+ --eab-kid $EAB_KID --eab-hmac-key $EAB_HMAC_KEY --dns dns_ali -d $DOMAIN -d *.$DOMAIN
+```
+
+- `Ali_Key` 阿里云 API 凭证
+- `Ali_Secret` 阿里去 API 凭证
+- `EAB_KID` ZeroSSL API 凭证
+- `EAB_HMAC_KEY` ZeroSSL API 凭证
+- `DOMAIN` 申请证书的域名
+
+### 获取阿里云 DNS API 凭证
+
+1. 登录[阿里云控制台](https://ram.console.aliyun.com/) → RAM 访问控制 → 用户管理。
+2. 创建用户（或使用现有用户），勾选`OpenAPI`调用访问。
+3. 为该用户添加权限`AliyunDNSFullAccess`（DNS 完全管理权限）。
+4. 在 安全信息 选项卡中，创建 `AccessKey`（保存`AccessKey ID`和`AccessKey Secret`）。
+
+### 获取 ZeroSSL API 凭证
+
+1. 注册 [ZeroSSL](https://zerossl.com/) 账户
+2. 登录后，进入 Developer 页面：
+    - 直接访问 https://app.zerossl.com/developer
+    - 或通过顶部菜单栏：`Dashboard`→`Developer`
+3. 在 API Keys 区域，点击 Generate 创建新 API Key
+4. 复制生成的 Key（如 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx）
