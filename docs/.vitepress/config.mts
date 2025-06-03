@@ -81,7 +81,10 @@ export default withMermaid(
         },
         {
           text: 'OpenAPI',
-          items: [{ text: 'OpenAPI 规范', link: '/openapi/component_spec' }],
+          items: [
+            { text: 'OpenAPI 规范', link: '/openapi/component_spec' },
+            { text: 'OpenAPI 最佳实践指南', link: '/openapi/OpenAPI 最佳实践指南' },
+          ],
         },
       ],
     },
