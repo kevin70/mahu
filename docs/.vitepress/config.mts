@@ -68,6 +68,7 @@ export default withMermaid(
       // https://vitepress.dev/reference/default-theme-config
       nav: [
         { text: '首页', link: '/' },
+        { text: '开发准备', link: '/开发准备' },
         { text: 'Examples', link: '/markdown-examples' },
       ],
 
