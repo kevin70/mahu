@@ -6,7 +6,10 @@ extends:
 # See https://redocly.com/docs/cli/rules
 rules:
   info-license: off
+  paths-kebab-case: error
+  operation-tag-defined: error
   no-unused-components: error
+  required-string-property-missing-min-length: error
   operation-singular-tag: warn
   boolean-parameter-prefixes:
     severity: error
