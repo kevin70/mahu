@@ -1,5 +1,5 @@
 apply plugin: "application"
-apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "com.gradleup.shadow"
 apply plugin: "com.bmuschko.docker-remote-api"
 apply plugin: "org.openapi.generator"
 
