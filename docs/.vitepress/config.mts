@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress';
 import { withMermaid } from 'vitepress-plugin-mermaid';
-import markdownItTaskLists from 'markdown-it-task-lists';
+import { tasklist } from '@mdit/plugin-tasklist';
+import { mark } from '@mdit/plugin-mark';
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
@@ -12,7 +13,7 @@ export default withMermaid(
     markdown: {
       lineNumbers: true,
       config: (md) => {
-        md.use(markdownItTaskLists);
+        md.use(tasklist).use(mark);
       },
       container: {
         tipLabel: '提示',
