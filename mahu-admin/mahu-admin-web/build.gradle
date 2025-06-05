@@ -71,20 +71,20 @@ dependencies {
 
     implementation(project(":mahu-web"))
     implementation(project(":mahu-admin:mahu-admin-infra"))
-    implementation("io.helidon:helidon:$helidonVersion")
-    implementation("io.helidon.logging:helidon-logging-log4j:$helidonVersion")
-    implementation("io.helidon.webserver:helidon-webserver:$helidonVersion")
-    implementation("io.helidon.webserver:helidon-webserver-cors:$helidonVersion")
-    implementation("io.helidon.webserver:helidon-webserver-context:$helidonVersion")
+    implementation("io.helidon:helidon")
+    implementation("io.helidon.logging:helidon-logging-log4j")
+    implementation("io.helidon.webserver:helidon-webserver")
+    implementation("io.helidon.webserver:helidon-webserver-cors")
+    implementation("io.helidon.webserver:helidon-webserver-context")
 
     implementation("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
     implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
         exclude module: "avaje-validator-http-plugin"
     }
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
 
-    testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5:$helidonVersion")
+    testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5")
 }
 
 openApiGenerate {

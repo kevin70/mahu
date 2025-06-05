@@ -5,17 +5,17 @@ dependencies {
     implementation(project(":mahu-common"))
     implementation("io.avaje:avaje-inject:$avajeInjectVersion")
     implementation("com.google.guava:guava:$guavaVersion")
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-    implementation("io.helidon.webclient:helidon-webclient:$helidonVersion")
-    implementation("io.helidon.http.media:helidon-http-media-jackson:$helidonVersion")
+    implementation("org.apache.logging.log4j:log4j-api")
+    implementation("io.helidon.webclient:helidon-webclient")
+    implementation("io.helidon.http.media:helidon-http-media-jackson")
     implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
 
     testImplementation("org.instancio:instancio-junit:$instancioVersion")
     testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
         exclude module: "logback-classic"
     }
-    testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    testImplementation("org.apache.logging.log4j:log4j-core")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
     testImplementation("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
 }

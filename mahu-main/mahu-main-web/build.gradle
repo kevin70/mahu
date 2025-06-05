@@ -55,27 +55,27 @@ dependencies {
 
     implementation(project(":mahu-common"))
     implementation(project(":mahu-main:mahu-main-infra"))
-    implementation("io.helidon:helidon:$helidonVersion")
-    implementation("io.helidon.config:helidon-config:$helidonVersion")
-    implementation("io.helidon.config:helidon-config-yaml:$helidonVersion")
-    implementation("io.helidon.logging:helidon-logging-log4j:$helidonVersion")
-    implementation("io.helidon.security:helidon-security-jwt:$helidonVersion")
-    implementation("io.helidon.webserver:helidon-webserver:$helidonVersion")
-    implementation("io.helidon.webserver:helidon-webserver-cors:$helidonVersion")
-    implementation("io.helidon.webserver:helidon-webserver-context:$helidonVersion")
-    implementation("io.helidon.health:helidon-health-checks:$helidonVersion")
-    implementation("io.helidon.metrics:helidon-metrics:$helidonVersion")
-    implementation("io.helidon.openapi:helidon-openapi:$helidonVersion")
+    implementation("io.helidon:helidon")
+    implementation("io.helidon.config:helidon-config")
+    implementation("io.helidon.config:helidon-config-yaml")
+    implementation("io.helidon.logging:helidon-logging-log4j")
+    implementation("io.helidon.security:helidon-security-jwt")
+    implementation("io.helidon.webserver:helidon-webserver")
+    implementation("io.helidon.webserver:helidon-webserver-cors")
+    implementation("io.helidon.webserver:helidon-webserver-context")
+    implementation("io.helidon.health:helidon-health-checks")
+    implementation("io.helidon.metrics:helidon-metrics")
+    implementation("io.helidon.openapi:helidon-openapi")
 
     implementation("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
     implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
         exclude module: "avaje-validator-http-plugin"
     }
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     implementation("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
 
-    testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5:$helidonVersion")
+    testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5")
 }
 
 openApiGenerate {

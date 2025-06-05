@@ -1,6 +1,6 @@
 apply plugin: "java-library"
 
 dependencies {
-    implementation("io.helidon.codegen:helidon-codegen-apt:$helidonVersion")
-    implementation("io.helidon.config.metadata:helidon-config-metadata-codegen:$helidonVersion")
+    implementation("io.helidon.codegen:helidon-codegen-apt")
+    implementation("io.helidon.config.metadata:helidon-config-metadata-codegen")
 }

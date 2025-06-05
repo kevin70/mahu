@@ -5,21 +5,21 @@ apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "com.bmuschko.docker-remote-api"
 
 dependencies {
-    annotationProcessor("io.helidon.builder:helidon-builder-processor:$helidonVersion")
+    annotationProcessor("io.helidon.builder:helidon-builder-processor")
     annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
     annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
 
-    compileOnly("io.helidon.builder:helidon-builder-api:$helidonVersion")
+    compileOnly("io.helidon.builder:helidon-builder-api")
 
     implementation(project(":mahu-common"))
     implementation(project(":mahu-entity"))
     implementation(project(":mahu-config"))
     implementation("io.avaje:avaje-inject:$avajeInjectVersion")
     implementation("com.google.guava:guava:$guavaVersion")
-    implementation("io.helidon:helidon:$helidonVersion")
-    implementation("io.helidon.config:helidon-config:$helidonVersion")
-    implementation("io.helidon.config:helidon-config-yaml:$helidonVersion")
-    implementation("io.helidon.logging:helidon-logging-log4j:$helidonVersion")
+    implementation("io.helidon:helidon")
+    implementation("io.helidon.config:helidon-config")
+    implementation("io.helidon.config:helidon-config-yaml")
+    implementation("io.helidon.logging:helidon-logging-log4j")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("io.ebean:ebean-postgres:$ebeanVersion") {
@@ -31,13 +31,13 @@ dependencies {
     }
     implementation("io.ebean:ebean-jackson-mapper:$ebeanVersion")
     implementation("com.github.ben-manes.caffeine:caffeine:$caffeineVersion")
-    implementation("io.helidon.webclient:helidon-webclient:$helidonVersion")
+    implementation("io.helidon.webclient:helidon-webclient")
 
     implementation("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
     implementation("com.github.kagkarlsson:db-scheduler:$dbSchedulerVersion")
     implementation("redis.clients:jedis:$jedisVersion")
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     implementation("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
 
     testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
@@ -45,7 +45,7 @@ dependencies {
     testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
         exclude module: "logback-classic"
     }
-    testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    testImplementation("org.apache.logging.log4j:log4j-core")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
 }

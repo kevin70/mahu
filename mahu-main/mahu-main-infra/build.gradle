@@ -2,12 +2,12 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.helidon.builder:helidon-builder-processor:$helidonVersion")
+    annotationProcessor("io.helidon.builder:helidon-builder-processor")
     annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
     annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
 
-    compileOnly("io.helidon.builder:helidon-builder-api:$helidonVersion")
-    compileOnly("io.helidon.webserver:helidon-webserver:$helidonVersion")
+    compileOnly("io.helidon.builder:helidon-builder-api")
+    compileOnly("io.helidon.webserver:helidon-webserver")
     compileOnly("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
 
     api(project(":mahu-common"))
@@ -15,12 +15,12 @@ dependencies {
     api(project(":mahu-config"))
     api("io.avaje:avaje-inject:$avajeInjectVersion")
     api("com.google.guava:guava:$guavaVersion")
-    api("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    api("org.apache.logging.log4j:log4j-api")
     api("io.ebean:ebean-api:$ebeanVersion") {
         exclude module: "avaje-config"
     }
-    api("io.helidon.health:helidon-health-checks:$helidonVersion")
-    api("io.helidon.http.media:helidon-http-media-jackson:$helidonVersion")
+    api("io.helidon.health:helidon-health-checks")
+    api("io.helidon.http.media:helidon-http-media-jackson")
     api("com.fasterxml.jackson.module:jackson-module-blackbird:$jacksonVersion")
 
     implementation("com.password4j:password4j:$password4jVersion")
@@ -40,10 +40,10 @@ dependencies {
         exclude module: "avaje-validator-http-plugin"
     }
     implementation("com.github.ben-manes.caffeine:caffeine:$caffeineVersion")
-    implementation("io.helidon.webclient:helidon-webclient:$helidonVersion")
-    implementation("io.helidon.fault-tolerance:helidon-fault-tolerance:$helidonVersion")
-    implementation("io.helidon.scheduling:helidon-scheduling:$helidonVersion")
-    implementation("io.helidon.security:helidon-security-jwt:$helidonVersion")
+    implementation("io.helidon.webclient:helidon-webclient")
+    implementation("io.helidon.fault-tolerance:helidon-fault-tolerance")
+    implementation("io.helidon.scheduling:helidon-scheduling")
+    implementation("io.helidon.security:helidon-security-jwt")
 
     implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
     implementation("redis.clients:jedis:$jedisVersion")
@@ -54,7 +54,7 @@ dependencies {
     testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
         exclude module: "logback-classic"
     }
-    testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    testImplementation("org.apache.logging.log4j:log4j-core")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
 }
