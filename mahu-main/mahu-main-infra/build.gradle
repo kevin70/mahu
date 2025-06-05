@@ -2,7 +2,6 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.helidon.builder:helidon-builder-processor")
     annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
     annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
 
@@ -21,11 +20,11 @@ dependencies {
     }
     api("io.helidon.health:helidon-health-checks")
     api("io.helidon.http.media:helidon-http-media-jackson")
-    api("com.fasterxml.jackson.module:jackson-module-blackbird:$jacksonVersion")
+    api("com.fasterxml.jackson.module:jackson-module-blackbird")
 
     implementation("com.password4j:password4j:$password4jVersion")
-    implementation("org.postgresql:postgresql:$postgresqlVersion")
-    implementation("com.zaxxer:HikariCP:$hikariVersion")
+    implementation("org.postgresql:postgresql")
+    implementation("com.zaxxer:HikariCP")
     implementation("io.ebean:ebean-postgres:$ebeanVersion") {
         exclude module: "avaje-config"
         exclude module: "ebean-migration"
@@ -34,19 +33,19 @@ dependencies {
         exclude module: "classpath-scanner"
     }
     implementation("io.ebean:ebean-jackson-mapper:$ebeanVersion")
-    implementation("com.zaxxer:HikariCP:5.1.0")
+    implementation("com.zaxxer:HikariCP")
     implementation("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
     implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
         exclude module: "avaje-validator-http-plugin"
     }
-    implementation("com.github.ben-manes.caffeine:caffeine:$caffeineVersion")
+    implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("io.helidon.webclient:helidon-webclient")
     implementation("io.helidon.fault-tolerance:helidon-fault-tolerance")
     implementation("io.helidon.scheduling:helidon-scheduling")
     implementation("io.helidon.security:helidon-security-jwt")
 
     implementation("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
-    implementation("redis.clients:jedis:$jedisVersion")
+    implementation("redis.clients:jedis")
     implementation("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
 
     testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")

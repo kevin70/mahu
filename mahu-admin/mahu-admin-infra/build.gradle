@@ -22,11 +22,11 @@ dependencies {
     }
     api("io.helidon.health:helidon-health-checks")
     api("io.helidon.http.media:helidon-http-media-jackson")
-    api("com.fasterxml.jackson.module:jackson-module-blackbird:$jacksonVersion")
+    api("com.fasterxml.jackson.module:jackson-module-blackbird")
 
     api("com.password4j:password4j:$password4jVersion")
-    api("org.postgresql:postgresql:$postgresqlVersion")
-    api("com.zaxxer:HikariCP:$hikariVersion")
+    api("org.postgresql:postgresql")
+    api("com.zaxxer:HikariCP")
     api("io.ebean:ebean-postgres:$ebeanVersion") {
         exclude module: "avaje-config"
         exclude module: "ebean-migration"
@@ -35,7 +35,7 @@ dependencies {
         exclude module: "classpath-scanner"
     }
     api("io.ebean:ebean-jackson-mapper:$ebeanVersion")
-    api("com.github.ben-manes.caffeine:caffeine:$caffeineVersion")
+    api("com.github.ben-manes.caffeine:caffeine")
     api("io.helidon.webclient:helidon-webclient")
     api("io.helidon.fault-tolerance:helidon-fault-tolerance")
     api("io.helidon.scheduling:helidon-scheduling")
@@ -45,9 +45,9 @@ dependencies {
     api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
     api("com.github.kagkarlsson:db-scheduler:$dbSchedulerVersion")
     api("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
-    api("redis.clients:jedis:$jedisVersion")
+    api("redis.clients:jedis")
     api("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
-    api("com.rabbitmq:amqp-client:$rabbitmqVersion")
+    api("com.rabbitmq:amqp-client")
     api("org.apache.kafka:kafka-clients:4.0.0")
     api("io.minio:minio:$minioVersion")
 
