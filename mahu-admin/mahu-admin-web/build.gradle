@@ -76,6 +76,7 @@ dependencies {
     implementation("io.helidon.webserver:helidon-webserver")
     implementation("io.helidon.webserver:helidon-webserver-cors")
     implementation("io.helidon.webserver:helidon-webserver-context")
+    implementation("io.helidon.webserver.observe:helidon-webserver-observe-health")
 
     implementation("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
     implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {

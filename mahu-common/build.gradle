@@ -3,6 +3,7 @@ apply plugin: "io.ebean"
 
 dependencies {
     api(project(":mahu-base"))
+    api("io.helidon.health:helidon-health-checks")
     implementation(project(":mahu-entity"))
     implementation("com.fasterxml.jackson.core:jackson-annotations")
     implementation("org.apache.logging.log4j:log4j-api")
