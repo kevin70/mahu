@@ -103,6 +103,7 @@ allprojects {
     dependencies {
         implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
         implementation(enforcedPlatform("org.testcontainers:testcontainers-bom:$testcontainersVersion"))
+        implementation(enforcedPlatform("io.helidon:helidon-bom:$helidonVersion"))
 
         annotationProcessor("org.projectlombok:lombok:$lombokVersion")
         annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
