@@ -8,7 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.base.Stopwatch;
 import cool.houge.mahu.common.WeightedShutdownHandler;
+import cool.houge.mahu.common.health.DatabaseHealthCheck;
 import io.avaje.inject.BeanScope;
+import io.ebean.Database;
 import io.helidon.Main;
 import io.helidon.config.Config;
 import io.helidon.http.media.MediaContext;
@@ -20,6 +22,8 @@ import io.helidon.webserver.WebServerConfig;
 import io.helidon.webserver.context.ContextFeature;
 import io.helidon.webserver.cors.CorsFeature;
 import io.helidon.webserver.http.HttpFeature;
+import io.helidon.webserver.observe.ObserveFeature;
+import io.helidon.webserver.observe.health.HealthObserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -55,6 +59,10 @@ public class MahuAdminStartup implements HelidonStartupProvider {
     private WebServer startWeb(BeanScope beanScope) {
         var config = beanScope.get(Config.class);
         var httpFeatures = beanScope.listByPriority(HttpFeature.class);
+        var observeFeature = ObserveFeature.just(HealthObserver.create(b -> {
+            b.details(true);
+            b.addChecks(new DatabaseHealthCheck(beanScope.get(Database.class)));
+        }));
 
         var webServer = WebServerConfig.builder()
                 .config(config.get("server"))
@@ -62,6 +70,7 @@ public class MahuAdminStartup implements HelidonStartupProvider {
                 .mediaContext(mediaContext())
                 .addFeature(CorsFeature.create(config))
                 .addFeature(ContextFeature.create())
+                .addFeature(observeFeature)
                 .routing(builder -> {
                     for (HttpFeature httpFeature : httpFeatures) {
                         builder.addFeature(httpFeature);

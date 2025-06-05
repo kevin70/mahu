@@ -63,6 +63,7 @@ public class DbBeanFactory {
     @Bean(destroyMethod = "shutdown", destroyPriority = 9998)
     public Database database(AppInstance appInstance, DataSource ds, CurrentUserProvider currentUserProvider) {
         var dbc = new DatabaseConfig();
+        dbc.setName("main");
         dbc.setContainerConfig(new ContainerConfig());
         dbc.setDataSourceConfig(
                 new DataSourceConfig()
