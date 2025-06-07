@@ -8,7 +8,7 @@ export default defineConfig({
     format: 'prettier',
     lint: 'eslint',
     path: './src/client',
-    //case: 'camelCase',
+    // case: 'camelCase',
   },
 
   plugins: [

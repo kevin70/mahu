@@ -13,7 +13,7 @@ import i18n from '@/locales/index.ts';
 import { I18nextProvider } from 'react-i18next';
 
 import { appRouter } from './AppRouter.tsx';
-import { useAppStore } from '@/stores';
+import { useAppStore, useTokenStore } from '@/stores';
 import { useShallow } from 'zustand/shallow';
 
 import { IconContext } from 'react-icons';
@@ -22,9 +22,55 @@ import { AlertProps } from 'antd/lib/index';
 import { ulid } from 'ulid';
 import { css } from '@styled-system/css';
 
+import { client as apiClient } from '@/client/client.gen.ts';
+import axios, { AxiosError } from 'axios';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // 默认缓存5分钟
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+});
+
+// 初始化 API 客户端
+const setupApiClient = (getToken: () => Promise<string>) => {
+  apiClient.setConfig({
+    baseURL: import.meta.env.VITE_API_BASE_URL,
+    auth({ scheme }) {
+      if (scheme === 'bearer') {
+        return getToken();
+      }
+      throw new Error(`不支持的 auth scheme: ${scheme}`);
+    },
+  });
+
+  apiClient.instance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        // if (!window.location.pathname.startsWith('/login')) {
+        //   window.location.href = '/login';
+        // }
+        // return Promise.reject(new Error('Session expired'));
+      }
+
+      console.error('接口响应错误', error);
+      const errResp = error.response?.data?.error;
+      if (errResp) {
+        throw new AxiosError(errResp.message, `${errResp.code}`, error.config, error.request, error.response);
+      }
+      throw error;
+    }
+  );
+};
+
 export const Root = () => {
   const isLightTheme = useAppStore(useShallow((state) => state.isLightTheme()));
   const [locale, setLocale] = useState(zhCN);
+  const tokenStore = useTokenStore();
+  setupApiClient(() => tokenStore.obtainAccessToken());
 
   // ===================== 全局警告消息提示 ===================== //
   const [alertSet, { add: addAlert, remove: removeAlert }] = useSet<
@@ -75,8 +121,16 @@ export const Root = () => {
     setLocale(zhCN);
   });
 
+  const iconContextValue = useMemo(
+    () => ({
+      style: {
+        fontSize: 16,
+      },
+    }),
+    []
+  );
   return (
-    <IconContext.Provider value={{ style: { fontSize: 16 } }}>
+    <IconContext.Provider value={iconContextValue}>
       <I18nextProvider i18n={i18n}>
         <ConfigProvider
           locale={locale}
@@ -92,18 +146,7 @@ export const Root = () => {
           {/** 全局警告消息 */}
           <GlobalAlert />
 
-          <QueryClientProvider
-            client={
-              new QueryClient({
-                defaultOptions: {
-                  queries: {
-                    // 默认缓存5分钟
-                    staleTime: 5 * 60 * 1000,
-                  },
-                },
-              })
-            }
-          >
+          <QueryClientProvider client={queryClient}>
             <RouterProvider router={appRouter} />
           </QueryClientProvider>
         </ConfigProvider>

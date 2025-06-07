@@ -1,4 +1,3 @@
-import { resolveApiError, TOKEN_API } from '@/services';
 import { useProfileStore, useTokenStore } from '@/stores';
 import { LockOutlined, UserOutlined, WechatOutlined, WeiboOutlined } from '@ant-design/icons';
 import { LoginFormPage, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
@@ -8,6 +7,9 @@ import { useNavigate } from 'react-router';
 import { SwitchLang } from '@/components/SwitchLang';
 import { SwitchTheme } from '@/components/SwitchTheme';
 import { css } from '@styled-system/css';
+import { loginMutation } from '@/client/@tanstack/react-query.gen';
+import { TokenPasswordForm } from '@/client';
+import { useState } from 'react';
 
 export const Login = () => {
   const title = import.meta.env.VITE_APP_TITLE;
@@ -17,36 +19,21 @@ export const Login = () => {
   const navigate = useNavigate();
   const tokenStore = useTokenStore();
   const profileStore = useProfileStore();
+  const [rememberMe, setRememberMe] = useState(false);
 
   const { isPending, isError, error, mutateAsync } = useMutation({
-    async mutationFn(values: any) {
-      try {
-        const rs = await TOKEN_API.login({
-          loginRequest: {
-            grantType: 'password',
-            clientId: clientId,
-            ...values,
-          },
-        });
+    ...loginMutation(),
+    async onSuccess(data, variables) {
+      // 保存访问令牌
+      tokenStore.clean();
+      tokenStore.attachToken(data.access_token, data.refresh_token, data.expires_in, rememberMe);
 
-        // 保存访问令牌
-        tokenStore.clean();
-        tokenStore.attachToken(rs.accessToken, rs.refreshToken, rs.expiresIn, values.rememberMe);
+      // 刷新个人信息
+      const profile = await profileStore.refreshProfile();
+      message.info(`欢迎回来 - ${profile.nickname}！`);
 
-        // 刷新个人信息
-        const profile = await profileStore.refreshProfile();
-        message.info(`欢迎回来 - ${profile.nickname}！`);
-
-        // 保存上次登录的用户名
-        localStorage.setItem("username", values.username)
-
-        return rs;
-      } catch (e) {
-        // FIXME 处理密码错误
-        throw await resolveApiError(e);
-      }
-    },
-    onSuccess() {
+      // 保存上次登录的用户名
+      localStorage.setItem('username', (variables.body as TokenPasswordForm).username);
       navigate('/dashboard', { replace: true });
     },
     onError(error, variables, context) {
@@ -102,10 +89,16 @@ export const Login = () => {
         subTitle={appName}
         loading={isPending}
         initialValues={{
-          username: localStorage.getItem("username")
+          username: localStorage.getItem('username'),
         }}
-        onFinish={async (values) => {
-          await mutateAsync(values);
+        onFinish={async (values: TokenPasswordForm) => {
+          await mutateAsync({
+            body: {
+              ...values,
+              grant_type: 'password',
+              client_id: clientId,
+            },
+          });
         }}
         actions={actions}
         message={isError && <Alert showIcon banner closable type="error" message={error.message} />}
@@ -146,7 +139,15 @@ export const Login = () => {
             margin-block-end: var(--ant-margin);
           `}
         >
-          <ProFormCheckbox noStyle name="rememberMe">
+          <ProFormCheckbox
+            noStyle
+            name="rememberMe"
+            fieldProps={{
+              onChange(e) {
+                setRememberMe(e.target.checked);
+              },
+            }}
+          >
             记住我
           </ProFormCheckbox>
           {/* <Button type="link">忘记密码</Button> */}
