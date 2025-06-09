@@ -76,7 +76,7 @@ allprojects {
         languages {
             include("java")
         }
-        testSourceSets = sourceSets.matching { true }
+        testSourceSets = sourceSets.matching {true}
     }
 
     configurations {
@@ -98,6 +98,7 @@ allprojects {
         download = true
         version = "22.3.0"
         distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
+        workDir = rootProject.layout.projectDirectory.dir(".gradle/")
     }
 
     dependencies {
@@ -121,8 +122,8 @@ allprojects {
     }
 
     repositories {
-        maven { url "https://repo.huaweicloud.com/repository/maven" }
-        maven { url "https://jitpack.io" }
+        maven {url "https://repo.huaweicloud.com/repository/maven"}
+        maven {url "https://jitpack.io"}
         mavenLocal()
         mavenCentral()
     }
@@ -157,7 +158,8 @@ tasks.register("deployAdminUI") {
     doLast {
         ssh.run {
             session(remotes.hx01) {
-                put(from: "${projectDir}/mahu-dashboard-ui/mahu-dashboard-ui.tar.gz", into: "/root/nginx/html/mahu-dashboard-ui.tar.gz")
+                put(from: "${projectDir}/mahu-dashboard-ui/mahu-dashboard-ui.tar.gz",
+                    into: "/root/nginx/html/mahu-dashboard-ui.tar.gz")
                 execute([
                     "source ~/.profile",
                     "cd /root/nginx/html",
