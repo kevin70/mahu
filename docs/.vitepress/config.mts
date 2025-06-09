@@ -24,7 +24,7 @@ export default withMermaid(
       },
     },
     themeConfig: {
-      logo: '/assets/logo.svg',
+      logo: '/logo.svg',
       outlineTitle: '本页目录',
       lastUpdatedText: '最后更新',
       darkModeSwitchLabel: '外观',
@@ -70,6 +70,18 @@ export default withMermaid(
         { text: '首页', link: '/' },
         { text: '开发准备', link: '/开发准备' },
         { text: 'Examples', link: '/markdown-examples' },
+        {
+          text: '接口文档',
+          items: [
+            {
+              text: '后台系统',
+              items: [
+                { text: 'OpenAPI Docs', link: '/mahu-admin-openapi.html', target: '_blank' },
+                { text: 'OpenAPI YAML', link: '/mahu-admin-openapi.yaml', target: '_blank' },
+              ],
+            },
+          ],
+        },
       ],
 
       sidebar: [
@@ -79,13 +91,6 @@ export default withMermaid(
             { text: 'Markdown Examples', link: '/markdown-examples' },
             { text: 'Runtime API Examples', link: '/api-examples' },
             { text: '变更记录', link: '/CHANGELOG' },
-          ],
-        },
-        {
-          text: 'OpenAPI',
-          items: [
-            { text: 'OpenAPI 规范', link: '/openapi/component_spec' },
-            { text: 'OpenAPI 最佳实践指南', link: '/openapi/OpenAPI 最佳实践指南' },
           ],
         },
       ],

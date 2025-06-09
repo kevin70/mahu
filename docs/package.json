@@ -3,14 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "openapi-admin-bundle": "redocly bundle ../openapi/admin/openapi.yaml -o public/mahu-admin-openapi.yaml",
+    "openapi-admin-build-docs": "redocly build-docs ../openapi/admin/openapi.yaml -o public/mahu-admin-openapi.html",
+    "openapi": "pnpm openapi-admin-bundle && pnpm openapi-admin-build-docs",
     "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
+    "docs:build": "pnpm openapi && vitepress build",
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
     "@braintree/sanitize-url": "^7.1.1",
     "@mdit/plugin-mark": "^0.21.0",
     "@mdit/plugin-tasklist": "^0.21.0",
+    "@redocly/cli": "^1.34.3",
     "cytoscape": "^3.32.0",
     "cytoscape-cose-bilkent": "^4.1.0",
     "dayjs": "^1.11.13",
