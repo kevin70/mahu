@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "openapi-admin-bundle": "redocly bundle ../openapi/admin/openapi.yaml -o public/mahu-admin-openapi.yaml",
-    "openapi-admin-build-docs": "redocly build-docs ../openapi/admin/openapi.yaml -o public/mahu-admin-openapi.html",
+    "openapi-admin-bundle": "redocly bundle ../openapi/admin/openapi.yaml -o src/public/mahu-admin-openapi.yaml",
+    "openapi-admin-build-docs": "redocly build-docs ../openapi/admin/openapi.yaml -o src/public/mahu-admin-openapi.html",
     "openapi": "pnpm openapi-admin-bundle && pnpm openapi-admin-build-docs",
     "docs:dev": "vitepress dev",
     "docs:build": "pnpm openapi && vitepress build",

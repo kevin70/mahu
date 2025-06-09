@@ -6,6 +6,7 @@ import { mark } from '@mdit/plugin-mark';
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
+    srcDir: './src',
     lang: 'zh-CN',
     title: 'Mahu 文档',
     description: 'Mahu 开发文档',

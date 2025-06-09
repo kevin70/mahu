@@ -140,5 +140,5 @@ styled-system
 styled-system-studio
 
 ## 自动生成的文档
-public/mahu-admin-openapi.html
-public/mahu-admin-openapi.yaml
+src/public/mahu-admin-openapi.html
+src/public/mahu-admin-openapi.yaml
