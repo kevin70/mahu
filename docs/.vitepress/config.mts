@@ -13,6 +13,7 @@ export default withMermaid(
     description: 'Mahu 开发文档',
     lastUpdated: true,
     head: [
+      // Iconfont
       [
         'link',
         {
