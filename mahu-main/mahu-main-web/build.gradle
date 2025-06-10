@@ -54,6 +54,7 @@ dependencies {
     annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
 
     implementation(project(":mahu-common"))
+    implementation(project(":mahu-web"))
     implementation(project(":mahu-main:mahu-main-infra"))
     implementation("io.helidon:helidon")
     implementation("io.helidon.config:helidon-config")
