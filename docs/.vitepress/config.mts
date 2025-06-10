@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress';
 import { withMermaid } from 'vitepress-plugin-mermaid';
 import { tasklist } from '@mdit/plugin-tasklist';
 import { mark } from '@mdit/plugin-mark';
+import { icon, iconfontRender } from '@mdit/plugin-icon';
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
@@ -11,10 +12,20 @@ export default withMermaid(
     title: 'Mahu 文档',
     description: 'Mahu 开发文档',
     lastUpdated: true,
+    head: [
+      [
+        'link',
+        {
+          rel: 'stylesheet',
+          type: 'text/css',
+          href: 'https://at.alicdn.com/t/c/font_4945214_pg0yh7hfaln.css',
+        },
+      ],
+    ],
     markdown: {
       lineNumbers: true,
       config: (md) => {
-        md.use(tasklist).use(mark);
+        md.use(tasklist).use(mark).use(icon, { render: iconfontRender });
       },
       container: {
         tipLabel: '提示',
