@@ -2,9 +2,7 @@ package cool.houge.mahu.web;
 
 import static io.helidon.webserver.http.SecureHandler.authenticate;
 
-import com.google.common.base.Splitter;
 import cool.houge.mahu.common.DataFilter;
-import io.helidon.http.HeaderNames;
 import io.helidon.webserver.http.Handler;
 import io.helidon.webserver.http.ServerRequest;
 
@@ -25,20 +23,6 @@ public interface WebSupport {
     /// @param request 请求对象
     default DataFilter dataFilter(ServerRequest request) {
         return new WebDataFilter(request);
-    }
-
-    /// 获取客户端请求 IP
-    ///
-    /// @param request 请求对象
-    default String clientAddr(ServerRequest request) {
-        return request.headers()
-                .first(HeaderNames.X_FORWARDED_FOR)
-                .map(s -> {
-                    var splitter = Splitter.on(',').omitEmptyStrings().trimResults();
-                    var ipList = splitter.splitToList(s);
-                    return ipList.getFirst();
-                })
-                .orElseGet(() -> request.remotePeer().host());
     }
 
     /// 需要用户认证的接口

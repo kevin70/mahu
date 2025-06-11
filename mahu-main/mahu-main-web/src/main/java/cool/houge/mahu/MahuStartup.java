@@ -1,79 +1,96 @@
 package cool.houge.mahu;
 
+import static io.helidon.Main.addShutdownHandler;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.base.Stopwatch;
+import cool.houge.mahu.common.WeightedShutdownHandler;
+import cool.houge.mahu.common.health.DatabaseHealthCheck;
 import io.avaje.inject.BeanScope;
+import io.ebean.Database;
 import io.helidon.Main;
 import io.helidon.config.Config;
+import io.helidon.http.media.MediaContext;
+import io.helidon.http.media.MediaContextConfig;
+import io.helidon.http.media.jackson.JacksonSupport;
 import io.helidon.spi.HelidonStartupProvider;
-
-import java.util.Set;
-import java.util.StringJoiner;
-
-import static java.util.Optional.ofNullable;
-import static java.util.function.Predicate.not;
+import io.helidon.webserver.WebServer;
+import io.helidon.webserver.WebServerConfig;
+import io.helidon.webserver.context.ContextFeature;
+import io.helidon.webserver.cors.CorsFeature;
+import io.helidon.webserver.http.HttpFeature;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /// 启动应用程序
 ///
 /// @author ZY (kzou227@qq.com)
 public class MahuStartup implements HelidonStartupProvider {
 
-    /**
-     * IoC 容器.
-     */
-    BeanScope beanScope;
+    private static final Logger log = LogManager.getLogger();
 
     @Override
     public void start(String[] args) {
+        var stopWatch = Stopwatch.createStarted();
         System.setProperty("ebean.registerShutdownHook", "false");
-        if (args.length >= 1 && "stop".equals(args[0])) {
-            stop();
-            System.exit(0);
-            return;
-        }
 
-        beanScope = BeanScope.builder()
-                .bean(Config.class, io.helidon.config.Config.create())
-                .modules(new MahuWebModule(), new MahuInfraModule())
-                .shutdownHook(false)
-                .build();
-        Main.addShutdownHandler(beanScope::close);
+        var beanScore = this.startIoC();
+        var webServer = this.startWeb(beanScore);
 
-        // 将应用进程 PID 写入文件
-        ofNullable(System.getProperty("houge.pid.file"))
-                .filter(not(String::isEmpty))
-                .ifPresent(PidFile::writePidFile);
+        // 优先停止 WEB 服务
+        addShutdownHandler(new WeightedShutdownHandler(webServer::stop, 0));
+        addShutdownHandler(new WeightedShutdownHandler(beanScore::close, -9999));
+        stopWatch.stop();
+        log.info("应用启动完成，耗时 {}", stopWatch);
     }
 
-    private static void stop() {
-        var current = ProcessHandle.current();
-        var currentInfo = current.info();
-        ProcessHandle.allProcesses()
-                .filter(p -> p.pid() != current.pid())
-                .filter(process -> {
-                    var info = process.info();
-                    if (!info.user().equals(currentInfo.user())) {
-                        return false;
-                    }
-                    if (!info.command().equals(currentInfo.command())) {
-                        return false;
-                    }
+    private BeanScope startIoC() {
+        return BeanScope.builder()
+                .bean(Config.class, Config.create())
+                .shutdownHook(false)
+                .build();
+    }
 
-                    var args = info.arguments().map(Set::of).orElse(Set.of());
-                    var currentArgs = currentInfo.arguments().map(Set::of).orElse(Set.of());
-                    return currentArgs.containsAll(args);
+    private WebServer startWeb(BeanScope beanScope) {
+        var config = beanScope.get(Config.class);
+        var httpFeatures = beanScope.listByPriority(HttpFeature.class);
+        var observeFeature = ObserveFeature.just(HealthObserver.create(b -> {
+            b.details(true);
+            b.addChecks(new DatabaseHealthCheck(beanScope.get(Database.class)));
+        }));
+
+        var webServer = WebServerConfig.builder()
+                .config(config.get("server"))
+                .shutdownHook(false)
+                .mediaContext(mediaContext())
+                .addFeature(CorsFeature.create(config))
+                .addFeature(ContextFeature.create())
+                .addFeature(observeFeature)
+                .routing(builder -> {
+                    for (HttpFeature httpFeature : httpFeatures) {
+                        builder.addFeature(httpFeature);
+                    }
                 })
-                .forEach(process -> {
-                    var msg = new StringJoiner(" ");
-                    msg.add("停止进程 PID:");
-                    msg.add(String.valueOf(process.pid()));
-                    process.info().arguments().ifPresent(args -> {
-                        for (String arg : args) {
-                            msg.add(arg);
-                        }
-                    });
+                .build();
+        webServer.start();
+        return webServer;
+    }
 
-                    System.out.println(msg);
-                    process.destroy();
-                });
+    private MediaContext mediaContext() {
+        return MediaContextConfig.builder()
+                .addMediaSupport(JacksonSupport.create(objectMapper()))
+                .build();
+    }
+
+    private ObjectMapper objectMapper() {
+        return new ObjectMapper()
+                .findAndRegisterModules()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .setDefaultPropertyInclusion(JsonInclude.Include.NON_DEFAULT)
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     public static void main(String[] args) {

@@ -1,19 +1,12 @@
 package cool.houge.mahu.admin;
 
-import static io.helidon.http.HeaderNames.USER_AGENT;
-import static io.helidon.http.HeaderNames.X_FORWARDED_FOR;
-
-import com.google.common.base.Splitter;
-import cool.houge.mahu.TraceIdGenerator;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.shared.SharedService;
 import cool.houge.mahu.common.Metadata;
+import cool.houge.mahu.web.WebMetadata;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
-import io.helidon.common.configurable.Resource;
-import io.helidon.common.media.type.MediaTypes;
-import io.helidon.http.HeaderName;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.Method;
 import io.helidon.logging.common.HelidonMdc;
@@ -39,7 +32,6 @@ import org.apache.logging.log4j.Logger;
 public class MahuAdminFeature implements HttpFeature, Filter {
 
     private static final Logger log = LogManager.getLogger(MahuAdminFeature.class);
-    private static final HeaderName X_REQUEST_ID = HeaderNames.create("x-request-id");
 
     private final MahuAdminSecurity security;
     private final List<HttpService> httpServices;
@@ -59,44 +51,14 @@ public class MahuAdminFeature implements HttpFeature, Filter {
         for (HttpService httpService : httpServices) {
             routing.register(httpService);
         }
-
-        routing.get("/openapi/ui", (_, res) -> {
-            res.header(HeaderNames.CONTENT_TYPE, MediaTypes.TEXT_HTML.type());
-            // 输出接口文档界面
-            res.send(Resource.create("META-INF/openapi-ui.html").bytes());
-        });
     }
 
     @Override
     public void filter(FilterChain chain, RoutingRequest req, RoutingResponse res) {
-        var traceId = req.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
-        HelidonMdc.set("traceId", traceId);
-
+        var metadata = new WebMetadata(req);
+        HelidonMdc.set("traceId", metadata.traceId());
         // 设置请求访问元数据
-        req.context().supply(Metadata.class, () -> new Metadata() {
-
-            @Override
-            public String clientAddr() {
-                return req.headers()
-                        .first(X_FORWARDED_FOR)
-                        .map(s -> {
-                            var splitter = Splitter.on(',').omitEmptyStrings().trimResults();
-                            var ipList = splitter.splitToList(s);
-                            return ipList.getFirst();
-                        })
-                        .orElseGet(() -> req.remotePeer().host());
-            }
-
-            @Override
-            public String userAgent() {
-                return req.headers().first(USER_AGENT).orElse("UNKNOWN");
-            }
-
-            @Override
-            public String traceId() {
-                return traceId;
-            }
-        });
+        req.context().register(Metadata.class, metadata);
 
         res.whenSent(() -> {
             try {
@@ -107,9 +69,9 @@ public class MahuAdminFeature implements HttpFeature, Filter {
             }
         });
 
-        chain.proceed();
         // 清理追踪 ID
         res.whenSent(() -> HelidonMdc.remove("traceId"));
+        chain.proceed();
     }
 
     void saveAccessLog(ServerRequest req, ServerResponse res) {
