@@ -30,15 +30,15 @@ public class WebMetadata implements Metadata {
     @Override
     public String clientAddr() {
         return request.headers()
-            .first(X_FORWARDED_FOR)
-            .flatMap(s -> {
-                var ipList = COMMA_SPLITTER.splitToList(s);
-                if (ipList.isEmpty()) {
-                    return Optional.empty();
-                }
-                return Optional.of(ipList.getFirst());
-            })
-            .orElseGet(() -> request.remotePeer().host());
+                .first(X_FORWARDED_FOR)
+                .flatMap(s -> {
+                    var ipList = COMMA_SPLITTER.splitToList(s);
+                    if (ipList.isEmpty()) {
+                        return Optional.empty();
+                    }
+                    return Optional.of(ipList.getFirst());
+                })
+                .orElseGet(() -> request.remotePeer().host());
     }
 
     @Override
