@@ -1,0 +1,16 @@
+parameters:
+  - $ref: "../components/parameters/path_type_code.yaml"
+  - $ref: "../components/parameters/path_data_code.yaml"
+get:
+  summary: 获取字典类型
+  operationId: getPublicDictData
+  security: [ ]
+  tags:
+    - base
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/PublicDictDataResponse.yaml"

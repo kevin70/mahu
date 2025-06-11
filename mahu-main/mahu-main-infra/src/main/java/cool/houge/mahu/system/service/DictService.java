@@ -2,12 +2,12 @@ package cool.houge.mahu.system.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.entity.system.Dict;
-import cool.houge.mahu.system.repository.DictRepository;
+import cool.houge.mahu.entity.system.DictData;
+import cool.houge.mahu.entity.system.DictType;
+import cool.houge.mahu.system.repository.DictTypeRepository;
 import io.ebean.annotation.Transactional;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 /// 字典
@@ -16,22 +16,40 @@ import java.util.List;
 @Singleton
 public class DictService {
 
-    @Inject
-    DictRepository dictRepository;
+    private final DictTypeRepository dictTypeRepository;
 
-    /// 查询指定字典类型的数据
-    @Transactional(readOnly = true)
-    public List<Dict> findByKind(String kind) {
-        return dictRepository.findByKind(kind);
+    @Inject
+    public DictService(DictTypeRepository dictTypeRepository) {
+        this.dictTypeRepository = dictTypeRepository;
     }
 
-    /// 获取指定 SLUG 的字典数据
+    /// 按照指定的字典类型查询数据
+    /// @param typeCode 类型代码
     @Transactional(readOnly = true)
-    public Dict obtainBySlug(String slug) {
-        var bean = dictRepository.findBySlug(slug);
+    public DictType findByTypeCode(String typeCode) {
+        var bean = dictTypeRepository.findById(typeCode);
         if (bean == null) {
-            throw new BizCodeException(BizCodes.NOT_FOUND, "未找到指定 SLUG 的字典");
+            throw new BizCodeException(BizCodes.NOT_FOUND);
         }
         return bean;
+    }
+
+    /// 查询指定字典数据
+    ///
+    /// @param typeCode 字典类型代码
+    /// @param dataCode 字典数据代码
+    @Transactional(readOnly = true)
+    public DictData findDictData(String typeCode, String dataCode) {
+        var bean = dictTypeRepository.findDictData(typeCode, dataCode);
+        if (bean == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND);
+        }
+        return bean;
+    }
+
+    /// 查询所有字典数据
+    @Transactional(readOnly = true)
+    public List<DictType> findAll() {
+        return dictTypeRepository.findAll();
     }
 }

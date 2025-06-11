@@ -2,7 +2,18 @@ package cool.houge.mahu.internal;
 
 import cool.houge.mahu.entity.Region;
 import cool.houge.mahu.entity.User;
-import cool.houge.mahu.oas.model.*;
+import cool.houge.mahu.entity.system.DictData;
+import cool.houge.mahu.entity.system.DictType;
+import cool.houge.mahu.oas.model.GetMeProfileResponse;
+import cool.houge.mahu.oas.model.GetRegionResponse;
+import cool.houge.mahu.oas.model.GetTokenRequest;
+import cool.houge.mahu.oas.model.GetTokenResponse;
+import cool.houge.mahu.oas.model.PublicDictDataResponse;
+import cool.houge.mahu.oas.model.PublicDictResponse;
+import cool.houge.mahu.oas.model.TokenPasswordForm;
+import cool.houge.mahu.oas.model.TokenRefreshTokenForm;
+import cool.houge.mahu.oas.model.TokenWechatXcxForm;
+import cool.houge.mahu.oas.model.UpdateMeProfileRequest;
 import cool.houge.mahu.service.TokenPayload;
 import cool.houge.mahu.service.TokenResult;
 import org.mapstruct.Mapper;
@@ -15,9 +26,14 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.JAKARTA)
 public interface VoBeanMapper {
 
-    GetRegionResponse toGetRegionResponse(Region bean);
+    @Mapping(target = "data", ignore = true)
+    PublicDictResponse toPublicDictResponseIgnoreData(DictType bean);
 
-    GetDictResponse toGetDictResponse(Dict bean);
+    PublicDictResponse toPublicDictResponse(DictType bean);
+
+    PublicDictDataResponse toPublicDictDataResponse(DictData bean);
+
+    GetRegionResponse toGetRegionResponse(Region bean);
 
     TokenRefreshTokenForm toTokenRefreshTokenForm(GetTokenRequest bean);
 

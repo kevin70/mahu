@@ -1,16 +1,15 @@
 package cool.houge.mahu.controller;
 
 import com.google.common.primitives.Ints;
-import cool.houge.mahu.common.web.WebSupport;
 import cool.houge.mahu.internal.VoBeanMapper;
 import cool.houge.mahu.service.RegionService;
+import cool.houge.mahu.web.WebSupport;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-
 import java.util.function.Predicate;
 
 /// 行政区
