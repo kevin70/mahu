@@ -17,39 +17,27 @@ dependencies {
     api("io.avaje:avaje-inject:$avajeInjectVersion")
     api("com.google.guava:guava:$guavaVersion")
     api("org.apache.logging.log4j:log4j-api")
-    api("io.ebean:ebean-api:$ebeanVersion") {
-        exclude module: "avaje-config"
-    }
+    api("io.helidon.security:helidon-security-jwt")
+    api("io.helidon.webclient:helidon-webclient")
     api("io.helidon.health:helidon-health-checks")
     api("io.helidon.http.media:helidon-http-media-jackson")
-    api("com.fasterxml.jackson.module:jackson-module-blackbird")
-
-    api("com.password4j:password4j:$password4jVersion")
-    api("org.postgresql:postgresql")
-    api("com.zaxxer:HikariCP")
-    api("io.ebean:ebean-postgres:$ebeanVersion") {
-        exclude module: "avaje-config"
-        exclude module: "ebean-migration"
-        exclude module: "ebean-migration-auto"
-        exclude module: "ebean-ddl-runner"
-        exclude module: "classpath-scanner"
-    }
-    api("io.ebean:ebean-jackson-mapper:$ebeanVersion")
-    api("com.github.ben-manes.caffeine:caffeine")
-    api("io.helidon.webclient:helidon-webclient")
     api("io.helidon.fault-tolerance:helidon-fault-tolerance")
-    api("io.helidon.scheduling:helidon-scheduling")
-    api("io.helidon.security:helidon-security-jwt")
     api("io.helidon.security.providers:helidon-security-providers-oidc")
 
-    api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
-    api("com.github.kagkarlsson:db-scheduler:$dbSchedulerVersion")
-    api("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
     api("redis.clients:jedis")
-    api("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
     api("com.rabbitmq:amqp-client")
     api("org.apache.kafka:kafka-clients:4.0.0")
     api("io.minio:minio:$minioVersion")
+    api("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
+    api("com.password4j:password4j:$password4jVersion")
+    api("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
+    api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
+
+    api("com.zaxxer:HikariCP")
+    api("org.postgresql:postgresql")
+    api("io.ebean:ebean-postgres:$ebeanVersion")
+    api("io.ebean:ebean-jackson-mapper:$ebeanVersion")
+    api("com.github.ben-manes.caffeine:caffeine")
 
     testImplementation("io.ebean:ebean-test:$ebeanVersion")
     testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
