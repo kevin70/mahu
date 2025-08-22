@@ -2,20 +2,16 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
-    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
-    annotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
+    annotationProcessor("io.ebean:querybean-generator")
 
     compileOnly("io.helidon.builder:helidon-builder-api")
     compileOnly("io.helidon.webserver:helidon-webserver")
-    compileOnly("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
+    compileOnly("io.avaje:avaje-validator-constraints")
 
     api(project(":mahu-common"))
     api(project(":mahu-entity"))
     api(project(":mahu-config"))
-    api(project(":mahu-remote"))
-    api("io.avaje:avaje-inject:$avajeInjectVersion")
-    api("com.google.guava:guava:$guavaVersion")
+    api("com.google.guava:guava")
     api("org.apache.logging.log4j:log4j-api")
     api("io.helidon.security:helidon-security-jwt")
     api("io.helidon.webclient:helidon-webclient")
@@ -27,25 +23,24 @@ dependencies {
     api("redis.clients:jedis")
     api("com.rabbitmq:amqp-client")
     api("org.apache.kafka:kafka-clients:4.0.0")
-    api("io.minio:minio:$minioVersion")
-    api("org.bouncycastle:bcprov-jdk18on:$bcprovVersion")
-    api("com.password4j:password4j:$password4jVersion")
-    api("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
-    api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
+    api("io.minio:minio")
+    api("org.bouncycastle:bcprov-jdk18on")
+    api("com.password4j:password4j")
+    api("io.hypersistence:hypersistence-tsid")
+    api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap")
 
     api("com.zaxxer:HikariCP")
     api("org.postgresql:postgresql")
-    api("io.ebean:ebean-postgres:$ebeanVersion")
-    api("io.ebean:ebean-jackson-mapper:$ebeanVersion")
+    api("io.ebean:ebean-postgres")
+    api("io.ebean:ebean-jackson-mapper")
     api("com.github.ben-manes.caffeine:caffeine")
 
-    testImplementation("io.ebean:ebean-test:$ebeanVersion")
-    testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
+    testImplementation("io.ebean:ebean-test")
+    testImplementation("io.specto:hoverfly-java-junit5") {
         exclude module: "logback-classic"
     }
     testImplementation("org.apache.logging.log4j:log4j-core")
     testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-    testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:rabbitmq")

@@ -2,8 +2,8 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
-    compileOnly("io.avaje:avaje-lang:1.1")
-    api("io.ebean:ebean-api:$ebeanVersion")
-    api("io.ebean:ebean-querybean:$ebeanVersion")
+    annotationProcessor("io.ebean:querybean-generator")
+    compileOnly("io.avaje:avaje-lang")
+    api("io.ebean:ebean-api")
+    api("io.ebean:ebean-querybean")
 }

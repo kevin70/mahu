@@ -1,7 +1,7 @@
 buildscript {
     dependencies {
-        classpath("io.helidon.config:helidon-config-yaml:$helidonVersion")
-        classpath("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
+        classpath("io.helidon.config:helidon-config-yaml:4.2.6")
+        classpath("io.hypersistence:hypersistence-tsid:2.1.4")
     }
 }
 

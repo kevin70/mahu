@@ -1,7 +1,5 @@
 apply plugin: "java"
 apply plugin: "checkstyle"
-apply plugin: "name.remal.sonarlint"
-apply plugin: "com.palantir.java-format"
 
 sonarLint {
     languages {

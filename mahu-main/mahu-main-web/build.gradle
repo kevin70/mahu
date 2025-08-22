@@ -1,6 +1,4 @@
 apply plugin: "application"
-apply plugin: "com.gradleup.shadow"
-apply plugin: "com.bmuschko.docker-remote-api"
 apply plugin: "org.openapi.generator"
 
 sourceSets {
@@ -22,34 +20,7 @@ jar {
     }
 }
 
-shadowJar {
-    mergeServiceFiles()
-    archiveFileName = "${project.name}-all.jar"
-    exclude(
-        "meta-config.yaml",
-        "log4j2.xml",
-        "Log4j-charsets.properties",
-        "Log4j-config.xsd",
-        "Log4j-events.dtd",
-        "Log4j-events.xsd",
-        "Log4j-levels.xsd",
-        "log4j2_example.xml",
-        "**/license*",
-        "**/LICENSE*",
-        "**/NOTICE*",
-    )
-    transform(com.github.jengelman.gradle.plugins.shadow.transformers.IncludeResourceTransformer.class) {
-        file = file("$projectDir/config/log4j2.xml")
-        resource = "log4j2.xml"
-    }
-    transform(com.github.jengelman.gradle.plugins.shadow.transformers.IncludeResourceTransformer.class) {
-        file = file("$projectDir/config/meta-config.yaml")
-        resource = "meta-config.yaml"
-    }
-}
-
 dependencies {
-    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
     annotationProcessor("io.avaje:avaje-validator-generator:$avajeValidatorVersion")
     annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
 

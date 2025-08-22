@@ -7,18 +7,17 @@ dependencies {
     implementation(project(":mahu-entity"))
     implementation("com.fasterxml.jackson.core:jackson-annotations")
     implementation("org.apache.logging.log4j:log4j-api")
-    implementation("com.google.guava:guava:$guavaVersion")
+    implementation("com.google.guava:guava")
     implementation("io.helidon.webserver:helidon-webserver")
-    implementation("io.ebean:ebean-core:$ebeanVersion")
-    implementation("io.ebean:ebean-querybean:$ebeanVersion")
-    implementation("io.github.nstdio:rsql-parser:$rsqlVersion")
-    implementation("io.avaje:avaje-validator:$avajeValidatorVersion") {
+    implementation("io.ebean:ebean-core")
+    implementation("io.ebean:ebean-querybean")
+    implementation("io.github.nstdio:rsql-parser")
+    implementation("io.avaje:avaje-validator") {
         exclude module: "avaje-validator-http-plugin"
     }
-    implementation("org.zalando:problem:0.27.1")
 
-    testAnnotationProcessor("io.ebean:querybean-generator:$ebeanVersion")
-    testImplementation("io.ebean:ebean-h2:$ebeanVersion")
-    testImplementation("io.ebean:ebean-jackson-mapper:$ebeanVersion")
+    testAnnotationProcessor("io.ebean:querybean-generator")
+    testImplementation("io.ebean:ebean-h2")
+    testImplementation("io.ebean:ebean-jackson-mapper")
     testImplementation("com.h2database:h2")
 }

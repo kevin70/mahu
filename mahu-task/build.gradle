@@ -1,50 +1,43 @@
 apply plugin: "io.ebean"
 apply plugin: "java-library"
 apply plugin: "application"
-apply plugin: "com.github.johnrengelman.shadow"
-apply plugin: "com.bmuschko.docker-remote-api"
 
 dependencies {
-    annotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
-    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
-
     compileOnly("io.helidon.builder:helidon-builder-api")
 
     implementation(project(":mahu-common"))
     implementation(project(":mahu-entity"))
     implementation(project(":mahu-config"))
-    implementation("io.avaje:avaje-inject:$avajeInjectVersion")
-    implementation("com.google.guava:guava:$guavaVersion")
+    implementation("com.google.guava:guava")
     implementation("io.helidon:helidon")
     implementation("io.helidon.config:helidon-config")
     implementation("io.helidon.config:helidon-config-yaml")
     implementation("io.helidon.logging:helidon-logging-log4j")
     implementation("org.postgresql:postgresql")
     implementation("com.zaxxer:HikariCP")
-    implementation("io.ebean:ebean-postgres:$ebeanVersion") {
+    implementation("io.ebean:ebean-postgres") {
         exclude module: "avaje-config"
         exclude module: "ebean-migration"
         exclude module: "ebean-migration-auto"
         exclude module: "ebean-ddl-runner"
         exclude module: "classpath-scanner"
     }
-    implementation("io.ebean:ebean-jackson-mapper:$ebeanVersion")
+    implementation("io.ebean:ebean-jackson-mapper")
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("io.helidon.webclient:helidon-webclient")
 
-    implementation("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:$roaringbitmapVersion")
-    implementation("com.github.kagkarlsson:db-scheduler:$dbSchedulerVersion")
+    implementation("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap")
+    implementation("com.github.kagkarlsson:db-scheduler")
     implementation("redis.clients:jedis")
     implementation("org.apache.logging.log4j:log4j-core")
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-    implementation("io.hypersistence:hypersistence-tsid:$hypersistenceTsidVersion")
+    implementation("io.hypersistence:hypersistence-tsid")
 
-    testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
-    testImplementation("org.instancio:instancio-junit:$instancioVersion")
-    testImplementation("io.specto:hoverfly-java-junit5:$hoverflyVersion") {
+    testImplementation("org.instancio:instancio-junit")
+    testImplementation("io.specto:hoverfly-java-junit5") {
         exclude module: "logback-classic"
     }
     testImplementation("org.apache.logging.log4j:log4j-core")
     testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-    testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
+    //testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
 }

@@ -1,28 +1,35 @@
 plugins {
     id("java")
     id("application")
-    id("io.avaje.inject") version("11.1")
-    id("io.ebean") version("15.12.0")
-    id("org.openapi.generator") version("7.13.0")
+    id("io.ebean") version "16.0.0-RC4"
+    id("org.openapi.generator") version "7.14.0"
+    id("io.spring.dependency-management") version "1.1.7"
 
     id("jacoco")
     id("checkstyle")
-    id("name.remal.sonarlint") version("6.0.0-rc-2")
-    id("com.palantir.java-format") version("2.66.0")
+    id("name.remal.sonarlint") version "6.0.0"
+    id("com.diffplug.spotless") version "7.2.1"
 
     id("org.hidetake.ssh") version "2.12.0"
-    id("com.bmuschko.docker-remote-api") version("9.4.0")
-    id("com.github.node-gradle.node") version("7.1.0")
-    id("com.gradleup.shadow") version("8.3.6") apply(false)
+    id("com.google.cloud.tools.jib") version "3.4.5"
+    id("com.github.node-gradle.node") version "7.1.0"
+    id("net.researchgate.release") version "3.1.0"
+}
+
+release {
+    tagTemplate = 'V${version}'
 }
 
 allprojects {
 
     apply plugin: "java"
+    apply plugin: "java-library"
     apply plugin: "jacoco"
+    apply plugin: "project-report"
     apply plugin: "checkstyle"
+    apply plugin: "io.spring.dependency-management"
     apply plugin: "name.remal.sonarlint"
-    apply plugin: "com.palantir.java-format"
+    apply plugin: "com.diffplug.spotless"
     apply plugin: "com.github.node-gradle.node"
 
     group = "cool.houge.mahu"
@@ -33,13 +40,18 @@ allprojects {
         targetCompatibility = JavaVersion.VERSION_23
     }
 
+    jar {
+        manifest {
+            attributes(
+                "Build-Time": "${java.time.OffsetDateTime.now()}"
+            )
+        }
+    }
+
     tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
         options.compilerArgs += [
             "-parameters",
-            "-Amapstruct.defaultComponentModel=jakarta",
-            "-Amapstruct.unmappedTargetPolicy=IGNORE",
-            "-Amapstruct.unmappedSourcePolicy=IGNORE"
         ]
         options.sourcepath = sourceSets.main.resources.getSourceDirectories()
     }
@@ -71,26 +83,24 @@ allprojects {
         }
     }
 
+    spotless {
+        java {
+            palantirJavaFormat()
+            formatAnnotations()
+        }
+    }
+
     sonarLint {
         ignoreFailures = true
         languages {
             include("java")
         }
-        testSourceSets = sourceSets.matching {true}
+        testSourceSets = sourceSets.matching { true }
     }
 
     configurations {
         configureEach {
             exclude group: "io.avaje", module: "avaje-config"
-        }
-    }
-
-    remotes {
-        hx01 {
-            host = "ec-api.crosshealth.club"
-            user = "root"
-            identity = file("${System.getProperty("user.home")}/.ssh/id_rsa")
-            knownHosts = allowAnyHosts
         }
     }
 
@@ -101,29 +111,69 @@ allprojects {
         workDir = rootProject.layout.projectDirectory.dir(".gradle/")
     }
 
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.0-M1")
+            mavenBom("io.helidon:helidon-bom:4.2.6")
+            mavenBom("io.ebean:ebean-bom:16.0.0-RC4")
+            mavenBom("org.testcontainers:testcontainers-bom:1.21.3")
+        }
+        dependencies {
+            dependency("org.checkerframework:checker-qual:3.49.5")
+            dependency("com.google.errorprone:error_prone_annotations:2.41.0")
+            dependency("com.google.guava:guava:33.4.8-jre")
+            dependency("org.apache.commons:commons-collections4:4.5.0")
+            dependency("org.apache.commons:commons-lang3:3.18.0")
+            dependency("org.apache.commons:commons-text:1.14.0")
+            dependency("org.apache.commons:commons-compress:1.28.0")
+
+            dependency("io.avaje:avaje-validator-constraints:2.12")
+            dependency("io.avaje:avaje-validator:2.12")
+            dependency("io.avaje:avaje-validator-generator:2.12")
+            dependency("org.mapstruct:mapstruct:1.6.3")
+            dependency("org.mapstruct:mapstruct-processor:1.6.3")
+            dependency("org.instancio:instancio-junit:5.4.1")
+            dependency("io.minio:minio:8.5.17")
+            dependency("com.password4j:password4j:1.8.1")
+            dependency("io.hypersistence:hypersistence-tsid:2.1.4")
+            dependency("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:1.5.2")
+            dependency("io.github.nstdio:rsql-parser:2.3.4")
+            dependency("com.github.kagkarlsson:db-scheduler:16.0.0")
+
+            // 微信第三方 SDK
+            dependency("com.github.binarywang:weixin-java-miniapp:4.7.7-20250730.233020")
+            dependency("com.github.binarywang:weixin-java-pay:4.7.7-20250730.233020")
+        }
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+        }
+    }
+
     dependencies {
-        implementation(enforcedPlatform("io.helidon:helidon-bom:$helidonVersion"))
-        implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:3.5.0"))
+        annotationProcessor("org.projectlombok:lombok")
+        annotationProcessor("org.mapstruct:mapstruct-processor")
+        annotationProcessor("io.avaje:avaje-validator-generator")
+        compileOnly("org.projectlombok:lombok")
+        compileOnly("org.mapstruct:mapstruct")
 
-        annotationProcessor("org.projectlombok:lombok:$lombokVersion")
-        annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
-        compileOnly("org.projectlombok:lombok:$lombokVersion")
-        compileOnly("org.mapstruct:mapstruct:$mapstructVersion")
-        compileOnly("io.swagger.core.v3:swagger-annotations:$swaggerVersion")
+        testAnnotationProcessor("org.projectlombok:lombok")
+        testCompileOnly("org.projectlombok:lombok")
+        testImplementation("org.apache.logging.log4j:log4j-core")
+        testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
 
-        testCompileOnly("org.projectlombok:lombok:$lombokVersion")
-        testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
-        testAnnotationProcessor("io.avaje:avaje-inject-generator:$avajeInjectVersion")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+        testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
         testImplementation("org.assertj:assertj-core")
         testImplementation("org.awaitility:awaitility")
-        testImplementation("org.junit.jupiter:junit-jupiter-params")
-        testImplementation("io.avaje:avaje-inject-test:$avajeInjectVersion")
-        testImplementation("org.instancio:instancio-junit:$instancioVersion")
+        testImplementation("org.mockito:mockito-junit-jupiter")
+        testImplementation("org.instancio:instancio-junit")
     }
 
     repositories {
-        maven {url "https://repo.huaweicloud.com/repository/maven"}
-        maven {url "https://jitpack.io"}
+        maven { url "https://repo.huaweicloud.com/repository/maven" }
+        maven { url "https://jitpack.io" }
         mavenLocal()
         mavenCentral()
     }
