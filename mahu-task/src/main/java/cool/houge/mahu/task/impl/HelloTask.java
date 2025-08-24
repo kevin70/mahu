@@ -6,15 +6,15 @@ import com.github.kagkarlsson.scheduler.task.ExecutionContext;
 import com.github.kagkarlsson.scheduler.task.Task;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
 import com.github.kagkarlsson.scheduler.task.helper.Tasks;
-import cool.houge.mahu.task.TaskSupplier;
 import io.helidon.service.registry.Service.Singleton;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.function.Supplier;
 
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class HelloTask implements TaskSupplier {
+public class HelloTask implements Supplier<Task<?>> {
 
     @Override
     public Task<Void> get() {

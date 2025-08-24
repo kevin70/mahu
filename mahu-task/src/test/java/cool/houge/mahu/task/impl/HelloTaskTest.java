@@ -1,10 +1,10 @@
 package cool.houge.mahu.task.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.avaje.inject.test.InjectTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 ///
 /// @author ZY (kzou227@qq.com)
@@ -19,5 +19,4 @@ class HelloTaskTest {
         System.out.println(helloTask);
         assertThat(helloTask).isNotNull();
     }
-
 }

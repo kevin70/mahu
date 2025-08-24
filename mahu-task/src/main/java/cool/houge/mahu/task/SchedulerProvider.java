@@ -2,11 +2,14 @@ package cool.houge.mahu.task;
 
 import com.github.kagkarlsson.scheduler.Scheduler;
 import com.github.kagkarlsson.scheduler.task.Task;
+import com.google.common.hash.Hashing;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
-import io.helidon.service.registry.Service;
+import io.helidon.service.registry.Service.PostConstruct;
+import io.helidon.service.registry.Service.PreDestroy;
 import io.helidon.service.registry.Service.RunLevel;
 import io.helidon.service.registry.Service.Singleton;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Supplier;
 import javax.sql.DataSource;
@@ -37,15 +40,18 @@ class SchedulerProvider implements Supplier<Scheduler> {
         return this.v;
     }
 
-    @Service.PostConstruct
+    @PostConstruct
     void init() {
         for (Task<?> task : tasks) {
-            this.v.schedule(task.schedulableInstance("default"));
+            var id = Hashing.murmur3_128()
+                    .hashString(task.getName(), StandardCharsets.UTF_8)
+                    .toString();
+            this.v.schedule(task.schedulableInstance(id));
         }
         this.v.start();
     }
 
-    @Service.PreDestroy
+    @PreDestroy
     void destroy() {
         this.v.stop();
     }
