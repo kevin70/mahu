@@ -1,23 +1,15 @@
 info:
-  name: "mahu-admin"
-  version: "@APP_VERSION@"
+  name: "mahu-task"
+  env: "dev"
 
 server:
   port: 9090
   shutdown-hook: true
 
-cors:
-  enabled: true
-  allow-origins: [ "*" ]
-  allow-methods: [ "*" ]
-  allow-headers: [ "*" ]
-  allow-credentials: false
-  max-age: 7200
-
 db:
-  application-name: "mahu"
-  url: "${MAHU_DB_URL}"
-  username: "${MAHU_DB_USERNAME}"
-  password: "${MAHU_DB_PASSWORD}"
+  name: "${info.name}"
+  url: "jdbc:postgresql://127.0.0.1:5432/mahu"
+  username: "postgres"
+  password: "postgres"
   min-idle: 1
   max-size: 64

@@ -1,16 +1,15 @@
 package cool.houge.mahu.task.impl;
 
+import static com.github.kagkarlsson.scheduler.task.schedule.Schedules.fixedDelay;
+
 import com.github.kagkarlsson.scheduler.task.ExecutionContext;
 import com.github.kagkarlsson.scheduler.task.Task;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
 import com.github.kagkarlsson.scheduler.task.helper.Tasks;
 import cool.houge.mahu.task.TaskSupplier;
-import jakarta.inject.Singleton;
-
+import io.helidon.service.registry.Service.Singleton;
 import java.time.Duration;
 import java.time.Instant;
-
-import static com.github.kagkarlsson.scheduler.task.schedule.Schedules.fixedDelay;
 
 ///
 /// @author ZY (kzou227@qq.com)

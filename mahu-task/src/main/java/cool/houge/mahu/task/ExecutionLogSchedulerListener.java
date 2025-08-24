@@ -6,13 +6,11 @@ import cool.houge.mahu.entity.log.ScheduledExecutionLog;
 import cool.houge.mahu.entity.system.ScheduledTask;
 import io.ebean.Database;
 import io.ebean.annotation.Transactional;
+import io.helidon.service.registry.Service.Singleton;
 import io.hypersistence.tsid.TSID;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Arrays;
 
 /// 任务执行日志
 ///
@@ -21,10 +19,8 @@ import java.util.Arrays;
 public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
 
     private static final Logger log = LogManager.getLogger();
-
     private final Database db;
 
-    @Inject
     public ExecutionLogSchedulerListener(Database db) {
         this.db = db;
     }
@@ -32,6 +28,7 @@ public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
     @Override
     public void onExecutionComplete(ExecutionComplete exec) {
         try {
+            exec.getExecution().getId();
             saveExecutionLog(exec);
         } catch (Exception e) {
             log.error("保存定时任务执行日志 {}", exec.getExecution(), e);

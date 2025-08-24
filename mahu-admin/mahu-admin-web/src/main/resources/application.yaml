@@ -1,6 +1,5 @@
 info:
   name: "mahu-admin"
-  version: "@APP_VERSION@"
   env: "dev"
 
 server:
