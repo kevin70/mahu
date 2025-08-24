@@ -11,17 +11,6 @@ sourceSets {
     }
 }
 
-processResources {
-    filesMatching("application.yaml") {
-        //noinspection UnnecessaryQualifiedReference
-        filter(org.apache.tools.ant.filters.ReplaceTokens,
-            tokens: ["APP_VERSION": version],
-            beginToken: "@",
-            endToken: "@"
-        )
-    }
-}
-
 application {
     mainClass = "cool.houge.mahu.admin.MahuAdminMain"
     applicationDefaultJvmArgs = ["-Dfile.encoding=UTF-8"]
