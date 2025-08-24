@@ -1,11 +1,12 @@
 -- liquibase formatted sql
 
 
--- changeset kzou227@qq.com:0KPY6J2C5XP5T
+-- changeset kzou227@qq.com:202508242200
 create table system.scheduled_task
 (
     task_name            varchar(50)                 not null,
-    task_instance        varchar(50)                 not null,
+    task_instance        varchar(50)                 not null
+        constraint scheduled_task_pk primary key,
     task_data            bytea,
     execution_time       timestamp without time zone not null,
     picked               boolean                     not null,
@@ -15,9 +16,7 @@ create table system.scheduled_task
     consecutive_failures integer,
     last_heartbeat       timestamp without time zone,
     version              bigint                      not null,
-    priority             smallint,
-    constraint scheduled_task_pk
-        primary key (task_name, task_instance)
+    priority             smallint
 );
 
 comment
@@ -31,9 +30,6 @@ comment
 
 create index scheduled_task_execution_time_i
     on system.scheduled_task (execution_time);
-
-create index scheduled_task_priority_execution_time_i
-    on system.scheduled_task (priority desc, execution_time asc);
 
 create index scheduled_task_last_heartbeat_i
     on system.scheduled_task (last_heartbeat);
