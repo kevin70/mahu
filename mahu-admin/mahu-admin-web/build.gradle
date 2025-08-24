@@ -1,5 +1,7 @@
 apply plugin: "application"
 apply plugin: "org.openapi.generator"
+apply plugin: "com.google.cloud.tools.jib"
+apply plugin: "com.github.node-gradle.node"
 
 sourceSets {
     main {
