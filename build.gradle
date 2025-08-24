@@ -29,6 +29,7 @@ allprojects {
     apply plugin: "checkstyle"
     apply plugin: "name.remal.sonarlint"
     apply plugin: "com.diffplug.spotless"
+    apply plugin: "org.hidetake.ssh"
     apply plugin: "com.github.node-gradle.node"
     apply plugin: "io.spring.dependency-management"
 
@@ -107,6 +108,15 @@ allprojects {
         version = "22.3.0"
         distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
         workDir = rootProject.layout.projectDirectory.dir(".gradle/")
+    }
+
+    // 部署服务器配置
+    remotes {
+        dev01 {
+            host = "mahu.houge.cool"
+            user = "root"
+            identity = file("${System.getProperty("user.home")}/.ssh/id_rsa")
+        }
     }
 
     dependencyManagement {
