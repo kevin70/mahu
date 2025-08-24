@@ -1,13 +1,12 @@
 package cool.houge.mahu.entity.system;
 
 import cool.houge.mahu.entity.Auditable;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import java.time.Instant;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,9 +19,12 @@ import lombok.Setter;
 @Table(name = "scheduled_task", schema = "system")
 public class ScheduledTask implements Auditable {
 
-    /// 主键
-    @EmbeddedId
-    private TaskId taskId;
+    /// 任务 ID
+    @Id
+    @Column(name = "task_instance")
+    private String id;
+    /// 任务名称
+    private String taskName;
     /// 任务数据
     private String taskData;
     /// 执行时间
@@ -44,24 +46,4 @@ public class ScheduledTask implements Auditable {
     private long version;
     /// 执行优先级
     private int priority;
-
-    /// 返回任务名称
-    public String taskName() {
-        return taskId.getTaskName();
-    }
-
-    /// 返回任务实例
-    public String taskInstance() {
-        return taskId.getTaskInstance();
-    }
-
-    /// 任务 ID
-    @Data
-    @Embeddable
-    public static class TaskId {
-        /// 任务名称
-        private String taskName;
-        /// 任务实例
-        private String taskInstance;
-    }
 }

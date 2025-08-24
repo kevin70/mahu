@@ -11,6 +11,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+/// 任务执行日志
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
@@ -21,8 +22,7 @@ public class ScheduledExecutionLog extends BaseBizLog {
 
     /// 定时任务
     @ManyToOne
-    @JoinColumn(name = "task_name", referencedColumnName = "task_name")
-    @JoinColumn(name = "task_instance", referencedColumnName = "task_instance")
+    @JoinColumn(name = "task_id", referencedColumnName = "task_instance")
     private ScheduledTask scheduledTask;
     /// 任务执行者
     private String pickedBy;
@@ -32,6 +32,8 @@ public class ScheduledExecutionLog extends BaseBizLog {
     private Instant finishedAt;
     /// 执行是否成功
     private boolean succeeded;
+    /// 日志追踪 ID
+    private String traceId;
     /// 异常日志
     @DbJsonB
     private List<String> cause;
