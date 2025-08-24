@@ -9,6 +9,7 @@ import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
 import cool.houge.mahu.admin.system.repository.AdminRepository;
 import cool.houge.mahu.entity.system.Admin;
+import cool.houge.mahu.entity.system.AdminStatus;
 import cool.houge.mahu.util.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -37,7 +38,7 @@ public class AdminService {
     @Transactional
     public Profile getProfile(long uid) {
         var user = adminRepository.obtainById(uid);
-        if (user.getStatus() != Admin.Status.ACTIVE) {
+        if (user.getStatus() != AdminStatus.ACTIVE) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "帐号已被禁止");
         }
 
@@ -50,7 +51,7 @@ public class AdminService {
     /// 保存
     @Transactional
     public void save(Admin entity) {
-        entity.setDeleted(false).setStatus(Admin.Status.ACTIVE);
+        entity.setDeleted(false).setStatus(AdminStatus.ACTIVE);
         encryptPassword(entity);
         adminRepository.save(entity);
     }

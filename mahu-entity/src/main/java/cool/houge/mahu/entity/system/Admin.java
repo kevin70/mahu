@@ -53,7 +53,7 @@ public class Admin implements Auditable {
     private String avatar;
     /// 用户状态
     @Enumerated
-    private Status status;
+    private AdminStatus status;
 
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
@@ -78,16 +78,5 @@ public class Admin implements Auditable {
             codes.addAll(role.getPermissions());
         }
         return codes;
-    }
-
-    public enum Status {
-        /// 无
-        NONE,
-        /// 活跃的
-        ACTIVE,
-        /// 禁用的
-        ///
-        /// _是由管理员手动禁用_
-        BLOCKED,
     }
 }

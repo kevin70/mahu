@@ -13,6 +13,7 @@ import cool.houge.mahu.admin.system.repository.ClientRepository;
 import cool.houge.mahu.config.ConfigKeys;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.system.Admin;
+import cool.houge.mahu.entity.system.AdminStatus;
 import cool.houge.mahu.util.GrantType;
 import cool.houge.mahu.util.Metadata;
 import io.ebean.annotation.Transactional;
@@ -116,7 +117,7 @@ public class TokenService implements TokenVerifier {
         }
 
         var status = admin.getStatus();
-        if (status != Admin.Status.ACTIVE) {
+        if (status != AdminStatus.ACTIVE) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "该帐号禁止登录");
         }
         var ret = makeToken(payload, admin);
