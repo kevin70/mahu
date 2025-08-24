@@ -26,8 +26,8 @@ public class ScheduledTaskController implements WebSupport, HttpService {
     @Override
     public void routing(HttpRules rules) {
         rules.get("/system/scheduled-tasks", s(this::pageSystemScheduledTasks, SCHEDULED_TASK.R));
-        rules.get("/system/scheduled-task-executions/{task_name}/{task_instance}", s(this::pageSystemScheduledTaskExecutions, SCHEDULED_TASK.R));
-        rules.post("/system/scheduled-task-executions/{task_name}/{task_instance}", s(this::executeSystemScheduledTask, SCHEDULED_TASK.W));
+        rules.get("/system/scheduled-tasks/{task_id}/executions", s(this::pageSystemScheduledTaskExecutions, SCHEDULED_TASK.R));
+        rules.post("/system/scheduled-tasks/{task_id}/executions", s(this::executeSystemScheduledTask, SCHEDULED_TASK.W));
     }
 
     private void pageSystemScheduledTasks(ServerRequest request, ServerResponse response) {
@@ -38,24 +38,22 @@ public class ScheduledTaskController implements WebSupport, HttpService {
     }
 
     private void pageSystemScheduledTaskExecutions(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var taskName = pathParams.get("task_name");
-        var taskInstance = pathParams.get("task_instance");
-
+        var taskId = taskId(request);
         var dataFilter = dataFilter(request);
-        var plist = scheduledTaskService.findPage4ExecutionLog(taskName, taskInstance, dataFilter);
+        var plist = scheduledTaskService.findPage4ExecutionLog(taskId, dataFilter);
         var rs = beanMapper.toPageResponse(
                 plist.getList(), plist.getTotalCount(), beanMapper::toScheduledTaskExecutionResponse);
         response.send(rs);
     }
 
     private void executeSystemScheduledTask(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var taskName = pathParams.get("task_name");
-        var taskInstance = pathParams.get("task_instance");
-
-        var entity = beanMapper.toScheduledTask(taskName, taskInstance);
+        var taskId = taskId(request);
+        var entity = beanMapper.toScheduledTask(taskId);
         scheduledTaskService.execute(entity);
         response.status(NO_CONTENT_204).send();
+    }
+
+    String taskId(ServerRequest request) {
+        return pathArg(request, "task_id").get();
     }
 }

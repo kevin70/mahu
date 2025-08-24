@@ -25,18 +25,12 @@ public class ScheduledExecutionLogRepository extends HBeanRepository<Long, Sched
     ///
     /// | 字段 | 数据类型 |
     /// | --- | ----- |
-    /// | task_name | string |
-    /// | task_instance | string |
-    public PagedList<ScheduledExecutionLog> findPage(String taskName, String taskInstance, DataFilter dataFilter) {
+    /// | task_id | string |
+    public PagedList<ScheduledExecutionLog> findPage(String taskId, DataFilter dataFilter) {
         var qb = new QScheduledExecutionLog(db());
         qb.scheduledTask
-                .taskId
-                .taskName
-                .eq(taskName)
-                .scheduledTask
-                .taskId
-                .taskInstance
-                .eq(taskInstance)
+                .id
+                .eq(taskId)
                 // 排序
                 .orderBy()
                 .startedAt

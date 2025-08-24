@@ -77,8 +77,8 @@ paths:
   # 定时任务
   /system/scheduled-tasks:
     $ref: "paths/system_scheduled-tasks.yaml"
-  /system/scheduled-task-executions/{task_name}/{task_instance}:
-    $ref: "paths/system_scheduled-task-executions_{task_name}_{task_instance}.yaml"
+  /system/scheduled-tasks/{task_id}/executions:
+    $ref: "paths/system_scheduled-tasks_{task_id}_executions.yaml"
 
   ### =============================== 业务日志接口 =============================== ###
   /logs/admin-access:

@@ -1,12 +1,6 @@
 parameters:
-  - name: task_name
-    description: 任务名称
-    in: path
-    required: true
-    schema:
-      type: string
-  - name: task_instance
-    description: 任务实例名称
+  - name: task_id
+    description: 任务 ID
     in: path
     required: true
     schema:

@@ -30,7 +30,7 @@ public class ScheduledTaskService {
     /// 立即执行定时任务
     @Transactional
     public void execute(ScheduledTask entity) {
-        var dbEntity = scheduledTaskRepository.findForUpdate(entity.taskName(), entity.taskInstance());
+        var dbEntity = scheduledTaskRepository.findForUpdate(entity.getId());
         if (dbEntity == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, "未找到定时任务");
         }
@@ -39,7 +39,7 @@ public class ScheduledTaskService {
         }
         dbEntity.setExecutionTime(Instant.now());
         scheduledTaskRepository.update(dbEntity);
-        log.debug("立即执行定时任务 [taskName={}]", entity.taskName());
+        log.debug("立即执行定时任务 [taskName={}]", entity.getTaskName());
     }
 
     /// 分页查询系统定时任务
@@ -50,8 +50,7 @@ public class ScheduledTaskService {
 
     /// 分页查询定时任务执行日志
     @Transactional(readOnly = true)
-    public PagedList<ScheduledExecutionLog> findPage4ExecutionLog(
-            String taskName, String taskInstance, DataFilter dataFilter) {
-        return scheduledExecutionLogRepository.findPage(taskName, taskInstance, dataFilter);
+    public PagedList<ScheduledExecutionLog> findPage4ExecutionLog(String taskId, DataFilter dataFilter) {
+        return scheduledExecutionLogRepository.findPage(taskId, dataFilter);
     }
 }

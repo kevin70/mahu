@@ -1,21 +1,22 @@
 type: object
 required:
+  - task_id
   - task_name
-  - task_instance
   - picked_by
   - started_at
   - finished_at
+  - trace_id
 properties:
   created_at:
     type: string
     format: date-time
     description: 创建时间
+  task_id:
+    type: string
+    description: 任务 ID
   task_name:
     type: string
     description: 任务名称
-  task_instance:
-    type: string
-    description: 任务实例
   picked_by:
     type: string
     description: 任务执行者
@@ -30,6 +31,9 @@ properties:
   succeeded:
     type: boolean
     description: 是否执行成功
+  trace_id:
+    type: string
+    description: 日志追踪 ID
   cause:
     type: array
     description: 失败原因
