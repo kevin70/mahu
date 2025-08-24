@@ -1,24 +1,22 @@
 post:
   summary: 新建客户端
-  operationId: createClient
-  tags:
-    - system
-  x-role-permit: CLIENT:W
+  operationId: createSystemClient
+  tags: [ system ]
+  x-permission-code: CLIENT:W
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertClientRequest.yaml"
+          $ref: "../components/schemas/UpsertSystemClientRequest.yaml"
   responses:
     "204":
       description: OK
 get:
   summary: 客户端列表
-  operationId: listClients
-  x-role-permit: CLIENT:R
-  tags:
-    - system
+  operationId: pageSystemClients
+  x-permission-code: CLIENT:R
+  tags: [ system ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
@@ -30,4 +28,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ClientsPageResponse.yaml"
+            $ref: "../components/schemas/PageSystemClientResponse.yaml"

@@ -1,7 +1,0 @@
-jwt:
-  keys:
-    resource-path: jwt.keys.json
-
-token:
-  access-expires: PT24H
-  refresh-expires: P14D

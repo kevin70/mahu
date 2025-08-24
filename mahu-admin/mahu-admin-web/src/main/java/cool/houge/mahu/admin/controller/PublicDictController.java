@@ -4,61 +4,49 @@ import com.google.common.collect.Lists;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.system.service.DictService;
 import cool.houge.mahu.web.WebSupport;
+import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
-import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 
 /// 公共字典数据接口
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class PublicDictController implements HttpService, WebSupport {
+@AllArgsConstructor
+public class PublicDictController implements WebSupport {
 
     private final VoBeanMapper beanMapper;
     private final DictService dictService;
 
-    @Inject
-    public PublicDictController(VoBeanMapper beanMapper, DictService dictService) {
-        this.beanMapper = beanMapper;
-        this.dictService = dictService;
-    }
-
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/p/dicts", this::listDicts);
-        rules.get("/p/dicts/{type_code}", this::getDict);
-        rules.get("/p/dicts/{type_code}/{data_code}", this::getDictData);
+        rules.get("/p/dicts", this::listPublicDicts);
+        rules.get("/p/dicts/{code}", this::getPublicDict);
     }
 
-    private void listDicts(ServerRequest request, ServerResponse response) {
+    private void listPublicDicts(ServerRequest request, ServerResponse response) {
         var queryParams = request.query();
+        var typeCode = queryParams.all("type_code", List::of).stream()
+                .map(String::trim)
+                .filter(Predicate.not(String::isEmpty))
+                .collect(Collectors.toSet());
         var includeData = queryParams.first("include_data").asBoolean().orElse(false);
 
-        var list = dictService.findAll();
-        var rs = Lists.transform(
-                list,
-                (o) -> includeData ? beanMapper.toPublicDictResponse(o) : beanMapper.toPublicDictResponseIgnoreData(o));
+        var list = dictService.findByTypeCodes(typeCode);
+        var rs = Lists.transform(list, (o) -> beanMapper.toPublicDictTypeResponse(o, includeData));
         response.send(rs);
     }
 
-    private void getDict(ServerRequest request, ServerResponse response) {
+    private void getPublicDict(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
-        var typeCode = pathParams.get("type_code");
+        var dataCode = pathParams.get("code");
 
-        var bean = dictService.findByTypeCode(typeCode);
-        var rs = beanMapper.toDictResponse(bean);
-        response.send(rs);
-    }
-
-    private void getDictData(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var typeCode = pathParams.get("type_code");
-        var dataCode = pathParams.get("data_code");
-
-        var bean = dictService.findDictData(typeCode, dataCode);
+        var bean = dictService.findDictData(dataCode);
         var rs = beanMapper.toPublicDictDataResponse(bean);
         response.send(rs);
     }

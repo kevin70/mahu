@@ -1,7 +1,0 @@
-type: object
-required:
-  - uri
-properties:
-  uri:
-    type: string
-    description: 资源 URI

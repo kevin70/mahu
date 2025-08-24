@@ -1,25 +1,35 @@
 package cool.houge.mahu.admin.system.repository;
 
-import cool.houge.mahu.common.DataFilter;
-import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.FilterField;
-import cool.houge.mahu.entity.system.DictData;
+import cool.houge.mahu.entity.system.Dict;
 import cool.houge.mahu.entity.system.DictType;
-import cool.houge.mahu.entity.system.query.QDictData;
+import cool.houge.mahu.entity.system.query.QDict;
 import cool.houge.mahu.entity.system.query.QDictType;
+import cool.houge.mahu.rsql.FilterItem;
+import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
-import jakarta.inject.Singleton;
+import io.helidon.service.registry.Service;
+import java.util.Collection;
 import java.util.List;
 
 /// 数字字典类型
 ///
 /// @author ZY (kzou227@qq.com)
-@Singleton
+@Service.Singleton
 public class DictTypeRepository extends HBeanRepository<String, DictType> {
 
     public DictTypeRepository(Database db) {
         super(DictType.class, db);
+    }
+
+    /// 查询指定代码的数据，如果传入的 `typeCodes` 为 `null` 则返回所有数据
+    public List<DictType> findByTypeCodes(Collection<String> typeCode) {
+        var qb = new QDictType(db());
+        if (typeCode != null && !typeCode.isEmpty()) {
+            qb.typeCode.in(typeCode);
+        }
+        return qb.findList();
     }
 
     /// 分页查询
@@ -35,28 +45,21 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     public PagedList<DictType> findPage(DataFilter dataFilter) {
         var qb = new QDictType(db());
         var filterFields = List.of(
-                FF_CREATED_AT,
-                FF_UPDATED_AT,
-                FilterField.builder().with(qb.typeCode).build(),
-                FilterField.builder().with(qb.name).build()
+                FilterItem.of(qb.createdAt),
+                FilterItem.of(qb.updatedAt),
+                FilterItem.of(qb.typeCode),
+                FilterItem.of(qb.name)
                 //
                 );
 
-        super.apply(dataFilter, filterFields, qb);
+        super.apply(qb, dataFilter, filterFields);
         return qb.data.fetch().findPagedList();
     }
 
     /// 查询指定字典数据
     ///
-    /// @param typeCode 字典类型代码
     /// @param dataCode 字典数据代码
-    public DictData findDictData(String typeCode, String dataCode) {
-        return new QDictData(db())
-                .dictType
-                .typeCode
-                .eq(typeCode)
-                .dataCode
-                .eq(dataCode)
-                .findOne();
+    public Dict findDictData(String dataCode) {
+        return new QDict(db()).code.eq(dataCode).findOne();
     }
 }

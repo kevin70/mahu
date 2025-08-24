@@ -1,9 +1,0 @@
-type: object
-allOf:
-  - $ref: "./BasePageResponse.yaml"
-properties:
-  items:
-    type: array
-    description: 品牌列表
-    items:
-      $ref: "./AdminAccessLogResponse.yaml"

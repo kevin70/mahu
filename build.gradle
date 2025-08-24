@@ -1,3 +1,4 @@
+//file:noinspection UnnecessaryQualifiedReference
 plugins {
     id("java")
     id("application")
@@ -23,14 +24,13 @@ release {
 allprojects {
 
     apply plugin: "java"
-    apply plugin: "java-library"
     apply plugin: "jacoco"
     apply plugin: "project-report"
     apply plugin: "checkstyle"
-    apply plugin: "io.spring.dependency-management"
     apply plugin: "name.remal.sonarlint"
     apply plugin: "com.diffplug.spotless"
     apply plugin: "com.github.node-gradle.node"
+    apply plugin: "io.spring.dependency-management"
 
     group = "cool.houge.mahu"
     version = "1.0.0-SNAPSHOT"
@@ -42,9 +42,7 @@ allprojects {
 
     jar {
         manifest {
-            attributes(
-                "Build-Time": "${java.time.OffsetDateTime.now()}"
-            )
+            attributes("Build-Time": "${java.time.OffsetDateTime.now()}")
         }
     }
 
@@ -95,7 +93,7 @@ allprojects {
         languages {
             include("java")
         }
-        testSourceSets = sourceSets.matching { true }
+        testSourceSets = sourceSets.matching {true}
     }
 
     configurations {
@@ -123,7 +121,6 @@ allprojects {
             dependency("com.google.errorprone:error_prone_annotations:2.41.0")
             dependency("com.google.guava:guava:33.4.8-jre")
             dependency("org.apache.commons:commons-collections4:4.5.0")
-            dependency("org.apache.commons:commons-lang3:3.18.0")
             dependency("org.apache.commons:commons-text:1.14.0")
             dependency("org.apache.commons:commons-compress:1.28.0")
 
@@ -144,9 +141,9 @@ allprojects {
             dependency("com.github.binarywang:weixin-java-miniapp:4.7.7-20250730.233020")
             dependency("com.github.binarywang:weixin-java-pay:4.7.7-20250730.233020")
         }
-        resolutionStrategy {
-            cacheChangingModulesFor 0, 'seconds'
-        }
+        // resolutionStrategy {
+        //     cacheChangingModulesFor 0, 'seconds'
+        // }
     }
 
     dependencies {
@@ -172,53 +169,9 @@ allprojects {
     }
 
     repositories {
-        maven { url "https://repo.huaweicloud.com/repository/maven" }
-        maven { url "https://jitpack.io" }
+        maven {url "https://repo.huaweicloud.com/repository/maven"}
+        maven {url "https://jitpack.io"}
         mavenLocal()
         mavenCentral()
-    }
-}
-
-//noinspection UnnecessaryQualifiedReference
-tasks.register("buildDashboardUI", com.github.gradle.node.pnpm.task.PnpmTask.class) {
-    group("build")
-    doFirst {
-        // 清理之前生成的资源
-        project.delete("${projectDir}/mahu-admin-ui/dist")
-    }
-
-    workingDir = file("${projectDir}/mahu-admin-ui")
-    pnpmCommand = ["pnpm", "build"]
-}
-
-tasks.register("tarAdminUI", Tar.class) {
-    group("distribution")
-    dependsOn("buildAdminUI")
-
-    archiveFileName = "mahu-dashboard-ui.tar.gz"
-    destinationDirectory = file("$projectDir/mahu-dashboard-ui")
-    compression = Compression.GZIP
-    from file("$projectDir/mahu-dashboard-ui/dist/")
-}
-
-tasks.register("deployAdminUI") {
-    group("distribution")
-    dependsOn("tarAdminUI")
-
-    doLast {
-        ssh.run {
-            session(remotes.hx01) {
-                put(from: "${projectDir}/mahu-dashboard-ui/mahu-dashboard-ui.tar.gz",
-                    into: "/root/nginx/html/mahu-dashboard-ui.tar.gz")
-                execute([
-                    "source ~/.profile",
-                    "cd /root/nginx/html",
-                    "mkdir -p mahu-dashboard-ui",
-                    "tar -zxvf mahu-dashboard-ui.tar.gz -C mahu-dashboard-ui",
-                    /* 清理资源 */
-                    "rm -rf mahu-dashboard-ui.tar.gz",
-                ].join('\n'))
-            }
-        }
     }
 }

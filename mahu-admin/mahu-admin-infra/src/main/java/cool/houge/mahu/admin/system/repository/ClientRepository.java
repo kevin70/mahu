@@ -1,13 +1,13 @@
 package cool.houge.mahu.admin.system.repository;
 
-import cool.houge.mahu.common.DataFilter;
-import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.system.Client;
 import cool.houge.mahu.entity.system.query.QClient;
+import cool.houge.mahu.rsql.FilterItem;
+import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
-import jakarta.inject.Singleton;
+import io.helidon.service.registry.Service.Singleton;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
@@ -42,23 +42,10 @@ public class ClientRepository extends HBeanRepository<String, Client> {
     /// | client_id | string |
     public PagedList<Client> findPage(DataFilter dataFilter) {
         var qb = new QClient(db());
-        var filterFields = List.of(
-                FF_CREATED_AT,
-                FF_UPDATED_AT,
-                FilterField.builder().with(qb.clientId).build());
+        var filterFields =
+                List.of(FilterItem.of(qb.createdAt), FilterItem.of(qb.updatedAt), FilterItem.of(qb.clientId));
 
-        super.apply(dataFilter, filterFields, qb);
+        super.apply(qb, dataFilter, filterFields);
         return qb.findPagedList();
-    }
-
-    /// 查询支持微信的客户端
-    public List<Client> findWechatClient() {
-        return new QClient(db())
-                .wechatAppid
-                .isNotNull()
-                .and()
-                .wechatAppsecret
-                .isNotNull()
-                .findList();
     }
 }

@@ -1,0 +1,18 @@
+apply plugin: "java-library"
+
+dependencies {
+    annotationProcessor("io.helidon.codegen:helidon-codegen-apt")
+    annotationProcessor("io.helidon.service:helidon-service-codegen")
+
+    api(project(":mahu-entity"))
+    api(project(":mahu-config"))
+    api("io.minio:minio")
+    api("io.helidon.service:helidon-service-registry")
+    implementation("org.postgresql:postgresql")
+    implementation("io.ebean:ebean-postgres")
+    implementation("io.hypersistence:hypersistence-tsid")
+    implementation("io.helidon.health:helidon-health-checks")
+
+    testAnnotationProcessor("io.helidon.codegen:helidon-codegen-apt")
+    testAnnotationProcessor("io.helidon.service:helidon-service-codegen")
+}

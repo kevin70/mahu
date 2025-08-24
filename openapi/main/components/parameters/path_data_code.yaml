@@ -1,7 +1,0 @@
-name: data_code
-in: path
-required: true
-description: |
-  数据代码
-schema:
-  type: string

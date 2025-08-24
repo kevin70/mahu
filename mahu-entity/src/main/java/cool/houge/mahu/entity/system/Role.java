@@ -1,24 +1,26 @@
 package cool.houge.mahu.entity.system;
 
 import cool.houge.mahu.entity.Auditable;
-import io.ebean.annotation.*;
+import io.ebean.annotation.DbJson;
+import io.ebean.annotation.DbJsonType;
+import io.ebean.annotation.SoftDelete;
+import io.ebean.annotation.WhenCreated;
+import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.Instant;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
-import java.util.List;
-
-/// 角色.
+/// 系统角色
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
 @Entity
 @Table(name = "role", schema = "system")
-@ChangeLog
 public class Role implements Auditable {
 
     /// 主键
@@ -32,7 +34,7 @@ public class Role implements Auditable {
     private Instant updatedAt;
     /// 软删除
     @SoftDelete
-    private boolean deleted;
+    private Boolean deleted;
     /// 角色名称
     private String name;
     /// 备注
@@ -41,5 +43,5 @@ public class Role implements Auditable {
     private Integer ordering;
     /// 权限代码
     @DbJson(storage = DbJsonType.JSONB)
-    private List<String> permits;
+    private List<String> permissions;
 }

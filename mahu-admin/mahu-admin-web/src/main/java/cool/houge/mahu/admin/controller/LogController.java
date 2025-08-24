@@ -1,33 +1,28 @@
 package cool.houge.mahu.admin.controller;
 
-import static cool.houge.mahu.admin.Permits.ADMIN_ACCESS_LOG;
-import static cool.houge.mahu.admin.Permits.ADMIN_AUDIT_LOG;
-import static cool.houge.mahu.admin.Permits.ADMIN_AUTH_LOG;
+import static cool.houge.mahu.admin.Permissions.ADMIN_ACCESS_LOG;
+import static cool.houge.mahu.admin.Permissions.ADMIN_AUDIT_LOG;
+import static cool.houge.mahu.admin.Permissions.ADMIN_AUTH_LOG;
 
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.service.LogService;
 import cool.houge.mahu.web.WebSupport;
+import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import lombok.AllArgsConstructor;
 
 /// 业务日志控制器
 ///
 /// @author ZY (kzou227@qq.com)
+@AllArgsConstructor
 @Singleton
 public class LogController implements HttpService, WebSupport {
 
     private final VoBeanMapper beanMapper;
     private final LogService logService;
-
-    @Inject
-    public LogController(VoBeanMapper beanMapper, LogService logService) {
-        this.beanMapper = beanMapper;
-        this.logService = logService;
-    }
 
     @Override
     public void routing(HttpRules rules) {

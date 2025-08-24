@@ -2,14 +2,14 @@ package cool.houge.mahu.admin.system.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.admin.bean.GeneralBeanMapper;
+import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.system.repository.RoleRepository;
-import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Role;
+import cool.houge.mahu.util.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import io.helidon.service.registry.Service.Singleton;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,17 +17,13 @@ import org.apache.logging.log4j.Logger;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@AllArgsConstructor
 public class RoleService {
 
     private static final Logger log = LogManager.getLogger();
-    private final GeneralBeanMapper beanMapper;
-    private final RoleRepository roleRepository;
 
-    @Inject
-    public RoleService(GeneralBeanMapper beanMapper, RoleRepository roleRepository) {
-        this.beanMapper = beanMapper;
-        this.roleRepository = roleRepository;
-    }
+    private final EntityBeanMapper beanMapper;
+    private final RoleRepository roleRepository;
 
     @Transactional
     public void save(Role role) {

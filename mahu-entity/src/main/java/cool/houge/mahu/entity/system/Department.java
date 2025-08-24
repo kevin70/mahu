@@ -3,12 +3,16 @@ package cool.houge.mahu.entity.system;
 import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.time.Instant;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /// 组织架构
 ///

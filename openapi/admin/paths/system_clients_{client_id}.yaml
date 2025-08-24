@@ -6,38 +6,35 @@ parameters:
       type: string
 get:
   summary: 获取指定客户端
-  operationId: getClient
-  x-role-permit: CLIENT:R
-  tags:
-    - system
+  operationId: getSystemClient
+  x-permission-code: CLIENT:R
+  tags: [ system ]
   responses:
     "200":
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/ClientResponse.yaml"
+            $ref: "../components/schemas/SystemClientResponse.yaml"
 delete:
   summary: 删除客户端
-  operationId: deleteClient
-  x-role-permit: CLIENT:W
-  tags:
-    - system
+  operationId: deleteSystemClient
+  x-permission-code: CLIENT:W
+  tags: [ system ]
   responses:
     "204":
       description: OK
 put:
   summary: 修改客户端
-  operationId: updateClient
-  x-role-permit: CLIENT:W
-  tags:
-    - system
+  operationId: updateSystemClient
+  x-permission-code: CLIENT:W
+  tags: [ system ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertClientRequest.yaml"
+          $ref: "../components/schemas/UpsertSystemClientRequest.yaml"
   responses:
     "204":
       description: OK

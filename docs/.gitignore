@@ -140,5 +140,8 @@ styled-system
 styled-system-studio
 
 ## 自动生成的文档
-src/public/mahu-admin-openapi.html
-src/public/mahu-admin-openapi.yaml
+src/public/blma-admin-openapi.html
+src/public/blma-admin-openapi.yaml
+src/public/blma-main-openapi.html
+src/public/blma-main-openapi.yaml
+src/public/diagrams/mermaid-*.svg

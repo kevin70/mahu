@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.system.dto;
 
-import cool.houge.mahu.common.GrantType;
+import cool.houge.mahu.util.GrantType;
 import lombok.Data;
 
 /// 令牌请求数据

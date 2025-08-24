@@ -1,9 +1,8 @@
 get:
   summary: 字典类型列表
   operationId: listPublicDicts
+  tags: [ base ]
   security: [ ]
-  tags:
-    - base
   parameters:
     - name: include_data
       in: query
@@ -20,4 +19,4 @@ get:
             type: array
             description: 字典列表
             items:
-              $ref: "../components/schemas/PublicDictResponse.yaml"
+              $ref: "../components/schemas/PublicDictTypeResponse.yaml"

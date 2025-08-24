@@ -1,43 +1,56 @@
-apply plugin: "io.ebean"
-apply plugin: "java-library"
 apply plugin: "application"
+apply plugin: "org.openapi.generator"
+
+jib {
+    from {
+        image = "m.daocloud.io/docker.io/eclipse-temurin:24-jre"
+    }
+    to {
+        image = "registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
+        tags = ["$project.version", "latest"]
+    }
+    container {
+        environment = [
+            "TZ": "Asia/Shanghai"
+        ]
+        jvmFlags = ["-XX:+UseZGC"]
+        mainClass = "cool.houge.mahu.admin.MahuAdminMain"
+        ports = ["9090"]
+        //noinspection UnnecessaryQualifiedReference
+        labels = ["Build-Time": java.time.OffsetDateTime.now().toString()]
+    }
+    dockerClient {
+        executable = "podman"
+    }
+}
 
 dependencies {
-    compileOnly("io.helidon.builder:helidon-builder-api")
+    annotationProcessor("io.ebean:querybean-generator")
+    annotationProcessor("io.helidon.codegen:helidon-codegen-apt")
+    annotationProcessor("io.helidon.service:helidon-service-codegen")
 
-    implementation(project(":mahu-common"))
     implementation(project(":mahu-entity"))
     implementation(project(":mahu-config"))
+    implementation(project(":mahu-shared"))
     implementation("com.google.guava:guava")
     implementation("io.helidon:helidon")
     implementation("io.helidon.config:helidon-config")
     implementation("io.helidon.config:helidon-config-yaml")
     implementation("io.helidon.logging:helidon-logging-log4j")
-    implementation("org.postgresql:postgresql")
-    implementation("com.zaxxer:HikariCP")
-    implementation("io.ebean:ebean-postgres") {
-        exclude module: "avaje-config"
-        exclude module: "ebean-migration"
-        exclude module: "ebean-migration-auto"
-        exclude module: "ebean-ddl-runner"
-        exclude module: "classpath-scanner"
-    }
-    implementation("io.ebean:ebean-jackson-mapper")
-    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("io.helidon.webserver:helidon-webserver")
     implementation("io.helidon.webclient:helidon-webclient")
+    implementation("io.helidon.service:helidon-service-registry")
+    implementation("com.github.ben-manes.caffeine:caffeine")
 
-    implementation("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap")
+    implementation("com.zaxxer:HikariCP")
+    implementation("org.postgresql:postgresql")
+    implementation("io.ebean:ebean-postgres")
+    implementation("io.ebean:ebean-jackson-mapper")
     implementation("com.github.kagkarlsson:db-scheduler")
-    implementation("redis.clients:jedis")
     implementation("org.apache.logging.log4j:log4j-core")
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     implementation("io.hypersistence:hypersistence-tsid")
+    implementation("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap")
 
-    testImplementation("org.instancio:instancio-junit")
-    testImplementation("io.specto:hoverfly-java-junit5") {
-        exclude module: "logback-classic"
-    }
-    testImplementation("org.apache.logging.log4j:log4j-core")
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-    //testImplementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
+    // testImplementation(project(":mahu-test"))
 }

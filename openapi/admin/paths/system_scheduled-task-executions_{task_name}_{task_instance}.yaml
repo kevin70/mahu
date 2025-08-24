@@ -1,0 +1,47 @@
+parameters:
+  - name: task_name
+    description: 任务名称
+    in: path
+    required: true
+    schema:
+      type: string
+  - name: task_instance
+    description: 任务实例名称
+    in: path
+    required: true
+    schema:
+      type: string
+post:
+  summary: 立即执行任务
+  operationId: executeSystemScheduledTask
+  x-permission-code: SCHEDULED_TASK:W
+  tags: [ system ]
+  responses:
+    204:
+      description: OK
+delete:
+  summary: 取消执行任务
+  operationId: cancelSystemScheduledTaskExecution
+  x-permission-code: SYSTEM_SCHEDULED_TASK:W
+  tags:
+    - system
+  responses:
+    204:
+      description: OK
+get:
+  summary: 定时任务
+  operationId: pageSystemScheduledTaskExecutions
+  x-permission-code: SCHEDULED_TASK:R
+  tags: [ system ]
+  parameters:
+    - $ref: "../components/parameters/limit.yaml"
+    - $ref: "../components/parameters/offset.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/PageSystemScheduledTaskExecutionResponse.yaml"

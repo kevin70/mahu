@@ -1,27 +1,22 @@
 type: object
 required:
-  - type_code
+  - code
   - name
 properties:
-  type_code:
+  code:
     type: string
-    description: 字典类型代码，唯一
+    description: 字典数据代码，唯一
     minLength: 1
     maxLength: 50
   name:
     type: string
-    description: 字典类型名称
+    description: 字典数据名称
     minLength: 1
-    maxLength: 50
-  description:
+    maxLength: 100
+  value:
     type: string
     description: 字典类型描述
-    maxLength: 255
+    maxLength: 4096
   disabled:
     type: boolean
     description: 是否禁用
-  data:
-    type: array
-    description: 字典数据
-    items:
-      $ref: "./PublicDictDataResponse.yaml"

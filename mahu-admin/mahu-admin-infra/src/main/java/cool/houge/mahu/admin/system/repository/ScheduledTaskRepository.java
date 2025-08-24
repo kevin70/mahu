@@ -1,13 +1,13 @@
 package cool.houge.mahu.admin.system.repository;
 
-import cool.houge.mahu.common.DataFilter;
-import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.system.ScheduledTask;
 import cool.houge.mahu.entity.system.query.QScheduledTask;
+import cool.houge.mahu.rsql.FilterItem;
+import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
-import jakarta.inject.Singleton;
+import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
 
 /// 定时任务
@@ -44,17 +44,11 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
     public PagedList<ScheduledTask> findPage(DataFilter dataFilter) {
         var qb = new QScheduledTask(db());
         var filterFields = List.of(
-                FilterField.builder()
-                        .with(qb.taskId.taskName)
-                        .filterName("task_name")
-                        .build(),
-                FilterField.builder()
-                        .with(qb.taskId.taskInstance)
-                        .filterName("task_instance")
-                        .build(),
-                FilterField.builder().with(qb.lastFailure).build());
+                FilterItem.of("task_name", qb.taskId.taskName),
+                FilterItem.of("task_instance", qb.taskId.taskInstance),
+                FilterItem.of(qb.lastFailure));
 
-        super.apply(dataFilter, filterFields, qb);
+        super.apply(qb, dataFilter, filterFields);
         return qb.findPagedList();
     }
 }

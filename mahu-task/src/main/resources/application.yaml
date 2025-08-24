@@ -3,7 +3,7 @@ info:
   version: "@APP_VERSION@"
 
 server:
-  port: 9093
+  port: 9090
   shutdown-hook: true
 
 cors:

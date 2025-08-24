@@ -1,0 +1,12 @@
+get:
+  summary: 获取应用信息
+  operationId: gerInfo
+  tags: [ base ]
+  security: [ ]
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/InfoResponse.yaml"

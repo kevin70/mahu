@@ -4,36 +4,35 @@ import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.admin.DynamicPermit;
-import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
-import cool.houge.mahu.admin.shared.SharedService;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
 import cool.houge.mahu.admin.system.repository.AdminRepository;
 import cool.houge.mahu.admin.system.repository.ClientRepository;
-import cool.houge.mahu.common.GrantType;
-import cool.houge.mahu.common.Metadata;
+import cool.houge.mahu.config.ConfigKeys;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.system.Admin;
+import cool.houge.mahu.util.GrantType;
+import cool.houge.mahu.util.Metadata;
 import io.ebean.annotation.Transactional;
 import io.helidon.common.LazyValue;
+import io.helidon.common.configurable.Resource;
+import io.helidon.config.Config;
 import io.helidon.security.jwt.EncryptedJwt;
 import io.helidon.security.jwt.Jwt;
 import io.helidon.security.jwt.JwtValidator;
 import io.helidon.security.jwt.SignedJwt;
 import io.helidon.security.jwt.jwk.Jwk;
 import io.helidon.security.jwt.jwk.JwkKeys;
+import io.helidon.service.registry.Service.Singleton;
 import io.hypersistence.tsid.TSID;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 import java.time.Instant;
 import java.util.List;
 import java.util.random.RandomGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /// 令牌服务
 ///
@@ -41,24 +40,18 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class TokenService implements TokenVerifier {
 
-    private static final Logger log = LoggerFactory.getLogger(TokenService.class);
+    private static final Logger log = LogManager.getLogger();
 
     private final JwkKeys jwkKeys;
     private final TokenConfig tokenConfig;
-    private final SharedService sharedService;
     private final AdminRepository adminRepository;
     private final ClientRepository clientRepository;
 
-    @Inject
-    public TokenService(
-            JwkKeys jwkKeys,
-            TokenConfig tokenConfig,
-            SharedService sharedService,
-            AdminRepository adminRepository,
-            ClientRepository clientRepository) {
-        this.jwkKeys = jwkKeys;
-        this.tokenConfig = tokenConfig;
-        this.sharedService = sharedService;
+    public TokenService(Config root, AdminRepository adminRepository, ClientRepository clientRepository) {
+        this.jwkKeys = JwkKeys.builder()
+                .resource(Resource.create(root.get(ConfigKeys.JWT_KEYS)))
+                .build();
+        this.tokenConfig = TokenConfig.create(root.get(ConfigKeys.TOKEN));
         this.adminRepository = adminRepository;
         this.clientRepository = clientRepository;
     }
@@ -66,23 +59,23 @@ public class TokenService implements TokenVerifier {
     @Override
     public AuthContext verify(String token) {
         var jwt = parseToken(token);
-        var employeeId = jwt.userPrincipal()
+        var adminId = jwt.userPrincipal()
                 .map(Long::valueOf)
                 .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
 
         LazyValue<@NonNull Admin> adminLv = LazyValue.create(() -> {
-            var emp = adminRepository.findById(employeeId);
-            if (emp == null) {
+            var admin = adminRepository.findById(adminId);
+            if (admin == null) {
                 throw new BizCodeException(BizCodes.UNAUTHENTICATED, "未找到管理员");
             }
-            return emp;
+            return admin;
         });
 
         return new AuthContext() {
 
             @Override
             public long uid() {
-                return employeeId;
+                return adminId;
             }
 
             @Override
@@ -91,30 +84,19 @@ public class TokenService implements TokenVerifier {
             }
 
             @Override
-            public boolean checkPermit(Object object) {
-                var codes = permits();
+            public boolean hasPermission(String code) {
+                var codes = permissions();
                 // 拥有超级管理员权限
                 if (codes.contains("*")) {
                     return true;
                 }
-
                 // 拥有指定的权限代码
-                if (object instanceof String p && codes.contains(p)) {
-                    return true;
-                }
-
-                if (object instanceof DynamicPermit(String kind, io.helidon.common.parameters.Parameters parameters)
-                        && DynamicPermit.KIND_SHOP.equals(kind)) {
-                    var shopId = parameters.first("shop_id").asInt().get();
-                    var shopIds = shopIds();
-                    return shopIds.contains(shopId);
-                }
-                return false;
+                return codes.contains(code);
             }
 
             @Override
-            public List<String> permits() {
-                return List.copyOf(adminLv.get().allRolePermits());
+            public List<String> permissions() {
+                return List.copyOf(adminLv.get().allPermissions());
             }
         };
     }
@@ -142,15 +124,15 @@ public class TokenService implements TokenVerifier {
 
         // 保存登录记录日志
         var metadata = Metadata.current();
-        sharedService.save(
-                new AdminAuthLog()
-                        .setAdminId(admin.getId())
-                        .setAuthType(payload.getGrantType().name())
-                        .setClientId(client.getClientId())
-                        .setIpAddr(metadata.clientAddr())
-                        .setUserAgent(metadata.userAgent())
-                //
-                );
+        // sharedService.save(
+        //         new AdminAuthLog()
+        //                 .setAdminId(admin.getId())
+        //                 .setAuthType(payload.getGrantType().name())
+        //                 .setClientId(client.getClientId())
+        //                 .setIpAddr(metadata.clientAddr())
+        //                 .setUserAgent(metadata.userAgent())
+        //         //
+        //         );
         return ret;
     }
 

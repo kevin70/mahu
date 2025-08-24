@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.controller.system;
 
-import static cool.houge.mahu.admin.Permits.ROLE;
+import static cool.houge.mahu.admin.Permissions.ROLE;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.internal.VoBeanMapper;
@@ -8,39 +8,33 @@ import cool.houge.mahu.admin.oas.model.UpsertRoleRequest;
 import cool.houge.mahu.admin.system.service.RoleService;
 import cool.houge.mahu.web.WebDataFilter;
 import cool.houge.mahu.web.WebSupport;
+import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
-import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import lombok.AllArgsConstructor;
 
 /// 角色
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class RoleController implements HttpService, WebSupport {
+@AllArgsConstructor
+public class RoleController implements WebSupport {
 
     private final VoBeanMapper beanMapper;
     private final RoleService roleService;
 
-    @Inject
-    public RoleController(VoBeanMapper beanMapper, RoleService roleService) {
-        this.beanMapper = beanMapper;
-        this.roleService = roleService;
-    }
-
     @SuppressWarnings("java:S1192")
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/system/roles", s(this::listRoles, ROLE.R));
-        rules.post("/system/roles", s(this::createRole, ROLE.W));
-        rules.put("/system/roles/{id:\\d+}", s(this::updateRole, ROLE.W));
-        rules.delete("/system/roles/{id:\\d+}", s(this::deleteRole, ROLE.W));
-        rules.get("/system/roles/{id:\\d+}", s(this::getRole, ROLE.R));
+        rules.get("/system/roles", s(this::pageSystemRoles, ROLE.R));
+        rules.post("/system/roles", s(this::createSystemRole, ROLE.W));
+        rules.put("/system/roles/{role_id}", s(this::updateSystemRole, ROLE.W));
+        rules.delete("/system/roles/{role_id}", s(this::deleteSystemRole, ROLE.W));
+        rules.get("/system/roles/{role_id}", s(this::getSystemRole, ROLE.R));
     }
 
-    private void createRole(ServerRequest request, ServerResponse response) {
+    private void createSystemRole(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertRoleRequest.class);
         validate(vo);
 
@@ -49,7 +43,7 @@ public class RoleController implements HttpService, WebSupport {
         response.status(NO_CONTENT_204).send();
     }
 
-    private void updateRole(ServerRequest request, ServerResponse response) {
+    private void updateSystemRole(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(UpsertRoleRequest.class);
         validate(vo);
 
@@ -61,7 +55,7 @@ public class RoleController implements HttpService, WebSupport {
         response.status(NO_CONTENT_204).send();
     }
 
-    private void deleteRole(ServerRequest request, ServerResponse response) {
+    private void deleteSystemRole(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var id = pathParams.first("id").asInt().get();
 
@@ -69,7 +63,7 @@ public class RoleController implements HttpService, WebSupport {
         response.status(NO_CONTENT_204).send();
     }
 
-    private void getRole(ServerRequest request, ServerResponse response) {
+    private void getSystemRole(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var id = pathParams.first("id").asInt().get();
 
@@ -78,7 +72,7 @@ public class RoleController implements HttpService, WebSupport {
         response.send(rs);
     }
 
-    private void listRoles(ServerRequest request, ServerResponse response) {
+    private void pageSystemRoles(ServerRequest request, ServerResponse response) {
         var plist = roleService.findPage(new WebDataFilter(request));
         var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toRoleResponse);
         response.send(rs);

@@ -1,0 +1,14 @@
+get:
+  summary: 系统所有权限代码
+  operationId: allSystemPermissions
+  tags: [ system ]
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            description: 权限代码列表
+            items:
+              $ref: "../components/schemas/SystemPermissionResponse.yaml"

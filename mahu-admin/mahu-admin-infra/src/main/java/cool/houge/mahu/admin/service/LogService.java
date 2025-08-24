@@ -4,24 +4,20 @@ import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.repository.LogRepository;
-import cool.houge.mahu.common.DataFilter;
+import cool.houge.mahu.util.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import io.helidon.service.registry.Service.Singleton;
+import lombok.AllArgsConstructor;
 
 /// 业务日志模块
 ///
 /// @author ZY (kzou227@qq.com)
+@AllArgsConstructor
 @Singleton
 public class LogService {
 
     private final LogRepository logRepository;
-
-    @Inject
-    public LogService(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
 
     /// 管理员后台登录记录
     @Transactional(readOnly = true)

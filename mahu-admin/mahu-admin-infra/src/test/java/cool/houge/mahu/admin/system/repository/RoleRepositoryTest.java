@@ -34,11 +34,11 @@ class RoleRepositoryTest extends TestBase {
     void update() {
         var permits = List.of("A", "B", "C");
         var entity = createRole();
-        entity.setPermits(permits);
+        entity.setPermissions(permits);
         roleRepository.update(entity);
 
         var dbEntity = roleRepository.findById(entity.getId());
         assertThat(dbEntity).isNotNull();
-        assertThat(dbEntity.getPermits()).isEqualTo(permits);
+        assertThat(dbEntity.getPermissions()).isEqualTo(permits);
     }
 }

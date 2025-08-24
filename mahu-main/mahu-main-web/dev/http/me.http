@@ -1,4 +1,0 @@
-
-### 获取个人信息
-GET http://127.0.0.1:9093/me/profile
-Authorization: Bearer {{access_token}}

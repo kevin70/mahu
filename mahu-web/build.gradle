@@ -1,10 +1,9 @@
 apply plugin: "java-library"
 
 dependencies {
-    api(project(":mahu-common"))
+    implementation(project(":mahu-base"))
     implementation("com.google.guava:guava")
     implementation("io.helidon.webserver:helidon-webserver")
-    implementation("io.avaje:avaje-validator") {
-        exclude module: "avaje-validator-http-plugin"
-    }
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("io.avaje:avaje-validator")
 }

@@ -5,7 +5,7 @@ import static io.helidon.http.HeaderNames.X_FORWARDED_FOR;
 
 import com.google.common.base.Splitter;
 import cool.houge.mahu.TraceIdGenerator;
-import cool.houge.mahu.common.Metadata;
+import cool.houge.mahu.util.Metadata;
 import io.helidon.http.HeaderName;
 import io.helidon.http.HeaderNames;
 import io.helidon.webserver.http.ServerRequest;

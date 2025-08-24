@@ -2,6 +2,8 @@ openapi: 3.0.3
 info:
   title: Mahu 后台接口文档
   version: 1.0.0
+  description: |
+    - `x-permission-code` 权限代码
 servers:
   - url: http://127.0.0.1:9093
     description: 本地测试服务
@@ -17,36 +19,29 @@ components:
       scheme: Bearer
       bearerFormat: JWT
 security:
+  - AT: [ ]
   - BearerAuth: [ ]
 tags:
   - name: base
     description: 基础模块
-  - name: token
-    description: 访问令牌
   - name: me
     description: 当前认证用户
   - name: system
     description: 系统模块
-  - name: mart
-    description: 商城模块
   - name: log
     description: 业务日志模块
 paths:
   /samples:
     $ref: "paths/samples.yaml"
   ### =============================== 公共数据接口 =============================== ###
-  /version:
-    $ref: "paths/version.yaml"
+  /info:
+    $ref: "paths/info.yaml"
   /p/dicts:
     $ref: "paths/p_dicts.yaml"
-  /p/dicts/{type_code}:
-    $ref: "paths/p_dicts_{type_code}.yaml"
-  /p/dicts/{type_code}/{data_code}:
-    $ref: "paths/p_dicts_{type_code}_{data_code}.yaml"
-  /p/mart/categories:
-    $ref: "paths/p_mart_categories.yaml"
-  ### =============================== 公共数据接口 =============================== ###
+  /p/dicts/{code}:
+    $ref: "paths/p_dicts_{code}.yaml"
 
+  ### =============================== 认证/用户数据接口 =============================== ###
   /login/token:
     $ref: "paths/login_token.yaml"
   /oauth2/token:
@@ -55,18 +50,20 @@ paths:
     $ref: "paths/me_profile.yaml"
   /me/password:
     $ref: "paths/me_password.yaml"
+
+  ### =============================== 帮助数据接口 =============================== ###
+  /oss/presigned-upload:
+    $ref: "paths/oss_presigned-upload.yaml"
+
+  ### =============================== 系统模块接口 =============================== ###
   /system/admins:
     $ref: "paths/system_admins.yaml"
-  /system/admins/{id}:
-    $ref: "paths/system_admins_{id}.yaml"
-  /system/departments:
-    $ref: "paths/system_departments.yaml"
-  /system/departments/{id}:
-    $ref: "paths/system_departments_{id}.yaml"
+  /system/admins/{admin_id}:
+    $ref: "paths/system_admins_{admin_id}.yaml"
   /system/roles:
     $ref: "paths/system_roles.yaml"
-  /system/roles/{id}:
-    $ref: "paths/system_roles_{id}.yaml"
+  /system/roles/{role_id}:
+    $ref: "paths/system_roles_{role_id}.yaml"
   /system/dicts:
     $ref: "paths/system_dicts.yaml"
   /system/dicts/{type_code}:
@@ -75,47 +72,15 @@ paths:
     $ref: "paths/system_clients.yaml"
   /system/clients/{client_id}:
     $ref: "paths/system_clients_{client_id}.yaml"
-  /system/permits:
-    $ref: "paths/system_permits.yaml"
+  /system/permissions:
+    $ref: "paths/system_permissions.yaml"
   # 定时任务
-  /scheduled-tasks:
-    $ref: "paths/scheduled-tasks.yaml"
-  /scheduled-tasks/{task_name}/{task_instance}/executions:
-    $ref: "paths/scheduled-tasks_{task_name}_{task_instance}_executions.yaml"
+  /system/scheduled-tasks:
+    $ref: "paths/system_scheduled-tasks.yaml"
+  /system/scheduled-task-executions/{task_name}/{task_instance}:
+    $ref: "paths/system_scheduled-task-executions_{task_name}_{task_instance}.yaml"
 
-  # OSS对象存储
-  /oss/presigned-upload:
-    $ref: "paths/oss_presigned-upload.yaml"
-
-  # 品牌管理
-  /brands:
-    $ref: "paths/brands.yaml"
-  /brands/{id}:
-    $ref: "paths/brands_{id}.yaml"
-  /shops:
-    $ref: "paths/shops.yaml"
-  /shops/{id}:
-    $ref: "paths/shops_{id}.yaml"
-  /shops/{shop_id}/assets:
-    $ref: "paths/shops_{shop_id}_assets.yaml"
-  /mart/categories:
-    $ref: "paths/mart_categories.yaml"
-  /mart/attributes:
-    $ref: "paths/mart_attributes.yaml"
-  /mart/attributes/{id}:
-    $ref: "paths/mart_attributes_{id}.yaml"
-  /mart/attributes/{attribute_id}/values:
-    $ref: "paths/mart_attributes_{attribute_id}_values.yaml"
-  /mart/attributes/{attribute_id}/values/{attribute_value_id}:
-    $ref: "paths/mart_attributes_{attribute_id}_values_{attribute_value_id}.yaml"
-  /mart/products:
-    $ref: "paths/mart_products.yaml"
-  /mart/products/{product_id}:
-    $ref: "paths/mart_products_{product_id}.yaml"
-  /mart/products/{product_id}/status:
-    $ref: "paths/mart_products_{product_id}_status.yaml"
-
-  # 日志
+  ### =============================== 业务日志接口 =============================== ###
   /logs/admin-access:
     $ref: "paths/logs_admin_access.yaml"
   /logs/admin-audit:

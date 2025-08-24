@@ -1,8 +1,0 @@
-db:
-  application-name: "wuneng-integration-test"
-  driver: "org.postgresql.Driver"
-  url: "${MAHU_DB_URL}"
-  username: "${MAHU_DB_USERNAME}"
-  password: "${MAHU_DB_PASSWORD}"
-  min-idle: 1
-  max-size: 64

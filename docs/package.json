@@ -3,15 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "openapi-admin-bundle": "redocly bundle ../openapi/admin/openapi.yaml -o src/public/mahu-admin-openapi.yaml",
-    "openapi-admin-build-docs": "redocly build-docs ../openapi/admin/openapi.yaml -o src/public/mahu-admin-openapi.html",
-    "openapi": "pnpm openapi-admin-bundle && pnpm openapi-admin-build-docs",
+    "openapi-admin": "redocly bundle admin@v1 -o src/public/blma-admin-openapi.yaml && redocly build-docs admin@v1 -o src/public/blma-admin-openapi.html",
+    "openapi-main": "redocly bundle main@v1 -o src/public/blma-main-openapi.yaml && redocly build-docs main@v1 -o src/public/blma-main-openapi.html",
+    "openapi": "pnpm openapi-admin && pnpm openapi-main",
     "docs:dev": "vitepress dev",
     "docs:build": "pnpm openapi && vitepress build",
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
     "@braintree/sanitize-url": "^7.1.1",
+    "@mdit/plugin-embed": "^0.22.1",
     "@mdit/plugin-icon": "^0.22.0",
     "@mdit/plugin-mark": "^0.21.0",
     "@mdit/plugin-tasklist": "^0.21.0",
@@ -20,7 +21,9 @@
     "cytoscape-cose-bilkent": "^4.1.0",
     "dayjs": "^1.11.13",
     "debug": "^4.4.1",
+    "markdown-it": "^14.1.0",
     "vitepress": "^1.6.3",
+    "vitepress-plugin-diagrams": "^1.0.0",
     "vitepress-plugin-mermaid": "^2.0.17"
   }
 }

@@ -1,24 +1,22 @@
 post:
   summary: 新建管理员
-  operationId: createAdmin
-  x-role-permit: ADMIN:W
-  tags:
-    - system
+  operationId: createSystemAdmin
+  x-permission-code: ADMIN:W
+  tags: [ system ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertAdminRequest.yaml"
+          $ref: "../components/schemas/UpsertSystemAdminRequest.yaml"
   responses:
     "204":
       description: OK
 get:
-  summary: 管理员列表
-  operationId: listAdmins
-  x-role-permit: ADMIN:R
-  tags:
-    - system
+  summary: 管理员分页列表
+  operationId: pageSystemAdmins
+  x-permission-code: ADMIN:R
+  tags: [ system ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
@@ -32,4 +30,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/AdminsPageResponse.yaml"
+            $ref: "../components/schemas/PageAdminResponse.yaml"

@@ -1,0 +1,11 @@
+sources:
+  - type: environment-variables
+  - type: system-properties
+  - type: file
+    properties:
+      path: ${user.home}/houge/blma.yaml
+      optional: true
+  - type: file
+    properties:
+      path: /etc/houge/blma.yaml
+      optional: true

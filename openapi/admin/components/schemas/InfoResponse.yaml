@@ -1,0 +1,54 @@
+type: object
+required:
+  - env
+  - name
+  - version
+  - build_time
+  - java_version
+  - java_vendor
+  - helidon_version
+  - status
+properties:
+  env:
+    type: string
+    description: 应用环境
+  name:
+    type: string
+    description: 应用名称
+  version:
+    type: string
+    description: 应用版本
+  revision:
+    type: string
+    description: 修订版本，Git 提交 Hash 值
+  build_time:
+    type: string
+    description: 应用构建时间
+  java_version:
+    type: string
+    description: Java 版本
+  java_vendor:
+    type: string
+    description: Java 提供商
+  helidon_version:
+    type: string
+    description: Helidon 版本
+  status:
+    type: object
+    description: 应用状态
+    required:
+      - overall
+      - uptime
+    properties:
+      overall:
+        type: string
+        description: 应用状态
+      uptime:
+        type: string
+        description: 应用启动时间
+      components:
+        type: array
+        description: 组件状态
+        items:
+          type: object
+          additionalProperties: true

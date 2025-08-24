@@ -1,9 +1,8 @@
 get:
-  summary: 分页查询管理员操作审计日志
-  operationId: listAdminAuditLogs
-  x-role-permit: ADMIN_AUDIT_LOG:R
-  tags:
-    - log
+  summary: 管理员操作审计分页日志
+  operationId: pageAdminAuditLogs
+  x-permission-code: ADMIN_AUDIT_LOG:R
+  tags: [ log ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
@@ -15,4 +14,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/AdminAuditLogsPageResponse.yaml"
+            $ref: "../components/schemas/PageLogAdminAuditResponse.yaml"

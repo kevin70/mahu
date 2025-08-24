@@ -6,13 +6,13 @@ import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.entity.query.QAdminAccessLog;
 import cool.houge.mahu.admin.entity.query.QAdminAuditLog;
 import cool.houge.mahu.admin.entity.query.QAdminAuthLog;
-import cool.houge.mahu.common.DataFilter;
-import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.log.BaseBizLog;
+import cool.houge.mahu.rsql.FilterItem;
+import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
-import jakarta.inject.Singleton;
+import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
 
 /// 业务日志数据仓库
@@ -41,12 +41,9 @@ public class LogRepository extends HBeanRepository<Void, Void> {
     /// | ip_addr | string |
     public PagedList<AdminAuthLog> findPage4AdminAuthLog(DataFilter dataFilter) {
         var qb = new QAdminAuthLog(db());
-        var filterFields = List.of(
-                FF_CREATED_AT,
-                FilterField.builder().with(qb.adminId).build(),
-                FilterField.builder().with(qb.ipAddr).build());
+        var filterItems = List.of(FilterItem.of(qb.createdAt), FilterItem.of(qb.adminId), FilterItem.of(qb.ipAddr));
 
-        super.apply(dataFilter, filterFields, qb);
+        super.apply(qb, dataFilter, filterItems);
         return qb.findPagedList();
     }
 
@@ -61,12 +58,9 @@ public class LogRepository extends HBeanRepository<Void, Void> {
     /// | ip_addr | string |
     public PagedList<AdminAccessLog> findPage4AdminAccessLog(DataFilter dataFilter) {
         var qb = new QAdminAccessLog(db());
-        var filterFields = List.of(
-                FF_CREATED_AT,
-                FilterField.builder().with(qb.adminId).build(),
-                FilterField.builder().with(qb.ipAddr).build());
+        var filterItems = List.of(FilterItem.of(qb.createdAt), FilterItem.of(qb.adminId), FilterItem.of(qb.ipAddr));
 
-        super.apply(dataFilter, filterFields, qb);
+        super.apply(qb, dataFilter, filterItems);
         return qb.findPagedList();
     }
 
@@ -81,12 +75,9 @@ public class LogRepository extends HBeanRepository<Void, Void> {
     /// | ip_addr | string |
     public PagedList<AdminAuditLog> findPage4AdminAuditLog(DataFilter dataFilter) {
         var qb = new QAdminAuditLog(db());
-        var filterFields = List.of(
-                FF_CREATED_AT,
-                FilterField.builder().with(qb.adminId).build(),
-                FilterField.builder().with(qb.ipAddr).build());
+        var filterItems = List.of(FilterItem.of(qb.createdAt), FilterItem.of(qb.adminId), FilterItem.of(qb.ipAddr));
 
-        super.apply(dataFilter, filterFields, qb);
+        super.apply(qb, dataFilter, filterItems);
         return qb.findPagedList();
     }
 }

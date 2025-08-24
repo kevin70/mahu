@@ -1,24 +1,22 @@
 post:
   summary: 新建角色
-  operationId: createRole
-  x-role-permit: ROLE:W
-  tags:
-    - system
+  operationId: createSystemRole
+  x-permission-code: ROLE:W
+  tags: [ system ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertRoleRequest.yaml"
+          $ref: "../components/schemas/UpsertSystemRoleRequest.yaml"
   responses:
     "204":
       description: OK
 get:
-  summary: 角色列表
-  operationId: listRoles
-  x-role-permit: ROLE:R
-  tags:
-    - system
+  summary: 角色分页列表
+  operationId: pageSystemRoles
+  x-permission-code: ROLE:R
+  tags: [ system ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
@@ -30,4 +28,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/RolesPageResponse.yaml"
+            $ref: "../components/schemas/PageSystemRoleResponse.yaml"

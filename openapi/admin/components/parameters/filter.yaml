@@ -1,14 +1,12 @@
 name: filter
 in: query
 description: |
-  RSQL 是一种查询语言，用于对 RESTful API 中的条目进行参数化筛选。
+  [RSQL](https://github.com/jirutka/rsql-parser) 是一种查询语言，用于对 RESTful API 中的条目进行参数化筛选。
   它基于 [FIQL](https://datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00)（Feed Item Query Language）——一种 URI 友好语法，用于在 Atom Feed 中的条目中表达过滤器。
   FIQL 非常适合在 URI 中使用;没有不安全的字符，因此不需要 URL 编码。
   另一方面，FIQL 的语法不是很直观，URL 编码并不总是那么重要，因此 RSQL 还为逻辑运算符和一些比较运算符提供了更友好的语法。
 
-  例如，您可以像这样查询您的资源：`/movies?query=name=="Kill Bill";year=gt=2003` `/movies?query=director.lastName==Nolan and year>=2000`
-
-  支持的操作符：
+  **实现的操作符：**
   - `==` - 等于
   - `!=` - 不等于
   - `>` - 大于
@@ -20,5 +18,16 @@ description: |
   - `=in=` 在指定范围内
   - `=out=` 不在指定范围内
   - `=between=` 在指定区间范围内
+
+  **例如，您可以像这样查询您的资源：**
+  - `name=="Kill Bill";year=gt=2003`
+  - `name=="Kill Bill" and year>2003`
+  - `genres=in=(sci-fi,action);(director=='Christopher Nolan',actor==*Bale);year=ge=2000`
+  - `genres=in=(sci-fi,action) and (director=='Christopher Nolan' or actor==*Bale) and year>=2000`
+  - `director.lastName==Nolan;year=ge=2000;year=lt=2010`
+  - `director.lastName==Nolan and year>=2000 and year<2010`
+  - `director.lastName==Nolan and year=between=(2000,2010)`
+  - `genres=in=(sci-fi,action);genres=out=(romance,animated,horror),director==Que*Tarantino`
+  - `genres=in=(sci-fi,action) and genres=out=(romance,animated,horror) or director==Que*Tarantino`
 schema:
   type: string

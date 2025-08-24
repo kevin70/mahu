@@ -1,11 +1,9 @@
-description: OAuth2 令牌
 post:
   summary: 使用 OAuth2 获取访问令牌
   description: 获取令牌
   operationId: getOAuth2Token
-  tags:
-    - token
-  security: []
+  tags: [ base ]
+  security: [ ]
   requestBody:
     required: true
     content:

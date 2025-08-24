@@ -1,50 +1,43 @@
 package cool.houge.mahu.admin.controller.system;
 
-import static cool.houge.mahu.admin.Permits.SCHEDULED_TASK;
+import static cool.houge.mahu.admin.Permissions.SCHEDULED_TASK;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.system.service.ScheduledTaskService;
 import cool.houge.mahu.web.WebSupport;
+import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import lombok.AllArgsConstructor;
 
 /// 定时任务
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@AllArgsConstructor
 public class ScheduledTaskController implements WebSupport, HttpService {
 
     private final VoBeanMapper beanMapper;
     private final ScheduledTaskService scheduledTaskService;
 
-    @Inject
-    public ScheduledTaskController(VoBeanMapper beanMapper, ScheduledTaskService scheduledTaskService) {
-        this.beanMapper = beanMapper;
-        this.scheduledTaskService = scheduledTaskService;
-    }
-
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/scheduled-tasks", s(this::listScheduledTasks, SCHEDULED_TASK.R));
-
-        var executions = "/scheduled-tasks/{task_name}/{task_instance}/executions";
-        rules.get(executions, s(this::listScheduledTaskExecutions, SCHEDULED_TASK.R));
-        rules.post(executions, s(this::executeScheduledTask, SCHEDULED_TASK.W));
+        rules.get("/system/scheduled-tasks", s(this::pageSystemScheduledTasks, SCHEDULED_TASK.R));
+        rules.get("/system/scheduled-task-executions/{task_name}/{task_instance}", s(this::pageSystemScheduledTaskExecutions, SCHEDULED_TASK.R));
+        rules.post("/system/scheduled-task-executions/{task_name}/{task_instance}", s(this::executeSystemScheduledTask, SCHEDULED_TASK.W));
     }
 
-    private void listScheduledTasks(ServerRequest request, ServerResponse response) {
+    private void pageSystemScheduledTasks(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = scheduledTaskService.findPage(dataFilter);
         var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toScheduledTaskResponse);
         response.send(rs);
     }
 
-    private void listScheduledTaskExecutions(ServerRequest request, ServerResponse response) {
+    private void pageSystemScheduledTaskExecutions(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var taskName = pathParams.get("task_name");
         var taskInstance = pathParams.get("task_instance");
@@ -56,7 +49,7 @@ public class ScheduledTaskController implements WebSupport, HttpService {
         response.send(rs);
     }
 
-    private void executeScheduledTask(ServerRequest request, ServerResponse response) {
+    private void executeSystemScheduledTask(ServerRequest request, ServerResponse response) {
         var pathParams = request.path().pathParameters();
         var taskName = pathParams.get("task_name");
         var taskInstance = pathParams.get("task_instance");

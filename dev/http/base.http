@@ -1,6 +1,0 @@
-### //dicts/{type_code} - 获取指定字典代码数据
-GET {{base_uri}}/dicts/GENDER
-
-### //dicts/{type_code}/{data_code} - 获取指定字典代码、指定字典数据代码的数据
-GET {{base_uri}}/dicts/GENDER/MALE
-

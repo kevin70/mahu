@@ -4,11 +4,14 @@ import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.Instant;
 
 /// 认证客户端
 ///
@@ -44,8 +47,4 @@ public class Client implements Auditable {
     private String wechatAppid;
     /// 微信应用密钥
     private String wechatAppsecret;
-    /// 微信客户端访问令牌
-    private String wechatAccessToken;
-    /// 微信访问令牌过期时间
-    private Instant wechatAccessTokenExpireTime;
 }

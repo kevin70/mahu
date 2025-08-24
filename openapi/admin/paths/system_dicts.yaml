@@ -1,7 +1,7 @@
 post:
   summary: 新建数据字典
-  operationId: createSystemDict
-  x-role-permit: DICT:W
+  operationId: createSystemDictType
+  x-permission-code: DICT:W
   tags:
     - system
   requestBody:
@@ -9,14 +9,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertDictRequest.yaml"
+          $ref: "../components/schemas/UpsertSystemDictTypeRequest.yaml"
   responses:
     "204":
       description: OK
 get:
   summary: 获取数据字典
-  operationId: listSystemDicts
-  x-role-permit: DICT:R
+  operationId: pageSystemDicts
+  x-permission-code: DICT:R
   tags:
     - system
   parameters:
@@ -31,4 +31,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/DictsPageResponse.yaml"
+            $ref: "../components/schemas/PageSystemDictResponse.yaml"

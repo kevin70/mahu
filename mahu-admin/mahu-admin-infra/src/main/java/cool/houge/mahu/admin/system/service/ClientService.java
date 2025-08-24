@@ -2,31 +2,26 @@ package cool.houge.mahu.admin.system.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.admin.bean.GeneralBeanMapper;
+import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.system.repository.ClientRepository;
-import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Client;
+import cool.houge.mahu.util.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
+import io.helidon.service.registry.Service.Singleton;
 import io.hypersistence.tsid.TSID;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 import java.util.concurrent.ThreadLocalRandom;
+import lombok.AllArgsConstructor;
 
 /// 认证客户端
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@AllArgsConstructor
 public class ClientService {
 
-    private final GeneralBeanMapper beanMapper;
+    private final EntityBeanMapper beanMapper;
     private final ClientRepository clientRepository;
-
-    @Inject
-    public ClientService(GeneralBeanMapper beanMapper, ClientRepository clientRepository) {
-        this.beanMapper = beanMapper;
-        this.clientRepository = clientRepository;
-    }
 
     /// 新增认证客户端
     @Transactional

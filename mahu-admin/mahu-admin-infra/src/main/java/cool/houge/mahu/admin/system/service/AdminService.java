@@ -4,45 +4,32 @@ import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.admin.bean.GeneralBeanMapper;
+import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
-import cool.houge.mahu.admin.shared.SharedToolService;
 import cool.houge.mahu.admin.system.repository.AdminRepository;
-import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.system.Admin;
-import io.avaje.inject.events.Event;
+import cool.houge.mahu.util.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.helidon.service.registry.Event;
+import io.helidon.service.registry.Service.Singleton;
+import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-/// 职员
+/// 管理员
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@AllArgsConstructor
 public class AdminService {
 
-    private static final Logger log = LoggerFactory.getLogger(AdminService.class);
+    private static final Logger log = LogManager.getLogger();
 
-    private final AdminRepository adminRepository;
-    private final SharedToolService toolService;
-    private final Event<CollectProfileEvent> collectProfileEvent;
-    private final GeneralBeanMapper beanMapper;
-
-    @Inject
-    public AdminService(
-            AdminRepository adminRepository,
-            SharedToolService toolService,
-            Event<CollectProfileEvent> collectProfileEvent,
-            GeneralBeanMapper beanMapper) {
-        this.adminRepository = adminRepository;
-        this.toolService = toolService;
-        this.collectProfileEvent = collectProfileEvent;
-        this.beanMapper = beanMapper;
-    }
+    final AdminRepository adminRepository;
+    final Event.Emitter<CollectProfileEvent> collectProfileEvent;
+    final EntityBeanMapper beanMapper;
 
     /// 获取个人信息
     ///
@@ -56,7 +43,7 @@ public class AdminService {
 
         var profile = new Profile();
         beanMapper.map(profile, user);
-        collectProfileEvent.fire(new CollectProfileEvent(uid, profile));
+        collectProfileEvent.emit(new CollectProfileEvent(uid, profile));
         return profile;
     }
 
@@ -107,8 +94,7 @@ public class AdminService {
     /// 分页查询
     @Transactional(readOnly = true)
     public PagedList<Admin> findPage(DataFilter dataFilter) {
-        var plist = adminRepository.findPage(dataFilter);
-        return toolService.wrap(plist, dataFilter);
+        return adminRepository.findPage(dataFilter);
     }
 
     void encryptPassword(Admin bean) {

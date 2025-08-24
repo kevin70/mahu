@@ -4,14 +4,22 @@ import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /// 管理员表
 ///
@@ -34,7 +42,7 @@ public class Admin implements Auditable {
     private Instant updatedAt;
     /// 软删除
     @SoftDelete
-    private boolean deleted;
+    private Boolean deleted;
     /// 用户名
     private String username;
     /// 登录密码
@@ -46,9 +54,6 @@ public class Admin implements Auditable {
     /// 用户状态
     @Enumerated
     private Status status;
-    /// 用户部门
-    @ManyToOne
-    private Department department;
 
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
@@ -64,13 +69,13 @@ public class Admin implements Auditable {
     private String originalPassword;
 
     /// 返回用户拥有的所有角色代码
-    public Collection<String> allRolePermits() {
+    public Collection<String> allPermissions() {
         var codes = new LinkedHashSet<String>();
         for (Role role : this.getRoles()) {
-            if (role.getPermits() == null || role.getPermits().isEmpty()) {
+            if (role.getPermissions() == null || role.getPermissions().isEmpty()) {
                 continue;
             }
-            codes.addAll(role.getPermits());
+            codes.addAll(role.getPermissions());
         }
         return codes;
     }

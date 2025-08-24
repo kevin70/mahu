@@ -1,7 +1,0 @@
-sources:
-  - type: environment-variables
-  - type: system-properties
-
-  - type: classpath
-    properties:
-      resource: mahu-remote-test.yaml

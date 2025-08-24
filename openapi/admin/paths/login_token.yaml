@@ -1,11 +1,9 @@
-description: 令牌
 post:
   summary: 获取访问令牌
   description: 获取访问令牌
   operationId: login
-  tags:
-    - token
-  security: []
+  tags: [ base ]
+  security: [ ]
   requestBody:
     content:
       application/json:

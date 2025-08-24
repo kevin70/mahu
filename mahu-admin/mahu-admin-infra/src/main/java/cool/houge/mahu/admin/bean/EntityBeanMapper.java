@@ -1,0 +1,40 @@
+package cool.houge.mahu.admin.bean;
+
+import cool.houge.mahu.entity.system.Admin;
+import cool.houge.mahu.entity.system.Client;
+import cool.houge.mahu.entity.system.Dict;
+import cool.houge.mahu.entity.system.DictType;
+import cool.houge.mahu.entity.system.Role;
+import io.helidon.service.registry.Service.Contract;
+import io.helidon.service.registry.Service.Singleton;
+import org.mapstruct.AnnotateWith;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ReportingPolicy;
+
+/// 实体对象映射
+///
+/// @author ZY (kzou227@qq.com)
+@Contract
+@AnnotateWith(Singleton.class)
+@Mapper(
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        unmappedSourcePolicy = ReportingPolicy.IGNORE)
+public interface EntityBeanMapper {
+
+    @Mapping(target = "uid", source = "id")
+    void map(@MappingTarget Profile target, Admin bean);
+
+    @Mapping(target = "data", ignore = true)
+    void map(@MappingTarget DictType target, DictType bean);
+
+    @Mapping(target = "dictType", ignore = true)
+    void map(@MappingTarget Dict target, Dict bean);
+
+    void map(@MappingTarget Role target, Role bean);
+
+    void map(@MappingTarget Client target, Client bean);
+}

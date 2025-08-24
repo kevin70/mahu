@@ -1,14 +1,13 @@
 package cool.houge.mahu.admin.system.repository;
 
-import cool.houge.mahu.common.DataFilter;
-import cool.houge.mahu.common.HBeanRepository;
-import cool.houge.mahu.common.rsql.FilterField;
 import cool.houge.mahu.entity.system.Role;
 import cool.houge.mahu.entity.system.query.QRole;
+import cool.houge.mahu.rsql.FilterItem;
+import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
 
 /// 角色
@@ -17,9 +16,8 @@ import java.util.List;
 @Singleton
 public class RoleRepository extends HBeanRepository<Integer, Role> {
 
-    @Inject
-    public RoleRepository(Database database) {
-        super(Role.class, database);
+    public RoleRepository(Database db) {
+        super(Role.class, db);
     }
 
     /// 分页查询
@@ -34,13 +32,13 @@ public class RoleRepository extends HBeanRepository<Integer, Role> {
     /// | ordering | int |
     public PagedList<Role> findPage(DataFilter dataFilter) {
         var qb = new QRole(db());
-        var filterFields = List.of(
-                FF_CREATED_AT,
-                FF_UPDATED_AT,
-                FilterField.builder().with(qb.name).build(),
-                FilterField.builder().with(qb.ordering).build());
+        var filterItems = List.of(
+                FilterItem.of(qb.createdAt),
+                FilterItem.of(qb.updatedAt),
+                FilterItem.of(qb.name),
+                FilterItem.of(qb.ordering));
 
-        super.apply(dataFilter, filterFields, qb);
+        super.apply(qb, dataFilter, filterItems);
         return qb.findPagedList();
     }
 }

@@ -1,6 +1,0 @@
-type: object
-properties:
-  total_count:
-    type: integer
-    format: int32
-    description: 总记录数量

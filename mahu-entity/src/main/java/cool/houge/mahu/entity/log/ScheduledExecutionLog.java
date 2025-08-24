@@ -2,12 +2,14 @@ package cool.houge.mahu.entity.log;
 
 import cool.houge.mahu.entity.system.ScheduledTask;
 import io.ebean.annotation.DbJsonB;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 ///
 /// @author ZY (kzou227@qq.com)

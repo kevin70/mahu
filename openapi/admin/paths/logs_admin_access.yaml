@@ -1,9 +1,8 @@
 get:
-  summary: 分页查询管理员后台访问记录
-  operationId: listAdminAccessLogs
-  x-role-permit: ADMIN_ACCESS_LOG:R
-  tags:
-    - log
+  summary: 管理员后台访问分页记录
+  operationId: pageAdminAccessLogs
+  x-permission-code: ADMIN_ACCESS_LOG:R
+  tags: [ log ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
@@ -15,4 +14,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/AdminAccessLogsPageResponse.yaml"
+            $ref: "../components/schemas/PageLogAdminAccessResponse.yaml"

@@ -3,12 +3,15 @@ package cool.houge.mahu.entity.system;
 import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /// 数据字典类型
 ///
@@ -39,5 +42,5 @@ public class DictType implements Auditable {
     private boolean disabled;
     /// 字典数据
     @OneToMany(mappedBy = "dictType", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DictData> data;
+    private List<Dict> data;
 }

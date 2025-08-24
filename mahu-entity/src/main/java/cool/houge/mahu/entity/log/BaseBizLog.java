@@ -3,10 +3,9 @@ package cool.houge.mahu.entity.log;
 import io.ebean.annotation.WhenCreated;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.Instant;
 
 /// 业务日志基类
 ///
@@ -25,5 +24,4 @@ public abstract class BaseBizLog {
     /// 创建时间
     @WhenCreated
     protected Instant createdAt;
-
 }

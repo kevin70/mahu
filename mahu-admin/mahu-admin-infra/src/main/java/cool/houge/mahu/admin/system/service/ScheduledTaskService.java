@@ -4,36 +4,28 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.system.repository.ScheduledExecutionLogRepository;
 import cool.houge.mahu.admin.system.repository.ScheduledTaskRepository;
-import cool.houge.mahu.common.DataFilter;
 import cool.houge.mahu.entity.log.ScheduledExecutionLog;
 import cool.houge.mahu.entity.system.ScheduledTask;
+import cool.houge.mahu.util.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import io.helidon.service.registry.Service.Singleton;
+import java.time.Instant;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.time.Instant;
 
 /// 定时任务
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@AllArgsConstructor
 public class ScheduledTaskService {
 
     private static final Logger log = LogManager.getLogger(ScheduledTaskService.class);
 
     private final ScheduledTaskRepository scheduledTaskRepository;
     private final ScheduledExecutionLogRepository scheduledExecutionLogRepository;
-
-    @Inject
-    public ScheduledTaskService(
-            ScheduledTaskRepository scheduledTaskRepository,
-            ScheduledExecutionLogRepository scheduledExecutionLogRepository) {
-        this.scheduledTaskRepository = scheduledTaskRepository;
-        this.scheduledExecutionLogRepository = scheduledExecutionLogRepository;
-    }
 
     /// 立即执行定时任务
     @Transactional

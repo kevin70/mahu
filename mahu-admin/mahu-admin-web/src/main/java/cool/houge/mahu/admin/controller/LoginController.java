@@ -8,30 +8,26 @@ import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.LoginRequest;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.service.TokenService;
-import cool.houge.mahu.common.GrantType;
+import cool.houge.mahu.util.GrantType;
+import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.common.parameters.Parameters;
+import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
+import lombok.AllArgsConstructor;
 
 /// [获取访问令牌](https://oauth.net/2/)
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@AllArgsConstructor
 public class LoginController implements HttpService, WebSupport {
 
     private final VoBeanMapper beanMapper;
     private final TokenService tokenService;
-
-    @Inject
-    public LoginController(VoBeanMapper beanMapper, TokenService tokenService) {
-        this.beanMapper = beanMapper;
-        this.tokenService = tokenService;
-    }
 
     @Override
     public void routing(HttpRules rules) {
@@ -56,7 +52,7 @@ public class LoginController implements HttpService, WebSupport {
             throw new BizCodeException(BizCodes.UNIMPLEMENTED, lenientFormat("不支持授权类型[%s]", body.getGrantType()));
         }
 
-        payload.setClientIp(clientAddr(request));
+        payload.setClientIp(Metadata.current().clientAddr());
         var rs = beanMapper.toTokenResponse(tokenService.token(payload));
         response.send(rs);
     }

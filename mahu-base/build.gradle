@@ -1,12 +1,35 @@
-apply plugin: "java"
-apply plugin: "checkstyle"
+apply plugin: "java-library"
 
-sonarLint {
-    languages {
-        include("java")
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir}/generated/main/java"
+        }
     }
-    ignoredPaths = [
-        "cool/houge/mahu/Base58.java"
-    ]
-    testSourceSets = sourceSets.matching { true }
+}
+
+tasks.register("appVersion") {
+    doFirst {
+        copy {
+            from("src/main/templates")
+            into(layout.buildDirectory.dir("generated/main/java"))
+            filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                "projectVersion": "${project.version}".toString(),
+                "gitRevision"   : "git rev-parse HEAD".execute().text.trim(),
+                "buildTime"     : "${java.time.OffsetDateTime.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS)}".toString()
+            ])
+        }
+    }
+}
+compileJava.dependsOn("appVersion")
+
+dependencies {
+    api("com.google.guava:guava")
+    api("org.apache.logging.log4j:log4j-api")
+
+    implementation("io.helidon.webserver:helidon-webserver")
+    implementation("io.ebean:ebean-core")
+    implementation("io.ebean:ebean-querybean")
+    implementation("io.github.nstdio:rsql-parser")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
 }

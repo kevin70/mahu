@@ -1,0 +1,121 @@
+# 数据库规范
+
+## 常用`Column`命名
+
+数据库列命名通常遵循清晰、简洁和一致的原则，以下是一些常用的列名单词和惯例：
+
+### 常用字段
+
+- `id` - 主键标识符
+- `ver` - 版本号（乐观锁）
+- `created_at` - 创建时间
+- `updated_at` - 更新时间
+- `deleted_at` - 删除时间（软删除）
+- `expired_at` - 过期时间
+- `created_by` - 创建人
+- `updated_by` - 更新人
+- `deleted_by` - 删除人
+- `ordering` - 排序顺序
+- `sn` - 流水号
+- `name` - 名称
+- `title` - 标题
+- `description` - 描述
+- `label` - 标签
+- `remark` - 备注
+- `status` - 状态
+- `type` - 类型
+- `code` - 代码
+- `value` - 值
+- `qty` - 数量
+- `price` - 价格
+- `amount` - 金额
+- `tax` - 税费
+- `total_amount` - 总金额
+- `refund_amount` - 退款金额
+- `rating` - 评分
+- `quota` - 限额
+
+### 用户相关
+
+- `username` - 用户名
+- `password` - 密码(通常存储哈希值)
+- `email` - 电子邮箱
+- `phone` - 电话号码
+- `mobile` - 手机号码
+- `avatar` - 头像URL
+- `first_name` - 名
+- `last_name` - 姓
+- `full_name` - 全名
+- `nickname` - 昵称
+- `avatar` - 头像
+- `gender` - 性别
+- `birthday` - 生日
+
+### 电商系统
+
+- `sku` - 库存单位编码
+- `barcode` - 条形码
+- `inventory` - 库存量
+- `weight` - 重量
+- `specs` - 规格参数(JSON格式)
+- `discount` - 折扣率
+- `coupon_code` - 优惠券码
+
+### 社交网络
+
+- `follower_count` - 粉丝数
+- `following_count` - 关注数
+- `bio` - 个人简介
+- `website` - 个人网站
+- `verification_status` - 认证状态
+
+### 内容相关
+
+- `title` - 标题
+- `content` - 内容
+- `description` - 描述
+- `cover` - 封面图URL
+
+### 统计与计算
+
+- `view_count` - 查看次数
+- `click_count` - 点击次数
+- `download_count` - 下载次数
+- `like_count` - 点赞数
+- `dislike_count` - 倒赞数/反对数
+- `share_count` - 分享数
+- `comment_count` - 评论数
+- `rating_avg` - 平均评分
+- `total_views` - 总浏览量
+- `conversion_rate` - 转化率
+
+### 用户邀请
+
+- `invitation_id` - 邀请记录ID（主键）
+- `inviter_id` - 邀请人用户ID
+- `invitee_id` - 被邀请人用户ID
+- `invitation_code` - 邀请码（唯一）
+- `invitation_status` - 邀请状态（PENDING/ACCEPTED/EXPIRED）
+
+## 命名最佳实践
+
+### 布尔类型：使用`is_`/`has_`/`can_`前缀
+
+- `is_active`
+- `has_children`
+- `can_edit`
+
+### 关联关系：明确表关联
+
+- `author_id` 而非简单的 `user_id`(如果是文章作者)
+- `customer_id` 和 `employee_id` 而非都叫 `user_id`
+
+### 日期范围：使用`_from`/`_to`后缀
+
+- `valid_from`/`valid_to`
+- `sale_period_from`/`sale_period_to`
+
+### 枚举类型：使用`_type`/`_status`后缀
+
+- `payment_type`
+- `order_status`

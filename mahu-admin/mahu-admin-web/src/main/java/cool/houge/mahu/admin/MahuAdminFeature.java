@@ -2,14 +2,14 @@ package cool.houge.mahu.admin;
 
 import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.security.AuthContext;
-import cool.houge.mahu.admin.shared.SharedService;
-import cool.houge.mahu.common.Metadata;
+import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebMetadata;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.Method;
 import io.helidon.logging.common.HelidonMdc;
+import io.helidon.service.registry.Service;
 import io.helidon.webserver.http.Filter;
 import io.helidon.webserver.http.FilterChain;
 import io.helidon.webserver.http.HttpFeature;
@@ -19,7 +19,6 @@ import io.helidon.webserver.http.RoutingRequest;
 import io.helidon.webserver.http.RoutingResponse;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import jakarta.inject.Singleton;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 /// 功能注册
 ///
 /// @author ZY (kzou227@qq.com)
-@Singleton
+@Service.Singleton
 @Weight(Weighted.DEFAULT_WEIGHT + 100)
 public class MahuAdminFeature implements HttpFeature, Filter {
 
@@ -35,12 +34,10 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
     private final MahuAdminSecurity security;
     private final List<HttpService> httpServices;
-    private final SharedService sharedService;
 
-    public MahuAdminFeature(MahuAdminSecurity security, List<HttpService> httpServices, SharedService sharedService) {
+    public MahuAdminFeature(MahuAdminSecurity security, List<HttpService> httpServices) {
         this.security = security;
         this.httpServices = httpServices;
-        this.sharedService = sharedService;
     }
 
     @Override
@@ -58,7 +55,7 @@ public class MahuAdminFeature implements HttpFeature, Filter {
         var metadata = new WebMetadata(req);
         HelidonMdc.set("traceId", metadata.traceId());
         // 设置请求访问元数据
-        req.context().register(Metadata.class, metadata);
+        req.context().supply(Metadata.class, () -> metadata);
 
         res.whenSent(() -> {
             try {
@@ -107,6 +104,6 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
         var headers = req.headers();
         headers.first(HeaderNames.REFERER).ifPresent(accessLog::setReferer);
-        sharedService.save(accessLog);
+        // sharedService.save(accessLog);
     }
 }

@@ -21,40 +21,35 @@ processResources {
 }
 
 application {
-    mainClass = "io.helidon.Main"
+    mainClass = "cool.houge.mahu.admin.MahuAdminMain"
     applicationDefaultJvmArgs = ["-Dfile.encoding=UTF-8"]
 }
 
-jar {
-    manifest {
-        attributes "Multi-Release": "true"
+jib {
+    from {
+        image = "m.daocloud.io/docker.io/eclipse-temurin:24-jre"
     }
-}
-
-dependencies {
-    annotationProcessor("io.avaje:avaje-validator-generator")
-
-    implementation(project(":mahu-web"))
-    implementation(project(":mahu-admin:mahu-admin-infra"))
-    implementation("io.helidon:helidon")
-    implementation("io.helidon.logging:helidon-logging-log4j")
-    implementation("io.helidon.webserver:helidon-webserver")
-    implementation("io.helidon.webserver:helidon-webserver-cors")
-    implementation("io.helidon.webserver:helidon-webserver-context")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-health")
-
-    implementation("io.avaje:avaje-validator-constraints")
-    implementation("io.avaje:avaje-validator") {
-        exclude module: "avaje-validator-http-plugin"
+    to {
+        image = "registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
+        tags = ["$project.version", "latest"]
     }
-    implementation("org.apache.logging.log4j:log4j-core")
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-
-    testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5")
+    container {
+        environment = [
+            "TZ": "Asia/Shanghai"
+        ]
+        jvmFlags = ["-XX:+UseZGC"]
+        mainClass = "cool.houge.mahu.admin.MahuAdminMain"
+        ports = ["9090"]
+        //noinspection UnnecessaryQualifiedReference
+        labels = ["Build-Time": java.time.OffsetDateTime.now().toString()]
+    }
+    dockerClient {
+        executable = "podman"
+    }
 }
 
 openApiGenerate {
-    inputSpec = "${layout.buildDirectory.orNull}/resources/main/META-INF/openapi.yaml"
+    inputSpec = "${rootProject.layout.buildDirectory.orNull}/admin/openapi.yaml"
     generatorName = "java-helidon-server"
     packageName = "cool.houge.mahu.admin"
     apiPackage = "cool.houge.mahu.admin.web.controller"
@@ -82,6 +77,7 @@ openApiGenerate {
 }
 
 tasks.named("openApiGenerate").configure {
+    group("openapi tools")
     dependsOn("clean", "redoclyBundleOpenApi")
     doLast {
         copy {
@@ -97,43 +93,57 @@ tasks.named("openApiGenerate").configure {
 //noinspection UnnecessaryQualifiedReference
 tasks.register("redoclyBundleOpenApi", com.github.gradle.node.npm.task.NpxTask.class) {
     group("openapi tools")
-    doLast {
-        copy {
-            from("${layout.buildDirectory.orNull}/resources/main/META-INF/openapi.yaml")
-            into("${rootProject.layout.buildDirectory.orNull}/admin")
-        }
-    }
-
     command = "@redocly/cli"
     args = ["bundle",
             "$rootDir/openapi/admin/openapi.yaml".toString(),
             "--remove-unused-components",
             "-o",
-            "${layout.buildDirectory.orNull}/resources/main/META-INF/openapi.yaml"
+            "${rootProject.layout.buildDirectory.orNull}/admin/openapi.yaml"
     ]
 }
 jar.dependsOn("redoclyBundleOpenApi")
 
-tasks.register("deployTest") {
+tasks.register("deployDev") {
     group("distribution")
-    dependsOn("build")
+    dependsOn("jib")
 
     doLast {
         ssh.run {
-            session(remotes.hx01) {
-                def jarName = shadowJar.archiveFileName.get();
-                def pname = project.name
-                put(from: "${layout.buildDirectory.get()}/libs/${jarName}", into: "${pname}/lib/temp.${jarName}")
-                execute([
-                    "source ~/.profile",
-                    "PROJECT_HOME=/root/${pname}",
-                    "cd \$PROJECT_HOME/bin",
-                    "./${pname} stop && sleep 3",
-                    "rm -rf \$PROJECT_HOME/lib/${jarName}",
-                    "mv \$PROJECT_HOME/lib/temp.${jarName} \$PROJECT_HOME/lib/${jarName}",
-                    "nohup ./${pname} > /dev/null 2>&1 &",
-                ].join('\n'))
+            session(remotes.dev) {
+                execute "podman pull registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
+                execute "podman stop mahu-admin || true"
+                execute "podman rm mahu-admin || true"
+                execute "podman run -d --name mahu-admin -p 9090:9090 -v /etc/houge:/etc/houge registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
+                execute "echo \"mahu-admin deployment successful ~~~\""
             }
         }
     }
+}
+
+dependencies {
+    annotationProcessor("io.avaje:avaje-validator-generator")
+    annotationProcessor("io.helidon.codegen:helidon-codegen-apt")
+    annotationProcessor("io.helidon.service:helidon-service-codegen")
+
+    implementation(project(":mahu-web"))
+    implementation(project(":mahu-admin:mahu-admin-infra"))
+    implementation("io.helidon:helidon")
+    implementation("io.helidon.logging:helidon-logging-log4j")
+    implementation("io.helidon.webserver:helidon-webserver")
+    implementation("io.helidon.webserver:helidon-webserver-cors")
+    implementation("io.helidon.webserver:helidon-webserver-context")
+    implementation("io.helidon.webserver.observe:helidon-webserver-observe-info")
+    implementation("io.helidon.webserver.observe:helidon-webserver-observe-config")
+    implementation("io.helidon.webserver.observe:helidon-webserver-observe-health")
+    implementation("io.helidon.webserver.observe:helidon-webserver-observe-log")
+    implementation("io.helidon.webserver.observe:helidon-webserver-observe-metrics")
+
+    implementation("io.avaje:avaje-validator-constraints")
+    implementation("io.avaje:avaje-validator") {
+        exclude module: "avaje-validator-http-plugin"
+    }
+    implementation("org.apache.logging.log4j:log4j-core")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
+
+    testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5")
 }

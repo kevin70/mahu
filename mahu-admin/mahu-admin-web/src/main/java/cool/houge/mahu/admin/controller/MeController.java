@@ -8,27 +8,16 @@ import cool.houge.mahu.admin.oas.model.UpdateMeProfileRequest;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.system.service.AdminService;
 import cool.houge.mahu.web.WebSupport;
+import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
-import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 /// 个人信息
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class MeController implements HttpService, WebSupport {
-
-    private final VoBeanMapper beanMapper;
-    private final AdminService adminService;
-
-    @Inject
-    public MeController(VoBeanMapper beanMapper, AdminService adminService) {
-        this.beanMapper = beanMapper;
-        this.adminService = adminService;
-    }
+public record MeController(VoBeanMapper beanMapper, AdminService adminService) implements WebSupport {
 
     @Override
     public void routing(HttpRules rules) {
@@ -40,7 +29,7 @@ public class MeController implements HttpService, WebSupport {
     void getMeProfile(ServerRequest request, ServerResponse response) {
         var ac = AuthContext.current();
         var dto = adminService.getProfile(ac.uid());
-        dto.setPermits(ac.permits());
+        dto.setPermits(ac.permissions());
 
         var rs = beanMapper.toGetMeProfileResponse(dto);
         response.send(rs);

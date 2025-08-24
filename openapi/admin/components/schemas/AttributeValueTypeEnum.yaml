@@ -1,8 +1,0 @@
-type: string
-description: 属性类型
-enum:
-  - INPUT
-  - SELECT
-x-enum-descriptions:
-  - 手动输入
-  - 选择

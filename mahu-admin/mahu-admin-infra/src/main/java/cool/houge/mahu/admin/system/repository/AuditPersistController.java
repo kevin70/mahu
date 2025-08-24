@@ -1,8 +1,8 @@
 package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.admin.entity.AdminAuditLog;
-import cool.houge.mahu.common.Metadata;
 import cool.houge.mahu.entity.Auditable;
+import cool.houge.mahu.util.Metadata;
 import io.ebean.PersistenceIOException;
 import io.ebean.bean.BeanDiffVisitor;
 import io.ebean.event.BeanPersistAdapter;

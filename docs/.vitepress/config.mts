@@ -3,14 +3,16 @@ import { withMermaid } from 'vitepress-plugin-mermaid';
 import { tasklist } from '@mdit/plugin-tasklist';
 import { mark } from '@mdit/plugin-mark';
 import { icon, iconfontRender } from '@mdit/plugin-icon';
+import { embed } from '@mdit/plugin-embed';
+import { configureDiagramsPlugin } from 'vitepress-plugin-diagrams';
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
     srcDir: './src',
     lang: 'zh-CN',
-    title: 'Mahu 文档',
-    description: 'Mahu 开发文档',
+    title: 'BLMa 陪诊系统文档',
+    description: 'BLMa 陪诊系统文档 | Houge',
     lastUpdated: true,
     head: [
       // Iconfont
@@ -26,7 +28,24 @@ export default withMermaid(
     markdown: {
       lineNumbers: true,
       config: (md) => {
-        md.use(tasklist).use(mark).use(icon, { render: iconfontRender });
+        md.use(tasklist)
+          .use(mark)
+          .use(icon, { render: iconfontRender })
+          .use(embed, {
+            config: [
+              // Bilibili
+              {
+                name: 'bilibili',
+                setup: (bvid) =>
+                  `<iframe src="https://player.bilibili.com/player.html?isOutside=true&bvid=${bvid}" width="560" height="315" frameborder="0" allowfullscreen></iframe>`,
+              },
+            ],
+          });
+
+        configureDiagramsPlugin(md, {
+          diagramsDir: 'src/public/diagrams', // Optional: custom directory for SVG files
+          publicPath: '/diagrams', // Optional: custom public path for images
+        });
       },
       container: {
         tipLabel: '提示',
@@ -38,8 +57,12 @@ export default withMermaid(
     },
     themeConfig: {
       logo: '/logo.svg',
-      outlineTitle: '本页目录',
-      lastUpdatedText: '最后更新',
+      outline: {
+        label: '本页目录',
+      },
+      lastUpdated: {
+        text: '最后更新',
+      },
       darkModeSwitchLabel: '外观',
       sidebarMenuLabel: '菜单',
       returnToTopLabel: '返回顶部',
@@ -80,33 +103,57 @@ export default withMermaid(
 
       // https://vitepress.dev/reference/default-theme-config
       nav: [
-        { text: '首页', link: '/' },
         { text: '开发准备', link: '/开发准备' },
-        { text: 'Examples', link: '/markdown-examples' },
+        { text: '环境配置', link: '/env_configuration' },
+        {
+          text: '开发规范',
+          items: [
+            {
+              text: '开发规范',
+              link: '/开发规范',
+            },
+            {
+              text: '数据状态',
+              link: '/data_status',
+            },
+            {
+              text: '数据库规范',
+              link: '/database_standards',
+            },
+          ],
+        },
         {
           text: '接口文档',
           items: [
             {
-              text: '后台系统',
+              text: '后台接口',
               items: [
-                { text: 'OpenAPI Docs', link: '/mahu-admin-openapi.html', target: '_blank' },
-                { text: 'OpenAPI YAML', link: '/mahu-admin-openapi.yaml', target: '_blank' },
+                { text: 'OpenAPI Docs', link: '/blma-admin-openapi.html', target: '_blank' },
+                { text: 'OpenAPI YAML', link: '/blma-admin-openapi.yaml', target: '_blank' },
+              ],
+            },
+            {
+              text: '小程序接口',
+              items: [
+                { text: 'OpenAPI Docs', link: '/blma-main-openapi.html', target: '_blank' },
+                { text: 'OpenAPI YAML', link: '/blma-main-openapi.yaml', target: '_blank' },
               ],
             },
           ],
         },
-      ],
-
-      sidebar: [
         {
-          text: 'Examples',
+          text: '相关系统',
           items: [
-            { text: 'Markdown Examples', link: '/markdown-examples' },
-            { text: 'Runtime API Examples', link: '/api-examples' },
-            { text: '变更记录', link: '/CHANGELOG' },
+            { text: '后台系统', link: 'https://a.bjxzhuyi.com/', target: '_blank' },
+            {
+              text: '阿里云 RAM',
+              link: 'https://signin.aliyun.com/1256150214143294.onaliyun.com/login.htm',
+              target: '_blank',
+            },
           ],
         },
       ],
+      //
     },
   })
 );
