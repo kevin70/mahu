@@ -41,19 +41,10 @@ rules:
     assertions:
       casing: snake_case
 
-theme:
-  openapi:
-    pathInMiddlePanel: true
-    hideHostname: true
-    showExtensions: true
-    generateCodeSamples:
-      languages:
-        - lang: curl
-
 ### 构建文档的命令参考
 ### redocly build-docs admin@v1 --theme.openapi.sideNavStyle=path-only
 apis:
   admin@v1:
-    root: ./admin/openapi.yaml
+    root: ../openapi/admin/openapi.yaml
     rules:
       no-ambiguous-paths: error
