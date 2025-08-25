@@ -27,8 +27,29 @@ liquibase {
     }
 }
 
+tasks.register("liquibaseUpdate", JavaExec.class) {
+    group = "liquibase"
+    description = "Run Liquibase update"
+    classpath = configurations.liquibaseRuntime
+    mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
+
+    def searchPath = "${projectDir}/src/main/resources".toString()
+    def changelogFile = "db/changelog/changelog-root.yaml"
+    def url = config.get("db.url").asString().orElse("jdbc:postgresql://127.0.0.1:5432/mahu.dev")
+    def username = config.get("db.username").asString().orElse("test")
+    def password = config.get("db.password").asString().orElse("test")
+    args = [
+        "--classpath=$searchPath",
+        "--changeLogFile=$changelogFile",
+        "--url=$url",
+        "--username=$username",
+        "--password=$password",
+        "update"
+    ]
+}
+
 dependencies {
-    liquibaseRuntime("org.liquibase:liquibase-core:4.33.0")
+    liquibaseRuntime("org.liquibase:liquibase-core:4.26.0")
     liquibaseRuntime("org.liquibase:liquibase-groovy-dsl:3.0.3")
     liquibaseRuntime("info.picocli:picocli:4.7.5")
     liquibaseRuntime("org.postgresql:postgresql:42.7.7")

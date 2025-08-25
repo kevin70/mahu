@@ -24,10 +24,7 @@ comment
 on column log.scheduled_execution_log.created_at is '创建时间';
 
 comment
-on column log.scheduled_execution_log.task_name is '任务名称';
-
-comment
-on column log.scheduled_execution_log.task_instance is '执行实例';
+on column log.scheduled_execution_log.task_id is '任务 ID';
 
 comment
 on column log.scheduled_execution_log.picked_by is '任务执行者';
@@ -47,6 +44,6 @@ on column log.scheduled_execution_log.trace_id is '日志追踪 ID';
 comment
 on column log.scheduled_execution_log.cause is '失败原因';
 
-create index task_name_i
-    on log.scheduled_execution_log (task_name);
+create index task_id_i
+    on log.scheduled_execution_log (task_id);
 -- rollback drop table log.scheduled_execution_log;
