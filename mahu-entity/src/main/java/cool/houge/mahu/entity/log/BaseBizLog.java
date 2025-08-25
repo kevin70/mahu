@@ -17,7 +17,7 @@ public abstract class BaseBizLog {
 
     /// 日志追踪 ID。
     ///
-    /// Time-Sorted Unique Identifiers [TSID](https://github.com/f4b6a3/tsid-creator)。
+    /// Time-Sorted Unique Identifiers [TSID](https://github.com/vladmihalcea/hypersistence-tsid)。
     @Id
     protected Long id;
 
