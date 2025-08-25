@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 
 
--- changeset kzou227@qq.com:0KPY6J2C5XP5J
+-- changeset kzou227@qq.com:202508251133
 create table system.admin_role
 (
     admin_id integer not null,

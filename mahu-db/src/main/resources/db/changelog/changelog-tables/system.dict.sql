@@ -1,83 +1,67 @@
 -- liquibase formatted sql
 
 
--- changeset kzou227@qq.com:0KPY6J2C5XP5M
+-- changeset kzou227@qq.com:202508251125
 create table system.dict_type
 (
-    type_code   varchar(50) not null
-        constraint dict_type_pk primary key,
-    name        varchar(100),
-    description varchar(255),
-    disabled    "char",
-    created_at  timestamp without time zone,
-    updated_at  timestamp without time zone
+    type_code   character varying(50)
+        constraint dict_type_pk primary key not null, -- 字典类型代码
+    name        character varying(255),               -- 字典类型名称
+    description character varying(255),               -- 字典类型描述
+    disabled    "char",                               -- 状态（T:禁用, F:启用）
+    created_at  timestamp without time zone,          -- 创建时间
+    updated_at  timestamp without time zone           -- 更新时间
 );
 
 comment
-    on table system.dict_type is '字典类型';
-
+on table system.dict_type is '字典类型';
 comment
-    on column system.dict_type.type_code is '字典类型代码';
-
+on column system.dict_type.type_code is '字典类型代码';
 comment
-    on column system.dict_type.name is '字典类型名称';
-
+on column system.dict_type.name is '字典类型名称';
 comment
-    on column system.dict_type.description is '字典类型描述';
-
+on column system.dict_type.description is '字典类型描述';
 comment
-    on column system.dict_type.disabled is '状态（T:禁用, F:启用）';
-
+on column system.dict_type.disabled is '状态（T:禁用, F:启用）';
 comment
-    on column system.dict_type.created_at is '创建时间';
-
+on column system.dict_type.created_at is '创建时间';
 comment
-    on column system.dict_type.updated_at is '更新时间';
+on column system.dict_type.updated_at is '更新时间';
 -- rollback drop table system.dict_type;
 
 
--- changeset kzou227@qq.com:0KPY6J2C5XP5N
-create table system.dict_data
+-- changeset kzou227@qq.com:202508251126
+create table system.dict
 (
-    id         bigserial
-        constraint dict_data_pk primary key,
-    type_code  varchar(50) not null,
-    data_code  varchar(50) not null,
-    name       varchar(100),
-    value      varchar(4096),
-    ordering   integer,
-    disabled   "char",
-    created_at timestamp,
-    updated_at timestamp
+    code       character varying(50)
+        constraint dict_pk primary key not null, -- 字典代码
+    type_code  character varying(50)   not null, -- 类型代码
+    name       character varying(255),           -- 字典数据名称
+    value      character varying(4096),          -- 字典数据值
+    ordering   integer,                          -- 排序值
+    disabled   "char",                           -- 状态（T:禁用, F:启用）
+    created_at timestamp without time zone,      -- 创建时间
+    updated_at timestamp without time zone       -- 更新时间
 );
 
-comment
-    on table system.dict_data is '字典数据';
+create index dict_type_code_i on system.dict using btree (type_code);
 
 comment
-    on column system.dict_data.type_code is '类型代码';
-
+on table system.dict is '字典数据';
 comment
-    on column system.dict_data.data_code is '字典数据编码';
-
+on column system.dict.code is '字典代码';
 comment
-    on column system.dict_data.name is '字典数据名称';
-
+on column system.dict.type_code is '类型代码';
 comment
-    on column system.dict_data.value is '字典数据值';
-
+on column system.dict.name is '字典数据名称';
 comment
-    on column system.dict_data.ordering is '排序值';
-
+on column system.dict.value is '字典数据值';
 comment
-    on column system.dict_data.disabled is '状态（T:禁用, F:启用）';
-
+on column system.dict.ordering is '排序值';
 comment
-    on column system.dict_data.created_at is '创建时间';
-
+on column system.dict.disabled is '状态（T:禁用, F:启用）';
 comment
-    on column system.dict_data.updated_at is '更新时间';
-
-create unique index dict_type_code_data_code_ui
-    on system.dict_data (type_code, data_code);
--- rollback drop table system.dict_data;
+on column system.dict.created_at is '创建时间';
+comment
+on column system.dict.updated_at is '更新时间';
+-- rollback drop table system.dict;

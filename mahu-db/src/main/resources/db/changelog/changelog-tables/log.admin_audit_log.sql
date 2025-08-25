@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 
 
--- changeset kzou227@qq.com:0KPYD7H5XXP5Y
+-- changeset kzou227@qq.com:202508251147
 create table log.admin_audit_log
 (
     id             bigint not null
@@ -19,38 +19,38 @@ create table log.admin_audit_log
 );
 
 comment
-    on table log.admin_audit_log is '管理员操作审计日志';
+on table log.admin_audit_log is '管理员操作审计日志';
 
 comment
-    on column log.admin_audit_log.id is '主键';
+on column log.admin_audit_log.id is '主键';
 
 comment
-    on column log.admin_audit_log.created_at is '创建时间';
+on column log.admin_audit_log.created_at is '创建时间';
 
 comment
-    on column log.admin_audit_log.admin_id is '管理员 ID';
+on column log.admin_audit_log.admin_id is '管理员 ID';
 
 comment
-    on column log.admin_audit_log.ip_addr is '操作 IP';
+on column log.admin_audit_log.ip_addr is '操作 IP';
 
 comment
-    on column log.admin_audit_log.change_type is '改变类型';
+on column log.admin_audit_log.change_type is '改变类型';
 
 comment
-    on column log.admin_audit_log.table_name is '数据库表名';
+on column log.admin_audit_log.table_name is '数据库表名';
 
 comment
-    on column log.admin_audit_log.data_tenant_id is '数据租户 ID';
+on column log.admin_audit_log.data_tenant_id is '数据租户 ID';
 
 comment
-    on column log.admin_audit_log.data_id is '数据主键';
+on column log.admin_audit_log.data_id is '数据主键';
 
 comment
-    on column log.admin_audit_log.data is '改变的数据';
+on column log.admin_audit_log.data is '改变的数据';
 
 comment
-    on column log.admin_audit_log.old_data is '旧的数据';
+on column log.admin_audit_log.old_data is '旧的数据';
 
-create index admin_audit_log_admin_id_idx
+create index admin_audit_log_admin_id_i
     on log.admin_audit_log (admin_id);
 -- rollback drop table log.admin_audit_log;

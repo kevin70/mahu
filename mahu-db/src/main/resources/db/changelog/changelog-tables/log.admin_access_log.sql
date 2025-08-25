@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 
 
--- changeset kzou227@qq.com:0KPYD7H5XXP5X
+-- changeset kzou227@qq.com:202508251146
 create table log.admin_access_log
 (
     id              bigint not null
@@ -21,14 +21,14 @@ create table log.admin_access_log
 );
 
 comment
-    on column log.admin_access_log.id is '主键';
+on column log.admin_access_log.id is '主键';
 
 comment
-    on column log.admin_access_log.created_at is '创建时间';
+on column log.admin_access_log.created_at is '创建时间';
 
 comment
-    on column log.admin_access_log.admin_id is '管理员 ID';
+on column log.admin_access_log.admin_id is '管理员 ID';
 
-create index admin_access_log_admin_id_idx
+create index admin_access_log_admin_id_i
     on log.admin_access_log (admin_id);
 -- rollback drop table log.admin_access_log;

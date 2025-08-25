@@ -1,7 +1,7 @@
+//file:noinspection UnnecessaryQualifiedReference
 buildscript {
     dependencies {
         classpath("io.helidon.config:helidon-config-yaml:4.2.6")
-        classpath("io.hypersistence:hypersistence-tsid:2.1.4")
     }
 }
 
@@ -12,10 +12,8 @@ plugins {
 
 // TIPS:
 // Gradle 回滚数据库版本命令：gradle rollbackCount -PliquibaseCommandValue=1
-
-//noinspection UnnecessaryQualifiedReference
 def config = io.helidon.config.Config.builder()
-    .addSource(io.helidon.config.ConfigSources.file("C:/houge/mahu.yaml").optional())
+    .addSource(io.helidon.config.ConfigSources.file("${System.getProperty("user.home")}/houge/mahu.yaml").optional())
     .build()
 
 liquibase {
@@ -23,28 +21,14 @@ liquibase {
     activities.register("main") {
         // 配置属性参考文档：https://docs.liquibase.com/concepts/connections/creating-config-properties.html
         changelogFile "db/changelog/changelog-root.yaml"
-        url "jdbc:postgresql://127.0.0.1:15432/mahu-dev"
-        username "test"
-        password "test"
-        //        username config.get("db.username").asString().orElse(System.getenv("MAHU_DB_USERNAME"))
-        //        password config.get("db.password").asString().orElse(System.getenv("MAHU_DB_PASSWORD"))
-    }
-}
-
-tasks.register("randomNextVersion") {
-    doLast {
-        println("versions:")
-        println("==========================================================")
-        for (n in 1..10) {
-            //noinspection UnnecessaryQualifiedReference
-            println(io.hypersistence.tsid.TSID.fast())
-        }
-        println("==========================================================")
+        url config.get("db.url").asString().orElse("jdbc:postgresql://127.0.0.1:5432/mahu.dev")
+        username config.get("db.username").asString().orElse("test")
+        password config.get("db.password").asString().orElse("test")
     }
 }
 
 dependencies {
-    liquibaseRuntime("org.liquibase:liquibase-core:4.26.0")
+    liquibaseRuntime("org.liquibase:liquibase-core:4.33.0")
     liquibaseRuntime("org.liquibase:liquibase-groovy-dsl:3.0.3")
     liquibaseRuntime("info.picocli:picocli:4.7.5")
     liquibaseRuntime("org.postgresql:postgresql:42.7.7")
