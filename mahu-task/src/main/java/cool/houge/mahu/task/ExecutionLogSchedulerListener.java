@@ -8,9 +8,10 @@ import io.ebean.Database;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
 import io.hypersistence.tsid.TSID;
-import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
 
 /// 任务执行日志
 ///
@@ -38,10 +39,7 @@ public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
     @Transactional
     void saveExecutionLog(ExecutionComplete executionComplete) {
         var execution = executionComplete.getExecution();
-        var task = new ScheduledTask()
-                .setTaskId(new ScheduledTask.TaskId()
-                        .setTaskName(execution.getTaskName())
-                        .setTaskInstance(execution.getId()));
+        var task = db.reference(ScheduledTask.class, execution.getId());
 
         var finishedAt = executionComplete.getTimeDone();
         var startedAt = finishedAt.minus(executionComplete.getDuration());
@@ -59,7 +57,6 @@ public class ExecutionLogSchedulerListener extends AbstractSchedulerListener {
                     .toList();
             bean.setCause(lines);
         });
-
         db.save(bean);
     }
 }

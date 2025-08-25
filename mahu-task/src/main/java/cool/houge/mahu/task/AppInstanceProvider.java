@@ -16,7 +16,7 @@ class AppInstanceProvider implements Supplier<AppInstance> {
     final AppInstance v;
 
     AppInstanceProvider(DataSource ds) {
-        var nodeIdProvider = new DatabaseNodeIdProvider("select nextval('admin_node_seq')", ds);
+        var nodeIdProvider = new DatabaseNodeIdProvider("select nextval('task_node_seq')", ds);
         // 此处实现代表集群应用实例最多 256 个节点，如果节点超出 256，应该修改此处的逻辑
         var maxNode = 256;
         var nodeId = nodeIdProvider.getNodeId() % maxNode + 1;
