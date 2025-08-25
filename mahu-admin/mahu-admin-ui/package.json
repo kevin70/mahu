@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "openapi-admin": "redocly bundle admin@v1 -o dist/mahu-admin-openapi.yaml",
+    "openapi-ts": "pnpm openapi-admin && openapi-ts",
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview"
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "0.81.1",
+    "@redocly/cli": "^2.0.7",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.7.0",
     "less": "^4.4.1",
