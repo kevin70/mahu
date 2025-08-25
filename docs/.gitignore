@@ -141,4 +141,5 @@ styled-system-studio
 
 ## 自动生成的文档
 src/public/*-openapi.html
+src/public/*-openapi.yaml
 src/public/diagrams/mermaid-*.svg
