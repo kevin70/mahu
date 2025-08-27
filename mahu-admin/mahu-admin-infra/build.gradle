@@ -30,4 +30,5 @@ dependencies {
     implementation("com.github.binarywang:weixin-java-pay")
 
     // testImplementation(project(":mahu-test"))
+    testImplementation("io.helidon.testing:helidon-testing-junit5")
 }
