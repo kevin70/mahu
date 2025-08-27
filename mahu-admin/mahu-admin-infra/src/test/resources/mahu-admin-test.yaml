@@ -4,10 +4,9 @@ info:
   env: sit
 
 db:
-  application-name: "mahu-integration-test"
-  driver: "org.postgresql.Driver"
-  url: "${MAHU_DB_URL}"
-  username: "${MAHU_DB_USERNAME}"
-  password: "${MAHU_DB_PASSWORD}"
+  application-name: "mahu-sit"
+  url: "jdbc:postgresql://127.0.0.1:5432/mahu"
+  username: "postgres"
+  password: "postgres"
   min-idle: 1
   max-size: 64
