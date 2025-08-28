@@ -1,9 +1,14 @@
 package cool.houge.mahu.web;
 
+import cool.houge.mahu.domain.PageRequest;
+import cool.houge.mahu.domain.Pageable;
+import cool.houge.mahu.domain.Sort;
 import io.helidon.common.mapper.OptionalValue;
 import io.helidon.common.mapper.Value;
 import io.helidon.common.parameters.Parameters;
 import io.helidon.webserver.http.ServerRequest;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.experimental.UtilityClass;
 
 /// [ServerRequest] 工具类
@@ -28,7 +33,42 @@ public final class ServerRequestUtils {
         return first(request.query(), name);
     }
 
+    /// 获取可分页参数对象
+    ///
+    /// @param request 请求对象
+    public static Pageable pageArgs(ServerRequest request) {
+        var params = request.query();
+        var sort = toSort(params.all("sort", List::of));
+        var pageSize = params.first("page_size");
+        if (pageSize.isEmpty()) {
+            return Pageable.unpaged(sort);
+        }
+        var page = params.first("page");
+        if (page.isEmpty()) {
+            return PageRequest.of(0, pageSize.asInt().get(), sort);
+        }
+        return PageRequest.of(page.asInt().get() - 1, pageSize.asInt().get(), sort);
+    }
+
     static OptionalValue<String> first(Parameters parameters, String name) {
         return new RequestParameterValue(parameters.first(name));
+    }
+
+    private static Sort toSort(List<String> sortParams) {
+        if (sortParams.isEmpty()) {
+            return Sort.unsorted();
+        }
+
+        var list = new ArrayList<Sort.Order>(sortParams.size());
+        for (String s : sortParams) {
+            if (s == null || s.isEmpty()) {
+                continue;
+            }
+
+            boolean ascending = s.charAt(0) != '-';
+            String name = ascending ? s : s.substring(1);
+            list.add(ascending ? Sort.Order.asc(name) : Sort.Order.desc(name));
+        }
+        return Sort.by(list);
     }
 }

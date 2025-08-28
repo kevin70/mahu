@@ -2,6 +2,8 @@ package cool.houge.mahu.util;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.domain.Pageable;
+import cool.houge.mahu.domain.Sort;
 import cool.houge.mahu.rsql.EBeanRSQLVisitor;
 import cool.houge.mahu.rsql.ExtRSQLOperators;
 import cool.houge.mahu.rsql.FilterItem;
@@ -63,6 +65,38 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         // 包含软删除的数据
         if (filter.isIncludeDeleted()) {
             query.setIncludeSoftDeletes();
+        }
+    }
+
+    /// 将分页参数应用到查询上
+    ///
+    /// @param query 查询对象
+    /// @param page 分页参数
+    protected void apply(QueryBean<?, ?> query, Pageable page) {
+        this.apply(query, page, List.of());
+    }
+
+    protected void apply(QueryBean<?, ?> query, Pageable page, List<FilterItem> sortItems) {
+        if (page.isPaged()) {
+            query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPageSize());
+        }
+        this.apply(query, page.getSort(), sortItems);
+    }
+
+    protected void apply(QueryBean<?, ?> query, Sort sort, List<FilterItem> items) {
+        if (sort.isUnsorted()) {
+            return;
+        }
+        for (FilterItem item : items) {
+            var o = sort.getOrderFor(item.getKey());
+            if (o == null) {
+                continue;
+            }
+            if (o.isAscending()) {
+                query.query().orderBy().asc(item.getColumn());
+            } else {
+                query.query().orderBy().desc(item.getColumn());
+            }
         }
     }
 
