@@ -37,8 +37,8 @@ allprojects {
     version = "1.0.0-SNAPSHOT"
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_23
-        targetCompatibility = JavaVersion.VERSION_23
+        sourceCompatibility = JavaVersion.VERSION_24
+        targetCompatibility = JavaVersion.VERSION_24
     }
 
     jar {
@@ -94,7 +94,7 @@ allprojects {
         languages {
             include("java")
         }
-        testSourceSets = sourceSets.matching {true}
+        testSourceSets = sourceSets.matching { true }
     }
 
     configurations {
@@ -179,8 +179,8 @@ allprojects {
     }
 
     repositories {
-        maven {url "https://repo.huaweicloud.com/repository/maven"}
-        maven {url "https://jitpack.io"}
+        maven { url "https://repo.huaweicloud.com/repository/maven" }
+        maven { url "https://jitpack.io" }
         mavenLocal()
         mavenCentral()
     }
