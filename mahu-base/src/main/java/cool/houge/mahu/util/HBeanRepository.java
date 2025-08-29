@@ -2,6 +2,7 @@ package cool.houge.mahu.util;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.domain.Pageable;
 import cool.houge.mahu.domain.Sort;
 import cool.houge.mahu.rsql.EBeanRSQLVisitor;
@@ -13,11 +14,10 @@ import cz.jirutka.rsql.parser.RSQLParserException;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.typequery.QueryBean;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
-
-import java.util.List;
 
 /// 扩展数据管理基类
 ///
@@ -67,27 +67,27 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
     /// 将过滤条件应用到查询上
     ///
     /// @param query        查询对象
-    /// @param filter       数据过滤条件
-    protected final void apply(QueryBean<@NonNull T, ?> query, DataFilter filter) {
+    /// @param dataFilter       数据过滤条件
+    protected final void apply(QueryBean<@NonNull T, ?> query, DataFilter dataFilter) {
         var filterItems = filterableItems();
         if (filterItems.isEmpty()) {
             throw new IllegalStateException("可过滤项为空");
         }
 
-        var ctx = new RSQLContext(filterItems, query);
-        if (filter.filter() != null && !filter.filter().isEmpty()) {
-            try {
-                var node = RSQL_PARSER.parse(filter.filter());
-                node.accept(new EBeanRSQLVisitor(), ctx);
-            } catch (RSQLParserException e) {
-                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "RSQL解析错误", e);
-            }
-        }
-
         // 包含软删除的数据
-        if (filter.isIncludeDeleted()) {
+        if (dataFilter.isIncludeDeleted()) {
             query.setIncludeSoftDeletes();
         }
+
+        dataFilter.query().filter(s -> !s.isEmpty()).ifPresent(q -> {
+            try {
+                var ctx = new RSQLContext(filterItems, query);
+                var node = RSQL_PARSER.parse(q);
+                node.accept(new EBeanRSQLVisitor(), ctx);
+            } catch (RSQLParserException e) {
+                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "RSQL 解析错误", e);
+            }
+        });
     }
 
     /// 将分页参数应用到查询上

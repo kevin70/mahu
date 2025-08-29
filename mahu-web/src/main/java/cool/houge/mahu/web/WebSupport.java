@@ -4,8 +4,8 @@ import static io.helidon.webserver.http.SecureHandler.authenticate;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.util.DataFilter;
-import cool.houge.mahu.util.Paging;
+import cool.houge.mahu.domain.DataFilter;
+import cool.houge.mahu.domain.Pageable;
 import io.helidon.common.mapper.OptionalValue;
 import io.helidon.common.mapper.Value;
 import io.helidon.webserver.http.Handler;
@@ -49,8 +49,8 @@ public interface WebSupport extends HttpService {
     /// 获取请求分页参数
     ///
     /// @param request 请求对象
-    default Paging paging(ServerRequest request) {
-        return new WebDataFilter(request);
+    default Pageable page(ServerRequest request) {
+        return ServerRequestUtils.pageArgs(request);
     }
 
     /// 获取数据过滤对象
