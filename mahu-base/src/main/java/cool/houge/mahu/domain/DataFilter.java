@@ -4,6 +4,7 @@ import io.ebean.PagedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import org.jspecify.annotations.NonNull;
 
 /// 数据过滤
 ///
@@ -21,9 +22,9 @@ public interface DataFilter {
 
     /// 输出查询结果
     ///
-    /// @param plist 分页列表
+    /// @param plist   分页列表
     /// @param mapping 分页列表对象映射
-    <I, T> Result<T> toResult(PagedList<I> plist, Function<I, T> mapping);
+    <I, T> @NonNull Result<T> toResult(@NonNull PagedList<I> plist, @NonNull Function<I, T> mapping);
 
     interface Result<T> {
 
