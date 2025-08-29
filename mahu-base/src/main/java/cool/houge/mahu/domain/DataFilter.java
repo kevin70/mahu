@@ -20,7 +20,10 @@ public interface DataFilter {
     boolean isNoTotal();
 
     /// 输出查询结果
-    <I, T> Result<T> toResult(PagedList<I> plist, Function<I, T> fn);
+    ///
+    /// @param plist 分页列表
+    /// @param mapping 分页列表对象映射
+    <I, T> Result<T> toResult(PagedList<I> plist, Function<I, T> mapping);
 
     interface Result<T> {
 
