@@ -1,10 +1,8 @@
 type: string
 description: 管理员状态
 enum:
-  - NONE
   - ACTIVE
-  - BLOCKED
+  - DISABLED
 x-enum-descriptions:
-  - 无
   - 正常
-  - 冻结
+  - 由管理员手动禁用

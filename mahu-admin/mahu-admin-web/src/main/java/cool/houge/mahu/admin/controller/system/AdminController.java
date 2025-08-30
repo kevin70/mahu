@@ -37,7 +37,7 @@ public class AdminController implements WebSupport {
         var dataFilter = dataFilter(request);
 
         var plist = adminService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toAdminResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toAdminResponse);
         response.send(rs);
     }
 

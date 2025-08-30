@@ -113,8 +113,7 @@ tasks.register("deployDev") {
 
 dependencies {
     annotationProcessor("io.avaje:avaje-validator-generator")
-    annotationProcessor("io.helidon.codegen:helidon-codegen-apt")
-    annotationProcessor("io.helidon.service:helidon-service-codegen")
+    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
     implementation(project(":mahu-web"))
     implementation(project(":mahu-admin:mahu-admin-infra"))
@@ -128,6 +127,7 @@ dependencies {
     implementation("io.helidon.webserver.observe:helidon-webserver-observe-health")
     implementation("io.helidon.webserver.observe:helidon-webserver-observe-log")
     implementation("io.helidon.webserver.observe:helidon-webserver-observe-metrics")
+    implementation("io.helidon.webserver:helidon-webserver-security")
 
     implementation("io.avaje:avaje-validator-constraints")
     implementation("io.avaje:avaje-validator") {

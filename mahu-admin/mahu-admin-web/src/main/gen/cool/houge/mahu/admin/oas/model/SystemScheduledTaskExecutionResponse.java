@@ -30,19 +30,19 @@ public class SystemScheduledTaskExecutionResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
     private LocalDateTime createdAt;
     /**
+     * 任务 ID
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("task_id")
+    private String taskId;
+    /**
      * 任务名称
      */
     @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("task_name")
     private String taskName;
-    /**
-     * 任务实例
-     */
-    @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("task_instance")
-    private String taskInstance;
     /**
      * 任务执行者
      */
@@ -70,6 +70,13 @@ public class SystemScheduledTaskExecutionResponse {
   
     @com.fasterxml.jackson.annotation.JsonProperty("succeeded")
     private Boolean succeeded;
+    /**
+     * 日志追踪 ID
+     */
+    @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("trace_id")
+    private String traceId;
     /**
      * 失败原因
      */

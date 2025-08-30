@@ -7,7 +7,6 @@ import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertDictRequest;
 import cool.houge.mahu.admin.system.service.DictService;
 import cool.houge.mahu.web.WebSupport;
-import io.helidon.service.registry.Service;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
@@ -39,7 +38,7 @@ public class DictController implements WebSupport {
     private void pageSystemDicts(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = dictService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toDictResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toDictResponse);
         response.send(rs);
     }
 

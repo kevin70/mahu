@@ -92,15 +92,10 @@ public interface SystemBeanMapper {
     @Mapping(target = "roleIds", source = "roles", qualifiedByName = "rolesToRoleIds")
     AdminResponse toAdminResponse(Admin bean);
 
-    @Mapping(target = "taskName", source = "taskId.taskName")
-    @Mapping(target = "taskInstance", source = "taskId.taskInstance")
     ScheduledTaskResponse toScheduledTaskResponse(ScheduledTask bean);
 
-    @Mapping(target = "taskName", source = "scheduledTask.taskId.taskName")
-    @Mapping(target = "taskInstance", source = "scheduledTask.taskId.taskInstance")
+    @Mapping(target = "taskName", source = "scheduledTask.taskName")
     ScheduledTaskExecutionResponse toScheduledTaskExecutionResponse(ScheduledExecutionLog bean);
 
-    @Mapping(target = "taskId.taskName", source = "taskName")
-    @Mapping(target = "taskId.taskInstance", source = "taskInstance")
-    ScheduledTask toScheduledTask(String taskName, String taskInstance);
+    ScheduledTask toScheduledTask(String taskName);
 }

@@ -37,7 +37,7 @@ public class ClientController implements WebSupport {
     void pageSystemClients(ServerRequest request, ServerResponse response) {
         var filter = dataFilter(request);
         var plist = clientService.findPage(filter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toClientResponse);
+        var rs = filter.toResult(plist, beanMapper::toClientResponse);
         response.send(rs);
     }
 

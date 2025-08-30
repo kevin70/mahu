@@ -22,11 +22,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum AdminStatusEnum {
   
-  NONE("NONE"),
-  
   ACTIVE("ACTIVE"),
   
-  BLOCKED("BLOCKED");
+  DISABLED("DISABLED");
 
   private String value;
 

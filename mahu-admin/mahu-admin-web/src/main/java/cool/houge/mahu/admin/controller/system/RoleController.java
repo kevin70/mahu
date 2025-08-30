@@ -6,7 +6,6 @@ import static io.helidon.http.Status.NO_CONTENT_204;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertRoleRequest;
 import cool.houge.mahu.admin.system.service.RoleService;
-import cool.houge.mahu.web.WebDataFilter;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
@@ -73,8 +72,9 @@ public class RoleController implements WebSupport {
     }
 
     private void pageSystemRoles(ServerRequest request, ServerResponse response) {
-        var plist = roleService.findPage(new WebDataFilter(request));
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toRoleResponse);
+        var dataFilter = dataFilter(request);
+        var plist = roleService.findPage(dataFilter);
+        var rs = dataFilter.toResult(plist, beanMapper::toRoleResponse);
         response.send(rs);
     }
 }

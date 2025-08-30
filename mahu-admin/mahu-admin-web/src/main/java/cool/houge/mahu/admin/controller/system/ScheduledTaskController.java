@@ -33,7 +33,7 @@ public class ScheduledTaskController implements WebSupport, HttpService {
     private void pageSystemScheduledTasks(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = scheduledTaskService.findPage(dataFilter);
-        var rs = beanMapper.toPageResponse(plist.getList(), plist.getTotalCount(), beanMapper::toScheduledTaskResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toScheduledTaskResponse);
         response.send(rs);
     }
 
@@ -41,8 +41,7 @@ public class ScheduledTaskController implements WebSupport, HttpService {
         var taskId = taskId(request);
         var dataFilter = dataFilter(request);
         var plist = scheduledTaskService.findPage4ExecutionLog(taskId, dataFilter);
-        var rs = beanMapper.toPageResponse(
-                plist.getList(), plist.getTotalCount(), beanMapper::toScheduledTaskExecutionResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toScheduledTaskExecutionResponse);
         response.send(rs);
     }
 

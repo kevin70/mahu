@@ -3,8 +3,7 @@ apply plugin: "io.ebean"
 
 dependencies {
     annotationProcessor("io.ebean:querybean-generator")
-    annotationProcessor("io.helidon.codegen:helidon-codegen-apt")
-    annotationProcessor("io.helidon.service:helidon-service-codegen")
+    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
     api(project(":mahu-entity"))
     api(project(":mahu-config"))
