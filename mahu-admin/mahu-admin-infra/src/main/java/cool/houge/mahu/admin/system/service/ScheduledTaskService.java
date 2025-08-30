@@ -6,7 +6,7 @@ import cool.houge.mahu.admin.system.repository.ScheduledExecutionLogRepository;
 import cool.houge.mahu.admin.system.repository.ScheduledTaskRepository;
 import cool.houge.mahu.entity.log.ScheduledExecutionLog;
 import cool.houge.mahu.entity.system.ScheduledTask;
-import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;

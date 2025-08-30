@@ -10,7 +10,7 @@ import cool.houge.mahu.admin.event.CollectProfileEvent;
 import cool.houge.mahu.admin.system.repository.AdminRepository;
 import cool.houge.mahu.entity.system.Admin;
 import cool.houge.mahu.entity.system.AdminStatus;
-import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Event;

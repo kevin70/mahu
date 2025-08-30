@@ -7,7 +7,7 @@ import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.system.repository.DictTypeRepository;
 import cool.houge.mahu.entity.system.Dict;
 import cool.houge.mahu.entity.system.DictType;
-import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;

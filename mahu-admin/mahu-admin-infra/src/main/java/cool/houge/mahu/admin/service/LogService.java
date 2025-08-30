@@ -4,7 +4,7 @@ import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.repository.LogRepository;
-import cool.houge.mahu.util.DataFilter;
+import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
