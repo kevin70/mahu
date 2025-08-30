@@ -1,13 +1,12 @@
 package cool.houge.mahu.admin.system.repository;
 
+import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.entity.log.ScheduledExecutionLog;
 import cool.houge.mahu.entity.log.query.QScheduledExecutionLog;
-import cool.houge.mahu.util.DataFilter;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
-import java.util.List;
 
 /// 定时任务执行日志
 ///
@@ -27,16 +26,11 @@ public class ScheduledExecutionLogRepository extends HBeanRepository<Long, Sched
     /// | --- | ----- |
     /// | task_id | string |
     public PagedList<ScheduledExecutionLog> findPage(String taskId, DataFilter dataFilter) {
-        var qb = new QScheduledExecutionLog(db());
-        qb.scheduledTask
+        return new QScheduledExecutionLog(db())
+                .scheduledTask
                 .id
                 .eq(taskId)
-                // 排序
-                .orderBy()
-                .startedAt
-                .desc();
-
-        super.apply(qb, dataFilter, List.of());
-        return qb.findPagedList();
+                .also(o -> super.apply(o, dataFilter))
+                .findPagedList();
     }
 }
