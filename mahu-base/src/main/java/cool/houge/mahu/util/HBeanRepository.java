@@ -57,16 +57,6 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
     /// 将过滤条件应用到查询上
     ///
     /// @param query        查询对象
-    /// @param filter       数据过滤条件
-    /// @param page 分页参数
-    protected final void apply(QueryBean<@NonNull T, ?> query, DataFilter filter, Pageable page) {
-        this.apply(query, filter);
-        this.apply(query, page);
-    }
-
-    /// 将过滤条件应用到查询上
-    ///
-    /// @param query        查询对象
     /// @param dataFilter       数据过滤条件
     protected final void apply(QueryBean<@NonNull T, ?> query, DataFilter dataFilter) {
         var filterItems = filterableItems();
@@ -75,7 +65,7 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         }
 
         // 包含软删除的数据
-        if (dataFilter.isIncludeDeleted()) {
+        if (dataFilter.includeDeleted()) {
             query.setIncludeSoftDeletes();
         }
 
@@ -88,6 +78,11 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
                 throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "RSQL 解析错误", e);
             }
         });
+
+        // 应用分页
+        this.apply(query, dataFilter.page());
+        // 应用排序
+        this.apply(query, dataFilter.sort());
     }
 
     /// 将分页参数应用到查询上

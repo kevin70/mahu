@@ -14,11 +14,17 @@ public interface DataFilter {
     /// RSQL 数据过滤
     Optional<String> query();
 
+    /// 分页参数
+    Pageable page();
+
+    /// 排序参数
+    Sort sort();
+
     /// 返回是否包含软删除的数据
-    boolean isIncludeDeleted();
+    boolean includeDeleted();
 
     /// 是否不返回总记录数
-    boolean isNoTotal();
+    boolean noTotal();
 
     /// 输出查询结果
     ///
