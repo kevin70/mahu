@@ -5,14 +5,20 @@ info:
 server:
   port: 9090
   shutdown-hook: true
-
-cors:
-  enabled: true
-  allow-origins: [ "*" ]
-  allow-methods: [ "*" ]
-  allow-headers: [ "*" ]
-  allow-credentials: false
-  max-age: 7200
+  media-context:
+    media-supports:
+      jackson:
+        properties:
+          FAIL_ON_UNKNOWN_PROPERTIES: N
+          WRITE_DATES_AS_TIMESTAMPS: N
+  features:
+    cors:
+      enabled: true
+      allow-origins: [ "*" ]
+      allow-methods: [ "*" ]
+      allow-headers: [ "*" ]
+      allow-credentials: false
+      max-age: 7200
 
 db:
   name: "${info.name}"

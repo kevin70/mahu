@@ -18,11 +18,11 @@ import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.ErrorResponse;
 import io.avaje.validation.ConstraintViolationException;
 import io.ebean.DuplicateKeyException;
-import io.helidon.common.Weighted;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.HttpException;
 import io.helidon.http.Status;
 import io.helidon.http.media.UnsupportedTypeException;
+import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpFeature;
 import io.helidon.webserver.http.HttpRouting;
 import io.helidon.webserver.http.ServerRequest;
@@ -37,7 +37,8 @@ import org.apache.logging.log4j.Logger;
 /// 错误处理
 ///
 /// @author ZY (kzou227@qq.com)
-public class MahuAdminErrorFeature implements Weighted, HttpFeature {
+@Singleton
+public class ErrorHttpFeature implements HttpFeature {
 
     private static final Logger log = LogManager.getLogger();
 

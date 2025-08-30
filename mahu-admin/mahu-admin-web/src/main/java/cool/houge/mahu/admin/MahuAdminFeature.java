@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger;
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
-@Weight(Weighted.DEFAULT_WEIGHT + 100)
+@Weight(Weighted.DEFAULT_WEIGHT + 5)
 public class MahuAdminFeature implements HttpFeature, Filter {
 
     private static final Logger log = LogManager.getLogger(MahuAdminFeature.class);
@@ -42,7 +42,7 @@ public class MahuAdminFeature implements HttpFeature, Filter {
 
     @Override
     public void setup(HttpRouting.Builder routing) {
-        routing.addFilter(this).security(security).addFeature(new MahuAdminErrorFeature());
+        routing.addFilter(this).security(security);
 
         // 注册 HTTP 服务
         for (HttpService httpService : httpServices) {
