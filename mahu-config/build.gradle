@@ -1,9 +1,7 @@
 apply plugin: "java-library"
 
 dependencies {
-    annotationProcessor("io.helidon.codegen:helidon-codegen-apt")
-    annotationProcessor("io.helidon.config.metadata:helidon-config-metadata-codegen")
-    annotationProcessor("io.helidon.builder:helidon-builder-codegen")
+    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
     annotationProcessor(project(":mahu-codegen"))
 
     compileOnly("io.helidon.builder:helidon-builder-api")

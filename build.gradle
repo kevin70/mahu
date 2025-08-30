@@ -102,6 +102,7 @@ allprojects {
             exclude group: "io.avaje", module: "avaje-config"
             exclude group: "io.ebean", module: "ebean-migration"
             exclude group: "io.avaje", module: "avaje-validator-inject-plugin"
+            exclude group: "io.avaje", module: "avaje-validator-http-plugin"
         }
     }
 
@@ -124,11 +125,12 @@ allprojects {
     dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.0-M1")
-            mavenBom("io.helidon:helidon-bom:4.2.6")
+            mavenBom("io.helidon:helidon-bom:4.3.0-M2")
             mavenBom("io.ebean:ebean-bom:17.0.0")
             mavenBom("org.testcontainers:testcontainers-bom:1.21.3")
         }
         dependencies {
+            dependency("io.helidon.bundles:helidon-bundles-apt:4.3.0-M2")
             dependency("org.checkerframework:checker-qual:3.49.5")
             dependency("com.google.errorprone:error_prone_annotations:2.41.0")
             dependency("com.google.guava:guava:33.4.8-jre")

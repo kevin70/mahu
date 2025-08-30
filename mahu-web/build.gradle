@@ -2,6 +2,7 @@ apply plugin: "java-library"
 
 dependencies {
     implementation(project(":mahu-base"))
+    implementation("io.ebean:ebean-api")
     implementation("com.google.guava:guava")
     implementation("io.helidon.webserver:helidon-webserver")
     implementation("com.fasterxml.jackson.core:jackson-databind")
