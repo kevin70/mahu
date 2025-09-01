@@ -23,19 +23,19 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/// 功能注册
+/// 应用 HTTP 功能注册
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
 @Weight(Weighted.DEFAULT_WEIGHT + 5)
-public class MahuAdminFeature implements HttpFeature, Filter {
+public class AppHttpFeature implements HttpFeature, Filter {
 
-    private static final Logger log = LogManager.getLogger(MahuAdminFeature.class);
+    private static final Logger log = LogManager.getLogger(AppHttpFeature.class);
 
-    private final MahuAdminSecurity security;
+    private final SimpleSecurity security;
     private final List<HttpService> httpServices;
 
-    public MahuAdminFeature(MahuAdminSecurity security, List<HttpService> httpServices) {
+    public AppHttpFeature(SimpleSecurity security, List<HttpService> httpServices) {
         this.security = security;
         this.httpServices = httpServices;
     }

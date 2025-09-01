@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 /// 启动后端应用程序
 ///
 /// @author ZY (kzou227@qq.com)
-public class MahuAdminMain {
+public class Application {
 
     private static final Logger log = LogManager.getLogger();
 

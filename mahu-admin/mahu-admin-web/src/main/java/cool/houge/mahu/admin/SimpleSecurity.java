@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public record MahuAdminSecurity(TokenVerifier tokenVerifier) implements HttpSecurity {
+public record SimpleSecurity(TokenVerifier tokenVerifier) implements HttpSecurity {
 
     private static final String SCHEME_PREFIX = "Bearer ";
 

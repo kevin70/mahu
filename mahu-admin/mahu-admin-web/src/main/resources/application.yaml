@@ -6,6 +6,7 @@ server:
   port: 9090
   shutdown-hook: true
   features:
+    # 跨域配置
     cors:
       enabled: true
       allow-origins: [ "*" ]
@@ -13,6 +14,9 @@ server:
       allow-headers: [ "*" ]
       allow-credentials: false
       max-age: 7200
+    # 禁止默认启用由程序自定义观测功能
+    observe:
+      enabled: false
 
 db:
   name: "${info.name}"
