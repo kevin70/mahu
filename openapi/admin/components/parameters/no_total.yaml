@@ -6,7 +6,7 @@ description: |
   分页不需要总记录数
 
   示例:
-  - `GET /tickets?no_total_count=1` - 分页不需要总记录数
+  - `GET /tickets?no_total=1` - 分页不需要总记录数
 
   可选值：
   - `true`

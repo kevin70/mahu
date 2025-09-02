@@ -23,7 +23,7 @@ get:
     - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"
     - $ref: "../components/parameters/include_deleted.yaml"
-    - $ref: "../components/parameters/no_total_count.yaml"
+    - $ref: "../components/parameters/no_total.yaml"
   responses:
     "200":
       description: OK
