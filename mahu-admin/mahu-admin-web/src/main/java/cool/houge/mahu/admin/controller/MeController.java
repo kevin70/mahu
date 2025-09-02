@@ -12,12 +12,17 @@ import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
+import lombok.AllArgsConstructor;
 
 /// 个人信息
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public record MeController(VoBeanMapper beanMapper, AdminService adminService) implements WebSupport {
+@AllArgsConstructor
+public class MeController implements WebSupport {
+
+    final VoBeanMapper beanMapper;
+    final AdminService adminService;
 
     @Override
     public void routing(HttpRules rules) {
