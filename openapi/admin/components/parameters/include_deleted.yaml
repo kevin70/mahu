@@ -1,16 +1,20 @@
 name: include_deleted
 in: query
-schema:
-  type: string
 description: |
   返回数据包涵已经删除的数据
 
   示例:
   - `GET /tickets?include_deleted=1` - 返回数据包涵已经删除的数据
-
-  可选值：
-  - `true`
-  - `1`
-  - `yes`
-  - `y`
-  - `on`
+  - `GET /tickets?include_deleted=n` - 不返回已删除的数据
+  - `GET /tickets` - 不返回已删除的数据
+schema:
+  type: string
+  default: n
+  enum:
+    - 1
+    - true
+    - false
+    - yes
+    - on
+    - y
+    - n

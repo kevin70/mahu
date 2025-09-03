@@ -1,16 +1,20 @@
-name: no_total_count
+name: no_total
 in: query
-schema:
-  type: string
 description: |
   分页不需要总记录数
 
   示例:
-  - `GET /tickets?no_total=1` - 分页不需要总记录数
-
-  可选值：
-  - `true`
-  - `1`
-  - `yes`
-  - `y`
-  - `on`
+  - `GET /tickets?no_total=1` - 分页返回总记录数
+  - `GET /tickets` - 分页返回总记录数
+  - `GET /tickets?no_total=n` - 不返回总记录数
+schema:
+  type: string
+  default: n
+  enum:
+    - 1
+    - true
+    - false
+    - yes
+    - on
+    - y
+    - n
