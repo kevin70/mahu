@@ -16,6 +16,9 @@ properties:
     type: string
     format: date-time
     description: 修改时间
+  deleted:
+    type: boolean
+    description: 是否已经删除的数据
   username:
     type: string
     description: 用户名
@@ -27,21 +30,6 @@ properties:
     description: 头像地址
   status:
     $ref: "./AdminStatusEnum.yaml"
-  deleted:
-    type: boolean
-    description: 是否已经删除的数据
-  department:
-    type: object
-    required:
-      - id
-      - name
-    properties:
-      id:
-        type: integer
-        description: 部门 ID
-      name:
-        type: string
-        description: 部门名称
   role_ids:
     type: array
     description: 角色 IDs
