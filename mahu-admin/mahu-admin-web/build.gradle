@@ -70,7 +70,7 @@ tasks.named("openApiGenerate").configure {
                 include("**/model/**/*.java")
                 include("**/web/**/H*Service.java")
                 exclude("**/openapitools/*", "**/*Impl.java", "**/Main.java",
-                    "**/Page*Response.java")
+                    "**/BasePageResponse.java", "**/Page*Response.java")
             }
             into("${projectDir}/src/main/gen")
         }
