@@ -47,10 +47,10 @@ openApiGenerate {
     modelPackage = "cool.houge.mahu.admin.oas.model"
     templateDir = "${rootDir}/templates"
     configOptions.set([
-        library              : "mp",
+        library              : "se",
         useJakartaEe         : "true",
         useBeanValidation    : "true",
-        performBeanValidation: "false",
+        performBeanValidation: "true",
         serializationLibrary : "jackson"
     ])
     typeMappings.set([
@@ -58,12 +58,6 @@ openApiGenerate {
     ])
     importMappings.set([
         "LocalDateTime": "java.time.LocalDateTime"
-    ])
-    typeMappings.set([
-        DateTime: "LocalDateTime"
-    ])
-    importMappings.set([
-        LocalDateTime: "java.time.LocalDateTime"
     ])
 }
 
@@ -127,7 +121,7 @@ dependencies {
     implementation("io.helidon.webserver.observe:helidon-webserver-observe-health")
     implementation("io.helidon.webserver.observe:helidon-webserver-observe-log")
     implementation("io.helidon.webserver.observe:helidon-webserver-observe-metrics")
-    implementation("io.helidon.webserver:helidon-webserver-security")
+    implementation("org.openapitools:openapi-generator:7.15.0")
 
     implementation("io.avaje:avaje-validator-constraints")
     implementation("io.avaje:avaje-validator") {
