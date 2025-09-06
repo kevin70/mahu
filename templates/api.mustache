@@ -7,8 +7,7 @@ import io.helidon.webserver.http.HttpService;
 {{#hasAuthMethods}}import io.helidon.webserver.http.SecureHandler.*;{{/hasAuthMethods}}
 
 {{#operations}}
-@io.helidon.common.Generated(version = "{{generatorVersion}}")
-public interface {{classname}} extends HttpService {
+{{>generatedAnnotation}}public interface {{classname}} extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {

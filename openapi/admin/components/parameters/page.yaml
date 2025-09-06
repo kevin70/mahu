@@ -1,0 +1,10 @@
+name: page
+in: query
+description: |
+  分页：页码从`0`开始，默认值为`0`
+schema:
+  type: integer
+  format: int32
+  default: 0
+  minimum: 0
+  maximum: 100
