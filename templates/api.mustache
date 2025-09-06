@@ -1,0 +1,30 @@
+package {{package}};
+
+import io.helidon.webserver.http.HttpRules;
+import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerResponse;
+import io.helidon.webserver.http.HttpService;
+{{#hasAuthMethods}}import io.helidon.webserver.http.SecureHandler.*;{{/hasAuthMethods}}
+
+{{#operations}}
+@io.helidon.common.Generated(version = "{{generatorVersion}}")
+public interface {{classname}} extends HttpService {
+
+    @Override
+    default void routing(HttpRules rules) {
+    {{#operation}}
+        rules.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}",{{#hasAuthMethods}} {{#vendorExtensions.x-permission-code}}authenticate().andAuthorize("{{vendorExtensions.x-permission-code}}"){{/vendorExtensions.x-permission-code}}{{^vendorExtensions.x-permission-code}}authenticate(){{/vendorExtensions.x-permission-code}}, {{/hasAuthMethods}}this::{{operationId}});
+    {{/operation}}
+    }
+
+{{#operation}}
+    ///
+    /// `{{httpMethod}} {{path}}`{{#summary}} {{.}}{{/summary}}
+    ///
+    /// @param request the server request
+    /// @param response the server response
+    void {{{operationId}}}(ServerRequest request, ServerResponse response);
+
+{{/operation}}
+}
+{{/operations}}
