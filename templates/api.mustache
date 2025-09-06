@@ -4,7 +4,7 @@ import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
-{{#hasAuthMethods}}import io.helidon.webserver.http.SecureHandler.*;{{/hasAuthMethods}}
+{{#hasAuthMethods}}import static io.helidon.webserver.http.SecureHandler.*;{{/hasAuthMethods}}
 
 {{#operations}}
 {{>generatedAnnotation}}public interface {{classname}} extends HttpService {
