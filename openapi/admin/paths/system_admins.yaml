@@ -2,7 +2,7 @@ post:
   summary: 新建管理员
   operationId: createSystemAdmin
   x-permission-code: ADMIN:W
-  tags: [ system ]
+  tags: [ h-system-admin ]
   requestBody:
     required: true
     content:
@@ -16,7 +16,7 @@ get:
   summary: 管理员分页列表
   operationId: pageSystemAdmins
   x-permission-code: ADMIN:R
-  tags: [ system ]
+  tags: [ h-system-admin ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"

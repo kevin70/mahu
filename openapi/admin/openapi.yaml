@@ -1,4 +1,5 @@
-openapi: 3.0.3
+#file: noinspection YAMLSchemaValidation
+openapi: 3.1.1
 info:
   title: Mahu 后台接口文档
   version: 1.0.0
@@ -10,26 +11,37 @@ servers:
 components:
   securitySchemes:
     AT:
-      type: apiKey
-      in: query
-      name: access_token
-      description: 接口认证参数
-    BearerAuth:
       type: http
+      in: header
       scheme: Bearer
-      bearerFormat: JWT
+      description: 访问令牌
 security:
   - AT: [ ]
-  - BearerAuth: [ ]
 tags:
   - name: base
     description: 基础模块
+    x-displayName: 基础模块
   - name: me
     description: 当前认证用户
+    x-displayName: 当前认证用户
   - name: system
     description: 系统模块
+    x-displayName: 系统模块
+  - name: h-system-admin
+    x-displayName: 管理员管理
+  - name: h-system-role
+    x-displayName: 角色管理
   - name: log
-    description: 业务日志模块
+    x-displayName: 业务日志
+x-tagGroups:
+  - name: 基础模块
+    tags:
+      - me
+      - base
+  - name: 系统模块
+    tags:
+      - h-system-admin
+      - h-system-role
 paths:
   /samples:
     $ref: "paths/samples.yaml"

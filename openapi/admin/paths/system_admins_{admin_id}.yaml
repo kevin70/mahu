@@ -9,7 +9,7 @@ put:
   summary: 修改管理员
   operationId: updateSystemAdmin
   x-permission-code: ADMIN:W
-  tags: [ system ]
+  tags: [ h-system-admin ]
   requestBody:
     required: true
     content:
@@ -23,7 +23,7 @@ delete:
   summary: 删除管理员
   operationId: deleteSystemAdmin
   x-permission-code: ADMIN:W
-  tags: [ system ]
+  tags: [ h-system-admin ]
   responses:
     "204":
       description: OK
@@ -31,7 +31,7 @@ get:
   summary: 获取指定管理员
   operationId: getSystemAdmin
   x-permission-code: ADMIN:R
-  tags: [ system ]
+  tags: [ h-system-admin ]
   responses:
     "200":
       description: OK
