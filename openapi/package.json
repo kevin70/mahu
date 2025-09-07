@@ -1,0 +1,12 @@
+{
+  "name": "mahu-openapi",
+  "version": "0.0.0",
+  "author": "KZ (kzou227@qq.com)",
+  "scripts": {
+    "openapi-admin": "redocly bundle admin@v1 -o dist/mahu-admin-openapi.yaml && redocly build-docs admin@v1 -o dist/mahu-admin-openapi.html",
+    "openapi": "pnpm openapi-admin"
+  },
+  "devDependencies": {
+    "@redocly/cli": "^2.0.8"
+  }
+}
