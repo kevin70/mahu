@@ -1,9 +1,8 @@
 post:
   summary: 新建数据字典
   operationId: createSystemDictType
-  x-permission-code: DICT:W
-  tags:
-    - system
+  x-permission-code: SYSTEM_DICT:W
+  tags: [ h-system-dict ]
   requestBody:
     required: true
     content:
@@ -16,9 +15,8 @@ post:
 get:
   summary: 获取数据字典
   operationId: pageSystemDicts
-  x-permission-code: DICT:R
-  tags:
-    - system
+  x-permission-code: SYSTEM_DICT:R
+  tags: [ h-system-dict ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"

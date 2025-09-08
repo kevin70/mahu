@@ -3,7 +3,7 @@ parameters:
 get:
   summary: 获取指定类型代码的数据
   operationId: getSystemDictType
-  x-permission-code: DICT:R
+  x-permission-code: SYSTEM_DICT:R
   tags: [ system ]
   responses:
     "200":
@@ -15,7 +15,7 @@ get:
 put:
   summary: 修改数据字典类型
   operationId: updateSystemDictType
-  x-permission-code: DICT:W
+  x-permission-code: SYSTEM_DICT:W
   tags: [ system ]
   requestBody:
     content:
@@ -28,7 +28,7 @@ put:
 delete:
   summary: 删除字典类型数据
   operationId: deleteSystemDictType
-  x-permission-code: DICT:W
+  x-permission-code: SYSTEM_DICT:W
   tags: [ system ]
   responses:
     "204":
@@ -36,7 +36,7 @@ delete:
 post:
   summary: 新增字典数据
   operationId: addSystemDictData
-  x-permission-code: DICT:W
+  x-permission-code: SYSTEM_DICT:W
   tags: [ system ]
   requestBody:
     content:

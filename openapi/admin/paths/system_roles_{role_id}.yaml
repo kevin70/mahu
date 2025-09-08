@@ -9,8 +9,7 @@ put:
   summary: 修改角色
   operationId: updateSystemRole
   x-permission-code: ROLE:W
-  tags:
-    - system
+  tags: [ h-system-role ]
   requestBody:
     required: true
     content:
@@ -24,8 +23,7 @@ delete:
   summary: 删除角色
   operationId: deleteSystemRole
   x-permission-code: ROLE:W
-  tags:
-    - system
+  tags: [ h-system-role ]
   responses:
     "204":
       description: OK

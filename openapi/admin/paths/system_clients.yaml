@@ -1,8 +1,8 @@
 post:
   summary: 新建客户端
   operationId: createSystemClient
-  tags: [ system ]
-  x-permission-code: CLIENT:W
+  tags: [ h-system-client ]
+  x-permission-code: SYSTEM_CLIENT:W
   requestBody:
     required: true
     content:
@@ -15,8 +15,8 @@ post:
 get:
   summary: 客户端列表
   operationId: pageSystemClients
-  x-permission-code: CLIENT:R
-  tags: [ system ]
+  x-permission-code: SYSTEM_CLIENT:R
+  tags: [ h-system-client ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"

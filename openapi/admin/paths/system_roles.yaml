@@ -1,8 +1,8 @@
 post:
   summary: 新建角色
   operationId: createSystemRole
-  x-permission-code: ROLE:W
-  tags: [ system ]
+  x-permission-code: SYSTEM_ROLE:W
+  tags: [ h-system-role ]
   requestBody:
     required: true
     content:
@@ -15,8 +15,8 @@ post:
 get:
   summary: 角色分页列表
   operationId: pageSystemRoles
-  x-permission-code: ROLE:R
-  tags: [ system ]
+  x-permission-code: SYSTEM_ROLE:R
+  tags: [ h-system-role ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"

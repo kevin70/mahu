@@ -1,8 +1,8 @@
 get:
   summary: 定时任务
   operationId: pageSystemScheduledTasks
-  x-permission-code: SCHEDULED_TASK:R
-  tags: [ system ]
+  x-permission-code: SYSTEM_SCHEDULED_TASK:R
+  tags: [ h-system-scheduled-task ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"

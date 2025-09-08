@@ -8,8 +8,8 @@ parameters:
 post:
   summary: 立即执行任务
   operationId: executeSystemScheduledTask
-  x-permission-code: SCHEDULED_TASK:W
-  tags: [ system ]
+  x-permission-code: SYSTEM_SCHEDULED_TASK:W
+  tags: [ h-system-scheduled-task ]
   responses:
     204:
       description: OK
@@ -17,16 +17,15 @@ delete:
   summary: 取消执行任务
   operationId: cancelSystemScheduledTaskExecution
   x-permission-code: SYSTEM_SCHEDULED_TASK:W
-  tags:
-    - system
+  tags: [ h-system-scheduled-task ]
   responses:
     204:
       description: OK
 get:
   summary: 定时任务
   operationId: pageSystemScheduledTaskExecutions
-  x-permission-code: SCHEDULED_TASK:R
-  tags: [ system ]
+  x-permission-code: SYSTEM_SCHEDULED_TASK:R
+  tags: [ h-system-scheduled-task ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"

@@ -7,8 +7,8 @@ parameters:
 get:
   summary: 获取指定客户端
   operationId: getSystemClient
-  x-permission-code: CLIENT:R
-  tags: [ system ]
+  x-permission-code: SYSTEM_CLIENT:R
+  tags: [ h-system-client ]
   responses:
     "200":
       description: OK
@@ -19,16 +19,16 @@ get:
 delete:
   summary: 删除客户端
   operationId: deleteSystemClient
-  x-permission-code: CLIENT:W
-  tags: [ system ]
+  x-permission-code: SYSTEM_CLIENT:W
+  tags: [ h-system-client ]
   responses:
     "204":
       description: OK
 put:
   summary: 修改客户端
   operationId: updateSystemClient
-  x-permission-code: CLIENT:W
-  tags: [ system ]
+  x-permission-code: SYSTEM_CLIENT:W
+  tags: [ h-system-client ]
   requestBody:
     required: true
     content:
