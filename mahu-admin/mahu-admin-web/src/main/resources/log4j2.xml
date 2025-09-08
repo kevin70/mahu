@@ -7,7 +7,7 @@
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
-                pattern="%d{YYYY-MM-dd'T'HH:mm:ss.SSS} %level{length=1} %logger{32} %L %X{traceId:-} %m%n"/>
+                pattern="%d %p{length=1} [%t] %c{1.*}.%M:%L %X{traceId:-} - %m%n%rEx"/>
         </Console>
     </Appenders>
     <Loggers>
