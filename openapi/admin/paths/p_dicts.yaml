@@ -1,7 +1,7 @@
 get:
   summary: 字典类型列表
   operationId: listPublicDicts
-  tags: [ base ]
+  tags: [ h-public-dict ]
   security: [ ]
   parameters:
     - name: include_data

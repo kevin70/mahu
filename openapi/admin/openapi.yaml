@@ -21,27 +21,44 @@ tags:
   - name: base
     description: 基础模块
     x-displayName: 基础模块
-  - name: me
-    description: 当前认证用户
-    x-displayName: 当前认证用户
-  - name: system
-    description: 系统模块
-    x-displayName: 系统模块
+  - name: h-login
+    x-displayName: 用户登录
+  - name: h-me
+    x-displayName: 认证用户
+  - name: h-file
+    x-displayName: 文件系统
+  - name: h-public-dict
+    x-displayName: 公共字典
+
   - name: h-system-admin
     x-displayName: 管理员管理
   - name: h-system-role
     x-displayName: 角色管理
+  - name: h-system-dict
+    x-displayName: 字典管理
+  - name: h-system-client
+    x-displayName: 认证终端
+  - name: h-system-permission
+    x-displayName: 权限管理
+  - name: h-system-scheduled-task
+    x-displayName: 定时任务
   - name: log
     x-displayName: 业务日志
 x-tagGroups:
   - name: 基础模块
     tags:
-      - me
-      - base
+      - h-login
+      - h-me
+      - h-file
+      - h-public-dict
   - name: 系统模块
     tags:
-      - h-system-admin
+      - h-system-dict
+      - h-system-client
+      - h-system-permission
       - h-system-role
+      - h-system-admin
+      - h-system-scheduled-task
 paths:
   /samples:
     $ref: "paths/samples.yaml"

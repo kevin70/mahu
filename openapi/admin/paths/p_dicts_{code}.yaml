@@ -8,8 +8,8 @@ parameters:
 get:
   summary: 获取字典类型
   operationId: getPublicDict
+  tags: [ h-public-dict ]
   security: [ ]
-  tags: [ base ]
   responses:
     200:
       description: OK
