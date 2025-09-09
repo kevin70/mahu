@@ -7,54 +7,61 @@ buildscript {
 
 plugins {
     id "java-library"
-    id "org.liquibase.gradle" version "2.2.1"
 }
 
-// TIPS:
-// Gradle 回滚数据库版本命令：gradle rollbackCount -PliquibaseCommandValue=1
-def config = io.helidon.config.Config.builder()
-    .addSource(io.helidon.config.ConfigSources.file("${System.getProperty("user.home")}/houge/mahu.yaml").optional())
-    .build()
-
-liquibase {
-    jvmArgs = ["-Dliquibase.searchPath=${projectDir}/src/main/resources"]
-    activities.register("main") {
-        // 配置属性参考文档：https://docs.liquibase.com/concepts/connections/creating-config-properties.html
-        changelogFile "db/changelog/changelog-root.yaml"
-        url config.get("db.url").asString().orElse("jdbc:postgresql://127.0.0.1:5432/mahu.dev")
-        username config.get("db.username").asString().orElse("test")
-        password config.get("db.password").asString().orElse("test")
-    }
+configurations {
+    liquibaseRuntime
+    compileOnly.extendsFrom liquibaseRuntime
 }
 
-tasks.register("liquibaseUpdate", JavaExec.class) {
-    group = "liquibase"
-    description = "Run Liquibase update"
-    classpath = configurations.liquibaseRuntime
-    mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
+def liquibaseArgs() {
+    // TIPS:
+    // Gradle 回滚数据库版本命令：gradle rollbackCount -PliquibaseCommandValue=1
+    def config = io.helidon.config.Config.builder()
+        .addParser(io.helidon.config.yaml.YamlConfigParser.create())
+        .addSource(io.helidon.config.ConfigSources.file(
+            "${System.getProperty("user.home")}/houge/mahu.yaml").optional())
+        .build()
 
     def searchPath = "${projectDir}/src/main/resources".toString()
     def changelogFile = "db/changelog/changelog-root.yaml"
     def url = config.get("db.url").asString().orElse("jdbc:postgresql://127.0.0.1:5432/mahu.dev")
     def username = config.get("db.username").asString().orElse("test")
     def password = config.get("db.password").asString().orElse("test")
-    args = [
+    return [
         "--classpath=$searchPath",
-        "--changeLogFile=$changelogFile",
+        "--changelog-file=$changelogFile",
         "--url=$url",
         "--username=$username",
-        "--password=$password",
+        "--password=$password"
+    ]
+}
+
+tasks.register("update", JavaExec.class) {
+    group = "liquibase"
+    description = "Run Liquibase update"
+    classpath += configurations.liquibaseRuntime
+    mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
+
+    args = liquibaseArgs() + [
         "update"
     ]
 }
 
-dependencies {
-    liquibaseRuntime("org.liquibase:liquibase-core:4.26.0")
-    liquibaseRuntime("org.liquibase:liquibase-groovy-dsl:3.0.3")
-    liquibaseRuntime("info.picocli:picocli:4.7.5")
-    liquibaseRuntime("org.postgresql:postgresql:42.7.7")
+tasks.register("rollback-1", JavaExec.class) {
+    group = "liquibase"
+    description = "Rollback one count"
+    classpath += configurations.liquibaseRuntime
+    mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
 
-    api("org.liquibase:liquibase-core:4.33.0")
-    api("info.picocli:picocli:4.7.5")
-    implementation("org.postgresql:postgresql:42.7.7")
+    args = liquibaseArgs() + [
+        "rollback-count",
+        "1"
+    ]
+}
+
+dependencies {
+    liquibaseRuntime("org.liquibase:liquibase-core:4.29.2")
+    liquibaseRuntime("info.picocli:picocli:4.7.7")
+    liquibaseRuntime("org.postgresql:postgresql:42.7.7")
 }
