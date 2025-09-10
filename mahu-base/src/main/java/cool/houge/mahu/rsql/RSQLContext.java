@@ -21,7 +21,7 @@ public class RSQLContext {
         this.query = query;
     }
 
-    @SuppressWarnings({"java:S3740"})
+    @SuppressWarnings({"rawtypes"})
     public QueryBean query() {
         return query;
     }
