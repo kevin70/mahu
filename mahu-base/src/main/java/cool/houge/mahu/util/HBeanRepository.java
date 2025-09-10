@@ -86,30 +86,30 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
     /// @param query 查询对象
     /// @param page 分页参数
     protected final void apply(QueryBean<@NonNull T, ?> query, Pageable page) {
-        if (page.isPaged()) {
+        if (!page.isUnpaged()) {
             query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPageSize());
         }
         this.apply(query, page.getSort());
     }
 
     protected final void apply(QueryBean<@NonNull T, ?> query, Sort sort) {
-        if (sort.isUnsorted()) {
-            return;
-        }
-
-        var items = sortableItems();
-        if (items.isEmpty()) {
-            throw new IllegalStateException("可排序项为空");
-        }
-        for (FilterItem item : items) {
-            var o = sort.getOrderFor(item.getKey());
-            if (o == null) {
-                continue;
+        if (sort.isSorted()) {
+            var items = sortableItems();
+            if (items.isEmpty()) {
+                throw new IllegalStateException("可排序项为空");
             }
-            if (o.isAscending()) {
-                query.query().orderBy().asc(item.getColumn());
-            } else {
-                query.query().orderBy().desc(item.getColumn());
+
+            for (FilterItem item : items) {
+                var o = sort.getOrderFor(item.getKey());
+                if (o == null) {
+                    continue;
+                }
+
+                if (o.getDirection() == Sort.Direction.ASC) {
+                    query.query().orderBy().asc(item.getColumn());
+                } else {
+                    query.query().orderBy().desc(item.getColumn());
+                }
             }
         }
     }

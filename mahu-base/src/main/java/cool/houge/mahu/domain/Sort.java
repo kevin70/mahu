@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -52,6 +53,13 @@ public class Sort {
     /// 是否有排序
     public boolean isSorted() {
         return !isUnsorted();
+    }
+
+    public Order getOrderFor(String property) {
+        for (Order order : orders) {
+            if (Objects.equals(order.property, property)) return order;
+        }
+        return null;
     }
 
     /// 判断是否为空排序
