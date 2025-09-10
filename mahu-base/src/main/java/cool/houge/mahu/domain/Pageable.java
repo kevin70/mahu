@@ -15,99 +15,42 @@
  */
 package cool.houge.mahu.domain;
 
-import java.util.Objects;
-
-/**
- * Abstract interface for pagination information.
- *
- * @author Oliver Gierke
- * @author Mark Paluch
- * @author Christoph Strobl
- */
+/// 分页信息的抽象接口
+///
+/// @author ZY (kzou227@qq.com)
 public interface Pageable {
 
-    /**
-     * Returns a {@link Pageable} instance representing no pagination setup.
-     */
-    static Pageable unpaged() {
-        return unpaged(Sort.unsorted());
-    }
+    /// 返回当前[Pageable]是否不包含分页信息
+    boolean isUnpaged();
 
-    /**
-     * Returns a {@link Pageable} instance representing no pagination setup having a defined result {@link Sort order}.
-     *
-     * @param sort must not be {@literal null}, use {@link Sort#unsorted()} if needed.
-     * @return never {@literal null}.
-     * @since 3.2
-     */
-    static Pageable unpaged(Sort sort) {
-        return Unpaged.sorted(sort);
-    }
-
-    /**
-     * Creates a new {@link Pageable} for the first page (page number {@code 0}) given {@code pageSize} .
-     *
-     * @param pageSize the size of the page to be returned, must be greater than 0.
-     * @return a new {@link Pageable}.
-     * @since 2.5
-     */
-    static Pageable ofSize(int pageSize) {
-        return PageRequest.of(0, pageSize);
-    }
-
-    /**
-     * Returns whether the current {@link Pageable} contains pagination information.
-     */
-    default boolean isPaged() {
-        return true;
-    }
-
-    /**
-     * Returns whether the current {@link Pageable} does not contain pagination information.
-     */
-    default boolean isUnpaged() {
-        return !isPaged();
-    }
-
-    /**
-     * Returns the page to be returned.
-     *
-     * @return the page to be returned or throws {@link UnsupportedOperationException} if the object is
-     *         {@link #isUnpaged()}.
-     * @throws UnsupportedOperationException if the object is {@link #isUnpaged()}.
-     */
+    /// 返回要查询的页码
+    ///
+    /// @return 要返回的页码，如果对象是[#isUnpaged]，则抛出[UnsupportedOperationException]
+    /// @throws UnsupportedOperationException 如果对象是[#isUnpaged]
     int getPageNumber();
 
-    /**
-     * Returns the number of items to be returned.
-     *
-     * @return the number of items of that page or throws {@link UnsupportedOperationException} if the object is
-     *         {@link #isUnpaged()}.
-     * @throws UnsupportedOperationException if the object is {@link #isUnpaged()}.
-     */
+    /// 返回每页要返回的条目数
+    ///
+    /// @return 该页的条目数，如果对象是[#isUnpaged]，则抛出[UnsupportedOperationException]
+    /// @throws UnsupportedOperationException 如果对象是[#isUnpaged]
     int getPageSize();
 
-    /**
-     * Returns the offset to be taken according to the underlying page and page size.
-     *
-     * @return the offset to be taken or throws {@link UnsupportedOperationException} if the object is
-     *         {@link #isUnpaged()}.
-     * @throws UnsupportedOperationException if the object is {@link #isUnpaged()}.
-     */
+    /// 根据基础页码和页面大小返回要获取的偏移量
+    ///
+    /// @return 要获取的偏移量，如果对象是[#isUnpaged]，则抛出[UnsupportedOperationException]
+    /// @throws UnsupportedOperationException 如果对象是[#isUnpaged]
     long getOffset();
 
     /**
-     * Returns the sorting parameters.
+     * 返回排序参数
      */
     Sort getSort();
 
-    /**
-     * Returns the current {@link Sort} or the given one if the current one is unsorted.
-     *
-     * @param sort must not be {@literal null}.
-     */
-    default Sort getSortOr(Sort sort) {
-        Objects.requireNonNull(sort, "Fallback Sort must not be null");
-        return getSort().isSorted() ? getSort() : sort;
+    /// 返回一个表示无分页设置但具有[Sort]的[Pageable]实例
+    ///
+    /// @param sort 不能为`null`，必要时使用[Sort#unsorted]
+    /// @return 从不为`null`
+    static Pageable unpaged(Sort sort) {
+        return new Unpaged(sort);
     }
 }

@@ -15,432 +15,93 @@
  */
 package cool.houge.mahu.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import org.jspecify.annotations.Nullable;
+import static java.util.Objects.requireNonNull;
 
-/**
- * Sort option for queries. You have to provide at least a list of properties to sort for that must not include
- * {@literal null} or empty strings. The direction defaults to {@link Sort#DEFAULT_DIRECTION}.
- *
- * @author Oliver Gierke
- * @author Thomas Darimont
- * @author Mark Paluch
- * @author Johannes Englmeier
- * @author Jan Kurella
- */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+/// 排序信息封装，提供流畅的 API 和不可变特性
+///
+/// @author ZY (kzou227@qq.com)
+@Getter
+@ToString
+@EqualsAndHashCode
 public class Sort {
 
-    private static final Sort UNSORTED = Sort.by(new Order[0]);
-    public static final Direction DEFAULT_DIRECTION = Direction.ASC;
+    // 排序集合
     private final List<Order> orders;
 
-    protected Sort(List<Order> orders) {
-        this.orders = orders;
+    private Sort(List<Order> orders) {
+        this.orders = List.copyOf(orders);
     }
 
-    /**
-     * Creates a new {@link Sort} instance.
-     *
-     * @param direction defaults to {@link Sort#DEFAULT_DIRECTION} (for {@literal null} cases, too)
-     * @param properties must not be {@literal null} or contain {@literal null} or empty strings.
-     */
-    private Sort(Direction direction, @Nullable List<String> properties) {
-
-        if (properties == null || properties.isEmpty()) {
-            throw new IllegalArgumentException("You have to provide at least one property to sort by");
-        }
-
-        this.orders = properties.stream() //
-                .map(it -> new Order(direction, it)) //
-                .toList();
+    /// 排序构建器
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /**
-     * Creates a new {@link Sort} for the given properties.
-     *
-     * @param properties must not be {@literal null}.
-     * @return {@link Sort} for the given properties.
-     */
-    public static Sort by(String... properties) {
-        Objects.requireNonNull(properties, "Properties must not be null");
-        return properties.length == 0 //
-                ? Sort.unsorted() //
-                : new Sort(DEFAULT_DIRECTION, Arrays.asList(properties));
-    }
-
-    /**
-     * Creates a new {@link Sort} for the given {@link Order}s.
-     *
-     * @param orders must not be {@literal null}.
-     * @return {@link Sort} for the given {@link Order}s.
-     */
-    public static Sort by(List<Order> orders) {
-        Objects.requireNonNull(orders, "Orders must not be null");
-        return orders.isEmpty() ? Sort.unsorted() : new Sort(orders);
-    }
-
-    /**
-     * Creates a new {@link Sort} for the given {@link Order}s.
-     *
-     * @param orders must not be {@literal null}.
-     * @return {@link Sort} for the given {@link Order}s.
-     */
-    public static Sort by(Order... orders) {
-        Objects.requireNonNull(orders, "Orders must not be null");
-        return new Sort(Arrays.asList(orders));
-    }
-
-    /**
-     * Creates a new {@link Sort} for the given {@link Direction} and properties.
-     *
-     * @param direction must not be {@literal null}.
-     * @param properties must not be {@literal null}.
-     * @return {@link Sort} for the given {@link Direction} and properties.
-     */
-    public static Sort by(Direction direction, String... properties) {
-        Objects.requireNonNull(direction, "Direction must not be null");
-        Objects.requireNonNull(properties, "Properties must not be null");
-        if (properties.length == 0) {
-            throw new IllegalArgumentException("At least one property must be given");
-        }
-        return Sort.by(Arrays.stream(properties) //
-                .map(it -> new Order(direction, it)) //
-                .toList());
-    }
-
-    /**
-     * Returns a {@link Sort} instances representing no sorting setup at all.
-     *
-     * @return unsorted Sort instance.
-     */
+    // 空排序
     public static Sort unsorted() {
-        return UNSORTED;
+        return new Sort(Collections.emptyList());
     }
 
-    /**
-     * Returns a new {@link Sort} with the current setup but descending order direction.
-     *
-     * @return a new {@link Sort} with the current setup but descending order direction.
-     */
-    public Sort descending() {
-        return withDirection(Direction.DESC);
-    }
-
-    /**
-     * Returns a new {@link Sort} with the current setup but ascending order direction.
-     *
-     * @return a new {@link Sort} with the current setup but ascending order direction.
-     */
-    public Sort ascending() {
-        return withDirection(Direction.ASC);
-    }
-
-    /**
-     * @return {@literal true} if this Sort instance is sorted, {@literal false} otherwise.
-     */
+    /// 是否有排序
     public boolean isSorted() {
-        return !isEmpty();
+        return !isUnsorted();
     }
 
-    public boolean isEmpty() {
+    /// 判断是否为空排序
+    public boolean isUnsorted() {
         return orders.isEmpty();
     }
 
-    /**
-     * @return {@literal true} if this Sort instance is unsorted, {@literal false} otherwise.
-     */
-    public boolean isUnsorted() {
-        return !isSorted();
-    }
-
-    /**
-     * Returns a new {@link Sort} consisting of the {@link Order}s of the current {@link Sort} combined with the given
-     * ones.
-     *
-     * @param sort must not be {@literal null}.
-     * @return a new {@link Sort} consisting of the {@link Order}s of the current {@link Sort} combined with the given
-     *         ones.
-     */
-    public Sort and(Sort sort) {
-        Objects.requireNonNull(sort, "Sort must not be null");
-        List<Order> these = new ArrayList<>(this.orders);
-        these.addAll(sort.orders);
-        return Sort.by(these);
-    }
-
-    /**
-     * Returns the order registered for the given property.
-     *
-     * @param property name of the property that should be sorted.
-     * @return the sort {@link Order} or {@literal null} if the property is not sorted by.
-     */
-    @Nullable
-    public Order getOrderFor(String property) {
-        for (Order order : orders) {
-            if (order.getProperty().equals(property)) {
-                return order;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return isEmpty() ? "UNSORTED" : orders.toString();
-    }
-
-    private Sort withDirection(Direction direction) {
-        List<Order> result = new ArrayList<>(orders.size());
-        for (Order order : orders) {
-            result.add(order.with(direction));
-        }
-        return Sort.by(result);
-    }
-
-    /**
-     * Enumeration for sort directions.
-     *
-     * @author Oliver Gierke
-     */
+    // 排序方向枚举
     public enum Direction {
+        /// 正序
         ASC,
-        DESC;
-
-        /**
-         * Returns whether the direction is ascending.
-         *
-         * @return {@literal true} if ascending, {@literal false} otherwise.
-         * @since 1.13
-         */
-        public boolean isAscending() {
-            return this.equals(ASC);
-        }
-
-        /**
-         * Returns whether the direction is descending.
-         *
-         * @return {@literal true} if descending, {@literal false} otherwise.
-         * @since 1.13
-         */
-        public boolean isDescending() {
-            return this.equals(DESC);
-        }
-
-        /**
-         * Returns the {@link Direction} enum for the given {@link String} value.
-         *
-         * @param value the direction name.
-         * @return the {@link Direction} enum value for the given {@code value}.
-         * @throws IllegalArgumentException in case the given value cannot be parsed into an enum value.
-         */
-        public static Direction fromString(String value) {
-            try {
-                return Direction.valueOf(value.toUpperCase(Locale.US));
-            } catch (Exception e) {
-                throw new IllegalArgumentException(
-                        String.format(
-                                "Invalid value '%s' for orders given; Has to be either 'desc' or 'asc' (case insensitive)",
-                                value),
-                        e);
-            }
-        }
-
-        /**
-         * Returns the {@link Direction} enum for the given {@link String} or {@code Optional.empty()} if it cannot be
-         * parsed into an enum value.
-         *
-         * @param value the direction name.
-         * @return Optional holding the {@link Direction} enum value or empty, if {@code value} cannot be parsed into
-         *         {@link Direction}.
-         */
-        public static Optional<Direction> fromOptionalString(String value) {
-            if (value == null || value.isEmpty()) {
-                return Optional.empty();
-            }
-            try {
-                return Optional.of(fromString(value));
-            } catch (IllegalArgumentException e) {
-                return Optional.empty();
-            }
-        }
+        /// 倒序
+        DESC
     }
 
-    /**
-     * PropertyPath implements the pairing of an {@link Direction} and a property. It is used to provide input for
-     * {@link Sort}
-     *
-     * @author Oliver Gierke
-     * @author Kevin Raymond
-     * @author Jens Schauder
-     */
+    // 排序项
+    @Getter
+    @ToString
+    @EqualsAndHashCode
     public static class Order {
 
-        private final Direction direction;
+        /// 排序属性
         private final String property;
+        /// 排序方向
+        private final Direction direction;
 
-        /**
-         * Creates a new {@link Order} instance. if order is {@literal null} then order defaults to
-         * {@link Sort#DEFAULT_DIRECTION}
-         *
-         * @param direction can be {@literal null}, will default to {@link Sort#DEFAULT_DIRECTION}
-         * @param property must not be {@literal null} or empty.
-         * @since 1.7
-         */
-        public Order(@Nullable Direction direction, String property) {
-            if (property == null || property.isEmpty()) {
-                throw new IllegalArgumentException("Property must not be null or empty");
-            }
-            this.direction = direction == null ? DEFAULT_DIRECTION : direction;
-            this.property = property;
+        private Order(String property, Direction direction) {
+            this.property = requireNonNull(property, "排序属性不能为空");
+            this.direction = requireNonNull(direction, "排序方向不能为空");
+        }
+    }
+
+    public static class Builder {
+
+        private final List<Order> orders = new ArrayList<>();
+
+        /// 正序
+        public Builder asc(String property) {
+            orders.add(new Order(property, Direction.ASC));
+            return this;
         }
 
-        /**
-         * Creates a new {@link Order} instance. Takes a single property. Direction defaults to
-         * {@link Sort#DEFAULT_DIRECTION}.
-         *
-         * @param property must not be {@literal null} or empty.
-         * @since 2.0
-         */
-        public static Order by(String property) {
-            return new Order(DEFAULT_DIRECTION, property);
+        /// 倒序
+        public Builder desc(String property) {
+            orders.add(new Order(property, Direction.DESC));
+            return this;
         }
 
-        /**
-         * Creates a new {@link Order} instance. Takes a single property. Direction is
-         * {@link Direction#ASC}.
-         *
-         * @param property must not be {@literal null} or empty.
-         * @since 2.0
-         */
-        public static Order asc(String property) {
-            return new Order(Direction.ASC, property);
-        }
-
-        /**
-         * Creates a new {@link Order} instance. Takes a single property. Direction is
-         * {@link Direction#DESC}.
-         *
-         * @param property must not be {@literal null} or empty.
-         * @since 2.0
-         */
-        public static Order desc(String property) {
-            return new Order(Direction.DESC, property);
-        }
-
-        /**
-         * Returns the order the property shall be sorted for.
-         *
-         * @return the order the property shall be sorted for.
-         */
-        public Direction getDirection() {
-            return direction;
-        }
-
-        /**
-         * Returns the property to order for.
-         *
-         * @return the property to order for.
-         */
-        public String getProperty() {
-            return property;
-        }
-
-        /**
-         * Returns whether sorting for this property shall be ascending.
-         *
-         * @return {@literal true} if ascending, {@literal false} otherwise.
-         */
-        public boolean isAscending() {
-            return this.direction.isAscending();
-        }
-
-        /**
-         * Returns whether sorting for this property shall be descending.
-         *
-         * @return {@literal true} if descending, {@literal false} otherwise.
-         * @since 1.13
-         */
-        public boolean isDescending() {
-            return this.direction.isDescending();
-        }
-
-        /**
-         * Returns a new {@link Order} with the given {@link Direction} applied.
-         *
-         * @param direction the new direction to use.
-         * @return a new {@link Order} with the given {@link Direction} applied.
-         */
-        public Order with(Direction direction) {
-            return new Order(direction, this.property);
-        }
-
-        /**
-         * Returns a new {@link Order} with the reversed {@link #getDirection()} applied.
-         *
-         * @return a reversed {@link Order} with the given {@link Direction} applied.
-         * @since 3.1
-         */
-        public Order reverse() {
-            return with(this.direction == Direction.ASC ? Direction.DESC : Direction.ASC);
-        }
-
-        /**
-         * Returns a new {@link Order} with the {@code property} name applied.
-         *
-         * @param property must not be {@literal null} or empty.
-         * @return a new {@link Order} with the {@code property} name applied.
-         * @since 1.13
-         */
-        public Order withProperty(String property) {
-            return new Order(this.direction, property);
-        }
-
-        /**
-         * Returns a new {@link Sort} instance for the given properties using {@link #getDirection()}.
-         *
-         * @param properties properties to sort by.
-         * @return a new {@link Sort} instance for the given properties using {@link #getDirection()}.
-         */
-        public Sort withProperties(String... properties) {
-            return Sort.by(this.direction, properties);
-        }
-
-        /**
-         * Returns a new {@link Order} with case-insensitive sorting enabled.
-         *
-         * @return a new {@link Order} with case-insensitive sorting enabled.
-         */
-        public Order ignoreCase() {
-            return new Order(direction, property);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = 17;
-            result = 31 * result + direction.hashCode();
-            result = 31 * result + property.hashCode();
-            return result;
-        }
-
-        @Override
-        public boolean equals(@Nullable Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (!(obj instanceof Order that)) {
-                return false;
-            }
-            return this.direction.equals(that.direction) && this.property.equals(that.property);
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s: %s", property, direction);
+        public Sort build() {
+            return new Sort(orders);
         }
     }
 }

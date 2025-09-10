@@ -15,63 +15,42 @@
  */
 package cool.houge.mahu.domain;
 
-/**
- * {@link Pageable} implementation to represent the absence of pagination information.
- *
- * @author Oliver Gierke
- * @author Christoph Strobl
- */
-final class Unpaged implements Pageable {
+import static java.util.Objects.requireNonNull;
 
-    private static final Pageable UNSORTED = new Unpaged(Sort.unsorted());
+/// 无分页实现类，单例模式
+///
+/// @author ZY (kzou227@qq.com)
+public class Unpaged implements Pageable {
+
     private final Sort sort;
 
+    /// 带排序的私有构造器
     Unpaged(Sort sort) {
-        this.sort = sort;
-    }
-
-    static Pageable sorted(Sort sort) {
-        return sort.isSorted() ? new Unpaged(sort) : UNSORTED;
+        this.sort = requireNonNull(sort);
     }
 
     @Override
-    public boolean isPaged() {
-        return false;
+    public boolean isUnpaged() {
+        return true;
+    }
+
+    @Override
+    public int getPageNumber() {
+        throw new UnsupportedOperationException("无分页模式不支持获取页码");
+    }
+
+    @Override
+    public int getPageSize() {
+        throw new UnsupportedOperationException("无分页模式不支持获取页大小");
+    }
+
+    @Override
+    public long getOffset() {
+        throw new UnsupportedOperationException("无分页模式不支持获取偏移量");
     }
 
     @Override
     public Sort getSort() {
         return sort;
-    }
-
-    @Override
-    public int getPageSize() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getPageNumber() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public long getOffset() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Unpaged unpaged)) {
-            return false;
-        }
-        return sort.equals(unpaged.sort);
-    }
-
-    @Override
-    public int hashCode() {
-        return sort.hashCode();
     }
 }
