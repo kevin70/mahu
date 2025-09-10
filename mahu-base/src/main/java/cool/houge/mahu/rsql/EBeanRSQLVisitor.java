@@ -21,6 +21,7 @@ import cz.jirutka.rsql.parser.ast.Node;
 import cz.jirutka.rsql.parser.ast.OrNode;
 import cz.jirutka.rsql.parser.ast.RSQLVisitor;
 import io.ebean.Expr;
+import io.ebean.Expression;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,7 +44,6 @@ public class EBeanRSQLVisitor implements RSQLVisitor<Void, RSQLContext> {
                 child.accept(this, ctx);
             }
         } finally {
-            // 确保分组正确关闭
             ctx.query().endAnd();
         }
         return null;
@@ -74,22 +74,66 @@ public class EBeanRSQLVisitor implements RSQLVisitor<Void, RSQLContext> {
                     BizCodes.INVALID_ARGUMENT, Strings.lenientFormat("不支持的过滤属性: [%s]", node.getSelector()));
         }
 
-        // 转换参数值并处理转换异常
-        List<?> args;
+        var args = convertArguments(node, item);
+        var op = node.getOperator();
+        validateArguments(op, args);
+        ctx.query().add(createExpression(item.getColumn(), op, args));
+        return null;
+    }
+
+    @SuppressWarnings("SequencedCollectionMethodCanBeUsed")
+    private Expression createExpression(String column, ComparisonOperator op, List<?> args) {
+        if (op.equals(EQUAL)) {
+            return Expr.eq(column, args.get(0));
+        } else if (op.equals(NOT_EQUAL)) {
+            return Expr.ne(column, args.get(0));
+        } else if (op.equals(GREATER_THAN)) {
+            return Expr.gt(column, args.get(0));
+        } else if (op.equals(LESS_THAN)) {
+            return Expr.lt(column, args.get(0));
+        } else if (op.equals(GREATER_THAN_OR_EQUAL)) {
+            return Expr.ge(column, args.get(0));
+        } else if (op.equals(LESS_THAN_OR_EQUAL)) {
+            return Expr.le(column, args.get(0));
+        } else if (op.equals(IN)) {
+            return Expr.inOrEmpty(column, args);
+        } else if (op.equals(NOT_IN)) {
+            return Expr.not(Expr.inOrEmpty(column, args));
+        } else if (op.equals(IS_NULL)) {
+            return Expr.isNull(column);
+        } else if (op.equals(NOT_NULL)) {
+            return Expr.isNotNull(column);
+        } else if (op.equals(ExtRSQLOperators.LIKE)) {
+            return Expr.like(column, args.get(0).toString());
+        } else if (op.equals(ExtRSQLOperators.ILIKE)) {
+            return Expr.ilike(column, args.get(0).toString());
+        } else if (op.equals(ExtRSQLOperators.CONTAINS)) {
+            return Expr.contains(column, args.get(0).toString());
+        } else if (op.equals(ExtRSQLOperators.ICONTAINS)) {
+            return Expr.icontains(column, args.get(0).toString());
+        } else if (op.equals(ExtRSQLOperators.BETWEEN)) {
+            return Expr.between(column, args.get(0), args.get(1));
+        } else {
+            throw new BizCodeException(
+                BizCodes.INVALID_ARGUMENT,
+                Strings.lenientFormat("不支持的操作符: %s", op)
+            );
+        }
+    }
+
+    /// 转换参数值列表，处理空值和转换异常
+    private List<?> convertArguments(ComparisonNode node, FilterItem item) {
         try {
-            args = node.getArguments().stream()
-                    .map(arg -> convertValue(item, arg)) // 单独抽取转换逻辑
-                    .filter(Objects::nonNull)
-                    .toList();
+            return node.getArguments().stream()
+                .map(arg -> convertValue(item, arg)) // 单独抽取转换逻辑
+                .filter(Objects::nonNull)
+                .toList();
         } catch (IllegalArgumentException e) {
             throw new BizCodeException(
-                    BizCodes.INVALID_ARGUMENT,
-                    Strings.lenientFormat("属性[%s]的值转换失败: %s", node.getSelector(), e.getMessage()),
-                    e);
+                BizCodes.INVALID_ARGUMENT,
+                Strings.lenientFormat("属性[%s]的值转换失败: %s", node.getSelector(), e.getMessage()),
+                e);
         }
-
-        this.addComparisonExpression(ctx, item, node.getOperator(), args);
-        return null;
     }
 
     /// 转换参数值，增加空值处理
@@ -98,49 +142,6 @@ public class EBeanRSQLVisitor implements RSQLVisitor<Void, RSQLContext> {
             return null;
         }
         return item.getValueConverter().apply(rawValue);
-    }
-
-    /// 根据操作符添加对应的查询条件
-    @SuppressWarnings("SequencedCollectionMethodCanBeUsed")
-    private void addComparisonExpression(RSQLContext ctx, FilterItem item, ComparisonOperator op, List<?> args) {
-        String column = item.getColumn();
-        var qb = ctx.query();
-        validateArguments(op, args);
-
-        // 根据操作符添加对应条件（使用 switch 表达式优化可读性）
-        if (op.equals(EQUAL)) {
-            qb.add(Expr.eq(column, args.get(0)));
-        } else if (op.equals(NOT_EQUAL)) {
-            qb.add(Expr.ne(column, args.get(0)));
-        } else if (op.equals(GREATER_THAN)) {
-            qb.add(Expr.gt(column, args.get(0)));
-        } else if (op.equals(LESS_THAN)) {
-            qb.add(Expr.lt(column, args.get(0)));
-        } else if (op.equals(GREATER_THAN_OR_EQUAL)) {
-            qb.add(Expr.ge(column, args.get(0)));
-        } else if (op.equals(LESS_THAN_OR_EQUAL)) {
-            qb.add(Expr.le(column, args.get(0)));
-        } else if (op.equals(IN)) {
-            qb.add(Expr.inOrEmpty(column, args));
-        } else if (op.equals(NOT_IN)) {
-            qb.add(Expr.not(Expr.inOrEmpty(column, args)));
-        } else if (op.equals(IS_NULL)) {
-            qb.add(Expr.isNull(column));
-        } else if (op.equals(NOT_NULL)) {
-            qb.add(Expr.isNotNull(column));
-        } else if (op.equals(ExtRSQLOperators.LIKE)) {
-            qb.add(Expr.like(column, args.get(0).toString()));
-        } else if (op.equals(ExtRSQLOperators.ILIKE)) {
-            qb.add(Expr.ilike(column, args.get(0).toString()));
-        } else if (op.equals(ExtRSQLOperators.CONTAINS)) {
-            qb.add(Expr.contains(column, args.get(0).toString()));
-        } else if (op.equals(ExtRSQLOperators.ICONTAINS)) {
-            qb.add(Expr.icontains(column, args.get(0).toString()));
-        } else if (op.equals(ExtRSQLOperators.BETWEEN)) {
-            qb.add(Expr.between(column, args.get(0), args.get(1)));
-        } else {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Strings.lenientFormat("不支持的操作符: %s", op));
-        }
     }
 
     /// 参数校验：确保操作符与参数数量匹配
