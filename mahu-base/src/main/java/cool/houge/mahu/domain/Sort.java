@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -58,7 +57,7 @@ public class Sort {
 
         this.orders = properties.stream() //
                 .map(it -> new Order(direction, it)) //
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -111,7 +110,7 @@ public class Sort {
         }
         return Sort.by(Arrays.stream(properties) //
                 .map(it -> new Order(direction, it)) //
-                .collect(Collectors.toList()));
+                .toList());
     }
 
     /**
@@ -436,9 +435,7 @@ public class Sort {
             if (!(obj instanceof Order that)) {
                 return false;
             }
-            return this.direction.equals(that.direction)
-                    && this.property.equals(that.property)
-                    ;
+            return this.direction.equals(that.direction) && this.property.equals(that.property);
         }
 
         @Override

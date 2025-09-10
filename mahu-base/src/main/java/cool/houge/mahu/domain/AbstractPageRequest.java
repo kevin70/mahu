@@ -36,7 +36,7 @@ public abstract class AbstractPageRequest implements Pageable {
      * @param pageNumber zero-based page number, must not be negative.
      * @param pageSize the size of the page to be returned, must be greater than 0.
      */
-    public AbstractPageRequest(int pageNumber, int pageSize) {
+    protected AbstractPageRequest(int pageNumber, int pageSize) {
         if (pageNumber < 0) {
             throw new IllegalArgumentException("Page index must not be less than zero");
         }

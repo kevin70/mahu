@@ -8,6 +8,11 @@ sourceSets {
     }
 }
 
+sonarlintMain {
+    exclude "cool/houge/mahu/Version.java"
+    exclude "cool/houge/mahu/Base58.java"
+}
+
 tasks.register("appVersion") {
     doFirst {
         copy {

@@ -15,16 +15,12 @@ import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.typequery.QueryBean;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
 
 /// 扩展数据管理基类
 ///
 /// @author ZY (kzou227@qq.com)
 public class HBeanRepository<I, T> extends BeanRepository<I, T> {
-
-    private static final Logger log = LogManager.getLogger(HBeanRepository.class);
 
     /// RSQL 解析器
     private static final RSQLParser RSQL_PARSER = new RSQLParser(ExtRSQLOperators.supportedOperators());

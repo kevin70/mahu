@@ -40,7 +40,7 @@ public final class InstantUtils {
             try {
                 var d = LocalDate.parse(text);
                 return d.atStartOfDay(zoneId).toInstant();
-            } catch (DateTimeParseException _) {
+            } catch (DateTimeParseException e) {
                 // ignore
             }
         }
@@ -48,14 +48,14 @@ public final class InstantUtils {
         if (text.charAt(text.length() - 1) == 'Z') {
             try {
                 return Instant.parse(text);
-            } catch (DateTimeParseException _) {
+            } catch (DateTimeParseException e) {
                 // ignore
             }
         }
 
         try {
             return LocalDateTime.parse(text).atZone(zoneId).toInstant();
-        } catch (DateTimeParseException _) {
+        } catch (DateTimeParseException e) {
             // ignore
         }
         return null;
