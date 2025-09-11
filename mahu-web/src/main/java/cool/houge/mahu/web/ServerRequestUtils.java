@@ -7,7 +7,6 @@ import io.helidon.common.mapper.OptionalValue;
 import io.helidon.common.mapper.Value;
 import io.helidon.common.parameters.Parameters;
 import io.helidon.webserver.http.ServerRequest;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 
@@ -39,15 +38,16 @@ public final class ServerRequestUtils {
     public static Pageable pageArgs(ServerRequest request) {
         var params = request.query();
         var sort = toSort(params.all("sort", List::of));
-        var pageSize = params.first("page_size");
+        var pageSize = params.first("size");
         if (pageSize.isEmpty()) {
             return Pageable.unpaged(sort);
         }
+
         var page = params.first("page");
         if (page.isEmpty()) {
             return PageRequest.of(0, pageSize.asInt().get(), sort);
         }
-        return PageRequest.of(page.asInt().get() - 1, pageSize.asInt().get(), sort);
+        return PageRequest.of(page.asInt().get(), pageSize.asInt().get(), sort);
     }
 
     static OptionalValue<String> first(Parameters parameters, String name) {
@@ -59,7 +59,7 @@ public final class ServerRequestUtils {
             return Sort.unsorted();
         }
 
-        var list = new ArrayList<Sort.Order>(sortParams.size());
+        var builder = Sort.builder();
         for (String s : sortParams) {
             if (s == null || s.isEmpty()) {
                 continue;
@@ -67,8 +67,12 @@ public final class ServerRequestUtils {
 
             boolean ascending = s.charAt(0) != '-';
             String name = ascending ? s : s.substring(1);
-            list.add(ascending ? Sort.Order.asc(name) : Sort.Order.desc(name));
+            if (ascending) {
+                builder.asc(name);
+            } else {
+                builder.desc(name);
+            }
         }
-        return Sort.by(list);
+        return builder.build();
     }
 }
