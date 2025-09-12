@@ -1,75 +1,217 @@
 package cool.houge.mahu;
 
-/// 应用环境定义
+/// 应用环境枚举类
+///
+/// 定义软件开发生命周期中各阶段的环境，提供以下核心功能：
+/// - 环境类型判断（开发/测试/生产级环境）
+/// - 字符串与枚举的双向转换
+/// - 多来源配置的当前环境自动识别
+///
+/// 支持的环境配置来源（按优先级排序）：
+/// 1. 系统环境变量（如容器部署）
+/// 2. JVM系统属性（如本地调试）
+/// 4. 默认值（开发环境）
 ///
 /// @author ZY (kzou227@qq.com)
 public enum Env {
 
-    /// 开发环境，开发者本地或共享编码调试环境
+    /// 开发环境
+    ///
+    /// 适用场景：
+    /// - 开发者本地编码调试
+    /// - 单元测试与集成测试
+    /// - 开发团队共享开发服务器
+    ///
+    /// 特性：
+    /// - 启用详细日志输出
+    /// - 连接开发数据库
+    /// - 开启热部署支持
     DEV("dev", "Development Environment"),
 
-    /// 系统集成测试环境，验证多个模块/服务间的交互
+    /// 系统集成测试环境
+    ///
+    /// 适用场景：
+    /// - 多模块/服务间交互验证
+    /// - 接口契约测试
+    /// - 持续集成流水线自动测试
     SIT("sit", "System Integration Testing"),
 
-    /// 用户验收测试环境，业务方验证功能是否符合需求
+    /// 用户验收测试环境
+    ///
+    /// 适用场景：
+    /// - 业务方功能验证
+    /// - 需求规格符合性测试
+    /// - 性能与安全测试
+    ///
+    /// 数据特点：
+    /// - 使用脱敏的模拟生产数据
+    /// - 数据量接近真实场景
     UAT("uat", "User Acceptance Testing"),
 
-    /// 预发布环境，功能与[#PROD]一致，用于最终验证
+    /// 预发布环境
+    ///
+    /// 适用场景：
+    /// - 生产发布前最终验证
+    /// - 配置与生产环境一致性检查
+    /// - 灰度发布演练
+    ///
+    /// 特性：
+    /// - 配置与生产环境完全一致
+    /// - 数据为生产数据的子集
+    /// - 不对外提供服务
     STG("stg", "Staging Environment"),
 
-    /// 生产环境，面向真实用户的线上环境
+    /// 生产环境
+    ///
+    /// 适用场景：
+    /// - 面向最终用户的线上服务
+    /// - 正式业务数据处理
+    ///
+    /// 特性：
+    /// - 最高安全级别配置
+    /// - 性能优化优先
+    /// - 最小化日志输出
+    /// - 高可用性保障
     PROD("prod", "Production Environment");
 
-    private final String shotName;
+    /// 环境简写名称（如`dev`、`prod`）
+    private final String shortName;
+    /// 环境完整名称（如 `Development Environment`）
     private final String fullName;
 
-    Env(String shotName, String fullName) {
-        this.shotName = shotName;
+    /// 构造环境枚举实例
+    ///
+    /// @param shortName 环境简写，用于配置文件和系统变量
+    /// @param fullName 环境全称，用于日志和用户展示
+    Env(String shortName, String fullName) {
+        this.shortName = shortName;
         this.fullName = fullName;
     }
 
-    /// 返回应用环境简写
-    public String getShotName() {
-        return shotName;
+    /// 获取环境简写名称
+    ///
+    /// @return 环境简写字符串（非空）
+    public String getShortName() {
+        return shortName;
     }
 
-    /// 返回应用环境全称
+    /// 获取环境完整名称
+    ///
+    /// @return 环境全称字符串（非空）
     public String getFullName() {
         return fullName;
     }
 
-    /// 是否为开发环境
+    /// 判断当前环境是否为开发环境
+    ///
+    /// ```java
+    /// if (Env.current().isDev()) {
+    ///     // 开发环境专属逻辑
+    /// }
+    /// ```
+    ///
+    /// @return 若为`DEV环境则返回`true`，否则返回`false`
     public boolean isDev() {
         return this == DEV;
     }
 
-    /// 是否为测试环境
+    /// 判断当前环境是否为测试环境
+    ///
+    /// 测试环境包括：
+    /// - `SIT`（系统集成测试）
+    /// - `UAT`（用户验收测试）
+    ///
+    /// @return 若为测试环境则返回`true`，否则返回`false`
     public boolean isTest() {
         return this == SIT || this == UAT;
     }
 
-    /// 是否为生产环境
+    /// 判断当前环境是否为生产级环境
+    ///
+    /// 生产级环境包括：
+    /// - `STG`（预发布）
+    /// - `PROD`（生产）
+    ///
+    /// 通常用于执行需要严格权限或性能优化的操作。
+    ///
+    /// @return 若为生产级环境则返回`true`，否则返回`false`
     public boolean isProd() {
         return this == STG || this == PROD;
     }
 
-    /// 将字符串转换为枚举
+    /// 环境配置属性键名
+    ///
+    /// 用于从各种配置源读取环境标识，例如：
+    /// - JVM参数: `-Dhouge.env=prod`
+    /// - 配置文件: `houge.env=uat`
+    public static final String ENV_PROPERTY = "houge.env";
+
+    /// 将字符串转换为环境枚举
+    ///
+    /// 支持不区分大小写的匹配，例如：
+    /// - `Dev` → [#DEV]
+    /// - `PROD` → [#PROD]
+    ///
+    /// @param env 环境字符串（不可为`null`或空白）
+    /// @return 对应的 Env 枚举实例
+    /// @throws IllegalArgumentException 若输入无法匹配任何环境
     public static Env of(String env) {
-        if ("dev".equalsIgnoreCase(env)) {
-            return DEV;
+        if (env == null || env.trim().isEmpty()) {
+            throw new IllegalArgumentException("env cannot be null or empty");
         }
-        if ("sit".equalsIgnoreCase(env)) {
-            return SIT;
-        }
-        if ("uat".equalsIgnoreCase(env)) {
-            return UAT;
-        }
-        if ("stg".equalsIgnoreCase(env)) {
-            return STG;
-        }
-        if ("prod".equalsIgnoreCase(env)) {
-            return PROD;
+
+        String normalizedEnv = env.trim().toLowerCase();
+        for (Env environment : values()) {
+            if (environment.shortName.equals(normalizedEnv)) {
+                return environment;
+            }
         }
         throw new IllegalArgumentException("unknown env: " + env);
+    }
+
+    /// 获取当前运行环境
+    ///
+    /// 采用延迟加载机制，首次调用时初始化，后续直接返回缓存值。
+    ///
+    /// 环境识别流程：
+    /// 1. 尝试从系统环境变量读取（变量名为 `HOUGE_ENV`）
+    /// 2. 尝试从JVM系统属性读取（属性名为 `houge.env`）
+    /// 4.  fallback 到默认环境（[#DEV]）
+    ///
+    /// @return 当前应用运行的环境枚举实例（非 null）
+    public static Env current() {
+        return CurrentEnvHolder.current;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%s)", fullName, shortName);
+    }
+
+    private static class CurrentEnvHolder {
+
+        static final Env current = initializeCurrentEnv();
+
+        /// 从多来源获取环境标识
+        ///
+        /// 按优先级依次尝试不同配置源，确保在各种部署场景下都能正确识别环境。
+        ///
+        /// @return 有效的环境标识字符串或者`null`
+        private static Env initializeCurrentEnv() {
+            String env = System.getenv(ENV_PROPERTY.replace(".", "_").toUpperCase());
+            if (isValidEnv(env)) {
+                return Env.of(env);
+            }
+
+            env = System.getProperty(ENV_PROPERTY);
+            if (isValidEnv(env)) {
+                return Env.of(env);
+            }
+            return Env.DEV;
+        }
+
+        private static boolean isValidEnv(String env) {
+            return env != null && !env.trim().isEmpty();
+        }
     }
 }
