@@ -18,7 +18,7 @@ application {
 
 jib {
     from {
-        image = "m.daocloud.io/docker.io/eclipse-temurin:24-jre"
+        image = "docker.1ms.run/eclipse-temurin:24-jre"
     }
     to {
         image = "registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
@@ -29,7 +29,7 @@ jib {
             "TZ": "Asia/Shanghai"
         ]
         jvmFlags = ["-XX:+UseZGC"]
-        mainClass = "cool.houge.mahu.admin.MahuAdminMain"
+        mainClass = application.mainClass
         ports = ["9090"]
         //noinspection UnnecessaryQualifiedReference
         labels = ["Build-Time": java.time.OffsetDateTime.now().toString()]
