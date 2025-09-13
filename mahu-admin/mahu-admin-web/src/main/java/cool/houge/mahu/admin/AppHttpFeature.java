@@ -43,12 +43,13 @@ public class AppHttpFeature implements HttpFeature, Filter {
     @Override
     public void filter(FilterChain chain, RoutingRequest req, RoutingResponse res) {
         var metadata = new WebMetadata(req);
-        HelidonMdc.set("traceId", metadata.traceId());
-        // 设置请求访问元数据
-        req.context().supply(Metadata.class, () -> metadata);
-
-        // 清理追踪 ID
-        res.whenSent(() -> HelidonMdc.remove("traceId"));
-        chain.proceed();
+        try {
+            HelidonMdc.set("traceId", metadata.traceId());
+            req.context().supply(Metadata.class, () -> metadata);
+            chain.proceed();
+        } finally {
+            // 清理追踪 ID
+            HelidonMdc.remove("traceId");
+        }
     }
 }
