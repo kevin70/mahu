@@ -14,8 +14,10 @@ import static java.util.Optional.ofNullable;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.oas.model.ErrorResponse;
+import cool.houge.mahu.admin.oas.model.ErrorResponseError;
+import cool.houge.mahu.admin.oas.model.ErrorResponseErrorInvalidParamsInner;
 import cool.houge.mahu.util.Metadata;
-import cool.houge.mahu.web.ErrorResponse;
 import io.avaje.validation.ConstraintViolationException;
 import io.ebean.DuplicateKeyException;
 import io.helidon.http.HeaderNames;
@@ -28,7 +30,7 @@ import io.helidon.webserver.http.HttpRouting;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import jakarta.persistence.EntityNotFoundException;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
@@ -55,7 +57,7 @@ public class ErrorHttpFeature implements HttpFeature {
     }
 
     void handleException(ServerRequest request, ServerResponse response, Throwable cause) {
-        var error = new ErrorResponse.Error();
+        var error = newError();
         error.setStatus(Status.INTERNAL_SERVER_ERROR_500.code())
             .setCode(BizCodes.INTERNAL.code())
             .setMessage(BizCodes.INTERNAL.message());
@@ -64,7 +66,7 @@ public class ErrorHttpFeature implements HttpFeature {
 
     private void handleUnsupportedTypeException(
         ServerRequest request, ServerResponse response, UnsupportedTypeException e) {
-        var error = new ErrorResponse.Error();
+        var error = newError();
         error.setStatus(Status.UNSUPPORTED_MEDIA_TYPE_415.code())
             .setCode(Status.UNSUPPORTED_MEDIA_TYPE_415.code())
             .setMessage("请求头 Content-Type 不正确");
@@ -72,27 +74,29 @@ public class ErrorHttpFeature implements HttpFeature {
     }
 
     void handleHttpException(ServerRequest request, ServerResponse response, HttpException e) {
-        var error = new ErrorResponse.Error();
+        var error = newError();
         error.setStatus(e.status().code()).setCode(e.status().code()).setMessage(e.getMessage());
         this.send(request, response, error, e);
     }
 
     void handleConstraintViolationException(
-        ServerRequest request, ServerResponse response, ConstraintViolationException e) {
+            ServerRequest request, ServerResponse response, ConstraintViolationException e) {
         var violations = e.violations().stream()
-            .map(cv -> new ErrorResponse.InvalidParam(cv.field(), cv.message()))
-            .toList();
+                .map(cv -> new ErrorResponseErrorInvalidParamsInner()
+                        .setPropertyName(cv.field())
+                        .setMessage(cv.message()))
+                .toList();
 
-        var error = new ErrorResponse.Error();
+        var error = newError();
         error.setStatus(Status.BAD_REQUEST_400.code())
-            .setCode(INVALID_ARGUMENT.code())
-            .setMessage(INVALID_ARGUMENT.message())
-            .setInvalidParams(violations);
+                .setCode(INVALID_ARGUMENT.code())
+                .setMessage(INVALID_ARGUMENT.message())
+                .setInvalidParams(violations);
         this.send(request, response, error, e);
     }
 
     void handleEntityNotFoundException(ServerRequest request, ServerResponse response, EntityNotFoundException e) {
-        var error = new ErrorResponse.Error();
+        var error = newError();
         error.setStatus(Status.NOT_FOUND_404.code())
             .setCode(BizCodes.NOT_FOUND.code())
             .setMessage(e.getMessage());
@@ -100,7 +104,7 @@ public class ErrorHttpFeature implements HttpFeature {
     }
 
     void handleDuplicateKeyException(ServerRequest request, ServerResponse response, DuplicateKeyException e) {
-        var error = new ErrorResponse.Error();
+        var error = newError();
         error.setStatus(Status.CONFLICT_409.code()).setMessage(ALREADY_EXISTS.message());
         this.send(request, response, error, e);
     }
@@ -119,7 +123,7 @@ public class ErrorHttpFeature implements HttpFeature {
                 default -> Status.INTERNAL_SERVER_ERROR_500;
             };
 
-        var error = new ErrorResponse.Error();
+        var error = newError();
         error.setStatus(status.code())
             .setCode(bz.code())
             .setMessage(ofNullable(e.getRawMessage()).orElse(bz.message()));
@@ -127,17 +131,17 @@ public class ErrorHttpFeature implements HttpFeature {
         this.send(request, response, error, e);
     }
 
-    void send(ServerRequest request, ServerResponse response, ErrorResponse.Error error, Throwable cause) {
+    void send(ServerRequest request, ServerResponse response, ErrorResponseError error, Throwable cause) {
         var metadata = Metadata.current();
         error.setTraceId(metadata.traceId())
-            .setTimestamp(OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS).toString())
-            .setPath(request.path().rawPath())
-            .setMethod(request.prologue().method().text());
+                .setTimestamp(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
+                .setPath(request.path().rawPath())
+                .setMethod(request.prologue().method().text());
 
         if (request.query().contains("debug")) {
             var list = Arrays.stream(cause.getStackTrace())
-                .map(StackTraceElement::toString)
-                .toList();
+                    .map(StackTraceElement::toString)
+                    .toList();
             error.setStacktrace(list);
         }
 
@@ -151,9 +155,13 @@ public class ErrorHttpFeature implements HttpFeature {
         // CORS 请求
         if (request.headers().first(HeaderNames.ACCESS_CONTROL_REQUEST_METHOD).isEmpty()) {
             response.header(HeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
-                .header(HeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
-                .header(HeaderNames.VARY, HeaderNames.ORIGIN.toString());
+                    .header(HeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                    .header(HeaderNames.VARY, HeaderNames.ORIGIN.toString());
         }
         response.status(error.getStatus()).send(new ErrorResponse().setError(error));
+    }
+
+    ErrorResponseError newError() {
+        return new ErrorResponseError();
     }
 }
