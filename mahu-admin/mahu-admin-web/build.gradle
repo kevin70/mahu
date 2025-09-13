@@ -12,7 +12,7 @@ sourceSets {
 }
 
 application {
-    mainClass = "cool.houge.mahu.admin.Application"
+    mainClass = "cool.houge.mahu.admin.AdminApplication"
     applicationDefaultJvmArgs = ["-Dfile.encoding=UTF-8"]
 }
 

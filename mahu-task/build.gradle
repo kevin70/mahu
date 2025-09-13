@@ -3,6 +3,11 @@ apply plugin: "application"
 apply plugin: "org.openapi.generator"
 apply plugin: "com.google.cloud.tools.jib"
 
+application {
+    mainClass = "cool.houge.mahu.task.TaskApplication"
+    applicationDefaultJvmArgs = ["-Dfile.encoding=UTF-8"]
+}
+
 jib {
     from {
         image = "docker.1ms.run/eclipse-temurin:24-jre"

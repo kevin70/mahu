@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin;
+package cool.houge.mahu.task;
 
 import com.google.common.base.Stopwatch;
 import io.helidon.Main;
@@ -8,10 +8,10 @@ import io.helidon.service.registry.ServiceRegistryManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/// 启动后端应用程序
+/// 定时任务应用程序
 ///
 /// @author ZY (kzou227@qq.com)
-public class Application {
+public class TaskApplication {
 
     private static final Logger log = LogManager.getLogger();
 
