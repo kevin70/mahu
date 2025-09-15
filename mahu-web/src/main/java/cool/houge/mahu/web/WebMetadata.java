@@ -4,10 +4,7 @@ import static io.helidon.http.HeaderNames.USER_AGENT;
 import static io.helidon.http.HeaderNames.X_FORWARDED_FOR;
 
 import com.google.common.base.Splitter;
-import cool.houge.mahu.TraceIdGenerator;
 import cool.houge.mahu.util.Metadata;
-import io.helidon.http.HeaderName;
-import io.helidon.http.HeaderNames;
 import io.helidon.webserver.http.ServerRequest;
 import java.util.Optional;
 
@@ -17,14 +14,13 @@ import java.util.Optional;
 public class WebMetadata implements Metadata {
 
     private static final Splitter COMMA_SPLITTER = Splitter.on(',').omitEmptyStrings();
-    private static final HeaderName X_REQUEST_ID = HeaderNames.create("x-request-id");
 
     private final ServerRequest request;
     private final String traceId;
 
-    public WebMetadata(ServerRequest request) {
+    public WebMetadata(ServerRequest request, String traceId) {
         this.request = request;
-        this.traceId = request.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
+        this.traceId = traceId;
     }
 
     @Override
