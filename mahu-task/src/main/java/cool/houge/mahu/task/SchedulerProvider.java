@@ -15,17 +15,16 @@ import io.helidon.service.registry.Service.PostConstruct;
 import io.helidon.service.registry.Service.PreDestroy;
 import io.helidon.service.registry.Service.RunLevel;
 import io.helidon.service.registry.Service.Singleton;
-
-import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Supplier;
+import javax.sql.DataSource;
 
 /// 定时任务
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-@RunLevel(RunLevel.SERVER)
+@RunLevel(RunLevel.STARTUP)
 @Weight(Weighted.DEFAULT_WEIGHT + 900)
 class SchedulerProvider implements Supplier<Scheduler> {
 
@@ -67,11 +66,12 @@ class SchedulerProvider implements Supplier<Scheduler> {
     /// 在执行任务中增加日志追踪 ID
     CompletionHandler<?> trace(
             TaskInstance<?> taskInstance, ExecutionContext executionContext, ExecutionChain executionChain) {
+        var traceId = TraceIdGenerator.generate();
         try {
-            var traceId = TraceIdGenerator.generate();
             HelidonMdc.set("traceId", traceId);
             return executionChain.proceed(taskInstance, executionContext);
         } finally {
+            System.out.println("traceId: " + traceId);
             HelidonMdc.remove("traceId");
         }
     }

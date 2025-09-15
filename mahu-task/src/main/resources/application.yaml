@@ -2,10 +2,6 @@ info:
   name: "mahu-task"
   env: "dev"
 
-server:
-  port: 9090
-  shutdown-hook: true
-
 db:
   name: "${info.name}"
   url: "jdbc:postgresql://127.0.0.1:5432/mahu"

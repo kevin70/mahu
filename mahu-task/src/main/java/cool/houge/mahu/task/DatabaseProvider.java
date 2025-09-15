@@ -1,6 +1,5 @@
 package cool.houge.mahu.task;
 
-import cool.houge.mahu.AppInstance;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.ContainerConfig;
@@ -25,12 +24,12 @@ class DatabaseProvider implements Supplier<Database> {
 
     final Database v;
 
-    DatabaseProvider(DataSource ds, AppInstance appInstance) {
+    DatabaseProvider(DataSource ds) {
         var dbc = new DatabaseConfig();
         dbc.setContainerConfig(new ContainerConfig());
         dbc.setDataSourceConfig(
                 new DataSourceConfig()
-                        .setApplicationName(appInstance.getQualifiedName())
+                        .setApplicationName("mahu-task")
                         .dataSource(ds)
                         .setHeartbeatSql("SELECT 1")
                         .setHeartbeatFreqSecs(15)
@@ -41,7 +40,9 @@ class DatabaseProvider implements Supplier<Database> {
         dbc.setDatabaseBooleanFalse("F");
 
         dbc.setJsonInclude(JsonConfig.Include.NON_NULL);
-        dbc.setCurrentUserProvider(() -> "db-scheduler");
+        dbc.setCurrentUserProvider(() -> {
+            throw new UnsupportedOperationException("不支持获取当前用户");
+        });
         this.v = DatabaseFactory.create(dbc);
     }
 
