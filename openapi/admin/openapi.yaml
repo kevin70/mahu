@@ -24,20 +24,11 @@ info:
 
     public class RequestIdGenerator {
         public static String generateRequestId() {
-            // 生成一个 UUID 并转换为字节数组
-            UUID uuid = UUID.randomUUID();
-            byte[] uuidBytes = new byte[16];
-            long msb = uuid.getMostSignificantBits();
-            long lsb = uuid.getLeastSignificantBits();
-            for (int i = 0; i < 8; i++) {
-                uuidBytes[i] = (byte) (msb >>> (8 * (7 - i)));
-            }
-            for (int i = 8; i < 16; i++) {
-                uuidBytes[i] = (byte) (lsb >>> (8 * (7 - i)));
-            }
-
-            // 使用 Base58 编码
-            return Base58.encode(uuidBytes);
+            var uuid = UUID.randomUUID();
+            var buf = ByteBuffer.allocate(16);
+            buf.putLong(uuid.getMostSignificantBits());
+            buf.putLong(uuid.getLeastSignificantBits());
+            return Base58.encode(buf.array());
         }
 
         public static void main(String[] args) {
