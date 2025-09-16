@@ -34,6 +34,7 @@ class DataSourceProvider implements Supplier<DataSource> {
                 .cstmtCacheSize(250)
                 .pstmtCacheSize(2048)
                 .heartbeatSql("SELECT 1")
+                .autoCommit(true)
                 .validateOnHeartbeat(true)
                 .shutdownOnJvmExit(false)
                 .build();

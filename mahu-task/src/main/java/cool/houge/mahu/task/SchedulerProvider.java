@@ -6,7 +6,6 @@ import com.github.kagkarlsson.scheduler.task.CompletionHandler;
 import com.github.kagkarlsson.scheduler.task.ExecutionContext;
 import com.github.kagkarlsson.scheduler.task.Task;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
-import com.google.common.hash.Hashing;
 import cool.houge.mahu.TraceIdGenerator;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
@@ -15,7 +14,6 @@ import io.helidon.service.registry.Service.PostConstruct;
 import io.helidon.service.registry.Service.PreDestroy;
 import io.helidon.service.registry.Service.RunLevel;
 import io.helidon.service.registry.Service.Singleton;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Supplier;
 import javax.sql.DataSource;
@@ -50,10 +48,7 @@ class SchedulerProvider implements Supplier<Scheduler> {
     @PostConstruct
     void init() {
         for (Task<?> task : tasks) {
-            var id = Hashing.murmur3_128()
-                    .hashString(task.getName(), StandardCharsets.UTF_8)
-                    .toString();
-            this.v.scheduleIfNotExists(task.schedulableInstance(id));
+            this.v.schedule(task.schedulableInstance("default"));
         }
         this.v.start();
     }
