@@ -20,8 +20,9 @@
         <Logger name="io.ebean.SQL" level="DEBUG"/>
 
         <Logger name="com.password4j" level="ERROR"/>
+        <Logger name="io.helidon.service.registry.LookupTrace" level="INFO"/>
         <Logger name="io.helidon.webserver" level="INFO"/>
-        <Logger name="com.github.kagkarlsson.scheduler" level="INFO"/>
+        <Logger name="com.github.kagkarlsson.scheduler" level="DEBUG"/>
 
         <Root level="DEBUG" additivity="false">
             <AppenderRef ref="console"/>
