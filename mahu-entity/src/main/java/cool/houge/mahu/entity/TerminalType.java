@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.entity;
+package cool.houge.mahu.entity;
 
 /// 终端类型
 ///
@@ -8,6 +8,6 @@ public enum TerminalType {
     WECHAT_XCX,
     /// 微信网页授权
     WECHAT_WEB,
-    /// 管理员浏览器密码登录
-    ADMIN_BROWSER_PASSWORD,
+    /// 浏览器
+    BROWSER,
 }
