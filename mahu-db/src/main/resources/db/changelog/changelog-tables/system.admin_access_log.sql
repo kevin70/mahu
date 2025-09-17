@@ -2,7 +2,7 @@
 
 
 -- changeset kzou227@qq.com:202508251146
-create table log.admin_access_log
+create table system.admin_access_log
 (
     id              bigint not null
         constraint admin_access_log_pk
@@ -21,14 +21,17 @@ create table log.admin_access_log
 );
 
 comment
-on column log.admin_access_log.id is '主键';
+    on table system.admin_access_log is '管理员访问记录';
 
 comment
-on column log.admin_access_log.created_at is '创建时间';
+    on column system.admin_access_log.id is '主键';
 
 comment
-on column log.admin_access_log.admin_id is '管理员 ID';
+    on column system.admin_access_log.created_at is '创建时间';
+
+comment
+    on column system.admin_access_log.admin_id is '管理员 ID';
 
 create index admin_access_log_admin_id_i
-    on log.admin_access_log (admin_id);
--- rollback drop table log.admin_access_log;
+    on system.admin_access_log (admin_id);
+-- rollback drop table system.admin_access_log;
