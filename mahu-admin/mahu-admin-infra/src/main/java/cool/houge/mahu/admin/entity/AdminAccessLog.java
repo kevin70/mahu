@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "log", name = "admin_access_log")
+@Table(schema = "system", name = "admin_access_log")
 public class AdminAccessLog extends BaseBizLog {
 
     /// 操作管理员 ID

@@ -1,4 +1,4 @@
-package cool.houge.mahu.entity.system;
+package cool.houge.mahu.admin.entity;
 
 /// 终端类型
 ///

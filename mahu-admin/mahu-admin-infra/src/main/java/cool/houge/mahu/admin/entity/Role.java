@@ -1,30 +1,31 @@
-package cool.houge.mahu.entity.system;
+package cool.houge.mahu.admin.entity;
 
 import cool.houge.mahu.entity.Auditable;
+import io.ebean.annotation.DbJson;
+import io.ebean.annotation.DbJsonType;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-/// 认证客户端
+/// 系统角色
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
 @Entity
-@Table(schema = "system", name = "client")
-public class Client implements Auditable {
+@Table(name = "role", schema = "system")
+public class Role implements Auditable {
 
-    /// 客户端 ID
+    /// 主键
     @Id
-    private String clientId;
+    private Integer id;
     /// 创建时间
     @WhenCreated
     private Instant createdAt;
@@ -34,17 +35,13 @@ public class Client implements Auditable {
     /// 软删除
     @SoftDelete
     private Boolean deleted;
-    /// 客户端密钥
-    private String clientSecret;
+    /// 角色名称
+    private String name;
     /// 备注
     private String remark;
-    /// 标签
-    private String label;
-    /// 终端类型
-    @Enumerated(EnumType.STRING)
-    private TerminalType terminalType;
-    /// 微信应用 ID
-    private String wechatAppid;
-    /// 微信应用密钥
-    private String wechatAppsecret;
+    /// 排序值
+    private Integer ordering;
+    /// 权限代码
+    @DbJson(storage = DbJsonType.JSONB)
+    private List<String> permissions;
 }

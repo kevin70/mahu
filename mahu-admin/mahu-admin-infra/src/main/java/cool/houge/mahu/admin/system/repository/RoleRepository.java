@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.entity.system.Role;
+import cool.houge.mahu.admin.entity.Role;
 import cool.houge.mahu.entity.system.query.QRole;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;

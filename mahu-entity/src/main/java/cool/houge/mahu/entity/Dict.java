@@ -1,6 +1,5 @@
-package cool.houge.mahu.entity.system;
+package cool.houge.mahu.entity;
 
-import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -19,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "dict", schema = "system")
+@Table(name = "dict")
 public class Dict implements Auditable {
 
     /// 字典代码
@@ -33,18 +32,18 @@ public class Dict implements Auditable {
     private Instant updatedAt;
     /// 数据字典类型
     @ManyToOne
-    @JoinColumn(name = "type_code")
-    private DictType dictType;
-    /// 名称
-    private String name;
+    @JoinColumn(name = "type")
+    private DictType type;
+    /// 标签
+    private String label;
     /// 值
     private String value;
     /// 排序值
     @OrderBy("DESC")
-    private int ordering;
+    private Integer ordering;
     /// 是否禁用
     ///
     /// - `true`：禁用
     /// - `false`：启用
-    private boolean disabled;
+    private Boolean disabled;
 }

@@ -1,6 +1,6 @@
-package cool.houge.mahu.entity.log;
+package cool.houge.mahu.admin.entity;
 
-import cool.houge.mahu.entity.system.ScheduledTask;
+import cool.houge.mahu.entity.log.BaseBizLog;
 import io.ebean.annotation.DbJsonB;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -17,8 +17,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "log", name = "scheduled_execution_log")
-public class ScheduledExecutionLog extends BaseBizLog {
+@Table(schema = "system", name = "scheduled_task_exe_log")
+public class ScheduledTaskExeLog extends BaseBizLog {
 
     /// 定时任务
     @ManyToOne

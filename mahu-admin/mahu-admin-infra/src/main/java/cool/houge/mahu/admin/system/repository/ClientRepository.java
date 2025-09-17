@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.entity.system.Client;
+import cool.houge.mahu.entity.AuthClient;
 import cool.houge.mahu.entity.system.query.QClient;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
@@ -16,15 +16,15 @@ import org.jspecify.annotations.NonNull;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class ClientRepository extends HBeanRepository<String, Client> {
+public class ClientRepository extends HBeanRepository<String, AuthClient> {
 
     public ClientRepository(Database db) {
-        super(Client.class, db);
+        super(AuthClient.class, db);
     }
 
     /// 获取客户端配置
     /// @param clientId 客户端 ID
-    public Client obtainClient(String clientId) {
+    public AuthClient obtainClient(String clientId) {
         return new QClient(database)
                 .clientId
                 .eq(clientId)
@@ -41,7 +41,7 @@ public class ClientRepository extends HBeanRepository<String, Client> {
     /// | created_at | date-time |
     /// | updated_at | date-time |
     /// | client_id | string |
-    public PagedList<Client> findPage(DataFilter dataFilter) {
+    public PagedList<AuthClient> findPage(DataFilter dataFilter) {
         return new QClient(db()).also(o -> super.apply(o, dataFilter)).findPagedList();
     }
 

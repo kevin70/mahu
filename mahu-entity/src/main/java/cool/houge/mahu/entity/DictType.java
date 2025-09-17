@@ -1,6 +1,5 @@
-package cool.houge.mahu.entity.system;
+package cool.houge.mahu.entity;
 
-import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.CascadeType;
@@ -24,7 +23,7 @@ public class DictType implements Auditable {
 
     /// 字典类型编码，唯一
     @Id
-    private String typeCode;
+    private String type;
     /// 创建时间
     @WhenCreated
     private Instant createdAt;
@@ -33,14 +32,12 @@ public class DictType implements Auditable {
     private Instant updatedAt;
     /// 字典类型名称
     private String name;
-    /// 字典类型描述
-    private String description;
     /// 是否禁用
     ///
     /// - `true`：禁用
     /// - `false`：启用
-    private boolean disabled;
+    private Boolean disabled;
     /// 字典数据
-    @OneToMany(mappedBy = "dictType", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dict> data;
 }

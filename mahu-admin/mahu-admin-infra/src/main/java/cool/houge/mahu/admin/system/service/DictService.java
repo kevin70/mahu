@@ -5,8 +5,8 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.system.repository.DictTypeRepository;
-import cool.houge.mahu.entity.system.Dict;
-import cool.houge.mahu.entity.system.DictType;
+import cool.houge.mahu.entity.Dict;
+import cool.houge.mahu.entity.DictType;
 import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -39,7 +39,7 @@ public class DictService {
     /// 更新字典数据
     @Transactional
     public void update(DictType bean) {
-        var dbBean = obtainById(bean.getTypeCode());
+        var dbBean = obtainById(bean.getType());
         beanMapper.map(dbBean, bean);
 
         if (dbBean.getData() == null) {

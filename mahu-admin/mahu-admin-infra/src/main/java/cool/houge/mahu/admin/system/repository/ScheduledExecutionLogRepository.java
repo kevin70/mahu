@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.entity.log.ScheduledExecutionLog;
+import cool.houge.mahu.admin.entity.ScheduledTaskExeLog;
 import cool.houge.mahu.entity.log.query.QScheduledExecutionLog;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
@@ -12,10 +12,10 @@ import io.helidon.service.registry.Service.Singleton;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class ScheduledExecutionLogRepository extends HBeanRepository<Long, ScheduledExecutionLog> {
+public class ScheduledExecutionLogRepository extends HBeanRepository<Long, ScheduledTaskExeLog> {
 
     public ScheduledExecutionLogRepository(Database db) {
-        super(ScheduledExecutionLog.class, db);
+        super(ScheduledTaskExeLog.class, db);
     }
 
     /// 分页查询
@@ -25,7 +25,7 @@ public class ScheduledExecutionLogRepository extends HBeanRepository<Long, Sched
     /// | 字段 | 数据类型 |
     /// | --- | ----- |
     /// | task_id | string |
-    public PagedList<ScheduledExecutionLog> findPage(String taskId, DataFilter dataFilter) {
+    public PagedList<ScheduledTaskExeLog> findPage(String taskId, DataFilter dataFilter) {
         return new QScheduledExecutionLog(db())
                 .scheduledTask
                 .id

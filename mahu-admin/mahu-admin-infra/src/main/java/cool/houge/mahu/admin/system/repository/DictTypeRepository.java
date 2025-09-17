@@ -1,8 +1,8 @@
 package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.entity.system.Dict;
-import cool.houge.mahu.entity.system.DictType;
+import cool.houge.mahu.entity.Dict;
+import cool.houge.mahu.entity.DictType;
 import cool.houge.mahu.entity.system.query.QDict;
 import cool.houge.mahu.entity.system.query.QDictType;
 import cool.houge.mahu.rsql.FilterItem;

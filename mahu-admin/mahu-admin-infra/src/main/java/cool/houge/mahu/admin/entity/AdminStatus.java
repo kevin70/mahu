@@ -1,4 +1,4 @@
-package cool.houge.mahu.entity.system;
+package cool.houge.mahu.admin.entity;
 
 import cool.houge.mahu.CodedEnum;
 import io.ebean.annotation.DbEnumType;

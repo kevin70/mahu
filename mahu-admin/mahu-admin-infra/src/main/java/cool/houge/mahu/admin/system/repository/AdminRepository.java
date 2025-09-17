@@ -2,8 +2,8 @@ package cool.houge.mahu.admin.system.repository;
 
 import com.google.common.base.Strings;
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.entity.system.Admin;
-import cool.houge.mahu.entity.system.AdminStatus;
+import cool.houge.mahu.admin.entity.Admin;
+import cool.houge.mahu.admin.entity.AdminStatus;
 import cool.houge.mahu.entity.system.query.QAdmin;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;

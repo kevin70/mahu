@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "log", name = "admin_audit_log")
+@Table(schema = "system", name = "admin_audit_log")
 public class AdminAuditLog extends BaseBizLog {
 
     /// 操作管理员 ID

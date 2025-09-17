@@ -6,7 +6,7 @@ import static io.helidon.http.Status.NO_CONTENT_204;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.model.UpsertClientRequest;
 import cool.houge.mahu.admin.system.service.ClientService;
-import cool.houge.mahu.entity.system.Client;
+import cool.houge.mahu.entity.AuthClient;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.HttpRules;
@@ -66,7 +66,7 @@ public class ClientController implements WebSupport {
         var pathParams = request.path().pathParameters();
         var clientId = pathParams.first("client_id").get();
 
-        clientService.delete(new Client().setClientId(clientId));
+        clientService.delete(new AuthClient().setClientId(clientId));
         response.status(NO_CONTENT_204).send();
     }
 

@@ -4,8 +4,8 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.system.repository.ScheduledExecutionLogRepository;
 import cool.houge.mahu.admin.system.repository.ScheduledTaskRepository;
-import cool.houge.mahu.entity.log.ScheduledExecutionLog;
-import cool.houge.mahu.entity.system.ScheduledTask;
+import cool.houge.mahu.admin.entity.ScheduledTaskExeLog;
+import cool.houge.mahu.admin.entity.ScheduledTask;
 import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -50,7 +50,7 @@ public class ScheduledTaskService {
 
     /// 分页查询定时任务执行日志
     @Transactional(readOnly = true)
-    public PagedList<ScheduledExecutionLog> findPage4ExecutionLog(String taskId, DataFilter dataFilter) {
+    public PagedList<ScheduledTaskExeLog> findPage4ExecutionLog(String taskId, DataFilter dataFilter) {
         return scheduledExecutionLogRepository.findPage(taskId, dataFilter);
     }
 }

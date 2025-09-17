@@ -3,7 +3,7 @@ package cool.houge.blma.shared.service;
 import cool.houge.blma.shared.repository.SharedDictRepository;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.entity.system.Dict;
+import cool.houge.mahu.entity.Dict;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package cool.houge.blma.shared.repository;
 
-import cool.houge.mahu.entity.system.Dict;
+import cool.houge.mahu.entity.Dict;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.helidon.service.registry.Service;

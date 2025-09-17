@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.system.repository;
 
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.entity.system.ScheduledTask;
+import cool.houge.mahu.admin.entity.ScheduledTask;
 import cool.houge.mahu.entity.system.query.QScheduledTask;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;

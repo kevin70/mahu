@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.internal;
 
 import cool.houge.mahu.admin.bean.Profile;
+import cool.houge.mahu.admin.entity.ScheduledTaskExeLog;
 import cool.houge.mahu.admin.oas.model.AdminResponse;
 import cool.houge.mahu.admin.oas.model.ClientResponse;
 import cool.houge.mahu.admin.oas.model.DictResponse;
@@ -22,13 +23,12 @@ import cool.houge.mahu.admin.oas.model.UpsertDictRequest;
 import cool.houge.mahu.admin.oas.model.UpsertRoleRequest;
 import cool.houge.mahu.admin.system.dto.TokenPayload;
 import cool.houge.mahu.admin.system.dto.TokenResult;
-import cool.houge.mahu.entity.log.ScheduledExecutionLog;
-import cool.houge.mahu.entity.system.Admin;
-import cool.houge.mahu.entity.system.Client;
-import cool.houge.mahu.entity.system.Dict;
-import cool.houge.mahu.entity.system.DictType;
-import cool.houge.mahu.entity.system.Role;
-import cool.houge.mahu.entity.system.ScheduledTask;
+import cool.houge.mahu.admin.entity.Admin;
+import cool.houge.mahu.entity.AuthClient;
+import cool.houge.mahu.entity.Dict;
+import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.admin.entity.Role;
+import cool.houge.mahu.admin.entity.ScheduledTask;
 import cool.houge.mahu.util.GrantType;
 import java.util.List;
 import org.mapstruct.Mapping;
@@ -66,9 +66,9 @@ public interface SystemBeanMapper {
 
     MeProfileResponse toGetMeProfileResponse(Profile bean);
 
-    Client toClient(UpsertClientRequest bean);
+    AuthClient toClient(UpsertClientRequest bean);
 
-    ClientResponse toClientResponse(Client bean);
+    ClientResponse toClientResponse(AuthClient bean);
 
     Role toRole(UpsertRoleRequest bean);
 
@@ -95,7 +95,7 @@ public interface SystemBeanMapper {
     ScheduledTaskResponse toScheduledTaskResponse(ScheduledTask bean);
 
     @Mapping(target = "taskName", source = "scheduledTask.taskName")
-    ScheduledTaskExecutionResponse toScheduledTaskExecutionResponse(ScheduledExecutionLog bean);
+    ScheduledTaskExecutionResponse toScheduledTaskExecutionResponse(ScheduledTaskExeLog bean);
 
     ScheduledTask toScheduledTask(String taskName);
 }
