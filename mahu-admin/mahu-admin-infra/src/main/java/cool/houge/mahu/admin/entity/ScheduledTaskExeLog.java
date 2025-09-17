@@ -22,19 +22,19 @@ public class ScheduledTaskExeLog extends BaseBizLog {
 
     /// 定时任务
     @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "task_instance")
+    @JoinColumn(name = "task_name", referencedColumnName = "task_name")
     private ScheduledTask scheduledTask;
     /// 任务执行者
     private String pickedBy;
     /// 任务开始时间
-    private Instant startedAt;
+    private Instant startTime;
     /// 任务结束时间
-    private Instant finishedAt;
+    private Instant doneTime;
     /// 执行是否成功
-    private boolean succeeded;
+    private Boolean success;
     /// 日志追踪 ID
     private String traceId;
     /// 异常日志
     @DbJsonB
-    private List<String> cause;
+    private List<String> failCause;
 }
