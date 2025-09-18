@@ -93,7 +93,7 @@ allprojects {
 
     node {
         download = true
-        version = "22.3.0"
+        version = "22.19.0"
         distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
         workDir = rootProject.layout.projectDirectory.dir(".gradle/")
     }
