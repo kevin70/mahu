@@ -7,9 +7,9 @@ parameters:
       format: int32
 put:
   summary: 修改角色
-  operationId: updateSystemRole
+  operationId: updateRole
   x-permission-code: ROLE:W
-  tags: [ h-system-role ]
+  tags: [ h-role ]
   requestBody:
     required: true
     content:
@@ -21,18 +21,17 @@ put:
       description: OK
 delete:
   summary: 删除角色
-  operationId: deleteSystemRole
+  operationId: deleteRole
   x-permission-code: ROLE:W
-  tags: [ h-system-role ]
+  tags: [ h-role ]
   responses:
     "204":
       description: OK
 get:
   summary: 获取指定角色
-  operationId: getSystemRole
+  operationId: getRole
   x-permission-code: ROLE:R
-  tags:
-    - system
+  tags: [ h-role ]
   responses:
     "200":
       description: OK

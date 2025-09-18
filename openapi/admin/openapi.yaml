@@ -93,9 +93,6 @@ components:
 security:
   - AT: [ ]
 tags:
-  - name: base
-    description: 基础模块
-    x-displayName: 基础模块
   - name: h-login
     x-displayName: 用户登录
   - name: h-me
@@ -105,17 +102,17 @@ tags:
   - name: h-public-dict
     x-displayName: 公共字典
 
-  - name: h-system-admin
-    x-displayName: 管理员管理
-  - name: h-system-role
-    x-displayName: 角色管理
-  - name: h-system-dict
-    x-displayName: 字典管理
-  - name: h-system-client
+  - name: h-auth-client
     x-displayName: 认证终端
-  - name: h-system-permission
+  - name: h-dict
+    x-displayName: 字典数据
+  - name: h-permission
     x-displayName: 权限管理
-  - name: h-system-scheduled-task
+  - name: h-role
+    x-displayName: 角色管理
+  - name: h-admin
+    x-displayName: 管理员管理
+  - name: h-scheduled-task
     x-displayName: 定时任务
   - name: log
     x-displayName: 业务日志
@@ -128,12 +125,12 @@ x-tagGroups:
       - h-public-dict
   - name: 系统模块
     tags:
-      - h-system-dict
-      - h-system-client
-      - h-system-permission
-      - h-system-role
-      - h-system-admin
-      - h-system-scheduled-task
+      - h-auth-client
+      - h-dict
+      - h-permission
+      - h-role
+      - h-admin
+      - h-scheduled-task
 paths:
   /samples:
     $ref: "paths/samples.yaml"
@@ -160,29 +157,28 @@ paths:
     $ref: "paths/oss_presigned-upload.yaml"
 
   ### =============================== 系统模块接口 =============================== ###
-  /system/admins:
-    $ref: "paths/system_admins.yaml"
-  /system/admins/{admin_id}:
-    $ref: "paths/system_admins_{admin_id}.yaml"
-  /system/roles:
-    $ref: "paths/system_roles.yaml"
-  /system/roles/{role_id}:
-    $ref: "paths/system_roles_{role_id}.yaml"
-  /system/dicts:
-    $ref: "paths/system_dicts.yaml"
-  /system/dicts/{type_code}:
-    $ref: "paths/system_dicts_{type_code}.yaml"
-  /system/clients:
-    $ref: "paths/system_clients.yaml"
-  /system/clients/{client_id}:
-    $ref: "paths/system_clients_{client_id}.yaml"
-  /system/permissions:
-    $ref: "paths/system_permissions.yaml"
-  # 定时任务
-  /system/scheduled-tasks:
-    $ref: "paths/system_scheduled-tasks.yaml"
-  /system/scheduled-tasks/{task_id}/executions:
-    $ref: "paths/system_scheduled-tasks_{task_id}_executions.yaml"
+  /auth-clients:
+    $ref: "paths/auth-clients.yaml"
+  /auth-clients/{client_id}:
+    $ref: "paths/auth-clients_{client_id}.yaml"
+  /dicts:
+    $ref: "paths/dicts.yaml"
+  /dicts/{type_code}:
+    $ref: "paths/dicts_{type_code}.yaml"
+  /permissions:
+    $ref: "paths/permissions.yaml"
+  /roles:
+    $ref: "paths/roles.yaml"
+  /roles/{role_id}:
+    $ref: "paths/roles_{role_id}.yaml"
+  /admins:
+    $ref: "paths/admins.yaml"
+  /admins/{admin_id}:
+    $ref: "paths/admins_{admin_id}.yaml"
+  /scheduled-tasks:
+    $ref: "paths/scheduled-tasks.yaml"
+  /scheduled-tasks/{task_id}/exes:
+    $ref: "paths/scheduled-tasks_{task_name}_exes.yaml"
 
   ### =============================== 业务日志接口 =============================== ###
   /logs/admin-access:

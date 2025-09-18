@@ -1,28 +1,27 @@
 post:
-  summary: 新建管理员
-  operationId: createSystemAdmin
-  x-permission-code: SYSTEM_ADMIN:W
-  tags: [ h-system-admin ]
+  summary: 新建数据字典
+  operationId: createDictType
+  x-permission-code: DICT:W
+  tags: [ h-dict ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemAdminRequest.yaml"
+          $ref: "../components/schemas/UpsertSystemDictTypeRequest.yaml"
   responses:
     "204":
       description: OK
 get:
-  summary: 管理员分页列表
-  operationId: pageSystemAdmins
-  x-permission-code: SYSTEM_ADMIN:R
-  tags: [ h-system-admin ]
+  summary: 数据字典分页列表
+  operationId: pageDict
+  x-permission-code: DICT:R
+  tags: [ h-dict ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
     - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"
-    - $ref: "../components/parameters/include_deleted.yaml"
     - $ref: "../components/parameters/no_total.yaml"
   responses:
     "200":
@@ -30,4 +29,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/PageAdminResponse.yaml"
+            $ref: "../components/schemas/PageSystemDictResponse.yaml"

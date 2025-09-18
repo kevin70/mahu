@@ -1,32 +1,31 @@
 post:
-  summary: 新建数据字典
-  operationId: createSystemDictType
-  x-permission-code: SYSTEM_DICT:W
-  tags: [ h-system-dict ]
+  summary: 新建角色
+  operationId: createRole
+  x-permission-code: ROLE:W
+  tags: [ h-role ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemDictTypeRequest.yaml"
+          $ref: "../components/schemas/UpsertSystemRoleRequest.yaml"
   responses:
     "204":
       description: OK
 get:
-  summary: 获取数据字典
-  operationId: pageSystemDicts
-  x-permission-code: SYSTEM_DICT:R
-  tags: [ h-system-dict ]
+  summary: 角色分页列表
+  operationId: pageSystemRole
+  x-permission-code: ROLE:R
+  tags: [ h-role ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
     - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"
-    - $ref: "../components/parameters/no_total.yaml"
   responses:
     "200":
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/PageSystemDictResponse.yaml"
+            $ref: "../components/schemas/PageSystemRoleResponse.yaml"

@@ -1,7 +1,7 @@
 get:
   summary: 系统所有权限代码
-  operationId: allSystemPermissions
-  tags: [ h-system-permission ]
+  operationId: allSystemPermission
+  tags: [ h-permission ]
   responses:
     "200":
       description: OK

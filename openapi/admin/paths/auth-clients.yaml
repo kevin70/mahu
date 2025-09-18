@@ -1,8 +1,8 @@
 post:
-  summary: 新建客户端
-  operationId: createSystemClient
-  tags: [ h-system-client ]
-  x-permission-code: SYSTEM_CLIENT:W
+  summary: 新建认证终端
+  operationId: createAuthClient
+  tags: [ h-auth-client ]
+  x-permission-code: AUTH_CLIENT:W
   requestBody:
     required: true
     content:
@@ -13,10 +13,10 @@ post:
     "204":
       description: OK
 get:
-  summary: 客户端列表
-  operationId: pageSystemClients
-  x-permission-code: SYSTEM_CLIENT:R
-  tags: [ h-system-client ]
+  summary: 认证终端分页列表
+  operationId: pageSystemClient
+  x-permission-code: AUTH_CLIENT:R
+  tags: [ h-auth-client ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"

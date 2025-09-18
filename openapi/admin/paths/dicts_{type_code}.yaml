@@ -1,10 +1,10 @@
 parameters:
   - $ref: "../components/parameters/path_type_code.yaml"
 get:
-  summary: 获取指定类型代码的数据
-  operationId: getSystemDictType
-  x-permission-code: SYSTEM_DICT:R
-  tags: [ system ]
+  summary: 获取指定字典类型数据
+  operationId: getDictType
+  x-permission-code: DICT:R
+  tags: [ h-dict ]
   responses:
     "200":
       description: OK
@@ -13,10 +13,10 @@ get:
           schema:
             $ref: "../components/schemas/SystemDictTypeResponse.yaml"
 put:
-  summary: 修改数据字典类型
-  operationId: updateSystemDictType
-  x-permission-code: SYSTEM_DICT:W
-  tags: [ system ]
+  summary: 修改字典类型
+  operationId: updateDictType
+  x-permission-code: DICT:W
+  tags: [ h-dict ]
   requestBody:
     content:
       application/json:
@@ -26,18 +26,18 @@ put:
     "204":
       description: OK
 delete:
-  summary: 删除字典类型数据
-  operationId: deleteSystemDictType
-  x-permission-code: SYSTEM_DICT:W
-  tags: [ system ]
+  summary: 删除字典类型
+  operationId: deleteDictType
+  x-permission-code: DICT:W
+  tags: [ h-dict ]
   responses:
     "204":
       description: OK
 post:
   summary: 新增字典数据
-  operationId: addSystemDictData
-  x-permission-code: SYSTEM_DICT:W
-  tags: [ system ]
+  operationId: addDictData
+  x-permission-code: DICT:W
+  tags: [ h-dict ]
   requestBody:
     content:
       application/json:

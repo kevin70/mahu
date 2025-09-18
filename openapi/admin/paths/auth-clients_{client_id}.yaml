@@ -5,10 +5,10 @@ parameters:
     schema:
       type: string
 get:
-  summary: 获取指定客户端
-  operationId: getSystemClient
-  x-permission-code: SYSTEM_CLIENT:R
-  tags: [ h-system-client ]
+  summary: 获取指定认证终端
+  operationId: getAuthClient
+  x-permission-code: AUTH_CLIENT:R
+  tags: [ h-auth-client ]
   responses:
     "200":
       description: OK
@@ -17,18 +17,18 @@ get:
           schema:
             $ref: "../components/schemas/SystemClientResponse.yaml"
 delete:
-  summary: 删除客户端
+  summary: 删除认证终端
   operationId: deleteSystemClient
-  x-permission-code: SYSTEM_CLIENT:W
-  tags: [ h-system-client ]
+  x-permission-code: AUTH_CLIENT:W
+  tags: [ h-auth-client ]
   responses:
     "204":
       description: OK
 put:
-  summary: 修改客户端
+  summary: 修改认证终端
   operationId: updateSystemClient
-  x-permission-code: SYSTEM_CLIENT:W
-  tags: [ h-system-client ]
+  x-permission-code: AUTH_CLIENT:W
+  tags: [ h-auth-client ]
   requestBody:
     required: true
     content:
