@@ -41,6 +41,11 @@ rules:
     assertions:
       casing: snake_case
 
+openapi:
+  showExtensions: true
+  sortRequiredPropsFirst: true
+  schemasExpansionLevel: all
+
 ### 构建文档的命令参考
 ### redocly build-docs admin@v1 --theme.openapi.sideNavStyle=path-only
 apis:
