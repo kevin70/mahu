@@ -1,0 +1,10 @@
+type: string
+description: 管理员日志类型
+enum:
+  - ACCESS
+  - AUTH
+  - AUDIT
+x-enum-descriptions:
+  - 访问记录
+  - 认证记录
+  - 操作记录

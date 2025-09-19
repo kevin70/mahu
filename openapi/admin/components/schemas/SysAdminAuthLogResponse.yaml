@@ -1,4 +1,5 @@
 type: object
+description: 管理员认证记录
 required:
   - id
   - created_at

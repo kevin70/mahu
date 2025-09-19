@@ -145,17 +145,13 @@ paths:
   ### =============================== 认证/用户数据接口 =============================== ###
   /login/token:
     $ref: "paths/login_token.yaml"
-  /oauth2/token:
-    $ref: "paths/oauth2_token.yaml"
   /me/profile:
     $ref: "paths/me_profile.yaml"
   /me/password:
     $ref: "paths/me_password.yaml"
 
-  ### =============================== 帮助数据接口 =============================== ###
-  /oss/presigned-upload:
-    $ref: "paths/oss_presigned-upload.yaml"
-
+  /files/presigned-upload:
+    $ref: "paths/files_presigned-upload.yaml"
   ### =============================== 系统模块接口 =============================== ###
   /sys/auth-clients:
     $ref: "paths/sys_auth-clients.yaml"
@@ -179,11 +175,5 @@ paths:
     $ref: "paths/sys_scheduled-tasks.yaml"
   /sys/scheduled-tasks/{task_id}/exes:
     $ref: "paths/sys_scheduled-tasks_{task_name}_exes.yaml"
-
-  ### =============================== 业务日志接口 =============================== ###
-  /logs/admin-access:
-    $ref: "paths/logs_admin_access.yaml"
-  /logs/admin-audit:
-    $ref: "paths/logs_admin_audit.yaml"
-  /logs/admin-auth:
-    $ref: "paths/logs_admin_auth.yaml"
+  /sys/admin-logs/{type}:
+    $ref: "paths/sys_admin-logs_{type}.yaml"

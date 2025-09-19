@@ -1,0 +1,17 @@
+post:
+  summary: 获取对象存储预签名上传数据
+  operationId: getFilePresignedUpload
+  tags: [ h-file ]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/FilePresignedUploadRequest.yaml"
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/FilePresignedUploadResponse.yaml"

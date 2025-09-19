@@ -1,0 +1,24 @@
+parameters:
+  - in: path
+    name: type
+    description: 管理员日志类型
+    required: true
+    schema:
+      $ref: "../components/schemas/AdminLogType.yaml"
+get:
+  summary: 管理员日志
+  operationId: pageSysAdminLog
+  x-permission-code: SYS_ADMIN_LOG:R
+  tags: [ h-admin ]
+  parameters:
+    - $ref: "../components/parameters/size.yaml"
+    - $ref: "../components/parameters/page.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/SysAdminLogPageResponse.yaml"

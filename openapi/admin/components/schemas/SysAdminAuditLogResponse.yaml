@@ -1,4 +1,5 @@
 type: object
+description: 管理员操作记录
 required:
   - id
   - created_at

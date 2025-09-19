@@ -1,0 +1,17 @@
+type: object
+allOf:
+  - $ref: "./BasePageResponse.yaml"
+properties:
+  items:
+    type: array
+    description: 列表
+    items:
+      discriminator:
+        mapping:
+          ACCESS: "SysAdminAccessLogResponse.yaml"
+          AUTH: "SysAdminAuthLogResponse.yaml"
+          AUDIT: "SysAdminAuditLogResponse.yaml"
+      oneOf:
+        - $ref: "SysAdminAccessLogResponse.yaml"
+        - $ref: "SysAdminAuthLogResponse.yaml"
+        - $ref: "SysAdminAuditLogResponse.yaml"

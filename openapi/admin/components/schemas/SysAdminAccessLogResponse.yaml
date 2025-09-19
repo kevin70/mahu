@@ -1,4 +1,5 @@
 type: object
+description: 管理员访问记录
 required:
   - id
   - admin_id

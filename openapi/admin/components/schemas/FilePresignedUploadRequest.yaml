@@ -1,0 +1,21 @@
+type: object
+required:
+  - file_name
+  - mime_type
+  - kind
+properties:
+  file_name:
+    type: string
+    description: 上传文件的名称
+  file_size:
+    type: integer
+    format: int64
+    description: 文件大小
+  mime_type:
+    type: string
+    description: 文件类型
+  kind:
+    type: string
+    description: 类型
+    enum:
+      - ADMIN_AVATAR
