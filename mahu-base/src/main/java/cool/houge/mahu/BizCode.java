@@ -1,7 +1,6 @@
 package cool.houge.mahu;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 /// 业务错误码。
 ///
@@ -16,6 +15,6 @@ public interface BizCode extends Serializable {
     /// 错误描述
     String message();
 
-    /// 子业务错误码.
-    Optional<String> subcode();
+    /// 对应的 HTTP 状态码
+    int httpStatus();
 }
