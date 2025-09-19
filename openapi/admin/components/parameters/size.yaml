@@ -1,4 +1,4 @@
-name: limit
+name: size
 in: query
 description: |
   分页：返回的记录数量

@@ -24,4 +24,4 @@ properties:
     type: array
     description: 字典数据
     items:
-      $ref: "./PublicDictResponse.yaml"
+      $ref: "PublicDictResponse.yaml"

@@ -93,6 +93,8 @@ components:
 security:
   - AT: [ ]
 tags:
+  - name: h-help
+    x-displayName: 帮助接口
   - name: h-login
     x-displayName: 用户登录
   - name: h-me
@@ -119,6 +121,7 @@ tags:
 x-tagGroups:
   - name: 基础模块
     tags:
+      - h-help
       - h-login
       - h-me
       - h-file

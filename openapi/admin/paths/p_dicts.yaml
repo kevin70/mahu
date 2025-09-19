@@ -1,6 +1,6 @@
 get:
   summary: 字典类型列表
-  operationId: listPublicDicts
+  operationId: listPublicDict
   tags: [ h-public-dict ]
   security: [ ]
   parameters:
@@ -16,7 +16,4 @@ get:
       content:
         application/json:
           schema:
-            type: array
-            description: 字典列表
-            items:
-              $ref: "../components/schemas/PublicDictTypeResponse.yaml"
+            $ref: "../components/schemas/PublicDictTypeListResponse.yaml"

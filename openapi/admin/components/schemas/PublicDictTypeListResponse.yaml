@@ -1,0 +1,4 @@
+type: array
+description: 字典列表
+items:
+  $ref: "PublicDictTypeResponse.yaml"

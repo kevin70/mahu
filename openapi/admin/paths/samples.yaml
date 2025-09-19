@@ -1,6 +1,6 @@
 get:
   summary: 样例
-  tags: [ base ]
+  tags: [ h-help ]
   operationId: getSamples
   description: |
     HTTP 错误码响应 https://www.webfx.com/web-development/glossary/http-status-codes
