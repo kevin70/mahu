@@ -24,7 +24,7 @@ delete:
       description: OK
 get:
   summary: 定时任务执行记录
-  operationId: pageSysScheduledTaskExeLog
+  operationId: pageSysScheduledTaskExe
   x-permission-code: SYS_SCHEDULED_TASK:R
   tags: [ h-scheduled-task ]
   parameters:
