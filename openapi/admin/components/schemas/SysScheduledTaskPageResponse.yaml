@@ -1,10 +1,9 @@
 type: object
-description: 客户端列表
 allOf:
   - $ref: "./BasePageResponse.yaml"
 properties:
   items:
     type: array
-    description: 客户端列表
+    description: 列表
     items:
-      $ref: "./SystemClientResponse.yaml"
+      $ref: "./SysScheduledTaskResponse.yaml"

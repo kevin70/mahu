@@ -1,22 +1,22 @@
 post:
-  summary: 新建认证终端
-  operationId: createAuthClient
-  tags: [ h-auth-client ]
-  x-permission-code: AUTH_CLIENT:W
+  summary: 新建角色
+  operationId: createSysRole
+  x-permission-code: SYS_ROLE:W
+  tags: [ h-role ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemClientRequest.yaml"
+          $ref: "../components/schemas/SysRoleUpsertRequest.yaml"
   responses:
     "204":
       description: OK
 get:
-  summary: 认证终端分页列表
-  operationId: pageSystemClient
-  x-permission-code: AUTH_CLIENT:R
-  tags: [ h-auth-client ]
+  summary: 角色分页列表
+  operationId: pageSysRole
+  x-permission-code: SYS_ROLE:R
+  tags: [ h-role ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
@@ -28,4 +28,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/PageSystemClientResponse.yaml"
+            $ref: "../components/schemas/SysRolePageResponse.yaml"

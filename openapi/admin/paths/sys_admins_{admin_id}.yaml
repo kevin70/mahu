@@ -8,30 +8,30 @@ parameters:
       format: int32
 put:
   summary: 修改管理员
-  operationId: updateAdmin
-  x-permission-code: ADMIN:W
+  operationId: updateSysAdmin
+  x-permission-code: SYS_ADMIN:W
   tags: [ h-admin ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemAdminRequest.yaml"
+          $ref: "../components/schemas/SysAdminUpsertRequest.yaml"
   responses:
     "204":
       description: OK
 delete:
   summary: 删除管理员
-  operationId: deleteAdmin
-  x-permission-code: ADMIN:W
+  operationId: deleteSysAdmin
+  x-permission-code: SYS_ADMIN:W
   tags: [ h-admin ]
   responses:
     "204":
       description: OK
 get:
   summary: 获取指定管理员
-  operationId: getAdmin
-  x-permission-code: ADMIN:R
+  operationId: getSysAdmin
+  x-permission-code: SYS_ADMIN:R
   tags: [ h-admin ]
   responses:
     "200":
@@ -39,4 +39,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SystemAdminResponse.yaml"
+            $ref: "../components/schemas/SysAdminResponse.yaml"

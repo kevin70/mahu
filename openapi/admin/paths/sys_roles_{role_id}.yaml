@@ -7,30 +7,30 @@ parameters:
       format: int32
 put:
   summary: 修改角色
-  operationId: updateRole
-  x-permission-code: ROLE:W
+  operationId: updateSysRole
+  x-permission-code: SYS_ROLE:W
   tags: [ h-role ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemRoleRequest.yaml"
+          $ref: "../components/schemas/SysRoleUpsertRequest.yaml"
   responses:
     "204":
       description: OK
 delete:
   summary: 删除角色
-  operationId: deleteRole
-  x-permission-code: ROLE:W
+  operationId: deleteSysRole
+  x-permission-code: SYS_ROLE:W
   tags: [ h-role ]
   responses:
     "204":
       description: OK
 get:
   summary: 获取指定角色
-  operationId: getRole
-  x-permission-code: ROLE:R
+  operationId: getSysRole
+  x-permission-code: SYS_ROLE:R
   tags: [ h-role ]
   responses:
     "200":
@@ -38,4 +38,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SystemRoleResponse.yaml"
+            $ref: "../components/schemas/SysRoleResponse.yaml"

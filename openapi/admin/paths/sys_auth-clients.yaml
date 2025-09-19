@@ -1,33 +1,31 @@
 post:
-  summary: 新建管理员
-  operationId: createAdmin
-  x-permission-code: ADMIN:W
-  tags: [ h-admin ]
+  summary: 新建认证终端
+  operationId: createSysAuthClient
+  tags: [ h-auth-client ]
+  x-permission-code: SYS_AUTH_CLIENT:W
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemAdminRequest.yaml"
+          $ref: "../components/schemas/SysClientUpsertRequest.yaml"
   responses:
     "204":
       description: OK
 get:
-  summary: 管理员分页列表
-  operationId: pageSystemAdmin
-  x-permission-code: ADMIN:R
-  tags: [ h-admin ]
+  summary: 认证终端分页列表
+  operationId: pageSysClient
+  x-permission-code: SYS_AUTH_CLIENT:R
+  tags: [ h-auth-client ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
     - $ref: "../components/parameters/offset.yaml"
     - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"
-    - $ref: "../components/parameters/include_deleted.yaml"
-    - $ref: "../components/parameters/no_total.yaml"
   responses:
     "200":
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/PageAdminResponse.yaml"
+            $ref: "../components/schemas/SysClientPageResponse.yaml"

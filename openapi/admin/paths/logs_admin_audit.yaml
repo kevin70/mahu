@@ -14,4 +14,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/PageLogAdminAuditResponse.yaml"
+            $ref: "../components/schemas/SysAdminAuditLogPageResponse.yaml"

@@ -1,6 +1,6 @@
 get:
   summary: 系统所有权限代码
-  operationId: allSystemPermission
+  operationId: allSysPermission
   tags: [ h-permission ]
   responses:
     "200":
@@ -11,4 +11,4 @@ get:
             type: array
             description: 权限代码列表
             items:
-              $ref: "../components/schemas/SystemPermissionResponse.yaml"
+              $ref: "../components/schemas/SysPermissionResponse.yaml"

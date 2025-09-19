@@ -157,28 +157,28 @@ paths:
     $ref: "paths/oss_presigned-upload.yaml"
 
   ### =============================== 系统模块接口 =============================== ###
-  /auth-clients:
-    $ref: "paths/auth-clients.yaml"
-  /auth-clients/{client_id}:
-    $ref: "paths/auth-clients_{client_id}.yaml"
-  /dicts:
-    $ref: "paths/dicts.yaml"
-  /dicts/{type_code}:
-    $ref: "paths/dicts_{type_code}.yaml"
-  /permissions:
-    $ref: "paths/permissions.yaml"
-  /roles:
-    $ref: "paths/roles.yaml"
-  /roles/{role_id}:
-    $ref: "paths/roles_{role_id}.yaml"
-  /admins:
-    $ref: "paths/admins.yaml"
-  /admins/{admin_id}:
-    $ref: "paths/admins_{admin_id}.yaml"
-  /scheduled-tasks:
-    $ref: "paths/scheduled-tasks.yaml"
-  /scheduled-tasks/{task_id}/exes:
-    $ref: "paths/scheduled-tasks_{task_name}_exes.yaml"
+  /sys/auth-clients:
+    $ref: "paths/sys_auth-clients.yaml"
+  /sys/auth-clients/{client_id}:
+    $ref: "paths/sys_auth-clients_{client_id}.yaml"
+  /sys/dicts:
+    $ref: "paths/sys_dicts.yaml"
+  /sys/dicts/{type_code}:
+    $ref: "paths/sys_dicts_{type_code}.yaml"
+  /sys/permissions:
+    $ref: "paths/sys_permissions.yaml"
+  /sys/roles:
+    $ref: "paths/sys_roles.yaml"
+  /sys/roles/{role_id}:
+    $ref: "paths/sys_roles_{role_id}.yaml"
+  /sys/admins:
+    $ref: "paths/sys_admins.yaml"
+  /sys/admins/{admin_id}:
+    $ref: "paths/sys_admins_{admin_id}.yaml"
+  /sys/scheduled-tasks:
+    $ref: "paths/sys_scheduled-tasks.yaml"
+  /sys/scheduled-tasks/{task_id}/exes:
+    $ref: "paths/sys_scheduled-tasks_{task_name}_exes.yaml"
 
   ### =============================== 业务日志接口 =============================== ###
   /logs/admin-access:

@@ -6,4 +6,4 @@ properties:
     type: array
     description: 列表
     items:
-      $ref: "./SystemScheduledTaskExecutionResponse.yaml"
+      $ref: "./SysScheduledTaskExeResponse.yaml"

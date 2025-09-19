@@ -7,8 +7,8 @@ parameters:
       type: string
 post:
   summary: 立即执行任务
-  operationId: executeScheduledTask
-  x-permission-code: SCHEDULED_TASK:W
+  operationId: executeSysScheduledTask
+  x-permission-code: SYS_SCHEDULED_TASK:W
   tags: [ h-scheduled-task ]
   responses:
     204:
@@ -16,16 +16,16 @@ post:
 delete:
   deprecated: true
   summary: 取消执行任务
-  operationId: cancelScheduledTask
-  x-permission-code: SCHEDULED_TASK:W
+  operationId: cancelSysScheduledTask
+  x-permission-code: SYS_SCHEDULED_TASK:W
   tags: [ h-scheduled-task ]
   responses:
     204:
       description: OK
 get:
   summary: 定时任务执行记录
-  operationId: pageScheduledTaskExeLog
-  x-permission-code: SCHEDULED_TASK:R
+  operationId: pageSysScheduledTaskExeLog
+  x-permission-code: SYS_SCHEDULED_TASK:R
   tags: [ h-scheduled-task ]
   parameters:
     - $ref: "../components/parameters/limit.yaml"
@@ -38,4 +38,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/PageSystemScheduledTaskExecutionResponse.yaml"
+            $ref: "../components/schemas/SysScheduledTaskExePageResponse.yaml"

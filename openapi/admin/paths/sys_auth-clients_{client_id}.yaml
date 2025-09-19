@@ -6,8 +6,8 @@ parameters:
       type: string
 get:
   summary: 获取指定认证终端
-  operationId: getAuthClient
-  x-permission-code: AUTH_CLIENT:R
+  operationId: getSysAuthClient
+  x-permission-code: SYS_AUTH_CLIENT:R
   tags: [ h-auth-client ]
   responses:
     "200":
@@ -15,26 +15,26 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SystemClientResponse.yaml"
+            $ref: "../components/schemas/SysClientResponse.yaml"
 delete:
   summary: 删除认证终端
-  operationId: deleteSystemClient
-  x-permission-code: AUTH_CLIENT:W
+  operationId: deleteSysClient
+  x-permission-code: SYS_AUTH_CLIENT:W
   tags: [ h-auth-client ]
   responses:
     "204":
       description: OK
 put:
   summary: 修改认证终端
-  operationId: updateSystemClient
-  x-permission-code: AUTH_CLIENT:W
+  operationId: updateSysClient
+  x-permission-code: SYS_AUTH_CLIENT:W
   tags: [ h-auth-client ]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemClientRequest.yaml"
+          $ref: "../components/schemas/SysClientUpsertRequest.yaml"
   responses:
     "204":
       description: OK

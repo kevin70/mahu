@@ -1,9 +1,9 @@
 parameters:
   - $ref: "../components/parameters/path_type_code.yaml"
 get:
-  summary: 获取指定字典类型数据
-  operationId: getDictType
-  x-permission-code: DICT:R
+  summary: 获取字典类型数据
+  operationId: getSysDictType
+  x-permission-code: SYS_DICT:R
   tags: [ h-dict ]
   responses:
     "200":
@@ -11,38 +11,38 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SystemDictTypeResponse.yaml"
+            $ref: "../components/schemas/SysDictTypeResponse.yaml"
 put:
   summary: 修改字典类型
-  operationId: updateDictType
-  x-permission-code: DICT:W
+  operationId: updateSysDictType
+  x-permission-code: SYS_DICT:W
   tags: [ h-dict ]
   requestBody:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemDictTypeRequest.yaml"
+          $ref: "../components/schemas/SysDictTypeUpsertRequest.yaml"
   responses:
     "204":
       description: OK
 delete:
   summary: 删除字典类型
-  operationId: deleteDictType
-  x-permission-code: DICT:W
+  operationId: deleteSysDictType
+  x-permission-code: SYS_DICT:W
   tags: [ h-dict ]
   responses:
     "204":
       description: OK
 post:
   summary: 新增字典数据
-  operationId: addDictData
-  x-permission-code: DICT:W
+  operationId: addSysDictData
+  x-permission-code: SYS_DICT:W
   tags: [ h-dict ]
   requestBody:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/UpsertSystemDictRequest.yaml"
+          $ref: "../components/schemas/SysDictUpsertRequest.yaml"
   responses:
     "204":
       description: OK

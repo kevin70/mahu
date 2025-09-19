@@ -4,6 +4,6 @@ allOf:
 properties:
   items:
     type: array
-    description: 品牌列表
+    description: 列表
     items:
-      $ref: "./LogAdminAccessResponse.yaml"
+      $ref: "./SysAdminResponse.yaml"
