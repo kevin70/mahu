@@ -2,7 +2,7 @@ package cool.houge.mahu.rsql;
 
 import static java.util.Objects.requireNonNull;
 
-import cool.houge.mahu.util.InstantUtils;
+import cool.houge.mahu.util.DateTimeUtils;
 import io.ebean.typequery.PBigDecimal;
 import io.ebean.typequery.PBoolean;
 import io.ebean.typequery.PDouble;
@@ -19,7 +19,6 @@ import io.ebean.typequery.TQPropertyBase;
 import io.ebean.util.CamelCaseHelper;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.function.Function;
@@ -133,7 +132,7 @@ public class FilterItem {
     /// @param p `LocalDateTime`类型属性标识
     /// @return 新的`FilterItem`实例，使用`LocalDateTime::parse`作为转换器
     public static FilterItem of(PLocalDateTime<?> p) {
-        return of(p, LocalDateTime::parse);
+        return of(p, DateTimeUtils::tryParseLocalDateTime);
     }
 
     /// 创建`ZonedDateTime`类型的`FilterItem`
@@ -155,9 +154,9 @@ public class FilterItem {
     /// 创建`Instant`类型的`FilterItem`
     ///
     /// @param p `Instant`类型属性标识
-    /// @return 新的`FilterItem`实例，使用`InstantUtils::tryParse`作为转换器
+    /// @return 新的`FilterItem`实例，使用`DateTimeUtils::tryParseInstant`作为转换器
     public static FilterItem of(PInstant<?> p) {
-        return of(p, InstantUtils::tryParse);
+        return of(p, DateTimeUtils::tryParseInstant);
     }
 
     /// 使用自定义`key`创建布尔类型的`FilterItem`
@@ -236,9 +235,9 @@ public class FilterItem {
     ///
     /// @param key 自定义前端属性名称
     /// @param p `LocalDateTime`类型属性标识
-    /// @return 新的`FilterItem`实例，使用`LocalDateTime::parse`作为转换器
+    /// @return 新的`FilterItem`实例，使用`DateTimeUtils::tryParseLocalDateTime`作为转换器
     public static FilterItem of(String key, PLocalDateTime<?> p) {
-        return of(key, p, LocalDateTime::parse);
+        return of(key, p, DateTimeUtils::tryParseLocalDateTime);
     }
 
     /// 使用自定义`key`创建`ZonedDateTime`类型的`FilterItem`
@@ -263,9 +262,9 @@ public class FilterItem {
     ///
     /// @param key 自定义前端属性名称
     /// @param p `Instant`类型属性标识
-    /// @return 新的`FilterItem`实例，使用`InstantUtils::tryParse`作为转换器
+    /// @return 新的`FilterItem`实例，使用`DateTimeUtils::tryParseInstant`作为转换器
     public static FilterItem of(String key, PInstant<?> p) {
-        return of(key, p, InstantUtils::tryParse);
+        return of(key, p, DateTimeUtils::tryParseInstant);
     }
 
     /// 基于`Querydsl`属性创建`FilterItem`
