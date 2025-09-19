@@ -4,23 +4,24 @@ package cool.houge.mahu.admin;
 ///
 /// @author ZY (kzou227@qq.com)
 public enum Permissions {
-    // 系统相关
-    DICT(Var.A, "系统|字典管理"),
-    ROLE(Var.A, "系统|角色管理"),
-    ADMIN(Var.A, "系统|管理员"),
-    DEPARTMENT(Var.A, "系统|部门管理"),
-    CLIENT(Var.A, "系统|认证终端"),
-    SCHEDULED_TASK(Var.B, "系统|定时任务"),
+    // 系统模块
+    SYS_AUTH_CLIENT(Var.A, "系统模块", "认证终端"),
+    SYS_DICT(Var.A, "系统模块", "字典"),
+    SYS_ROLE(Var.A, "系统模块", "角色"),
+    SYS_ADMIN(Var.A, "系统模块", "管理员"),
+    SYS_ADMIN_LOG(Var.R, "系统模块", "管理员日志"),
+    SYS_SCHEDULED_TASK(Var.B, "系统模块", "定时任务"),
 
     // 业务日志
-    ADMIN_ACCESS_LOG(Var.R, "管理员|访问日志"),
-    ADMIN_AUDIT_LOG(Var.R, "管理员|操作日志"),
-    ADMIN_AUTH_LOG(Var.R, "管理员|认证日志"),
+    ADMIN_ACCESS_LOG(Var.R, "系统模块", "管理员|访问日志"),
+    ADMIN_AUDIT_LOG(Var.R, "系统模块", "管理员|操作日志"),
+    ADMIN_AUTH_LOG(Var.R, "系统模块", "管理员|认证日志"),
 
 //
 ;
 
     private final int fnCodes;
+    private final String module;
     private final String label;
 
     /// 读取权限代码
@@ -35,8 +36,9 @@ public enum Permissions {
     @SuppressWarnings("java:S116")
     public final String D;
 
-    Permissions(int fnCodes, String label) {
+    Permissions(int fnCodes, String module, String label) {
         this.fnCodes = fnCodes;
+        this.module = module;
         this.label = label;
         this.R = name() + ":R";
         this.W = name() + ":W";
