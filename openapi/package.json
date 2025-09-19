@@ -7,6 +7,6 @@
     "openapi": "pnpm openapi-admin"
   },
   "devDependencies": {
-    "@redocly/cli": "^2.0.8"
+    "@redocly/cli": "^2.1.4"
   }
 }
