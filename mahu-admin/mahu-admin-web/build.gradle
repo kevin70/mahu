@@ -1,3 +1,4 @@
+//file:noinspection UnnecessaryQualifiedReference
 apply plugin: "application"
 apply plugin: "org.openapi.generator"
 apply plugin: "com.google.cloud.tools.jib"
@@ -42,9 +43,9 @@ jib {
 openApiGenerate {
     inputSpec = "${rootProject.layout.buildDirectory.orNull}/admin/openapi.yaml"
     generatorName = "java-helidon-server"
-    packageName = "cool.houge.mahu.admin"
-    apiPackage = "cool.houge.mahu.admin.web.controller"
-    modelPackage = "cool.houge.mahu.admin.oas.model"
+    packageName = "cool.houge.mahu.admin.oas"
+    apiPackage = "cool.houge.mahu.admin.oas.controller"
+    modelPackage = "cool.houge.mahu.admin.oas.vo"
     templateDir = "${rootDir}/templates"
     configOptions.set([
         library              : "se",
@@ -67,27 +68,35 @@ tasks.named("openApiGenerate").configure {
     doLast {
         copy {
             from("${project.layout.buildDirectory.orNull}/generate-resources/main/src/main/java") {
-                include("**/model/**/*.java")
-                include("**/web/**/H*Service.java")
-                exclude("**/openapitools/*", "**/*Impl.java", "**/Main.java",
-                    "**/BasePageResponse.java", "**/Page*Response.java")
+                include("**/oas/**/*.java")
+                exclude(
+                    "**/openapitools/*",
+                    "**/package-info.java",
+                    "**/HCollectors.java",
+                    "**/JsonProvider.java",
+                    "**/ValidatorUtils.java",
+                    "**/RFC3339DateFormat.java",
+                    "**/GenericTypes.java",
+                    "**/*Impl.java",
+                    "**/Main.java",
+                    "**/BasePageResponse.java",
+                    "**/*PageResponse.java"
+                )
             }
             into("${projectDir}/src/main/gen")
         }
     }
 }
 
-//noinspection UnnecessaryQualifiedReference
-tasks.register("redoclyBundleOpenApi", com.github.gradle.node.npm.task.NpxTask.class) {
+tasks.register("redoclyBundleOpenApi", com.github.gradle.node.pnpm.task.PnpmTask.class) {
     group("openapi tools")
-    command = "@redocly/cli"
-    args = ["bundle",
-            "$rootDir/openapi/admin/openapi.yaml".toString(),
-            "--remove-unused-components",
-            "-o",
-            "${rootProject.layout.buildDirectory.orNull}/admin/openapi.yaml"
+    workingDir = rootProject.file("openapi")
+    pnpmCommand = [
+        "install",
+        "redocly bundle admin@v1 --remove-unused-components -o ${rootProject.layout.buildDirectory.orNull}/admin/openapi.yaml"
     ]
 }
+
 jar.dependsOn("redoclyBundleOpenApi")
 
 tasks.register("deployDev") {
