@@ -8,16 +8,11 @@ post:
     content:
       application/json:
         schema:
-          type: object
-          oneOf:
-            - $ref: "../components/schemas/TokenPasswordForm.yaml"
-            - $ref: "../components/schemas/TokenRefreshTokenForm.yaml"
-          discriminator:
-            propertyName: grant_type
+          $ref: "../components/schemas/LoginTokenRequest.yaml"
   responses:
     "200":
       description: 成功获得访问令牌
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/LoginResponse.yaml"
+            $ref: "../components/schemas/LoginTokenResponse.yaml"

@@ -1,10 +1,12 @@
 package cool.houge.mahu.admin;
 
 import cool.houge.mahu.admin.entity.AdminAccessLog;
+import cool.houge.mahu.admin.event.AdminAccessEvent;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.util.Metadata;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.Method;
+import io.helidon.service.registry.Event;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.Filter;
 import io.helidon.webserver.http.FilterChain;
@@ -12,6 +14,7 @@ import io.helidon.webserver.http.RoutingRequest;
 import io.helidon.webserver.http.RoutingResponse;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,9 +22,11 @@ import org.apache.logging.log4j.Logger;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@AllArgsConstructor
 public class AdminAccessLogFilter implements Filter {
 
     private static final Logger log = LogManager.getLogger(AdminAccessLogFilter.class);
+    final Event.Emitter<AdminAccessEvent> adminAccessEventEmitter;
 
     @Override
     public void filter(FilterChain chain, RoutingRequest req, RoutingResponse res) {
@@ -71,6 +76,6 @@ public class AdminAccessLogFilter implements Filter {
 
         var headers = req.headers();
         headers.first(HeaderNames.REFERER).ifPresent(accessLog::setReferer);
-        // sharedService.save(accessLog);
+        adminAccessEventEmitter.emit(new AdminAccessEvent(accessLog));
     }
 }

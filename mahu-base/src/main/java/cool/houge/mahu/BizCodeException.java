@@ -60,8 +60,6 @@ public final class BizCodeException extends RuntimeException {
             builder.append(rawMessage).append(" | ");
         }
         builder.append(this.code.code()).append(":").append(this.code.message());
-
-        this.code.subcode().ifPresent(subcode -> builder.append(" | subcode:").append(subcode));
         return builder.toString();
     }
 }

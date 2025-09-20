@@ -31,7 +31,9 @@ public class AdminAccessLogRepository extends HBeanRepository<Long, AdminAccessL
     /// | admin_id | int |
     /// | ip_addr | string |
     public PagedList<AdminAccessLog> findPage(DataFilter dataFilter) {
-        return new QAdminAccessLog(db()).also(o -> super.apply(o, dataFilter)).findPagedList();
+        return new QAdminAccessLog(db())
+                .also(o -> super.apply(o.query(), dataFilter))
+                .findPagedList();
     }
 
     @Override

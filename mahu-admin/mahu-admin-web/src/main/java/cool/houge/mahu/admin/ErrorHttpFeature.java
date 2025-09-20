@@ -14,9 +14,8 @@ import static java.util.Optional.ofNullable;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.admin.oas.model.ErrorResponse;
-import cool.houge.mahu.admin.oas.model.ErrorResponseError;
-import cool.houge.mahu.admin.oas.model.ErrorResponseErrorInvalidParamsInner;
+import cool.houge.mahu.admin.oas.vo.ErrorResponse;
+import cool.houge.mahu.admin.oas.vo.ErrorResponseError;
 import cool.houge.mahu.util.Metadata;
 import io.avaje.validation.ConstraintViolationException;
 import io.ebean.DuplicateKeyException;
@@ -33,6 +32,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -81,17 +81,11 @@ public class ErrorHttpFeature implements HttpFeature {
 
     void handleConstraintViolationException(
             ServerRequest request, ServerResponse response, ConstraintViolationException e) {
-        var violations = e.violations().stream()
-                .map(cv -> new ErrorResponseErrorInvalidParamsInner()
-                        .setPropertyName(cv.field())
-                        .setMessage(cv.message()))
-                .toList();
-
         var error = newError();
         error.setStatus(Status.BAD_REQUEST_400.code())
                 .setCode(INVALID_ARGUMENT.code())
                 .setMessage(INVALID_ARGUMENT.message())
-                .setInvalidParams(violations);
+                .setDetails(Map.of("invalid_params", e.violations()));
         this.send(request, response, error, e);
     }
 
@@ -127,7 +121,6 @@ public class ErrorHttpFeature implements HttpFeature {
         error.setStatus(status.code())
             .setCode(bz.code())
             .setMessage(ofNullable(e.getRawMessage()).orElse(bz.message()));
-        bz.subcode().ifPresent(error::setSubCode);
         this.send(request, response, error, e);
     }
 

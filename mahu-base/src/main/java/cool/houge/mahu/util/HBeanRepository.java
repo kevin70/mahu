@@ -13,7 +13,7 @@ import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
-import io.ebean.typequery.QueryBean;
+import io.ebean.Query;
 import java.util.List;
 import org.jspecify.annotations.NonNull;
 
@@ -54,7 +54,7 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
     ///
     /// @param query        查询对象
     /// @param dataFilter       数据过滤条件
-    protected final void apply(QueryBean<@NonNull T, ?> query, DataFilter dataFilter) {
+    protected final void apply(Query<T> query, DataFilter dataFilter) {
         var filterItems = filterableItems();
         if (filterItems.isEmpty()) {
             throw new IllegalStateException("可过滤项为空");
@@ -85,14 +85,14 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
     ///
     /// @param query 查询对象
     /// @param page 分页参数
-    protected final void apply(QueryBean<@NonNull T, ?> query, Pageable page) {
+    protected final void apply(Query<T> query, Pageable page) {
         if (!page.isUnpaged()) {
             query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPageSize());
         }
         this.apply(query, page.getSort());
     }
 
-    protected final void apply(QueryBean<@NonNull T, ?> query, Sort sort) {
+    protected final void apply(Query<T> query, Sort sort) {
         if (sort.isSorted()) {
             var items = sortableItems();
             if (items.isEmpty()) {
@@ -106,9 +106,9 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
                 }
 
                 if (o.getDirection() == Sort.Direction.ASC) {
-                    query.query().orderBy().asc(item.getColumn());
+                    query.orderBy().asc(item.getColumn());
                 } else {
-                    query.query().orderBy().desc(item.getColumn());
+                    query.orderBy().desc(item.getColumn());
                 }
             }
         }

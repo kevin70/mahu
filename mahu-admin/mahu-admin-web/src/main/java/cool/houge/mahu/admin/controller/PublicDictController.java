@@ -2,10 +2,10 @@ package cool.houge.mahu.admin.controller;
 
 import com.google.common.collect.Lists;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
-import cool.houge.mahu.admin.system.service.DictService;
+import cool.houge.mahu.admin.oas.controller.HPublicDictService;
+import cool.houge.mahu.admin.sys.service.DictService;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
-import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import java.util.List;
@@ -18,18 +18,23 @@ import lombok.AllArgsConstructor;
 /// @author ZY (kzou227@qq.com)
 @Singleton
 @AllArgsConstructor
-public class PublicDictController implements WebSupport {
+public class PublicDictController implements HPublicDictService, WebSupport {
 
-    private final VoBeanMapper beanMapper;
-    private final DictService dictService;
+    final VoBeanMapper beanMapper;
+    final DictService dictService;
 
     @Override
-    public void routing(HttpRules rules) {
-        rules.get("/p/dicts", this::listPublicDicts);
-        rules.get("/p/dicts/{code}", this::getPublicDict);
+    public void getPublicDict(ServerRequest request, ServerResponse response) {
+        var pathParams = request.path().pathParameters();
+        var dataCode = pathParams.get("code");
+
+        var bean = dictService.findDictData(dataCode);
+        var rs = beanMapper.toPublicDictDataResponse(bean);
+        response.send(rs);
     }
 
-    private void listPublicDicts(ServerRequest request, ServerResponse response) {
+    @Override
+    public void listPublicDict(ServerRequest request, ServerResponse response) {
         var queryParams = request.query();
         var typeCode = queryParams.all("type_code", List::of).stream()
                 .map(String::trim)
@@ -39,15 +44,6 @@ public class PublicDictController implements WebSupport {
 
         var list = dictService.findByTypeCodes(typeCode);
         var rs = Lists.transform(list, (o) -> beanMapper.toPublicDictTypeResponse(o, includeData));
-        response.send(rs);
-    }
-
-    private void getPublicDict(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var dataCode = pathParams.get("code");
-
-        var bean = dictService.findDictData(dataCode);
-        var rs = beanMapper.toPublicDictDataResponse(bean);
         response.send(rs);
     }
 }

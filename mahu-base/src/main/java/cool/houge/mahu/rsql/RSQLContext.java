@@ -2,7 +2,7 @@ package cool.houge.mahu.rsql;
 
 import static java.util.Objects.requireNonNull;
 
-import io.ebean.typequery.QueryBean;
+import io.ebean.Query;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,9 +12,9 @@ import java.util.Objects;
 public class RSQLContext {
 
     private final List<FilterItem> filterItems;
-    private final QueryBean<?, ?> query;
+    private final Query<?> query;
 
-    public RSQLContext(List<FilterItem> filterItems, QueryBean<?, ?> query) {
+    public RSQLContext(List<FilterItem> filterItems, Query<?> query) {
         requireNonNull(filterItems);
         requireNonNull(query);
         this.filterItems = filterItems;
@@ -22,7 +22,7 @@ public class RSQLContext {
     }
 
     @SuppressWarnings({"rawtypes"})
-    public QueryBean query() {
+    public Query query() {
         return query;
     }
 

@@ -1,22 +1,39 @@
 package cool.houge.mahu.rsql;
 
+import static cool.houge.mahu.rsql.ExtRSQLOperators.BETWEEN;
+import static cool.houge.mahu.rsql.ExtRSQLOperators.CONTAINS;
+import static cool.houge.mahu.rsql.ExtRSQLOperators.ICONTAINS;
+import static cool.houge.mahu.rsql.ExtRSQLOperators.ILIKE;
+import static cool.houge.mahu.rsql.ExtRSQLOperators.LIKE;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.EQUAL;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.GREATER_THAN;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.GREATER_THAN_OR_EQUAL;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.IN;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.IS_NULL;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.LESS_THAN;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.LESS_THAN_OR_EQUAL;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.NOT_EQUAL;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.NOT_IN;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.NOT_NULL;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cz.jirutka.rsql.parser.ast.*;
+import cz.jirutka.rsql.parser.ast.AndNode;
+import cz.jirutka.rsql.parser.ast.ComparisonNode;
+import cz.jirutka.rsql.parser.ast.ComparisonOperator;
+import cz.jirutka.rsql.parser.ast.Node;
+import cz.jirutka.rsql.parser.ast.OrNode;
+import cz.jirutka.rsql.parser.ast.RSQLVisitor;
 import io.ebean.Expr;
 import io.ebean.Expression;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiFunction;
-
-import static cool.houge.mahu.rsql.ExtRSQLOperators.*;
-import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /// EBean RSQL 表达式解析器。
 ///
@@ -56,13 +73,13 @@ public class EBeanRSQLVisitor implements RSQLVisitor<Void, RSQLContext> {
         }
 
         log.debug("Visiting AND node with children: {}", node.getChildren());
-        ctx.query().and();
+        ctx.query().where().and();
         try {
             for (Node child : node.getChildren()) {
                 child.accept(this, ctx);
             }
         } finally {
-            ctx.query().endAnd();
+            ctx.query().where().endAnd();
         }
         return null;
     }
@@ -74,13 +91,13 @@ public class EBeanRSQLVisitor implements RSQLVisitor<Void, RSQLContext> {
         }
 
         log.debug("Visiting OR node with children: {}", node.getChildren());
-        ctx.query().or();
+        ctx.query().where().or();
         try {
             for (Node child : node.getChildren()) {
                 child.accept(this, ctx);
             }
         } finally {
-            ctx.query().endOr();
+            ctx.query().where().endOr();
         }
         return null;
     }
@@ -97,7 +114,7 @@ public class EBeanRSQLVisitor implements RSQLVisitor<Void, RSQLContext> {
         var op = node.getOperator();
         validateArguments(op, args);
         log.debug("Creating expression for column: {}, operator: {}, arguments: {}", item.getColumn(), op, args);
-        ctx.query().add(createExpression(item.getColumn(), op, args));
+        ctx.query().where().add(createExpression(item.getColumn(), op, args));
         return null;
     }
 

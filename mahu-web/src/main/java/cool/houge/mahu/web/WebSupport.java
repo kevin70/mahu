@@ -9,19 +9,13 @@ import cool.houge.mahu.domain.Pageable;
 import io.helidon.common.mapper.OptionalValue;
 import io.helidon.common.mapper.Value;
 import io.helidon.webserver.http.Handler;
-import io.helidon.webserver.http.HttpRules;
-import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.ServerRequest;
 import java.util.function.Function;
 
 /// Web 支持接口
 ///
 /// @author ZY (kzou227@qq.com)
-public interface WebSupport extends HttpService {
-
-    /// {@inheritDoc}
-    @Override
-    void routing(HttpRules rules);
+public interface WebSupport {
 
     /// 校验对象
     ///

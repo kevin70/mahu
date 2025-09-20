@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/SysClientUpsertRequest.yaml"
+          $ref: "../components/schemas/SysAuthClientUpsertRequest.yaml"
   responses:
     "204":
       description: OK

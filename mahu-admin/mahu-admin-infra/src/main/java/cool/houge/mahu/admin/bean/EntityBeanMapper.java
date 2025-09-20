@@ -1,10 +1,10 @@
 package cool.houge.mahu.admin.bean;
 
-import cool.houge.mahu.entity.AuthClient;
 import cool.houge.mahu.admin.entity.Admin;
+import cool.houge.mahu.admin.entity.Role;
+import cool.houge.mahu.entity.AuthClient;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
-import cool.houge.mahu.admin.entity.Role;
 import io.helidon.service.registry.Service.Contract;
 import io.helidon.service.registry.Service.Singleton;
 import org.mapstruct.AnnotateWith;
@@ -31,7 +31,7 @@ public interface EntityBeanMapper {
     @Mapping(target = "data", ignore = true)
     void map(@MappingTarget DictType target, DictType bean);
 
-    @Mapping(target = "dictType", ignore = true)
+    @Mapping(target = "type", ignore = true)
     void map(@MappingTarget Dict target, Dict bean);
 
     void map(@MappingTarget Role target, Role bean);

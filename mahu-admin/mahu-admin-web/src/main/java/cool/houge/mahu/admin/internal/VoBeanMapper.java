@@ -19,7 +19,7 @@ import org.mapstruct.ReportingPolicy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface VoBeanMapper extends SystemBeanMapper, LogBeanMapper {
+public interface VoBeanMapper extends SysBeanMapper, LogBeanMapper {
 
     default LocalDateTime toLocalDateTime(Instant b) {
         return b != null ? b.atZone(ZoneId.systemDefault()).toLocalDateTime() : null;

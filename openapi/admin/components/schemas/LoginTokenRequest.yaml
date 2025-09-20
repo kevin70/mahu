@@ -1,0 +1,6 @@
+type: object
+oneOf:
+  - $ref: "TokenPasswordForm.yaml"
+  - $ref: "TokenRefreshTokenForm.yaml"
+discriminator:
+  propertyName: grant_type

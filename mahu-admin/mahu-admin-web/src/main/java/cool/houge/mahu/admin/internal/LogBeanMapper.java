@@ -3,18 +3,18 @@ package cool.houge.mahu.admin.internal;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
-import cool.houge.mahu.admin.oas.model.AdminAccessLogResponse;
-import cool.houge.mahu.admin.oas.model.AdminAuditLogResponse;
-import cool.houge.mahu.admin.oas.model.AdminAuthLogResponse;
+import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
+import cool.houge.mahu.admin.oas.vo.SysAdminAuditLogResponse;
+import cool.houge.mahu.admin.oas.vo.SysAdminAuthLogResponse;
 
 /// 日志对象映射
 ///
 /// @author ZY (kzou227@qq.com)
 public interface LogBeanMapper {
 
-    AdminAuthLogResponse toAdminAuthLogResponse(AdminAuthLog bean);
+    SysAdminAuthLogResponse toAdminAuthLogResponse(AdminAuthLog bean);
 
-    AdminAccessLogResponse toAdminAccessLogResponse(AdminAccessLog bean);
+    SysAdminAccessLogResponse toAdminAccessLogResponse(AdminAccessLog bean);
 
-    AdminAuditLogResponse toAdminAuditLogResponse(AdminAuditLog bean);
+    SysAdminAuditLogResponse toAdminAuditLogResponse(AdminAuditLog bean);
 }

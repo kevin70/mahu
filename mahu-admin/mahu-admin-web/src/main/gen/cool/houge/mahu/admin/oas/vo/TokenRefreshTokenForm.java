@@ -1,0 +1,32 @@
+package cool.houge.mahu.admin.oas.vo;
+
+import io.avaje.validation.constraints.*;
+
+
+@lombok.Data
+@io.avaje.validation.constraints.Valid
+public class TokenRefreshTokenForm {
+
+    /**
+     * 授权类型
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("grant_type")
+    private String grantType;
+    /**
+     * 请求客户端 ID
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("client_id")
+    private String clientId;
+    /**
+     * 刷新令牌
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("refresh_token")
+    private String refreshToken;
+}
+
