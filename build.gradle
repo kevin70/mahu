@@ -96,6 +96,7 @@ allprojects {
         version = "22.19.0"
         distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
         workDir = rootProject.layout.projectDirectory.dir(".gradle/")
+        pnpmWorkDir = rootProject.layout.projectDirectory.dir(".gradle/")
     }
 
     // 部署服务器配置
