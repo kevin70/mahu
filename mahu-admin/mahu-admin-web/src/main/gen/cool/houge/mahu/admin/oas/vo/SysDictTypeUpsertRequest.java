@@ -15,20 +15,20 @@ public class SysDictTypeUpsertRequest {
      * 字典类型代码，唯一
      */
       @NotNull
- @Size(min=1,max=16)
-    @com.fasterxml.jackson.annotation.JsonProperty("type_code")
-    private String typeCode;
+ @Size(min=1,max=50)
+    @com.fasterxml.jackson.annotation.JsonProperty("id")
+    private String id;
     /**
      * 字典类型名称
      */
       @NotNull
- @Size(min=1,max=50)
+ @Size(min=1,max=255)
     @com.fasterxml.jackson.annotation.JsonProperty("name")
     private String name;
     /**
      * 字典类型描述
      */
-     @Size(max=255)
+     @Size(max=4096)
     @com.fasterxml.jackson.annotation.JsonProperty("description")
     private String description;
     /**

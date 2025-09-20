@@ -25,10 +25,9 @@ public class PublicDictController implements HPublicDictService, WebSupport {
 
     @Override
     public void getPublicDict(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var dataCode = pathParams.get("code");
+        var dc = queryArg(request, "dc").asInt().get();
 
-        var bean = dictService.findDictData(dataCode);
+        var bean = dictService.findDictData(dc);
         var rs = beanMapper.toPublicDictDataResponse(bean);
         response.send(rs);
     }
@@ -36,13 +35,13 @@ public class PublicDictController implements HPublicDictService, WebSupport {
     @Override
     public void listPublicDict(ServerRequest request, ServerResponse response) {
         var queryParams = request.query();
-        var typeCode = queryParams.all("type_code", List::of).stream()
+        var idList = queryParams.all("id", List::of).stream()
                 .map(String::trim)
                 .filter(Predicate.not(String::isEmpty))
                 .collect(Collectors.toSet());
         var includeData = queryParams.first("include_data").asBoolean().orElse(false);
 
-        var list = dictService.findByTypeCodes(typeCode);
+        var list = dictService.findByIds(idList);
         var rs = Lists.transform(list, (o) -> beanMapper.toPublicDictTypeResponse(o, includeData));
         response.send(rs);
     }

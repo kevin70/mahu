@@ -27,9 +27,9 @@ public class SysDictTypeResponseDataInner {
      * 字典数据代码，唯一
      */
       @NotNull
- @Size(min=1,max=50)
-    @com.fasterxml.jackson.annotation.JsonProperty("data_code")
-    private String dataCode;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("dc")
+    private Integer dc;
     /**
      * 字典数据名称
      */

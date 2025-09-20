@@ -11,20 +11,20 @@ public class PublicDictResponse {
      * 字典数据代码，唯一
      */
       @NotNull
- @Size(min=1,max=50)
-    @com.fasterxml.jackson.annotation.JsonProperty("code")
-    private String code;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("dc")
+    private Integer dc;
     /**
      * 字典数据名称
      */
       @NotNull
- @Size(min=1,max=100)
+
     @com.fasterxml.jackson.annotation.JsonProperty("name")
     private String name;
     /**
      * 字典类型描述
      */
-     @Size(max=4096)
+    
     @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String value;
     /**

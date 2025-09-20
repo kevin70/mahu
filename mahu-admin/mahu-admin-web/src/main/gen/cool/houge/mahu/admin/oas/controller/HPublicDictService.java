@@ -11,12 +11,12 @@ public interface HPublicDictService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.get("/p/dicts/{code}",this::getPublicDict);
+        rules.get("/p/dicts/{dc}",this::getPublicDict);
         rules.get("/p/dicts",this::listPublicDict);
     }
 
     ///
-    /// `GET /p/dicts/{code}` 获取字典类型
+    /// `GET /p/dicts/{dc}` 获取字典类型
     ///
     /// @param request the server request
     /// @param response the server response

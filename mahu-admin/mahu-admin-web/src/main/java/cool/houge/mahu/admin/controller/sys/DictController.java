@@ -39,18 +39,16 @@ public class DictController implements HDictService, WebSupport {
 
     @Override
     public void deleteSysDictType(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var typeCode = pathParams.get("type_code");
-        dictService.deleteByTypeCode(typeCode);
+        var dictTypeId = dictTypeId(request);
+        dictService.deleteById(dictTypeId);
         response.status(NO_CONTENT_204).send();
     }
 
     @Override
     public void getSysDictType(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var typeCode = pathParams.get("type_code");
+        var dictTypeId = dictTypeId(request);
 
-        var bean = dictService.findById(typeCode);
+        var bean = dictService.findById(dictTypeId);
         var rs = beanMapper.toSysDictTypeResponse(bean);
         response.send(rs);
     }
@@ -65,13 +63,16 @@ public class DictController implements HDictService, WebSupport {
 
     @Override
     public void updateSysDictType(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var vo = request.content().as(SysDictTypeUpsertRequest.class).setTypeCode(pathParams.get(
-            "type_code"));
+        var dictTypeId = dictTypeId(request);
+        var vo = request.content().as(SysDictTypeUpsertRequest.class).setId(dictTypeId);
         validate(vo);
 
         var bean = beanMapper.toDictType(vo);
         dictService.update(bean);
         response.status(NO_CONTENT_204).send();
+    }
+
+    String dictTypeId(ServerRequest request) {
+        return queryArg(request, "dict_type_id").get();
     }
 }

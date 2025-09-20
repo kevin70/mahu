@@ -5,9 +5,9 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.sys.repository.DictTypeRepository;
+import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
-import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
@@ -52,18 +52,18 @@ public class DictService {
 
     /// 删除指定代码的字典数据
     @Transactional
-    public void deleteByTypeCode(String typeCode) {
-        var bean = obtainById(typeCode);
+    public void deleteById(String id) {
+        var bean = obtainById(id);
         dictTypeRepository.delete(bean);
         log.info("删除数据字典 {}", bean);
     }
 
     /// 查询指定字典数据
     ///
-    /// @param dataCode 字典数据代码
+    /// @param dc 字典数据代码
     @Transactional(readOnly = true)
-    public Dict findDictData(String dataCode) {
-        var bean = dictTypeRepository.findDictData(dataCode);
+    public Dict findDictData(Integer dc) {
+        var bean = dictTypeRepository.findDictData(dc);
         if (bean == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND);
         }
@@ -84,10 +84,10 @@ public class DictService {
         return obtainById(typeCode);
     }
 
-    /// 查询指定代码的数据，如果传入的 `typeCodes` 为 `null` 则返回所有数据
+    /// 查询指定代码的数据，如果传入的 `ids` 为 `null` 则返回所有数据
     @Transactional(readOnly = true)
-    public List<DictType> findByTypeCodes(Collection<String> typeCodes) {
-        return dictTypeRepository.findByTypeCodes(typeCodes);
+    public List<DictType> findByIds(Collection<String> ids) {
+        return dictTypeRepository.findByIds(ids);
     }
 
     private DictType obtainById(String typeCode) {

@@ -24,11 +24,11 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
         super(DictType.class, db);
     }
 
-    /// 查询指定代码的数据，如果传入的 `typeCodes` 为 `null` 则返回所有数据
-    public List<DictType> findByTypeCodes(Collection<String> typeCode) {
+    /// 查询指定代码的数据，如果传入的 `ids` 为 `null` 则返回所有数据
+    public List<DictType> findByIds(Collection<String> ids) {
         var qb = new QDictType(db());
-        if (typeCode != null && !typeCode.isEmpty()) {
-            qb.type.in(typeCode);
+        if (ids != null && !ids.isEmpty()) {
+            qb.id.in(ids);
         }
         return qb.findList();
     }
@@ -46,16 +46,16 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     public PagedList<DictType> findPage(DataFilter dataFilter) {
         return new QDictType(db())
                 .also(o -> super.apply(o.query(), dataFilter))
-                .data
+                .dicts
                 .fetch()
                 .findPagedList();
     }
 
     /// 查询指定字典数据
     ///
-    /// @param dataCode 字典数据代码
-    public Dict findDictData(String dataCode) {
-        return new QDict(db()).code.eq(dataCode).findOne();
+    /// @param dc 字典数据代码
+    public Dict findDictData(Integer dc) {
+        return new QDict(db()).dc.eq(dc).findOne();
     }
 
     @Override
@@ -63,7 +63,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
         return List.of(
                 FilterItem.of(QDictType.Alias.createdAt),
                 FilterItem.of(QDictType.Alias.updatedAt),
-                FilterItem.of(QDictType.Alias.type),
+                FilterItem.of(QDictType.Alias.id),
                 FilterItem.of(QDictType.Alias.name)
                 //
                 );

@@ -8,17 +8,16 @@ import io.avaje.validation.constraints.*;
 public class SysDictUpsertRequest {
 
     /**
-     * 字典数据代码，唯一
+     * 字典代码
      */
-      @NotNull
- @Size(min=1,max=50)
-    @com.fasterxml.jackson.annotation.JsonProperty("code")
-    private String code;
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("dc")
+    private Integer dc;
     /**
      * 字典数据名称
      */
       @NotNull
- @Size(min=1,max=100)
+ @Size(min=1,max=255)
     @com.fasterxml.jackson.annotation.JsonProperty("name")
     private String name;
     /**
@@ -36,9 +35,8 @@ public class SysDictUpsertRequest {
     /**
      * 状态（F:禁用, T:启用）
      */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("status")
-    private Boolean status;
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
+    private Boolean disabled;
 }
 
