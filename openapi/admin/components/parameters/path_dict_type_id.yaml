@@ -1,4 +1,4 @@
-name: type_code
+name: dict_type_id
 in: path
 required: true
 description: |

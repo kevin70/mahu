@@ -1,10 +1,11 @@
 parameters:
   - in: path
-    name: code
-    required: true
+    name: dc
     description: 字典代码
+    required: true
     schema:
-      type: string
+      type: integer
+      format: int32
 get:
   summary: 获取字典类型
   operationId: getPublicDict

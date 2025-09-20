@@ -1,19 +1,16 @@
 type: object
 required:
-  - code
   - name
-  - status
 properties:
-  code:
-    type: string
-    description: 字典数据代码，唯一
-    minLength: 1
-    maxLength: 50
+  dc:
+    type: integer
+    format: int32
+    description: 字典代码
   name:
     type: string
     description: 字典数据名称
     minLength: 1
-    maxLength: 100
+    maxLength: 255
   value:
     type: string
     description: 字典类型描述
@@ -22,6 +19,6 @@ properties:
     type: integer
     format: int32
     description: 排序值
-  status:
+  disabled:
     type: boolean
     description: 状态（F:禁用, T:启用）

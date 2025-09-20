@@ -143,7 +143,7 @@ paths:
   /p/dicts:
     $ref: "paths/p_dicts.yaml"
   /p/dicts/{code}:
-    $ref: "paths/p_dicts_{code}.yaml"
+    $ref: "paths/p_dicts_{dc}.yaml"
 
   ### =============================== 认证/用户数据接口 =============================== ###
   /login/token:
@@ -162,8 +162,8 @@ paths:
     $ref: "paths/sys_auth-clients_{client_id}.yaml"
   /sys/dicts:
     $ref: "paths/sys_dicts.yaml"
-  /sys/dicts/{type_code}:
-    $ref: "paths/sys_dicts_{type_code}.yaml"
+  /sys/dicts/{dict_type_id}:
+    $ref: "paths/sys_dicts_{dict_type_id}.yaml"
   /sys/permissions:
     $ref: "paths/sys_permissions.yaml"
   /sys/roles:

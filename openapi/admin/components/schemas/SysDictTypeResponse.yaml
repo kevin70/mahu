@@ -2,9 +2,8 @@ type: object
 required:
   - created_at
   - updated_at
-  - type_code
+  - id
   - name
-  - status
 properties:
   created_at:
     type: string
@@ -14,20 +13,15 @@ properties:
     type: string
     format: date-time
     description: 修改时间
-  type_code:
+  id:
     type: string
     description: 字典类型代码，唯一
-    minLength: 1
-    maxLength: 50
   name:
     type: string
     description: 字典类型名称
-    minLength: 1
-    maxLength: 50
   description:
     type: string
     description: 字典类型描述
-    maxLength: 255
   disabled:
     type: boolean
     description: 是否禁用
@@ -39,10 +33,9 @@ properties:
       required:
         - created_at
         - updated_at
-        - data_code
+        - dc
         - name
         - ordering
-        - status
       properties:
         created_at:
           type: string
@@ -52,11 +45,10 @@ properties:
           type: string
           format: date-time
           description: 修改时间
-        data_code:
-          type: string
+        dc:
+          type: integer
+          format: int32
           description: 字典数据代码，唯一
-          minLength: 1
-          maxLength: 50
         name:
           type: string
           description: 字典数据名称

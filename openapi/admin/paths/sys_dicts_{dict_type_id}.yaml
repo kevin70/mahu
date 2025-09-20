@@ -1,5 +1,5 @@
 parameters:
-  - $ref: "../components/parameters/path_type_code.yaml"
+  - $ref: "../components/parameters/path_dict_type_id.yaml"
 get:
   summary: 获取字典类型数据
   operationId: getSysDictType
