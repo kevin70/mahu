@@ -15,10 +15,10 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SysClientResponse.yaml"
+            $ref: "../components/schemas/SysAuthClientResponse.yaml"
 delete:
   summary: 删除认证终端
-  operationId: deleteSysClient
+  operationId: deleteSysAuthClient
   x-permission-code: SYS_AUTH_CLIENT:W
   tags: [ h-auth-client ]
   responses:
@@ -26,7 +26,7 @@ delete:
       description: OK
 put:
   summary: 修改认证终端
-  operationId: updateSysClient
+  operationId: updateSysAuthClient
   x-permission-code: SYS_AUTH_CLIENT:W
   tags: [ h-auth-client ]
   requestBody:

@@ -16,4 +16,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/PublicDictTypeListResponse.yaml"
+            type: array
+            description: 字典列表
+            items:
+              $ref: "../components/schemas/PublicDictTypeResponse.yaml"

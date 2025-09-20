@@ -7,4 +7,4 @@ properties:
     type: array
     description: 客户端列表
     items:
-      $ref: "./SysClientResponse.yaml"
+      $ref: "./SysAuthClientResponse.yaml"

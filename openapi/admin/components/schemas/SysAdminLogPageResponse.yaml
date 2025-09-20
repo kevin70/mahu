@@ -7,6 +7,7 @@ properties:
     description: 列表
     items:
       discriminator:
+        propertyName: none
         mapping:
           ACCESS: "SysAdminAccessLogResponse.yaml"
           AUTH: "SysAdminAuthLogResponse.yaml"

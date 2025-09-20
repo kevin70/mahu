@@ -176,7 +176,7 @@ paths:
     $ref: "paths/sys_admins_{admin_id}.yaml"
   /sys/scheduled-tasks:
     $ref: "paths/sys_scheduled-tasks.yaml"
-  /sys/scheduled-tasks/{task_id}/exes:
+  /sys/scheduled-tasks/{task_name}/exes:
     $ref: "paths/sys_scheduled-tasks_{task_name}_exes.yaml"
   /sys/admin-logs/{type}:
     $ref: "paths/sys_admin-logs_{type}.yaml"

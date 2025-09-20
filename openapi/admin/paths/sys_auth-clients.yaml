@@ -14,7 +14,7 @@ post:
       description: OK
 get:
   summary: 认证终端分页列表
-  operationId: pageSysClient
+  operationId: pageSysAuthClient
   x-permission-code: SYS_AUTH_CLIENT:R
   tags: [ h-auth-client ]
   parameters:
@@ -28,4 +28,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SysClientPageResponse.yaml"
+            $ref: "../components/schemas/SysAuthClientPageResponse.yaml"
