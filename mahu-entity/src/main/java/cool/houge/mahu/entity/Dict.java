@@ -4,7 +4,6 @@ import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
@@ -23,7 +22,7 @@ public class Dict implements Auditable {
 
     /// 字典代码
     @Id
-    private String code;
+    private Integer dc;
     /// 创建时间
     @WhenCreated
     private Instant createdAt;
@@ -32,18 +31,17 @@ public class Dict implements Auditable {
     private Instant updatedAt;
     /// 数据字典类型
     @ManyToOne
-    @JoinColumn(name = "type")
-    private DictType type;
+    private DictType dictType;
     /// 标签
     private String label;
     /// 值
     private String value;
-    /// 排序值
-    @OrderBy("DESC")
-    private Integer ordering;
     /// 是否禁用
     ///
     /// - `true`：禁用
     /// - `false`：启用
     private Boolean disabled;
+    /// 排序值
+    @OrderBy("DESC")
+    private Integer ordering;
 }

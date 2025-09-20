@@ -39,13 +39,13 @@ public class DictService {
     /// 更新字典数据
     @Transactional
     public void update(DictType bean) {
-        var dbBean = obtainById(bean.getType());
+        var dbBean = obtainById(bean.getId());
         beanMapper.map(dbBean, bean);
 
-        if (dbBean.getData() == null) {
-            dbBean.setData(bean.getData());
+        if (dbBean.getDicts() == null) {
+            dbBean.setDicts(bean.getDicts());
         } else {
-            mergeDictData(dbBean.getData(), bean.getData());
+            mergeDictData(dbBean.getDicts(), bean.getDicts());
         }
         dictTypeRepository.update(dbBean);
     }
@@ -101,7 +101,7 @@ public class DictService {
     void mergeDictData(List<Dict> dbList, List<Dict> list) {
         for (Dict data : list) {
             var dbData = dbList.stream()
-                    .filter(o -> Objects.equals(o.getCode(), data.getCode()))
+                    .filter(o -> Objects.equals(o.getDc(), data.getDc()))
                     .findFirst();
             if (dbData.isPresent()) {
                 beanMapper.map(dbData.get(), data);
@@ -113,7 +113,7 @@ public class DictService {
         // 删除
         for (Dict dbData : Lists.newArrayList(dbList)) {
             var opt = list.stream()
-                    .filter(o -> Objects.equals(o.getCode(), dbData.getCode()))
+                    .filter(o -> Objects.equals(o.getDc(), dbData.getDc()))
                     .findFirst();
             if (opt.isEmpty()) {
                 dbList.remove(dbData);
