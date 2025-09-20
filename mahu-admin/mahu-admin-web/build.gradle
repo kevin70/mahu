@@ -88,12 +88,27 @@ tasks.named("openApiGenerate").configure {
     }
 }
 
-tasks.register("redoclyBundleOpenApi", com.github.gradle.node.pnpm.task.PnpmTask.class) {
+tasks.register("openapiPnpmInstall", com.github.gradle.node.pnpm.task.PnpmTask.class) {
     group("openapi tools")
     workingDir = rootProject.file("openapi")
     pnpmCommand = [
-        "install",
-        "redocly bundle admin@v1 --remove-unused-components -o ${rootProject.layout.buildDirectory.orNull}/admin/openapi.yaml"
+        "install"
+    ]
+}
+
+tasks.register("redoclyBundleOpenApi", com.github.gradle.node.pnpm.task.PnpmTask.class) {
+    group("openapi tools")
+    dependsOn("openapiPnpmInstall")
+    workingDir = rootProject.file("openapi")
+    pnpmCommand = [
+        "redocly"
+    ]
+    args = [
+        "bundle",
+        "admin@v1",
+        "--remove-unused-components",
+        "-o",
+        "${rootProject.layout.buildDirectory.orNull}/admin/openapi.yaml"
     ]
 }
 
