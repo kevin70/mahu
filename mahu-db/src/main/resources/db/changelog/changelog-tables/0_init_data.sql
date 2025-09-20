@@ -15,16 +15,16 @@ VALUES (current_timestamp(0),
 
 -- changeset kzou227@qq.com:202508251151
 -- comment: 系统超级管理员
-INSERT INTO system.role (id, created_at, updated_at, deleted, name, remark,
+INSERT INTO sys.role (id, created_at, updated_at, deleted, name, remark,
                          ordering, permissions)
 VALUES (1, current_timestamp(0), current_timestamp(0), 'F', '超级管理员',
         '系统超级管理员，拥有系统所有权限', 9999, '["*"]'::jsonb);
--- rollback delete from system.role where id=1;
+-- rollback delete from sys.role where id=1;
 
 
 -- changeset kzou227@qq.com:202508251152
 -- comment: 系统超级管理员
-INSERT INTO system.admin (id, created_at, updated_at, deleted, username, password, nickname, avatar,
+INSERT INTO sys.admin (id, created_at, updated_at, deleted, username, password, nickname, avatar,
                           status, gender)
 VALUES (1,
         current_timestamp(0),
@@ -37,7 +37,7 @@ VALUES (1,
         1,
         0);
 
-INSERT INTO system.admin_role (admin_id, role_id)
+INSERT INTO sys.admin_role (admin_id, role_id)
 VALUES (1, 1);
--- rollback delete from system.admin where id=1;
--- rollback delete from system.admin_role where admin_id=1 and role_id=1;
+-- rollback delete from sys.admin where id=1;
+-- rollback delete from sys.admin_role where admin_id=1 and role_id=1;

@@ -2,7 +2,7 @@
 
 
 -- changeset kzou227@qq.com:202508242200
-create table system.scheduled_task
+create table sys.scheduled_task
 (
     task_name            varchar(50) not null
         constraint scheduled_task_pk
@@ -20,15 +20,15 @@ create table system.scheduled_task
     priority             smallint
 );
 
-comment on table system.scheduled_task is '定时任务：https://github.com/kagkarlsson/db-scheduler';
+comment on table sys.scheduled_task is '定时任务：https://github.com/kagkarlsson/db-scheduler';
 
-comment on column system.scheduled_task.task_name is '任务名称';
+comment on column sys.scheduled_task.task_name is '任务名称';
 
-comment on column system.scheduled_task.task_data is '任务数据';
+comment on column sys.scheduled_task.task_data is '任务数据';
 
 create index scheduled_task_execution_time_i
-    on system.scheduled_task (execution_time);
+    on sys.scheduled_task (execution_time);
 
 create index scheduled_task_last_heartbeat_i
-    on system.scheduled_task (last_heartbeat);
--- rollback drop table system.scheduled_task;
+    on sys.scheduled_task (last_heartbeat);
+-- rollback drop table sys.scheduled_task;

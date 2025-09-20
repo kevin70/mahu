@@ -2,5 +2,5 @@
 
 
 -- changeset kzou227@qq.com:202508240000
-create schema system;
--- rollback drop schema system;
+create schema sys;
+-- rollback drop schema sys;

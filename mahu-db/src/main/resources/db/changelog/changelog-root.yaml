@@ -12,21 +12,21 @@ databaseChangeLog:
 
   ### 系统表
   - include:
-      file: "db/changelog/changelog-tables/system.scheduled_task.sql"
+      file: "db/changelog/changelog-tables/sys.scheduled_task.sql"
   - include:
-      file: "db/changelog/changelog-tables/system.scheduled_task_exe_log.sql"
+      file: "db/changelog/changelog-tables/sys.scheduled_task_exe_log.sql"
   - include:
-      file: "db/changelog/changelog-tables/system.role.sql"
+      file: "db/changelog/changelog-tables/sys.role.sql"
   - include:
-      file: "db/changelog/changelog-tables/system.admin.sql"
+      file: "db/changelog/changelog-tables/sys.admin.sql"
   - include:
-      file: "db/changelog/changelog-tables/system.admin_role.sql"
+      file: "db/changelog/changelog-tables/sys.admin_role.sql"
   - include:
-      file: "db/changelog/changelog-tables/system.admin_access_log.sql"
+      file: "db/changelog/changelog-tables/sys.admin_access_log.sql"
   - include:
-      file: "db/changelog/changelog-tables/system.admin_audit_log.sql"
+      file: "db/changelog/changelog-tables/sys.admin_audit_log.sql"
   - include:
-      file: "db/changelog/changelog-tables/system.admin_auth_log.sql"
+      file: "db/changelog/changelog-tables/sys.admin_auth_log.sql"
 
   ### 初始化业务数据
   - include:
