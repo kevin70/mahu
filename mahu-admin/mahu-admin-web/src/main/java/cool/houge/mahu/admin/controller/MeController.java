@@ -30,7 +30,7 @@ public class MeController implements HMeService, WebSupport {
         var dto = adminService.getProfile(ac.uid());
         dto.setPermits(ac.permissions());
 
-        var rs = beanMapper.toGetMeProfileResponse(dto);
+        var rs = beanMapper.toMeProfileResponse(dto);
         response.send(rs);
     }
 

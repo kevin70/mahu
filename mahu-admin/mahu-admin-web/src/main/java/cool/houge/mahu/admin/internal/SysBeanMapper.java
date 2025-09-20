@@ -41,7 +41,7 @@ public interface SysBeanMapper {
 
     DictType toDictType(SysDictTypeUpsertRequest bean);
 
-    SysDictTypeResponse toDictResponse(DictType bean);
+    SysDictTypeResponse toSysDictTypeResponse(DictType bean);
 
     @Mapping(target = "data", conditionExpression = "java(includeData)")
     PublicDictTypeResponse toPublicDictTypeResponse(DictType bean, boolean includeData);
@@ -58,21 +58,21 @@ public interface SysBeanMapper {
     @Mapping(target = "grantType", source = "type")
     TokenPayload toTokenPayload(TokenRefreshTokenForm bean, GrantType type);
 
-    LoginTokenResponse toTokenResponse(TokenResult bean);
+    LoginTokenResponse toLoginTokenResponse(TokenResult bean);
 
     Admin toAdmin(UpdateMePasswordRequest bean);
 
     Admin toAdmin(UpdateMeProfileRequest bean);
 
-    MeProfileResponse toGetMeProfileResponse(Profile bean);
+    MeProfileResponse toMeProfileResponse(Profile bean);
 
-    AuthClient toClient(SysAuthClientUpsertRequest bean);
+    AuthClient toAuthClient(SysAuthClientUpsertRequest bean);
 
-    SysAuthClientResponse toClientResponse(AuthClient bean);
+    SysAuthClientResponse toSysAuthClientResponse(AuthClient bean);
 
     Role toRole(SysRoleUpsertRequest bean);
 
-    SysRoleResponse toRoleResponse(Role bean);
+    SysRoleResponse toSysRoleResponse(Role bean);
 
     @Named("roleIdsToRoles")
     default List<Role> roleIdsToRoles(List<Integer> roleIds) {
@@ -90,12 +90,12 @@ public interface SysBeanMapper {
     Admin toAdmin(SysAdminUpsertRequest bean);
 
     @Mapping(target = "roleIds", source = "roles", qualifiedByName = "rolesToRoleIds")
-    SysAdminResponse toAdminResponse(Admin bean);
+    SysAdminResponse toSysAdminResponse(Admin bean);
 
-    SysScheduledTaskResponse toScheduledTaskResponse(ScheduledTask bean);
+    SysScheduledTaskResponse toSysScheduledTaskResponse(ScheduledTask bean);
 
     @Mapping(target = "taskName", source = "scheduledTask.taskName")
-    SysScheduledTaskExeResponse toScheduledTaskExecutionResponse(ScheduledTaskExeLog bean);
+    SysScheduledTaskExeResponse toSysScheduledTaskExeResponse(ScheduledTaskExeLog bean);
 
     ScheduledTask toScheduledTask(String taskName);
 }

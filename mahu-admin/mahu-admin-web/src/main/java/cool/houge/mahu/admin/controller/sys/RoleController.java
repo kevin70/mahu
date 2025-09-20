@@ -47,7 +47,7 @@ public class RoleController implements HRoleService, WebSupport {
         var id = pathParams.first("id").asInt().get();
 
         var bean = roleService.findById(id);
-        var rs = beanMapper.toRoleResponse(bean);
+        var rs = beanMapper.toSysRoleResponse(bean);
         response.send(rs);
     }
 
@@ -55,7 +55,7 @@ public class RoleController implements HRoleService, WebSupport {
     public void pageSysRole(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = roleService.findPage(dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toRoleResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toSysRoleResponse);
         response.send(rs);
     }
 

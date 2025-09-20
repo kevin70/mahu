@@ -43,7 +43,7 @@ public class AdminController implements HAdminService, WebSupport {
     public void getSysAdmin(ServerRequest request, ServerResponse response) {
         var id = adminId(request);
         var entity = adminService.obtainById(id);
-        var rs = beanMapper.toAdminResponse(entity);
+        var rs = beanMapper.toSysAdminResponse(entity);
         response.send(rs);
     }
 
@@ -52,7 +52,7 @@ public class AdminController implements HAdminService, WebSupport {
         var dataFilter = dataFilter(request);
 
         var plist = adminService.findPage(dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toAdminResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toSysAdminResponse);
         response.send(rs);
     }
 

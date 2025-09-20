@@ -38,7 +38,7 @@ public class ScheduledTaskController implements HScheduledTaskService, WebSuppor
     public void pageSysScheduledTask(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = scheduledTaskService.findPage(dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toScheduledTaskResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toSysScheduledTaskResponse);
         response.send(rs);
     }
 
@@ -47,7 +47,7 @@ public class ScheduledTaskController implements HScheduledTaskService, WebSuppor
         var taskId = taskName(request);
         var dataFilter = dataFilter(request);
         var plist = scheduledTaskService.findPage4ExecutionLog(taskId, dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toScheduledTaskExecutionResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toSysScheduledTaskExeResponse);
         response.send(rs);
     }
 

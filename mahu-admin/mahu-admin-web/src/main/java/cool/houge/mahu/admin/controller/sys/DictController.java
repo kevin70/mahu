@@ -51,7 +51,7 @@ public class DictController implements HDictService, WebSupport {
         var typeCode = pathParams.get("type_code");
 
         var bean = dictService.findById(typeCode);
-        var rs = beanMapper.toDictResponse(bean);
+        var rs = beanMapper.toSysDictTypeResponse(bean);
         response.send(rs);
     }
 
@@ -59,7 +59,7 @@ public class DictController implements HDictService, WebSupport {
     public void pageSysDictType(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = dictService.findPage(dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toDictResponse);
+        var rs = dataFilter.toResult(plist, beanMapper::toSysDictTypeResponse);
         response.send(rs);
     }
 

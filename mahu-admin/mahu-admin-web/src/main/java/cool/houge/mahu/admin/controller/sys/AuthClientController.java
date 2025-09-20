@@ -28,7 +28,7 @@ public class AuthClientController implements HAuthClientService,WebSupport {
         var vo = request.content().as(SysAuthClientUpsertRequest.class);
         validate(vo);
 
-        var entity = beanMapper.toClient(vo);
+        var entity = beanMapper.toAuthClient(vo);
         authClientService.save(entity);
         response.status(NO_CONTENT_204).send();
     }
@@ -48,14 +48,14 @@ public class AuthClientController implements HAuthClientService,WebSupport {
         var clientId = pathParams.first("client_id").get();
 
         var bean = authClientService.findById(clientId);
-        response.send(beanMapper.toClientResponse(bean));
+        response.send(beanMapper.toSysAuthClientResponse(bean));
     }
 
     @Override
     public void pageSysAuthClient(ServerRequest request, ServerResponse response) {
         var filter = dataFilter(request);
         var plist = authClientService.findPage(filter);
-        var rs = filter.toResult(plist, beanMapper::toClientResponse);
+        var rs = filter.toResult(plist, beanMapper::toSysAuthClientResponse);
         response.send(rs);
     }
 
@@ -67,7 +67,7 @@ public class AuthClientController implements HAuthClientService,WebSupport {
         var pathParams = request.path().pathParameters();
         var clientId = pathParams.first("client_id").get();
 
-        var entity = beanMapper.toClient(vo).setClientId(clientId);
+        var entity = beanMapper.toAuthClient(vo).setClientId(clientId);
         authClientService.update(entity);
         response.status(NO_CONTENT_204).send();
     }
