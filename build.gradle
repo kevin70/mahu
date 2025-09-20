@@ -2,7 +2,7 @@
 plugins {
     id("java")
     id("application")
-    id("io.ebean") version "17.0.0"
+    id("io.ebean") version "17.1.0"
     id("org.openapi.generator") version "7.14.0"
     id("io.spring.dependency-management") version "1.1.7"
 
@@ -112,7 +112,7 @@ allprojects {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.0-M1")
             mavenBom("io.helidon:helidon-bom:4.3.0-M2")
-            mavenBom("io.ebean:ebean-bom:17.0.1")
+            mavenBom("io.ebean:ebean-bom:17.1.0")
             mavenBom("org.testcontainers:testcontainers-bom:1.21.3")
         }
         dependencies {
