@@ -1,10 +1,10 @@
-package cool.houge.mahu.admin.system.service;
+package cool.houge.mahu.admin.sys.service;
 
 import com.google.common.collect.Lists;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.admin.system.repository.DictTypeRepository;
+import cool.houge.mahu.admin.sys.repository.DictTypeRepository;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
 import cool.houge.mahu.domain.DataFilter;

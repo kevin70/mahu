@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin;
 
-import cool.houge.mahu.admin.system.repository.AuditPersistController;
+import cool.houge.mahu.admin.sys.repository.AuditPersistController;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.ContainerConfig;

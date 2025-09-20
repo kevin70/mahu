@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "admin", schema = "system")
+@Table(name = "admin", schema = "sys")
 public class Admin implements Auditable {
 
     /// 主键

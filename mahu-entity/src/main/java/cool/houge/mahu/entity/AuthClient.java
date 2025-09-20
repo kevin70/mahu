@@ -1,6 +1,5 @@
 package cool.houge.mahu.entity;
 
-import cool.houge.mahu.entity.system.TerminalType;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;

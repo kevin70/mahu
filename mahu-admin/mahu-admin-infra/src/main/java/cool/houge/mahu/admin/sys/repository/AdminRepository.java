@@ -1,10 +1,9 @@
-package cool.houge.mahu.admin.system.repository;
+package cool.houge.mahu.admin.sys.repository;
 
 import com.google.common.base.Strings;
-import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.AdminStatus;
-import cool.houge.mahu.entity.system.query.QAdmin;
+import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
@@ -44,7 +43,7 @@ public class AdminRepository extends HBeanRepository<Long, Admin> {
     /// | nickname | string |
     /// | status | enum |
     public PagedList<Admin> findPage(DataFilter dataFilter) {
-        return new QAdmin(db()).also(o -> super.apply(o, dataFilter)).findPagedList();
+        return new QAdmin(db()).also(o -> super.apply(o.query(), dataFilter)).findPagedList();
     }
 
     @Override

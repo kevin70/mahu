@@ -1,8 +1,8 @@
-package cool.houge.mahu.admin.system.repository;
+package cool.houge.mahu.admin.sys.repository;
 
-import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.admin.entity.Role;
-import cool.houge.mahu.entity.system.query.QRole;
+import cool.houge.mahu.admin.entity.query.QRole;
+import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
@@ -41,6 +41,6 @@ public class RoleRepository extends HBeanRepository<Integer, Role> {
     /// | name | string |
     /// | ordering | int |
     public PagedList<Role> findPage(DataFilter dataFilter) {
-        return new QRole(db()).also(o -> super.apply(o, dataFilter)).findPagedList();
+        return new QRole(db()).also(o -> super.apply(o.query(), dataFilter)).findPagedList();
     }
 }

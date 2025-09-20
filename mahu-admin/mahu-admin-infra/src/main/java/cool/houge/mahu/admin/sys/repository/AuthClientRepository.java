@@ -1,8 +1,8 @@
-package cool.houge.mahu.admin.system.repository;
+package cool.houge.mahu.admin.sys.repository;
 
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.entity.AuthClient;
-import cool.houge.mahu.entity.system.query.QClient;
+import cool.houge.mahu.entity.query.QAuthClient;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
@@ -16,16 +16,16 @@ import org.jspecify.annotations.NonNull;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class ClientRepository extends HBeanRepository<String, AuthClient> {
+public class AuthClientRepository extends HBeanRepository<String, AuthClient> {
 
-    public ClientRepository(Database db) {
+    public AuthClientRepository(Database db) {
         super(AuthClient.class, db);
     }
 
     /// 获取客户端配置
     /// @param clientId 客户端 ID
     public AuthClient obtainClient(String clientId) {
-        return new QClient(database)
+        return new QAuthClient(database)
                 .clientId
                 .eq(clientId)
                 .findOneOrEmpty()
@@ -42,15 +42,17 @@ public class ClientRepository extends HBeanRepository<String, AuthClient> {
     /// | updated_at | date-time |
     /// | client_id | string |
     public PagedList<AuthClient> findPage(DataFilter dataFilter) {
-        return new QClient(db()).also(o -> super.apply(o, dataFilter)).findPagedList();
+        return new QAuthClient(db())
+                .also(o -> super.apply(o.query(), dataFilter))
+                .findPagedList();
     }
 
     @Override
     protected @NonNull List<FilterItem> filterableItems() {
         return List.of(
-                FilterItem.of(QClient.Alias.createdAt),
-                FilterItem.of(QClient.Alias.updatedAt),
-                FilterItem.of(QClient.Alias.clientId)
+                FilterItem.of(QAuthClient.Alias.createdAt),
+                FilterItem.of(QAuthClient.Alias.updatedAt),
+                FilterItem.of(QAuthClient.Alias.clientId)
                 //
                 );
     }

@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.system.repository;
+package cool.houge.mahu.admin.sys.repository;
 
 import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.entity.Auditable;

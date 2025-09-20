@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.system.dto;
+package cool.houge.mahu.admin.sys.dto;
 
 import cool.houge.mahu.util.GrantType;
 import lombok.Data;

@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "system", name = "scheduled_task_exe_log")
+@Table(schema = "sys", name = "scheduled_task_exe_log")
 public class ScheduledTaskExeLog extends BaseBizLog {
 
     /// 定时任务

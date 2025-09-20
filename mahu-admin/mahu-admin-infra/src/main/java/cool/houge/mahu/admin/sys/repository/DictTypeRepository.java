@@ -1,10 +1,10 @@
-package cool.houge.mahu.admin.system.repository;
+package cool.houge.mahu.admin.sys.repository;
 
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
-import cool.houge.mahu.entity.system.query.QDict;
-import cool.houge.mahu.entity.system.query.QDictType;
+import cool.houge.mahu.entity.query.QDict;
+import cool.houge.mahu.entity.query.QDictType;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
@@ -28,7 +28,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     public List<DictType> findByTypeCodes(Collection<String> typeCode) {
         var qb = new QDictType(db());
         if (typeCode != null && !typeCode.isEmpty()) {
-            qb.typeCode.in(typeCode);
+            qb.type.in(typeCode);
         }
         return qb.findList();
     }
@@ -45,7 +45,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     /// | name | string |
     public PagedList<DictType> findPage(DataFilter dataFilter) {
         return new QDictType(db())
-                .also(o -> super.apply(o, dataFilter))
+                .also(o -> super.apply(o.query(), dataFilter))
                 .data
                 .fetch()
                 .findPagedList();
@@ -63,7 +63,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
         return List.of(
                 FilterItem.of(QDictType.Alias.createdAt),
                 FilterItem.of(QDictType.Alias.updatedAt),
-                FilterItem.of(QDictType.Alias.typeCode),
+                FilterItem.of(QDictType.Alias.type),
                 FilterItem.of(QDictType.Alias.name)
                 //
                 );

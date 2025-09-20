@@ -1,8 +1,8 @@
-package cool.houge.mahu.admin.system.repository;
+package cool.houge.mahu.admin.sys.repository;
 
-import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.admin.entity.ScheduledTask;
-import cool.houge.mahu.entity.system.query.QScheduledTask;
+import cool.houge.mahu.admin.entity.query.QScheduledTask;
+import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
@@ -24,16 +24,14 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
     @Override
     protected @NonNull List<FilterItem> filterableItems() {
         return List.of(
-                FilterItem.of(QScheduledTask.Alias.id),
-                FilterItem.of(QScheduledTask.Alias.taskName),
-                FilterItem.of(QScheduledTask.Alias.lastFailure)
+                FilterItem.of(QScheduledTask.Alias.taskName), FilterItem.of(QScheduledTask.Alias.lastFailure)
                 //
                 );
     }
 
     /// 查询指定的定时任务并锁定
-    public ScheduledTask findForUpdate(String taskId) {
-        return new QScheduledTask(db()).id.eq(taskId).forUpdate().findOne();
+    public ScheduledTask findForUpdate(String taskName) {
+        return new QScheduledTask(db()).taskName.eq(taskName).forUpdate().findOne();
     }
 
     /// 分页查询
@@ -45,6 +43,8 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
     /// | id | string |
     /// | task_name | string |
     public PagedList<ScheduledTask> findPage(DataFilter dataFilter) {
-        return new QScheduledTask(db()).also(qb -> super.apply(qb, dataFilter)).findPagedList();
+        return new QScheduledTask(db())
+                .also(qb -> super.apply(qb.query(), dataFilter))
+                .findPagedList();
     }
 }

@@ -1,11 +1,11 @@
-package cool.houge.mahu.admin.system.service;
+package cool.houge.mahu.admin.sys.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.admin.system.repository.ClientRepository;
-import cool.houge.mahu.entity.AuthClient;
+import cool.houge.mahu.admin.sys.repository.AuthClientRepository;
 import cool.houge.mahu.domain.DataFilter;
+import cool.houge.mahu.entity.AuthClient;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
@@ -18,10 +18,10 @@ import lombok.AllArgsConstructor;
 /// @author ZY (kzou227@qq.com)
 @Singleton
 @AllArgsConstructor
-public class ClientService {
+public class AuthClientService {
 
     private final EntityBeanMapper beanMapper;
-    private final ClientRepository clientRepository;
+    private final AuthClientRepository authClientRepository;
 
     /// 新增认证客户端
     @Transactional
@@ -29,7 +29,7 @@ public class ClientService {
         var clientId = TSID.fast().toString();
         var clientSecret = randomClientSecret();
         authClient.setDeleted(false).setClientId(clientId).setClientSecret(clientSecret);
-        clientRepository.save(authClient);
+        authClientRepository.save(authClient);
     }
 
     /// 更新认证客户端
@@ -37,25 +37,25 @@ public class ClientService {
     public void update(AuthClient authClient) {
         var dbEntity = this.findById(authClient.getClientId());
         beanMapper.map(dbEntity, authClient);
-        clientRepository.update(dbEntity);
+        authClientRepository.update(dbEntity);
     }
 
     /// 删除认证客户端
     @Transactional
     public void delete(AuthClient authClient) {
-        clientRepository.delete(authClient);
+        authClientRepository.delete(authClient);
     }
 
     /// 分页查询
     @Transactional(readOnly = true)
     public PagedList<AuthClient> findPage(DataFilter dataFilter) {
-        return clientRepository.findPage(dataFilter);
+        return authClientRepository.findPage(dataFilter);
     }
 
     /// 查询指定 ID 的客户端
     @Transactional(readOnly = true)
     public AuthClient findById(String id) {
-        var bean = clientRepository.findById(id);
+        var bean = authClientRepository.findById(id);
         if (bean == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, "未找到认证客户端[" + id + "]");
         }

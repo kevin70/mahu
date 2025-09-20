@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "role", schema = "system")
+@Table(name = "role", schema = "sys")
 public class Role implements Auditable {
 
     /// 主键

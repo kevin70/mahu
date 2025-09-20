@@ -1,16 +1,17 @@
-package cool.houge.mahu.admin.system.service;
+package cool.houge.mahu.admin.sys.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.admin.system.repository.ScheduledExecutionLogRepository;
-import cool.houge.mahu.admin.system.repository.ScheduledTaskRepository;
-import cool.houge.mahu.admin.entity.ScheduledTaskExeLog;
 import cool.houge.mahu.admin.entity.ScheduledTask;
+import cool.houge.mahu.admin.entity.ScheduledTaskExeLog;
+import cool.houge.mahu.admin.sys.repository.ScheduledExeLogRepository;
+import cool.houge.mahu.admin.sys.repository.ScheduledTaskRepository;
 import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
 import java.time.Instant;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,16 +26,16 @@ public class ScheduledTaskService {
     private static final Logger log = LogManager.getLogger(ScheduledTaskService.class);
 
     private final ScheduledTaskRepository scheduledTaskRepository;
-    private final ScheduledExecutionLogRepository scheduledExecutionLogRepository;
+    private final ScheduledExeLogRepository scheduledExeLogRepository;
 
     /// 立即执行定时任务
     @Transactional
     public void execute(ScheduledTask entity) {
-        var dbEntity = scheduledTaskRepository.findForUpdate(entity.getId());
+        var dbEntity = scheduledTaskRepository.findForUpdate(entity.getTaskName());
         if (dbEntity == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, "未找到定时任务");
         }
-        if (dbEntity.isPicked()) {
+        if (Objects.equals(entity.getPicked(), Boolean.TRUE)) {
             throw new BizCodeException(BizCodes.FAILED_PRECONDITION, "任务不存在或正在执行中");
         }
         dbEntity.setExecutionTime(Instant.now());
@@ -51,6 +52,6 @@ public class ScheduledTaskService {
     /// 分页查询定时任务执行日志
     @Transactional(readOnly = true)
     public PagedList<ScheduledTaskExeLog> findPage4ExecutionLog(String taskId, DataFilter dataFilter) {
-        return scheduledExecutionLogRepository.findPage(taskId, dataFilter);
+        return scheduledExeLogRepository.findPage(taskId, dataFilter);
     }
 }

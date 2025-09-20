@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.system.service;
+package cool.houge.mahu.admin.sys.service;
 
 import com.google.common.base.Strings;
 import com.password4j.Password;
@@ -6,14 +6,16 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
-import cool.houge.mahu.admin.event.CollectProfileEvent;
-import cool.houge.mahu.admin.system.repository.AdminRepository;
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.AdminStatus;
+import cool.houge.mahu.admin.event.AdminAccessEvent;
+import cool.houge.mahu.admin.event.CollectProfileEvent;
+import cool.houge.mahu.admin.sys.repository.AdminRepository;
 import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Event;
+import io.helidon.service.registry.Event.Observer;
 import io.helidon.service.registry.Service.Singleton;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +33,13 @@ public class AdminService {
     final AdminRepository adminRepository;
     final Event.Emitter<CollectProfileEvent> collectProfileEvent;
     final EntityBeanMapper beanMapper;
+
+    /// 监听管理员访问日志
+    @Transactional
+    @Observer
+    void onAdminAccessEvent(AdminAccessEvent event) {
+        //
+    }
 
     /// 获取个人信息
     ///

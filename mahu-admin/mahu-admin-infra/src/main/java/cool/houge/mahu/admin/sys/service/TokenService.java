@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.system.service;
+package cool.houge.mahu.admin.sys.service;
 
 import com.google.common.base.Strings;
 import com.password4j.Password;
@@ -6,10 +6,10 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
-import cool.houge.mahu.admin.system.dto.TokenPayload;
-import cool.houge.mahu.admin.system.dto.TokenResult;
-import cool.houge.mahu.admin.system.repository.AdminRepository;
-import cool.houge.mahu.admin.system.repository.ClientRepository;
+import cool.houge.mahu.admin.sys.dto.TokenPayload;
+import cool.houge.mahu.admin.sys.dto.TokenResult;
+import cool.houge.mahu.admin.sys.repository.AdminRepository;
+import cool.houge.mahu.admin.sys.repository.AuthClientRepository;
 import cool.houge.mahu.config.ConfigKeys;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.admin.entity.Admin;
@@ -46,15 +46,15 @@ public class TokenService implements TokenVerifier {
     private final JwkKeys jwkKeys;
     private final TokenConfig tokenConfig;
     private final AdminRepository adminRepository;
-    private final ClientRepository clientRepository;
+    private final AuthClientRepository authClientRepository;
 
-    public TokenService(Config root, AdminRepository adminRepository, ClientRepository clientRepository) {
+    public TokenService(Config root, AdminRepository adminRepository, AuthClientRepository authClientRepository) {
         this.jwkKeys = JwkKeys.builder()
                 .resource(Resource.create(root.get(ConfigKeys.JWT_KEYS)))
                 .build();
         this.tokenConfig = TokenConfig.create(root.get(ConfigKeys.TOKEN));
         this.adminRepository = adminRepository;
-        this.clientRepository = clientRepository;
+        this.authClientRepository = authClientRepository;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class TokenService implements TokenVerifier {
 
     @Transactional
     public TokenResult token(TokenPayload payload) {
-        var client = clientRepository.obtainClient(payload.getClientId());
+        var client = authClientRepository.obtainClient(payload.getClientId());
         var grantType = payload.getGrantType();
 
         Admin admin;

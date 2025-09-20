@@ -1,9 +1,9 @@
-package cool.houge.mahu.admin.system.service;
+package cool.houge.mahu.admin.sys.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.admin.system.repository.RoleRepository;
+import cool.houge.mahu.admin.sys.repository.RoleRepository;
 import cool.houge.mahu.admin.entity.Role;
 import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
