@@ -4,8 +4,8 @@ import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HMeService;
-import cool.houge.mahu.admin.oas.vo.UpdateMePasswordRequest;
-import cool.houge.mahu.admin.oas.vo.UpdateMeProfileRequest;
+import cool.houge.mahu.admin.oas.vo.MePasswordUpdateRequest;
+import cool.houge.mahu.admin.oas.vo.MeProfileUpdateRequest;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.sys.service.AdminService;
 import cool.houge.mahu.web.WebSupport;
@@ -36,7 +36,7 @@ public class MeController implements HMeService, WebSupport {
 
     @Override
     public void updateMeProfile(ServerRequest request, ServerResponse response) {
-        var vo = request.content().as(UpdateMeProfileRequest.class);
+        var vo = request.content().as(MeProfileUpdateRequest.class);
         validate(vo);
 
         var ac = AuthContext.current();
@@ -48,7 +48,7 @@ public class MeController implements HMeService, WebSupport {
 
     @Override
     public void updateMePassword(ServerRequest request, ServerResponse response) {
-        var vo = request.content().as(UpdateMePasswordRequest.class);
+        var vo = request.content().as(MePasswordUpdateRequest.class);
         validate(vo);
 
         var ac = AuthContext.current();

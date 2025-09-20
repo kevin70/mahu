@@ -1,12 +1,11 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.avaje.validation.constraints.*;
 
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class UpdateMeProfileRequest {
+public class MeProfileUpdateRequest {
 
     /**
      * 昵称

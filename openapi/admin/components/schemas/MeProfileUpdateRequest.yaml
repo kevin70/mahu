@@ -1,0 +1,8 @@
+type: object
+properties:
+  nickname:
+    type: string
+    description: 昵称
+  avatar:
+    type: string
+    description: 头像地址

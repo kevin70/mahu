@@ -7,7 +7,9 @@ import cool.houge.mahu.admin.entity.ScheduledTask;
 import cool.houge.mahu.admin.entity.ScheduledTaskExeLog;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
 import cool.houge.mahu.admin.oas.vo.LoginTokenResponse;
+import cool.houge.mahu.admin.oas.vo.MePasswordUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.MeProfileResponse;
+import cool.houge.mahu.admin.oas.vo.MeProfileUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.PublicDictResponse;
 import cool.houge.mahu.admin.oas.vo.PublicDictTypeResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminResponse;
@@ -22,8 +24,6 @@ import cool.houge.mahu.admin.oas.vo.SysScheduledTaskExeResponse;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskResponse;
 import cool.houge.mahu.admin.oas.vo.TokenPasswordForm;
 import cool.houge.mahu.admin.oas.vo.TokenRefreshTokenForm;
-import cool.houge.mahu.admin.oas.vo.UpdateMePasswordRequest;
-import cool.houge.mahu.admin.oas.vo.UpdateMeProfileRequest;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.entity.AuthClient;
@@ -43,7 +43,7 @@ public interface SysBeanMapper {
 
     SysDictTypeResponse toSysDictTypeResponse(DictType bean);
 
-    @Mapping(target = "data", conditionExpression = "java(includeData)")
+    @Mapping(target = "data", source = "bean.dicts", conditionExpression = "java(includeData)")
     PublicDictTypeResponse toPublicDictTypeResponse(DictType bean, boolean includeData);
 
     PublicDictResponse toPublicDictDataResponse(Dict bean);
@@ -60,9 +60,9 @@ public interface SysBeanMapper {
 
     LoginTokenResponse toLoginTokenResponse(TokenResult bean);
 
-    Admin toAdmin(UpdateMePasswordRequest bean);
+    Admin toAdmin(MePasswordUpdateRequest bean);
 
-    Admin toAdmin(UpdateMeProfileRequest bean);
+    Admin toAdmin(MeProfileUpdateRequest bean);
 
     MeProfileResponse toMeProfileResponse(Profile bean);
 

@@ -18,14 +18,7 @@ put:
     content:
       application/json:
         schema:
-          type: object
-          properties:
-            nickname:
-              type: string
-              description: 昵称
-            avatar:
-              type: string
-              description: 头像地址
+          $ref: "../components/schemas/MeProfileUpdateRequest.yaml"
   responses:
     "204":
       description: OK
