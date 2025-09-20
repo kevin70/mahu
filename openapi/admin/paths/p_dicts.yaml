@@ -4,8 +4,15 @@ get:
   tags: [ h-public-dict ]
   security: [ ]
   parameters:
-    - name: include_data
-      in: query
+    - in: query
+      name: id
+      description: 字典类型 ID
+      schema:
+        type: array
+        items:
+          type: string
+    - in: query
+      name: include_data
       description: 是否包涵 `data` 数据
       schema:
         type: boolean
