@@ -24,7 +24,7 @@ properties:
     type: integer
     description: 排序值
     format: int32
-  permits:
+  permissions:
     type: array
     description: 拥有的权限代码
     items:

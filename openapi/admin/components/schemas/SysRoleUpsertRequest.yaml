@@ -19,7 +19,7 @@ properties:
   remark:
     type: string
     description: 字典备注
-  permits:
+  permissions:
     type: array
     description: 拥有的权限代码
     items:

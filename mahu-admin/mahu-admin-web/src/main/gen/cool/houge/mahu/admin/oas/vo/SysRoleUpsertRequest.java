@@ -40,9 +40,8 @@ public class SysRoleUpsertRequest {
     /**
      * 拥有的权限代码
      */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("permits")
-    private List<String> permits;
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("permissions")
+    private List<String> permissions;
 }
 
