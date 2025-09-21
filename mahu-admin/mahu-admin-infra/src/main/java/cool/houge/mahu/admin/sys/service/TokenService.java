@@ -4,16 +4,18 @@ import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.entity.Admin;
+import cool.houge.mahu.admin.entity.AdminAuthLog;
+import cool.houge.mahu.admin.entity.AdminStatus;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.dto.TokenResult;
+import cool.houge.mahu.admin.sys.repository.AdminAuthLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminRepository;
 import cool.houge.mahu.admin.sys.repository.AuthClientRepository;
 import cool.houge.mahu.config.ConfigKeys;
 import cool.houge.mahu.config.TokenConfig;
-import cool.houge.mahu.admin.entity.Admin;
-import cool.houge.mahu.admin.entity.AdminStatus;
 import cool.houge.mahu.util.GrantType;
 import cool.houge.mahu.util.Metadata;
 import io.ebean.annotation.Transactional;
@@ -46,14 +48,20 @@ public class TokenService implements TokenVerifier {
     private final JwkKeys jwkKeys;
     private final TokenConfig tokenConfig;
     private final AdminRepository adminRepository;
+    private final AdminAuthLogRepository adminAuthLogRepository;
     private final AuthClientRepository authClientRepository;
 
-    public TokenService(Config root, AdminRepository adminRepository, AuthClientRepository authClientRepository) {
+    public TokenService(
+            Config root,
+            AdminRepository adminRepository,
+            AdminAuthLogRepository adminAuthLogRepository,
+            AuthClientRepository authClientRepository) {
         this.jwkKeys = JwkKeys.builder()
                 .resource(Resource.create(root.get(ConfigKeys.JWT_KEYS)))
                 .build();
         this.tokenConfig = TokenConfig.create(root.get(ConfigKeys.TOKEN));
         this.adminRepository = adminRepository;
+        this.adminAuthLogRepository = adminAuthLogRepository;
         this.authClientRepository = authClientRepository;
     }
 
@@ -125,15 +133,16 @@ public class TokenService implements TokenVerifier {
 
         // 保存登录记录日志
         var metadata = Metadata.current();
-        // sharedService.save(
-        //         new AdminAuthLog()
-        //                 .setAdminId(admin.getId())
-        //                 .setAuthType(payload.getGrantType().name())
-        //                 .setClientId(client.getClientId())
-        //                 .setIpAddr(metadata.clientAddr())
-        //                 .setUserAgent(metadata.userAgent())
-        //         //
-        //         );
+        adminAuthLogRepository.save(
+                new AdminAuthLog()
+                        .setId(TSID.fast().toLong())
+                        .setAdminId(admin.getId())
+                        .setGrantType(payload.getGrantType().name())
+                        .setClientId(client.getClientId())
+                        .setIpAddr(metadata.clientAddr())
+                        .setUserAgent(metadata.userAgent())
+                //
+                );
         return ret;
     }
 

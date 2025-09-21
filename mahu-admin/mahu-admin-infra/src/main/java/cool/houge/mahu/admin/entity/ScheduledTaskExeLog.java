@@ -1,8 +1,9 @@
 package cool.houge.mahu.admin.entity;
 
-import cool.houge.mahu.entity.log.BaseBizLog;
 import io.ebean.annotation.DbJsonB;
+import io.ebean.annotation.WhenCreated;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -18,8 +19,16 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(schema = "sys", name = "scheduled_task_exe_log")
-public class ScheduledTaskExeLog extends BaseBizLog {
+public class ScheduledTaskExeLog {
 
+    /// 日志追踪 ID。
+    ///
+    /// Time-Sorted Unique Identifiers [TSID](https://github.com/vladmihalcea/hypersistence-tsid)。
+    @Id
+    protected Long id;
+    /// 创建时间
+    @WhenCreated
+    protected Instant createdAt;
     /// 定时任务
     @ManyToOne
     @JoinColumn(name = "task_name", referencedColumnName = "task_name")

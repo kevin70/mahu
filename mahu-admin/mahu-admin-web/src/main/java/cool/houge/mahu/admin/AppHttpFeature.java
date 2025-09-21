@@ -30,15 +30,21 @@ public class AppHttpFeature implements HttpFeature, Filter {
 
     private final SimpleSecurity security;
     private final List<HttpService> httpServices;
+    private final List<Filter> filters;
 
-    public AppHttpFeature(SimpleSecurity security, List<HttpService> httpServices) {
+    public AppHttpFeature(SimpleSecurity security, List<HttpService> httpServices,
+        List<Filter> filters) {
         this.security = security;
         this.httpServices = httpServices;
+        this.filters = filters;
     }
 
     @Override
     public void setup(HttpRouting.Builder routing) {
         routing.addFilter(this).security(security);
+        for (Filter filter : filters) {
+            routing.addFilter(filter);
+        }
 
         // 注册 HTTP 服务
         for (HttpService httpService : httpServices) {

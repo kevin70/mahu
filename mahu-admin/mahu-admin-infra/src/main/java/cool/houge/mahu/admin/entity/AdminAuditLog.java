@@ -1,10 +1,12 @@
 package cool.houge.mahu.admin.entity;
 
-import cool.houge.mahu.entity.log.BaseBizLog;
 import io.ebean.annotation.DbJsonB;
+import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhoCreated;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +17,16 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(schema = "sys", name = "admin_audit_log")
-public class AdminAuditLog extends BaseBizLog {
+public class AdminAuditLog {
 
+    /// 日志追踪 ID。
+    ///
+    /// Time-Sorted Unique Identifiers [TSID](https://github.com/vladmihalcea/hypersistence-tsid)。
+    @Id
+    protected Long id;
+    /// 创建时间
+    @WhenCreated
+    protected Instant createdAt;
     /// 操作管理员 ID
     @WhoCreated
     private Long adminId;

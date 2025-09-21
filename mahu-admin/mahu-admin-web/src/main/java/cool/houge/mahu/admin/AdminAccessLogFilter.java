@@ -38,6 +38,7 @@ public class AdminAccessLogFilter implements Filter {
                 log.error("记录访问日志出现异常", e);
             }
         });
+        chain.proceed();
     }
 
     void saveAccessLog(ServerRequest req, ServerResponse res) {
