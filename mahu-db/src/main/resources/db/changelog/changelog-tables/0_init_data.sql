@@ -16,7 +16,7 @@ VALUES (current_timestamp(0),
 -- changeset kzou227@qq.com:202508251151
 -- comment: 系统超级管理员
 INSERT INTO sys.role (id, created_at, updated_at, deleted, name, remark,
-                         ordering, permissions)
+                      ordering, permissions)
 VALUES (1, current_timestamp(0), current_timestamp(0), 'F', '超级管理员',
         '系统超级管理员，拥有系统所有权限', 9999, '["*"]'::jsonb);
 -- rollback delete from sys.role where id=1;
@@ -25,7 +25,7 @@ VALUES (1, current_timestamp(0), current_timestamp(0), 'F', '超级管理员',
 -- changeset kzou227@qq.com:202508251152
 -- comment: 系统超级管理员
 INSERT INTO sys.admin (id, created_at, updated_at, deleted, username, password, nickname, avatar,
-                          status, gender)
+                       status, gender)
 VALUES (1,
         current_timestamp(0),
         current_timestamp(0),
@@ -34,7 +34,7 @@ VALUES (1,
         '$argon2id$v=19$m=15360,t=2,p=1$RmT8NvroGRJkFVnmimIxcOM3foB5lPOFQYj5OHhyYSFJf+YByD9nAiIZXOZFiVaLb5YPve4v4lfyJyyuE6+sBg$JCSB3sXOeemq5m6JQ1Uo56+GIwlOvotRR7npwUMznns',
         '超级管理员',
         'https://www.gravatar.com/avatar',
-        1,
+        22,
         0);
 
 INSERT INTO sys.admin_role (admin_id, role_id)
