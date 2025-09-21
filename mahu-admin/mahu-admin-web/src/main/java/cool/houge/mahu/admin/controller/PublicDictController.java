@@ -25,7 +25,7 @@ public class PublicDictController implements HPublicDictService, WebSupport {
 
     @Override
     public void getPublicDict(ServerRequest request, ServerResponse response) {
-        var dc = queryArg(request, "dc").asInt().get();
+        var dc = pathArg(request, "dc").asInt().get();
 
         var bean = dictService.findDictData(dc);
         var rs = beanMapper.toPublicDictDataResponse(bean);

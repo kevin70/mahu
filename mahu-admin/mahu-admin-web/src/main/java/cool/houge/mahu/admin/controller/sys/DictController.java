@@ -5,6 +5,7 @@ import static io.helidon.http.Status.NO_CONTENT_204;
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HDictService;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
+import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.sys.service.DictService;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
@@ -24,7 +25,13 @@ public class DictController implements HDictService, WebSupport {
 
     @Override
     public void addSysDictData(ServerRequest request, ServerResponse response) {
-        //
+        var dictTypeId = dictTypeId(request);
+        var vo = request.content().as(SysDictUpsertRequest.class);
+        validate(vo);
+
+        var bean = beanMapper.toDict(vo);
+        dictService.save(dictTypeId, bean);
+        response.status(NO_CONTENT_204).send();
     }
 
     @Override
@@ -73,6 +80,6 @@ public class DictController implements HDictService, WebSupport {
     }
 
     String dictTypeId(ServerRequest request) {
-        return queryArg(request, "dict_type_id").get();
+        return pathArg(request, "dict_type_id").get();
     }
 }

@@ -18,6 +18,7 @@ import cool.houge.mahu.admin.oas.vo.SysAuthClientResponse;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeResponse;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
+import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysRoleResponse;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskExeResponse;
@@ -40,6 +41,8 @@ import org.mapstruct.Named;
 public interface SysBeanMapper {
 
     DictType toDictType(SysDictTypeUpsertRequest bean);
+
+    Dict toDict(SysDictUpsertRequest bean);
 
     SysDictTypeResponse toSysDictTypeResponse(DictType bean);
 

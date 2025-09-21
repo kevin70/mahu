@@ -1,14 +1,16 @@
 type: object
 required:
   - name
+  - ordering
+  - disabled
 properties:
   dc:
     type: integer
     format: int32
     description: 字典代码
-  name:
+  label:
     type: string
-    description: 字典数据名称
+    description: 字典数据标签
     minLength: 1
     maxLength: 255
   value:

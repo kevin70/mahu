@@ -7,7 +7,7 @@ parameters:
       type: integer
       format: int32
 get:
-  summary: 获取字典类型
+  summary: 获取字典数据
   operationId: getPublicDict
   tags: [ h-public-dict ]
   security: [ ]

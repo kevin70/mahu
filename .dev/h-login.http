@@ -8,3 +8,7 @@ Content-Type: application/json
     "username": "houge",
     "password": "houge"
 }
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}

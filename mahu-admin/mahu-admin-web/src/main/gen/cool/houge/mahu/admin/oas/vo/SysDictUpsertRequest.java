@@ -14,12 +14,11 @@ public class SysDictUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("dc")
     private Integer dc;
     /**
-     * 字典数据名称
+     * 字典数据标签
      */
-      @NotNull
- @Size(min=1,max=255)
-    @com.fasterxml.jackson.annotation.JsonProperty("name")
-    private String name;
+     @Size(min=1,max=255)
+    @com.fasterxml.jackson.annotation.JsonProperty("label")
+    private String label;
     /**
      * 字典类型描述
      */
@@ -29,13 +28,15 @@ public class SysDictUpsertRequest {
     /**
      * 排序值
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("ordering")
     private Integer ordering;
     /**
      * 状态（F:禁用, T:启用）
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("disabled")
     private Boolean disabled;
 }

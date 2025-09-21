@@ -1,0 +1,24 @@
+### 新建字典类型
+POST {{base_uri}}/sys/dicts
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "id": "{{$random.uuid}}",
+  "name": "{{$random.name.username}}",
+  "description": "{{$random.lorem.paragraph}}",
+  "disabled": true
+}
+
+
+### 新增字典数据
+POST {{base_uri}}/sys/dicts/42a20f21-1a06-41b7-ae0d-58cbfef046bf
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "label": "{{$random.name.name}}",
+    "value": "{{$random.lorem.word}}",
+    "disabled": true,
+    "ordering": {{$random.integer(1, 9999)}}
+}

@@ -16,7 +16,7 @@ public interface HPublicDictService extends HttpService {
     }
 
     ///
-    /// `GET /p/dicts/{dc}` 获取字典类型
+    /// `GET /p/dicts/{dc}` 获取字典数据
     ///
     /// @param request the server request
     /// @param response the server response

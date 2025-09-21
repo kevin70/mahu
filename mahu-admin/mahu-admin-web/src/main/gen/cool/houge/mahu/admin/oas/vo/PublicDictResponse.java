@@ -15,12 +15,11 @@ public class PublicDictResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("dc")
     private Integer dc;
     /**
-     * 字典数据名称
+     * 字典数据标签
      */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("name")
-    private String name;
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("label")
+    private String label;
     /**
      * 字典类型描述
      */

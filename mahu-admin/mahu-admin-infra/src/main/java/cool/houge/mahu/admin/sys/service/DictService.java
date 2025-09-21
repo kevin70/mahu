@@ -11,9 +11,11 @@ import cool.houge.mahu.entity.DictType;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,6 +58,16 @@ public class DictService {
         var bean = obtainById(id);
         dictTypeRepository.delete(bean);
         log.info("删除数据字典 {}", bean);
+    }
+
+    /// 保存字典数据
+    @Transactional
+    public void save(String typeId, Dict bean) {
+        var dbBean = obtainById(typeId);
+        var list = Optional.ofNullable(dbBean.getData()).orElseGet(ArrayList::new);
+        list.add(bean);
+        dbBean.setData(list);
+        dictTypeRepository.update(dbBean);
     }
 
     /// 查询指定字典数据

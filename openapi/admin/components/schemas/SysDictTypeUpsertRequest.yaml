@@ -2,6 +2,7 @@ type: object
 required:
   - id
   - name
+  - disabled
 properties:
   id:
     type: string

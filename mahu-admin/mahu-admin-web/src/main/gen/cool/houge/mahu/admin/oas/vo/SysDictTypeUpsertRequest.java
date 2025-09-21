@@ -34,7 +34,8 @@ public class SysDictTypeUpsertRequest {
     /**
      * 是否禁用
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("disabled")
     private Boolean disabled;
     /**

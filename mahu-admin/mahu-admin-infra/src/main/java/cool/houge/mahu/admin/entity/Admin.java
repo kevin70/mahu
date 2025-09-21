@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -57,11 +56,7 @@ public class Admin implements Auditable {
 
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "admin_role",
-            schema = "system",
-            joinColumns = @JoinColumn(name = "admin_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(schema = "sys", name = "admin_role")
     private List<Role> roles;
 
     /// 原始密码（修改密码）
