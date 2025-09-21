@@ -51,7 +51,7 @@ public class TraceExecutionInterceptor implements ExecutionInterceptor {
     void saveExecutionLog(ExecutionContext context, String traceId, Instant startedAt, boolean success) {
         try {
             var execution = context.getExecution();
-            var task = db.reference(ScheduledTask.class, execution.getId());
+            var task = db.reference(ScheduledTask.class, execution.getTaskName());
             var bean = new ScheduledTaskExeLog()
                     .setId(TSID.fast().toLong())
                     .setScheduledTask(task)
