@@ -41,12 +41,12 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     /// | --- | ----- |
     /// | created_at | date-time |
     /// | updated_at | date-time |
-    /// | type_code | string |
+    /// | id | string |
     /// | name | string |
     public PagedList<DictType> findPage(DataFilter dataFilter) {
         return new QDictType(db())
                 .also(o -> super.apply(o.query(), dataFilter))
-                .dicts
+                .data
                 .fetch()
                 .findPagedList();
     }

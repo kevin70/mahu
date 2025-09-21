@@ -43,7 +43,7 @@ public interface SysBeanMapper {
 
     SysDictTypeResponse toSysDictTypeResponse(DictType bean);
 
-    @Mapping(target = "data", source = "bean.dicts", conditionExpression = "java(includeData)")
+    @Mapping(target = "data", conditionExpression = "java(includeData)")
     PublicDictTypeResponse toPublicDictTypeResponse(DictType bean, boolean includeData);
 
     PublicDictResponse toPublicDictDataResponse(Dict bean);

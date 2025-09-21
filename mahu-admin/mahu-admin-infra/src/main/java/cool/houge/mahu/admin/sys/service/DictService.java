@@ -42,10 +42,10 @@ public class DictService {
         var dbBean = obtainById(bean.getId());
         beanMapper.map(dbBean, bean);
 
-        if (dbBean.getDicts() == null) {
-            dbBean.setDicts(bean.getDicts());
+        if (dbBean.getData() == null) {
+            dbBean.setData(bean.getData());
         } else {
-            mergeDictData(dbBean.getDicts(), bean.getDicts());
+            mergeDictData(dbBean.getData(), bean.getData());
         }
         dictTypeRepository.update(dbBean);
     }

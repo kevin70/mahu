@@ -31,7 +31,7 @@ public interface EntityBeanMapper {
     @Mapping(target = "data", ignore = true)
     void map(@MappingTarget DictType target, DictType bean);
 
-    @Mapping(target = "type", ignore = true)
+    @Mapping(target = "dc", ignore = true)
     void map(@MappingTarget Dict target, Dict bean);
 
     void map(@MappingTarget Role target, Role bean);

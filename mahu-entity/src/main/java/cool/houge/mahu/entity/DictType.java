@@ -40,6 +40,6 @@ public class DictType implements Auditable {
     /// - `false`：启用
     private Boolean disabled;
     /// 字典数据
-    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Dict> dicts;
+    @OneToMany(mappedBy = "dictType", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Dict> data;
 }
