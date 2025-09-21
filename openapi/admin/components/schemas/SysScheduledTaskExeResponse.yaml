@@ -1,40 +1,36 @@
 type: object
 required:
-  - task_id
   - task_name
   - picked_by
-  - started_at
-  - finished_at
+  - start_time
+  - done_time
   - trace_id
 properties:
   created_at:
     type: string
     format: date-time
     description: 创建时间
-  task_id:
-    type: string
-    description: 任务 ID
   task_name:
     type: string
     description: 任务名称
   picked_by:
     type: string
     description: 任务执行者
-  started_at:
+  start_time:
     type: string
     format: date-time
     description: 执行开始时间
-  finished_at:
+  done_time:
     type: string
     format: date-time
-    description: 执行结束时间
-  succeeded:
+    description: 完成时间
+  success:
     type: boolean
     description: 是否执行成功
   trace_id:
     type: string
     description: 日志追踪 ID
-  cause:
+  fail_cause:
     type: array
     description: 失败原因
     items:

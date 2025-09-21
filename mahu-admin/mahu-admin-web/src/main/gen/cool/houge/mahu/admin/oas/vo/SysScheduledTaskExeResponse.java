@@ -18,13 +18,6 @@ public class SysScheduledTaskExeResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
     private LocalDateTime createdAt;
     /**
-     * 任务 ID
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("task_id")
-    private String taskId;
-    /**
      * 任务名称
      */
       @NotNull
@@ -43,21 +36,21 @@ public class SysScheduledTaskExeResponse {
      */
       @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("started_at")
-    private LocalDateTime startedAt;
+    @com.fasterxml.jackson.annotation.JsonProperty("start_time")
+    private LocalDateTime startTime;
     /**
-     * 执行结束时间
+     * 完成时间
      */
       @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("finished_at")
-    private LocalDateTime finishedAt;
+    @com.fasterxml.jackson.annotation.JsonProperty("done_time")
+    private LocalDateTime doneTime;
     /**
      * 是否执行成功
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("succeeded")
-    private Boolean succeeded;
+    @com.fasterxml.jackson.annotation.JsonProperty("success")
+    private Boolean success;
     /**
      * 日志追踪 ID
      */
@@ -69,7 +62,7 @@ public class SysScheduledTaskExeResponse {
      * 失败原因
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("cause")
-    private List<String> cause;
+    @com.fasterxml.jackson.annotation.JsonProperty("fail_cause")
+    private List<String> failCause;
 }
 
