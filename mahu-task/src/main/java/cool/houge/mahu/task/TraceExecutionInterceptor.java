@@ -6,8 +6,8 @@ import com.github.kagkarlsson.scheduler.task.CompletionHandler;
 import com.github.kagkarlsson.scheduler.task.ExecutionContext;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
 import cool.houge.mahu.TraceIdGenerator;
-import cool.houge.mahu.entity.log.ScheduledExecutionLog;
-import cool.houge.mahu.entity.system.ScheduledTask;
+import cool.houge.mahu.task.entity.ScheduledTask;
+import cool.houge.mahu.task.entity.ScheduledTaskExeLog;
 import io.ebean.Database;
 import io.ebean.annotation.Transactional;
 import io.helidon.logging.common.HelidonMdc;
@@ -30,15 +30,16 @@ public class TraceExecutionInterceptor implements ExecutionInterceptor {
     public CompletionHandler<?> execute(
             TaskInstance<?> taskInstance, ExecutionContext executionContext, ExecutionChain chain) {
         var traceId = TraceIdGenerator.generate();
-        var startedAt = Instant.now();
+        var startTime = Instant.now();
+
         try {
             HelidonMdc.set("traceId", traceId);
             var rs = chain.proceed(taskInstance, executionContext);
             log.info("任务执行成功");
-            this.saveExecutionLog(executionContext, traceId, startedAt, true);
+            this.saveExecutionLog(executionContext, traceId, startTime, true);
             return rs;
         } catch (Throwable e) {
-            this.saveExecutionLog(executionContext, traceId, startedAt, false);
+            this.saveExecutionLog(executionContext, traceId, startTime, false);
             log.error("任务执行失败", e);
             throw e;
         } finally {
@@ -47,19 +48,18 @@ public class TraceExecutionInterceptor implements ExecutionInterceptor {
     }
 
     @Transactional
-    void saveExecutionLog(
-            ExecutionContext context, String traceId, Instant startedAt, boolean succeeded) {
+    void saveExecutionLog(ExecutionContext context, String traceId, Instant startedAt, boolean success) {
         try {
             var execution = context.getExecution();
             var task = db.reference(ScheduledTask.class, execution.getId());
-            var bean = new ScheduledExecutionLog()
+            var bean = new ScheduledTaskExeLog()
+                    .setId(TSID.fast().toLong())
                     .setScheduledTask(task)
                     .setPickedBy(execution.pickedBy)
-                    .setStartedAt(startedAt)
-                    .setFinishedAt(Instant.now())
+                    .setStartTime(startedAt)
+                    .setDoneTime(Instant.now())
                     .setTraceId(traceId)
-                    .setSucceeded(succeeded);
-            bean.setId(TSID.fast().toLong());
+                    .setSuccess(success);
             db.save(bean);
         } catch (Exception e) {
             log.error("保存任务执行记录失败", e);
