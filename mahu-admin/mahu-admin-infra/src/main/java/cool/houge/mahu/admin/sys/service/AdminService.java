@@ -7,8 +7,14 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.entity.Admin;
+import cool.houge.mahu.admin.entity.AdminAccessLog;
+import cool.houge.mahu.admin.entity.AdminAuditLog;
+import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.entity.AdminStatus;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
+import cool.houge.mahu.admin.sys.repository.AdminAccessLogRepository;
+import cool.houge.mahu.admin.sys.repository.AdminAuditLogRepository;
+import cool.houge.mahu.admin.sys.repository.AdminAuthLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminRepository;
 import cool.houge.mahu.domain.DataFilter;
 import io.ebean.PagedList;
@@ -29,6 +35,9 @@ public class AdminService {
     private static final Logger log = LogManager.getLogger();
 
     final AdminRepository adminRepository;
+    final AdminAccessLogRepository adminAccessLogRepository;
+    final AdminAuthLogRepository adminAuthLogRepository;
+    final AdminAuditLogRepository adminAuditLogRepository;
     final Event.Emitter<CollectProfileEvent> collectProfileEvent;
     final EntityBeanMapper beanMapper;
 
@@ -96,6 +105,24 @@ public class AdminService {
     @Transactional(readOnly = true)
     public PagedList<Admin> findPage(DataFilter dataFilter) {
         return adminRepository.findPage(dataFilter);
+    }
+
+    /// 管理员访问日志分页查询
+    @Transactional(readOnly = true)
+    public PagedList<AdminAccessLog> pageAdminAccessLog(DataFilter dataFilter) {
+        return adminAccessLogRepository.findPage(dataFilter);
+    }
+
+    /// 管理员认证日志分页查询
+    @Transactional(readOnly = true)
+    public PagedList<AdminAuthLog> pageAdminAuthLog(DataFilter dataFilter) {
+        return adminAuthLogRepository.findPage(dataFilter);
+    }
+
+    /// 管理员操作日志分页查询
+    @Transactional(readOnly = true)
+    public PagedList<AdminAuditLog> pageAdminAuditLog(DataFilter dataFilter) {
+        return adminAuditLogRepository.findPage(dataFilter);
     }
 
     void encryptPassword(Admin bean) {

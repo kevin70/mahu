@@ -1,7 +1,7 @@
-package cool.houge.mahu.admin.repository;
+package cool.houge.mahu.admin.sys.repository;
 
-import cool.houge.mahu.admin.entity.AdminAuditLog;
-import cool.houge.mahu.admin.entity.query.QAdminAuditLog;
+import cool.houge.mahu.admin.entity.AdminAuthLog;
+import cool.houge.mahu.admin.entity.query.QAdminAuthLog;
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
@@ -11,17 +11,17 @@ import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
 import org.jspecify.annotations.NonNull;
 
-/// 管理员操作审计日志
+/// 管理员认证日志
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class AdminAuditLogRepository extends HBeanRepository<Long, AdminAuditLog> {
+public class AdminAuthLogRepository extends HBeanRepository<Long, AdminAuthLog> {
 
-    public AdminAuditLogRepository(Database db) {
-        super(AdminAuditLog.class, db);
+    public AdminAuthLogRepository(Database db) {
+        super(AdminAuthLog.class, db);
     }
 
-    /// 管理员操作审计日志
+    /// 管理员后台访问记录
     ///
     /// **支持 RSQL 过滤的属性：**
     ///
@@ -30,8 +30,8 @@ public class AdminAuditLogRepository extends HBeanRepository<Long, AdminAuditLog
     /// | created_at | date-time |
     /// | admin_id | int |
     /// | ip_addr | string |
-    public PagedList<AdminAuditLog> findPage(DataFilter dataFilter) {
-        return new QAdminAuditLog(db())
+    public PagedList<AdminAuthLog> findPage(DataFilter dataFilter) {
+        return new QAdminAuthLog(db())
                 .also(o -> super.apply(o.query(), dataFilter))
                 .findPagedList();
     }
@@ -39,9 +39,9 @@ public class AdminAuditLogRepository extends HBeanRepository<Long, AdminAuditLog
     @Override
     protected @NonNull List<FilterItem> filterableItems() {
         return List.of(
-                FilterItem.of(QAdminAuditLog.Alias.createdAt),
-                FilterItem.of(QAdminAuditLog.Alias.adminId),
-                FilterItem.of(QAdminAuditLog.Alias.ipAddr)
+                FilterItem.of(QAdminAuthLog.Alias.createdAt),
+                FilterItem.of(QAdminAuthLog.Alias.adminId),
+                FilterItem.of(QAdminAuthLog.Alias.ipAddr)
                 //
                 );
     }

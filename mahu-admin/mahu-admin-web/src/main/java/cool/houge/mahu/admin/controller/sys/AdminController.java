@@ -4,6 +4,7 @@ import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HAdminService;
+import cool.houge.mahu.admin.oas.vo.AdminLogType;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
 import cool.houge.mahu.admin.sys.service.AdminService;
 import cool.houge.mahu.web.WebSupport;
@@ -58,8 +59,26 @@ public class AdminController implements HAdminService, WebSupport {
 
     @Override
     public void pageSysAdminLog(ServerRequest request, ServerResponse response) {
-        // FIXME
         var dataFilter = dataFilter(request);
+        var type = pathArg(request, "type").as(AdminLogType::valueOf).get();
+        switch (type) {
+            case ACCESS -> {
+                var plist = adminService.pageAdminAccessLog(dataFilter);
+                var rs = dataFilter.toResult(plist, beanMapper::toAdminAccessLogResponse);
+                response.send(rs);
+            }
+            case AUTH -> {
+                var plist = adminService.pageAdminAuthLog(dataFilter);
+                var rs = dataFilter.toResult(plist, beanMapper::toAdminAuthLogResponse);
+                response.send(rs);
+            }
+            // AUDIT
+            default -> {
+                var plist = adminService.pageAdminAuditLog(dataFilter);
+                var rs = dataFilter.toResult(plist, beanMapper::toAdminAuditLogResponse);
+                response.send(rs);
+            }
+        }
     }
 
     @Override
