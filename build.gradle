@@ -85,6 +85,7 @@ allprojects {
 
     configurations {
         configureEach {
+            exclude group: "org.slf4j", module: "slf4j-simple"
             exclude group: "io.avaje", module: "avaje-config"
             exclude group: "io.ebean", module: "ebean-migration"
             exclude group: "io.avaje", module: "avaje-validator-inject-plugin"
