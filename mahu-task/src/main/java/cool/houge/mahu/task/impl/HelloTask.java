@@ -1,21 +1,24 @@
 package cool.houge.mahu.task.impl;
 
+import static com.github.kagkarlsson.scheduler.task.schedule.Schedules.fixedDelay;
+
 import com.github.kagkarlsson.scheduler.task.ExecutionContext;
 import com.github.kagkarlsson.scheduler.task.Task;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
 import com.github.kagkarlsson.scheduler.task.helper.Tasks;
 import io.helidon.service.registry.Service.Singleton;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.function.Supplier;
-
-import static com.github.kagkarlsson.scheduler.task.schedule.Schedules.fixedDelay;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class HelloTask implements Supplier<Task<?>> {
+
+    private static final Logger log = LogManager.getLogger(HelloTask.class);
 
     @Override
     public Task<Void> get() {
@@ -23,7 +26,7 @@ public class HelloTask implements Supplier<Task<?>> {
     }
 
     public void execute(TaskInstance<Void> taskInstance, ExecutionContext executionContext) {
-        System.out.println("Hello Task Handler: " + Instant.now() + ", "
+        log.info("Hello Task Handler: " + Instant.now() + ", "
                 + executionContext.getExecution().getExecutionTime());
     }
 }

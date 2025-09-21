@@ -12,6 +12,8 @@ import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
 import java.util.function.Supplier;
 import javax.sql.DataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /// 定时任务
 ///
@@ -21,13 +23,14 @@ import javax.sql.DataSource;
 @Weight(Weighted.DEFAULT_WEIGHT + 900)
 class SchedulerProvider implements Supplier<Scheduler> {
 
+    private static final Logger log = LogManager.getLogger(SchedulerProvider.class);
     final List<Task<?>> tasks;
     final Scheduler v;
 
     SchedulerProvider(DataSource ds, List<Task<?>> tasks, Database db) {
         this.tasks = List.copyOf(tasks);
         this.v = Scheduler.create(ds, this.tasks)
-                .tableName("system.scheduled_task")
+                .tableName("sys.scheduled_task")
                 .threads(Runtime.getRuntime().availableProcessors())
                 .addExecutionInterceptor(new TraceExecutionInterceptor(db))
                 .enablePriority()
@@ -43,6 +46,7 @@ class SchedulerProvider implements Supplier<Scheduler> {
     void init() {
         for (Task<?> task : tasks) {
             this.v.schedule(task.schedulableInstance("default"));
+            log.info("注册定时任务: {}", task.getTaskName());
         }
         this.v.start();
     }
