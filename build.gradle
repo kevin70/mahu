@@ -45,7 +45,6 @@ allprojects {
             "-parameters"
         ]
         options.warnings = false
-        options.sourcepath = sourceSets.main.resources.getSourceDirectories()
     }
 
     test {
