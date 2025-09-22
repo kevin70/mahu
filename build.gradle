@@ -39,12 +39,6 @@ allprojects {
         targetCompatibility = JavaVersion.VERSION_25
     }
 
-    jar {
-        manifest {
-            attributes("Build-Time": "${java.time.OffsetDateTime.now()}")
-        }
-    }
-
     tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
         options.compilerArgs += [
