@@ -16,7 +16,6 @@ import cool.houge.mahu.admin.sys.repository.AdminRepository;
 import cool.houge.mahu.admin.sys.repository.AuthClientRepository;
 import cool.houge.mahu.config.ConfigKeys;
 import cool.houge.mahu.config.TokenConfig;
-import cool.houge.mahu.util.GrantType;
 import cool.houge.mahu.util.Metadata;
 import io.ebean.annotation.Transactional;
 import io.helidon.common.LazyValue;
@@ -115,14 +114,12 @@ public class TokenService implements TokenVerifier {
         var client = authClientRepository.obtainClient(payload.getClientId());
         var grantType = payload.getGrantType();
 
-        Admin admin;
-        if (grantType == GrantType.PASSWORD) {
-            admin = loginByUsername(payload);
-        } else if (grantType == GrantType.REFRESH_TOKEN) {
-            admin = loginByRefreshToken(payload);
-        } else {
-            throw new BizCodeException(BizCodes.UNIMPLEMENTED);
-        }
+        var admin =
+                switch (grantType) {
+                    case PASSWORD -> loginByUsername(payload);
+                    case REFRESH_TOKEN -> loginByRefreshToken(payload);
+                    case null, default -> throw new BizCodeException(BizCodes.UNIMPLEMENTED);
+                };
 
         var status = admin.getStatus();
         if (status != AdminStatus.ACTIVE) {
@@ -182,7 +179,8 @@ public class TokenService implements TokenVerifier {
                 .setRefreshToken(refreshToken.token());
     }
 
-    @NonNull Admin loginByUsername(TokenPayload payload) {
+    @NonNull
+    Admin loginByUsername(TokenPayload payload) {
         var user = adminRepository.findByUsername(payload.getUsername());
         if (user == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", payload.getUsername()));
@@ -195,7 +193,8 @@ public class TokenService implements TokenVerifier {
         return user;
     }
 
-    @NonNull Admin loginByRefreshToken(TokenPayload payload) {
+    @NonNull
+    Admin loginByRefreshToken(TokenPayload payload) {
         var jwt = parseToken(payload.getRefreshToken());
         var sub = jwt.userPrincipal().orElseThrow();
         var user = adminRepository.findById(Long.valueOf(sub));
