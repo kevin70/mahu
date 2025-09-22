@@ -12,6 +12,10 @@ sourceSets {
     }
 }
 
+sonarlintMain {
+    exclude("**/cool/houge/mahu/admin/oas/*")
+}
+
 application {
     mainClass = "cool.houge.mahu.admin.AdminApplication"
     applicationDefaultJvmArgs = ["-Dfile.encoding=UTF-8"]
