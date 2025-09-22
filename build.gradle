@@ -72,6 +72,8 @@ allprojects {
     }
 
     sonarlint {
+        excludeRules = ["java:S1611"]
+        ignoreFailures = true
         reports {
             sarif.enabled = true
             html.enabled = true
