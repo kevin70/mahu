@@ -35,8 +35,7 @@ public class AuthClientController implements HAuthClientService, WebSupport {
 
     @Override
     public void deleteSysAuthClient(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var clientId = pathParams.first("client_id").get();
+        var clientId = clientId(request);
 
         authClientService.delete(new AuthClient().setClientId(clientId));
         response.status(NO_CONTENT_204).send();
@@ -44,8 +43,7 @@ public class AuthClientController implements HAuthClientService, WebSupport {
 
     @Override
     public void getSysAuthClient(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var clientId = pathParams.first("client_id").get();
+        var clientId = clientId(request);
 
         var bean = authClientService.findById(clientId);
         response.send(beanMapper.toSysAuthClientResponse(bean));
@@ -64,11 +62,13 @@ public class AuthClientController implements HAuthClientService, WebSupport {
         var vo = request.content().as(SysAuthClientUpsertRequest.class);
         validate(vo);
 
-        var pathParams = request.path().pathParameters();
-        var clientId = pathParams.first("client_id").get();
-
+        var clientId = clientId(request);
         var entity = beanMapper.toAuthClient(vo).setClientId(clientId);
         authClientService.update(entity);
         response.status(NO_CONTENT_204).send();
+    }
+
+    String clientId(ServerRequest request) {
+        return pathArg(request, "client_id").get();
     }
 }
