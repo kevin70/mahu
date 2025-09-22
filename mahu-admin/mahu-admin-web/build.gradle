@@ -88,17 +88,9 @@ tasks.named("openApiGenerate").configure {
     }
 }
 
-tasks.register("openapiPnpmInstall", com.github.gradle.node.pnpm.task.PnpmTask.class) {
-    group("openapi tools")
-    workingDir = rootProject.file("openapi")
-    pnpmCommand = [
-        "install"
-    ]
-}
-
 tasks.register("redoclyBundleOpenApi", com.github.gradle.node.pnpm.task.PnpmTask.class) {
     group("openapi tools")
-    dependsOn("openapiPnpmInstall")
+    dependsOn rootProject.tasks.openapiDepsInstall
     workingDir = rootProject.file("openapi")
     pnpmCommand = [
         "redocly"
@@ -111,8 +103,6 @@ tasks.register("redoclyBundleOpenApi", com.github.gradle.node.pnpm.task.PnpmTask
         "${rootProject.layout.buildDirectory.orNull}/admin/openapi.yaml"
     ]
 }
-
-jar.dependsOn("redoclyBundleOpenApi")
 
 tasks.register("deployDev") {
     group("distribution")

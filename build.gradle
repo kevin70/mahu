@@ -180,3 +180,11 @@ allprojects {
         mavenCentral()
     }
 }
+
+tasks.register("openapiDepsInstall", com.github.gradle.node.pnpm.task.PnpmTask.class) {
+    group("openapi tools")
+    workingDir = rootProject.file("openapi")
+    pnpmCommand = [
+        "install"
+    ]
+}
