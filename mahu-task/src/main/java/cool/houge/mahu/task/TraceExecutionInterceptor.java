@@ -38,7 +38,7 @@ public class TraceExecutionInterceptor implements ExecutionInterceptor {
             log.info("任务执行成功");
             this.saveExecutionLog(executionContext, traceId, startTime, true);
             return rs;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             this.saveExecutionLog(executionContext, traceId, startTime, false);
             log.error("任务执行失败", e);
             throw e;
