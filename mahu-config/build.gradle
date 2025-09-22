@@ -12,3 +12,9 @@ dependencies {
     api("io.helidon.config:helidon-config-yaml")
     api("io.helidon.config:helidon-config-encryption")
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += [
+        "-Xlint:-removal"
+    ]
+}
