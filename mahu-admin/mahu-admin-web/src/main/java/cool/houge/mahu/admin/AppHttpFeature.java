@@ -32,8 +32,7 @@ public class AppHttpFeature implements HttpFeature, Filter {
     private final List<HttpService> httpServices;
     private final List<Filter> filters;
 
-    public AppHttpFeature(SimpleSecurity security, List<HttpService> httpServices,
-        List<Filter> filters) {
+    public AppHttpFeature(SimpleSecurity security, List<HttpService> httpServices, List<Filter> filters) {
         this.security = security;
         this.httpServices = httpServices;
         this.filters = filters;

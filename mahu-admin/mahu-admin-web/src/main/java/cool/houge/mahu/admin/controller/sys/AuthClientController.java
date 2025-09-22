@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 /// @author ZY (kzou227@qq.com)
 @Singleton
 @AllArgsConstructor
-public class AuthClientController implements HAuthClientService,WebSupport {
+public class AuthClientController implements HAuthClientService, WebSupport {
 
     final VoBeanMapper beanMapper;
     final AuthClientService authClientService;

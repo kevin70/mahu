@@ -182,8 +182,7 @@ public class TokenService implements TokenVerifier {
                 .setRefreshToken(refreshToken.token());
     }
 
-    @NonNull
-    Admin loginByUsername(TokenPayload payload) {
+    @NonNull Admin loginByUsername(TokenPayload payload) {
         var user = adminRepository.findByUsername(payload.getUsername());
         if (user == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", payload.getUsername()));
@@ -196,8 +195,7 @@ public class TokenService implements TokenVerifier {
         return user;
     }
 
-    @NonNull
-    Admin loginByRefreshToken(TokenPayload payload) {
+    @NonNull Admin loginByRefreshToken(TokenPayload payload) {
         var jwt = parseToken(payload.getRefreshToken());
         var sub = jwt.userPrincipal().orElseThrow();
         var user = adminRepository.findById(Long.valueOf(sub));

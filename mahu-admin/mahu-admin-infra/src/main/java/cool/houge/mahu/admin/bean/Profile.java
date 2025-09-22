@@ -1,8 +1,7 @@
 package cool.houge.mahu.admin.bean;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 /// 个人信息
 ///

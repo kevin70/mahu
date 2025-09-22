@@ -14,5 +14,5 @@ class TraceIdGeneratorTest {
         var b = TraceIdGenerator.generate();
         assertThat(a).isNotNull().hasSizeBetween(20, 22);
         assertThat(b).isNotNull().hasSizeBetween(20, 22);
-      }
+    }
 }

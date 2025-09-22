@@ -59,17 +59,17 @@ public class ErrorHttpFeature implements HttpFeature {
     void handleException(ServerRequest request, ServerResponse response, Throwable cause) {
         var error = newError();
         error.setStatus(Status.INTERNAL_SERVER_ERROR_500.code())
-            .setCode(BizCodes.INTERNAL.code())
-            .setMessage(BizCodes.INTERNAL.message());
+                .setCode(BizCodes.INTERNAL.code())
+                .setMessage(BizCodes.INTERNAL.message());
         this.send(request, response, error, cause);
     }
 
     private void handleUnsupportedTypeException(
-        ServerRequest request, ServerResponse response, UnsupportedTypeException e) {
+            ServerRequest request, ServerResponse response, UnsupportedTypeException e) {
         var error = newError();
         error.setStatus(Status.UNSUPPORTED_MEDIA_TYPE_415.code())
-            .setCode(Status.UNSUPPORTED_MEDIA_TYPE_415.code())
-            .setMessage("请求头 Content-Type 不正确");
+                .setCode(Status.UNSUPPORTED_MEDIA_TYPE_415.code())
+                .setMessage("请求头 Content-Type 不正确");
         this.send(request, response, error, e);
     }
 
@@ -92,8 +92,8 @@ public class ErrorHttpFeature implements HttpFeature {
     void handleEntityNotFoundException(ServerRequest request, ServerResponse response, EntityNotFoundException e) {
         var error = newError();
         error.setStatus(Status.NOT_FOUND_404.code())
-            .setCode(BizCodes.NOT_FOUND.code())
-            .setMessage(e.getMessage());
+                .setCode(BizCodes.NOT_FOUND.code())
+                .setMessage(e.getMessage());
         this.send(request, response, error, e);
     }
 
@@ -107,20 +107,20 @@ public class ErrorHttpFeature implements HttpFeature {
         var bz = e.getCode();
         // 状态码映射
         Status status =
-            switch (bz) {
-                case INVALID_ARGUMENT, DEADLINE_EXCEEDED, OUT_OF_RANGE, UNIMPLEMENTED -> Status.BAD_REQUEST_400;
-                case UNAUTHENTICATED -> Status.UNAUTHORIZED_401;
-                case FAILED_PRECONDITION, PERMISSION_DENIED -> Status.FORBIDDEN_403;
-                case NOT_FOUND -> Status.NOT_FOUND_404;
-                case ALREADY_EXISTS -> Status.CONFLICT_409;
-                case UNAVAILABLE -> Status.SERVICE_UNAVAILABLE_503;
-                default -> Status.INTERNAL_SERVER_ERROR_500;
-            };
+                switch (bz) {
+                    case INVALID_ARGUMENT, DEADLINE_EXCEEDED, OUT_OF_RANGE, UNIMPLEMENTED -> Status.BAD_REQUEST_400;
+                    case UNAUTHENTICATED -> Status.UNAUTHORIZED_401;
+                    case FAILED_PRECONDITION, PERMISSION_DENIED -> Status.FORBIDDEN_403;
+                    case NOT_FOUND -> Status.NOT_FOUND_404;
+                    case ALREADY_EXISTS -> Status.CONFLICT_409;
+                    case UNAVAILABLE -> Status.SERVICE_UNAVAILABLE_503;
+                    default -> Status.INTERNAL_SERVER_ERROR_500;
+                };
 
         var error = newError();
         error.setStatus(status.code())
-            .setCode(bz.code())
-            .setMessage(ofNullable(e.getRawMessage()).orElse(bz.message()));
+                .setCode(bz.code())
+                .setMessage(ofNullable(e.getRawMessage()).orElse(bz.message()));
         this.send(request, response, error, e);
     }
 

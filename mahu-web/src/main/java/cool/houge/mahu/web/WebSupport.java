@@ -28,7 +28,7 @@ public interface WebSupport {
     ///
     /// @param request 请求对象
     /// @param name    参数名称
-     default Value<String> pathArg(ServerRequest request, String name) {
+    default Value<String> pathArg(ServerRequest request, String name) {
         return ServerRequestUtils.pathArg(request, name);
     }
 
@@ -80,4 +80,3 @@ public interface WebSupport {
         };
     }
 }
-

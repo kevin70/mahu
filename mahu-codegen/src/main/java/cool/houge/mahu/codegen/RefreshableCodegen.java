@@ -9,7 +9,6 @@ import io.helidon.common.types.AccessModifier;
 import io.helidon.common.types.ElementKind;
 import io.helidon.common.types.TypeInfo;
 import io.helidon.common.types.TypeName;
-
 import java.time.LocalDateTime;
 
 ///

@@ -4,7 +4,6 @@ import io.helidon.codegen.CodegenContext;
 import io.helidon.codegen.spi.CodegenExtension;
 import io.helidon.codegen.spi.CodegenExtensionProvider;
 import io.helidon.common.types.TypeName;
-
 import java.util.Set;
 
 ///
