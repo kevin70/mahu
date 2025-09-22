@@ -137,6 +137,7 @@ allprojects {
             dependency("io.github.nstdio:rsql-parser:2.3.4")
             dependency("com.github.kagkarlsson:db-scheduler:16.0.0")
             dependency("org.dhatim:fastexcel:0.19.0")
+            dependency("org.dhatim:fastexcel-reader:0.19.0")
 
             // 微信第三方 SDK
             dependency("com.github.binarywang:weixin-java-miniapp:4.7.7-20250730.233020")
