@@ -11,8 +11,8 @@ export default withMermaid(
   defineConfig({
     srcDir: './src',
     lang: 'zh-CN',
-    title: 'BLMa 陪诊系统文档',
-    description: 'BLMa 陪诊系统文档 | Houge',
+    title: 'Mahu',
+    description: 'Mahu | Houge',
     lastUpdated: true,
     head: [
       // Iconfont
@@ -105,17 +105,28 @@ export default withMermaid(
       nav: [
         { text: 'OpenAPI', link: '/openapi' },
         { text: '开发准备', link: '/开发准备' },
-        { text: '环境配置', link: '/env_configuration' },
         {
           text: '开发规范',
           items: [
             {
-              text: '开发规范',
-              link: '/开发规范',
+              text: '角色定义',
+              link: '/角色定义',
             },
             {
-              text: '数据状态',
-              link: '/data_status',
+              text: "OpenAPI",
+              link: "/openapi"
+            },
+            {
+              text: '性能优化原则',
+              link: '/性能优化原则',
+            },
+            {
+              text: '数据状态字典',
+              link: '/数据状态字典',
+            },
+            {
+              text: '标准化：现代软件开发的效率引擎',
+              link: '/标准化_现代软件开发的效率引擎',
             },
             {
               text: '数据库规范',
@@ -123,36 +134,7 @@ export default withMermaid(
             },
           ],
         },
-        {
-          text: '接口文档',
-          items: [
-            {
-              text: '后台接口',
-              items: [
-                { text: 'OpenAPI Docs', link: '/blma-admin-openapi.html', target: '_blank' },
-                { text: 'OpenAPI YAML', link: '/blma-admin-openapi.yaml', target: '_blank' },
-              ],
-            },
-            {
-              text: '小程序接口',
-              items: [
-                { text: 'OpenAPI Docs', link: '/blma-main-openapi.html', target: '_blank' },
-                { text: 'OpenAPI YAML', link: '/blma-main-openapi.yaml', target: '_blank' },
-              ],
-            },
-          ],
-        },
-        {
-          text: '相关系统',
-          items: [
-            { text: '后台系统', link: 'https://a.bjxzhuyi.com/', target: '_blank' },
-            {
-              text: '阿里云 RAM',
-              link: 'https://signin.aliyun.com/1256150214143294.onaliyun.com/login.htm',
-              target: '_blank',
-            },
-          ],
-        },
+        { text: '环境配置', link: '/env_configuration' },
       ],
       //
     },

@@ -3,12 +3,12 @@
 layout: home
 
 hero:
-  name: 'BLMa 文档'
-  tagline: 陪诊系统
-  actions:
-    - theme: brand
-      text: 阿里云 RAM
-      link: https://signin.aliyun.com/1256150214143294.onaliyun.com/login.htm
+  name: 'Mahu'
+  tagline: Houge Mahu
+#  actions:
+#    - theme: brand
+#      text: 阿里云 RAM
+#      link: https://signin.aliyun.com/1256150214143294.onaliyun.com/login.htm
 
 features:
   - title: Helidon
