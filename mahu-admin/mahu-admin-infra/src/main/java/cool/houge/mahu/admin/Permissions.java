@@ -12,11 +12,6 @@ public enum Permissions {
     SYS_ADMIN_LOG(Var.R, "系统模块", "管理员日志"),
     SYS_SCHEDULED_TASK(Var.B, "系统模块", "定时任务"),
 
-    // 业务日志
-    ADMIN_ACCESS_LOG(Var.R, "系统模块", "管理员|访问日志"),
-    ADMIN_AUDIT_LOG(Var.R, "系统模块", "管理员|操作日志"),
-    ADMIN_AUTH_LOG(Var.R, "系统模块", "管理员|认证日志"),
-
 //
 ;
 
@@ -24,25 +19,10 @@ public enum Permissions {
     private final String module;
     private final String label;
 
-    /// 读取权限代码
-    @SuppressWarnings("java:S116")
-    public final String R;
-
-    /// 写入权限代码
-    @SuppressWarnings("java:S116")
-    public final String W;
-
-    /// 删除权限代码
-    @SuppressWarnings("java:S116")
-    public final String D;
-
     Permissions(int fnCodes, String module, String label) {
         this.fnCodes = fnCodes;
         this.module = module;
         this.label = label;
-        this.R = name() + ":R";
-        this.W = name() + ":W";
-        this.D = name() + ":D";
     }
 
     /// 是否能读取
@@ -58,6 +38,11 @@ public enum Permissions {
     /// 是否能删除
     public boolean canDelete() {
         return (fnCodes >> 2 & 1) == 1;
+    }
+
+    /// 权限模块
+    public String module() {
+        return module;
     }
 
     /// 权限文本

@@ -21,6 +21,7 @@ public class PermissionController implements HPermissionService, WebSupport {
         for (Permissions value : Permissions.values()) {
             var o = new SysPermissionResponse()
                     .setCode(value.name())
+                    .setModule(value.module())
                     .setLabel(value.label())
                     .setCanRead(value.canRead())
                     .setCanWrite(value.canWrite())

@@ -1,11 +1,15 @@
 type: object
 required:
   - code
+  - module
   - label
 properties:
   code:
     type: string
     description: 权限代码
+  module:
+    type: string
+    description: 模块
   label:
     type: string
     description: 标签

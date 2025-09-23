@@ -15,6 +15,13 @@ public class SysPermissionResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("code")
     private String code;
     /**
+     * 模块
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("module")
+    private String module;
+    /**
      * 标签
      */
       @NotNull
