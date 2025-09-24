@@ -8,7 +8,7 @@ plugins {
 
     id("jacoco")
     id("com.diffplug.spotless") version "7.2.1"
-    id("se.solrike.sonarlint") version "2.2.0"
+    id("name.remal.sonarlint") version "6.0.0"
 
     id("org.hidetake.ssh") version "2.12.0"
     id("com.google.cloud.tools.jib") version "3.4.5"
@@ -27,7 +27,7 @@ allprojects {
     apply plugin: "jacoco"
     apply plugin: "project-report"
     apply plugin: "com.diffplug.spotless"
-    apply plugin: "se.solrike.sonarlint"
+    apply plugin: "name.remal.sonarlint"
     apply plugin: "org.hidetake.ssh"
     apply plugin: "com.github.node-gradle.node"
     apply plugin: "io.spring.dependency-management"
@@ -111,12 +111,20 @@ allprojects {
         it.dependsOn(nodeSetup)
     }
 
-    sonarlint {
-        excludeRules = ["java:S1611"]
+    sonarLint {
         ignoreFailures = true
+        languages {
+            include("java")
+        }
+        rules {
+            disable("java:S1611")
+        }
+        ignoredPaths.add("**/oas/vo/**")
+        ignoredPaths.add("**/oas/controller/**")
+    }
+    sonarlintMain {
         reports {
-            sarif.enabled = true
-            html.enabled = true
+            html.required = true
         }
     }
 
