@@ -1,59 +1,43 @@
 -- liquibase formatted sql
-
-
 -- changeset kzou227@qq.com:202508251147
-create table sys.admin_audit_log
-(
-    id             bigint not null
-        constraint admin_audit_log_pk
-            primary key,
-    created_at     timestamp without time zone,
-    admin_id       bigint,
-    ip_addr        varchar(50),
-    change_type    "char",
-    table_name     varchar(50),
-    data_tenant_id varchar(50),
-    data_id        varchar(256),
-    data           jsonb,
-    old_data       jsonb
-);
+CREATE TABLE
+  sys.admin_audit_log (
+    id BIGINT NOT NULL CONSTRAINT admin_audit_log_pk PRIMARY KEY,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    admin_id BIGINT,
+    ip_addr VARCHAR(50),
+    change_type "char",
+    table_name VARCHAR(50),
+    data_tenant_id VARCHAR(50),
+    data_id VARCHAR(256),
+    DATA jsonb,
+    old_data jsonb
+  );
 
-comment
-    on table sys.admin_audit_log is '管理员修改操作审计日志';
+COMMENT ON TABLE sys.admin_audit_log IS '管理员修改操作审计日志';
 
-comment
-    on table sys.admin_audit_log is '管理员操作审计日志';
+COMMENT ON TABLE sys.admin_audit_log IS '管理员操作审计日志';
 
-comment
-    on column sys.admin_audit_log.id is '主键';
+COMMENT ON COLUMN sys.admin_audit_log.id IS '主键';
 
-comment
-    on column sys.admin_audit_log.created_at is '创建时间';
+COMMENT ON COLUMN sys.admin_audit_log.created_at IS '创建时间';
 
-comment
-    on column sys.admin_audit_log.admin_id is '管理员 ID';
+COMMENT ON COLUMN sys.admin_audit_log.admin_id IS '管理员 ID';
 
-comment
-    on column sys.admin_audit_log.ip_addr is '操作 IP';
+COMMENT ON COLUMN sys.admin_audit_log.ip_addr IS '操作 IP';
 
-comment
-    on column sys.admin_audit_log.change_type is '改变类型';
+COMMENT ON COLUMN sys.admin_audit_log.change_type IS '改变类型';
 
-comment
-    on column sys.admin_audit_log.table_name is '数据库表名';
+COMMENT ON COLUMN sys.admin_audit_log.table_name IS '数据库表名';
 
-comment
-    on column sys.admin_audit_log.data_tenant_id is '数据租户 ID';
+COMMENT ON COLUMN sys.admin_audit_log.data_tenant_id IS '数据租户 ID';
 
-comment
-    on column sys.admin_audit_log.data_id is '数据主键';
+COMMENT ON COLUMN sys.admin_audit_log.data_id IS '数据主键';
 
-comment
-    on column sys.admin_audit_log.data is '改变的数据';
+COMMENT ON COLUMN sys.admin_audit_log.data IS '改变的数据';
 
-comment
-    on column sys.admin_audit_log.old_data is '旧的数据';
+COMMENT ON COLUMN sys.admin_audit_log.old_data IS '旧的数据';
 
-create index admin_audit_log_admin_id_i
-    on sys.admin_audit_log (admin_id);
+CREATE INDEX admin_audit_log_admin_id_i ON sys.admin_audit_log (admin_id);
+
 -- rollback drop table sys.admin_audit_log;

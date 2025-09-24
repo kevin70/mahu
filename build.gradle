@@ -69,6 +69,28 @@ allprojects {
             formatAnnotations()
             targetExclude("**/src/main/gen/**/*", "**/build/generated/**/*")
         }
+        sql {
+            target("src/**/*.sql")
+            prettier(["prettier": "3.6.2", "prettier-plugin-sql": "0.15.2"])
+                .config([
+                    "parser"     : "sql",
+                    "plugins"    : ["prettier-plugin-sql"],
+                    "language"   : 'postgresql',
+                    "keywordCase": 'upper',
+                ])
+                .npmrc("${rootDir}/.npmrc")
+        }
+        yaml {
+            target("src/**/*.yaml")
+            prettier(["prettier": "3.6.2"])
+                .npmrc("${rootDir}/.npmrc")
+        }
+        format("xml") {
+            target("src/**/*.xml")
+            prettier(["prettier": "3.6.2", "@prettier/plugin-xml": "0.10.0"])
+                .config(["tabSize": 4, "plugins": ["@prettier/plugin-xml"]])
+                .npmrc("${rootDir}/.npmrc")
+        }
     }
 
     sonarlint {

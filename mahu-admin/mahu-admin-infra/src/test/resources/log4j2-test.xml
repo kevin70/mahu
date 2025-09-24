@@ -1,20 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Configuration
-    xmlns="http://logging.apache.org/log4j/2.0/config"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config Log4j-config.xsd"
-    status="INFO">
+  xmlns="http://logging.apache.org/log4j/2.0/config"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config Log4j-config.xsd"
+  status="INFO"
+>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
-                pattern="%d %p{length=1} [%t] %c{1.*}.%M:%L %X{traceId:-} - %m%n%rEx"/>
+        pattern="%d %p{length=1} [%t] %c{1.*}.%M:%L %X{traceId:-} - %m%n%rEx"
+      />
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="org.testcontainers" level="INFO"/>
-        <Logger name="com.github.dockerjava.zerodep" level="INFO"/>
+        <Logger name="org.testcontainers" level="INFO" />
+        <Logger name="com.github.dockerjava.zerodep" level="INFO" />
         <Root level="DEBUG" additivity="false">
-            <AppenderRef ref="console"/>
+            <AppenderRef ref="console" />
         </Root>
     </Loggers>
 </Configuration>

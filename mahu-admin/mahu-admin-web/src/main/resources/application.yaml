@@ -9,9 +9,9 @@ server:
     # 跨域配置
     cors:
       enabled: true
-      allow-origins: [ "*" ]
-      allow-methods: [ "*" ]
-      allow-headers: [ "*" ]
+      allow-origins: ["*"]
+      allow-methods: ["*"]
+      allow-headers: ["*"]
       allow-credentials: false
       max-age: 7200
     # 禁止默认启用由程序自定义观测功能

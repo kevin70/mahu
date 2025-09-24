@@ -1,34 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Configuration
-    xmlns="http://logging.apache.org/log4j/2.0/config"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config Log4j-config.xsd"
-    status="INFO">
+  xmlns="http://logging.apache.org/log4j/2.0/config"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config Log4j-config.xsd"
+  status="INFO"
+>
 
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
-                pattern="%d %p{length=1} [%t] %c{1.1.1.*}.%M:%L|%X{traceId} - %m%n%rEx"/>
+        pattern="%d %p{length=1} [%t] %c{1.1.1.*}.%M:%L|%X{traceId} - %m%n%rEx"
+      />
         </Console>
     </Appenders>
 
     <Loggers>
-        <Logger name="com.zaxxer.hikari.pool" level="INFO"/>
-        <Logger name="jdk.event.security" level="INFO"/>
+        <Logger name="com.zaxxer.hikari.pool" level="INFO" />
+        <Logger name="jdk.event.security" level="INFO" />
 
-        <Logger name="io.ebean.TXN" level="INFO"/>
-        <Logger name="io.ebean.SUM" level="INFO"/>
-        <Logger name="io.ebean.datasource" level="INFO"/>
-        <Logger name="io.ebean.SQL" level="DEBUG"/>
+        <Logger name="io.ebean.TXN" level="INFO" />
+        <Logger name="io.ebean.SUM" level="INFO" />
+        <Logger name="io.ebean.datasource" level="INFO" />
+        <Logger name="io.ebean.SQL" level="DEBUG" />
 
-        <Logger name="com.password4j" level="ERROR"/>
-        <Logger name="io.helidon.service.registry.LookupTrace" level="INFO"/>
-        <Logger name="io.helidon.webserver" level="INFO"/>
-        <Logger name="com.github.kagkarlsson.scheduler" level="DEBUG"/>
-        <Logger name="com.github.kagkarlsson.scheduler.Waiter" level="INFO"/>
+        <Logger name="com.password4j" level="ERROR" />
+        <Logger name="io.helidon.service.registry.LookupTrace" level="INFO" />
+        <Logger name="io.helidon.webserver" level="INFO" />
+        <Logger name="com.github.kagkarlsson.scheduler" level="DEBUG" />
+        <Logger name="com.github.kagkarlsson.scheduler.Waiter" level="INFO" />
 
         <Root level="DEBUG" additivity="false">
-            <AppenderRef ref="console"/>
+            <AppenderRef ref="console" />
         </Root>
     </Loggers>
 </Configuration>

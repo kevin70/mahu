@@ -1,48 +1,37 @@
 -- liquibase formatted sql
-
-
 -- changeset kzou227@qq.com:202508251124
-create table sys.role
-(
-    id          integer not null
-        constraint role_pk
-            primary key,
-    created_at  timestamp without time zone,
-    updated_at  timestamp without time zone,
-    deleted     "char" default 'F'::"char",
-    name        varchar(32),
-    remark      varchar(255),
-    ordering    smallint,
+CREATE TABLE
+  sys.role (
+    id INTEGER NOT NULL CONSTRAINT role_pk PRIMARY KEY,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    updated_at TIMESTAMP WITHOUT TIME ZONE,
+    deleted "char" DEFAULT 'F'::"char",
+    NAME VARCHAR(32),
+    remark VARCHAR(255),
+    ordering SMALLINT,
     permissions jsonb
-);
+  );
 
-comment
-on table sys.role is '权限表';
+COMMENT ON TABLE sys.role IS '权限表';
 
-comment
-on column sys.role.id is '主键';
+COMMENT ON COLUMN sys.role.id IS '主键';
 
-comment
-on column sys.role.created_at is '创建时间';
+COMMENT ON COLUMN sys.role.created_at IS '创建时间';
 
-comment
-on column sys.role.updated_at is '更新时间';
+COMMENT ON COLUMN sys.role.updated_at IS '更新时间';
 
-comment
-on column sys.role.deleted is '软删除标识';
+COMMENT ON COLUMN sys.role.deleted IS '软删除标识';
 
-comment
-on column sys.role.name is '角色名称';
+COMMENT ON COLUMN sys.role.name IS '角色名称';
 
-comment
-on column sys.role.remark is '备注';
+COMMENT ON COLUMN sys.role.remark IS '备注';
 
-comment
-on column sys.role.ordering is '排序值';
+COMMENT ON COLUMN sys.role.ordering IS '排序值';
 
-comment
-on column sys.role.permissions is '拥有的权限代码';
+COMMENT ON COLUMN sys.role.permissions IS '拥有的权限代码';
 
-create index role_name_ui
-    on sys.role (name) where (deleted = 'F'::"char");
+CREATE INDEX role_name_ui ON sys.role (NAME)
+WHERE
+  (deleted = 'F'::"char");
+
 -- rollback drop table sys.role;
