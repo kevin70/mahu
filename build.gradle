@@ -74,7 +74,6 @@ allprojects {
     spotless {
         java {
             palantirJavaFormat("2.74.0")
-            formatAnnotations()
             targetExclude("**/src/main/gen/**/*", "**/build/generated/**/*")
         }
         sql {
