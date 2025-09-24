@@ -1,3 +1,4 @@
+--
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251125
 CREATE TABLE
@@ -25,6 +26,8 @@ COMMENT ON COLUMN public.dict_type.updated_at IS '更新时间';
 COMMENT ON COLUMN public.dict_type.description IS '描述';
 
 -- rollback drop table public.dict_type;
+--
+-- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251126
 CREATE TABLE
   public.dict (

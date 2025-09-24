@@ -1,3 +1,4 @@
+--
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251148
 CREATE TABLE

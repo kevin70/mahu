@@ -1,3 +1,4 @@
+--
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251150
 -- comment: 测试专用
@@ -21,6 +22,8 @@ VALUES
   );
 
 -- rollback delete from public.auth_client where client_id='0KPY6J2C5XP5R';
+--
+-- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251151
 -- comment: 系统超级管理员
 INSERT INTO
@@ -47,6 +50,8 @@ VALUES
   );
 
 -- rollback delete from sys.role where id=1;
+--
+-- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251152
 -- comment: 系统超级管理员
 INSERT INTO
