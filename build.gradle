@@ -80,7 +80,6 @@ allprojects {
             target("src/**/*.sql")
             prettier(["prettier": "3.6.2", "prettier-plugin-sql": "0.15.2"])
                 .config([
-                    "parser"     : "sql",
                     "plugins"    : ["prettier-plugin-sql"],
                     "language"   : 'postgresql',
                     "keywordCase": 'upper',
@@ -91,7 +90,7 @@ allprojects {
                 .npmrc("${rootDir}/.npmrc")
         }
         yaml {
-            target("src/**/*.yaml")
+            target("src/**/*.yaml", "openapi/admin/**/*.yaml")
             prettier(["prettier": "3.6.2"])
                 .nodeExecutable(node.resolvedNodeDir.file("bin/node").get())
                 .npmExecutable(node.resolvedNodeDir.file("bin/npm").get())
