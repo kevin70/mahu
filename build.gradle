@@ -51,6 +51,14 @@ allprojects {
         useJUnitPlatform()
     }
 
+    node {
+        download = true
+        version = "22.19.0"
+        distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
+        workDir = rootProject.layout.projectDirectory.dir(".gradle/")
+        pnpmWorkDir = rootProject.layout.projectDirectory.dir(".gradle/")
+    }
+
     jacoco {
         toolVersion = "0.8.13"
     }
@@ -78,19 +86,31 @@ allprojects {
                     "language"   : 'postgresql',
                     "keywordCase": 'upper',
                 ])
+                .nodeExecutable(node.resolvedNodeDir.file("bin/node").get())
+                .npmExecutable(node.resolvedNodeDir.file("bin/npm").get())
+                .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
                 .npmrc("${rootDir}/.npmrc")
         }
         yaml {
             target("src/**/*.yaml")
             prettier(["prettier": "3.6.2"])
+                .nodeExecutable(node.resolvedNodeDir.file("bin/node").get())
+                .npmExecutable(node.resolvedNodeDir.file("bin/npm").get())
+                .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
                 .npmrc("${rootDir}/.npmrc")
         }
         format("xml") {
             target("src/**/*.xml")
             prettier(["prettier": "3.6.2", "@prettier/plugin-xml": "0.10.0"])
                 .config(["tabSize": 4, "plugins": ["@prettier/plugin-xml"]])
+                .nodeExecutable(node.resolvedNodeDir.file("bin/node").get())
+                .npmExecutable(node.resolvedNodeDir.file("bin/npm").get())
+                .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
                 .npmrc("${rootDir}/.npmrc")
         }
+    }
+    [tasks.spotlessSql, tasks.spotlessYaml, tasks.spotlessXml].forEach {
+        it.dependsOn(nodeSetup)
     }
 
     sonarlint {
@@ -110,14 +130,6 @@ allprojects {
             exclude group: "io.avaje", module: "avaje-validator-inject-plugin"
             exclude group: "io.avaje", module: "avaje-validator-http-plugin"
         }
-    }
-
-    node {
-        download = true
-        version = "22.19.0"
-        distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
-        workDir = rootProject.layout.projectDirectory.dir(".gradle/")
-        pnpmWorkDir = rootProject.layout.projectDirectory.dir(".gradle/")
     }
 
     // 部署服务器配置
