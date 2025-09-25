@@ -2,7 +2,7 @@ get:
   summary: 定时任务分页列表
   operationId: pageSysScheduledTask
   x-permission-code: SYS_SCHEDULED_TASK:R
-  tags: [ h-scheduled-task ]
+  tags: [h-scheduled-task]
   parameters:
     - $ref: "../components/parameters/size.yaml"
     - $ref: "../components/parameters/page.yaml"

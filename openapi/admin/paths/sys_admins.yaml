@@ -2,7 +2,7 @@ post:
   summary: 新建管理员
   operationId: createSysAdmin
   x-permission-code: SYS_ADMIN:W
-  tags: [ h-admin ]
+  tags: [h-admin]
   requestBody:
     required: true
     content:
@@ -16,7 +16,7 @@ get:
   summary: 管理员分页列表
   operationId: pageSysAdmin
   x-permission-code: SYS_ADMIN:R
-  tags: [ h-admin ]
+  tags: [h-admin]
   parameters:
     - $ref: "../components/parameters/size.yaml"
     - $ref: "../components/parameters/page.yaml"

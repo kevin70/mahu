@@ -9,7 +9,7 @@ post:
   summary: 立即执行任务
   operationId: executeSysScheduledTask
   x-permission-code: SYS_SCHEDULED_TASK:W
-  tags: [ h-scheduled-task ]
+  tags: [h-scheduled-task]
   responses:
     204:
       description: OK
@@ -18,7 +18,7 @@ delete:
   summary: 取消执行任务
   operationId: cancelSysScheduledTask
   x-permission-code: SYS_SCHEDULED_TASK:W
-  tags: [ h-scheduled-task ]
+  tags: [h-scheduled-task]
   responses:
     204:
       description: OK
@@ -26,7 +26,7 @@ get:
   summary: 定时任务执行记录
   operationId: pageSysScheduledTaskExe
   x-permission-code: SYS_SCHEDULED_TASK:R
-  tags: [ h-scheduled-task ]
+  tags: [h-scheduled-task]
   parameters:
     - $ref: "../components/parameters/size.yaml"
     - $ref: "../components/parameters/page.yaml"

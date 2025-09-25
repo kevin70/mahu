@@ -47,4 +47,3 @@ properties:
     type: integer
     format: int32
     description: 任务优先级
-

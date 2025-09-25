@@ -2,8 +2,8 @@ post:
   summary: 获取访问令牌
   description: 获取访问令牌
   operationId: login
-  tags: [ h-login ]
-  security: [ ]
+  tags: [h-login]
+  security: []
   requestBody:
     content:
       application/json:

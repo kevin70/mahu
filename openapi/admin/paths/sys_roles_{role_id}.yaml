@@ -9,7 +9,7 @@ put:
   summary: 修改角色
   operationId: updateSysRole
   x-permission-code: SYS_ROLE:W
-  tags: [ h-role ]
+  tags: [h-role]
   requestBody:
     required: true
     content:
@@ -23,7 +23,7 @@ delete:
   summary: 删除角色
   operationId: deleteSysRole
   x-permission-code: SYS_ROLE:W
-  tags: [ h-role ]
+  tags: [h-role]
   responses:
     "204":
       description: OK
@@ -31,7 +31,7 @@ get:
   summary: 获取指定角色
   operationId: getSysRole
   x-permission-code: SYS_ROLE:R
-  tags: [ h-role ]
+  tags: [h-role]
   responses:
     "200":
       description: OK

@@ -1,8 +1,8 @@
 get:
   summary: 字典类型列表
   operationId: listPublicDict
-  tags: [ h-public-dict ]
-  security: [ ]
+  tags: [h-public-dict]
+  security: []
   parameters:
     - in: query
       name: id

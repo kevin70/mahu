@@ -1,7 +1,7 @@
 post:
   summary: 新建认证终端
   operationId: createSysAuthClient
-  tags: [ h-auth-client ]
+  tags: [h-auth-client]
   x-permission-code: SYS_AUTH_CLIENT:W
   requestBody:
     required: true
@@ -16,7 +16,7 @@ get:
   summary: 认证终端分页列表
   operationId: pageSysAuthClient
   x-permission-code: SYS_AUTH_CLIENT:R
-  tags: [ h-auth-client ]
+  tags: [h-auth-client]
   parameters:
     - $ref: "../components/parameters/size.yaml"
     - $ref: "../components/parameters/page.yaml"

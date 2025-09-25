@@ -9,7 +9,7 @@ get:
   summary: 管理员日志
   operationId: pageSysAdminLog
   x-permission-code: SYS_ADMIN_LOG:R
-  tags: [ h-admin ]
+  tags: [h-admin]
   parameters:
     - $ref: "../components/parameters/size.yaml"
     - $ref: "../components/parameters/page.yaml"

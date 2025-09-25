@@ -1,8 +1,8 @@
 get:
   summary: 获取应用信息
   operationId: gerInfo
-  tags: [ h-help ]
-  security: [ ]
+  tags: [h-help]
+  security: []
   responses:
     200:
       description: OK
