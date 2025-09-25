@@ -6,6 +6,7 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.domain.Pageable;
+import io.avaje.validation.Validator;
 import io.helidon.common.mapper.OptionalValue;
 import io.helidon.common.mapper.Value;
 import io.helidon.webserver.http.Handler;
@@ -21,7 +22,7 @@ public interface WebSupport {
     ///
     /// @param o 校验的对象
     default void validate(Object o) {
-        ValidatorHolder.VALIDATOR.validate(o);
+        Validator.instance().validate(o);
     }
 
     /// 获取路径参数
