@@ -164,9 +164,9 @@ allprojects {
             dependency("org.apache.commons:commons-compress:1.28.0")
             dependency("org.opensearch.client:opensearch-java:3.2.0")
 
-            dependency("io.avaje:avaje-validator-constraints:2.12")
-            dependency("io.avaje:avaje-validator:2.12")
-            dependency("io.avaje:avaje-validator-generator:2.12")
+            dependency("io.avaje:avaje-validator-constraints:2.14")
+            dependency("io.avaje:avaje-validator:2.14")
+            dependency("io.avaje:avaje-validator-generator:2.14")
             dependency("org.mapstruct:mapstruct:1.6.3")
             dependency("org.mapstruct:mapstruct-processor:1.6.3")
             dependency("org.instancio:instancio-junit:5.4.1")
