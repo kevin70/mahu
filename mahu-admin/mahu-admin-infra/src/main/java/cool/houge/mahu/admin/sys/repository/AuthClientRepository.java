@@ -10,7 +10,6 @@ import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import org.jspecify.annotations.NonNull;
 
 /// 认证客户端
 ///
@@ -43,12 +42,11 @@ public class AuthClientRepository extends HBeanRepository<String, AuthClient> {
     /// | client_id | string |
     public PagedList<AuthClient> findPage(DataFilter dataFilter) {
         return new QAuthClient(db())
-                .also(o -> super.apply(o.query(), dataFilter))
+                .also(o -> super.apply(o.query(), dataFilter, filterableItems()))
                 .findPagedList();
     }
 
-    @Override
-    protected @NonNull List<FilterItem> filterableItems() {
+    List<FilterItem> filterableItems() {
         return List.of(
                 FilterItem.of(QAuthClient.Alias.createdAt),
                 FilterItem.of(QAuthClient.Alias.updatedAt),

@@ -7,6 +7,7 @@ import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
+import java.util.List;
 
 /// 定时任务执行日志
 ///
@@ -30,7 +31,7 @@ public class ScheduledExeLogRepository extends HBeanRepository<Long, ScheduledTa
                 .scheduledTask
                 .taskName
                 .eq(taskName)
-                .also(o -> super.apply(o.query(), dataFilter))
+                .also(o -> super.apply(o.query(), dataFilter, List.of()))
                 .findPagedList();
     }
 }

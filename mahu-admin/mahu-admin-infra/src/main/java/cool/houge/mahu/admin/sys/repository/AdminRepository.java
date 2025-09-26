@@ -12,7 +12,6 @@ import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import org.jspecify.annotations.NonNull;
 
 /// 管理员
 ///
@@ -44,11 +43,12 @@ public class AdminRepository extends HBeanRepository<Long, Admin> {
     /// | nickname | string |
     /// | status | enum |
     public PagedList<Admin> findPage(DataFilter dataFilter) {
-        return new QAdmin(db()).also(o -> super.apply(o.query(), dataFilter)).findPagedList();
+        return new QAdmin(db())
+                .also(o -> super.apply(o.query(), dataFilter, filterableItems()))
+                .findPagedList();
     }
 
-    @Override
-    protected @NonNull List<FilterItem> filterableItems() {
+    List<FilterItem> filterableItems() {
         return List.of(
                 FilterItem.of(QAdmin.Alias.createdAt),
                 FilterItem.of(QAdmin.Alias.updatedAt),

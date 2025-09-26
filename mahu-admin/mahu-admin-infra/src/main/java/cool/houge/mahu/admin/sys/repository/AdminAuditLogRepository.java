@@ -9,7 +9,6 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
-import org.jspecify.annotations.NonNull;
 
 /// 管理员操作审计日志
 ///
@@ -32,12 +31,11 @@ public class AdminAuditLogRepository extends HBeanRepository<Long, AdminAuditLog
     /// | ip_addr | string |
     public PagedList<AdminAuditLog> findPage(DataFilter dataFilter) {
         return new QAdminAuditLog(db())
-                .also(o -> super.apply(o.query(), dataFilter))
+                .also(o -> super.apply(o.query(), dataFilter, filterableItems()))
                 .findPagedList();
     }
 
-    @Override
-    protected @NonNull List<FilterItem> filterableItems() {
+    List<FilterItem> filterableItems() {
         return List.of(
                 FilterItem.of(QAdminAuditLog.Alias.createdAt),
                 FilterItem.of(QAdminAuditLog.Alias.adminId),

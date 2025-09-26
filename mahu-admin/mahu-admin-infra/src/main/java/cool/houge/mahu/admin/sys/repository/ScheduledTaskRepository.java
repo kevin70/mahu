@@ -9,7 +9,6 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
-import org.jspecify.annotations.NonNull;
 
 /// 定时任务
 ///
@@ -21,8 +20,7 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
         super(ScheduledTask.class, db);
     }
 
-    @Override
-    protected @NonNull List<FilterItem> filterableItems() {
+    List<FilterItem> filterableItems() {
         return List.of(
                 FilterItem.of(QScheduledTask.Alias.taskName), FilterItem.of(QScheduledTask.Alias.lastFailure)
                 //
@@ -44,7 +42,7 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
     /// | task_name | string |
     public PagedList<ScheduledTask> findPage(DataFilter dataFilter) {
         return new QScheduledTask(db())
-                .also(qb -> super.apply(qb.query(), dataFilter))
+                .also(qb -> super.apply(qb.query(), dataFilter, filterableItems()))
                 .findPagedList();
     }
 }

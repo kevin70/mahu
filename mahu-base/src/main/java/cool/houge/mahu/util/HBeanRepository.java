@@ -1,5 +1,7 @@
 package cool.houge.mahu.util;
 
+import static java.util.Objects.requireNonNull;
+
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.domain.DataFilter;
@@ -20,7 +22,7 @@ import org.jspecify.annotations.NonNull;
 /// 扩展数据管理基类
 ///
 /// @author ZY (kzou227@qq.com)
-public class HBeanRepository<I, T> extends BeanRepository<I, T> {
+public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T> {
 
     /// RSQL 解析器
     private static final RSQLParser RSQL_PARSER = new RSQLParser(ExtRSQLOperators.supportedOperators());
@@ -40,45 +42,53 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         return bean;
     }
 
-    /// 可搜索项
-    protected @NonNull List<FilterItem> filterableItems() {
-        return List.of();
-    }
-
-    /// 可排序项
-    protected @NonNull List<FilterItem> sortableItems() {
-        return filterableItems();
+    /// 将过滤条件应用到查询上
+    ///
+    /// @param query        查询对象
+    /// @param dataFilter       数据过滤条件
+    /// @param filterItems 可过滤项
+    protected final void apply(Query<T> query, DataFilter dataFilter, List<FilterItem> filterItems) {
+        this.apply(query, dataFilter, filterItems, filterItems);
     }
 
     /// 将过滤条件应用到查询上
     ///
     /// @param query        查询对象
     /// @param dataFilter       数据过滤条件
-    protected final void apply(Query<T> query, DataFilter dataFilter) {
-        var filterItems = filterableItems();
-        if (filterItems.isEmpty()) {
-            throw new IllegalStateException("可过滤项为空");
-        }
-
+    /// @param filterItems 可过滤项
+    /// @param sortItems 可排序项
+    protected final void apply(
+            Query<T> query, DataFilter dataFilter, List<FilterItem> filterItems, List<FilterItem> sortItems) {
+        requireNonNull(filterItems);
         // 包含软删除的数据
         if (dataFilter.includeDeleted()) {
             query.setIncludeSoftDeletes();
         }
 
-        dataFilter.query().filter(s -> !s.isEmpty()).ifPresent(q -> {
-            try {
-                var ctx = new RSQLContext(filterItems, query);
-                var node = RSQL_PARSER.parse(q);
-                node.accept(new EBeanRSQLVisitor(), ctx);
-            } catch (RSQLParserException e) {
-                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "RSQL 解析错误", e);
-            }
-        });
+        if (!filterItems.isEmpty()) {
+            dataFilter.query().filter(s -> !s.isEmpty()).ifPresent(q -> {
+                try {
+                    var ctx = new RSQLContext(filterItems, query);
+                    var node = RSQL_PARSER.parse(q);
+                    node.accept(new EBeanRSQLVisitor(), ctx);
+                } catch (RSQLParserException e) {
+                    throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "RSQL 解析错误", e);
+                }
+            });
+        }
 
         // 应用分页
-        this.apply(query, dataFilter.page());
-        // 应用排序
-        this.apply(query, dataFilter.sort());
+        this.apply(query, dataFilter.page(), sortItems);
+    }
+
+    /// 将分页参数应用到查询上
+    ///
+    /// @param query 查询对象
+    /// @param page 分页参数
+    /// @param sortItems 可排序项
+    protected final void apply(Query<T> query, Pageable page, List<FilterItem> sortItems) {
+        this.apply(query, page);
+        this.apply(query, page.getSort(), sortItems);
     }
 
     /// 将分页参数应用到查询上
@@ -89,17 +99,17 @@ public class HBeanRepository<I, T> extends BeanRepository<I, T> {
         if (!page.isUnpaged()) {
             query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPageSize());
         }
-        this.apply(query, page.getSort());
     }
 
-    protected final void apply(Query<T> query, Sort sort) {
+    /// 将排序参数应用到查询上
+    ///
+    /// @param query 查询对象
+    /// @param sort 排序参数
+    /// @param sortItems 可排序项
+    protected final void apply(Query<T> query, Sort sort, List<FilterItem> sortItems) {
+        requireNonNull(sortItems);
         if (sort.isSorted()) {
-            var items = sortableItems();
-            if (items.isEmpty()) {
-                throw new IllegalStateException("可排序项为空");
-            }
-
-            for (FilterItem item : items) {
+            for (FilterItem item : sortItems) {
                 var o = sort.getOrderFor(item.getKey());
                 if (o == null) {
                     continue;

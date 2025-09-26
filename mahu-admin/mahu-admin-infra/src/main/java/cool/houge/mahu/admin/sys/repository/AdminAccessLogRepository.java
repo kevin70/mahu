@@ -9,7 +9,6 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
-import org.jspecify.annotations.NonNull;
 
 /// 管理员访问记录
 ///
@@ -32,12 +31,11 @@ public class AdminAccessLogRepository extends HBeanRepository<Long, AdminAccessL
     /// | ip_addr | string |
     public PagedList<AdminAccessLog> findPage(DataFilter dataFilter) {
         return new QAdminAccessLog(db())
-                .also(o -> super.apply(o.query(), dataFilter))
+                .also(o -> super.apply(o.query(), dataFilter, filterableItems()))
                 .findPagedList();
     }
 
-    @Override
-    protected @NonNull List<FilterItem> filterableItems() {
+    List<FilterItem> filterableItems() {
         return List.of(
                 FilterItem.of(QAdminAccessLog.Alias.createdAt),
                 FilterItem.of(QAdminAccessLog.Alias.adminId),

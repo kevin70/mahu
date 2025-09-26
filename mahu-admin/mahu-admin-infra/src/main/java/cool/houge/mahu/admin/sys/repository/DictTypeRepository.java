@@ -12,7 +12,6 @@ import io.ebean.PagedList;
 import io.helidon.service.registry.Service;
 import java.util.Collection;
 import java.util.List;
-import org.jspecify.annotations.NonNull;
 
 /// 数字字典类型
 ///
@@ -45,7 +44,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     /// | name | string |
     public PagedList<DictType> findPage(DataFilter dataFilter) {
         return new QDictType(db())
-                .also(o -> super.apply(o.query(), dataFilter))
+                .also(o -> super.apply(o.query(), dataFilter, filterableItems()))
                 .data
                 .fetch()
                 .findPagedList();
@@ -58,8 +57,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
         return new QDict(db()).dc.eq(dc).findOne();
     }
 
-    @Override
-    protected @NonNull List<FilterItem> filterableItems() {
+    List<FilterItem> filterableItems() {
         return List.of(
                 FilterItem.of(QDictType.Alias.createdAt),
                 FilterItem.of(QDictType.Alias.updatedAt),

@@ -9,7 +9,6 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
 import java.util.List;
-import org.jspecify.annotations.NonNull;
 
 /// 角色
 ///
@@ -21,8 +20,7 @@ public class RoleRepository extends HBeanRepository<Integer, Role> {
         super(Role.class, db);
     }
 
-    @Override
-    protected @NonNull List<FilterItem> filterableItems() {
+    List<FilterItem> filterableItems() {
         return List.of(
                 FilterItem.of(QRole.Alias.createdAt),
                 FilterItem.of(QRole.Alias.updatedAt),
@@ -41,6 +39,8 @@ public class RoleRepository extends HBeanRepository<Integer, Role> {
     /// | name | string |
     /// | ordering | int |
     public PagedList<Role> findPage(DataFilter dataFilter) {
-        return new QRole(db()).also(o -> super.apply(o.query(), dataFilter)).findPagedList();
+        return new QRole(db())
+                .also(o -> super.apply(o.query(), dataFilter, filterableItems()))
+                .findPagedList();
     }
 }
