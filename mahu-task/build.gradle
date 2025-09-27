@@ -33,8 +33,7 @@ jib {
 
 dependencies {
     annotationProcessor("io.ebean:querybean-generator")
-    annotationProcessor("io.helidon.codegen:helidon-codegen-apt")
-    annotationProcessor("io.helidon.service:helidon-service-codegen")
+    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
     implementation(project(":mahu-entity"))
     implementation(project(":mahu-config"))

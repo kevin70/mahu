@@ -12,6 +12,12 @@ sourceSets {
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += [
+        '-Ahelidon.codegen.scope=web'
+    ]
+}
+
 sonarlintMain {
     exclude("**/cool/houge/mahu/admin/oas/*")
 }
