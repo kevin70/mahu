@@ -1,17 +1,11 @@
 package cool.houge.mahu.web;
 
-import static io.helidon.webserver.http.SecureHandler.authenticate;
-
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.domain.Pageable;
 import io.avaje.validation.Validator;
 import io.helidon.common.mapper.OptionalValue;
 import io.helidon.common.mapper.Value;
-import io.helidon.webserver.http.Handler;
 import io.helidon.webserver.http.ServerRequest;
-import java.util.function.Function;
 
 /// Web 支持接口
 ///
@@ -53,31 +47,5 @@ public interface WebSupport {
     /// @param request 请求对象
     default DataFilter dataFilter(ServerRequest request) {
         return new WebDataFilter(request);
-    }
-
-    /// 需要用户认证的接口
-    ///
-    /// @param next 认证成功执行
-    default Handler s(Handler next) {
-        return authenticate().wrap(next);
-    }
-
-    /// 需要用户认证与权限认证的接口
-    ///
-    /// @param next 认证成功执行
-    /// @param p1 权限代码
-    default Handler s(Handler next, String p1) {
-        return authenticate().andAuthorize(p1).wrap(next);
-    }
-
-    /// 包装器
-    default <R> Function<String, R> w(Function<String, R> next) {
-        return s -> {
-            try {
-                return next.apply(s);
-            } catch (IllegalArgumentException e) {
-                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
-            }
-        };
     }
 }
