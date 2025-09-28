@@ -40,6 +40,25 @@ rules:
       property: properties
     assertions:
       casing: snake_case
+  rule/operation-id-check:
+    subject:
+      type: Operation
+      property: operationId
+    message: `operationId` 前缀检查
+    assertions:
+      local/checkWordsStarts:
+        words:
+          - create
+          - upsert
+          - update
+          - merge
+          - delete
+          - approve
+          - reject
+          - get
+          - retrieve
+          - list
+          - page
 
 openapi:
   showExtensions: true
