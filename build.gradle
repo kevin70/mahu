@@ -72,6 +72,12 @@ allprojects {
     }
 
     spotless {
+        def osName = System.getProperty("os.name").toLowerCase()
+        def nodeExe = osName.contains("win") ? node.resolvedNodeDir.file("node.exe").get() :
+            node.resolvedNodeDir.file("bin/node").get()
+        def npmExe = osName.contains("win") ? node.resolvedNodeDir.file("npm.cmd").get() :
+            node.resolvedNodeDir.file("bin/npm").get()
+
         java {
             palantirJavaFormat("2.74.0")
             targetExclude("**/src/main/gen/**/*", "**/build/generated/**/*")
@@ -84,16 +90,16 @@ allprojects {
                     "language"   : 'postgresql',
                     "keywordCase": 'upper',
                 ])
-                .nodeExecutable(node.resolvedNodeDir.file("bin/node").get())
-                .npmExecutable(node.resolvedNodeDir.file("bin/npm").get())
+                .nodeExecutable(nodeExe)
+                .npmExecutable(npmExe)
                 .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
                 .npmrc("${rootDir}/.npmrc")
         }
         yaml {
             target("src/**/*.yaml", "openapi/admin/**/*.yaml")
             prettier(["prettier": "3.6.2"])
-                .nodeExecutable(node.resolvedNodeDir.file("bin/node").get())
-                .npmExecutable(node.resolvedNodeDir.file("bin/npm").get())
+                .nodeExecutable(nodeExe)
+                .npmExecutable(npmExe)
                 .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
                 .npmrc("${rootDir}/.npmrc")
         }
@@ -101,8 +107,8 @@ allprojects {
             target("src/**/*.xml")
             prettier(["prettier": "3.6.2", "@prettier/plugin-xml": "0.10.0"])
                 .config(["tabSize": 4, "plugins": ["@prettier/plugin-xml"]])
-                .nodeExecutable(node.resolvedNodeDir.file("bin/node").get())
-                .npmExecutable(node.resolvedNodeDir.file("bin/npm").get())
+                .nodeExecutable(nodeExe)
+                .npmExecutable(npmExe)
                 .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
                 .npmrc("${rootDir}/.npmrc")
         }
