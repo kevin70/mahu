@@ -39,8 +39,7 @@ rules:
       casing: snake_case
   rule/schema-properties-casing:
     subject:
-      type: Schema
-      property: properties
+      type: SchemaProperties
     assertions:
       casing: snake_case
   rule/operation-id-check:
