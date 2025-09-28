@@ -161,7 +161,7 @@ allprojects {
             mavenBom("org.testcontainers:testcontainers-bom:1.21.3")
         }
         dependencies {
-            dependency("io.helidon.bundles:helidon-bundles-apt:4.3.0-M2")
+            dependency("io.helidon.bundles:helidon-bundles-apt:4.3.0")
             dependency("org.checkerframework:checker-qual:3.49.5")
             dependency("com.google.errorprone:error_prone_annotations:2.41.0")
             dependency("com.google.guava:guava:33.4.8-jre")
