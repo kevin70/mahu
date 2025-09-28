@@ -11,10 +11,10 @@ schema:
   type: string
   default: n
   enum:
-    - 1
-    - true
-    - false
-    - yes
-    - on
-    - y
-    - n
+    - "1"
+    - "true"
+    - "false"
+    - "yes"
+    - "on"
+    - "y"
+    - "n"

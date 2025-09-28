@@ -1,5 +1,5 @@
-name: include_deleted
 in: query
+name: include_deleted
 description: |
   返回数据包涵已经删除的数据
 
@@ -11,10 +11,10 @@ schema:
   type: string
   default: n
   enum:
-    - 1
-    - true
-    - false
-    - yes
-    - on
-    - y
-    - n
+    - "1"
+    - "true"
+    - "false"
+    - "yes"
+    - "on"
+    - "y"
+    - "n"

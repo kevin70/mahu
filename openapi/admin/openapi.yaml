@@ -12,7 +12,6 @@ components:
   securitySchemes:
     AT:
       type: http
-      in: header
       scheme: Bearer
       description: 访问令牌
 security:

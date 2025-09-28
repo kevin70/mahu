@@ -1,6 +1,6 @@
 type: object
 required:
-  - name
+  - label
   - ordering
   - disabled
 properties:

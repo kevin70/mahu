@@ -3,7 +3,7 @@ required:
   - id
   - name
   - ordering
-  - permits
+  - permissions
 properties:
   id:
     type: integer

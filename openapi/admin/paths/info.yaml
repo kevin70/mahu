@@ -1,6 +1,6 @@
 get:
   summary: 获取应用信息
-  operationId: gerInfo
+  operationId: getInfo
   tags: [h-help]
   security: []
   responses:

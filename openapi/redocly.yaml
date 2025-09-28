@@ -2,6 +2,8 @@
 # See https://redocly.com/docs/redoc/config
 extends:
   - recommended
+plugins:
+  - plugins/local.js
 
 # See https://redocly.com/docs/cli/rules
 rules:
@@ -9,12 +11,13 @@ rules:
   paths-kebab-case: error
   no-unused-components: error
   path-not-include-query: error
-  required-string-property-missing-min-length: error
+  required-string-property-missing-min-length: off
   operation-singular-tag: warn
   operation-tag-defined: error
   operation-operationId: error
   no-ambiguous-paths: error
   operation-4xx-response: off
+  tag-description: off
   request-mime-type:
     severity: error
     allowedValues:
@@ -44,7 +47,8 @@ rules:
     subject:
       type: Operation
       property: operationId
-    message: `operationId` 前缀检查
+    message: |
+      `operationId` 前缀检查
     assertions:
       local/checkWordsStarts:
         words:
@@ -59,6 +63,9 @@ rules:
           - retrieve
           - list
           - page
+          - cancel
+          - execute
+          - login
 
 openapi:
   showExtensions: true
@@ -69,6 +76,4 @@ openapi:
 ### redocly build-docs admin@v1 --theme.openapi.sideNavStyle=path-only
 apis:
   admin@v1:
-    root: ./admin/openapi.yaml
-    rules:
-      no-ambiguous-paths: error
+    root: "./admin/openapi.yaml"

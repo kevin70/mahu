@@ -1,6 +1,6 @@
 get:
   summary: 系统所有权限代码
-  operationId: allSysPermission
+  operationId: listSysPermission
   tags: [h-permission]
   responses:
     "200":

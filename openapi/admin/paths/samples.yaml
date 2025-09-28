@@ -5,6 +5,8 @@ get:
   description: |
     HTTP 错误码响应 https://www.webfx.com/web-development/glossary/http-status-codes
   responses:
+    200:
+      description: OK
     400:
       description: Bad Request
       content:
