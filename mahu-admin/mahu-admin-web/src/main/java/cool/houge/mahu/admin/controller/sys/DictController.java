@@ -24,7 +24,7 @@ public class DictController implements HDictService, WebSupport {
     final DictService dictService;
 
     @Override
-    public void addSysDictData(ServerRequest request, ServerResponse response) {
+    public void createSysDictData(ServerRequest request, ServerResponse response) {
         var dictTypeId = dictTypeId(request);
         var vo = request.content().as(SysDictUpsertRequest.class);
         validate(vo);

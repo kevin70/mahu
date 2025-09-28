@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class PermissionController implements HPermissionService, WebSupport {
 
     @Override
-    public void allSysPermission(ServerRequest request, ServerResponse response) {
+    public void listSysPermission(ServerRequest request, ServerResponse response) {
         var list = new ArrayList<SysPermissionResponse>();
         for (Permissions value : Permissions.values()) {
             var o = new SysPermissionResponse()

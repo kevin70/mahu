@@ -11,7 +11,7 @@ public interface HHelpService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.get("/info",this::gerInfo);
+        rules.get("/info",this::getInfo);
         rules.get("/samples", authenticate(), this::getSamples);
     }
 
@@ -20,7 +20,7 @@ public interface HHelpService extends HttpService {
     ///
     /// @param request the server request
     /// @param response the server response
-    void gerInfo(ServerRequest request, ServerResponse response);
+    void getInfo(ServerRequest request, ServerResponse response);
 
     ///
     /// `GET /samples` 样例

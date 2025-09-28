@@ -11,7 +11,7 @@ public interface HPermissionService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.get("/sys/permissions", authenticate(), this::allSysPermission);
+        rules.get("/sys/permissions", authenticate(), this::listSysPermission);
     }
 
     ///
@@ -19,6 +19,6 @@ public interface HPermissionService extends HttpService {
     ///
     /// @param request the server request
     /// @param response the server response
-    void allSysPermission(ServerRequest request, ServerResponse response);
+    void listSysPermission(ServerRequest request, ServerResponse response);
 
 }

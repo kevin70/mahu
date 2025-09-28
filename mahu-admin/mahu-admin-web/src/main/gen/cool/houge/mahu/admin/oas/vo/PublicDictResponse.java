@@ -17,7 +17,8 @@ public class PublicDictResponse {
     /**
      * 字典数据标签
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("label")
     private String label;
     /**

@@ -11,7 +11,7 @@ public interface HDictService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.post("/sys/dicts/{dict_type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::addSysDictData);
+        rules.post("/sys/dicts/{dict_type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictData);
         rules.post("/sys/dicts", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictType);
         rules.delete("/sys/dicts/{dict_type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::deleteSysDictType);
         rules.get("/sys/dicts/{dict_type_id}", authenticate().andAuthorize("SYS_DICT:R"), this::getSysDictType);
@@ -24,7 +24,7 @@ public interface HDictService extends HttpService {
     ///
     /// @param request the server request
     /// @param response the server response
-    void addSysDictData(ServerRequest request, ServerResponse response);
+    void createSysDictData(ServerRequest request, ServerResponse response);
 
     ///
     /// `POST /sys/dicts` 新建字典类型

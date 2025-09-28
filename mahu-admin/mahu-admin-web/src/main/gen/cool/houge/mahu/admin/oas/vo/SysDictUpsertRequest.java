@@ -16,7 +16,8 @@ public class SysDictUpsertRequest {
     /**
      * 字典数据标签
      */
-     @Size(min=1,max=255)
+      @NotNull
+ @Size(min=1,max=255)
     @com.fasterxml.jackson.annotation.JsonProperty("label")
     private String label;
     /**
