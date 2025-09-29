@@ -12,7 +12,7 @@ import org.jspecify.annotations.NonNull;
 public interface DataFilter {
 
     /// RSQL 数据过滤
-    Optional<String> query();
+    Optional<String> filter();
 
     /// 分页参数
     Pageable page();

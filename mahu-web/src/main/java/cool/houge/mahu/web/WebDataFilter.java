@@ -32,7 +32,7 @@ public class WebDataFilter implements DataFilter {
     }
 
     @Override
-    public Optional<String> query() {
+    public Optional<String> filter() {
         if (filter.isEmpty()) {
             return Optional.empty();
         }
