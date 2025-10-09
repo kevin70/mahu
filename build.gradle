@@ -79,7 +79,7 @@ allprojects {
             node.resolvedNodeDir.file("bin/npm").get()
 
         java {
-            palantirJavaFormat("2.74.0")
+            palantirJavaFormat("2.77.0")
             targetExclude("**/src/main/gen/**/*", "**/build/generated/**/*")
         }
         sql {
