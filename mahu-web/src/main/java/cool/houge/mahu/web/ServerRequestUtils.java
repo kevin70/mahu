@@ -37,7 +37,7 @@ public final class ServerRequestUtils {
     /// @param request 请求对象
     public static Pageable pageArgs(ServerRequest request) {
         var params = request.query();
-        var sort = toSort(params.all("sort", List::of));
+        var sort = sortArgs(request);
         var pageSize = params.first("size");
         if (pageSize.isEmpty()) {
             return Pageable.unpaged(sort);
@@ -48,6 +48,14 @@ public final class ServerRequestUtils {
             return PageRequest.of(0, pageSize.asInt().get(), sort);
         }
         return PageRequest.of(page.asInt().get(), pageSize.asInt().get(), sort);
+    }
+
+    /// 获取排序参数
+    ///
+    /// @param request 请求对象
+    public static Sort sortArgs(ServerRequest request) {
+        var params = request.query();
+        return toSort(params.all("sort", List::of));
     }
 
     static OptionalValue<String> first(Parameters parameters, String name) {
