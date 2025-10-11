@@ -2,7 +2,7 @@ package cool.houge.mahu.task;
 
 import com.google.common.base.Stopwatch;
 import io.helidon.Main;
-import io.helidon.service.registry.Service.RunLevel;
+import io.helidon.service.registry.Service;
 import io.helidon.service.registry.ServiceRegistryConfig;
 import io.helidon.service.registry.ServiceRegistryManager;
 import org.apache.logging.log4j.LogManager;
@@ -18,8 +18,8 @@ public class TaskApplication {
     public static void main(String[] args) {
         var stopWatch = Stopwatch.createStarted();
         var registryConfig = ServiceRegistryConfig.builder()
-                .addRunLevel(RunLevel.STARTUP)
-                .addRunLevel(RunLevel.SERVER)
+                .addRunLevel(Service.RunLevel.STARTUP)
+                .addRunLevel(Service.RunLevel.SERVER)
                 .allowLateBinding(false)
                 .build();
         ServiceRegistryManager.create(registryConfig);

@@ -51,7 +51,7 @@ class SchedulerProvider implements Supplier<Scheduler> {
             if (!taskNames.add(task.getName())) {
                 throw new IllegalArgumentException(Strings.lenientFormat("任务名称重复: %s", task.getTaskName()));
             }
-            this.v.schedule(task.schedulableInstance("default"));
+            this.v.scheduleIfNotExists(task.schedulableInstance("default"));
             log.info("注册定时任务: {}", task.getTaskName());
         }
         this.v.start();
