@@ -35,6 +35,7 @@ class SchedulerProvider implements Supplier<Scheduler> {
                 .tableName("sys.scheduled_task")
                 .threads(Runtime.getRuntime().availableProcessors())
                 .addExecutionInterceptor(new TraceExecutionInterceptor(db))
+                .alwaysPersistTimestampInUTC()
                 .enablePriority()
                 .build();
     }
