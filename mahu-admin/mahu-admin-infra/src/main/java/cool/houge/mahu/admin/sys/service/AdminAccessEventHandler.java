@@ -1,11 +1,11 @@
 package cool.houge.mahu.admin.sys.service;
 
+import com.github.f4b6a3.uuid.UuidCreator;
 import cool.houge.mahu.admin.event.AdminAccessEvent;
 import cool.houge.mahu.admin.sys.repository.AdminAccessLogRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Event.Observer;
 import io.helidon.service.registry.Service.Singleton;
-import io.hypersistence.tsid.TSID;
 import lombok.AllArgsConstructor;
 
 /// [AdminAccessEvent] 事件处理器
@@ -21,7 +21,7 @@ class AdminAccessEventHandler {
     @Observer
     void onAdminAccessLogEvent(AdminAccessEvent event) {
         var logEntity = event.log();
-        logEntity.setId(TSID.fast().toLong());
+        logEntity.setId(UuidCreator.getTimeOrderedEpoch());
         adminAccessLogRepository.save(logEntity);
     }
 }

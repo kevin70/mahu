@@ -1,5 +1,6 @@
 package cool.houge.blma.shared.service;
 
+import com.github.f4b6a3.uuid.codec.base.Base58BtcCodec;
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import cool.houge.blma.shared.dto.PresignedUploadPayload;
@@ -11,11 +12,11 @@ import cool.houge.mahu.config.OssConfig;
 import cool.houge.mahu.config.OssKind;
 import io.helidon.config.Config;
 import io.helidon.service.registry.Service.Singleton;
-import io.hypersistence.tsid.TSID;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.http.Method;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
@@ -74,10 +75,11 @@ public class SharedOssService {
         var fileName = payload.getFileName();
         Supplier<String> getName = () -> {
             var ext = Files.getFileExtension(fileName);
+            var name = Base58BtcCodec.INSTANCE.encode(UUID.randomUUID());
             if (ext.isEmpty()) {
-                return TSID.fast().toString();
+                return name;
             }
-            return TSID.fast() + "." + ext;
+            return name + "." + ext;
         };
 
         if (kind == OssKind.ADMIN_AVATAR) {

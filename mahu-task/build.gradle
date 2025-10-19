@@ -45,6 +45,7 @@ dependencies {
     implementation("io.helidon.logging:helidon-logging-log4j")
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("io.helidon.service:helidon-service-registry")
+    implementation("org.opensearch.client:opensearch-java:3.2.0")
 
     implementation("com.github.kagkarlsson:db-scheduler")
     implementation("org.postgresql:postgresql")
@@ -52,7 +53,6 @@ dependencies {
     implementation("io.ebean:ebean-jackson-mapper")
     implementation("org.apache.logging.log4j:log4j-core")
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-    implementation("io.hypersistence:hypersistence-tsid")
     implementation("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap")
 
     // testImplementation(project(":mahu-test"))

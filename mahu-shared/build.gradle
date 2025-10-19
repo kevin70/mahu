@@ -9,7 +9,6 @@ dependencies {
     api("io.helidon.service:helidon-service-registry")
     implementation("org.postgresql:postgresql")
     implementation("io.ebean:ebean-postgres")
-    implementation("io.hypersistence:hypersistence-tsid")
     implementation("io.helidon.health:helidon-health-checks")
 
     testAnnotationProcessor("io.helidon.codegen:helidon-codegen-apt")

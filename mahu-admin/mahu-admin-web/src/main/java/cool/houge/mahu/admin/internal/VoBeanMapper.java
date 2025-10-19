@@ -2,9 +2,6 @@ package cool.houge.mahu.admin.internal;
 
 import io.helidon.service.registry.Service.Contract;
 import io.helidon.service.registry.Service.Singleton;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import org.mapstruct.AnnotateWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -19,9 +16,6 @@ import org.mapstruct.ReportingPolicy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface VoBeanMapper extends SysBeanMapper, LogBeanMapper {
+public interface VoBeanMapper extends TopBeanMapper, SysBeanMapper, LogBeanMapper {
 
-    default LocalDateTime toLocalDateTime(Instant b) {
-        return b != null ? b.atZone(ZoneId.systemDefault()).toLocalDateTime() : null;
-    }
 }

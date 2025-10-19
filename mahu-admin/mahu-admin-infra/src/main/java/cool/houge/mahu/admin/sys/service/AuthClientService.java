@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.sys.service;
 
+import com.github.f4b6a3.uuid.codec.base.Base58BtcCodec;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
@@ -9,7 +10,7 @@ import cool.houge.mahu.entity.AuthClient;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
-import io.hypersistence.tsid.TSID;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.AllArgsConstructor;
 
@@ -26,7 +27,7 @@ public class AuthClientService {
     /// 新增认证客户端
     @Transactional
     public void save(AuthClient authClient) {
-        var clientId = TSID.fast().toString();
+        var clientId = Base58BtcCodec.INSTANCE.encode(UUID.randomUUID());
         var clientSecret = randomClientSecret();
         authClient.setDeleted(false).setClientId(clientId).setClientSecret(clientSecret);
         authClientRepository.save(authClient);

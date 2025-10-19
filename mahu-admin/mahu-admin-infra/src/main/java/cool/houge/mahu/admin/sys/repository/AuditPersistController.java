@@ -15,19 +15,15 @@ import io.ebeaninternal.server.deploy.BeanDescriptor;
 import io.ebeaninternal.server.deploy.BeanProperty;
 import io.ebeaninternal.server.deploy.BeanPropertyAssocOne;
 import io.ebeaninternal.server.util.ArrayStack;
-import io.helidon.common.LazyValue;
 import io.helidon.common.context.Contexts;
-import io.hypersistence.tsid.TSID;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.UUID;
 
 /// 管理员操作审计日志
 ///
 /// @author ZY (kzou227@qq.com)
 public class AuditPersistController extends BeanPersistAdapter {
-
-    private static final LazyValue<TSID.Factory> AUDIT_ID_FACTORY_LV =
-            LazyValue.create(() -> TSID.Factory.builder().build());
 
     @Override
     public boolean isRegisterFor(Class<?> cls) {
@@ -89,8 +85,8 @@ public class AuditPersistController extends BeanPersistAdapter {
         server.save(entity);
     }
 
-    long generateAuditId() {
-        return AUDIT_ID_FACTORY_LV.get().generate().toLong();
+    UUID generateAuditId() {
+        return UUID.randomUUID();
     }
 
     void changeData(SpiEbeanServer server, PersistRequestBean<?> request, AdminAuditLog auditLog) {

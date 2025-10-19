@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,11 +19,9 @@ import lombok.Setter;
 @Table(schema = "sys", name = "admin_access_log")
 public class AdminAccessLog {
 
-    /// 日志追踪 ID。
-    ///
-    /// Time-Sorted Unique Identifiers [TSID](https://github.com/vladmihalcea/hypersistence-tsid)。
+    /// 日志追踪 ID
     @Id
-    protected Long id;
+    protected UUID id;
     /// 创建时间
     @WhenCreated
     protected Instant createdAt;

@@ -18,7 +18,6 @@ dependencies {
 
     api("io.minio:minio")
     api("com.password4j:password4j")
-    api("io.hypersistence:hypersistence-tsid")
     api("com.github.ben-manes.caffeine:caffeine")
     api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap")
 

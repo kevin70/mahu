@@ -1,5 +1,7 @@
 package cool.houge.mahu.admin.sys.service;
 
+import com.github.f4b6a3.uuid.UuidCreator;
+import com.github.f4b6a3.uuid.codec.base.Base58BtcCodec;
 import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
@@ -28,7 +30,6 @@ import io.helidon.security.jwt.SignedJwt;
 import io.helidon.security.jwt.jwk.Jwk;
 import io.helidon.security.jwt.jwk.JwkKeys;
 import io.helidon.service.registry.Service.Singleton;
-import io.hypersistence.tsid.TSID;
 import java.time.Instant;
 import java.util.List;
 import java.util.random.RandomGenerator;
@@ -132,7 +133,7 @@ public class TokenService implements TokenVerifier {
         var metadata = Metadata.current();
         adminAuthLogRepository.save(
                 new AdminAuthLog()
-                        .setId(TSID.fast().toLong())
+                        .setId(UuidCreator.getTimeOrderedEpoch())
                         .setAdminId(admin.getId())
                         .setGrantType(payload.getGrantType().name())
                         .setClientId(client.getClientId())
@@ -146,7 +147,7 @@ public class TokenService implements TokenVerifier {
     @Transactional
     TokenResult makeToken(TokenPayload payload, Admin admin) {
         var jwk = obtainJwk();
-        var jwtId = TSID.fast().toString();
+        var jwtId = Base58BtcCodec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch());
         var sub = String.valueOf(admin.getId());
         var iat = Instant.now();
         var nonce = String.valueOf(Math.random());
