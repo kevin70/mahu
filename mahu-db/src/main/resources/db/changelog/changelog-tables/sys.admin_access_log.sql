@@ -3,8 +3,8 @@
 -- changeset kzou227@qq.com:202508251146
 CREATE TABLE
   sys.admin_access_log (
-    id BIGINT NOT NULL CONSTRAINT admin_access_log_pk PRIMARY KEY,
-    created_at TIMESTAMP WITHOUT TIME ZONE,
+    id UUID NOT NULL CONSTRAINT admin_access_log_pk PRIMARY KEY,
+    created_at TIMESTAMP,
     admin_id BIGINT,
     ip_addr VARCHAR(64),
     METHOD VARCHAR(16),
@@ -14,7 +14,7 @@ CREATE TABLE
     protocol VARCHAR(1024),
     response_status SMALLINT,
     response_bytes BIGINT,
-    user_agent VARCHAR(1024)
+    user_agent VARCHAR(2048)
   );
 
 COMMENT ON TABLE sys.admin_access_log IS '管理员访问记录';

@@ -3,13 +3,13 @@
 -- changeset kzou227@qq.com:202508251148
 CREATE TABLE
   sys.admin_auth_log (
-    id BIGINT NOT NULL CONSTRAINT admin_auth_log_pk PRIMARY KEY,
+    id UUID NOT NULL CONSTRAINT admin_auth_log_pk PRIMARY KEY,
     created_at TIMESTAMP,
     admin_id BIGINT,
     grant_type VARCHAR(50),
-    client_id VARCHAR(50),
+    client_id VARCHAR(26),
     ip_addr VARCHAR(50),
-    user_agent VARCHAR(1024)
+    user_agent VARCHAR(2048)
   );
 
 COMMENT ON TABLE sys.admin_auth_log IS '管理员认证日志';

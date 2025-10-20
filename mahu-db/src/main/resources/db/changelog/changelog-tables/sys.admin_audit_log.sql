@@ -3,8 +3,8 @@
 -- changeset kzou227@qq.com:202508251147
 CREATE TABLE
   sys.admin_audit_log (
-    id BIGINT NOT NULL CONSTRAINT admin_audit_log_pk PRIMARY KEY,
-    created_at TIMESTAMP WITHOUT TIME ZONE,
+    id UUID NOT NULL CONSTRAINT admin_audit_log_pk PRIMARY KEY,
+    created_at TIMESTAMP,
     admin_id BIGINT,
     ip_addr VARCHAR(50),
     change_type "char",
@@ -14,8 +14,6 @@ CREATE TABLE
     DATA jsonb,
     old_data jsonb
   );
-
-COMMENT ON TABLE sys.admin_audit_log IS '管理员修改操作审计日志';
 
 COMMENT ON TABLE sys.admin_audit_log IS '管理员操作审计日志';
 
