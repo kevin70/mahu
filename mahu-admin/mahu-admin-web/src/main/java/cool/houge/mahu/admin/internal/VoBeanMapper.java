@@ -16,6 +16,4 @@ import org.mapstruct.ReportingPolicy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface VoBeanMapper extends TopBeanMapper, SysBeanMapper, LogBeanMapper {
-
-}
+public interface VoBeanMapper extends TopBeanMapper, SysBeanMapper, LogBeanMapper {}
