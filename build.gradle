@@ -9,7 +9,7 @@ plugins {
     id("jacoco")
     id("com.github.node-gradle.node") version "7.1.0"
     id("com.diffplug.spotless") version "8.0.0"
-    id("name.remal.sonarlint") version "6.0.0"
+    id("se.solrike.sonarlint") version "2.2.0"
 
     id("org.hidetake.ssh") version "2.12.0"
     id("de.undercouch.download") version "5.6.0"
@@ -27,7 +27,7 @@ allprojects {
     apply plugin: "jacoco"
     apply plugin: "project-report"
     apply plugin: "com.diffplug.spotless"
-    apply plugin: "name.remal.sonarlint"
+    apply plugin: "se.solrike.sonarlint"
     apply plugin: "org.hidetake.ssh"
     apply plugin: "com.github.node-gradle.node"
     apply plugin: "io.spring.dependency-management"
@@ -77,6 +77,7 @@ allprojects {
             node.resolvedNodeDir.file("bin/node").get()
         def npmExe = osName.contains("win") ? node.resolvedNodeDir.file("npm.cmd").get() :
             node.resolvedNodeDir.file("bin/npm").get()
+        def cacheDir = "${rootDir}/.gradle/spotless-npm-install-cache"
 
         java {
             palantirJavaFormat("2.77.0")
@@ -92,7 +93,7 @@ allprojects {
                 ])
                 .nodeExecutable(nodeExe)
                 .npmExecutable(npmExe)
-                .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
+                .npmInstallCache(cacheDir)
                 .npmrc("${rootDir}/.npmrc")
         }
         yaml {
@@ -100,7 +101,7 @@ allprojects {
             prettier(["prettier": "3.6.2"])
                 .nodeExecutable(nodeExe)
                 .npmExecutable(npmExe)
-                .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
+                .npmInstallCache(cacheDir)
                 .npmrc("${rootDir}/.npmrc")
         }
         format("xml") {
@@ -109,7 +110,7 @@ allprojects {
                 .config(["tabSize": 4, "plugins": ["@prettier/plugin-xml"]])
                 .nodeExecutable(nodeExe)
                 .npmExecutable(npmExe)
-                .npmInstallCache("${rootDir}/.gradle/spotless-npm-install-cache")
+                .npmInstallCache(cacheDir)
                 .npmrc("${rootDir}/.npmrc")
         }
     }
@@ -117,21 +118,8 @@ allprojects {
         it.dependsOn(nodeSetup)
     }
 
-    sonarLint {
-        ignoreFailures = true
-        languages {
-            include("java")
-        }
-        rules {
-            disable("java:S1611")
-        }
-        ignoredPaths.add("**/oas/vo/**")
-        ignoredPaths.add("**/oas/controller/**")
-    }
-    sonarlintMain {
-        reports {
-            html.required = true
-        }
+    sonarlint {
+        //
     }
 
     configurations {
@@ -195,8 +183,6 @@ allprojects {
     }
 
     dependencies {
-        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:7.35.0.36271")
-
         annotationProcessor("org.projectlombok:lombok")
         annotationProcessor("org.mapstruct:mapstruct-processor")
         annotationProcessor("io.avaje:avaje-validator-generator")
