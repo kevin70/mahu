@@ -46,7 +46,7 @@ VALUES
     '超级管理员',
     '系统超级管理员，拥有系统所有权限',
     9999,
-    '["*"]'::jsonb
+    '["*"]'::JSONB
   );
 
 -- rollback delete from sys.role where id=1;

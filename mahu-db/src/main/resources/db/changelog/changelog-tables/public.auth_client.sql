@@ -1,19 +1,18 @@
 --
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202509172106
-CREATE TABLE
-  public.auth_client (
-    client_id VARCHAR(50) NOT NULL CONSTRAINT auth_client_pk PRIMARY KEY,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    deleted "char" DEFAULT 'F'::"char",
-    client_secret VARCHAR(4000),
-    remark VARCHAR(500),
-    LABEL VARCHAR(128),
-    terminal_type VARCHAR(32),
-    wechat_appid VARCHAR(128),
-    wechat_appsecret VARCHAR(512)
-  );
+CREATE TABLE public.auth_client (
+  client_id VARCHAR(50) NOT NULL CONSTRAINT auth_client_pk PRIMARY KEY,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP,
+  deleted "char" DEFAULT 'F'::"char",
+  client_secret VARCHAR(4000),
+  remark VARCHAR(500),
+  label VARCHAR(128),
+  terminal_type VARCHAR(32),
+  wechat_appid VARCHAR(128),
+  wechat_appsecret VARCHAR(512)
+);
 
 COMMENT ON TABLE public.auth_client IS '认证客户端';
 

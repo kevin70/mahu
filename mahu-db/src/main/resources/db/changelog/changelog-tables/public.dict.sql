@@ -1,15 +1,14 @@
 --
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251125
-CREATE TABLE
-  public.dict_type (
-    id VARCHAR(50) NOT NULL CONSTRAINT dict_type_pk PRIMARY KEY,
-    NAME VARCHAR(255),
-    description VARCHAR(4096),
-    disabled "char",
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
-  );
+CREATE TABLE public.dict_type (
+  id INTEGER NOT NULL CONSTRAINT dict_type_pk PRIMARY KEY,
+  name VARCHAR(255),
+  description VARCHAR(4096),
+  disabled "char",
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+);
 
 COMMENT ON TABLE public.dict_type IS '字典类型';
 
@@ -29,17 +28,16 @@ COMMENT ON COLUMN public.dict_type.description IS '描述';
 --
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251126
-CREATE TABLE
-  public.dict (
-    dc serial NOT NULL CONSTRAINT dict_pk PRIMARY KEY,
-    LABEL VARCHAR(255),
-    VALUE VARCHAR(4096),
-    disabled "char",
-    ordering INTEGER,
-    dict_type_id VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
-  );
+CREATE TABLE public.dict (
+  dc serial NOT NULL CONSTRAINT dict_pk PRIMARY KEY,
+  label VARCHAR(255),
+  value VARCHAR(4096),
+  disabled "char",
+  ordering INTEGER,
+  dict_type_id INTEGER NOT NULL,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+);
 
 COMMENT ON TABLE public.dict IS '字典数据';
 
@@ -63,6 +61,6 @@ CREATE INDEX dict_type_i ON public.dict (dict_type_id);
 
 ALTER SEQUENCE public.dict_dc_seq RESTART
 WITH
-  1001;
+  100001;
 
 -- rollback drop table public.dict;

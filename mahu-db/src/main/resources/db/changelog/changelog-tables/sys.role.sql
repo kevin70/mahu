@@ -1,17 +1,16 @@
 --
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251124
-CREATE TABLE
-  sys.role (
-    id INTEGER NOT NULL CONSTRAINT role_pk PRIMARY KEY,
-    created_at TIMESTAMP WITHOUT TIME ZONE,
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    deleted "char" DEFAULT 'F'::"char",
-    NAME VARCHAR(32),
-    remark VARCHAR(255),
-    ordering SMALLINT,
-    permissions jsonb
-  );
+CREATE TABLE sys.role (
+  id INTEGER NOT NULL CONSTRAINT role_pk PRIMARY KEY,
+  created_at TIMESTAMP WITHOUT TIME ZONE,
+  updated_at TIMESTAMP WITHOUT TIME ZONE,
+  deleted "char" DEFAULT 'F'::"char",
+  name VARCHAR(32),
+  remark VARCHAR(255),
+  ordering SMALLINT,
+  permissions JSONB
+);
 
 COMMENT ON TABLE sys.role IS '权限表';
 

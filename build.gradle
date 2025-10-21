@@ -78,6 +78,7 @@ allprojects {
         def npmExe = osName.contains("win") ? node.resolvedNodeDir.file("npm.cmd").get() :
             node.resolvedNodeDir.file("bin/npm").get()
         def cacheDir = "${rootDir}/.gradle/spotless-npm-install-cache"
+        def prettierVersion = "3.6.2"
 
         java {
             palantirJavaFormat("2.80.0")
@@ -85,11 +86,12 @@ allprojects {
         }
         sql {
             target("src/**/*.sql")
-            prettier(["prettier": "3.6.2", "prettier-plugin-sql": "0.15.2"])
+            prettier(["prettier": prettierVersion, "prettier-plugin-sql": "0.19.2"])
                 .config([
                     "plugins"    : ["prettier-plugin-sql"],
                     "language"   : 'postgresql',
                     "keywordCase": 'upper',
+                    "dataTypeCase": 'upper',
                 ])
                 .nodeExecutable(nodeExe)
                 .npmExecutable(npmExe)
@@ -98,7 +100,7 @@ allprojects {
         }
         yaml {
             target("src/**/*.yaml", "openapi/admin/**/*.yaml")
-            prettier(["prettier": "3.6.2"])
+            prettier(["prettier": prettierVersion])
                 .nodeExecutable(nodeExe)
                 .npmExecutable(npmExe)
                 .npmInstallCache(cacheDir)
@@ -106,7 +108,7 @@ allprojects {
         }
         format("xml") {
             target("src/**/*.xml")
-            prettier(["prettier": "3.6.2", "@prettier/plugin-xml": "0.10.0"])
+            prettier(["prettier": prettierVersion, "@prettier/plugin-xml": "3.4.2"])
                 .config(["tabSize": 4, "plugins": ["@prettier/plugin-xml"]])
                 .nodeExecutable(nodeExe)
                 .npmExecutable(npmExe)

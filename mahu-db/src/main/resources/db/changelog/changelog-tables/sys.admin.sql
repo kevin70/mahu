@@ -1,19 +1,18 @@
 --
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251122
-CREATE TABLE
-  sys.admin (
-    id serial CONSTRAINT admin_pk PRIMARY KEY,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    deleted "char" DEFAULT 'F'::"char",
-    username VARCHAR(128),
-    PASSWORD VARCHAR(1024),
-    nickname VARCHAR(128),
-    avatar VARCHAR(128),
-    status SMALLINT,
-    gender SMALLINT
-  );
+CREATE TABLE sys.admin (
+  id serial CONSTRAINT admin_pk PRIMARY KEY,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP,
+  deleted "char" DEFAULT 'F'::"char",
+  username VARCHAR(128),
+  password VARCHAR(1024),
+  nickname VARCHAR(128),
+  avatar VARCHAR(128),
+  status SMALLINT,
+  gender SMALLINT
+);
 
 COMMENT ON TABLE sys.admin IS '员工';
 

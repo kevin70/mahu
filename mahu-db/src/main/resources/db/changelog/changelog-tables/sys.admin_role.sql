@@ -1,11 +1,10 @@
 --
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251133
-CREATE TABLE
-  sys.admin_role (
-    admin_id INTEGER NOT NULL,
-    role_id INTEGER NOT NULL
-  );
+CREATE TABLE sys.admin_role (
+  admin_id INTEGER NOT NULL,
+  role_id INTEGER NOT NULL
+);
 
 COMMENT ON COLUMN sys.admin_role.admin_id IS '管理员 ID';
 

@@ -1,19 +1,18 @@
 --
 -- liquibase formatted sql
 -- changeset kzou227@qq.com:202508251147
-CREATE TABLE
-  sys.admin_audit_log (
-    id UUID NOT NULL CONSTRAINT admin_audit_log_pk PRIMARY KEY,
-    created_at TIMESTAMP,
-    admin_id BIGINT,
-    ip_addr VARCHAR(50),
-    change_type "char",
-    table_name VARCHAR(50),
-    data_tenant_id VARCHAR(50),
-    data_id VARCHAR(256),
-    DATA jsonb,
-    old_data jsonb
-  );
+CREATE TABLE sys.admin_audit_log (
+  id UUID NOT NULL CONSTRAINT admin_audit_log_pk PRIMARY KEY,
+  created_at TIMESTAMP,
+  admin_id BIGINT,
+  ip_addr VARCHAR(50),
+  change_type "char",
+  table_name VARCHAR(50),
+  data_tenant_id VARCHAR(50),
+  data_id VARCHAR(256),
+  data JSONB,
+  old_data JSONB
+);
 
 COMMENT ON TABLE sys.admin_audit_log IS '管理员操作审计日志';
 
