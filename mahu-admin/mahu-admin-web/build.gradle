@@ -19,7 +19,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 sonarlintMain {
-    exclude("**/cool/houge/mahu/admin/oas/*")
+    exclude "cool/houge/mahu/admin/oas/*"
 }
 
 application {

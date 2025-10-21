@@ -118,8 +118,13 @@ allprojects {
         it.dependsOn(nodeSetup)
     }
 
-    sonarlint {
-        //
+    sonarlintMain {
+        excludeRules = ["java:S1135"]
+        reports {
+            html {
+                enabled = true
+            }
+        }
     }
 
     configurations {
