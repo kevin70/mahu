@@ -32,7 +32,7 @@ public class SysDictTypeResponse {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private String id;
+    private Integer id;
     /**
      * 字典类型名称
      */

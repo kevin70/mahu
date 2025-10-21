@@ -23,7 +23,7 @@ public class DictType implements Auditable {
 
     /// 字典类型编码，唯一
     @Id
-    private String id;
+    private Integer id;
     /// 创建时间
     @WhenCreated
     private Instant createdAt;

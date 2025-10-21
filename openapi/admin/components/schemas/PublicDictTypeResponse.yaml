@@ -4,7 +4,8 @@ required:
   - name
 properties:
   id:
-    type: string
+    type: integer
+    format: int32
     description: 字典类型代码，唯一
   name:
     type: string
