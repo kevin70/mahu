@@ -80,7 +80,7 @@ allprojects {
         def cacheDir = "${rootDir}/.gradle/spotless-npm-install-cache"
 
         java {
-            palantirJavaFormat("2.77.0")
+            palantirJavaFormat("2.80.0")
             targetExclude("**/src/main/gen/**/*", "**/build/generated/**/*")
         }
         sql {
