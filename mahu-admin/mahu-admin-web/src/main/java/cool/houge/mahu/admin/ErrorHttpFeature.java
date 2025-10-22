@@ -10,7 +10,6 @@ import static cool.houge.mahu.BizCodes.PERMISSION_DENIED;
 import static cool.houge.mahu.BizCodes.UNAUTHENTICATED;
 import static cool.houge.mahu.BizCodes.UNAVAILABLE;
 import static cool.houge.mahu.BizCodes.UNIMPLEMENTED;
-import static java.util.Optional.ofNullable;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
@@ -120,7 +119,7 @@ public class ErrorHttpFeature implements HttpFeature {
         var error = newError();
         error.setStatus(status.code())
                 .setCode(bz.code())
-                .setMessage(ofNullable(e.getRawMessage()).orElse(bz.message()));
+                .setMessage(e.getMessage());
         this.send(request, response, error, e);
     }
 

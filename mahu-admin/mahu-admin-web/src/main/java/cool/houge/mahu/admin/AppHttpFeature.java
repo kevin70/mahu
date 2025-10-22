@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin;
 
-import cool.houge.mahu.TraceIdGenerator;
+import com.github.f4b6a3.uuid.UuidCreator;
+import com.github.f4b6a3.uuid.codec.base.Base58BtcCodec;
 import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebMetadata;
 import io.helidon.common.Weight;
@@ -67,6 +68,8 @@ public class AppHttpFeature implements HttpFeature, Filter {
     }
 
     private String traceId(ServerRequest request) {
-        return request.headers().first(X_REQUEST_ID).orElseGet(TraceIdGenerator::generate);
+        return request.headers()
+                .first(X_REQUEST_ID)
+                .orElseGet(() -> Base58BtcCodec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch()));
     }
 }

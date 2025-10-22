@@ -79,7 +79,7 @@ public class DictController implements HDictService, WebSupport {
         response.status(NO_CONTENT_204).send();
     }
 
-    String dictTypeId(ServerRequest request) {
-        return pathArg(request, "dict_type_id").get();
+    Integer dictTypeId(ServerRequest request) {
+        return pathArg(request, "dict_type_id").asInt().get();
     }
 }

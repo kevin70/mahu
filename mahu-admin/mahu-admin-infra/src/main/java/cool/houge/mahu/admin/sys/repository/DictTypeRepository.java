@@ -17,14 +17,14 @@ import java.util.List;
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
-public class DictTypeRepository extends HBeanRepository<String, DictType> {
+public class DictTypeRepository extends HBeanRepository<Integer, DictType> {
 
     public DictTypeRepository(Database db) {
         super(DictType.class, db);
     }
 
     /// 查询指定代码的数据，如果传入的 `ids` 为 `null` 则返回所有数据
-    public List<DictType> findByIds(Collection<String> ids) {
+    public List<DictType> findByIds(Collection<Integer> ids) {
         var qb = new QDictType(db());
         if (ids != null && !ids.isEmpty()) {
             qb.id.in(ids);

@@ -54,7 +54,7 @@ public class DictService {
 
     /// 删除指定代码的字典数据
     @Transactional
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         var bean = obtainById(id);
         dictTypeRepository.delete(bean);
         log.info("删除数据字典 {}", bean);
@@ -62,7 +62,7 @@ public class DictService {
 
     /// 保存字典数据
     @Transactional
-    public void save(String typeId, Dict bean) {
+    public void save(Integer typeId, Dict bean) {
         var dbBean = obtainById(typeId);
         var list = Optional.ofNullable(dbBean.getData()).orElseGet(ArrayList::new);
         list.add(bean);
@@ -92,17 +92,17 @@ public class DictService {
 
     /// 查询指定代码的数据
     @Transactional(readOnly = true)
-    public DictType findById(String typeCode) {
+    public DictType findById(Integer typeCode) {
         return obtainById(typeCode);
     }
 
     /// 查询指定代码的数据，如果传入的 `ids` 为 `null` 则返回所有数据
     @Transactional(readOnly = true)
-    public List<DictType> findByIds(Collection<String> ids) {
+    public List<DictType> findByIds(Collection<Integer> ids) {
         return dictTypeRepository.findByIds(ids);
     }
 
-    private DictType obtainById(String typeCode) {
+    private DictType obtainById(Integer typeCode) {
         var bean = dictTypeRepository.findById(typeCode);
         if (bean == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND);
