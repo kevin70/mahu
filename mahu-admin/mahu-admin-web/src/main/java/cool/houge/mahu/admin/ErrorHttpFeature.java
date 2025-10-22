@@ -117,9 +117,7 @@ public class ErrorHttpFeature implements HttpFeature {
                 };
 
         var error = newError();
-        error.setStatus(status.code())
-                .setCode(bz.code())
-                .setMessage(e.getMessage());
+        error.setStatus(status.code()).setCode(bz.code()).setMessage(e.getMessage());
         this.send(request, response, error, e);
     }
 
