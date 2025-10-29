@@ -1,6 +1,7 @@
 ## x-request-id
 
 `x-request-id` 是一个 HTTP 头字段，用于唯一标识每个请求。它在分布式系统和微服务架构中非常有用，可以帮助跟踪请求在多个服务之间的流动情况，便于日志记录、调试和问题排查。
+`x-request-id` 应该是全局唯一的，建议使用 `UUID v7` 生成并使用 `Base58` 编码的字符串来实现。
 
 ### 作用
 
@@ -8,32 +9,6 @@
 - **日志关联**：通过在日志中记录 `x-request-id`，可以将不同服务的日志条目关联起来，帮助快速定位和解决问题。
 - **性能监控**：结合 `x-request-id` 和其他监控工具，可以更准确地测量请求的处理时间和服务间的延迟。
 - **调试和故障排除**：当出现问题时，可以通过 `x-request-id` 快速找到相关的日志和数据，从而更快地进行故障排除。
-
-### 生成方法
-
-`x-request-id` 应该是全局唯一的，并且通常使用 Base58 编码的短 UUID 字符串来实现。以下是一个示例，展示了如何在 Java 中生成一个
-Base58 编码的 `x-request-id`：
-
-```java
-import java.util.UUID;
-
-public class RequestIdGenerator {
-  public static String generateRequestId() {
-    var uuid = UUID.randomUUID();
-    var buf = ByteBuffer.allocate(16);
-    buf.putLong(uuid.getMostSignificantBits());
-    buf.putLong(uuid.getLeastSignificantBits());
-    return Base58.encode(buf.array());
-  }
-
-  public static void main(String[] args) {
-    String requestId = generateRequestId();
-    System.out.println("Generated x-request-id: " + requestId);
-  }
-}
-```
-
-上述代码会生成一个 16 字节的 UUID，并将其转换为 Base58 编码的字符串。
 
 ### 使用方法
 
@@ -74,6 +49,6 @@ x-request-id: 4Jz2mLrKvRgWjXnY
 权限代码通常由两部分组成：
 
 1. **权限名称**：表示权限的唯一标识符。
-2. **操作类型**：表示对资源的操作类型，如读取 (R)、写入 (W) 和删除 (D)。
+2. **操作类型**：表示对资源的操作类型，如读取(R)、写入(W)和删除(D)。
 
 例如，权限代码 `DICT:R` 表示对字典管理的读取权限。

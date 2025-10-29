@@ -1,54 +1,66 @@
 type: object
 required:
-  - env
   - name
   - version
-  - build_time
-  - java_version
-  - java_vendor
-  - helidon_version
-  - status
+  - env
+  - server_time
+  - build
+  - java
 properties:
-  env:
-    type: string
-    description: 应用环境
   name:
     type: string
     description: 应用名称
   version:
     type: string
     description: 应用版本
-  revision:
+  env:
     type: string
-    description: 修订版本，Git 提交 Hash 值
-  build_time:
+    description: 应用环境
+  server_time:
     type: string
-    description: 应用构建时间
-  java_version:
-    type: string
-    description: Java 版本
-  java_vendor:
-    type: string
-    description: Java 提供商
-  helidon_version:
-    type: string
-    description: Helidon 版本
-  status:
+    description: 服务器时间
+  build:
     type: object
-    description: 应用状态
+    description: 应用构建信息
     required:
-      - overall
-      - uptime
+      - time
+      - revision
     properties:
-      overall:
+      time:
         type: string
-        description: 应用状态
-      uptime:
+        description: 应用构建时间
+      revision:
         type: string
-        description: 应用启动时间
-      components:
-        type: array
-        description: 组件状态
-        items:
-          type: object
-          additionalProperties: true
+        description: Git 提交 Hash 值
+  java:
+    type: object
+    description: 应用 Java 信息
+    required:
+      - version
+      - vendor
+    properties:
+      version:
+        type: string
+        description: Java 版本
+      vendor:
+        type: string
+        description: Java 提供商
+  features:
+    type: array
+    description: 应用功能
+    items:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: |
+            名称唯一，命名规则为`模块.名称`
+        description:
+          type: string
+          description: 功能描述
+        enabled:
+          type: boolean
+          description: 功能是否启用
+          default: false

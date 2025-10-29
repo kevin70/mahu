@@ -1,6 +1,11 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import cool.houge.mahu.admin.oas.vo.InfoResponseStatus;
+import cool.houge.mahu.admin.oas.vo.InfoResponseBuild;
+import cool.houge.mahu.admin.oas.vo.InfoResponseFeaturesInner;
+import cool.houge.mahu.admin.oas.vo.InfoResponseJava;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import io.avaje.validation.constraints.*;
 
 
@@ -8,13 +13,6 @@ import io.avaje.validation.constraints.*;
 @io.avaje.validation.constraints.Valid
 public class InfoResponse {
 
-    /**
-     * 应用环境
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("env")
-    private String env;
     /**
      * 应用名称
      */
@@ -30,45 +28,38 @@ public class InfoResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("version")
     private String version;
     /**
-     * 修订版本，Git 提交 Hash 值
+     * 应用环境
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("env")
+    private String env;
+    /**
+     * 服务器时间
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("server_time")
+    private String serverTime;
+    /**
+     * Get build
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("build")
+    private InfoResponseBuild build;
+    /**
+     * Get java
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("java")
+    private InfoResponseJava java;
+    /**
+     * 应用功能
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("revision")
-    private String revision;
-    /**
-     * 应用构建时间
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("build_time")
-    private String buildTime;
-    /**
-     * Java 版本
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("java_version")
-    private String javaVersion;
-    /**
-     * Java 提供商
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("java_vendor")
-    private String javaVendor;
-    /**
-     * Helidon 版本
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("helidon_version")
-    private String helidonVersion;
-    /**
-     * Get status
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("status")
-    private InfoResponseStatus status;
+    @com.fasterxml.jackson.annotation.JsonProperty("features")
+    private List<@Valid InfoResponseFeaturesInner> features;
 }
 
