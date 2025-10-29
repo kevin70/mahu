@@ -25,4 +25,3 @@ public class InfoResponseJava {
     @com.fasterxml.jackson.annotation.JsonProperty("vendor")
     private String vendor;
 }
-

@@ -76,4 +76,3 @@ public class ErrorResponseError {
     @com.fasterxml.jackson.annotation.JsonProperty("stacktrace")
     private List<String> stacktrace;
 }
-

@@ -18,4 +18,3 @@ public class ErrorResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("error")
     private ErrorResponseError error;
 }
-

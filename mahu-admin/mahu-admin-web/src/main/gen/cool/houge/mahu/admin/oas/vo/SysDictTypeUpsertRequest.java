@@ -45,4 +45,3 @@ public class SysDictTypeUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("data")
     private List<@Valid SysDictUpsertRequest> data;
 }
-

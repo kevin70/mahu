@@ -28,4 +28,3 @@ public class InfoResponseFeaturesInner {
     @com.fasterxml.jackson.annotation.JsonProperty("enabled")
     private Boolean enabled;
 }
-

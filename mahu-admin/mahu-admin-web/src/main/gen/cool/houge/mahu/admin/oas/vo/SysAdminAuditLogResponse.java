@@ -79,4 +79,3 @@ public class SysAdminAuditLogResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("old_data")
     private String oldData;
 }
-

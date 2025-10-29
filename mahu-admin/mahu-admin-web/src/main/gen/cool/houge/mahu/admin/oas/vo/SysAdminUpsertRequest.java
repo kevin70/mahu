@@ -53,4 +53,3 @@ public class SysAdminUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("role_ids")
     private List<Integer> roleIds;
 }
-

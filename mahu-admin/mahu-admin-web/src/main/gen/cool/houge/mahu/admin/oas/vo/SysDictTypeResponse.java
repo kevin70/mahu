@@ -59,4 +59,3 @@ public class SysDictTypeResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("data")
     private List<@Valid SysDictTypeResponseDataInner> data;
 }
-

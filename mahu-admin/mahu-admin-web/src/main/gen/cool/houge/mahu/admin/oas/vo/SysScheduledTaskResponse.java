@@ -84,4 +84,3 @@ public class SysScheduledTaskResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("priority")
     private Integer priority;
 }
-

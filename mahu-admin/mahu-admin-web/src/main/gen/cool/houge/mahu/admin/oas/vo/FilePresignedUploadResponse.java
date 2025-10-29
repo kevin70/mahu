@@ -15,4 +15,3 @@ public class FilePresignedUploadResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("presigned_upload_url")
     private String presignedUploadUrl;
 }
-

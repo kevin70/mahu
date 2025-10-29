@@ -48,4 +48,3 @@ public class LoginTokenRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("refresh_token")
     private String refreshToken;
 }
-

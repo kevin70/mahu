@@ -34,4 +34,3 @@ public class PublicDictResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("disabled")
     private Boolean disabled;
 }
-

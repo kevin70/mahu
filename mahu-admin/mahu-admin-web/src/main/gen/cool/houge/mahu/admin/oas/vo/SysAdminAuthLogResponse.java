@@ -62,4 +62,3 @@ public class SysAdminAuthLogResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("user_agent")
     private String userAgent;
 }
-

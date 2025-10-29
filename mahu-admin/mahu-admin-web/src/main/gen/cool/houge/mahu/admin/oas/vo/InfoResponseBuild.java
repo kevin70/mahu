@@ -25,4 +25,3 @@ public class InfoResponseBuild {
     @com.fasterxml.jackson.annotation.JsonProperty("revision")
     private String revision;
 }
-

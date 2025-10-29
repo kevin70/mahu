@@ -44,4 +44,3 @@ public class PublicDictTypeResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("data")
     private List<@Valid PublicDictResponse> data;
 }
-

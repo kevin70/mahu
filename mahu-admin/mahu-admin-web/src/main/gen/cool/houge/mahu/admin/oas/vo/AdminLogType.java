@@ -42,4 +42,3 @@ public enum AdminLogType {
         throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 }
-

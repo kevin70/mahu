@@ -20,4 +20,3 @@ public class MeProfileUpdateRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("avatar")
     private String avatar;
 }
-

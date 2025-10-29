@@ -44,4 +44,3 @@ public class MeProfileResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("permission_codes")
     private List<String> permissionCodes;
 }
-

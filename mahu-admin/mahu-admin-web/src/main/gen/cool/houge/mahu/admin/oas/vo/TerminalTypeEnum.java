@@ -42,4 +42,3 @@ public enum TerminalTypeEnum {
         throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 }
-

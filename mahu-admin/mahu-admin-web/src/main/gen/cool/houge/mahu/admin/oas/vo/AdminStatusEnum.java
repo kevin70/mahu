@@ -41,4 +41,3 @@ public enum AdminStatusEnum {
         throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 }
-

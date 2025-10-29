@@ -80,4 +80,3 @@ public class SysAdminAccessLogResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("user_agent")
     private String userAgent;
 }
-

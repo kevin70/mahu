@@ -36,4 +36,3 @@ public class TokenPasswordForm {
     @com.fasterxml.jackson.annotation.JsonProperty("password")
     private String password;
 }
-

@@ -69,4 +69,3 @@ public class SysAuthClientResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("wechat_appsecret")
     private String wechatAppsecret;
 }
-

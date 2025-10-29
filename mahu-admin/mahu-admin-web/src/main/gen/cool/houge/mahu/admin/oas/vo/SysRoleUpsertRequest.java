@@ -45,4 +45,3 @@ public class SysRoleUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("permissions")
     private List<String> permissions;
 }
-

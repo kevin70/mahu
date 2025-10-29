@@ -65,4 +65,3 @@ public class SysScheduledTaskExeResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("fail_cause")
     private List<String> failCause;
 }
-

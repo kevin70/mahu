@@ -72,4 +72,3 @@ public class SysAdminResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("role_ids")
     private List<Integer> roleIds;
 }
-

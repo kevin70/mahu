@@ -22,4 +22,3 @@ public class MePasswordUpdateRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("password")
     private String password;
 }
-

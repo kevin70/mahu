@@ -31,39 +31,38 @@ public class FilePresignedUploadRequest {
     private String mimeType;
 
                 /**
-    * 类型
-    */
-    public enum KindEnum {
-        ADMIN_AVATAR("ADMIN_AVATAR");
-
-        private String value;
-
-        KindEnum(String value) {
-            this.value = value;
-        }
-
-        @JsonValue
-        public String getValue() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-
-        @JsonCreator
-        public static KindEnum fromValue(String text) {
-            for (KindEnum b : KindEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
+                * 类型
+                */
+                public enum KindEnum {
+                    ADMIN_AVATAR("ADMIN_AVATAR");
+            
+                    private String value;
+            
+                    KindEnum(String value) {
+                        this.value = value;
+                    }
+            
+                    @JsonValue
+                    public String getValue() {
+                        return value;
+                    }
+            
+                    @Override
+                    public String toString() {
+                        return String.valueOf(value);
+                    }
+            
+            
+                    @JsonCreator
+                    public static KindEnum fromValue(String text) {
+                        for (KindEnum b : KindEnum.values()) {
+                            if (String.valueOf(b.value).equals(text)) {
+                                return b;
+                            }
+                        }
+                        throw new IllegalArgumentException("Unexpected value '" + text + "'");
+                    }
                 }
-            }
-            throw new IllegalArgumentException("Unexpected value '" + text + "'");
-        }
-    }
-
 
     /**
      * 类型
@@ -73,4 +72,3 @@ public class FilePresignedUploadRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("kind")
     private KindEnum kind;
 }
-

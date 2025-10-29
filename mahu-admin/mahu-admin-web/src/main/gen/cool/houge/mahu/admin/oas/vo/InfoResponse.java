@@ -62,4 +62,3 @@ public class InfoResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("features")
     private List<@Valid InfoResponseFeaturesInner> features;
 }
-

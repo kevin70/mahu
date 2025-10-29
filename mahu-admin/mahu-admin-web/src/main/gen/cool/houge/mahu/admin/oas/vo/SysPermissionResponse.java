@@ -47,4 +47,3 @@ public class SysPermissionResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("can_delete")
     private Boolean canDelete;
 }
-

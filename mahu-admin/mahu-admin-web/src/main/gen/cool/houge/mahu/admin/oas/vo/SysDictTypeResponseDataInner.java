@@ -57,4 +57,3 @@ public class SysDictTypeResponseDataInner {
     @com.fasterxml.jackson.annotation.JsonProperty("disabled")
     private Boolean disabled;
 }
-
