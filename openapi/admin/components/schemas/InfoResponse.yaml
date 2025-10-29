@@ -45,22 +45,8 @@ properties:
       vendor:
         type: string
         description: Java 提供商
-  features:
+  enabled_features:
     type: array
-    description: 应用功能
+    description: 启用的功能代码表
     items:
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          description: |
-            名称唯一，命名规则为`模块.名称`
-        description:
-          type: string
-          description: 功能描述
-        enabled:
-          type: boolean
-          description: 功能是否启用
-          default: false
+      type: string

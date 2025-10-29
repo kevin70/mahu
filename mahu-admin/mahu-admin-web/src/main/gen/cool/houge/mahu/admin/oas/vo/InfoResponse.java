@@ -1,7 +1,6 @@
 package cool.houge.mahu.admin.oas.vo;
 
 import cool.houge.mahu.admin.oas.vo.InfoResponseBuild;
-import cool.houge.mahu.admin.oas.vo.InfoResponseFeaturesInner;
 import cool.houge.mahu.admin.oas.vo.InfoResponseJava;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,9 +55,9 @@ public class InfoResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("java")
     private InfoResponseJava java;
     /**
-     * 应用功能
+     * 启用的功能代码表
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("features")
-    private List<@Valid InfoResponseFeaturesInner> features;
+    @com.fasterxml.jackson.annotation.JsonProperty("enabled_features")
+    private List<String> enabledFeatures;
 }
