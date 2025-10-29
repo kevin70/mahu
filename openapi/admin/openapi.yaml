@@ -15,7 +15,7 @@ components:
       scheme: Bearer
       description: 访问令牌
 security:
-  - AT: [ ]
+  - AT: []
 tags:
   - name: h-help
     x-displayName: 帮助接口
