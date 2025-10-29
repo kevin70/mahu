@@ -62,8 +62,8 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
             query.setIncludeSoftDeletes();
         }
 
-        if (dataFilter.filter().isPresent() && !filterItems.isEmpty()) {
-            this.applyFilter(query, dataFilter.filter().get(), filterItems);
+        if (!filterItems.isEmpty()) {
+            dataFilter.filter().ifPresent(s -> this.applyFilter(query, s, filterItems));
         }
 
         if (sortItems.isEmpty()) {
