@@ -66,10 +66,12 @@ openApiGenerate {
         serializationLibrary : "jackson"
     ])
     typeMappings.set([
-        DateTime: "LocalDateTime"
+        DateTime: "LocalDateTime",
+        Time: "LocalTime"
     ])
     importMappings.set([
-        "LocalDateTime": "java.time.LocalDateTime"
+        "LocalDateTime": "java.time.LocalDateTime",
+        "LocalTime": "java.time.LocalTime"
     ])
 }
 
