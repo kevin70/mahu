@@ -1,4 +1,4 @@
-package cool.houge.mahu.task.entity;
+package cool.houge.mahu.entity.sys;
 
 import cool.houge.mahu.entity.Auditable;
 import jakarta.persistence.Entity;

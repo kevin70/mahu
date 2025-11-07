@@ -2,8 +2,8 @@ package cool.houge.mahu.admin.sys.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.admin.entity.ScheduledTask;
-import cool.houge.mahu.admin.entity.ScheduledTaskExeLog;
+import cool.houge.mahu.entity.sys.ScheduledTask;
+import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
 import cool.houge.mahu.admin.sys.repository.ScheduledExeLogRepository;
 import cool.houge.mahu.admin.sys.repository.ScheduledTaskRepository;
 import cool.houge.mahu.domain.DataFilter;

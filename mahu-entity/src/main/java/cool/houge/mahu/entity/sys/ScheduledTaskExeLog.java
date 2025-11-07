@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.entity;
+package cool.houge.mahu.entity.sys;
 
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +22,9 @@ import lombok.Setter;
 @Table(schema = "sys", name = "scheduled_task_exe_log")
 public class ScheduledTaskExeLog {
 
-    /// 日志追踪 ID。
-    ///
-    /// Time-Sorted Unique Identifiers [TSID](https://github.com/vladmihalcea/hypersistence-tsid)。
+    /// 日志追踪 ID
     @Id
-    protected Long id;
+    protected UUID id;
     /// 创建时间
     @WhenCreated
     protected Instant createdAt;
