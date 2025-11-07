@@ -39,6 +39,11 @@ public class DictType implements Auditable {
     /// - `true`：禁用
     /// - `false`：启用
     private Boolean disabled;
+    /// 公共的公开的
+    ///
+    /// - `true`：公开的
+    /// - `false`：私有的
+    private Boolean visible;
     /// 字典数据
     @OneToMany(mappedBy = "dictType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dict> data;
