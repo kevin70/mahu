@@ -46,6 +46,11 @@ public final class BizCodeException extends RuntimeException {
         return this.code.code() + ": " + super.getMessage();
     }
 
+    /// 返回原始的消息
+    public String getRawMessage() {
+        return super.getMessage();
+    }
+
     /// 返回格式化的错误描述
     @Override
     public String toString() {
