@@ -10,6 +10,7 @@ import io.helidon.service.registry.Service.PostConstruct;
 import io.helidon.service.registry.Service.PreDestroy;
 import io.helidon.service.registry.Service.RunLevel;
 import io.helidon.service.registry.Service.Singleton;
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Supplier;
@@ -37,6 +38,8 @@ class SchedulerProvider implements Supplier<Scheduler> {
                 .addExecutionInterceptor(new TraceExecutionInterceptor(db))
                 .alwaysPersistTimestampInUTC()
                 .enablePriority()
+                .heartbeatInterval(Duration.ofMinutes(2))
+                .missedHeartbeatsLimit(4)
                 .build();
     }
 
