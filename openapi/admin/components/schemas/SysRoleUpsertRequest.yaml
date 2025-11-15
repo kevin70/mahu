@@ -13,9 +13,7 @@ properties:
     type: string
     description: 名称
   ordering:
-    type: integer
-    description: 排序值
-    format: int32
+    $ref: "./_ordering.yaml"
   remark:
     type: string
     description: 字典备注

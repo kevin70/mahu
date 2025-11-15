@@ -21,9 +21,7 @@ properties:
     type: string
     description: 备注
   ordering:
-    type: integer
-    description: 排序值
-    format: int32
+    $ref: "./_ordering.yaml"
   permissions:
     type: array
     description: 拥有的权限代码

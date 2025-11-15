@@ -29,7 +29,7 @@ properties:
     type: string
     description: 头像地址
   status:
-    $ref: "./AdminStatusEnum.yaml"
+    $ref: "./_status.yaml"
   role_ids:
     type: array
     description: 角色 IDs

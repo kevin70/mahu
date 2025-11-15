@@ -1,8 +1,0 @@
-type: string
-description: 管理员状态
-enum:
-  - ACTIVE
-  - DISABLED
-x-enum-descriptions:
-  - 正常
-  - 由管理员手动禁用

@@ -60,9 +60,7 @@ properties:
           description: 字典类型描述
           maxLength: 4096
         ordering:
-          type: integer
-          format: int32
-          description: 排序值
+          $ref: "./_ordering.yaml"
         disabled:
           type: boolean
           description: 是否禁用
