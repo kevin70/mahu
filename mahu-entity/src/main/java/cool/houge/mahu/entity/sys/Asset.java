@@ -42,8 +42,8 @@ public class Asset {
     private Integer status;
     /// OSS 对象名称
     private String objectName;
-    /// 内容类型
-    private String contentType;
+    /// 资源类型
+    private String mimeType;
 
     public enum Type {
     //
