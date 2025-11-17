@@ -11,14 +11,14 @@ public interface HFileService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.post("/files/presigned-upload", authenticate(), this::getFilePresignedUpload);
+        rules.post("/files", authenticate(), this::createFilePresigned);
     }
 
     ///
-    /// `POST /files/presigned-upload` 获取对象存储预签名上传数据
+    /// `POST /files` 文件预签名上传
     ///
     /// @param request the server request
     /// @param response the server response
-    void getFilePresignedUpload(ServerRequest request, ServerResponse response);
+    void createFilePresigned(ServerRequest request, ServerResponse response);
 
 }

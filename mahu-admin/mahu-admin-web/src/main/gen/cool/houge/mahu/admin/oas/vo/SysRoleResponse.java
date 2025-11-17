@@ -45,8 +45,10 @@ public class SysRoleResponse {
     private String remark;
     /**
      * 排序值
+     * minimum: 0
+     * maximum: 999999
      */
-    
+     @Min(0) @Max(999999)
     @com.fasterxml.jackson.annotation.JsonProperty("ordering")
     private Integer ordering;
     /**

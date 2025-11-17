@@ -5,8 +5,15 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class FilePresignedUploadResponse {
+public class IdPhotoCreatePresignedResponse {
 
+    /**
+     * 证件照流水号
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("id_photo_id")
+    private Long idPhotoId;
     /**
      * 预上传 URL
      */

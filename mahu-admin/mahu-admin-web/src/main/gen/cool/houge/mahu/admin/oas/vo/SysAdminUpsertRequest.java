@@ -1,8 +1,5 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import cool.houge.mahu.admin.oas.vo.AdminStatusEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,11 +38,13 @@ public class SysAdminUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("avatar")
     private String avatar;
     /**
-     * Get status
+     * 数据状态  - `10` `DRAFT` 草稿 - `11` `PENDING` 进行中 - `20` `APPROVED` 已批准/已通过/已授权 - `22` `ACTIVE` 活跃 - `30` `PAID` 已支付 - `76` `DISABLED` 已禁用 
+     * minimum: 10
+     * maximum: 99
      */
-    
+     @Min(10) @Max(99)
     @com.fasterxml.jackson.annotation.JsonProperty("status")
-    private AdminStatusEnum status;
+    private Integer status;
     /**
      * 角色 IDs
      */

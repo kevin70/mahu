@@ -28,9 +28,11 @@ public class SysDictUpsertRequest {
     private String value;
     /**
      * 排序值
+     * minimum: 0
+     * maximum: 999999
      */
       @NotNull
-
+ @Min(0) @Max(999999)
     @com.fasterxml.jackson.annotation.JsonProperty("ordering")
     private Integer ordering;
     /**
