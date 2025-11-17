@@ -1,7 +1,7 @@
 get:
   summary: 获取个人登录信息
   operationId: getMeProfile
-  tags: [h-me]
+  tags: [h_me]
   responses:
     "200":
       description: OK
@@ -12,7 +12,7 @@ get:
 put:
   summary: 更新个人信息
   operationId: updateMeProfile
-  tags: [h-me]
+  tags: [h_me]
   requestBody:
     required: true
     content:

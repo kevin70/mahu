@@ -4,7 +4,7 @@ get:
   summary: 获取字典类型数据
   operationId: getSysDictType
   x-permission-code: SYS_DICT:R
-  tags: [h-dict]
+  tags: [h_dict]
   responses:
     "200":
       description: OK
@@ -16,7 +16,7 @@ put:
   summary: 修改字典类型
   operationId: updateSysDictType
   x-permission-code: SYS_DICT:W
-  tags: [h-dict]
+  tags: [h_dict]
   requestBody:
     content:
       application/json:
@@ -29,7 +29,7 @@ delete:
   summary: 删除字典类型
   operationId: deleteSysDictType
   x-permission-code: SYS_DICT:W
-  tags: [h-dict]
+  tags: [h_dict]
   responses:
     "204":
       description: OK
@@ -37,7 +37,7 @@ post:
   summary: 新增字典数据
   operationId: createSysDictData
   x-permission-code: SYS_DICT:W
-  tags: [h-dict]
+  tags: [h_dict]
   requestBody:
     content:
       application/json:

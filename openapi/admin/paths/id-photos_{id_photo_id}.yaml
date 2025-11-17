@@ -10,7 +10,7 @@ parameters:
 get:
   summary: 获取证件照
   operationId: getIdPhoto
-  tags: [h-id-photo]
+  tags: [h_id_photo]
   responses:
     "302":
       description: OK

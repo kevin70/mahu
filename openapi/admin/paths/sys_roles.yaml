@@ -2,7 +2,7 @@ post:
   summary: 新建角色
   operationId: createSysRole
   x-permission-code: SYS_ROLE:W
-  tags: [h-role]
+  tags: [h_role]
   requestBody:
     required: true
     content:
@@ -16,7 +16,7 @@ get:
   summary: 角色分页列表
   operationId: pageSysRole
   x-permission-code: SYS_ROLE:R
-  tags: [h-role]
+  tags: [h_role]
   parameters:
     - $ref: "../components/parameters/size.yaml"
     - $ref: "../components/parameters/page.yaml"

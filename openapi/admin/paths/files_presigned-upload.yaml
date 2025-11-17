@@ -1,7 +1,7 @@
 post:
   summary: 获取对象存储预签名上传数据
   operationId: getFilePresignedUpload
-  tags: [h-file]
+  tags: [h_file]
   requestBody:
     required: true
     content:

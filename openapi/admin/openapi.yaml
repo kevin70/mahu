@@ -17,50 +17,48 @@ components:
 security:
   - AT: []
 tags:
-  - name: h-help
+  - name: h_help
     x-displayName: 帮助接口
-  - name: h-login
+  - name: h_login
     x-displayName: 用户登录
-  - name: h-me
+  - name: h_me
     x-displayName: 认证用户
-  - name: h-file
+  - name: h_file
     x-displayName: 文件系统
-  - name: h-id-photo
+  - name: h_id_photo
     x-displayName: 证件照
-  - name: h-public-dict
+  - name: h_public_dict
     x-displayName: 公共字典
 
-  - name: h-auth-client
+  - name: h_auth_client
     x-displayName: 认证终端
-  - name: h-dict
+  - name: h_dict
     x-displayName: 字典数据
-  - name: h-permission
+  - name: h_permission
     x-displayName: 权限管理
-  - name: h-role
+  - name: h_role
     x-displayName: 角色管理
-  - name: h-admin
+  - name: h_admin
     x-displayName: 管理员管理
-  - name: h-scheduled-task
+  - name: h_scheduled_task
     x-displayName: 定时任务
-  - name: log
-    x-displayName: 业务日志
 x-tagGroups:
   - name: 基础模块
     tags:
-      - h-help
-      - h-login
-      - h-me
-      - h-file
-      - h-id-photo
-      - h-public-dict
+      - h_help
+      - h_login
+      - h_me
+      - h_file
+      - h_id_photo
+      - h_public_dict
   - name: 系统模块
     tags:
-      - h-auth-client
-      - h-dict
-      - h-permission
-      - h-role
-      - h-admin
-      - h-scheduled-task
+      - h_auth_client
+      - h_dict
+      - h_permission
+      - h_role
+      - h_admin
+      - h_scheduled_task
 paths:
   /samples:
     $ref: "paths/samples.yaml"

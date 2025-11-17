@@ -1,7 +1,7 @@
 get:
   summary: 获取应用信息
   operationId: getInfo
-  tags: [h-help]
+  tags: [h_help]
   security: []
   responses:
     200:

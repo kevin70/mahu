@@ -2,7 +2,7 @@ post:
   summary: 新建字典类型
   operationId: createSysDictType
   x-permission-code: SYS_DICT:W
-  tags: [h-dict]
+  tags: [h_dict]
   requestBody:
     required: true
     content:
@@ -16,7 +16,7 @@ get:
   summary: 字典类型分页列表
   operationId: pageSysDictType
   x-permission-code: SYS_DICT:R
-  tags: [h-dict]
+  tags: [h_dict]
   parameters:
     - $ref: "../components/parameters/size.yaml"
     - $ref: "../components/parameters/page.yaml"

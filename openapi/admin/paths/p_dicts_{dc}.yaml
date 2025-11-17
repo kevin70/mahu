@@ -9,7 +9,7 @@ parameters:
 get:
   summary: 获取字典数据
   operationId: getPublicDict
-  tags: [h-public-dict]
+  tags: [h_public_dict]
   security: []
   responses:
     200:

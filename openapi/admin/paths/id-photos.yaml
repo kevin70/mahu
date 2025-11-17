@@ -1,7 +1,7 @@
 post:
   summary: 证件照预签名上传
   operationId: createIdPhotoPresigned
-  tags: [h-id-photo]
+  tags: [h_id_photo]
   requestBody:
     required: true
     content:
