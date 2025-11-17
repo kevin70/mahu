@@ -25,6 +25,8 @@ tags:
     x-displayName: 认证用户
   - name: h-file
     x-displayName: 文件系统
+  - name: h-id-photo
+    x-displayName: 证件照
   - name: h-public-dict
     x-displayName: 公共字典
 
@@ -49,6 +51,7 @@ x-tagGroups:
       - h-login
       - h-me
       - h-file
+      - h-id-photo
       - h-public-dict
   - name: 系统模块
     tags:
@@ -77,6 +80,10 @@ paths:
   /me/password:
     $ref: "paths/me_password.yaml"
 
+  /id-photos:
+    $ref: "paths/id-photos.yaml"
+  /id-photos/{id_photo_id}:
+    $ref: "paths/id-photos_{id_photo_id}.yaml"
   /files/presigned-upload:
     $ref: "paths/files_presigned-upload.yaml"
   ### =============================== 系统模块接口 =============================== ###

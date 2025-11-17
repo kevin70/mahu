@@ -1,0 +1,23 @@
+parameters:
+  - in: path
+    name: id_photo_id
+    description: 证件照流水号
+    required: true
+    schema:
+      type: integer
+      format: int64
+      minimum: 1
+get:
+  summary: 获取证件照
+  operationId: getIdPhoto
+  tags: [h-id-photo]
+  responses:
+    "302":
+      description: OK
+      headers:
+        Location:
+          description: 重写向到证件访问地址
+          schema:
+            type: string
+            format: uri
+          example: https://api.example.com/v1/new-resource

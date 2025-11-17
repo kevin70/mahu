@@ -1,0 +1,17 @@
+post:
+  summary: 证件照预签名上传
+  operationId: createIdPhotoPresigned
+  tags: [h-id-photo]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/IdPhotoCreatePresignedRequest.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/IdPhotoCreatePresignedResponse.yaml"
