@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Version;
 import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,19 +29,22 @@ public class DelayMessage {
     /// 更新时间
     @WhenModified
     private Instant updatedAt;
-    /// 乐观锁
-    @Version
-    private Integer ver;
     /// 消息主题
     private String topic;
     /// 状态
     private Integer status;
     /// 消息延迟到的绝对时间（精确到毫秒）
     private Instant delayUntil;
-    /// 消息内容存储业务所需的所有数据
-    private String body;
+    /// 初始重试间隔（1000 毫秒，即 1 秒）
+    private Integer delay;
+    /// 重试间隔的倍数（指数退避策略，间隔依次为 1s、2s、4s、8s...）
+    private Integer multiplier;
+    /// 最大重试间隔（10000 毫秒，即 10 秒，避免间隔无限增大）
+    private Integer maxDelay;
+    /// 最大重试次数（包括首次执行）
+    private Integer maxAttempts;
     /// 已重试次数
     private Integer retryCount;
-    /// 最大重试次数
-    private Integer maxRetryCount;
+    /// 消息内容存储业务所需的所有数据
+    private String body;
 }
