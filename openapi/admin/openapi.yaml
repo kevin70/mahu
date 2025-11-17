@@ -48,11 +48,11 @@ x-tagGroups:
       - h_help
       - h_login
       - h_me
-      - h_file
-      - h_id_photo
       - h_public_dict
   - name: 系统模块
     tags:
+      - h_file
+      - h_id_photo
       - h_auth_client
       - h_dict
       - h_permission
@@ -82,8 +82,8 @@ paths:
     $ref: "paths/id-photos.yaml"
   /id-photos/{id_photo_id}:
     $ref: "paths/id-photos_{id_photo_id}.yaml"
-  /files/presigned-upload:
-    $ref: "paths/files_presigned-upload.yaml"
+  /files:
+    $ref: "paths/files.yaml"
   ### =============================== 系统模块接口 =============================== ###
   /sys/auth-clients:
     $ref: "paths/sys_auth-clients.yaml"

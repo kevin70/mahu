@@ -1,7 +1,12 @@
 type: object
 required:
+  - file_id
   - presigned_upload_url
 properties:
+  file_id:
+    type: integer
+    format: int64
+    description: 文件流水号
   presigned_upload_url:
     type: string
     description: 预上传 URL
