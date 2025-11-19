@@ -3,7 +3,6 @@ package cool.houge.mahu.util;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -36,20 +35,6 @@ public final class DateTimeUtils {
     /// 本地日期时间格式（带空格）：`yyyy-MM-dd HH:mm:ss`
     private static final DateTimeFormatter LOCAL_DATE_TIME_WITH_SPACE_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    /// 判断指定的日期不在指定的范围之内
-    ///
-    /// @param target 目标日期
-    /// @param from 开始日期
-    /// @param to 结束日期
-    public boolean isNotInRange(LocalDateTime target, LocalDateTime from, LocalDateTime to) {
-        return target.isBefore(from) || target.isAfter(to);
-    }
-
-    /// 是否跨天
-    public boolean isCrossDay(LocalTime from, LocalTime to) {
-        return to.isBefore(from);
-    }
 
     /// 将字符串解析为`Instant`（使用系统默认时区）。
     ///
