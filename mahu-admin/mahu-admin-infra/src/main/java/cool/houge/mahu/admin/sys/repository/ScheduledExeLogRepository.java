@@ -1,8 +1,8 @@
 package cool.houge.mahu.admin.sys.repository;
 
-import cool.houge.mahu.admin.entity.query.QScheduledTaskExeLog;
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
+import cool.houge.mahu.entity.sys.query.QScheduledTaskExeLog;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

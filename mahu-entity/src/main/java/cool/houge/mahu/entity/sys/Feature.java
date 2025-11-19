@@ -53,9 +53,9 @@ public class Feature {
     private byte[] allowUserRb;
     /// 禁用的用户
     private byte[] denyUserRb;
-    /// 扩展属性
+    /// 扩展元数据
     @DbJsonB
-    private Map<String, Object> properties;
+    private Map<String, Object> metadata;
     /// 属性规则
     @DbJsonB
     private Map<String, Object> schema;
