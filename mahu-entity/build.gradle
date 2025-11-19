@@ -7,5 +7,6 @@ dependencies {
 
     api(project(":mahu-base"))
     api("io.ebean:ebean-api")
+    api("io.helidon.common:helidon-common")
     implementation("io.ebean:ebean-querybean")
 }
