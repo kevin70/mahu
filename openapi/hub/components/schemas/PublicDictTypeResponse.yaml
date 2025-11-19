@@ -1,0 +1,23 @@
+type: object
+required:
+  - id
+  - name
+properties:
+  id:
+    type: integer
+    format: int32
+    description: 字典类型代码，唯一
+  name:
+    type: string
+    description: 字典类型名称
+  description:
+    type: string
+    description: 字典类型描述
+  disabled:
+    type: boolean
+    description: 是否禁用
+  data:
+    type: array
+    description: 字典数据
+    items:
+      $ref: "PublicDictResponse.yaml"

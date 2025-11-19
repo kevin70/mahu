@@ -1,0 +1,50 @@
+#file: noinspection YAMLSchemaValidation
+openapi: 3.0.3
+info:
+  title: Mahu 后台接口文档
+  version: 1.0.0
+  description:
+    $ref: info_description.md
+servers:
+  - url: http://127.0.0.1:9093
+    description: 本地测试服务
+components:
+  securitySchemes:
+    AT:
+      type: http
+      scheme: Bearer
+      description: 访问令牌
+security:
+  - AT: []
+tags:
+  - name: h_help
+    x-displayName: 帮助接口
+  - name: h_login
+    x-displayName: 用户登录
+  - name: h_me
+    x-displayName: 认证用户
+  - name: h_file
+    x-displayName: 文件系统
+  - name: h_id_photo
+    x-displayName: 证件照
+  - name: h_public_dict
+    x-displayName: 公共字典
+x-tagGroups:
+  - name: 基础模块
+    tags:
+      - h_help
+      - h_login
+      - h_me
+      - h_public_dict
+paths:
+  /samples:
+    $ref: "paths/samples.yaml"
+  ### =============================== 公共数据接口 =============================== ###
+  /info:
+    $ref: "paths/info.yaml"
+  /features:
+    $ref: "paths/features.yaml"
+  /p/dicts:
+    $ref: "paths/p_dicts.yaml"
+  /p/dicts/{dc}:
+    $ref: "paths/p_dicts_{dc}.yaml"

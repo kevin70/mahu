@@ -1,0 +1,52 @@
+type: object
+required:
+  - name
+  - version
+  - env
+  - server_time
+  - build
+  - java
+properties:
+  name:
+    type: string
+    description: 应用名称
+  version:
+    type: string
+    description: 应用版本
+  env:
+    type: string
+    description: 应用环境
+  server_time:
+    type: string
+    description: 服务器时间
+  build:
+    type: object
+    description: 应用构建信息
+    required:
+      - time
+      - revision
+    properties:
+      time:
+        type: string
+        description: 应用构建时间
+      revision:
+        type: string
+        description: Git 提交 Hash 值
+  java:
+    type: object
+    description: 应用 Java 信息
+    required:
+      - version
+      - vendor
+    properties:
+      version:
+        type: string
+        description: Java 版本
+      vendor:
+        type: string
+        description: Java 提供商
+  enabled_features:
+    type: array
+    description: 启用的功能代码表
+    items:
+      type: string

@@ -1,0 +1,56 @@
+type: object
+description: 错误响应
+required:
+  - error
+properties:
+  error:
+    type: object
+    required:
+      - trace_id
+      - timestamp
+      - path
+      - method
+      - status
+      - code
+      - message
+    properties:
+      trace_id:
+        type: string
+        description: 日志追踪 ID
+        example: 2zY6qQr5Mq8zLJpXv7G8s
+      timestamp:
+        type: string
+        format: date-time
+        description: 时间戳
+        example: 2025-09-19T21:17:00+08:00
+      path:
+        type: string
+        description: 请求路径
+        example: /samples
+      method:
+        type: string
+        description: HTTP Method
+        example: POST
+      status:
+        type: integer
+        format: int32
+        description: HTTP Status
+        example: 400
+      code:
+        type: integer
+        format: int32
+        description: 错误代码
+        example: 140003
+      message:
+        type: string
+        description: 错误描述
+        example: 缺少参数
+      details:
+        type: object
+        additionalProperties: true
+        description: 详细信息
+      stacktrace:
+        type: array
+        items:
+          type: string
+        description: 错误堆栈，该字段仅在测试环境返回

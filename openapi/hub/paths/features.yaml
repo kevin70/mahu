@@ -1,0 +1,35 @@
+get:
+  summary: 获取系统功能
+  operationId: listFeatures
+  security:
+    - [ ]
+    - AT: [ ]
+  parameters:
+    - in: query
+      name: module
+      description: 模块
+      schema:
+        type: array
+        items:
+          type: string
+          maxLength: 50
+        maxItems: 99
+    - in: query
+      name: code
+      description: 功能代码
+      schema:
+        type: array
+        items:
+          type: string
+          maxLength: 50
+        maxItems: 99
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            description: 功能列表
+            items:
+              $ref: "../components/schemas/FeatureResponse.yaml"

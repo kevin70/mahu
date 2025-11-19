@@ -1,0 +1,20 @@
+parameters:
+  - in: path
+    name: dc
+    description: 字典代码
+    required: true
+    schema:
+      type: integer
+      format: int32
+get:
+  summary: 获取字典数据
+  operationId: getPublicDict
+  tags: [h_public_dict]
+  security: []
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/PublicDictResponse.yaml"
