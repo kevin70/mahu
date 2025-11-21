@@ -1,4 +1,4 @@
-package cool.houge.blma.shared.repository;
+package cool.houge.mahu.shared.repository;
 
 import cool.houge.mahu.entity.Dict;
 import io.ebean.BeanRepository;

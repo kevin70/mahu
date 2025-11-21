@@ -1,6 +1,6 @@
-package cool.houge.blma.shared.service;
+package cool.houge.mahu.shared.service;
 
-import cool.houge.blma.shared.repository.SharedDictRepository;
+import cool.houge.mahu.shared.repository.SharedDictRepository;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.entity.Dict;

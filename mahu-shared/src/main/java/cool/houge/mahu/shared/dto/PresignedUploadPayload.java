@@ -1,4 +1,4 @@
-package cool.houge.blma.shared.dto;
+package cool.houge.mahu.shared.dto;
 
 import cool.houge.mahu.config.OssKind;
 import lombok.Data;

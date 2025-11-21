@@ -1,10 +1,10 @@
-package cool.houge.blma.shared.service;
+package cool.houge.mahu.shared.service;
 
 import com.github.f4b6a3.uuid.codec.base.Base58BtcCodec;
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
-import cool.houge.blma.shared.dto.PresignedUploadPayload;
-import cool.houge.blma.shared.dto.PresignedUploadResult;
+import cool.houge.mahu.shared.dto.PresignedUploadPayload;
+import cool.houge.mahu.shared.dto.PresignedUploadResult;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.config.ConfigKeys;

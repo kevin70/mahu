@@ -1,4 +1,4 @@
-package cool.houge.blma.shared.health;
+package cool.houge.mahu.shared.health;
 
 import static java.util.Objects.requireNonNull;
 
