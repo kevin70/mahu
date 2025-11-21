@@ -1,0 +1,17 @@
+get:
+  summary: 功能分页列表
+  operationId: pageSysFeature
+  x-permission-code: SYS_FEATURE:R
+  tags: [h_feature]
+  parameters:
+    - $ref: "../components/parameters/size.yaml"
+    - $ref: "../components/parameters/page.yaml"
+    - $ref: "../components/parameters/filter.yaml"
+    - $ref: "../components/parameters/sort.yaml"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/SysFeaturePageResponse.yaml"

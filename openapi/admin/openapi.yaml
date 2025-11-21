@@ -42,6 +42,8 @@ tags:
     x-displayName: 管理员管理
   - name: h_scheduled_task
     x-displayName: 定时任务
+  - name: h_feature
+    x-displayName: 功能配置
 x-tagGroups:
   - name: 基础模块
     tags:
@@ -59,6 +61,7 @@ x-tagGroups:
       - h_role
       - h_admin
       - h_scheduled_task
+      - h_feature
 paths:
   /samples:
     $ref: "paths/samples.yaml"
@@ -109,3 +112,5 @@ paths:
     $ref: "paths/sys_scheduled-tasks_{task_name}_exes.yaml"
   /sys/admin-logs/{type}:
     $ref: "paths/sys_admin-logs_{type}.yaml"
+  /sys/features:
+    $ref: "paths/sys_features.yaml"

@@ -1,7 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
 import cool.houge.mahu.StatusCodes;
-import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -10,7 +9,6 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -60,9 +58,7 @@ public class Feature {
     /// 禁用的用户
     private byte[] denyUserRb;
     /// 扩展元数据
-    @DbJsonB
-    private Map<String, Object> metadata;
+    private String metadata;
     /// 属性规则
-    @DbJsonB
-    private Map<String, Object> schema;
+    private String metadataSchema;
 }
