@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import cool.houge.mahu.StatusCodes;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -38,6 +39,11 @@ public class Feature {
     /// 描述
     private String description;
     /// 状态
+    ///
+    /// - [StatusCodes#DRAFT]
+    /// - [StatusCodes#ACTIVE]
+    /// - [StatusCodes#DISABLED]
+    /// - [StatusCodes#ARCHIVED]
     private Integer status;
     /// 生效开始时间（精确到秒）
     private LocalDateTime effectiveFrom;
