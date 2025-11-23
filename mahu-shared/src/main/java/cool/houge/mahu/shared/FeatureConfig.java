@@ -1,6 +1,10 @@
 package cool.houge.mahu.shared;
 
+import static java.util.Optional.ofNullable;
+
 import cool.houge.mahu.StatusCodes;
+import cool.houge.mahu.entity.sys.Feature;
+import cool.houge.mahu.util.RoaringBitmapUtils;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -125,5 +129,26 @@ public record FeatureConfig(
             }
         }
         return true;
+    }
+
+    public static FeatureConfig of(Feature bean) {
+        return FeatureConfig.builder()
+                .id(bean.getId())
+                .module(bean.getModule())
+                .code(bean.getCode())
+                .name(bean.getName())
+                .description(bean.getDescription())
+                .status(bean.getStatus())
+                .effectiveFrom(bean.getEffectiveFrom())
+                .effectiveTo(bean.getEffectiveTo())
+                .startTime(bean.getStartTime())
+                .endTime(bean.getEndTime())
+                .weekdays(ofNullable(bean.getWeekdays()).map(List::copyOf).orElse(List.of()))
+                .allowUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getAllowUserRb()))
+                .denyUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getDenyUserRb()))
+                .extraProperties(
+                        ofNullable(bean.getExtraProperties()).map(Map::copyOf).orElse(Map.of()))
+                .extraSchema(ofNullable(bean.getExtraSchema()).map(Map::copyOf).orElse(Map.of()))
+                .build();
     }
 }
