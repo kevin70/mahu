@@ -25,6 +25,10 @@ databaseChangeLog:
       file: "db/changelog/changelog-tables/sys.admin_audit_log.sql"
   - include:
       file: "db/changelog/changelog-tables/sys.admin_auth_log.sql"
+  - include:
+      file: "db/changelog/changelog-tables/sys.feature.sql"
+  - include:
+      file: "db/changelog/changelog-tables/sys.delay_message.sql"
 
   ### 初始化业务数据
   - include:
