@@ -3,7 +3,9 @@ package cool.houge.mahu.admin.oas.vo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import io.avaje.validation.constraints.*;
 
 
@@ -100,12 +102,12 @@ public class SysFeatureResponse {
      * 扩展属性
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("metadata")
-    private String metadata;
+    @com.fasterxml.jackson.annotation.JsonProperty("extra_properties")
+    private Map<String, Object> extraProperties;
     /**
-     * `metadata` 元数据的 JSON Schema 
+     * 扩展属性 JSON Schema
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("metadata_schema")
-    private String metadataSchema;
+    @com.fasterxml.jackson.annotation.JsonProperty("extra_schema")
+    private Map<String, Object> extraSchema;
 }

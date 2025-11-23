@@ -54,10 +54,11 @@ properties:
       type: integer
       format: int32
     description: 启用的星期
-  metadata:
-    type: string
+  extra_properties:
+    type: object
     description: 扩展属性
-  metadata_schema:
-    type: string
-    description: |
-      `metadata` 元数据的 JSON Schema
+    additionalProperties: true
+  extra_schema:
+    type: object
+    description: 扩展属性 JSON Schema
+    additionalProperties: true
