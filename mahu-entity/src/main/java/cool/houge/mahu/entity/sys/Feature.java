@@ -40,10 +40,10 @@ public class Feature {
     private String description;
     /// 状态
     ///
-    /// - [StatusCodes#DRAFT]
-    /// - [StatusCodes#ACTIVE]
-    /// - [StatusCodes#DISABLED]
-    /// - [StatusCodes#ARCHIVED]
+    /// - [cool.houge.mahu.StatusCodes#DRAFT]
+    /// - [cool.houge.mahu.StatusCodes#ACTIVE]
+    /// - [cool.houge.mahu.StatusCodes#DISABLED]
+    /// - [cool.houge.mahu.StatusCodes#ARCHIVED]
     private Integer status;
     /// 生效开始时间（精确到秒）
     private LocalDateTime effectiveFrom;
