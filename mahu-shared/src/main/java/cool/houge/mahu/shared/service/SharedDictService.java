@@ -1,9 +1,9 @@
 package cool.houge.mahu.shared.service;
 
-import cool.houge.mahu.shared.repository.SharedDictRepository;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.entity.Dict;
+import cool.houge.mahu.shared.repository.SharedDictRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
 import lombok.AllArgsConstructor;

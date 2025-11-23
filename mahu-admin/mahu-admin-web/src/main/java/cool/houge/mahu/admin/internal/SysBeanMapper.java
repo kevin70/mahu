@@ -17,6 +17,7 @@ import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeResponse;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
+import cool.houge.mahu.admin.oas.vo.SysFeatureResponse;
 import cool.houge.mahu.admin.oas.vo.SysRoleResponse;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskExeResponse;
@@ -28,6 +29,7 @@ import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.entity.AuthClient;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
 import cool.houge.mahu.util.GrantType;
@@ -101,4 +103,6 @@ public interface SysBeanMapper {
     SysScheduledTaskExeResponse toSysScheduledTaskExeResponse(ScheduledTaskExeLog bean);
 
     ScheduledTask toScheduledTask(String taskName);
+
+    SysFeatureResponse toSysFeatureResponse(Feature bean);
 }

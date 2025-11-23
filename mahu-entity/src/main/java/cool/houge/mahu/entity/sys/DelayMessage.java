@@ -1,6 +1,5 @@
 package cool.houge.mahu.entity.sys;
 
-import cool.houge.mahu.StatusCodes;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -33,10 +32,10 @@ public class DelayMessage {
     private String topic;
     /// 状态
     ///
-    /// - [StatusCodes#PENDING]
-    /// - [StatusCodes#PROCESSING]
-    /// - [StatusCodes#COMPLETED]
-    /// - [StatusCodes#ARCHIVED]
+    /// - [cool.houge.mahu.StatusCodes#PENDING]
+    /// - [cool.houge.mahu.StatusCodes#PROCESSING]
+    /// - [cool.houge.mahu.StatusCodes#COMPLETED]
+    /// - [cool.houge.mahu.StatusCodes#ARCHIVED]
     private Integer status;
     /// 消息延迟到的绝对时间（精确到毫秒）
     private Instant delayUntil;
