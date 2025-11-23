@@ -31,6 +31,7 @@ compileJava.dependsOn("appVersion")
 dependencies {
     api("com.google.guava:guava")
     api("org.apache.logging.log4j:log4j-api")
+    api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap")
 
     implementation("io.helidon.webserver:helidon-webserver")
     implementation("io.ebean:ebean-core")
