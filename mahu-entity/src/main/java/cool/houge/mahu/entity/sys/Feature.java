@@ -1,6 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
-import cool.houge.mahu.StatusCodes;
+import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -9,6 +9,8 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,13 +54,14 @@ public class Feature {
     /// 每天的结束时间（精确到秒，结束时间小于开始时间代表跨天）
     private LocalTime endTime;
     /// 启用的星期
-    private Integer weekdayBit;
+    @DbJsonB
+    private List<Integer> weekdays;
     /// 可用的用户
     private byte[] allowUserRb;
     /// 禁用的用户
     private byte[] denyUserRb;
-    /// 扩展元数据
-    private String metadata;
-    /// 属性规则
-    private String metadataSchema;
+    /// 扩展属性
+    private Map<String, Object> extraProperties;
+    /// 扩展属性 JSON Schema
+    private Map<String, Object> extraSchema;
 }

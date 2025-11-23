@@ -10,7 +10,7 @@ import io.ebean.PagedList;
 import io.helidon.service.registry.Service;
 import java.util.List;
 
-/// 系统功能特征
+/// 系统功能配置
 @Service.Singleton
 public class FeatureRepository extends HBeanRepository<Integer, Feature> {
 

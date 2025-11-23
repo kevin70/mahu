@@ -8,7 +8,9 @@ import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
 import lombok.AllArgsConstructor;
 
-/// 功能服务
+/// 系统特征服务
+///
+/// @author ZY (kzou227@qq.com)
 @Service.Singleton
 @AllArgsConstructor
 public class FeatureService {
