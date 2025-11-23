@@ -159,10 +159,9 @@ allprojects {
 
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.0-M1")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.0")
             mavenBom("io.helidon:helidon-bom:4.3.2")
             mavenBom("io.ebean:ebean-bom:17.1.0")
-            mavenBom("io.micrometer:micrometer-bom:1.16.0")
             mavenBom("org.testcontainers:testcontainers-bom:1.21.3")
         }
         dependencies {
