@@ -51,4 +51,6 @@ public class DelayMessage {
     private Integer retryCount;
     /// 消息内容存储业务所需的所有数据
     private String body;
+    /// 功能 ID
+    private Integer featureId;
 }
