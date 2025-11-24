@@ -1,47 +1,56 @@
 package cool.houge.mahu.admin;
 
+import static io.helidon.http.HeaderNames.AUTHORIZATION;
+
 import com.github.f4b6a3.uuid.UuidCreator;
-import com.github.f4b6a3.uuid.codec.base.Base58BtcCodec;
+import com.github.f4b6a3.uuid.codec.base.Base32Codec;
+import cool.houge.mahu.admin.security.AuthContext;
+import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebMetadata;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
+import io.helidon.http.ForbiddenException;
 import io.helidon.http.HeaderName;
 import io.helidon.http.HeaderNames;
+import io.helidon.http.UnauthorizedException;
 import io.helidon.logging.common.HelidonMdc;
+import io.helidon.security.jwt.JwtException;
 import io.helidon.service.registry.Service;
 import io.helidon.webserver.http.Filter;
 import io.helidon.webserver.http.FilterChain;
 import io.helidon.webserver.http.HttpFeature;
 import io.helidon.webserver.http.HttpRouting;
+import io.helidon.webserver.http.HttpSecurity;
 import io.helidon.webserver.http.HttpService;
 import io.helidon.webserver.http.RoutingRequest;
 import io.helidon.webserver.http.RoutingResponse;
 import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerResponse;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import lombok.AllArgsConstructor;
 
 /// 应用 HTTP 功能注册
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
+@AllArgsConstructor
 @Weight(Weighted.DEFAULT_WEIGHT + 5)
 public class AppHttpFeature implements HttpFeature, Filter {
 
     private static final HeaderName X_REQUEST_ID = HeaderNames.create("x-request-id");
+    private static final String SCHEME_PREFIX = "Bearer ";
 
-    private final SimpleSecurity security;
     private final List<HttpService> httpServices;
     private final List<Filter> filters;
-
-    public AppHttpFeature(SimpleSecurity security, List<HttpService> httpServices, List<Filter> filters) {
-        this.security = security;
-        this.httpServices = httpServices;
-        this.filters = filters;
-    }
+    private final TokenVerifier tokenVerifier;
 
     @Override
     public void setup(HttpRouting.Builder routing) {
-        routing.addFilter(this).security(security);
+        routing.addFilter(this).security(new SimpleSecurity());
         for (Filter filter : filters) {
             routing.addFilter(filter);
         }
@@ -55,21 +64,81 @@ public class AppHttpFeature implements HttpFeature, Filter {
     @Override
     public void filter(FilterChain chain, RoutingRequest request, RoutingResponse response) {
         var traceId = traceId(request);
-        var metadata = new WebMetadata(request, traceId);
         try {
             HelidonMdc.set("traceId", traceId);
-            request.context().supply(Metadata.class, () -> metadata);
+            response.beforeSend(() -> response.header(X_REQUEST_ID, traceId));
+
+            var ctx = request.context();
+            ctx.supply(Metadata.class, () -> new WebMetadata(request, traceId));
+            ctx.supply(AuthContext.class, () -> authContext(request));
             chain.proceed();
         } finally {
             // 清理追踪 ID
             HelidonMdc.remove("traceId");
-            response.header(X_REQUEST_ID, traceId);
         }
     }
 
-    private String traceId(ServerRequest request) {
+    AuthContext authContext(RoutingRequest request) {
+        var token = token(request);
+        if (token.isEmpty()) {
+            return AuthContext.ANONYMOUS;
+        }
+
+        try {
+            // 校验访问令牌
+            return tokenVerifier.verify(token.get());
+        } catch (JwtException e) {
+            throw new UnauthorizedException("认证失败", e);
+        }
+    }
+
+    Optional<String> token(RoutingRequest request) {
+        Supplier<Optional<String>> headerGet = () -> request.headers()
+                .first(AUTHORIZATION)
+                .filter(s -> s.length() > SCHEME_PREFIX.length())
+                .map(s -> s.substring(SCHEME_PREFIX.length()));
+        return request.query()
+                .first("access_token")
+                .or(headerGet)
+                .map(String::trim)
+                .filter(Predicate.not(String::isEmpty));
+    }
+
+    String traceId(ServerRequest request) {
         return request.headers()
                 .first(X_REQUEST_ID)
-                .orElseGet(() -> Base58BtcCodec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch()));
+                .orElseGet(() -> Base32Codec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch()));
+    }
+
+    private static class SimpleSecurity implements HttpSecurity {
+
+        @Override
+        public boolean authenticate(ServerRequest request, ServerResponse response, boolean requiredHint)
+                throws UnauthorizedException {
+            obtainAuthContext(request);
+            return true;
+        }
+
+        @Override
+        public boolean authorize(ServerRequest request, ServerResponse response, String... roleHint)
+                throws ForbiddenException {
+            if (roleHint.length != 0) {
+                var ac = obtainAuthContext(request);
+                for (String s : roleHint) {
+                    if (ac.hasPermission(s)) {
+                        return true;
+                    }
+                }
+            }
+            throw new ForbiddenException("没有访问权限");
+        }
+
+        AuthContext obtainAuthContext(ServerRequest request) {
+            var ac = request.context().get(AuthContext.class);
+            if (ac.isEmpty() || ac.get() == AuthContext.ANONYMOUS) {
+                throw new UnauthorizedException("缺少认证");
+            }
+            return ac.get();
+        }
     }
 }

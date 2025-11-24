@@ -11,6 +11,29 @@ import org.jspecify.annotations.NonNull;
 /// @author ZY (kzou227@qq.com)
 public interface AuthContext {
 
+    /// 匿名访问
+    AuthContext ANONYMOUS = new AuthContext() {
+        @Override
+        public long uid() {
+            throw new UnsupportedOperationException("anonymous");
+        }
+
+        @Override
+        public String name() {
+            throw new UnsupportedOperationException("anonymous");
+        }
+
+        @Override
+        public boolean hasPermission(String code) {
+            throw new UnsupportedOperationException("anonymous");
+        }
+
+        @Override
+        public List<String> permissions() {
+            throw new UnsupportedOperationException("anonymous");
+        }
+    };
+
     /// 返回认证的用户ID
     long uid();
 
