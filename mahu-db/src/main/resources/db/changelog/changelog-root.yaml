@@ -29,6 +29,10 @@ databaseChangeLog:
       file: "db/changelog/changelog-tables/sys.feature.sql"
   - include:
       file: "db/changelog/changelog-tables/sys.delay_message.sql"
+  - include:
+      file: "db/changelog/changelog-tables/sys.asset.sql"
+  - include:
+      file: "db/changelog/changelog-tables/sys.id_photo.sql"
 
   ### 初始化业务数据
   - include:
