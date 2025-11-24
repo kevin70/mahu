@@ -45,8 +45,3 @@ properties:
       vendor:
         type: string
         description: Java 提供商
-  enabled_features:
-    type: array
-    description: 启用的功能代码表
-    items:
-      type: string
