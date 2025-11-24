@@ -4,7 +4,7 @@
 -- changeset kzou227@qq.com:202508251150
 -- comment: 测试专用
 INSERT INTO
-  public.auth_client (
+  sys.auth_client (
     created_at,
     updated_at,
     deleted,
@@ -22,7 +22,7 @@ VALUES
     '测试专用'
   );
 
--- rollback delete from public.auth_client where client_id='0KPY6J2C5XP5R';
+-- rollback delete from sys.auth_client where client_id='0KPY6J2C5XP5R';
 ;
 
 -- changeset kzou227@qq.com:202508251151

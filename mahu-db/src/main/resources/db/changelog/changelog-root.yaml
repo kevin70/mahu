@@ -5,10 +5,10 @@ databaseChangeLog:
   ### 公共表
   - include:
       file: "db/changelog/changelog-tables/public.dict.sql"
-  - include:
-      file: "db/changelog/changelog-tables/public.auth_client.sql"
 
   ### 系统表
+  - include:
+      file: "db/changelog/changelog-tables/sys.auth_client.sql"
   - include:
       file: "db/changelog/changelog-tables/sys.scheduled_task.sql"
   - include:
