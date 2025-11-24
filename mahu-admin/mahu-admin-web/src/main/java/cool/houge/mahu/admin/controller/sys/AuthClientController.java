@@ -6,7 +6,7 @@ import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HAuthClientService;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
 import cool.houge.mahu.admin.sys.service.AuthClientService;
-import cool.houge.mahu.entity.AuthClient;
+import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.ServerRequest;

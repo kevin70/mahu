@@ -2,7 +2,7 @@ package cool.houge.mahu.admin.bean;
 
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.Role;
-import cool.houge.mahu.entity.AuthClient;
+import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
 import io.helidon.service.registry.Service.Contract;

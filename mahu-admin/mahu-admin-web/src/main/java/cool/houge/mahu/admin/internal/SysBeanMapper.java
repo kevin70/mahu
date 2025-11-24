@@ -26,7 +26,7 @@ import cool.houge.mahu.admin.oas.vo.TokenPasswordForm;
 import cool.houge.mahu.admin.oas.vo.TokenRefreshTokenForm;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.dto.TokenResult;
-import cool.houge.mahu.entity.AuthClient;
+import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
 import cool.houge.mahu.entity.sys.Feature;

@@ -6,7 +6,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.sys.repository.AuthClientRepository;
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.entity.AuthClient;
+import cool.houge.mahu.entity.sys.AuthClient;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;

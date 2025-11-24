@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.sys.repository;
 
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.entity.AuthClient;
+import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.query.QAuthClient;
 import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
