@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202511232228
 CREATE TABLE sys.feature (
   id INTEGER NOT NULL CONSTRAINT feature_pk PRIMARY KEY,

@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202511241531
 CREATE TABLE sys.asset (
   id bigserial CONSTRAINT asset_pk PRIMARY KEY,
@@ -29,5 +30,9 @@ comment ON COLUMN sys.asset.status IS '状态';
 comment ON COLUMN sys.asset.object_name IS 'OSS 对象名称';
 
 comment ON COLUMN sys.asset.metadata IS '可以用来存储额外的元数据，比如图片尺寸、背景颜色、格式等。 ';
+
+ALTER SEQUENCE sys.asset_id_seq RESTART
+WITH
+  100001;
 
 -- rollback drop table sys.asset;

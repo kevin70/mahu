@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202508242200
 CREATE TABLE sys.scheduled_task (
   task_name VARCHAR(50) NOT NULL CONSTRAINT scheduled_task_pk PRIMARY KEY,

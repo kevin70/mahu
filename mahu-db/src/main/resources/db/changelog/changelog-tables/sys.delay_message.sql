@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202511232235
 CREATE TABLE sys.delay_message (
   id UUID NOT NULL PRIMARY KEY,

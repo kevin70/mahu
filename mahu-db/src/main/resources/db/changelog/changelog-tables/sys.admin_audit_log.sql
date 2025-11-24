@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202508251147
 CREATE TABLE sys.admin_audit_log (
   id UUID NOT NULL CONSTRAINT admin_audit_log_pk PRIMARY KEY,

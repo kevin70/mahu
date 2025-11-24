@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202508251124
 CREATE TABLE sys.role (
   id INTEGER NOT NULL CONSTRAINT role_pk PRIMARY KEY,

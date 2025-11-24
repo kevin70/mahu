@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202511241532
 CREATE TABLE sys.id_photo (
   id bigserial CONSTRAINT id_photo_pk PRIMARY KEY,
@@ -35,5 +36,9 @@ comment ON COLUMN sys.id_photo.metadata IS '可以用来存储额外的元数据
 CREATE INDEX id_photo_uid_i ON sys.id_photo (uid);
 
 CREATE INDEX id_photo_status_created_at_i ON sys.id_photo (status, created_at);
+
+ALTER SEQUENCE sys.id_photo_id_seq RESTART
+WITH
+  100001;
 
 -- rollback drop table sys.id_photo;

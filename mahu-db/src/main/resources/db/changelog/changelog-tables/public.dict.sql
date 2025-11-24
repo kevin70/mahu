@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202508251125
 CREATE TABLE public.dict_type (
   id INTEGER NOT NULL CONSTRAINT dict_type_pk PRIMARY KEY,
@@ -25,8 +26,8 @@ COMMENT ON COLUMN public.dict_type.updated_at IS '更新时间';
 COMMENT ON COLUMN public.dict_type.description IS '描述';
 
 -- rollback drop table public.dict_type;
---
--- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202508251126
 CREATE TABLE public.dict (
   dc serial NOT NULL CONSTRAINT dict_pk PRIMARY KEY,

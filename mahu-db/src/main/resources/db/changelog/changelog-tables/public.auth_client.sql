@@ -1,5 +1,6 @@
---
 -- liquibase formatted sql
+;
+
 -- changeset kzou227@qq.com:202509172106
 CREATE TABLE public.auth_client (
   client_id VARCHAR(50) NOT NULL CONSTRAINT auth_client_pk PRIMARY KEY,
