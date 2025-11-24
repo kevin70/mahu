@@ -1,0 +1,53 @@
+type: object
+required:
+  - id
+properties:
+  id:
+    type: string
+    format: uuid
+    description: ID
+  created_at:
+    type: string
+    format: date-time
+    description: 创建时间
+  updated_at:
+    type: string
+    format: date-time
+    description: 修改时间
+  topic:
+    type: string
+    description: 主题
+  status:
+    $ref: "./_status.yaml"
+  delay_until:
+    type: string
+    format: date-time
+    description: 消息延迟到的绝对时间（精确到毫秒）
+  delay:
+    type: integer
+    format: int32
+    description: 初始重试间隔（1000 毫秒，即 1 秒）
+  multiplier:
+    type: integer
+    format: int32
+    description: 重试间隔的倍数（指数退避策略，间隔依次为 1s、2s、4s、8s...）
+  max_delay:
+    type: integer
+    format: int32
+    description: 最大重试间隔（10000 毫秒，即 10 秒）
+  max_attempts:
+    type: integer
+    format: int32
+    description: 最大重试次数（包括首次执行）
+  retry_count:
+    type: integer
+    format: int32
+    description: 重试次数
+  body:
+    type: object
+    description: 消息内容
+    additionalProperties: true
+  feature_id:
+    type: integer
+    format: int32
+    description: 功能 ID（用于追踪统计）
