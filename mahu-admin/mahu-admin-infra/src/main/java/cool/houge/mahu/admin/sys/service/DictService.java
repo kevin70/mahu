@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.admin.sys.repository.DictTypeRepository;
+import cool.houge.mahu.shared.repository.DictTypeRepository;
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;

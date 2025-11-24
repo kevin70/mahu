@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.sys.repository;
+package cool.houge.mahu.shared.repository;
 
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.entity.Dict;

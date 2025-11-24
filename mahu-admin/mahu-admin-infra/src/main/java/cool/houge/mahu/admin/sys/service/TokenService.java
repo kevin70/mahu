@@ -15,7 +15,7 @@ import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.admin.sys.repository.AdminAuthLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminRepository;
-import cool.houge.mahu.admin.sys.repository.AuthClientRepository;
+import cool.houge.mahu.shared.repository.sys.AuthClientRepository;
 import cool.houge.mahu.config.ConfigKeys;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.util.Metadata;
