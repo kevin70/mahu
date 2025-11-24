@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -9,10 +10,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-/// 资源
+/// 静态资源
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
@@ -33,8 +35,6 @@ public class Asset {
     private Instant updatedAt;
     /// 用户 ID
     private Long uid;
-    /// 业务 ID
-    private Long bizId;
     /// 证件类型
     @Enumerated(EnumType.ORDINAL)
     private Type type;
@@ -42,9 +42,11 @@ public class Asset {
     private Integer status;
     /// OSS 对象名称
     private String objectName;
-    /// 资源类型
-    private String mimeType;
+    /// 可以用来存储额外的元数据，比如图片尺寸、背景颜色、格式等
+    @DbJsonB
+    private Map<String, Object> metadata;
 
+    /// 资源类型
     public enum Type {
     //
     }
