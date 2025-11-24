@@ -25,7 +25,8 @@ public class DelayMessageRepository extends HBeanRepository<UUID, DelayMessage> 
         super(DelayMessage.class, db);
     }
 
-    public void persist(DelayMessage message) {
+    /// 批量保存
+    public void batchSave(DelayMessage message) {
         message.setId(UuidCreator.getTimeOrderedEpoch());
 
         var ctx = Contexts.context();
@@ -36,8 +37,7 @@ public class DelayMessageRepository extends HBeanRepository<UUID, DelayMessage> 
             ctx.get()
                     .get(DelayMessageHolder.class)
                     .ifPresentOrElse(
-                            holder -> holder.add(message),
-                            () -> {
+                            holder -> holder.add(message), () -> {
                                 var cb = new DelayMessageHolder().add(message);
                                 ctx.get().register(cb);
                                 db().register(cb);

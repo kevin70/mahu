@@ -53,7 +53,7 @@ public class SharedBaseService {
     /// 推送延迟消息
     @Transactional
     public void pushDelayMessage(DelayMessage message) {
-        delayMessageRepository.persist(message);
+        delayMessageRepository.batchSave(message);
     }
 
     private Map<Integer, FeatureConfig> loadFeatureMap() {
