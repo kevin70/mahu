@@ -37,7 +37,11 @@ public class DelayMessageRepository extends HBeanRepository<UUID, DelayMessage> 
                     .get(DelayMessageHolder.class)
                     .ifPresentOrElse(
                             holder -> holder.add(message),
-                            () -> ctx.get().register(new DelayMessageHolder().add(message))
+                            () -> {
+                                var cb = new DelayMessageHolder().add(message);
+                                ctx.get().register(cb);
+                                db().register(cb);
+                            }
                             //
                             );
             log.debug("保存延迟消息到 Context: {}", message);
