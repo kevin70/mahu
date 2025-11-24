@@ -1,0 +1,22 @@
+parameters:
+  - in: path
+    name: id_photo_id
+    description: 证件照 ID
+    required: true
+    schema:
+      type: integer
+      format: int64
+get:
+  summary: 预览证件照
+  operationId: getIdPhoto
+  tags: [ h_id_photo ]
+  responses:
+    "302":
+      description: 重定向
+      headers:
+        Location:
+          description: 重写向到证件访问地址
+          schema:
+            type: string
+            format: uri
+          example: https://api.example.com/v1/new-resource
