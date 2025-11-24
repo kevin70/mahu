@@ -9,9 +9,9 @@ properties:
     type: integer
     format: int32
     description: 功能 ID
-  enabled:
+  active:
     type: boolean
-    description: 功能当前可用
+    description: 当前功能是否正在活跃
     default: false
   module:
     type: string
@@ -21,10 +21,10 @@ properties:
     description: 功能代码
   name:
     type: string
-    description: 名称
+    description: 功能名称
   description:
     type: string
-    description: 描述
+    description: 功能描述
   effective_from:
     type: string
     format: date-time
@@ -47,7 +47,7 @@ properties:
     items:
       type: integer
       format: int32
-  metadata:
+  extra_properties:
     type: object
-    description: 功能元数据
+    description: 扩展属性
     additionalProperties: true
