@@ -18,6 +18,7 @@ rules:
   no-ambiguous-paths: error
   operation-4xx-response: off
   tag-description: off
+  operation-2xx-response: off
   request-mime-type:
     severity: error
     allowedValues:
