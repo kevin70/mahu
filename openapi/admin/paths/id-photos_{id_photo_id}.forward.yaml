@@ -8,8 +8,8 @@ parameters:
       format: int64
       minimum: 1
 get:
-  summary: 获取证件照
-  operationId: getIdPhoto
+  summary: 预览证件照
+  operationId: forwardIdPhoto
   tags: [h_id_photo]
   responses:
     "302":
