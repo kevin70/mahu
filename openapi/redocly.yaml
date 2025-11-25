@@ -66,6 +66,7 @@ rules:
           - cancel
           - execute
           - login
+          - forward
 
 openapi:
   showExtensions: true

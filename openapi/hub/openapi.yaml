@@ -51,5 +51,5 @@ paths:
     $ref: "paths/p_dicts_{dc}.yaml"
   /id-photos:
     $ref: "paths/id-photos.yaml"
-  /id-photos/{id_photo_id}:
-    $ref: "paths/id-photos_{id_photo_id}.yaml"
+  /id-photos/{id_photo_id}.forward:
+    $ref: "paths/id-photos_{id_photo_id}.forward.yaml"
