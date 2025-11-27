@@ -1,18 +1,19 @@
 parameters:
   - in: path
-    name: id_photo_id
-    description: 证件照 ID
+    name: file_id
+    description: 文件流水号
     required: true
     schema:
       type: integer
       format: int64
+      minimum: 1
 get:
-  summary: 定向证件照
-  operationId: forwardIdPhoto
-  tags: [ h_id_photo ]
+  summary: 定向文件
+  operationId: forwardFile
+  tags: [h_file]
   responses:
     "302":
-      description: 重定向
+      description: OK
       headers:
         Location:
           description: 重写向到证件访问地址

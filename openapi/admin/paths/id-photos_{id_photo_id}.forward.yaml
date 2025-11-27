@@ -8,7 +8,7 @@ parameters:
       format: int64
       minimum: 1
 get:
-  summary: 预览证件照
+  summary: 定向证件照
   operationId: forwardIdPhoto
   tags: [h_id_photo]
   responses:

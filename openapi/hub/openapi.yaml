@@ -36,6 +36,7 @@ x-tagGroups:
       - h_login
       - h_me
       - h_public_dict
+      - h_file
       - h_id_photo
 paths:
   /samples:
@@ -53,3 +54,7 @@ paths:
     $ref: "paths/id-photos.yaml"
   /id-photos/{id_photo_id}.forward:
     $ref: "paths/id-photos_{id_photo_id}.forward.yaml"
+  /files:
+    $ref: "paths/files.yaml"
+  /files/{file_id}.forward:
+    $ref: "paths/files_{file_id}.forward.yaml"
