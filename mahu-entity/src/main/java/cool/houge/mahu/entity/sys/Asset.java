@@ -48,6 +48,7 @@ public class Asset {
 
     /// 资源类型
     public enum Type {
-    //
+        /// `0`管理员头像
+        ADMIN_AVATAR,
     }
 }
