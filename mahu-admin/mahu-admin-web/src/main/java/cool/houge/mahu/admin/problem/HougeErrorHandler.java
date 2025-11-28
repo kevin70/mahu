@@ -1,0 +1,76 @@
+package cool.houge.mahu.admin.problem;
+
+import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.Env;
+import cool.houge.mahu.util.Metadata;
+import io.helidon.webserver.http.ErrorHandler;
+import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerResponse;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+
+/// 错误响应处理器
+///
+/// @author ZY (kzou227@qq.com)
+@AllArgsConstructor
+public class HougeErrorHandler implements ErrorHandler<Throwable> {
+
+    private static final Logger log = LogManager.getLogger(HougeErrorHandler.class);
+    private final List<ProblemHandler> problemHandlers;
+
+    @Override
+    public void handle(ServerRequest req, ServerResponse res, @NonNull Throwable ex) {
+        ProblemResponse errorResponse = null;
+        var a = ex;
+        while (a != null && errorResponse == null) {
+            for (var h : problemHandlers) {
+                if (h.canHandle(a)) {
+                    errorResponse = h.handle(a);
+                }
+            }
+            if (errorResponse == null) {
+                a = a.getCause();
+            }
+        }
+
+        if (errorResponse == null) {
+            errorResponse = new ProblemResponse()
+                    .setStatus(500)
+                    .setCode(BizCodes.INTERNAL.code())
+                    .setMessage(ex.getMessage());
+        }
+
+        doSend(req, res, ex, errorResponse);
+    }
+
+    private void doSend(ServerRequest req, ServerResponse res, @NotNull Throwable ex, ProblemResponse err) {
+        var metadata = Metadata.current();
+        err.setTraceId(metadata.traceId())
+                .setTimestamp(OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS))
+                .setPath(req.path().rawPath())
+                .setMethod(req.prologue().method().text());
+
+        if (!Env.current().isProd()) {
+            var list = Arrays.stream(ex.getStackTrace())
+                    .map(StackTraceElement::toString)
+                    .toList();
+            err.setStacktrace(list);
+        }
+
+        // 记录错误日志
+        if (err.getStatus() >= 500) {
+            log.error("服务器错误 {}", err, ex);
+        } else {
+            log.debug("{}", err, ex);
+        }
+        res.status(err.getStatus()).send(Map.of("error", err));
+    }
+}

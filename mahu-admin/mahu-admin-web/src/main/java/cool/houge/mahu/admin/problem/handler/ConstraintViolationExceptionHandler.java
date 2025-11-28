@@ -1,0 +1,34 @@
+package cool.houge.mahu.admin.problem.handler;
+
+import static cool.houge.mahu.BizCodes.INVALID_ARGUMENT;
+
+import cool.houge.mahu.admin.problem.ProblemHandler;
+import cool.houge.mahu.admin.problem.ProblemResponse;
+import io.avaje.validation.ConstraintViolationException;
+import io.helidon.http.Status;
+import java.util.Map;
+
+/// [io.avaje.validation.ConstraintViolationException]
+///
+/// @author ZY (kzou227@qq.com)
+public class ConstraintViolationExceptionHandler implements ProblemHandler {
+
+    @Override
+    public boolean canHandle(Throwable e) {
+        return e instanceof ConstraintViolationException;
+    }
+
+    @Override
+    public ProblemResponse handle(Throwable ex) {
+        var e = (ConstraintViolationException) ex;
+        return new ProblemResponse()
+                .setStatus(Status.BAD_REQUEST_400.code())
+                .setCode(INVALID_ARGUMENT.code())
+                .setMessage(INVALID_ARGUMENT.message())
+                .setDetails(Map.of(
+                        "invalid_params",
+                        e.violations().stream()
+                                .map(o -> Map.of("path", o.path(), "field", o.field(), "message", o.message()))
+                                .toList()));
+    }
+}
