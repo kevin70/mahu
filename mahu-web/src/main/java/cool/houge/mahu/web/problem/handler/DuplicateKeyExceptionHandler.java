@@ -1,8 +1,8 @@
-package cool.houge.mahu.admin.problem.handler;
+package cool.houge.mahu.web.problem.handler;
 
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.admin.problem.ProblemHandler;
-import cool.houge.mahu.admin.problem.ProblemResponse;
+import cool.houge.mahu.web.problem.ProblemHandler;
+import cool.houge.mahu.web.problem.ProblemResponse;
 import io.ebean.DuplicateKeyException;
 import io.helidon.http.Status;
 

@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.problem;
+package cool.houge.mahu.web.problem;
 
 /// API 错误响应
 ///

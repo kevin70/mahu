@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.problem.handler;
+package cool.houge.mahu.web.problem.handler;
 
 import static cool.houge.mahu.BizCodes.ALREADY_EXISTS;
 import static cool.houge.mahu.BizCodes.DEADLINE_EXCEEDED;
@@ -12,8 +12,8 @@ import static cool.houge.mahu.BizCodes.UNAVAILABLE;
 import static cool.houge.mahu.BizCodes.UNIMPLEMENTED;
 
 import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.admin.problem.ProblemHandler;
-import cool.houge.mahu.admin.problem.ProblemResponse;
+import cool.houge.mahu.web.problem.ProblemHandler;
+import cool.houge.mahu.web.problem.ProblemResponse;
 import io.helidon.http.Status;
 
 /// [cool.houge.mahu.BizCodeException]

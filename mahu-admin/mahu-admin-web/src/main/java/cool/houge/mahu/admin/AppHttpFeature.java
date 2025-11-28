@@ -8,6 +8,7 @@ import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebMetadata;
+import cool.houge.mahu.web.problem.RestErrorHandler;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
 import io.helidon.http.ForbiddenException;
@@ -50,7 +51,7 @@ public class AppHttpFeature implements HttpFeature, Filter {
 
     @Override
     public void setup(HttpRouting.Builder routing) {
-        routing.addFilter(this).security(new SimpleSecurity());
+        routing.error(Throwable.class, new RestErrorHandler()).addFilter(this).security(new SimpleSecurity());
         for (Filter filter : filters) {
             routing.addFilter(filter);
         }

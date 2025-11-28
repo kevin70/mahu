@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.problem;
+package cool.houge.mahu.web.problem;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,6 +24,7 @@ public class ProblemResponse {
     private String path;
     /// 请求 HTTP 方法
     private String method;
+
     /// 响应 HTTP 状态
     private Integer status;
     /// 错误代码

@@ -1,8 +1,14 @@
-package cool.houge.mahu.admin.problem;
+package cool.houge.mahu.web.problem;
 
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.Env;
 import cool.houge.mahu.util.Metadata;
+import cool.houge.mahu.web.problem.handler.BizCodeExceptionHandler;
+import cool.houge.mahu.web.problem.handler.ConstraintViolationExceptionHandler;
+import cool.houge.mahu.web.problem.handler.DuplicateKeyExceptionHandler;
+import cool.houge.mahu.web.problem.handler.EntityNotFoundExceptionHandler;
+import cool.houge.mahu.web.problem.handler.HttpExceptionHandler;
+import cool.houge.mahu.web.problem.handler.UnsupportedTypeExceptionHandler;
 import io.helidon.webserver.http.ErrorHandler;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
@@ -14,17 +20,28 @@ import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 /// 错误响应处理器
 ///
 /// @author ZY (kzou227@qq.com)
 @AllArgsConstructor
-public class HougeErrorHandler implements ErrorHandler<Throwable> {
+public class RestErrorHandler implements ErrorHandler<Throwable> {
 
-    private static final Logger log = LogManager.getLogger(HougeErrorHandler.class);
+    private static final Logger log = LogManager.getLogger(RestErrorHandler.class);
     private final List<ProblemHandler> problemHandlers;
+
+    public RestErrorHandler() {
+        this(List.of(
+                new BizCodeExceptionHandler(),
+                new ConstraintViolationExceptionHandler(),
+                new DuplicateKeyExceptionHandler(),
+                new EntityNotFoundExceptionHandler(),
+                new HttpExceptionHandler(),
+                new UnsupportedTypeExceptionHandler()
+                //
+                ));
+    }
 
     @Override
     public void handle(ServerRequest req, ServerResponse res, @NonNull Throwable ex) {
@@ -48,10 +65,10 @@ public class HougeErrorHandler implements ErrorHandler<Throwable> {
                     .setMessage(ex.getMessage());
         }
 
-        doSend(req, res, ex, errorResponse);
+        send0(req, res, ex, errorResponse);
     }
 
-    private void doSend(ServerRequest req, ServerResponse res, @NotNull Throwable ex, ProblemResponse err) {
+    private void send0(ServerRequest req, ServerResponse res, Throwable ex, ProblemResponse err) {
         var metadata = Metadata.current();
         err.setTraceId(metadata.traceId())
                 .setTimestamp(OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS))
