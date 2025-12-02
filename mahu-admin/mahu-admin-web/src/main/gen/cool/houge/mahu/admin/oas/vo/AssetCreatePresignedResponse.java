@@ -5,15 +5,15 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class FileCreatePresignedResponse {
+public class AssetCreatePresignedResponse {
 
     /**
-     * 文件流水号
+     * 资源流水号
      */
       @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("file_id")
-    private Long fileId;
+    @com.fasterxml.jackson.annotation.JsonProperty("asset_id")
+    private Long assetId;
     /**
      * 预上传 URL
      */

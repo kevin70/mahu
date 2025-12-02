@@ -5,7 +5,7 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class CreateFilePresignedRequest {
+public class AssetCreatePresignedRequest {
 
     /**
      * 类型
