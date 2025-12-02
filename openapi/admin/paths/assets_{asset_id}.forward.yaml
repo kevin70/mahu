@@ -16,7 +16,7 @@ get:
       description: OK
       headers:
         Location:
-          description: 重写向到证件访问地址
+          description: 重写向到资源访问地址
           schema:
             type: string
             format: uri
