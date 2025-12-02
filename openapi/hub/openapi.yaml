@@ -23,8 +23,8 @@ tags:
     x-displayName: 用户登录
   - name: h_me
     x-displayName: 认证用户
-  - name: h_file
-    x-displayName: 文件系统
+  - name: h_asset
+    x-displayName: OSS资源
   - name: h_id_photo
     x-displayName: 证件照
   - name: h_public_dict
@@ -36,7 +36,7 @@ x-tagGroups:
       - h_login
       - h_me
       - h_public_dict
-      - h_file
+      - h_asset
       - h_id_photo
 paths:
   /samples:
@@ -50,11 +50,11 @@ paths:
     $ref: "paths/p_dicts.yaml"
   /p/dicts/{dc}:
     $ref: "paths/p_dicts_{dc}.yaml"
+  /assets:
+    $ref: "paths/assets.yaml"
+  /assets/{asset_id}/forward:
+    $ref: "paths/assets_{asset_id}_forward.yaml"
   /id-photos:
     $ref: "paths/id-photos.yaml"
-  /id-photos/{id_photo_id}.forward:
-    $ref: "paths/id-photos_{id_photo_id}.forward.yaml"
-  /files:
-    $ref: "paths/files.yaml"
-  /files/{file_id}.forward:
-    $ref: "paths/files_{file_id}.forward.yaml"
+  /id-photos/{id_photo_id}/forward:
+    $ref: "paths/id-photos_{id_photo_id}_forward.yaml"

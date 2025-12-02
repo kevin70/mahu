@@ -85,12 +85,12 @@ paths:
 
   /assets:
     $ref: "paths/assets.yaml"
-  /assets/{asset_id}.forward:
-    $ref: "paths/assets_{asset_id}.forward.yaml"
+  /assets/{asset_id}/forward:
+    $ref: "paths/assets_{asset_id}_forward.yaml"
   /id-photos:
     $ref: "paths/id-photos.yaml"
-  /id-photos/{id_photo_id}.forward:
-    $ref: "paths/id-photos_{id_photo_id}.forward.yaml"
+  /id-photos/{id_photo_id}/forward:
+    $ref: "paths/id-photos_{id_photo_id}_forward.yaml"
   ### =============================== 系统模块接口 =============================== ###
   /sys/auth-clients:
     $ref: "paths/sys_auth-clients.yaml"

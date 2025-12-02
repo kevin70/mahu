@@ -12,7 +12,7 @@ public interface HIdPhotoService extends HttpService {
     @Override
     default void routing(HttpRules rules) {
         rules.post("/id-photos", authenticate(), this::createIdPhotoPresigned);
-        rules.get("/id-photos/{id_photo_id}", authenticate(), this::getIdPhoto);
+        rules.get("/id-photos/{id_photo_id}/forward", authenticate(), this::forwardIdPhoto);
     }
 
     ///
@@ -23,10 +23,10 @@ public interface HIdPhotoService extends HttpService {
     void createIdPhotoPresigned(ServerRequest request, ServerResponse response);
 
     ///
-    /// `GET /id-photos/{id_photo_id}` 获取证件照
+    /// `GET /id-photos/{id_photo_id}/forward` 定向证件照
     ///
     /// @param request the server request
     /// @param response the server response
-    void getIdPhoto(ServerRequest request, ServerResponse response);
+    void forwardIdPhoto(ServerRequest request, ServerResponse response);
 
 }

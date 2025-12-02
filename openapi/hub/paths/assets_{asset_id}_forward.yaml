@@ -10,13 +10,13 @@ parameters:
 get:
   summary: 定向文件
   operationId: forwardFile
-  tags: [h_file]
+  tags: [h_asset]
   responses:
     "302":
       description: OK
       headers:
         Location:
-          description: 重写向到证件访问地址
+          description: 重定向到OSS资源访问地址
           schema:
             type: string
             format: uri
