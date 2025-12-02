@@ -12,7 +12,7 @@ public interface HAssetService extends HttpService {
     @Override
     default void routing(HttpRules rules) {
         rules.post("/assets", authenticate(), this::createAssetPresigned);
-        rules.get("/assets/{asset_id}/forward", authenticate(), this::forwardAsset);
+        rules.get("/assets/{asset_id}/forward",this::forwardAsset);
     }
 
     ///

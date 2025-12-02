@@ -11,6 +11,7 @@ get:
   summary: 定向资源
   operationId: forwardAsset
   tags: [h_asset]
+  security: []
   responses:
     "302":
       description: OK
