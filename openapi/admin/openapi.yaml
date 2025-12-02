@@ -23,8 +23,8 @@ tags:
     x-displayName: 用户登录
   - name: h_me
     x-displayName: 认证用户
-  - name: h_file
-    x-displayName: 文件系统
+  - name: h_asset
+    x-displayName: OSS资源
   - name: h_id_photo
     x-displayName: 证件照
   - name: h_public_dict
@@ -55,7 +55,7 @@ x-tagGroups:
       - h_public_dict
   - name: 系统模块
     tags:
-      - h_file
+      - h_asset
       - h_id_photo
       - h_auth_client
       - h_dict
@@ -83,14 +83,14 @@ paths:
   /me/password:
     $ref: "paths/me_password.yaml"
 
+  /assets:
+    $ref: "paths/assets.yaml"
+  /assets/{asset_id}.forward:
+    $ref: "paths/assets_{asset_id}.forward.yaml"
   /id-photos:
     $ref: "paths/id-photos.yaml"
   /id-photos/{id_photo_id}.forward:
     $ref: "paths/id-photos_{id_photo_id}.forward.yaml"
-  /files:
-    $ref: "paths/files.yaml"
-  /files/{file_id}.forward:
-    $ref: "paths/files_{file_id}.forward.yaml"
   ### =============================== 系统模块接口 =============================== ###
   /sys/auth-clients:
     $ref: "paths/sys_auth-clients.yaml"

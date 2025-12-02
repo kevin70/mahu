@@ -1,16 +1,16 @@
 parameters:
   - in: path
-    name: file_id
-    description: 文件流水号
+    name: asset_id
+    description: 资源流水号
     required: true
     schema:
       type: integer
       format: int64
       minimum: 1
 get:
-  summary: 定向文件
-  operationId: forwardFile
-  tags: [h_file]
+  summary: 定向资源
+  operationId: forwardAsset
+  tags: [h_asset]
   responses:
     "302":
       description: OK
