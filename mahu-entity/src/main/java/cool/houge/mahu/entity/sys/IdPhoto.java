@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import org.jspecify.annotations.NonNull;
 
 /// 证件照
 ///
@@ -49,5 +50,19 @@ public class IdPhoto {
     /// 资源类型
     public enum Type {
     //
+    ;
+
+        /// OSS 存储目录前缀
+        @Getter
+        private final String prefix;
+
+        Type(String prefix) {
+            this.prefix = prefix;
+        }
+
+        /// 构建对象名称
+        public String buildObjectName(@NonNull String filename, @NonNull String ext) {
+            return prefix + "/" + filename + "." + ext;
+        }
     }
 }

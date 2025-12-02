@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import org.jspecify.annotations.NonNull;
 
 /// 静态资源
 ///
@@ -49,6 +50,20 @@ public class Asset {
     /// 资源类型
     public enum Type {
         /// `0`管理员头像
-        ADMIN_AVATAR,
+        ADMIN_AVATAR("p/admin/avatars"),
+        ;
+
+        /// OSS 存储目录前缀
+        @Getter
+        private final String prefix;
+
+        Type(String prefix) {
+            this.prefix = prefix;
+        }
+
+        /// 构建对象名称
+        public String buildObjectName(@NonNull String filename, @NonNull String ext) {
+            return prefix + "/" + filename + "." + ext;
+        }
     }
 }
