@@ -1,6 +1,5 @@
 package cool.houge.mahu.admin.controller.sys;
 
-import cool.houge.mahu.admin.internal.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HFeatureService;
 import cool.houge.mahu.admin.sys.service.FeatureService;
 import cool.houge.mahu.web.WebSupport;

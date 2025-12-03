@@ -2,7 +2,6 @@ package cool.houge.mahu.admin.controller;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
-import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HMeService;
 import cool.houge.mahu.admin.oas.vo.MePasswordUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.MeProfileUpdateRequest;
@@ -21,8 +20,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MeController implements HMeService, WebSupport {
 
-    final VoBeanMapper beanMapper;
-    final AdminService adminService;
+    private final VoBeanMapper beanMapper;
+    private final AdminService adminService;
 
     @Override
     public void getMeProfile(ServerRequest request, ServerResponse response) {

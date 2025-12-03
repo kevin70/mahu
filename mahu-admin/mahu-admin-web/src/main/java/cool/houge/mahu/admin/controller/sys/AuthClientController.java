@@ -2,7 +2,6 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
-import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HAuthClientService;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
 import cool.houge.mahu.admin.sys.service.AuthClientService;
@@ -20,8 +19,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthClientController implements HAuthClientService, WebSupport {
 
-    final VoBeanMapper beanMapper;
-    final AuthClientService authClientService;
+    private final SysBeanMapper beanMapper;
+    private final AuthClientService authClientService;
 
     @Override
     public void createSysAuthClient(ServerRequest request, ServerResponse response) {

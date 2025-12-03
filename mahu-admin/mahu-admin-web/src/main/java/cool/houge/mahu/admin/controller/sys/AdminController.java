@@ -2,7 +2,6 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
-import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HAdminService;
 import cool.houge.mahu.admin.oas.vo.AdminLogType;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
@@ -20,8 +19,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AdminController implements HAdminService, WebSupport {
 
-    final VoBeanMapper beanMapper;
-    final AdminService adminService;
+    private final SysBeanMapper beanMapper;
+    private final AdminService adminService;
 
     @Override
     public void createSysAdmin(ServerRequest request, ServerResponse response) {

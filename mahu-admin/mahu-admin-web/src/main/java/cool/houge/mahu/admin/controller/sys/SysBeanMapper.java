@@ -1,15 +1,18 @@
-package cool.houge.mahu.admin.internal;
+package cool.houge.mahu.admin.controller.sys;
 
-import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.entity.Admin;
+import cool.houge.mahu.admin.entity.AdminAccessLog;
+import cool.houge.mahu.admin.entity.AdminAuditLog;
+import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.entity.Role;
+import cool.houge.mahu.admin.internal.TopBeanMapper;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
 import cool.houge.mahu.admin.oas.vo.LoginTokenResponse;
-import cool.houge.mahu.admin.oas.vo.MePasswordUpdateRequest;
-import cool.houge.mahu.admin.oas.vo.MeProfileResponse;
-import cool.houge.mahu.admin.oas.vo.MeProfileUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.PublicDictResponse;
 import cool.houge.mahu.admin.oas.vo.PublicDictTypeResponse;
+import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
+import cool.houge.mahu.admin.oas.vo.SysAdminAuditLogResponse;
+import cool.houge.mahu.admin.oas.vo.SysAdminAuthLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientResponse;
@@ -33,51 +36,24 @@ import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
 import cool.houge.mahu.util.GrantType;
+import io.helidon.service.registry.Service;
 import java.util.List;
+import org.mapstruct.AnnotateWith;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ReportingPolicy;
 
 /// 系统模块对象映射
 ///
 /// @author ZY (kzou227@qq.com)
-public interface SysBeanMapper {
-
-    DictType toDictType(SysDictTypeUpsertRequest bean);
-
-    Dict toDict(SysDictUpsertRequest bean);
-
-    SysDictTypeResponse toSysDictTypeResponse(DictType bean);
-
-    @Mapping(target = "data", conditionExpression = "java(includeData)")
-    PublicDictTypeResponse toPublicDictTypeResponse(DictType bean, boolean includeData);
-
-    PublicDictResponse toPublicDictDataResponse(Dict bean);
-
-    TokenPasswordForm toTokenPasswordForm(LoginTokenRequest bean);
-
-    TokenRefreshTokenForm toTokenRefreshTokenForm(LoginTokenRequest bean);
-
-    @Mapping(target = "grantType", source = "type")
-    TokenPayload toTokenPayload(TokenPasswordForm bean, GrantType type);
-
-    @Mapping(target = "grantType", source = "type")
-    TokenPayload toTokenPayload(TokenRefreshTokenForm bean, GrantType type);
-
-    LoginTokenResponse toLoginTokenResponse(TokenResult bean);
-
-    Admin toAdmin(MePasswordUpdateRequest bean);
-
-    Admin toAdmin(MeProfileUpdateRequest bean);
-
-    MeProfileResponse toMeProfileResponse(Profile bean);
-
-    AuthClient toAuthClient(SysAuthClientUpsertRequest bean);
-
-    SysAuthClientResponse toSysAuthClientResponse(AuthClient bean);
-
-    Role toRole(SysRoleUpsertRequest bean);
-
-    SysRoleResponse toSysRoleResponse(Role bean);
+@AnnotateWith(Service.Singleton.class)
+@Mapper(
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE,
+    unmappedSourcePolicy = ReportingPolicy.IGNORE)
+public interface SysBeanMapper extends TopBeanMapper {
 
     @Named("roleIdsToRoles")
     default List<Role> roleIdsToRoles(List<Integer> roleIds) {
@@ -90,6 +66,20 @@ public interface SysBeanMapper {
         if (roles == null) return null;
         return roles.stream().map(Role::getId).toList();
     }
+
+    DictType toDictType(SysDictTypeUpsertRequest bean);
+
+    Dict toDict(SysDictUpsertRequest bean);
+
+    SysDictTypeResponse toSysDictTypeResponse(DictType bean);
+
+    AuthClient toAuthClient(SysAuthClientUpsertRequest bean);
+
+    SysAuthClientResponse toSysAuthClientResponse(AuthClient bean);
+
+    Role toRole(SysRoleUpsertRequest bean);
+
+    SysRoleResponse toSysRoleResponse(Role bean);
 
     @Mapping(target = "roles", source = "roleIds", qualifiedByName = "roleIdsToRoles")
     Admin toAdmin(SysAdminUpsertRequest bean);
@@ -105,4 +95,10 @@ public interface SysBeanMapper {
     ScheduledTask toScheduledTask(String taskName);
 
     SysFeatureResponse toSysFeatureResponse(Feature bean);
+
+    SysAdminAuthLogResponse toAdminAuthLogResponse(AdminAuthLog bean);
+
+    SysAdminAccessLogResponse toAdminAccessLogResponse(AdminAccessLog bean);
+
+    SysAdminAuditLogResponse toAdminAuditLogResponse(AdminAuditLog bean);
 }

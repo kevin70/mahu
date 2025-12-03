@@ -2,7 +2,6 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
-import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HDictService;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
@@ -20,8 +19,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DictController implements HDictService, WebSupport {
 
-    final VoBeanMapper beanMapper;
-    final DictService dictService;
+    private final SysBeanMapper beanMapper;
+    private final DictService dictService;
 
     @Override
     public void createSysDictData(ServerRequest request, ServerResponse response) {

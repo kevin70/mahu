@@ -2,7 +2,6 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
-import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HRoleService;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.sys.service.RoleService;
@@ -19,8 +18,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RoleController implements HRoleService, WebSupport {
 
-    final VoBeanMapper beanMapper;
-    final RoleService roleService;
+    private final SysBeanMapper beanMapper;
+    private final RoleService roleService;
 
     @Override
     public void createSysRole(ServerRequest request, ServerResponse response) {

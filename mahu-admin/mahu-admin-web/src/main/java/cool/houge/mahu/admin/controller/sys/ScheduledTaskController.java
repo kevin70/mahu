@@ -2,7 +2,6 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
-import cool.houge.mahu.admin.internal.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HScheduledTaskService;
 import cool.houge.mahu.admin.sys.service.ScheduledTaskService;
 import cool.houge.mahu.web.WebSupport;
@@ -18,8 +17,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ScheduledTaskController implements HScheduledTaskService, WebSupport {
 
-    final VoBeanMapper beanMapper;
-    final ScheduledTaskService scheduledTaskService;
+    private final SysBeanMapper beanMapper;
+    private final ScheduledTaskService scheduledTaskService;
 
     @Override
     public void cancelSysScheduledTask(ServerRequest request, ServerResponse response) {
