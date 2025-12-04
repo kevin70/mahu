@@ -6,10 +6,6 @@ import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.entity.Role;
 import cool.houge.mahu.admin.internal.TopBeanMapper;
-import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
-import cool.houge.mahu.admin.oas.vo.LoginTokenResponse;
-import cool.houge.mahu.admin.oas.vo.PublicDictResponse;
-import cool.houge.mahu.admin.oas.vo.PublicDictTypeResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAuditLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAuthLogResponse;
@@ -25,17 +21,12 @@ import cool.houge.mahu.admin.oas.vo.SysRoleResponse;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskExeResponse;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskResponse;
-import cool.houge.mahu.admin.oas.vo.TokenPasswordForm;
-import cool.houge.mahu.admin.oas.vo.TokenRefreshTokenForm;
-import cool.houge.mahu.admin.sys.dto.TokenPayload;
-import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
-import cool.houge.mahu.util.GrantType;
 import io.helidon.service.registry.Service;
 import java.util.List;
 import org.mapstruct.AnnotateWith;
@@ -50,9 +41,9 @@ import org.mapstruct.ReportingPolicy;
 /// @author ZY (kzou227@qq.com)
 @AnnotateWith(Service.Singleton.class)
 @Mapper(
-    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-    unmappedTargetPolicy = ReportingPolicy.IGNORE,
-    unmappedSourcePolicy = ReportingPolicy.IGNORE)
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface SysBeanMapper extends TopBeanMapper {
 
     @Named("roleIdsToRoles")
