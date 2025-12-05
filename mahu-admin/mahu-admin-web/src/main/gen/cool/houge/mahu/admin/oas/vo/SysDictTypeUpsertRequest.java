@@ -39,6 +39,18 @@ public class SysDictTypeUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("disabled")
     private Boolean disabled;
     /**
+     * 可见性 - 0: 私有的，仅限内部使用 - 1: 公共的 - 2: 受限的 
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("visibility")
+    private Integer visibility;
+    /**
+     * 值正则表达式规则
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("value_regex")
+    private String valueRegex;
+    /**
      * 字典数据
      */
     

@@ -20,6 +20,17 @@ properties:
   disabled:
     type: boolean
     description: 是否禁用
+  visibility:
+    type: integer
+    format: int32
+    description: |
+      可见性
+      - 0: 私有的，仅限内部使用
+      - 1: 公共的
+      - 2: 受限的
+  value_regex:
+    type: string
+    description: 值正则表达式规则
   data:
     type: array
     description: 字典数据
