@@ -43,6 +43,8 @@ public class DictType implements Auditable {
     /// 可见性配置
     @Enumerated
     private Visibility visibility;
+    /// 值正则表达式规则
+    private String valueRegex;
     /// 字典数据
     @OneToMany(mappedBy = "dictType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dict> data;
