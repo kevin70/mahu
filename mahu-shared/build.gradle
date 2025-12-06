@@ -7,6 +7,7 @@ dependencies {
     api(project(":mahu-config"))
     api("io.minio:minio")
     api("io.helidon.service:helidon-service-registry")
+    api("com.github.ben-manes.caffeine:caffeine")
     implementation("org.postgresql:postgresql")
     implementation("io.ebean:ebean-postgres")
     implementation("io.helidon.health:helidon-health-checks")

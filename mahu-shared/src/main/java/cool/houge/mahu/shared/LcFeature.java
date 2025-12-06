@@ -1,53 +1,52 @@
 package cool.houge.mahu.shared;
 
-import static java.util.Optional.ofNullable;
-
 import cool.houge.mahu.StatusCodes;
-import cool.houge.mahu.entity.sys.Feature;
-import cool.houge.mahu.util.RoaringBitmapUtils;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import lombok.Builder;
+import lombok.Value;
 import org.roaringbitmap.longlong.ImmutableLongBitmapDataProvider;
 
 /// 功能配置
 ///
-/// @param id 功能 ID
-/// @param module 功能模块
-/// @param code 功能代码
-/// @param name 功能名称
-/// @param description 功能描述
-/// @param status 状态
-/// @param effectiveFrom 生效开始时间（精确到秒）
-/// @param effectiveTo 生效结束时间（精确到秒）
-/// @param startTime 每天的开始时间（精确到秒）
-/// @param endTime 每天的结束时间（精确到秒，结束时间小于开始时间代表跨天）
-/// @param weekdays 启用的星期
-/// @param allowUserRb 可用的用户
-/// @param denyUserRb 禁用的用户
-/// @param extraProperties 扩展属性
-/// @param extraSchema 扩展属性 JSON Schema
 /// @author ZY (kzou227@qq.com)
+@Value
 @Builder
-public record FeatureConfig(
-        int id,
-        String module,
-        String code,
-        String name,
-        String description,
-        int status,
-        LocalDateTime effectiveFrom,
-        LocalDateTime effectiveTo,
-        LocalTime startTime,
-        LocalTime endTime,
-        List<Integer> weekdays,
-        ImmutableLongBitmapDataProvider allowUserRb,
-        ImmutableLongBitmapDataProvider denyUserRb,
-        Map<String, Object> extraProperties,
-        Map<String, Object> extraSchema) {
+public class LcFeature {
+
+    /// 功能 ID
+    int id;
+    /// 功能模块
+    String module;
+    /// 功能代码
+    String code;
+    /// 功能名称
+    String name;
+    /// 功能描述
+    String description;
+    /// 状态
+    int status;
+    /// 生效开始时间（精确到秒）
+    LocalDateTime effectiveFrom;
+    /// 生效结束时间（精确到秒）
+    LocalDateTime effectiveTo;
+    /// 每天的开始时间（精确到秒）
+    LocalTime startTime;
+    /// 每天的结束时间（精确到秒，结束时间小于开始时间代表跨天）
+    LocalTime endTime;
+    /// 启用的星期
+    List<Integer> weekdays;
+    /// 可用的用户
+    ImmutableLongBitmapDataProvider allowUserRb;
+    /// 禁用的用户
+    ImmutableLongBitmapDataProvider denyUserRb;
+    /// 扩展属性
+    Map<String, Object> extraProperties;
+    /// 扩展属性 JSON Schema
+    Map<String, Object> extraSchema;
 
     /// 判断功能配置是否处于激活状态
     ///
@@ -129,26 +128,5 @@ public record FeatureConfig(
             }
         }
         return true;
-    }
-
-    public static FeatureConfig of(Feature bean) {
-        return FeatureConfig.builder()
-                .id(bean.getId())
-                .module(bean.getModule())
-                .code(bean.getCode())
-                .name(bean.getName())
-                .description(bean.getDescription())
-                .status(bean.getStatus())
-                .effectiveFrom(bean.getEffectiveFrom())
-                .effectiveTo(bean.getEffectiveTo())
-                .startTime(bean.getStartTime())
-                .endTime(bean.getEndTime())
-                .weekdays(ofNullable(bean.getWeekdays()).map(List::copyOf).orElse(List.of()))
-                .allowUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getAllowUserRb()))
-                .denyUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getDenyUserRb()))
-                .extraProperties(
-                        ofNullable(bean.getExtraProperties()).map(Map::copyOf).orElse(Map.of()))
-                .extraSchema(ofNullable(bean.getExtraSchema()).map(Map::copyOf).orElse(Map.of()))
-                .build();
     }
 }

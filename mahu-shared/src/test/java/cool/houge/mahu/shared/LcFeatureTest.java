@@ -11,17 +11,17 @@ import org.roaringbitmap.longlong.Roaring64NavigableMap;
 
 ///
 /// @author ZY (kzou227@qq.com)
-class FeatureConfigTest {
+class LcFeatureTest {
 
     @Test
     void testStatus() {
-        var b = FeatureConfig.builder().status(0).build();
+        var b = LcFeature.builder().status(0).build();
         assertThat(b.isActive()).isFalse();
     }
 
     @Test
     void testEffectiveFrom() {
-        var b = FeatureConfig.builder()
+        var b = LcFeature.builder()
                 .status(StatusCodes.ACTIVE)
                 .effectiveFrom(LocalDateTime.now().plusDays(1))
                 .build();
@@ -30,7 +30,7 @@ class FeatureConfigTest {
 
     @Test
     void testEffectiveTo() {
-        var b = FeatureConfig.builder()
+        var b = LcFeature.builder()
                 .status(StatusCodes.ACTIVE)
                 .effectiveFrom(LocalDateTime.now().minusDays(1))
                 .effectiveTo(LocalDateTime.now().minusDays(1))
@@ -40,7 +40,7 @@ class FeatureConfigTest {
 
     @Test
     void testStartTimeAndEndTime() {
-        var b = FeatureConfig.builder()
+        var b = LcFeature.builder()
                 .status(StatusCodes.ACTIVE)
                 .startTime(LocalTime.of(8, 20))
                 .endTime(LocalTime.of(20, 20))
@@ -55,7 +55,7 @@ class FeatureConfigTest {
 
     @Test
     void testStartTimeAndEndTimeAndCrossDay() {
-        var b = FeatureConfig.builder()
+        var b = LcFeature.builder()
                 .status(StatusCodes.ACTIVE)
                 .startTime(LocalTime.of(8, 20))
                 .endTime(LocalTime.of(3, 20))
@@ -70,7 +70,7 @@ class FeatureConfigTest {
 
     @Test
     void testWeekdays() {
-        var b = FeatureConfig.builder()
+        var b = LcFeature.builder()
                 .status(StatusCodes.ACTIVE)
                 .weekdays(List.of(1, 2))
                 .build();
@@ -83,7 +83,7 @@ class FeatureConfigTest {
     void testDenyUserRb() {
         var denyUserRb = new Roaring64NavigableMap();
         denyUserRb.add(1);
-        var b = FeatureConfig.builder()
+        var b = LcFeature.builder()
                 .status(StatusCodes.ACTIVE)
                 .denyUserRb(denyUserRb)
                 .build();
@@ -94,7 +94,7 @@ class FeatureConfigTest {
     void testAllowUserRb() {
         var allowUserRb = new Roaring64NavigableMap();
         allowUserRb.add(1);
-        var b = FeatureConfig.builder()
+        var b = LcFeature.builder()
                 .status(StatusCodes.ACTIVE)
                 .allowUserRb(allowUserRb)
                 .build();

@@ -9,7 +9,7 @@ import io.helidon.service.registry.Service;
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
-public class DictRepository extends BeanRepository<String, Dict> {
+public class DictRepository extends BeanRepository<Integer, Dict> {
 
     public DictRepository(Database db) {
         super(Dict.class, db);
