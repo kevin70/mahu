@@ -51,7 +51,7 @@ class DicHelper {
 
     private LcDict getDict(int dc) {
         var dbDict = dictRepository.findById(dc);
-        if (dbDict==null) {
+        if (dbDict == null) {
             throw new BizCodeException(BizCodes.DATA_LOSS, "缺少字典: %s", dc);
         }
         return map(dbDict);

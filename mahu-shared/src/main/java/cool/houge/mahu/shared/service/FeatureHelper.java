@@ -55,22 +55,22 @@ class FeatureHelper {
 
     private LcFeature map(Feature bean) {
         return LcFeature.builder()
-            .id(bean.getId())
-            .module(bean.getModule())
-            .code(bean.getCode())
-            .name(bean.getName())
-            .description(bean.getDescription())
-            .status(bean.getStatus())
-            .effectiveFrom(bean.getEffectiveFrom())
-            .effectiveTo(bean.getEffectiveTo())
-            .startTime(bean.getStartTime())
-            .endTime(bean.getEndTime())
-            .weekdays(ofNullable(bean.getWeekdays()).map(List::copyOf).orElse(List.of()))
-            .allowUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getAllowUserRb()))
-            .denyUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getDenyUserRb()))
-            .extraProperties(
-                ofNullable(bean.getExtraProperties()).map(Map::copyOf).orElse(Map.of()))
-            .extraSchema(ofNullable(bean.getExtraSchema()).map(Map::copyOf).orElse(Map.of()))
-            .build();
+                .id(bean.getId())
+                .module(bean.getModule())
+                .code(bean.getCode())
+                .name(bean.getName())
+                .description(bean.getDescription())
+                .status(bean.getStatus())
+                .effectiveFrom(bean.getEffectiveFrom())
+                .effectiveTo(bean.getEffectiveTo())
+                .startTime(bean.getStartTime())
+                .endTime(bean.getEndTime())
+                .weekdays(ofNullable(bean.getWeekdays()).map(List::copyOf).orElse(List.of()))
+                .allowUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getAllowUserRb()))
+                .denyUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getDenyUserRb()))
+                .extraProperties(
+                        ofNullable(bean.getExtraProperties()).map(Map::copyOf).orElse(Map.of()))
+                .extraSchema(ofNullable(bean.getExtraSchema()).map(Map::copyOf).orElse(Map.of()))
+                .build();
     }
 }
