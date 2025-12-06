@@ -2,6 +2,9 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
+import com.google.common.base.Strings;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.oas.controller.HDictService;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
@@ -10,6 +13,7 @@ import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
+import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 
 /// 字典
@@ -37,6 +41,7 @@ public class DictController implements HDictService, WebSupport {
     public void createSysDictType(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(SysDictTypeUpsertRequest.class);
         validate(vo);
+        validateDataValue(vo);
 
         var bean = beanMapper.toDictType(vo);
         dictService.save(bean);
@@ -72,6 +77,7 @@ public class DictController implements HDictService, WebSupport {
         var dictTypeId = dictTypeId(request);
         var vo = request.content().as(SysDictTypeUpsertRequest.class).setId(dictTypeId);
         validate(vo);
+        validateDataValue(vo);
 
         var bean = beanMapper.toDictType(vo);
         dictService.update(bean);
@@ -80,5 +86,21 @@ public class DictController implements HDictService, WebSupport {
 
     Integer dictTypeId(ServerRequest request) {
         return pathArg(request, "dict_type_id").asInt().get();
+    }
+
+    void validateDataValue(SysDictTypeUpsertRequest bean) {
+        if (Strings.isNullOrEmpty(bean.getValueRegex())
+                || bean.getData() == null
+                || bean.getData().isEmpty()) {
+            return;
+        }
+
+        var p = Pattern.compile(bean.getValueRegex());
+        for (SysDictUpsertRequest item : bean.getData()) {
+            var m = p.matcher(item.getValue());
+            if (!m.matches()) {
+                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "字典值[%s]不符合规则", item.getValue());
+            }
+        }
     }
 }
