@@ -1,5 +1,7 @@
 package cool.houge.mahu.entity.sys;
 
+import com.google.common.collect.ImmutableList;
+import cool.houge.mahu.util.RoaringBitmapUtils;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -11,8 +13,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
+import org.roaringbitmap.longlong.Roaring64NavigableMap;
 
 /// 系统功能特征
 @Getter
@@ -64,4 +68,34 @@ public class Feature {
     private Map<String, Object> extraProperties;
     /// 扩展属性 JSON Schema
     private Map<String, Object> extraSchema;
+
+    public Feature setAllowUsers(List<Long> list) {
+        return setRb(list, this::setAllowUserRb);
+    }
+
+    public List<Long> getAllowUsers() {
+        return toList(allowUserRb);
+    }
+
+    public Feature setDenyUsers(List<Long> list) {
+        return setRb(list, this::setDenyUserRb);
+    }
+
+    public List<Long> getDenyUsers() {
+        return toList(denyUserRb);
+    }
+
+    private Feature setRb(List<Long> list, Consumer<byte[]> c) {
+        var rb = new Roaring64NavigableMap();
+        list.forEach(rb::add);
+        c.accept(RoaringBitmapUtils.toBytes(rb));
+        return this;
+    }
+
+    private List<Long> toList(byte[] bytes) {
+        var rb = RoaringBitmapUtils.toRoaring64NavigableMap(bytes);
+        var b = ImmutableList.<Long>builder();
+        rb.forEach(b::add);
+        return b.build();
+    }
 }

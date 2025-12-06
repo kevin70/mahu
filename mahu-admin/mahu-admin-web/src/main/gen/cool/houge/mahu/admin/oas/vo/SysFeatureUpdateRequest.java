@@ -11,43 +11,10 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class SysFeatureResponse {
+public class SysFeatureUpdateRequest {
 
     /**
-     * 功能 ID
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Integer id;
-    /**
-     * 创建时间
-     */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private LocalDateTime createdAt;
-    /**
-     * 修改时间
-     */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
-    /**
-     * 模块
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("module")
-    private String module;
-    /**
-     * 功能代码
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("code")
-    private String code;
-    /**
-     * 功能名称
+     * 名称
      */
       @NotNull
 
@@ -56,7 +23,8 @@ public class SysFeatureResponse {
     /**
      * 描述
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("description")
     private String description;
     /**
@@ -95,7 +63,7 @@ public class SysFeatureResponse {
     /**
      * 启用的星期
      */
-    
+     @Size(max=7)
     @com.fasterxml.jackson.annotation.JsonProperty("weekdays")
     private List<Integer> weekdays;
     /**
@@ -117,7 +85,7 @@ public class SysFeatureResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("extra_properties")
     private Map<String, Object> extraProperties;
     /**
-     * 扩展属性 JSON Schema
+     * JSON Schema
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("extra_schema")

@@ -1,8 +1,10 @@
 package cool.houge.mahu.admin.controller.sys;
 
 import cool.houge.mahu.admin.oas.controller.HFeatureService;
+import cool.houge.mahu.admin.oas.vo.SysFeatureUpdateRequest;
 import cool.houge.mahu.admin.sys.service.FeatureService;
 import cool.houge.mahu.web.WebSupport;
+import io.helidon.http.Status;
 import io.helidon.service.registry.Service;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
@@ -19,10 +21,23 @@ public class FeatureController implements HFeatureService, WebSupport {
     private final FeatureService featureService;
 
     @Override
+    public void getSysFeature(ServerRequest request, ServerResponse response) {
+        var featureId = pathArg(request, "feature_id").asInt().get();
+    }
+
+    @Override
     public void pageSysFeature(ServerRequest request, ServerResponse response) {
         var dataFilter = dataFilter(request);
         var plist = featureService.findPage(dataFilter);
         var rs = dataFilter.toResult(plist, beanMapper::toSysFeatureResponse);
         response.send(rs);
+    }
+
+    @Override
+    public void updateSysFeature(ServerRequest request, ServerResponse response) {
+        var vo = request.content().as(SysFeatureUpdateRequest.class);
+        validate(vo);
+
+        response.status(Status.NO_CONTENT_204).send();
     }
 }

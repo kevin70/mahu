@@ -1,32 +1,12 @@
 type: object
 required:
-  - id
-  - module
-  - code
   - name
+  - description
   - status
 properties:
-  id:
-    type: integer
-    format: int32
-    description: 功能 ID
-  created_at:
-    type: string
-    format: date-time
-    description: 创建时间
-  updated_at:
-    type: string
-    format: date-time
-    description: 修改时间
-  module:
-    type: string
-    description: 模块
-  code:
-    type: string
-    description: 功能代码
   name:
     type: string
-    description: 功能名称
+    description: 名称
   description:
     type: string
     description: 描述
@@ -50,10 +30,11 @@ properties:
     description: 每天的结束时间（精确到秒，结束时间小于开始时间代表跨天）
   weekdays:
     type: array
+    description: 启用的星期
     items:
       type: integer
       format: int32
-    description: 启用的星期
+    maxItems: 7
   allow_users:
     type: array
     description: 可用的用户 IDs
@@ -68,9 +49,9 @@ properties:
       format: int64
   extra_properties:
     type: object
-    description: 扩展属性
     additionalProperties: true
+    description: 扩展属性
   extra_schema:
     type: object
-    description: 扩展属性 JSON Schema
     additionalProperties: true
+    description: JSON Schema

@@ -118,5 +118,7 @@ paths:
     $ref: "paths/sys_admin-logs_{type}.yaml"
   /sys/features:
     $ref: "paths/sys_features.yaml"
+  /sys/features/{feature_id}:
+    $ref: "paths/sys_features_{feature_id}.yaml"
   /sys/delay-messages:
     $ref: "paths/sys_delay-messages.yaml"
