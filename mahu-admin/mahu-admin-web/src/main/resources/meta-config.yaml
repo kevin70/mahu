@@ -9,6 +9,8 @@
 # YAML 格式元配置文件示例：
 # ```
 # sources:
+#   - type: "environment-variables"
+#   - type: "system-properties"
 #   - type: "file"
 #     properties:
 #       path: "conf/dev.yaml"
@@ -20,8 +22,6 @@
 #   - type: "classpath"
 #     properties:
 #       resource: "default.yaml"
-#   - type: "system-properties"
-#   - type: "environment-variables"
 # ```
 #
 # 上述配置将按顺序加载以下配置源：
@@ -36,19 +36,19 @@
 # - 配置源按声明顺序形成优先级链（后加载的配置会覆盖先前的同名参数）
 
 sources:
+  - type: environment-variables
+  - type: system-properties
+  - type: file
+    properties:
+      path: ${user.home}/houge/mahu.yaml
+      optional: true
+  - type: file
+    properties:
+      path: /etc/houge/mahu.yaml
+      optional: true
   - type: classpath
     properties:
       resource: application.yaml
   - type: classpath
     properties:
       resource: mahu-admin.yaml
-  - type: file
-    properties:
-      path: /etc/houge/mahu.yaml
-      optional: true
-  - type: file
-    properties:
-      path: ${user.home}/houge/mahu.yaml
-      optional: true
-  - type: system-properties
-  - type: environment-variables
