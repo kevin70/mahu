@@ -23,6 +23,9 @@ public class FeatureController implements HFeatureService, WebSupport {
     @Override
     public void getSysFeature(ServerRequest request, ServerResponse response) {
         var featureId = pathArg(request, "feature_id").asInt().get();
+        var bean = featureService.findById(featureId);
+        var rs = beanMapper.toSysFeatureResponse(bean);
+        response.send(rs);
     }
 
     @Override
@@ -35,9 +38,12 @@ public class FeatureController implements HFeatureService, WebSupport {
 
     @Override
     public void updateSysFeature(ServerRequest request, ServerResponse response) {
+        var featureId = pathArg(request, "feature_id").asInt().get();
         var vo = request.content().as(SysFeatureUpdateRequest.class);
         validate(vo);
 
+        var bean = beanMapper.toFeature(vo).setId(featureId);
+        featureService.update(bean);
         response.status(Status.NO_CONTENT_204).send();
     }
 }

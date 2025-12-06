@@ -17,6 +17,7 @@ import cool.houge.mahu.admin.oas.vo.SysDictTypeResponse;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysFeatureResponse;
+import cool.houge.mahu.admin.oas.vo.SysFeatureUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.SysRoleResponse;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskExeResponse;
@@ -92,4 +93,6 @@ public interface SysBeanMapper extends TopBeanMapper {
     SysAdminAccessLogResponse toAdminAccessLogResponse(AdminAccessLog bean);
 
     SysAdminAuditLogResponse toAdminAuditLogResponse(AdminAuditLog bean);
+
+    Feature toFeature(SysFeatureUpdateRequest bean);
 }

@@ -1,6 +1,7 @@
 package cool.houge.mahu.entity.sys;
 
 import com.google.common.collect.ImmutableList;
+import cool.houge.mahu.entity.Auditable;
 import cool.houge.mahu.util.RoaringBitmapUtils;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
@@ -18,12 +19,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.roaringbitmap.longlong.Roaring64NavigableMap;
 
-/// 系统功能特征
+/// 系统功能
 @Getter
 @Setter
 @Entity
 @Table(schema = "sys")
-public class Feature {
+public class Feature implements Auditable {
 
     /// 主键
     @Id
