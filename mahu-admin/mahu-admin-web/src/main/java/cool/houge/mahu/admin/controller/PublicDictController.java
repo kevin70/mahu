@@ -19,8 +19,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PublicDictController implements HPublicDictService, WebSupport {
 
-    final VoBeanMapper beanMapper;
-    final DictService dictService;
+    private final VoBeanMapper beanMapper;
+    private final DictService dictService;
 
     @Override
     public void getPublicDict(ServerRequest request, ServerResponse response) {

@@ -23,8 +23,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LoginController implements HLoginService, WebSupport {
 
-    final VoBeanMapper beanMapper;
-    final TokenService tokenService;
+    private final VoBeanMapper beanMapper;
+    private final TokenService tokenService;
 
     @Override
     public void login(ServerRequest request, ServerResponse response) {
