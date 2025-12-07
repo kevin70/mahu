@@ -52,4 +52,13 @@ public final class G {
     public static Duration adaptCacheTtl(Duration duration) {
         return Env.current().isProd() ? duration : Duration.ofSeconds(1);
     }
+
+    /// 根据当前环境设置缓存时间。
+    ///
+    /// @param duration 默认的缓存持续时间
+    /// @param fallback 非生产环境持续时间
+    /// @return 实际使用的缓存持续时间
+    public static Duration adaptCacheTtl(Duration duration, Duration fallback) {
+        return Env.current().isProd() ? duration : fallback;
+    }
 }

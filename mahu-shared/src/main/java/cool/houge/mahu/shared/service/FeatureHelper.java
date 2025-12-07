@@ -1,9 +1,10 @@
 package cool.houge.mahu.shared.service;
 
+import static cool.houge.mahu.shared.G.SCHEDULED_EXECUTOR;
 import static java.util.Optional.ofNullable;
 
-import com.google.common.base.Suppliers;
-import com.google.common.collect.ImmutableMap;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.StatusCodes;
@@ -12,13 +13,16 @@ import cool.houge.mahu.shared.G;
 import cool.houge.mahu.shared.LcFeature;
 import cool.houge.mahu.shared.repository.sys.FeatureRepository;
 import cool.houge.mahu.util.RoaringBitmapUtils;
+import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
 
 /// 功能
@@ -28,29 +32,27 @@ import org.jspecify.annotations.NonNull;
 @AllArgsConstructor
 class FeatureHelper {
 
-    private final Supplier<Map<Integer, LcFeature>> featureConfigs =
-            Suppliers.memoizeWithExpiration(this::loadFeatureMap, G.CACHE_5M_TTL);
+    private static final Logger log = LogManager.getLogger(FeatureHelper.class);
+    private final Cache<Integer, LcFeature> featureCache = Caffeine.newBuilder()
+            .recordStats()
+            .expireAfterWrite(Duration.ofDays(1))
+            .build();
     private final FeatureRepository featureRepository;
 
+    @Service.PostConstruct
+    void init() {
+        var delay = G.adaptCacheTtl(Duration.ofMinutes(10), Duration.ofMinutes(1));
+        SCHEDULED_EXECUTOR
+                .get()
+                .scheduleWithFixedDelay(this::refreshAll, delay.toMillis(), delay.toMillis(), TimeUnit.MILLISECONDS);
+        this.refreshAll();
+    }
+
     /// 获取指定的功能
+    @SuppressWarnings("DataFlowIssue")
     @NonNull
     LcFeature loadFeature(int featureId) {
-        var f = featureConfigs.get().get(featureId);
-        if (f == null) {
-            throw new BizCodeException(BizCodes.DATA_LOSS, "未找到 feature: [%s]", featureId);
-        }
-        return f;
-    }
-
-    private Map<Integer, LcFeature> loadFeatureMap() {
-        return loadAll().stream().collect(ImmutableMap.toImmutableMap(LcFeature::getId, Function.identity()));
-    }
-
-    private List<@NonNull LcFeature> loadAll() {
-        return featureRepository.findAll().stream()
-                .filter(o -> !Objects.equals(StatusCodes.ARCHIVED, o.getStatus()))
-                .map(this::map)
-                .toList();
+        return featureCache.get(featureId, this::getFeature);
     }
 
     private LcFeature map(Feature bean) {
@@ -72,5 +74,28 @@ class FeatureHelper {
                         ofNullable(bean.getExtraProperties()).map(Map::copyOf).orElse(Map.of()))
                 .extraSchema(ofNullable(bean.getExtraSchema()).map(Map::copyOf).orElse(Map.of()))
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    private LcFeature getFeature(int featureId) {
+        var dbBean = featureRepository.findById(featureId);
+        if (dbBean == null) {
+            throw new BizCodeException(BizCodes.DATA_LOSS, "缺少功能: %s", featureId);
+        }
+        return map(dbBean);
+    }
+
+    @Transactional(readOnly = true)
+    private void refreshAll() {
+        var all = featureRepository.findAll();
+        for (Feature feature : all) {
+            if (Objects.equals(feature.getStatus(), StatusCodes.ARCHIVED)) {
+                continue;
+            }
+
+            var b = map(feature);
+            featureCache.put(feature.getId(), b);
+        }
+        log.debug("功能全量缓存刷新完成");
     }
 }

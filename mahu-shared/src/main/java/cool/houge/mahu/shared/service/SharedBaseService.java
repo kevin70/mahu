@@ -7,6 +7,7 @@ import cool.houge.mahu.shared.LcFeature;
 import cool.houge.mahu.shared.repository.sys.DelayMessageRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
 
@@ -55,6 +56,11 @@ public class SharedBaseService {
     /// @return 对应的字典类型对象
     public @NonNull LcDictType getDictType(int dictTypeId) {
         return dicHelper.loadDictType(dictTypeId);
+    }
+
+    /// 查询所有公共的字典类型
+    public List<LcDictType> loadPublicDictTypes() {
+        return dicHelper.allDictTypes().stream().filter(LcDictType::isPublic).toList();
     }
 
     /// 推送延迟消息

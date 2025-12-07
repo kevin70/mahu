@@ -8,6 +8,7 @@ import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
 import cool.houge.mahu.shared.repository.DictTypeRepository;
+import cool.houge.mahu.shared.service.SharedBaseService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
@@ -29,8 +30,9 @@ public class DictService {
 
     private static final Logger log = LogManager.getLogger(DictService.class);
 
-    private final DictTypeRepository dictTypeRepository;
     private final EntityBeanMapper beanMapper;
+    private final DictTypeRepository dictTypeRepository;
+    private final SharedBaseService sharedBaseService;
 
     /// 保存字典数据
     @Transactional
