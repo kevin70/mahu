@@ -125,8 +125,8 @@ podman run --rm -it -v certs_volume:/acme.sh -e Ali_Key=$Ali_Key -e Ali_Secret=$
 ```
 -Xms2g
 -Xmx2g
--XX:MetaspaceSize=256m
--XX:MaxMetaspaceSize=512m
+-XX:MetaspaceSize=128m
+-XX:MaxMetaspaceSize=256m
 -XX:+UseZGC
 -Xlog:gc*=info:file=/logs/gc.log:time,uptime,pid:filecount=5,filesize=100M
 -XX:+HeapDumpOnOutOfMemoryError
