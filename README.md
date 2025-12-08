@@ -119,3 +119,17 @@ podman run --rm -it -v certs_volume:/acme.sh -e Ali_Key=$Ali_Key -e Ali_Secret=$
     - 或通过顶部菜单栏：`Dashboard`→`Developer`
 3. 在 API Keys 区域，点击 Generate 创建新 API Key
 4. 复制生成的 Key（如 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx）
+
+## JVM 启动参数
+
+```
+-Xms2g
+-Xmx2g
+-XX:MetaspaceSize=256m
+-XX:MaxMetaspaceSize=512m
+-XX:+UseZGC
+-Xlog:gc*=info:file=/logs/gc.log:time,uptime,pid:filecount=5,filesize=100M
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:HeapDumpPath=/logs/heapdump.hprof
+-XX:+DisableExplicitGC
+```
