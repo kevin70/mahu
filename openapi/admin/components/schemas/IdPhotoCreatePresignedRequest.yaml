@@ -2,7 +2,6 @@ type: object
 required:
   - type
   - file_name
-  - mime_type
 properties:
   type:
     type: integer
@@ -20,7 +19,3 @@ properties:
     format: int64
     minimum: 0
     description: 文件大小
-  mime_type:
-    type: string
-    maxLength: 100
-    description: 文件类型
