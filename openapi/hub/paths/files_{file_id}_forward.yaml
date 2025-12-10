@@ -1,14 +1,14 @@
 parameters:
   - in: path
     name: file_id
-    description: 文件流水号
+    description: 文件 ID
     required: true
     schema:
       type: integer
       format: int64
       minimum: 1
 get:
-  summary: 定向文件
+  summary: 定向资源
   operationId: forwardFile
   tags: [h_file]
   security: []
@@ -17,7 +17,7 @@ get:
       description: OK
       headers:
         Location:
-          description: 重定向到OSS资源访问地址
+          description: 重写向到资源访问地址
           schema:
             type: string
             format: uri

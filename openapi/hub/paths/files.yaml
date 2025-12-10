@@ -7,11 +7,11 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/AssetCreatePresignedRequest.yaml"
+          $ref: "../components/schemas/FileCreatePresignedRequest.yaml"
   responses:
     200:
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/AssetCreatePresignedResponse.yaml"
+            $ref: "../components/schemas/FileCreatePresignedResponse.yaml"
