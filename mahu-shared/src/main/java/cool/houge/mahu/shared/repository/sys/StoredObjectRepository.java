@@ -1,19 +1,19 @@
 package cool.houge.mahu.shared.repository.sys;
 
 import cool.houge.mahu.entity.sys.StoredObject;
-import cool.houge.mahu.entity.sys.query.QAsset;
+import cool.houge.mahu.entity.sys.query.QStoredObject;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.helidon.service.registry.Service;
 import java.util.List;
 
-/// 资源文件
+/// 存储对象
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
-public class AssetRepository extends HBeanRepository<Long, StoredObject> {
+public class StoredObjectRepository extends HBeanRepository<Long, StoredObject> {
 
-    public AssetRepository(Database db) {
+    public StoredObjectRepository(Database db) {
         super(StoredObject.class, db);
     }
 
@@ -23,7 +23,7 @@ public class AssetRepository extends HBeanRepository<Long, StoredObject> {
     /// @param type 资源类型
     /// @param newStatus 新的状态
     public int updateStatus(List<Long> ids, StoredObject.Type type, int newStatus) {
-        var qb = new QAsset(db());
+        var qb = new QStoredObject(db());
         return qb.id.in(ids).type.eq(type).asUpdate().set(qb.status, newStatus).update();
     }
 }

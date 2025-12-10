@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jspecify.annotations.NonNull;
 
-/// 存储的对象
+/// 存储对象
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
