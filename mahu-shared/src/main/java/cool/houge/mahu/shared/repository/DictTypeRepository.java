@@ -59,7 +59,7 @@ public class DictTypeRepository extends HBeanRepository<Integer, DictType> {
 
     /// 加载所有字典数据
     public List<DictType> findAllData() {
-        return new QDictType(db()).data.fetch().findList();
+        return new QDictType(db()).fetch("data").findList();
     }
 
     List<FilterItem> filterableItems() {
