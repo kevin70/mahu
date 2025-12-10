@@ -28,6 +28,7 @@ import org.jspecify.annotations.NonNull;
 /// 功能
 ///
 /// @author ZY (kzou227@qq.com)
+@Service.RunLevel(Service.RunLevel.STARTUP)
 @Service.Singleton
 @AllArgsConstructor
 class FeatureHelper {

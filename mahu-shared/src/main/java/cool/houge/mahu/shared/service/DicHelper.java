@@ -26,6 +26,7 @@ import org.jspecify.annotations.NonNull;
 /// 字典帮助类
 ///
 /// @author ZY (kzou227@qq.com)
+@Service.RunLevel(Service.RunLevel.STARTUP)
 @Service.Singleton
 @AllArgsConstructor
 class DicHelper {
