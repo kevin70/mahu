@@ -4,3 +4,6 @@ oneOf:
   - $ref: "TokenRefreshTokenForm.yaml"
 discriminator:
   propertyName: grant_type
+  mapping:
+    password: "TokenPasswordForm.yaml"
+    refresh_token: "TokenRefreshTokenForm.yaml"
