@@ -1,60 +1,29 @@
 package cool.houge.mahu.shared.service;
 
-import static java.util.Objects.requireNonNull;
-
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.config.ConfigKeys;
-import cool.houge.mahu.config.OssConfig;
-import io.helidon.config.Config;
 import io.helidon.service.registry.Service;
-import io.minio.GetPresignedObjectUrlArgs;
-import io.minio.MinioClient;
-import io.minio.http.Method;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import lombok.AllArgsConstructor;
 
 /// OSS存储服务
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
+@AllArgsConstructor
 public class SharedOssService {
 
-    private final OssConfig ossConfig;
-    private final MinioClient minioClient;
-
-    public SharedOssService(Config root, MinioClient minioClient) {
-        this.ossConfig = OssConfig.create(root.get(ConfigKeys.OSS));
-        this.minioClient = minioClient;
-    }
+    private final OssHelper ossHelper;
 
     /// 预签名上传
     ///
     /// @return 预签名上传的 URL
     public String presignedUploadUrl(String objectKey, Map<String, String> queryParams) {
-        requireNonNull(objectKey);
-        requireNonNull(queryParams);
-        return presignedUrl(Method.PUT, objectKey, queryParams);
+        return ossHelper.presignedUploadUrl(objectKey, queryParams);
     }
 
     /// 获取预签名 GET URL
     ///
     /// @param objectKey 对象的完整 key（含前缀）
     public String presignedGetUrl(String objectKey) {
-        return presignedUrl(Method.GET, objectKey, Map.of());
-    }
-
-    private String presignedUrl(Method method, String objectKey, Map<String, String> queryParams) {
-        try {
-            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-                    .method(method)
-                    .bucket(ossConfig.bucket())
-                    .object(objectKey)
-                    .expiry(1, TimeUnit.DAYS)
-                    .extraQueryParams(queryParams)
-                    .build());
-        } catch (Exception e) {
-            throw new BizCodeException(BizCodes.UNAVAILABLE, "获取预签名上传的URL错误", e);
-        }
+        return ossHelper.presignedGetUrl(objectKey);
     }
 }
