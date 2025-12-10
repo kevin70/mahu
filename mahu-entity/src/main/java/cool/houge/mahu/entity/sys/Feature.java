@@ -23,7 +23,7 @@ import org.roaringbitmap.longlong.Roaring64NavigableMap;
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys")
+@Table(schema = "sys", name = "feature")
 public class Feature implements Auditable {
 
     /// 主键
