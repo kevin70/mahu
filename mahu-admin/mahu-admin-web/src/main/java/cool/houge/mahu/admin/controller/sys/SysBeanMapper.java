@@ -6,6 +6,8 @@ import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
 import cool.houge.mahu.admin.entity.Role;
 import cool.houge.mahu.admin.internal.TopBeanMapper;
+import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
+import cool.houge.mahu.admin.oas.vo.FileCreatePresignedResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAuditLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAuthLogResponse;
@@ -28,6 +30,8 @@ import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
+import cool.houge.mahu.shared.dto.PresignedUploadPayload;
+import cool.houge.mahu.shared.dto.PresignedUploadResult;
 import io.helidon.service.registry.Service;
 import java.util.List;
 import org.mapstruct.AnnotateWith;
@@ -95,4 +99,8 @@ public interface SysBeanMapper extends TopBeanMapper {
     SysAdminAuditLogResponse toAdminAuditLogResponse(AdminAuditLog bean);
 
     Feature toFeature(SysFeatureUpdateRequest bean);
+
+    PresignedUploadPayload toPresignedUploadPayload(FileCreatePresignedRequest bean);
+
+    FileCreatePresignedResponse toFileCreatePresignedResponse(PresignedUploadResult bean);
 }

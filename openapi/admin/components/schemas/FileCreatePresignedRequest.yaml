@@ -1,21 +1,20 @@
 type: object
 required:
+  - type
   - file_name
-  - mime_type
 properties:
   type:
     type: integer
     format: int32
     minimum: 0
-    maximum: 10000
     description: 类型
   file_name:
     type: string
     description: 上传文件的名称
+    minLength: 1
+    maxLength: 128
   file_size:
     type: integer
     format: int64
     description: 文件大小
-  mime_type:
-    type: string
-    description: 文件类型
+    minimum: 1

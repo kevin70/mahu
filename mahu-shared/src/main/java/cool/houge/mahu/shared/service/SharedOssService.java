@@ -1,5 +1,13 @@
 package cool.houge.mahu.shared.service;
 
+import com.google.common.io.Files;
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.StatusCodes;
+import cool.houge.mahu.entity.sys.StoredObject;
+import cool.houge.mahu.shared.dto.PresignedUploadPayload;
+import cool.houge.mahu.shared.dto.PresignedUploadResult;
+import cool.houge.mahu.shared.repository.sys.StoredObjectRepository;
 import io.helidon.service.registry.Service;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -12,12 +20,36 @@ import lombok.AllArgsConstructor;
 public class SharedOssService {
 
     private final OssHelper ossHelper;
+    private final StoredObjectRepository storedObjectRepository;
 
-    /// 预签名上传
+    /// 预上传文件
     ///
-    /// @return 预签名上传的 URL
-    public String presignedUploadUrl(String objectKey, Map<String, String> queryParams) {
-        return ossHelper.presignedUploadUrl(objectKey, queryParams);
+    /// @return 预签名上传
+    public PresignedUploadResult presignedUpload(StoredObject.Type type, PresignedUploadPayload payload) {
+        var ext = Files.getFileExtension(payload.getFileName());
+        var objectKey = ext.isEmpty()
+                ? type.buildObjectKey(payload.getFileName())
+                : type.buildObjectKey(payload.getFileName(), ext);
+        var uploadUrl = ossHelper.presignedUploadUrl(objectKey, Map.of());
+
+        // 保存预约上传文件
+        var storeObject =
+                new StoredObject().setType(type).setObjectKey(objectKey).setStatus(StatusCodes.PENDING);
+        storedObjectRepository.save(storeObject);
+        return new PresignedUploadResult(
+                storeObject.getId(), uploadUrl, objectKey, ossHelper.presignedGetUrl(objectKey));
+    }
+
+    /// 获取[StoredObject]访问 URL
+    ///
+    /// @param objectId 对象 ID
+    /// @return 访问 URL
+    public String presignedGetUrlByStoredObject(long objectId) {
+        var obj = storedObjectRepository.findById(objectId);
+        if (obj == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND, "未找到 StoredObject");
+        }
+        return presignedGetUrl(obj.getObjectKey());
     }
 
     /// 获取预签名 GET URL

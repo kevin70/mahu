@@ -62,8 +62,20 @@ public class StoredObject {
         }
 
         /// 构建对象名称
-        public String buildObjectName(@NonNull String filename, @NonNull String ext) {
+        public String buildObjectKey(@NonNull String filename) {
+            return prefix + "/" + filename;
+        }
+
+        /// 构建对象名称
+        public String buildObjectKey(@NonNull String filename, @NonNull String ext) {
             return prefix + "/" + filename + "." + ext;
+        }
+
+        public static Type ofIndex(Integer i) {
+            if (i == null || i < 0 || i >= values().length) {
+                throw new IllegalArgumentException("非法的 StoredObject.Type");
+            }
+            return values()[i];
         }
     }
 }

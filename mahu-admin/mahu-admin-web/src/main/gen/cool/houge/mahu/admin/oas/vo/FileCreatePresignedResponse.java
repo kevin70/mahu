@@ -8,12 +8,11 @@ import io.avaje.validation.constraints.*;
 public class FileCreatePresignedResponse {
 
     /**
-     * 文件 ID
+     * 对象 ID
      */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("file_id")
-    private Long fileId;
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("object_id")
+    private Long objectId;
     /**
      * 预上传 URL
      */
@@ -21,4 +20,11 @@ public class FileCreatePresignedResponse {
 
     @com.fasterxml.jackson.annotation.JsonProperty("presigned_upload_url")
     private String presignedUploadUrl;
+    /**
+     * 上传成功后的访问 URL
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("access_url")
+    private String accessUrl;
 }
