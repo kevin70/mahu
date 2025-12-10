@@ -1,17 +1,17 @@
 post:
   summary: 文件预签名上传
-  operationId: createAssetPresigned
-  tags: [h_asset]
+  operationId: createFilePresigned
+  tags: [h_file]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/AssetCreatePresignedRequest.yaml"
+          $ref: "../components/schemas/FileCreatePresignedRequest.yaml"
   responses:
     200:
       description: OK
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/AssetCreatePresignedResponse.yaml"
+            $ref: "../components/schemas/FileCreatePresignedResponse.yaml"

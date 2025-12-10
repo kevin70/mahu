@@ -1,7 +1,7 @@
 post:
   summary: 文件预签名上传
   operationId: createFilePresigned
-  tags: [h_asset]
+  tags: [h_file]
   requestBody:
     required: true
     content:

@@ -41,8 +41,8 @@ public class IdPhoto {
     private Type type;
     /// 状态
     private Integer status;
-    /// OSS 对象名称
-    private String objectName;
+    /// 对象的完整 key（含前缀）
+    private String objectKey;
     /// 可以用来存储额外的元数据，比如图片尺寸、背景颜色、格式等
     @DbJsonB
     private Map<String, Object> metadata;

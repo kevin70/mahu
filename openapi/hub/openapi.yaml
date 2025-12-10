@@ -23,7 +23,7 @@ tags:
     x-displayName: 用户登录
   - name: h_me
     x-displayName: 认证用户
-  - name: h_asset
+  - name: h_file
     x-displayName: OSS资源
   - name: h_id_photo
     x-displayName: 证件照
@@ -36,7 +36,7 @@ x-tagGroups:
       - h_login
       - h_me
       - h_public_dict
-      - h_asset
+      - h_file
       - h_id_photo
 paths:
   /samples:

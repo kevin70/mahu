@@ -10,7 +10,7 @@ parameters:
 get:
   summary: 定向文件
   operationId: forwardFile
-  tags: [h_asset]
+  tags: [h_file]
   security: []
   responses:
     "302":

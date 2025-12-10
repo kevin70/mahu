@@ -9,7 +9,7 @@ CREATE TABLE sys.id_photo (
   uid BIGINT NOT NULL,
   type SMALLINT DEFAULT 0 NOT NULL,
   status SMALLINT NOT NULL,
-  object_name VARCHAR(255) NOT NULL,
+  object_key VARCHAR(512) NOT NULL,
   metadata JSONB
 );
 
@@ -29,7 +29,7 @@ comment ON COLUMN sys.id_photo.type IS '证件类型
 
 comment ON COLUMN sys.id_photo.status IS '状态';
 
-comment ON COLUMN sys.id_photo.object_name IS 'OSS 对象名称';
+comment ON COLUMN sys.id_photo.object_key IS '对象的完整 key（含前缀）';
 
 comment ON COLUMN sys.id_photo.metadata IS '可以用来存储额外的元数据，比如图片尺寸、背景颜色、格式等。 ';
 
@@ -39,6 +39,6 @@ CREATE INDEX id_photo_status_created_at_i ON sys.id_photo (status, created_at);
 
 ALTER SEQUENCE sys.id_photo_id_seq RESTART
 WITH
-  100001;
+  1000001;
 
 -- rollback drop table sys.id_photo;

@@ -1,7 +1,7 @@
 parameters:
   - in: path
-    name: asset_id
-    description: 资源流水号
+    name: file_id
+    description: 文件 ID
     required: true
     schema:
       type: integer
@@ -9,8 +9,8 @@ parameters:
       minimum: 1
 get:
   summary: 定向资源
-  operationId: forwardAsset
-  tags: [h_asset]
+  operationId: forwardFile
+  tags: [h_file]
   security: []
   responses:
     "302":

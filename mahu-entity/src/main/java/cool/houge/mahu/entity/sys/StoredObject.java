@@ -15,14 +15,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jspecify.annotations.NonNull;
 
-/// 静态资源
+/// 存储的对象
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys")
-public class Asset {
+@Table(schema = "sys", name = "object")
+public class StoredObject {
 
     /// 主键
     @Id
@@ -41,8 +41,8 @@ public class Asset {
     private Type type;
     /// 状态
     private Integer status;
-    /// OSS 对象名称
-    private String objectName;
+    /// 对象的完整 key（含前缀）
+    private String objectKey;
     /// 可以用来存储额外的元数据，比如图片尺寸、背景颜色、格式等
     @DbJsonB
     private Map<String, Object> metadata;

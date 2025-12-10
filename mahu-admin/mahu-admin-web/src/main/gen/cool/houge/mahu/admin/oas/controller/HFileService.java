@@ -7,26 +7,26 @@ import io.helidon.webserver.http.HttpService;
 import static io.helidon.webserver.http.SecureHandler.*;
 
 @io.helidon.common.Generated(value = "7.16.0", trigger = "openapi-generator")
-public interface HAssetService extends HttpService {
+public interface HFileService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.post("/assets", authenticate(), this::createAssetPresigned);
-        rules.get("/assets/{asset_id}/forward",this::forwardAsset);
+        rules.post("/files", authenticate(), this::createFilePresigned);
+        rules.get("/files/{file_id}/forward",this::forwardFile);
     }
 
     ///
-    /// `POST /assets` 文件预签名上传
+    /// `POST /files` 文件预签名上传
     ///
     /// @param request the server request
     /// @param response the server response
-    void createAssetPresigned(ServerRequest request, ServerResponse response);
+    void createFilePresigned(ServerRequest request, ServerResponse response);
 
     ///
-    /// `GET /assets/{asset_id}/forward` 定向资源
+    /// `GET /files/{file_id}/forward` 定向资源
     ///
     /// @param request the server request
     /// @param response the server response
-    void forwardAsset(ServerRequest request, ServerResponse response);
+    void forwardFile(ServerRequest request, ServerResponse response);
 
 }
