@@ -193,12 +193,13 @@ public enum StatusCode {
 
     /* ==================== 枚举属性 ==================== */
 
+    /// 代码值
     @Getter
     private final int code;
-
+    /// 标签
     @Getter
     private final String label;
-
+    /// 分组
     @Getter
     private final StatusGroup group;
 
