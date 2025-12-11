@@ -121,6 +121,13 @@ public final class StatusCodes {
     /// 归档状态，数据已移动到历史库，业务系统不再使用
     public static final int ARCHIVED = 95;
 
+    /// 作废
+    ///
+    /// - 订单作废：比如订单录入错误，需要作废，然后重新下单。
+    /// - 发票作废：开错发票，需要作废重开。
+    /// - 合同作废：因某些原因合同无效，需要作废。
+    public static final int VOIDED = 96;
+
     /// 临时冻结
     ///
     /// （罕见）最高级别的强制措施，针对严重违规或法律要求
