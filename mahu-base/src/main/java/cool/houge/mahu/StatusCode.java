@@ -270,6 +270,11 @@ public enum StatusCode {
         return Collections.unmodifiableSet(CODE_MAP.keySet());
     }
 
+    /// 判断两个状态码是否相等
+    public boolean eq(Integer code) {
+        return code != null && this.code == code;
+    }
+
     @Override
     public String toString() {
         return String.format("%s(%d)", this.name(), this.code);
