@@ -128,13 +128,8 @@ public final class StatusCodes {
     /// - 合同作废：因某些原因合同无效，需要作废。
     public static final int VOIDED = 96;
 
-    /// 临时冻结
-    ///
-    /// （罕见）最高级别的强制措施，针对严重违规或法律要求
-    public static final int SUSPENDED = 97;
-
     /// 已终止
     ///
-    /// （罕见）已终止/永久关闭，不可逆性：无法通过常规手段恢复，触发方式：人工执行或自动合同到期
+    /// （罕见）已终止/永久关闭，不可逆性：无法通过常规手段恢复，触发方式：人工执行。
     public static final int TERMINATED = 99;
 }
