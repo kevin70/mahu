@@ -1,10 +1,8 @@
 package cool.houge.mahu;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import lombok.Getter;
 
 /// 系统状态码枚举
@@ -247,12 +245,12 @@ public enum StatusCode {
     /* ==================== 静态工具方法 ==================== */
 
     /// 根据状态码获取枚举实例
-    public static Optional<StatusCode> fromCode(int code) {
+    public static Optional<StatusCode> fromCode(Integer code) {
         return Optional.ofNullable(CODE_MAP.get(code));
     }
 
     /// 根据状态码获取枚举实例，如果不存在则抛出异常
-    public static StatusCode valueOf(int code) {
+    public static StatusCode valueOf(Integer code) {
         StatusCode status = CODE_MAP.get(code);
         if (status == null) {
             throw new IllegalArgumentException("无效的状态码: " + code);
@@ -261,13 +259,8 @@ public enum StatusCode {
     }
 
     /// 判断状态码是否有效
-    public static boolean isValidCode(int code) {
+    public static boolean isValidCode(Integer code) {
         return CODE_MAP.containsKey(code);
-    }
-
-    /// 获取所有有效的状态码
-    public static Set<Integer> getAllCodes() {
-        return Collections.unmodifiableSet(CODE_MAP.keySet());
     }
 
     /// 判断两个状态码是否相等
