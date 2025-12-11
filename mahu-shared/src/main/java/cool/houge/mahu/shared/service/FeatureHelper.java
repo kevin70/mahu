@@ -7,7 +7,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.StatusCodes;
+import cool.houge.mahu.Status;
 import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.shared.G;
 import cool.houge.mahu.shared.LcFeature;
@@ -18,7 +18,6 @@ import io.helidon.service.registry.Service;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -90,7 +89,7 @@ class FeatureHelper {
     private void refreshAll() {
         var all = featureRepository.findAll();
         for (Feature feature : all) {
-            if (Objects.equals(feature.getStatus(), StatusCodes.ARCHIVED)) {
+            if (Status.ARCHIVED.eq(feature.getStatus())) {
                 continue;
             }
 

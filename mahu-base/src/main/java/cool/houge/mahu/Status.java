@@ -268,6 +268,11 @@ public enum Status {
         return code != null && this.code == code;
     }
 
+    /// 判断两个状态码是否不相等
+    public boolean neq(Integer code) {
+        return !eq(code);
+    }
+
     @Override
     public String toString() {
         return String.format("%s(%d)", this.name(), this.code);

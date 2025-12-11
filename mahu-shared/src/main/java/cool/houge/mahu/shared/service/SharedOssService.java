@@ -3,7 +3,7 @@ package cool.houge.mahu.shared.service;
 import com.google.common.io.Files;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.StatusCodes;
+import cool.houge.mahu.Status;
 import cool.houge.mahu.entity.sys.StoredObject;
 import cool.houge.mahu.shared.dto.PresignedUploadPayload;
 import cool.houge.mahu.shared.dto.PresignedUploadResult;
@@ -34,7 +34,7 @@ public class SharedOssService {
 
         // 保存预约上传文件
         var storeObject =
-                new StoredObject().setType(type).setObjectKey(objectKey).setStatus(StatusCodes.PENDING);
+                new StoredObject().setType(type).setObjectKey(objectKey).setStatus(Status.PENDING.getCode());
         storedObjectRepository.save(storeObject);
         return new PresignedUploadResult(
                 storeObject.getId(), uploadUrl, objectKey, ossHelper.presignedGetUrl(objectKey));

@@ -1,6 +1,6 @@
 package cool.houge.mahu.shared;
 
-import cool.houge.mahu.StatusCodes;
+import cool.houge.mahu.Status;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -80,7 +80,7 @@ public class LcFeature {
     ///   注意：如果 endTime 小于等于 startTime，则表示跨天。
     /// - 如果设置了启用的星期（weekdays），则会检查指定日期是否在启用的星期列表中。
     public boolean isActive(LocalDateTime time) {
-        if (status != StatusCodes.ACTIVE) {
+        if (Status.ACTIVE.neq(status)) {
             return false;
         }
         if (effectiveFrom != null && time.isBefore(effectiveFrom)) {

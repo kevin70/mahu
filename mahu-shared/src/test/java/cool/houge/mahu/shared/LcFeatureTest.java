@@ -2,7 +2,7 @@ package cool.houge.mahu.shared;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import cool.houge.mahu.StatusCodes;
+import cool.houge.mahu.Status;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -22,7 +22,7 @@ class LcFeatureTest {
     @Test
     void testEffectiveFrom() {
         var b = LcFeature.builder()
-                .status(StatusCodes.ACTIVE)
+                .status(Status.ACTIVE.getCode())
                 .effectiveFrom(LocalDateTime.now().plusDays(1))
                 .build();
         assertThat(b.isActive()).isFalse();
@@ -31,7 +31,7 @@ class LcFeatureTest {
     @Test
     void testEffectiveTo() {
         var b = LcFeature.builder()
-                .status(StatusCodes.ACTIVE)
+                .status(Status.ACTIVE.getCode())
                 .effectiveFrom(LocalDateTime.now().minusDays(1))
                 .effectiveTo(LocalDateTime.now().minusDays(1))
                 .build();
@@ -41,7 +41,7 @@ class LcFeatureTest {
     @Test
     void testStartTimeAndEndTime() {
         var b = LcFeature.builder()
-                .status(StatusCodes.ACTIVE)
+                .status(Status.ACTIVE.getCode())
                 .startTime(LocalTime.of(8, 20))
                 .endTime(LocalTime.of(20, 20))
                 .build();
@@ -56,7 +56,7 @@ class LcFeatureTest {
     @Test
     void testStartTimeAndEndTimeAndCrossDay() {
         var b = LcFeature.builder()
-                .status(StatusCodes.ACTIVE)
+                .status(Status.ACTIVE.getCode())
                 .startTime(LocalTime.of(8, 20))
                 .endTime(LocalTime.of(3, 20))
                 .build();
@@ -71,7 +71,7 @@ class LcFeatureTest {
     @Test
     void testWeekdays() {
         var b = LcFeature.builder()
-                .status(StatusCodes.ACTIVE)
+                .status(Status.ACTIVE.getCode())
                 .weekdays(List.of(1, 2))
                 .build();
 
@@ -84,7 +84,7 @@ class LcFeatureTest {
         var denyUserRb = new Roaring64NavigableMap();
         denyUserRb.add(1);
         var b = LcFeature.builder()
-                .status(StatusCodes.ACTIVE)
+                .status(Status.ACTIVE.getCode())
                 .denyUserRb(denyUserRb)
                 .build();
         assertThat(b.isActive(1)).isFalse();
@@ -95,7 +95,7 @@ class LcFeatureTest {
         var allowUserRb = new Roaring64NavigableMap();
         allowUserRb.add(1);
         var b = LcFeature.builder()
-                .status(StatusCodes.ACTIVE)
+                .status(Status.ACTIVE.getCode())
                 .allowUserRb(allowUserRb)
                 .build();
         assertThat(b.isActive(2)).isFalse();
