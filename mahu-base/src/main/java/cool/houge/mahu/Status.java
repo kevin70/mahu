@@ -84,11 +84,11 @@ public enum Status {
     ///
     /// `PROCESSING`是业务系统中表示请求已接收并正在处理，但尚未完成的中间状态，
     /// 通常出现在异步操作、支付、工单系统等需要时间执行的场景
-    PROCESSING(50, "处理中", StatusGroup.INTERMEDIATE),
+    PROCESSING(50, "进行中", StatusGroup.INTERMEDIATE),
 
     /// 已确认
     ///
-    /// 用户已确认收到货/服务已完成
+    /// 用户已确认收到货
     CONFIRMED(61, "已确认", StatusGroup.INTERMEDIATE),
 
     /// 被拒绝
@@ -123,6 +123,13 @@ public enum Status {
     FROZEN(77, "冻结", StatusGroup.INTERMEDIATE),
 
     /* ==================== 终态/异常状态 (80-99) ==================== */
+
+    /// 作废
+    ///
+    /// - 订单作废：比如订单录入错误，需要作废，然后重新下单。
+    /// - 发票作废：开错发票，需要作废重开。
+    /// - 合同作废：因某些原因合同无效，需要作废。
+    VOIDED(87, "作废", StatusGroup.TERMINAL),
 
     /// 已完成/已完结
     ///
@@ -161,13 +168,6 @@ public enum Status {
     ///
     /// 归档状态，数据已移动到历史库，业务系统不再使用
     ARCHIVED(95, "归档", StatusGroup.TERMINAL),
-
-    /// 作废
-    ///
-    /// - 订单作废：比如订单录入错误，需要作废，然后重新下单。
-    /// - 发票作废：开错发票，需要作废重开。
-    /// - 合同作废：因某些原因合同无效，需要作废。
-    VOIDED(96, "作废", StatusGroup.TERMINAL),
 
     /// 已终止
     ///
