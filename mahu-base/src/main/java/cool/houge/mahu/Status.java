@@ -12,7 +12,7 @@ import lombok.Getter;
 /// - 20-49: 正向业务状态
 /// - 50-79: 中间/限制状态
 /// - 80-99: 终态/异常状态
-public enum StatusCode {
+public enum Status {
 
     /* ==================== 初始状态 (10-19) ==================== */
 
@@ -203,17 +203,17 @@ public enum StatusCode {
 
     /* ==================== 静态映射 ==================== */
 
-    private static final Map<Integer, StatusCode> CODE_MAP = new HashMap<>();
+    private static final Map<Integer, Status> CODE_MAP = new HashMap<>();
 
     static {
-        for (StatusCode status : StatusCode.values()) {
+        for (Status status : Status.values()) {
             CODE_MAP.put(status.code, status);
         }
     }
 
     /* ==================== 构造方法 ==================== */
 
-    StatusCode(int code, String label, StatusGroup group) {
+    Status(int code, String label, StatusGroup group) {
         this.code = code;
         this.label = label;
         this.group = group;
@@ -245,13 +245,13 @@ public enum StatusCode {
     /* ==================== 静态工具方法 ==================== */
 
     /// 根据状态码获取枚举实例
-    public static Optional<StatusCode> fromCode(Integer code) {
+    public static Optional<Status> fromCode(Integer code) {
         return Optional.ofNullable(CODE_MAP.get(code));
     }
 
     /// 根据状态码获取枚举实例，如果不存在则抛出异常
-    public static StatusCode valueOf(Integer code) {
-        StatusCode status = CODE_MAP.get(code);
+    public static Status valueOf(Integer code) {
+        Status status = CODE_MAP.get(code);
         if (status == null) {
             throw new IllegalArgumentException("无效的状态码: " + code);
         }
