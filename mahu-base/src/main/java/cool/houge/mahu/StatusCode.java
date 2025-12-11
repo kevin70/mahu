@@ -99,7 +99,7 @@ public enum StatusCode {
     /// 待确认
     ///
     /// 需要用户操作确认的状态
-    AWAITING_CONFIRMATION(60, "待确认", StatusGroup.INTERMEDIATE),
+    PENDING_CONFIRM(60, "待确认", StatusGroup.INTERMEDIATE),
 
     /// 已确认
     ///
