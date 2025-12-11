@@ -66,12 +66,7 @@ public enum Status {
     /// 部分退款
     ///
     /// 部分商品/金额退款
-    PARTIAL_REFUND(37, "部分退款", StatusGroup.POSITIVE),
-
-    /// 待发货
-    ///
-    /// 支付完成后等待仓库处理的状态
-    AWAITING_SHIPMENT(35, "待发货", StatusGroup.POSITIVE),
+    PARTIAL_REFUNDED(37, "部分退款", StatusGroup.POSITIVE),
 
     /// 已发货
     ///
@@ -83,11 +78,6 @@ public enum Status {
     /// 物流显示签收（可能未实际收货）
     DELIVERED(48, "已送达", StatusGroup.POSITIVE),
 
-    /// 待验收
-    ///
-    /// 已送达但用户尚未确认收货的状态
-    AWAITING_RECEIPT(49, "待验收", StatusGroup.POSITIVE),
-
     /* ==================== 中间/限制状态 (50-79) ==================== */
 
     /// 处理中/进行中
@@ -95,11 +85,6 @@ public enum Status {
     /// `PROCESSING`是业务系统中表示请求已接收并正在处理，但尚未完成的中间状态，
     /// 通常出现在异步操作、支付、工单系统等需要时间执行的场景
     PROCESSING(50, "处理中", StatusGroup.INTERMEDIATE),
-
-    /// 待确认
-    ///
-    /// 需要用户操作确认的状态
-    PENDING_CONFIRM(60, "待确认", StatusGroup.INTERMEDIATE),
 
     /// 已确认
     ///
