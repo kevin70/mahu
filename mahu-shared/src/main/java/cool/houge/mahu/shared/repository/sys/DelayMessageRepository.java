@@ -54,8 +54,17 @@ public class DelayMessageRepository extends HBeanRepository<UUID, DelayMessage> 
 
         @Override
         public void preCommit() {
-            DelayMessageRepository.this.saveAll(messages);
-            log.debug("批量持久化延迟消息: {}", messages);
+            if (!messages.isEmpty()) {
+                DelayMessageRepository.this.saveAll(messages);
+                log.debug("批量持久化延迟消息: {}", messages);
+            }
+        }
+
+        @Override
+        public void preRollback() {
+            if (!messages.isEmpty()) {
+                messages.clear();
+            }
         }
 
         DelayMessageHolder add(DelayMessage message) {
