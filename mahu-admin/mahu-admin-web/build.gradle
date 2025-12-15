@@ -29,7 +29,7 @@ application {
 
 jib {
     from {
-        image = "docker.1ms.run/eclipse-temurin:24-jre"
+        image = "docker.1ms.run/eclipse-temurin:25"
     }
     to {
         image = "registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
