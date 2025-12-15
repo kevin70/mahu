@@ -36,7 +36,7 @@ public class StoredObject {
     private Instant updatedAt;
     /// 用户 ID
     private Long uid;
-    /// 证件类型
+    /// 文件类型
     @Enumerated(EnumType.ORDINAL)
     private Type type;
     /// 状态
