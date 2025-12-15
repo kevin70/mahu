@@ -8,7 +8,7 @@ import io.helidon.builder.api.Prototype;
 ///
 /// @author ZY (kzou227@qq.com)
 @Prototype.Blueprint
-@Prototype.Configured(ConfigKeys.INFO)
+@Prototype.Configured(ConfigPrefixes.INFO)
 interface InfoConfigBlueprint {
 
     /// 应用名称

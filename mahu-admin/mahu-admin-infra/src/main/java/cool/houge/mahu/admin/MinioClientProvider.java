@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin;
 
-import cool.houge.mahu.config.ConfigKeys;
+import cool.houge.mahu.config.ConfigPrefixes;
 import cool.houge.mahu.config.OssConfig;
 import io.helidon.config.Config;
 import io.helidon.service.registry.Service;
@@ -19,7 +19,7 @@ class MinioClientProvider implements Supplier<MinioClient> {
     final MinioClient v;
 
     MinioClientProvider(Config root) {
-        var ossConfig = OssConfig.create(root.get(ConfigKeys.OSS));
+        var ossConfig = OssConfig.create(root.get(ConfigPrefixes.OSS));
         var builder = MinioClient.builder()
                 .endpoint(ossConfig.endpoint())
                 .credentials(ossConfig.accessKey(), ossConfig.secretKey());

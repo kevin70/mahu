@@ -7,7 +7,7 @@ import io.helidon.builder.api.Prototype;
 ///
 /// @author ZY (kzou227@qq.com)
 @Prototype.Blueprint
-@Prototype.Configured(ConfigKeys.OSS)
+@Prototype.Configured(ConfigPrefixes.OSS)
 interface OssConfigBlueprint {
 
     /// OSS 存储地址

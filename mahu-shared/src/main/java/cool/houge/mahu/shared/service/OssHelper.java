@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.config.ConfigKeys;
+import cool.houge.mahu.config.ConfigPrefixes;
 import cool.houge.mahu.config.OssConfig;
 import io.helidon.config.Config;
 import io.helidon.service.registry.Service;
@@ -24,7 +24,7 @@ class OssHelper {
     private final MinioClient minioClient;
 
     OssHelper(Config root, MinioClient minioClient) {
-        this.ossConfig = OssConfig.create(root.get(ConfigKeys.OSS));
+        this.ossConfig = OssConfig.create(root.get(ConfigPrefixes.OSS));
         this.minioClient = minioClient;
     }
 

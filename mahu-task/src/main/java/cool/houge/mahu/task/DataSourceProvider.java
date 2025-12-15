@@ -1,6 +1,6 @@
 package cool.houge.mahu.task;
 
-import cool.houge.mahu.config.ConfigKeys;
+import cool.houge.mahu.config.ConfigPrefixes;
 import io.ebean.datasource.DataSourcePool;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
@@ -22,7 +22,7 @@ class DataSourceProvider implements Supplier<DataSource> {
     final DataSourcePool v;
 
     DataSourceProvider(Config root) {
-        var config = root.get(ConfigKeys.DB);
+        var config = root.get(ConfigPrefixes.DB);
         this.v = DataSourcePool.builder()
                 .name("mahu-task")
                 .url(config.get("url").asString().get())

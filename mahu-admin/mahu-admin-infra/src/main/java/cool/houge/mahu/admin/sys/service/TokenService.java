@@ -15,7 +15,7 @@ import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.admin.sys.repository.AdminAuthLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminRepository;
-import cool.houge.mahu.config.ConfigKeys;
+import cool.houge.mahu.config.ConfigPrefixes;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.shared.repository.sys.AuthClientRepository;
 import cool.houge.mahu.util.Metadata;
@@ -57,9 +57,9 @@ public class TokenService implements TokenVerifier {
             AdminAuthLogRepository adminAuthLogRepository,
             AuthClientRepository authClientRepository) {
         this.jwkKeys = JwkKeys.builder()
-                .resource(Resource.create(root.get(ConfigKeys.JWT_KEYS)))
+                .resource(Resource.create(root.get(ConfigPrefixes.JWT_KEYS)))
                 .build();
-        this.tokenConfig = TokenConfig.create(root.get(ConfigKeys.TOKEN));
+        this.tokenConfig = TokenConfig.create(root.get(ConfigPrefixes.TOKEN));
         this.adminRepository = adminRepository;
         this.adminAuthLogRepository = adminAuthLogRepository;
         this.authClientRepository = authClientRepository;

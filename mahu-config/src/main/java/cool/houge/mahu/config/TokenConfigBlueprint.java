@@ -8,7 +8,7 @@ import java.time.Duration;
 ///
 /// @author ZY (kzou227@qq.com)
 @Prototype.Blueprint
-@Prototype.Configured(ConfigKeys.TOKEN)
+@Prototype.Configured(ConfigPrefixes.TOKEN)
 interface TokenConfigBlueprint {
 
     /// 访问令牌过期时间
