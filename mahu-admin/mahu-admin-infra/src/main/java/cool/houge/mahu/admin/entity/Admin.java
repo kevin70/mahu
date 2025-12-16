@@ -1,7 +1,6 @@
 package cool.houge.mahu.admin.entity;
 
 import cool.houge.mahu.entity.Auditable;
-import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -54,13 +53,12 @@ public class Admin implements Auditable {
     /// 用户状态
     @Enumerated
     private AdminStatus status;
-    /// 管理区域
-    @DbJsonB
-    private List<String> regions;
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(schema = "sys", name = "admin_role")
     private List<Role> roles;
+
+    /* ========================== 非持久化属性 ========================== */
 
     /// 原始密码（修改密码）
     @Transient

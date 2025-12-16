@@ -7,14 +7,14 @@ import cool.houge.mahu.rsql.FilterItem;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
-import io.helidon.service.registry.Service.Singleton;
+import io.helidon.service.registry.Service;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
 /// 认证客户端
 ///
 /// @author ZY (kzou227@qq.com)
-@Singleton
+@Service.Singleton
 public class AuthClientRepository extends HBeanRepository<String, AuthClient> {
 
     public AuthClientRepository(Database db) {
@@ -24,7 +24,7 @@ public class AuthClientRepository extends HBeanRepository<String, AuthClient> {
     /// 获取客户端配置
     /// @param clientId 客户端 ID
     public AuthClient obtainClient(String clientId) {
-        return new QAuthClient(database)
+        return new QAuthClient(db())
                 .clientId
                 .eq(clientId)
                 .findOneOrEmpty()

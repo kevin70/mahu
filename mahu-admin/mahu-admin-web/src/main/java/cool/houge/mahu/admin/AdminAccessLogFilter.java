@@ -49,7 +49,7 @@ public class AdminAccessLogFilter implements Filter {
         // 不需要认证的接口不记录日志
         var ctx = req.context();
         var authContextOpt = ctx.get(AuthContext.class);
-        if (authContextOpt.isEmpty()) {
+        if (authContextOpt.isEmpty() || authContextOpt.get() == AuthContext.ANONYMOUS) {
             return;
         }
 
