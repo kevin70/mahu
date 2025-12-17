@@ -15,8 +15,8 @@ public class MeProfileResponse {
      */
       @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("uid")
-    private Long uid;
+    @com.fasterxml.jackson.annotation.JsonProperty("admin_id")
+    private Long adminId;
     /**
      * 用户名
      */

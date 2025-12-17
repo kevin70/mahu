@@ -83,7 +83,7 @@ public class TokenService implements TokenVerifier {
         return new AuthContext() {
 
             @Override
-            public long uid() {
+            public long adminId() {
                 return adminId;
             }
 

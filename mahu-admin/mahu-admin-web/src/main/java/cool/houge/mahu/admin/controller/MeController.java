@@ -26,8 +26,8 @@ public class MeController implements HMeService, WebSupport {
     @Override
     public void getMeProfile(ServerRequest request, ServerResponse response) {
         var ac = AuthContext.current();
-        var dto = adminService.getProfile(ac.uid());
-        dto.setPermits(ac.permissions());
+        var dto = adminService.getProfile(ac.adminId());
+        dto.setPermissionCodes(ac.permissions());
 
         var rs = beanMapper.toMeProfileResponse(dto);
         response.send(rs);
@@ -39,7 +39,7 @@ public class MeController implements HMeService, WebSupport {
         validate(vo);
 
         var ac = AuthContext.current();
-        var user = beanMapper.toAdmin(vo).setId(ac.uid());
+        var user = beanMapper.toAdmin(vo).setId(ac.adminId());
         adminService.update(user);
 
         response.status(NO_CONTENT_204).send();
@@ -51,7 +51,7 @@ public class MeController implements HMeService, WebSupport {
         validate(vo);
 
         var ac = AuthContext.current();
-        var entity = beanMapper.toAdmin(vo).setId(ac.uid());
+        var entity = beanMapper.toAdmin(vo).setId(ac.adminId());
         adminService.updatePassword(entity);
 
         response.status(NO_CONTENT_204).send();

@@ -1,6 +1,6 @@
 ### 字典类型列表
-GET {{base_uri}}/p/dicts?include_data=1
+GET {{base_uri}}/p/dicts?include_data=true
 
 
 ### 获取字典数据
-GET {{base_uri}}/p/dicts/1002
+GET {{base_uri}}/p/dicts/151

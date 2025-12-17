@@ -30,11 +30,4 @@ public class IdPhotoCreatePresignedRequest {
      @Min(0L)
     @com.fasterxml.jackson.annotation.JsonProperty("file_size")
     private Long fileSize;
-    /**
-     * 文件类型
-     */
-      @NotNull
- @Size(max=100)
-    @com.fasterxml.jackson.annotation.JsonProperty("mime_type")
-    private String mimeType;
 }

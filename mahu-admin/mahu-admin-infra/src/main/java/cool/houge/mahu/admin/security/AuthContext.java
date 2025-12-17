@@ -14,7 +14,7 @@ public interface AuthContext {
     /// 匿名访问
     AuthContext ANONYMOUS = new AuthContext() {
         @Override
-        public long uid() {
+        public long adminId() {
             throw new UnsupportedOperationException("anonymous");
         }
 
@@ -34,8 +34,8 @@ public interface AuthContext {
         }
     };
 
-    /// 返回认证的用户ID
-    long uid();
+    /// 返回认证的管理员 ID
+    long adminId();
 
     /// 返回认证用户的名称
     String name();

@@ -65,7 +65,7 @@ public class AdminAccessLogFilter implements Filter {
 
         var metadata = Metadata.current();
         var accessLog = new AdminAccessLog()
-                .setAdminId(authContextOpt.get().uid())
+                .setAdminId(authContextOpt.get().adminId())
                 .setIpAddr(metadata.clientAddr())
                 .setUserAgent(metadata.userAgent())
                 .setMethod(prologue.method().text())

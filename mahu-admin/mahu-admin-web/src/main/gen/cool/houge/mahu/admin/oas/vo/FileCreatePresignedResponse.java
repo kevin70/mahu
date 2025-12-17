@@ -10,7 +10,8 @@ public class FileCreatePresignedResponse {
     /**
      * 对象 ID
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("object_id")
     private Long objectId;
     /**

@@ -1,6 +1,6 @@
 type: object
 required:
-  - file_id
+  - object_id
   - presigned_upload_url
   - access_url
 properties:

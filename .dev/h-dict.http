@@ -4,10 +4,12 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "id": "{{$random.uuid}}",
+  "id": {{$random.integer(1,1000)}},
   "name": "{{$random.name.username}}",
   "description": "{{$random.lorem.paragraph}}",
-  "disabled": true
+  "disabled": true,
+  "visibility": 1,
+  "value_regex": "/^[0-9]$/"
 }
 
 

@@ -26,7 +26,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface EntityBeanMapper {
 
-    @Mapping(target = "uid", source = "id")
+    @Mapping(target = "adminId", source = "id")
     void map(@MappingTarget Profile target, Admin bean);
 
     @Mapping(target = "data", ignore = true)
