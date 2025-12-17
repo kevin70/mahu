@@ -13,7 +13,6 @@ import java.time.Instant;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
-import org.jspecify.annotations.NonNull;
 
 /// 存储对象
 ///
@@ -59,16 +58,6 @@ public class StoredObject {
 
         Type(String prefix) {
             this.prefix = prefix;
-        }
-
-        /// 构建对象名称
-        public String buildObjectKey(@NonNull String filename) {
-            return prefix + "/" + filename;
-        }
-
-        /// 构建对象名称
-        public String buildObjectKey(@NonNull String filename, @NonNull String ext) {
-            return prefix + "/" + filename + "." + ext;
         }
 
         public static Type ofIndex(Integer i) {

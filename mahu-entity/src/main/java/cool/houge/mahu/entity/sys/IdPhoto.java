@@ -13,7 +13,6 @@ import java.time.Instant;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
-import org.jspecify.annotations.NonNull;
 
 /// 证件照
 ///
@@ -21,7 +20,7 @@ import org.jspecify.annotations.NonNull;
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys")
+@Table(schema = "sys", name = "id_photo")
 public class IdPhoto {
 
     /// 主键
@@ -49,8 +48,8 @@ public class IdPhoto {
 
     /// 资源类型
     public enum Type {
-    //
-    ;
+        DEFAULT("/d"),
+        ;
 
         /// OSS 存储目录前缀
         @Getter
@@ -60,9 +59,11 @@ public class IdPhoto {
             this.prefix = prefix;
         }
 
-        /// 构建对象名称
-        public String buildObjectName(@NonNull String filename, @NonNull String ext) {
-            return prefix + "/" + filename + "." + ext;
+        public static IdPhoto.Type ofIndex(Integer i) {
+            if (i == null || i < 0 || i >= values().length) {
+                throw new IllegalArgumentException("非法的 IdPhoto.Type");
+            }
+            return values()[i];
         }
     }
 }

@@ -8,6 +8,8 @@ import cool.houge.mahu.admin.entity.Role;
 import cool.houge.mahu.admin.internal.TopBeanMapper;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedResponse;
+import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedRequest;
+import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAuditLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAuthLogResponse;
@@ -103,4 +105,8 @@ public interface SysBeanMapper extends TopBeanMapper {
     PresignedUploadPayload toPresignedUploadPayload(FileCreatePresignedRequest bean);
 
     FileCreatePresignedResponse toFileCreatePresignedResponse(PresignedUploadResult bean);
+
+    PresignedUploadPayload toPresignedUploadPayload(IdPhotoCreatePresignedRequest bean);
+
+    IdPhotoCreatePresignedResponse toIdPhotoCreatePresignedResponse(PresignedUploadResult bean);
 }

@@ -2,9 +2,9 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.FOUND_302;
 
-import cool.houge.mahu.admin.oas.controller.HFileService;
-import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
-import cool.houge.mahu.entity.sys.StoredObject;
+import cool.houge.mahu.admin.oas.controller.HIdPhotoService;
+import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedRequest;
+import cool.houge.mahu.entity.sys.IdPhoto;
 import cool.houge.mahu.shared.service.SharedOssService;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.http.HeaderNames;
@@ -13,31 +13,31 @@ import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import lombok.AllArgsConstructor;
 
-/// 文件上传
+/// 证件照上传
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
 @AllArgsConstructor
-public class FileController implements HFileService, WebSupport {
+public class IdPhotoController implements HIdPhotoService, WebSupport {
 
     private final SysBeanMapper beanMapper;
     private final SharedOssService sharedOssService;
 
     @Override
-    public void createFilePresigned(ServerRequest request, ServerResponse response) {
-        var vo = request.content().as(FileCreatePresignedRequest.class);
+    public void createIdPhotoPresigned(ServerRequest request, ServerResponse response) {
+        var vo = request.content().as(IdPhotoCreatePresignedRequest.class);
         validate(vo);
 
-        var type = StoredObject.Type.ofIndex(vo.getType());
+        var type = IdPhoto.Type.ofIndex(vo.getType());
         var payload = beanMapper.toPresignedUploadPayload(vo);
         var result = sharedOssService.presignedUpload(type, payload);
-        response.send(beanMapper.toFileCreatePresignedResponse(result));
+        response.send(beanMapper.toIdPhotoCreatePresignedResponse(result));
     }
 
     @Override
-    public void forwardFile(ServerRequest request, ServerResponse response) {
-        var fileId = pathArg(request, "file_id").asLong().get();
-        var location = sharedOssService.presignedGetUrlByStoredObject(fileId);
+    public void forwardIdPhoto(ServerRequest request, ServerResponse response) {
+        var idPhotoId = pathArg(request, "id_photo_id").asLong().get();
+        var location = sharedOssService.presignedGetUrlByIdPhoto(idPhotoId);
         response.status(FOUND_302).header(HeaderNames.LOCATION, location).send();
     }
 }
