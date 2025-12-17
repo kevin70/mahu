@@ -15,12 +15,12 @@ public class IdPhotoCreatePresignedResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("object_id")
     private Long objectId;
     /**
-     * 预上传 URL
+     * 上传 URL
      */
       @NotNull
 
-    @com.fasterxml.jackson.annotation.JsonProperty("presigned_upload_url")
-    private String presignedUploadUrl;
+    @com.fasterxml.jackson.annotation.JsonProperty("upload_url")
+    private String uploadUrl;
     /**
      * 上传成功后的访问 URL
      */

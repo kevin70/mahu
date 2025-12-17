@@ -1,3 +1,0 @@
-### 获取个人登录信息 - getMeProfile
-GET {{base_uri}}/me/profile
-Authorization: Bearer {{access_token}}

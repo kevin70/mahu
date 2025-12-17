@@ -1,5 +1,7 @@
 package cool.houge.mahu.shared.service;
 
+import com.github.f4b6a3.uuid.UuidCreator;
+import com.github.f4b6a3.uuid.codec.base.Base32Codec;
 import com.google.common.io.Files;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
@@ -27,9 +29,8 @@ public class SharedOssService {
     /// @return 预签名上传
     public PresignedUploadResult presignedUpload(StoredObject.Type type, PresignedUploadPayload payload) {
         var ext = Files.getFileExtension(payload.getFileName());
-        var objectKey = ext.isEmpty()
-                ? type.buildObjectKey(payload.getFileName())
-                : type.buildObjectKey(payload.getFileName(), ext);
+        var key = Base32Codec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch());
+        var objectKey = ext.isEmpty() ? type.buildObjectKey(key) : type.buildObjectKey(key, ext);
         var uploadUrl = ossHelper.presignedUploadUrl(objectKey, Map.of());
 
         // 保存预约上传文件
@@ -37,7 +38,7 @@ public class SharedOssService {
                 new StoredObject().setType(type).setObjectKey(objectKey).setStatus(Status.PENDING.getCode());
         storedObjectRepository.save(storeObject);
         return new PresignedUploadResult(
-                storeObject.getId(), uploadUrl, objectKey, ossHelper.presignedGetUrl(objectKey));
+                storeObject.getId(), objectKey, uploadUrl, ossHelper.presignedGetUrl(objectKey));
     }
 
     /// 获取[StoredObject]访问 URL
