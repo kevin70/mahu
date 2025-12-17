@@ -2,6 +2,7 @@ package cool.houge.mahu.web;
 
 import static cool.houge.mahu.web.ServerRequestUtils.queryArg;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.domain.Pageable;
@@ -67,8 +68,9 @@ public class WebDataFilter implements DataFilter {
                 return WebDataFilter.this;
             }
 
+            @JsonProperty("total_items")
             @Override
-            public int getTotalCount() {
+            public int getTotalItems() {
                 return plist.getTotalCount();
             }
 

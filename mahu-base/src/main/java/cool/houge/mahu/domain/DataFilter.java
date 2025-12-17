@@ -38,7 +38,7 @@ public interface DataFilter {
         DataFilter getFilter();
 
         /// 总记录数
-        int getTotalCount();
+        int getTotalItems();
 
         /// 记录列表
         List<T> getItems();

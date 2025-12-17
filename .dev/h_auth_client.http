@@ -1,0 +1,3 @@
+### 认证终端分页列表 - pageSysAuthClient
+GET {{base_uri}}/sys/auth-clients?size=20
+Authorization: Bearer {{access_token}}
