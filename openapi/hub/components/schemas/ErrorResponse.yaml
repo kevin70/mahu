@@ -17,7 +17,7 @@ properties:
       trace_id:
         type: string
         description: 日志追踪 ID
-        example: 2zY6qQr5Mq8zLJpXv7G8s
+        example: 2zy6qqr5mq8zljpxv7g8s
       timestamp:
         type: string
         format: date-time
