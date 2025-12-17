@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.oas.vo;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 import io.avaje.validation.constraints.*;
 
     /**
@@ -16,7 +17,7 @@ public class SysAdminAuditLogResponse {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Long id;
+    private UUID id;
     /**
      * 创建时间
      */

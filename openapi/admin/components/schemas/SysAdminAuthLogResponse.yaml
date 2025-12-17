@@ -6,8 +6,8 @@ required:
   - admin_id
 properties:
   id:
-    type: integer
-    format: int64
+    type: string
+    format: uuid
     description: 日志 ID
   created_at:
     type: string

@@ -1,0 +1,13 @@
+### 管理员访问日志 - pageSysAdminLog
+GET {{base_uri}}/sys/admin-logs/ACCESS?size=10
+Authorization: Bearer {{access_token}}
+
+
+### 管理员认证日志 - pageSysAdminLog
+GET {{base_uri}}/sys/admin-logs/AUTH?size=10
+Authorization: Bearer {{access_token}}
+
+
+### 管理员审计日志 - pageSysAdminLog
+GET {{base_uri}}/sys/admin-logs/AUDIT?size=10
+Authorization: Bearer {{access_token}}
