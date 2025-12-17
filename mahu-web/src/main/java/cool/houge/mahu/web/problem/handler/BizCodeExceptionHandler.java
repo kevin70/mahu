@@ -40,6 +40,6 @@ public class BizCodeExceptionHandler implements ProblemHandler {
                     case UNAVAILABLE -> Status.SERVICE_UNAVAILABLE_503;
                     default -> Status.INTERNAL_SERVER_ERROR_500;
                 };
-        return new ProblemResponse().setStatus(status.code()).setCode(bz.code()).setMessage(bz.message());
+        return new ProblemResponse().setStatus(status.code()).setCode(bz.code()).setMessage(ex.getMessage());
     }
 }
