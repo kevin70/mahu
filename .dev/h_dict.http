@@ -4,7 +4,7 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "id": {{$random.integer(1,1000)}},
+  "id": "{{$random.uuid}}",
   "name": "{{$random.name.username}}",
   "description": "{{$random.lorem.paragraph}}",
   "disabled": true,

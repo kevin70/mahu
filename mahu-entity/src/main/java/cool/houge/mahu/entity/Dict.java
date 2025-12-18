@@ -31,7 +31,7 @@ public class Dict implements Auditable {
     private Instant updatedAt;
     /// 数据字典类型
     @ManyToOne
-    private DictType dictType;
+    private DictType type;
     /// 标签
     private String label;
     /// 值

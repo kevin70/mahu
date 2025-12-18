@@ -98,7 +98,7 @@ paths:
     $ref: "paths/sys_auth-clients_{client_id}.yaml"
   /sys/dicts:
     $ref: "paths/sys_dicts.yaml"
-  /sys/dicts/{dict_type_id}:
+  /sys/dicts/{type_id}:
     $ref: "paths/sys_dicts_{dict_type_id}.yaml"
   /sys/permissions:
     $ref: "paths/sys_permissions.yaml"

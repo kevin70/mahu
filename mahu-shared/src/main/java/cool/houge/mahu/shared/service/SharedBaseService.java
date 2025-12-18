@@ -52,10 +52,10 @@ public class SharedBaseService {
     ///
     /// 通过字典类型ID加载并返回对应的字典类型对象。
     ///
-    /// @param dictTypeId 字典类型ID
+    /// @param typeId 字典类型ID
     /// @return 对应的字典类型对象
-    public @NonNull LcDictType getDictType(int dictTypeId) {
-        return dicHelper.loadDictType(dictTypeId);
+    public @NonNull LcDictType getDictType(String typeId) {
+        return dicHelper.loadDictType(typeId);
     }
 
     /// 查询所有公共的字典类型

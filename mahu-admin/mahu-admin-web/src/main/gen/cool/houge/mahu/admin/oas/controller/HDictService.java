@@ -11,16 +11,16 @@ public interface HDictService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.post("/sys/dicts/{dict_type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictData);
+        rules.post("/sys/dicts/{type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictData);
         rules.post("/sys/dicts", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictType);
-        rules.delete("/sys/dicts/{dict_type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::deleteSysDictType);
-        rules.get("/sys/dicts/{dict_type_id}", authenticate().andAuthorize("SYS_DICT:R"), this::getSysDictType);
+        rules.delete("/sys/dicts/{type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::deleteSysDictType);
+        rules.get("/sys/dicts/{type_id}", authenticate().andAuthorize("SYS_DICT:R"), this::getSysDictType);
         rules.get("/sys/dicts", authenticate().andAuthorize("SYS_DICT:R"), this::pageSysDictType);
-        rules.put("/sys/dicts/{dict_type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::updateSysDictType);
+        rules.put("/sys/dicts/{type_id}", authenticate().andAuthorize("SYS_DICT:W"), this::updateSysDictType);
     }
 
     ///
-    /// `POST /sys/dicts/{dict_type_id}` 新增字典数据
+    /// `POST /sys/dicts/{type_id}` 新增字典数据
     ///
     /// @param request the server request
     /// @param response the server response
@@ -34,14 +34,14 @@ public interface HDictService extends HttpService {
     void createSysDictType(ServerRequest request, ServerResponse response);
 
     ///
-    /// `DELETE /sys/dicts/{dict_type_id}` 删除字典类型
+    /// `DELETE /sys/dicts/{type_id}` 删除字典类型
     ///
     /// @param request the server request
     /// @param response the server response
     void deleteSysDictType(ServerRequest request, ServerResponse response);
 
     ///
-    /// `GET /sys/dicts/{dict_type_id}` 获取字典类型数据
+    /// `GET /sys/dicts/{type_id}` 获取字典类型数据
     ///
     /// @param request the server request
     /// @param response the server response
@@ -55,7 +55,7 @@ public interface HDictService extends HttpService {
     void pageSysDictType(ServerRequest request, ServerResponse response);
 
     ///
-    /// `PUT /sys/dicts/{dict_type_id}` 修改字典类型
+    /// `PUT /sys/dicts/{type_id}` 修改字典类型
     ///
     /// @param request the server request
     /// @param response the server response

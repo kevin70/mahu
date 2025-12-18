@@ -5,7 +5,7 @@ get:
   security: []
   parameters:
     - in: query
-      name: id
+      name: type_id
       description: 字典类型 ID
       schema:
         type: array

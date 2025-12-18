@@ -35,7 +35,7 @@ class DicHelper {
     private final DictTypeRepository dictTypeRepository;
     private final DictRepository dictRepository;
 
-    private final Cache<Integer, LcDictType> dictTypeCache = Caffeine.newBuilder()
+    private final Cache<String, LcDictType> dictTypeCache = Caffeine.newBuilder()
             .recordStats()
             .expireAfterWrite(Duration.ofDays(1))
             .build();
@@ -59,8 +59,8 @@ class DicHelper {
 
     @SuppressWarnings("DataFlowIssue")
     @NonNull
-    LcDictType loadDictType(int dictTypeId) {
-        return dictTypeCache.get(dictTypeId, this::getDictType);
+    LcDictType loadDictType(String typeId) {
+        return dictTypeCache.get(typeId, this::getDictType);
     }
 
     @SuppressWarnings("DataFlowIssue")
@@ -90,7 +90,7 @@ class DicHelper {
     }
 
     @Transactional(readOnly = true)
-    private LcDictType getDictType(int dictTypeId) {
+    private LcDictType getDictType(String dictTypeId) {
         var dbDictType = dictTypeRepository.findById(dictTypeId);
         if (dbDictType == null) {
             throw new BizCodeException(BizCodes.DATA_LOSS, "缺少字典类型: %s", dictTypeId);

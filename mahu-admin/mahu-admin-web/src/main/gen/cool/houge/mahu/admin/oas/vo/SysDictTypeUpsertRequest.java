@@ -15,9 +15,9 @@ public class SysDictTypeUpsertRequest {
      * 字典类型代码，唯一
      */
       @NotNull
-
+ @Size(min=1,max=50)
     @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Integer id;
+    private String id;
     /**
      * 字典类型名称
      */

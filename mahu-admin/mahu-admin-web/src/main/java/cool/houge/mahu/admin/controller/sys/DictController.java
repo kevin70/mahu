@@ -84,8 +84,8 @@ public class DictController implements HDictService, WebSupport {
         response.status(NO_CONTENT_204).send();
     }
 
-    Integer dictTypeId(ServerRequest request) {
-        return pathArg(request, "dict_type_id").asInt().get();
+    String dictTypeId(ServerRequest request) {
+        return pathArg(request, "type_id").get();
     }
 
     void validateDataValue(SysDictTypeUpsertRequest bean) {

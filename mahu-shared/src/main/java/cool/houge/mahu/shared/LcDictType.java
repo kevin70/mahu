@@ -24,7 +24,7 @@ public class LcDictType {
     Helper helper = new Helper();
 
     /// 字典类型的唯一标识符
-    int id;
+    String id;
     /// 字典类型的名称
     String name;
     /// 字典类型的描述信息

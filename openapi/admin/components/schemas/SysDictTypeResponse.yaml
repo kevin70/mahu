@@ -14,8 +14,7 @@ properties:
     format: date-time
     description: 修改时间
   id:
-    type: integer
-    format: int32
+    type: string
     description: 字典类型代码，唯一
   name:
     type: string

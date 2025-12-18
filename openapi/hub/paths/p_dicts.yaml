@@ -1,11 +1,11 @@
 get:
   summary: 字典类型列表
   operationId: listPublicDict
-  tags: [h_public_dict]
-  security: []
+  tags: [ h_public_dict ]
+  security: [ ]
   parameters:
     - in: query
-      name: id
+      name: type_id
       description: 字典类型 ID
       schema:
         type: array

@@ -17,7 +17,7 @@ public class PublicDictTypeResponse {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("id")
-    private Integer id;
+    private String id;
     /**
      * 字典类型名称
      */

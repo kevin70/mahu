@@ -24,7 +24,7 @@ public class DictType implements Auditable {
 
     /// 字典类型编码，唯一
     @Id
-    private Integer id;
+    private String id;
     /// 创建时间
     @WhenCreated
     private Instant createdAt;
@@ -46,7 +46,7 @@ public class DictType implements Auditable {
     /// 值正则表达式规则
     private String valueRegex;
     /// 字典数据
-    @OneToMany(mappedBy = "dictType", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dict> data;
 
     /// 可见性

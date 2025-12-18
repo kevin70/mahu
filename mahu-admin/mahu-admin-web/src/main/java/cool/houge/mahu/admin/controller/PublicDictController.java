@@ -34,10 +34,9 @@ public class PublicDictController implements HPublicDictService, WebSupport {
     @Override
     public void listPublicDict(ServerRequest request, ServerResponse response) {
         var queryParams = request.query();
-        var idList = queryParams.all("id", List::of).stream()
+        var idList = queryParams.all("type_id", List::of).stream()
                 .map(String::trim)
                 .filter(Predicate.not(String::isEmpty))
-                .map(Integer::parseInt)
                 .collect(Collectors.toSet());
         var includeData = queryParams.first("include_data").asBoolean().orElse(false);
 
