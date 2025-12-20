@@ -12,7 +12,7 @@ public class LcDict {
     /// 字典代码
     int dc;
     /// 字典类型 ID
-    int dictTypeId;
+    int typeId;
     /// 字典值
     String value;
     /// 标签

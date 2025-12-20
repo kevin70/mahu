@@ -32,10 +32,10 @@ public class DelayMessage {
     private String topic;
     /// 状态
     ///
-    /// - [cool.houge.mahu.StatusCodes#PENDING]
-    /// - [cool.houge.mahu.StatusCodes#PROCESSING]
-    /// - [cool.houge.mahu.StatusCodes#COMPLETED]
-    /// - [cool.houge.mahu.StatusCodes#ARCHIVED]
+    /// - [cool.houge.mahu.Status#PENDING]
+    /// - [cool.houge.mahu.Status#PROCESSING]
+    /// - [cool.houge.mahu.Status#COMPLETED]
+    /// - [cool.houge.mahu.Status#ARCHIVED]
     private Integer status;
     /// 消息延迟到的绝对时间（精确到毫秒）
     private Instant delayUntil;
