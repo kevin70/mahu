@@ -46,6 +46,13 @@ public interface Pageable {
      */
     Sort getSort();
 
+    /// 检查并调整页码和每页条目数，确保它们在允许的范围内
+    ///
+    /// @param maxPage 最大允许的页码
+    /// @param maxSize 最大允许的每页条目数
+    /// @return 调整后的 Pageable 对象
+    Pageable checkPageAndSize(int maxPage, long maxSize);
+
     /// 返回一个表示无分页设置但具有[Sort]的[Pageable]实例
     ///
     /// @param sort 不能为`null`，必要时使用[Sort#unsorted]

@@ -2,6 +2,9 @@ package cool.houge.mahu.domain;
 
 import static java.util.Objects.requireNonNullElse;
 
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
+
 /// 分页请求的默认实现类
 ///
 /// @author ZY (kzou227@qq.com)
@@ -68,5 +71,16 @@ public class PageRequest implements Pageable {
     @Override
     public Sort getSort() {
         return sort;
+    }
+
+    @Override
+    public Pageable checkPageAndSize(int maxPage, long maxSize) {
+        if (pageNumber > maxPage) {
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "页码超出最大限制");
+        }
+        if (pageSize > maxSize) {
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "页大小超出最大限制");
+        }
+        return this;
     }
 }

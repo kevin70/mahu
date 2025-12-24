@@ -53,4 +53,9 @@ public class Unpaged implements Pageable {
     public Sort getSort() {
         return sort;
     }
+
+    @Override
+    public Pageable checkPageAndSize(int maxPage, long maxSize) {
+        return this;
+    }
 }
