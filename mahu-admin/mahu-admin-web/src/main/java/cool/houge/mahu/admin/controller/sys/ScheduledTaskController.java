@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import static cool.houge.mahu.web.ServerRequestUtils.pathString;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.oas.controller.HScheduledTaskService;
@@ -51,6 +52,6 @@ public class ScheduledTaskController implements HScheduledTaskService, WebSuppor
     }
 
     String taskName(ServerRequest request) {
-        return pathArg(request, "task_name").get();
+        return pathString(request, "task_name");
     }
 }

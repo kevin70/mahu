@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import static cool.houge.mahu.web.ServerRequestUtils.pathLong;
 import static io.helidon.http.Status.FOUND_302;
 
 import cool.houge.mahu.admin.oas.controller.HFileService;
@@ -36,7 +37,7 @@ public class FileController implements HFileService, WebSupport {
 
     @Override
     public void forwardFile(ServerRequest request, ServerResponse response) {
-        var fileId = pathArg(request, "file_id").asLong().get();
+        var fileId = pathLong(request, "file_id");
         var location = sharedOssService.presignedGetUrlByStoredObject(fileId);
         response.status(FOUND_302).header(HeaderNames.LOCATION, location).send();
     }

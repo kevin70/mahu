@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import static cool.houge.mahu.web.ServerRequestUtils.pathInt;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.oas.controller.HRoleService;
@@ -33,8 +34,7 @@ public class RoleController implements HRoleService, WebSupport {
 
     @Override
     public void deleteSysRole(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var id = pathParams.first("id").asInt().get();
+        var id = pathInt(request, "id");
 
         roleService.deleteById(id);
         response.status(NO_CONTENT_204).send();
@@ -42,8 +42,7 @@ public class RoleController implements HRoleService, WebSupport {
 
     @Override
     public void getSysRole(ServerRequest request, ServerResponse response) {
-        var pathParams = request.path().pathParameters();
-        var id = pathParams.first("id").asInt().get();
+        var id = pathInt(request, "id");
 
         var bean = roleService.findById(id);
         var rs = beanMapper.toSysRoleResponse(bean);

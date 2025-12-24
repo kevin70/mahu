@@ -1,5 +1,7 @@
 package cool.houge.mahu.admin.controller;
 
+import static cool.houge.mahu.web.ServerRequestUtils.pathInt;
+
 import com.google.common.collect.Lists;
 import cool.houge.mahu.admin.oas.controller.HPublicDictService;
 import cool.houge.mahu.admin.sys.service.DictService;
@@ -24,7 +26,7 @@ public class PublicDictController implements HPublicDictService, WebSupport {
 
     @Override
     public void getPublicDict(ServerRequest request, ServerResponse response) {
-        var dc = pathArg(request, "dc").asInt().get();
+        var dc = pathInt(request, "dc");
 
         var bean = dictService.findDictData(dc);
         var rs = beanMapper.toPublicDictDataResponse(bean);

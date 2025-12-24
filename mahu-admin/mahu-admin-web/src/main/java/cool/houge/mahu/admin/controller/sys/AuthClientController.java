@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import static cool.houge.mahu.web.ServerRequestUtils.pathString;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.oas.controller.HAuthClientService;
@@ -68,6 +69,6 @@ public class AuthClientController implements HAuthClientService, WebSupport {
     }
 
     String clientId(ServerRequest request) {
-        return pathArg(request, "client_id").get();
+        return pathString(request, "client_id");
     }
 }

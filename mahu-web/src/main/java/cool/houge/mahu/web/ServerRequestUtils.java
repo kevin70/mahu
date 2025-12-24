@@ -8,7 +8,6 @@ import cool.houge.mahu.domain.Sort;
 import io.helidon.common.mapper.MapperException;
 import io.helidon.common.mapper.OptionalValue;
 import io.helidon.common.mapper.Value;
-import io.helidon.common.parameters.Parameters;
 import io.helidon.webserver.http.ServerRequest;
 import java.util.List;
 import java.util.Optional;
@@ -69,7 +68,7 @@ public final class ServerRequestUtils {
     /// @param request 请求对象
     /// @param name 参数名称
     public static Value<String> pathArg(ServerRequest request, String name) {
-        return first(request.path().pathParameters(), name);
+        return request.path().pathParameters().first(name);
     }
 
     /// 从查询参数中获取布尔类型的参数值（可选）
@@ -126,7 +125,17 @@ public final class ServerRequestUtils {
     /// @param request 请求对象
     /// @param name 参数名称
     public static OptionalValue<String> queryArg(ServerRequest request, String name) {
-        return first(request.query(), name);
+        return request.query().first(name);
+    }
+
+    /// 从查询参数中获取整型列表的参数值
+    ///
+    /// @param request 请求对象
+    /// @param name 参数名称
+    public static List<Integer> queryListInt(ServerRequest request, String name) {
+        return request.query().allValues(name).stream()
+                .map(v -> v.asInt().get())
+                .toList();
     }
 
     /// 获取分页参数对象
@@ -150,14 +159,6 @@ public final class ServerRequestUtils {
     public static Sort sortArgs(ServerRequest request) {
         var params = request.query();
         return toSort(params.all("sort", List::of));
-    }
-
-    /// 从参数列表中获取第一个参数值
-    ///
-    /// @param parameters 参数列表
-    /// @param name 参数名称
-    static OptionalValue<String> first(Parameters parameters, String name) {
-        return new RequestParameterValue(parameters.first(name));
     }
 
     /// 将排序参数转换为 Sort 对象

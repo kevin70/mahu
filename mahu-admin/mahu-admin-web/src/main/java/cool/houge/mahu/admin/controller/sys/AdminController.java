@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import static cool.houge.mahu.web.ServerRequestUtils.pathArg;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.oas.controller.HAdminService;

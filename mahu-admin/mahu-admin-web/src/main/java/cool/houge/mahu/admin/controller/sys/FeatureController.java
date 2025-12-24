@@ -1,5 +1,7 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import static cool.houge.mahu.web.ServerRequestUtils.pathInt;
+
 import cool.houge.mahu.admin.oas.controller.HFeatureService;
 import cool.houge.mahu.admin.oas.vo.SysFeatureUpdateRequest;
 import cool.houge.mahu.admin.sys.service.FeatureService;
@@ -22,7 +24,7 @@ public class FeatureController implements HFeatureService, WebSupport {
 
     @Override
     public void getSysFeature(ServerRequest request, ServerResponse response) {
-        var featureId = pathArg(request, "feature_id").asInt().get();
+        var featureId = pathInt(request, "feature_id");
         var bean = featureService.findById(featureId);
         var rs = beanMapper.toSysFeatureResponse(bean);
         response.send(rs);
@@ -38,7 +40,7 @@ public class FeatureController implements HFeatureService, WebSupport {
 
     @Override
     public void updateSysFeature(ServerRequest request, ServerResponse response) {
-        var featureId = pathArg(request, "feature_id").asInt().get();
+        var featureId = pathInt(request, "feature_id");
         var vo = request.content().as(SysFeatureUpdateRequest.class);
         validate(vo);
 

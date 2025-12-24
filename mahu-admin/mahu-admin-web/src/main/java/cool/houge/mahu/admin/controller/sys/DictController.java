@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import static cool.houge.mahu.web.ServerRequestUtils.pathString;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import com.google.common.base.Strings;
@@ -85,7 +86,7 @@ public class DictController implements HDictService, WebSupport {
     }
 
     String dictTypeId(ServerRequest request) {
-        return pathArg(request, "type_id").get();
+        return pathString(request, "type_id");
     }
 
     void validateDataValue(SysDictTypeUpsertRequest bean) {
