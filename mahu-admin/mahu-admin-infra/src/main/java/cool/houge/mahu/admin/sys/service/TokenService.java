@@ -1,7 +1,6 @@
 package cool.houge.mahu.admin.sys.service;
 
-import com.github.f4b6a3.uuid.UuidCreator;
-import com.github.f4b6a3.uuid.codec.base.Base58BtcCodec;
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
@@ -133,7 +132,7 @@ public class TokenService implements TokenVerifier {
         var metadata = Metadata.current();
         adminAuthLogRepository.save(
                 new AdminAuthLog()
-                        .setId(UuidCreator.getTimeOrderedEpoch())
+                        .setId(UlidCreator.getMonotonicUlid().toUuid())
                         .setAdminId(admin.getId())
                         .setGrantType(payload.getGrantType().name())
                         .setClientId(client.getClientId())
@@ -147,7 +146,7 @@ public class TokenService implements TokenVerifier {
     @Transactional
     TokenResult makeToken(TokenPayload payload, Admin admin) {
         var jwk = obtainJwk();
-        var jwtId = Base58BtcCodec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch());
+        var jwtId = UlidCreator.getMonotonicUlid().toString();
         var sub = String.valueOf(admin.getId());
         var iat = Instant.now();
         var nonce = String.valueOf(Math.random());

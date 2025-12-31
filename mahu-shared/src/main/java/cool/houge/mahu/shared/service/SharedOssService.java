@@ -1,7 +1,6 @@
 package cool.houge.mahu.shared.service;
 
-import com.github.f4b6a3.uuid.UuidCreator;
-import com.github.f4b6a3.uuid.codec.base.Base32Codec;
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.io.Files;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
@@ -87,7 +86,7 @@ public class SharedOssService {
 
     private String buildObjectKey(String prefix, String filename) {
         var ext = Files.getFileExtension(filename);
-        var k = Base32Codec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch());
+        var k = UlidCreator.getMonotonicUlid();
         return ext.isEmpty() ? prefix + "/" + k : prefix + "/" + k + "." + ext;
     }
 }

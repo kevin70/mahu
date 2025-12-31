@@ -182,12 +182,12 @@ allprojects {
             dependency("org.instancio:instancio-junit:5.4.1")
             dependency("io.minio:minio:8.5.17")
             dependency("com.password4j:password4j:1.8.1")
-            dependency("com.github.f4b6a3:uuid-creator:6.1.1")
             dependency("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:1.5.2")
             dependency("io.github.nstdio:rsql-parser:2.3.4")
             dependency("com.github.kagkarlsson:db-scheduler:16.6.0")
             dependency("org.dhatim:fastexcel:0.19.0")
             dependency("org.dhatim:fastexcel-reader:0.19.0")
+            dependency("com.github.f4b6a3:ulid-creator:5.2.3")
 
             // 微信第三方 SDK
             dependency("com.github.binarywang:weixin-java-miniapp:4.7.7-20250730.233020")
@@ -204,7 +204,7 @@ allprojects {
         annotationProcessor("io.avaje:avaje-validator-generator")
         compileOnly("org.projectlombok:lombok")
         compileOnly("org.mapstruct:mapstruct")
-        implementation("com.github.f4b6a3:uuid-creator")
+        implementation("com.github.f4b6a3:ulid-creator")
 
         testAnnotationProcessor("org.projectlombok:lombok")
         testCompileOnly("org.projectlombok:lombok")

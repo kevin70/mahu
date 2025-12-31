@@ -1,6 +1,6 @@
 package cool.houge.mahu.shared.repository.sys;
 
-import com.github.f4b6a3.uuid.UuidCreator;
+import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.entity.sys.DelayMessage;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
@@ -27,7 +27,7 @@ public class DelayMessageRepository extends HBeanRepository<UUID, DelayMessage> 
 
     /// 批量保存
     public void batchSave(DelayMessage message) {
-        message.setId(UuidCreator.getTimeOrderedEpoch());
+        message.setId(UlidCreator.getMonotonicUlid().toUuid());
 
         var ctx = Contexts.context();
         if (ctx.isEmpty()) {

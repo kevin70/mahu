@@ -2,8 +2,7 @@ package cool.houge.mahu.admin;
 
 import static io.helidon.http.HeaderNames.AUTHORIZATION;
 
-import com.github.f4b6a3.uuid.UuidCreator;
-import com.github.f4b6a3.uuid.codec.base.Base32Codec;
+import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.util.Metadata;
@@ -108,7 +107,7 @@ public class AppHttpFeature implements HttpFeature, Filter {
     String traceId(ServerRequest request) {
         return request.headers()
                 .first(X_REQUEST_ID)
-                .orElseGet(() -> Base32Codec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch()));
+                .orElseGet(() -> UlidCreator.getUlid().toString());
     }
 
     private static class SimpleSecurity implements HttpSecurity {

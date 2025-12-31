@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.sys.service;
 
-import com.github.f4b6a3.uuid.UuidCreator;
+import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.admin.event.AdminAccessEvent;
 import cool.houge.mahu.admin.sys.repository.AdminAccessLogRepository;
 import io.ebean.annotation.Transactional;
@@ -21,7 +21,7 @@ class AdminAccessEventHandler {
     @Observer
     void onAdminAccessLogEvent(AdminAccessEvent event) {
         var logEntity = event.log();
-        logEntity.setId(UuidCreator.getTimeOrderedEpoch());
+        logEntity.setId(UlidCreator.getMonotonicUlid().toUuid());
         adminAccessLogRepository.save(logEntity);
     }
 }
