@@ -2,6 +2,7 @@ package cool.houge.mahu;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.Getter;
 
@@ -245,12 +246,12 @@ public enum Status {
 
     /// 判断状态码是否有效
     public static boolean isValidCode(Integer code) {
-        return CODE_MAP.containsKey(code);
+        return code != null && CODE_MAP.containsKey(code);
     }
 
     /// 判断两个状态码是否相等
     public boolean eq(Integer code) {
-        return code != null && this.code == code;
+        return Objects.equals(this.code, code);
     }
 
     /// 判断两个状态码是否不相等
