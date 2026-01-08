@@ -57,11 +57,9 @@ public class SysAdminResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("avatar")
     private String avatar;
     /**
-     * 数据状态  - `10` `DRAFT` 草稿 - `11` `PENDING` 进行中 - `20` `APPROVED` 已批准/已通过/已授权 - `22` `ACTIVE` 活跃 - `30` `PAID` 已支付 - `76` `DISABLED` 已禁用 
-     * minimum: 10
-     * maximum: 99
+     * 状态 - `11` 活跃 - `54` 已禁用 
      */
-     @Min(10) @Max(99)
+    
     @com.fasterxml.jackson.annotation.JsonProperty("status")
     private Integer status;
     /**

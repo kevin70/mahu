@@ -60,7 +60,7 @@ public class SysFeatureResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("description")
     private String description;
     /**
-     * 数据状态  - `10` `DRAFT` 草稿 - `11` `PENDING` 进行中 - `20` `APPROVED` 已批准/已通过/已授权 - `22` `ACTIVE` 活跃 - `30` `PAID` 已支付 - `76` `DISABLED` 已禁用 
+     * 数据状态  - `10` `DRAFT` 草稿 - `11` `PENDING` 进行中 - `20` `APPROVED` 已批准/已通过/已授权 - `22` `ACTIVE` 活跃 - `30` `PAID` 已支付 - `54` `DISABLED` 已禁用 
      * minimum: 10
      * maximum: 99
      */

@@ -4,13 +4,13 @@ import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.Status;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
-import cool.houge.mahu.admin.entity.AdminStatus;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
 import cool.houge.mahu.admin.sys.repository.AdminAccessLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminAuditLogRepository;
@@ -47,7 +47,7 @@ public class AdminService {
     @Transactional
     public Profile getProfile(long uid) {
         var user = adminRepository.obtainById(uid);
-        if (user.getStatus() != AdminStatus.ACTIVE) {
+        if (Status.ACTIVE.neq(user.getStatus())) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "帐号已被禁止");
         }
 
@@ -60,7 +60,7 @@ public class AdminService {
     /// 保存
     @Transactional
     public void save(Admin entity) {
-        entity.setDeleted(false).setStatus(AdminStatus.ACTIVE);
+        entity.setDeleted(false).setStatus(Status.ACTIVE.getCode());
         encryptPassword(entity);
         adminRepository.save(entity);
     }

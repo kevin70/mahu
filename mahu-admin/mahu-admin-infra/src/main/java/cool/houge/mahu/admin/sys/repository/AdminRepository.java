@@ -2,7 +2,6 @@ package cool.houge.mahu.admin.sys.repository;
 
 import com.google.common.base.Strings;
 import cool.houge.mahu.admin.entity.Admin;
-import cool.houge.mahu.admin.entity.AdminStatus;
 import cool.houge.mahu.admin.entity.query.QAdmin;
 import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.rsql.FilterItem;
@@ -53,7 +52,7 @@ public class AdminRepository extends HBeanRepository<Long, Admin> {
                 FilterItem.of(QAdmin.Alias.createdAt),
                 FilterItem.of(QAdmin.Alias.updatedAt),
                 FilterItem.of(QAdmin.Alias.nickname),
-                FilterItem.of(QAdmin.Alias.status, AdminStatus::valueOf)
+                FilterItem.of(QAdmin.Alias.status)
                 //
                 );
     }

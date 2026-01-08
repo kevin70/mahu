@@ -5,9 +5,9 @@ import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.Status;
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
-import cool.houge.mahu.admin.entity.AdminStatus;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
@@ -121,8 +121,7 @@ public class TokenService implements TokenVerifier {
                     case null, default -> throw new BizCodeException(BizCodes.UNIMPLEMENTED);
                 };
 
-        var status = admin.getStatus();
-        if (status != AdminStatus.ACTIVE) {
+        if (Status.ACTIVE.neq(admin.getStatus())) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "该帐号禁止登录");
         }
         var ret = makeToken(payload, admin);

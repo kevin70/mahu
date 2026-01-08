@@ -6,7 +6,6 @@ import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
@@ -50,9 +49,11 @@ public class Admin implements Auditable {
     private String nickname;
     /// 头像地址
     private String avatar;
-    /// 用户状态
-    @Enumerated
-    private AdminStatus status;
+    /// 状态
+    ///
+    /// - [cool.houge.mahu.Status#ACTIVE]
+    /// - [cool.houge.mahu.Status#DISABLED]
+    private Integer status;
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(schema = "sys", name = "admin_role")

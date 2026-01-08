@@ -29,7 +29,12 @@ properties:
     type: string
     description: 头像地址
   status:
-    $ref: "./_status.yaml"
+    type: integer
+    format: int32
+    description: |
+      状态
+      - `11` 活跃
+      - `54` 已禁用
   role_ids:
     type: array
     description: 角色 IDs

@@ -8,6 +8,6 @@ description: |
   - `20` `APPROVED` 已批准/已通过/已授权
   - `22` `ACTIVE` 活跃
   - `30` `PAID` 已支付
-  - `76` `DISABLED` 已禁用
+  - `54` `DISABLED` 已禁用
 minimum: 10
 maximum: 99
