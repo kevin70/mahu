@@ -20,6 +20,24 @@ UTM 示例 URL
 - 统一分析：与 Google Analytics 或自建分析系统结合，按 campaign/source/medium 汇总效果。
 - 支持 A/B 与多渠道比对：通过 utm_content / utm_campaign 区分不同创意或测试组。
 
+### UTM 命名规范
+
+- 字母小写、去首尾空格：utm 参数统一小写并 trim（例如：Google -> google）。
+- 用下划线或短横分隔单词：推荐使用下划线（spring_sale -> spring_sale）。
+- 不要包含敏感信息（PII）。
+- 必要参数说明：
+  - utm_source（必填推荐）：来源平台/域名/媒体名，例如 google / baidu / wechat / newsletter。
+  - utm_medium（必填推荐）：媒介类型，例如 organic / cpc / email / social / affiliate / referral / offline。
+  - utm_campaign（强烈建议）：活动/项目标识，格式建议：product_action_yyyymm（如 shoes_launch_202601）。
+  - utm_term（可选）：关键字/词组（付费搜索场景）。
+  - utm_content（可选）：同一 campaign 的不同创意/位置区分（btn_a / banner_top）。
+- campaign 命名建议模板（便于过滤与分组）：
+  - {product}{purpose}{yyyymmdd}_{variant} 例如: shoes_launch_20260101_a
+- 白名单（示例，建议团队内部维护）：
+  - utm_source 白名单（示例）： google, baidu, bing, facebook, instagram, tiktok, wechat, qq, weibo, linkedin, partner_x
+  - utm_medium 白名单： organic, cpc, ppc, display, email, social, referral, affiliate, offline, sms
+- 存储：单独列 utm_source/utm_medium/utm_campaign/utm_term/utm_content，并同时保存 utm_raw（原始 querystring 或完整 URL）。
+
 ### 实践与注意事项（对数据库与数据采集的建议）
 
 - 同时保存结构化字段与原始串：在用户/订单属性表里既存 `utm_source/utm_medium/utm_campaign/...` 字段（便于索引、聚合），也保存
