@@ -1,7 +1,7 @@
 ## x-request-id
 
 `x-request-id` 是一个 HTTP 头字段，用于唯一标识每个请求。它在分布式系统和微服务架构中非常有用，可以帮助跟踪请求在多个服务之间的流动情况，便于日志记录、调试和问题排查。
-`x-request-id` 应该是全局唯一的，建议使用 `UUID v7` 生成并使用 `Base32` 编码的字符串来实现。
+`x-request-id` 应该是全局唯一的，建议使用 `ULID` 生成的字符串来实现。
 
 ### 作用
 
@@ -12,10 +12,8 @@
 
 ### 使用方法
 
-- **客户端发送请求**：客户端在发送请求时，可以在 HTTP 头中添加 `x-request-id` 字段。如果客户端没有提供 `x-request-id`
-  ，服务端可以自动生成一个并返回给客户端。
-- **服务端接收请求**：服务端接收到请求后，会读取 `x-request-id` 并在整个请求处理过程中保持该标识符不变。服务端还可以在响应头中返回
-  `x-request-id`，以便客户端在后续请求中使用相同的标识符。
+- **客户端发送请求**：客户端在发送请求时，可以在 HTTP 头中添加 `x-request-id` 字段。如果客户端没有提供 `x-request-id`，服务端可以自动生成一个并返回给客户端。
+- **服务端接收请求**：服务端接收到请求后，会读取 `x-request-id` 并在整个请求处理过程中保持该标识符不变。服务端还可以在响应头中返回 `x-request-id`，以便客户端在后续请求中使用相同的标识符。
 - **日志记录**：在每个服务的日志中记录 `x-request-id`，确保每个日志条目都包含这个标识符，以便于后续的分析和关联。
 
 ### 示例
@@ -25,7 +23,7 @@
 ```http
 GET /api/resource HTTP/1.1
 Host: example.com
-x-request-id: 4Jz2mLrKvRgWjXnY
+x-request-id: 01H9JQ23GZ54V8KXWYB6CZT3D
 ```
 
 #### 服务端响应
@@ -33,7 +31,7 @@ x-request-id: 4Jz2mLrKvRgWjXnY
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/json
-x-request-id: 4Jz2mLrKvRgWjXnY
+x-request-id: 01H9JQ23GZ54V8KXWYB6CZT3D
 
 {
   "data": "some data"
