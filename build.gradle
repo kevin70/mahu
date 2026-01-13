@@ -15,6 +15,7 @@ plugins {
     id("de.undercouch.download") version "5.6.0"
     id("net.researchgate.release") version "3.1.0"
     id("com.google.cloud.tools.jib") version "3.5.2"
+    id("com.google.osdetector") version "1.7.3"
 }
 
 release {
@@ -31,6 +32,7 @@ allprojects {
     apply plugin: "org.hidetake.ssh"
     apply plugin: "com.github.node-gradle.node"
     apply plugin: "io.spring.dependency-management"
+    apply plugin: "com.google.osdetector"
 
     group = "cool.houge.mahu"
 
