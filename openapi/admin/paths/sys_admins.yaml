@@ -16,13 +16,29 @@ get:
   summary: 管理员分页列表
   operationId: pageSysAdmin
   x-permission-code: SYS_ADMIN:R
-  tags: [h_admin]
+  tags: [ h_admin ]
   parameters:
     - $ref: "../components/parameters/per_page.yaml"
     - $ref: "../components/parameters/page.yaml"
     - $ref: "../components/parameters/sort.yaml"
     - $ref: "../components/parameters/include_deleted.yaml"
     - $ref: "../components/parameters/include_total.yaml"
+    - in: query
+      name: status
+      description: 状态
+      schema:
+        type: array
+        items:
+          type: integer
+          minimum: 0
+          maximum: 9999
+        maxItems: 99
+    - in: query
+      name: username
+      description: 登录名
+      schema:
+        type: string
+        maxLength: 128
   responses:
     "200":
       description: OK
