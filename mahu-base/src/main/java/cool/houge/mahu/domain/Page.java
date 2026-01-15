@@ -1,5 +1,8 @@
 package cool.houge.mahu.domain;
 
+import static java.util.Objects.requireNonNullElse;
+
+import com.google.common.primitives.Ints;
 import io.helidon.common.parameters.Parameters;
 import org.jspecify.annotations.NonNull;
 
@@ -56,26 +59,63 @@ public interface Page {
         return new Unpaged(sort);
     }
 
-    /// 使用给定的页码和每页条目数创建一个分页请求对象。
-    ///
-    /// @param page 要查询的页码。
-    /// @param perPage 每页的条目数。
-    /// @return 分页请求对象。
-    static @NonNull Page of(int page, int perPage) {
-        return new PageRequest(page, perPage, Sort.unsorted());
+    /// 返回构建器
+    static Builder builder() {
+        return new Builder();
     }
 
-    /// 根据传入的参数创建一个分页请求对象。
-    ///
-    /// 参数中可包含以下键值对：
-    /// - `per_page`：每页要返回的条目数。
-    /// - `page`：要查询的页码。
-    /// - `include_total`：是否返回总记录数量（布尔值）。
-    /// - `sort`：排序参数。
-    ///
-    /// @param params 包含分页参数的对象。
-    /// @return 分页请求对象。
-    static @NonNull Page of(@NonNull Parameters params) {
-        return PageRequest.of(params);
+    class Builder {
+
+        private int page = DEFAULT_PAGE;
+        private int perPage = DEFAULT_PER_PAGE;
+        private boolean includeTotal = true;
+        private Sort sort = Sort.unsorted();
+
+        private Builder() {}
+
+        public Builder page(int page) {
+            this.page = page;
+            return this;
+        }
+
+        public Builder perPage(int perPage) {
+            this.perPage = perPage;
+            return this;
+        }
+
+        public Builder includeTotal(boolean includeTotal) {
+            this.includeTotal = includeTotal;
+            return this;
+        }
+
+        public Builder sort(@NonNull Sort sort) {
+            this.sort = sort;
+            return this;
+        }
+
+        /// 根据传入的参数创建一个分页请求对象。
+        ///
+        /// 参数中可包含以下键值对：
+        /// - `per_page`：每页要返回的条目数。
+        /// - `page`：要查询的页码。
+        /// - `include_total`：是否返回总记录数量（布尔值）。
+        /// - `sort`：排序参数。
+        ///
+        /// @param params 包含分页参数的对象。
+        public Builder with(Parameters params) {
+            this.sort = Sort.of(params);
+            this.page = params.first("page")
+                    .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PAGE))
+                    .orElse(DEFAULT_PAGE);
+            this.perPage = params.first("per_page")
+                    .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PER_PAGE))
+                    .orElse(DEFAULT_PER_PAGE);
+            this.includeTotal = params.first("include_total").asBoolean().orElse(true);
+            return this;
+        }
+
+        public Page build() {
+            return new PageRequest(page, perPage, includeTotal, sort);
+        }
     }
 }
