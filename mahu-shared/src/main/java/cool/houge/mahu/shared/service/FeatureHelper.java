@@ -1,6 +1,5 @@
 package cool.houge.mahu.shared.service;
 
-import static cool.houge.mahu.shared.G.SCHEDULED_EXECUTOR;
 import static java.util.Optional.ofNullable;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -9,7 +8,6 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.Status;
 import cool.houge.mahu.entity.sys.Feature;
-import cool.houge.mahu.shared.G;
 import cool.houge.mahu.shared.ImmutableFeature;
 import cool.houge.mahu.shared.repository.sys.FeatureRepository;
 import cool.houge.mahu.util.RoaringBitmapUtils;
@@ -18,7 +16,6 @@ import io.helidon.service.registry.Service;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,15 +35,6 @@ class FeatureHelper {
             .expireAfterWrite(Duration.ofDays(1))
             .build();
     private final FeatureRepository featureRepository;
-
-    @Service.PostConstruct
-    void init() {
-        var delay = G.adaptCacheTtl(Duration.ofMinutes(10), Duration.ofMinutes(1));
-        SCHEDULED_EXECUTOR
-                .get()
-                .scheduleWithFixedDelay(this::refreshAll, delay.toMillis(), delay.toMillis(), TimeUnit.MILLISECONDS);
-        this.refreshAll();
-    }
 
     /// 获取指定的功能
     @SuppressWarnings("DataFlowIssue")
