@@ -1,16 +1,20 @@
 package cool.houge.mahu.admin.dto;
 
 import java.util.List;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Builder.Default;
+import lombok.Value;
 
 /// 管理员查询
 ///
 /// @author ZY (kzou227@qq.com)
-@Data
+@Value
+@Builder
 public class AdminQuery {
 
     /// 状态
-    private List<Integer> statusList;
+    @Default
+    List<Integer> statusList = List.of();
     /// 登录名
-    private String username;
+    String username;
 }
