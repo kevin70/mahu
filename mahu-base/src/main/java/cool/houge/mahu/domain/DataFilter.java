@@ -15,7 +15,7 @@ public interface DataFilter {
     Optional<String> filter();
 
     /// 分页参数
-    Pageable page();
+    Page page();
 
     /// 排序参数
     Sort sort();

@@ -2,50 +2,36 @@ package cool.houge.mahu.domain;
 
 import static java.util.Objects.requireNonNullElse;
 
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
+import com.google.common.primitives.Ints;
+import io.helidon.common.parameters.Parameters;
+import org.jspecify.annotations.NonNull;
 
 /// 分页请求的默认实现类
 ///
 /// @author ZY (kzou227@qq.com)
-public class PageRequest implements Pageable {
+class PageRequest implements Page {
 
-    private final int pageNumber;
-    private final int pageSize;
+    private final int page;
+    private final int perPage;
+    private final boolean includeTotal;
     private final Sort sort;
 
-    /**
-     * 私有构造器，通过静态工厂方法创建实例
-     */
-    private PageRequest(int pageNumber, int pageSize, Sort sort) {
-        if (pageNumber < 0) {
-            throw new IllegalArgumentException("页码不能为负数: " + pageNumber);
+    PageRequest(int page, int perPage, Sort sort) {
+        this(page, perPage, true, sort);
+    }
+
+    PageRequest(int page, int perPage, boolean includeTotal, Sort sort) {
+        if (page <= 0) {
+            throw new IllegalArgumentException("页码必须为正数: " + page);
         }
-        if (pageSize <= 0) {
-            throw new IllegalArgumentException("页大小必须为正数: " + pageSize);
+        if (perPage <= 0) {
+            throw new IllegalArgumentException("页大小必须为正数: " + perPage);
         }
 
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;
+        this.page = page;
+        this.perPage = perPage;
+        this.includeTotal = includeTotal;
         this.sort = requireNonNullElse(sort, Sort.unsorted());
-    }
-
-    /// 创建分页请求实例
-    ///
-    /// @param pageNumber 页码（从`0`开始）
-    /// @param pageSize 页大小
-    /// @return 分页请求实例
-    public static PageRequest of(int pageNumber, int pageSize) {
-        return new PageRequest(pageNumber, pageSize, Sort.unsorted());
-    }
-
-    /// 创建带排序的分页请求实例
-    /// @param pageNumber 页码（从`0`开始）
-    /// @param pageSize 页大小
-    /// @param sort 排序参数
-    /// @return 分页请求实例
-    public static PageRequest of(int pageNumber, int pageSize, Sort sort) {
-        return new PageRequest(pageNumber, pageSize, sort);
     }
 
     @Override
@@ -54,33 +40,39 @@ public class PageRequest implements Pageable {
     }
 
     @Override
-    public int getPageNumber() {
-        return pageNumber;
+    public boolean isIncludeTotal() {
+        return includeTotal;
     }
 
     @Override
-    public int getPageSize() {
-        return pageSize;
+    public int getPage() {
+        return page;
+    }
+
+    @Override
+    public int getPerPage() {
+        return perPage;
     }
 
     @Override
     public long getOffset() {
-        return (long) pageNumber * pageSize;
+        return (long) (page - 1) * perPage;
     }
 
     @Override
-    public Sort getSort() {
+    public @NonNull Sort getSort() {
         return sort;
     }
 
-    @Override
-    public Pageable checkPageAndSize(int maxPage, long maxSize) {
-        if (pageNumber > maxPage) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "页码超出最大限制");
-        }
-        if (pageSize > maxSize) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "页大小超出最大限制");
-        }
-        return this;
+    static Page of(Parameters params) {
+        var sort = Sort.of(params);
+        var page = params.first("page")
+                .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PAGE))
+                .orElse(DEFAULT_PAGE);
+        var perPage = params.first("per_page")
+                .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PER_PAGE))
+                .orElse(DEFAULT_PER_PAGE);
+        var includeDeleted = params.first("include_total").asBoolean().orElse(true);
+        return new PageRequest(page, perPage, includeDeleted, sort);
     }
 }

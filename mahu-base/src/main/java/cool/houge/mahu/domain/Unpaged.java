@@ -17,10 +17,12 @@ package cool.houge.mahu.domain;
 
 import static java.util.Objects.requireNonNull;
 
+import org.jspecify.annotations.NonNull;
+
 /// 无分页实现类，单例模式
 ///
 /// @author ZY (kzou227@qq.com)
-public class Unpaged implements Pageable {
+class Unpaged implements Page {
 
     private final Sort sort;
 
@@ -35,12 +37,17 @@ public class Unpaged implements Pageable {
     }
 
     @Override
-    public int getPageNumber() {
+    public boolean isIncludeTotal() {
+        return false;
+    }
+
+    @Override
+    public int getPage() {
         throw new UnsupportedOperationException("无分页模式不支持获取页码");
     }
 
     @Override
-    public int getPageSize() {
+    public int getPerPage() {
         throw new UnsupportedOperationException("无分页模式不支持获取页大小");
     }
 
@@ -50,12 +57,7 @@ public class Unpaged implements Pageable {
     }
 
     @Override
-    public Sort getSort() {
+    public @NonNull Sort getSort() {
         return sort;
-    }
-
-    @Override
-    public Pageable checkPageAndSize(int maxPage, long maxSize) {
-        return this;
     }
 }

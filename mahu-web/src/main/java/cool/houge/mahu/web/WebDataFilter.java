@@ -5,7 +5,7 @@ import static cool.houge.mahu.web.ServerRequestUtils.queryArg;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.domain.Pageable;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.domain.Sort;
 import io.ebean.PagedList;
 import io.helidon.common.mapper.OptionalValue;
@@ -21,15 +21,13 @@ import org.jspecify.annotations.NonNull;
 public class WebDataFilter implements DataFilter {
 
     private final OptionalValue<String> filter;
-    private final Pageable page;
+    private final Page page;
     private final boolean includeDeleted;
-    private final boolean noTotal;
 
     public WebDataFilter(ServerRequest request) {
         this.filter = request.query().first("filter");
-        this.page = ServerRequestUtils.pageArgs(request);
+        this.page = Page.of(request.query());
         this.includeDeleted = queryArg(request, "include_deleted").asBoolean().orElse(false);
-        this.noTotal = queryArg(request, "no_total").asBoolean().orElse(false);
     }
 
     @Override
@@ -41,7 +39,7 @@ public class WebDataFilter implements DataFilter {
     }
 
     @Override
-    public Pageable page() {
+    public Page page() {
         return page;
     }
 
@@ -57,7 +55,7 @@ public class WebDataFilter implements DataFilter {
 
     @Override
     public boolean noTotal() {
-        return noTotal;
+        return !page.isIncludeTotal();
     }
 
     @Override

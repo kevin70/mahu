@@ -3,7 +3,7 @@ package cool.houge.mahu.util;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.domain.Pageable;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.domain.Sort;
 import cool.houge.mahu.rsql.EBeanRSQLVisitor;
 import cool.houge.mahu.rsql.ExtRSQLOperators;
@@ -108,7 +108,7 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
     /// @param page 分页参数
     /// @param sortItems 可排序项
     /// @return this
-    protected final HBeanRepository<I, T> applyPage(Query<T> query, Pageable page, List<FilterItem> sortItems) {
+    protected final HBeanRepository<I, T> applyPage(Query<T> query, Page page, List<FilterItem> sortItems) {
         return applyPage(query, page).applySort(query, page.getSort(), sortItems);
     }
 
@@ -117,8 +117,8 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
     /// @param query 查询对象
     /// @param page 分页参数
     /// @return this
-    protected final HBeanRepository<I, T> applyPage(Query<T> query, Pageable page) {
-        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPageSize());
+    protected final HBeanRepository<I, T> applyPage(Query<T> query, Page page) {
+        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPerPage());
         return this;
     }
 
@@ -132,19 +132,19 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
         if (sortItems == null || sortItems.isEmpty()) {
             throw new IllegalArgumentException("sortItems 不能为空");
         }
-        if (sort.isSorted()) {
-            for (FilterItem item : sortItems) {
-                var o = sort.getOrderFor(item.getKey());
-                if (o == null) {
-                    continue;
-                }
-                if (o.getDirection() == Sort.Direction.ASC) {
-                    query.orderBy().asc(item.getColumn());
-                } else {
-                    query.orderBy().desc(item.getColumn());
-                }
-            }
-        }
+        // if (sort.isSorted()) {
+        //     for (FilterItem item : sortItems) {
+        //         var o = sort.getOrderFor(item.getKey());
+        //         if (o == null) {
+        //             continue;
+        //         }
+        //         if (o.getDirection() == Sort.Direction.ASC) {
+        //             query.orderBy().asc(item.getColumn());
+        //         } else {
+        //             query.orderBy().desc(item.getColumn());
+        //         }
+        //     }
+        // }
         return this;
     }
 }
