@@ -16,13 +16,13 @@ get:
   summary: 管理员分页列表
   operationId: pageSysAdmin
   x-permission-code: SYS_ADMIN:R
-  tags: [ h_admin ]
+  tags: [h_admin]
   parameters:
     - $ref: "../components/parameters/per_page.yaml"
     - $ref: "../components/parameters/page.yaml"
+    - $ref: "../components/parameters/include_total.yaml"
     - $ref: "../components/parameters/sort.yaml"
     - $ref: "../components/parameters/include_deleted.yaml"
-    - $ref: "../components/parameters/include_total.yaml"
     - in: query
       name: status
       description: 状态

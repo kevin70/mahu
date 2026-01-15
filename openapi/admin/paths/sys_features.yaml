@@ -6,8 +6,22 @@ get:
   parameters:
     - $ref: "../components/parameters/per_page.yaml"
     - $ref: "../components/parameters/page.yaml"
-    - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"
+    - in: query
+      name: status
+      description: 状态
+      schema:
+        type: array
+        items:
+          type: integer
+          minimum: 0
+          maximum: 9999
+        maxItems: 99
+    - in: query
+      name: name
+      description: 名称
+      schema:
+        type: string
   responses:
     "200":
       description: OK

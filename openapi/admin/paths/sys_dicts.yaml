@@ -20,9 +20,8 @@ get:
   parameters:
     - $ref: "../components/parameters/per_page.yaml"
     - $ref: "../components/parameters/page.yaml"
-    - $ref: "../components/parameters/filter.yaml"
-    - $ref: "../components/parameters/sort.yaml"
     - $ref: "../components/parameters/include_total.yaml"
+    - $ref: "../components/parameters/sort.yaml"
   responses:
     "200":
       description: OK
