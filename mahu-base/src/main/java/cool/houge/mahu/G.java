@@ -1,13 +1,14 @@
 package cool.houge.mahu;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import io.helidon.common.LazyValue;
-import io.helidon.common.configurable.ScheduledThreadPoolSupplier;
 import io.helidon.common.configurable.ThreadPoolSupplier;
+import io.helidon.logging.common.HelidonMdc;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Supplier;
 import lombok.experimental.UtilityClass;
 
 /// 全局共享资源工具类
@@ -30,21 +31,45 @@ public final class G {
 
     /// 全局线程池执行器。
     /// 使用虚拟线程实现，每个任务都将在单独的线程中运行。
-    public static final LazyValue<ExecutorService>
-        GLOBAL_EXECUTOR = LazyValue.create(() -> ThreadPoolSupplier.builder()
-        .daemon(true)
-        .threadNamePrefix("houge-ex")
-        .virtualThreads(true)
-        .build()
-        .get());
-
-    /// 全局定时任务执行器。
-    /// 单一线程定时任务调度器，使用虚拟线程实现。
-    public static final LazyValue<ScheduledExecutorService> SCHEDULED_EXECUTOR =
-        LazyValue.create(() -> ScheduledThreadPoolSupplier.builder()
+    public static final LazyValue<ExecutorService> HOUGE_EXEC = LazyValue.create(() -> ThreadPoolSupplier.builder()
             .daemon(true)
-            .threadNamePrefix("houge-sch-ex")
+            .threadNamePrefix("Houge-Exec")
             .virtualThreads(true)
             .build()
             .get());
+
+    /// 运行带有跟踪ID的 Runnable
+    ///
+    /// 该方法会在执行给定的 Runnable 时设置跟踪ID，并在执行完毕后移除跟踪ID。
+    ///
+    /// @param runnable 要执行的 Runnable
+    public static void runWithTraceId(Runnable runnable) {
+        try {
+            HelidonMdc.set(MDC_TRACE_ID, G::traceId);
+            runnable.run();
+        } finally {
+            HelidonMdc.remove(MDC_TRACE_ID);
+        }
+    }
+
+    /// 运行带有跟踪ID的 Supplier 并返回结果
+    ///
+    /// 该方法会在执行给定的 Supplier 时设置跟踪ID，并在执行完毕后移除跟踪ID。
+    /// 返回 Supplier 的结果。
+    ///
+    /// @param supplier 要执行的 Supplier
+    /// @param <T> Supplier 的返回类型
+    /// @return Supplier 的返回值
+    public static <T> T runWithTraceId(Supplier<T> supplier) {
+        try {
+            HelidonMdc.set(MDC_TRACE_ID, G::traceId);
+            return supplier.get();
+        } finally {
+            HelidonMdc.remove(MDC_TRACE_ID);
+        }
+    }
+
+    private static String traceId() {
+        return UlidCreator.getMonotonicUlid().toString();
+    }
 }
