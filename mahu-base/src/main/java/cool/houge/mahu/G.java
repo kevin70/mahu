@@ -69,7 +69,8 @@ public final class G {
         }
     }
 
-    private static String traceId() {
+    /// 生成日志追踪 ID
+    public static String traceId() {
         return UlidCreator.getMonotonicUlid().toString();
     }
 }

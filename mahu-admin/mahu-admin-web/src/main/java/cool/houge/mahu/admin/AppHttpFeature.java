@@ -2,7 +2,7 @@ package cool.houge.mahu.admin;
 
 import static io.helidon.http.HeaderNames.AUTHORIZATION;
 
-import com.github.f4b6a3.ulid.UlidCreator;
+import cool.houge.mahu.G;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.util.Metadata;
@@ -65,7 +65,7 @@ public class AppHttpFeature implements HttpFeature, Filter {
     public void filter(FilterChain chain, RoutingRequest request, RoutingResponse response) {
         var traceId = traceId(request);
         try {
-            HelidonMdc.set("traceId", traceId);
+            HelidonMdc.set(G.MDC_TRACE_ID, traceId);
             response.beforeSend(() -> response.header(X_REQUEST_ID, traceId));
 
             var ctx = request.context();
@@ -74,7 +74,7 @@ public class AppHttpFeature implements HttpFeature, Filter {
             chain.proceed();
         } finally {
             // 清理追踪 ID
-            HelidonMdc.remove("traceId");
+            HelidonMdc.remove(G.MDC_TRACE_ID);
         }
     }
 
@@ -105,9 +105,7 @@ public class AppHttpFeature implements HttpFeature, Filter {
     }
 
     String traceId(ServerRequest request) {
-        return request.headers()
-                .first(X_REQUEST_ID)
-                .orElseGet(() -> UlidCreator.getUlid().toString());
+        return request.headers().first(X_REQUEST_ID).orElseGet(G::traceId);
     }
 
     private static class SimpleSecurity implements HttpSecurity {
