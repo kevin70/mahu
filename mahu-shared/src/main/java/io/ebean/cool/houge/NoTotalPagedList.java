@@ -1,6 +1,5 @@
 package io.ebean.cool.houge;
 
-import cool.houge.mahu.domain.Page;
 import io.ebean.PagedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -9,28 +8,19 @@ import java.util.concurrent.Future;
 /// 分页列表
 ///
 /// @author ZY (kzou227@qq.com)
-public class SmartPagedList<T> implements PagedList<T> {
+public class NoTotalPagedList<T> implements PagedList<T> {
 
     private final PagedList<T> delegate;
-    private final Page page;
 
-    public SmartPagedList(PagedList<T> delegate, Page page) {
+    public NoTotalPagedList(PagedList<T> delegate) {
         this.delegate = delegate;
-        this.page = page;
     }
 
     @Override
-    public void loadCount() {
-        if (page.isIncludeTotal()) {
-            delegate.loadCount();
-        }
-    }
+    public void loadCount() {}
 
     @Override
     public Future<Integer> getFutureCount() {
-        if (page.isIncludeTotal()) {
-            return delegate.getFutureCount();
-        }
         return CompletableFuture.completedFuture(0);
     }
 
