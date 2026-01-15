@@ -15,7 +15,7 @@ import org.roaringbitmap.longlong.ImmutableLongBitmapDataProvider;
 /// @author ZY (kzou227@qq.com)
 @Value
 @Builder
-public class LcFeature {
+public class ImmutableFeature {
 
     /// 功能 ID
     int id;

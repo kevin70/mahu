@@ -8,7 +8,7 @@ import lombok.Value;
 /// @author ZY (kzou227@qq.com)
 @Value
 @Builder
-public class LcDict {
+public class ImmutableDict {
     /// 字典代码
     int dc;
     /// 字典类型 ID

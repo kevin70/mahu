@@ -19,7 +19,7 @@ import org.jspecify.annotations.NonNull;
 /// @author ZY (kzou227@qq.com)
 @Value
 @Builder
-public class LcDictType {
+public class ImmutableDictType {
 
     Helper helper = new Helper();
 
@@ -38,7 +38,7 @@ public class LcDictType {
     /// - `2`：受限
     int visibility;
     /// 字典类型下的所有字典项的列表
-    List<@NonNull LcDict> dicts;
+    List<@NonNull ImmutableDict> dicts;
 
     /// 判断当前字典类型是否为私有。
     public boolean isPrivate() {
@@ -61,7 +61,7 @@ public class LcDictType {
     /// @param value 字典项的值
     /// @return 找到的字典项
     /// @throws BizCodeException 如果找不到对应的字典项
-    public LcDict byValue(String value) {
+    public ImmutableDict byValue(String value) {
         var b = helper.dictValueMap.get().get(value);
         if (b == null) {
             throw new BizCodeException(BizCodes.DATA_LOSS, "缺失字典%s: %s", id, value);
@@ -71,9 +71,9 @@ public class LcDictType {
 
     private class Helper {
 
-        LazyValue<Map<String, LcDict>> dictValueMap = LazyValue.create(() -> {
+        LazyValue<Map<String, ImmutableDict>> dictValueMap = LazyValue.create(() -> {
             // 转换字典
-            return dicts.stream().collect(ImmutableMap.toImmutableMap(LcDict::getValue, Function.identity()));
+            return dicts.stream().collect(ImmutableMap.toImmutableMap(ImmutableDict::getValue, Function.identity()));
         });
     }
 }

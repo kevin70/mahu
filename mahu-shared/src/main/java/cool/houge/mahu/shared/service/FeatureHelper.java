@@ -10,7 +10,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.Status;
 import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.shared.G;
-import cool.houge.mahu.shared.LcFeature;
+import cool.houge.mahu.shared.ImmutableFeature;
 import cool.houge.mahu.shared.repository.sys.FeatureRepository;
 import cool.houge.mahu.util.RoaringBitmapUtils;
 import io.ebean.annotation.Transactional;
@@ -33,7 +33,7 @@ import org.jspecify.annotations.NonNull;
 class FeatureHelper {
 
     private static final Logger log = LogManager.getLogger(FeatureHelper.class);
-    private final Cache<Integer, LcFeature> featureCache = Caffeine.newBuilder()
+    private final Cache<Integer, ImmutableFeature> featureCache = Caffeine.newBuilder()
             .recordStats()
             .expireAfterWrite(Duration.ofDays(1))
             .build();
@@ -51,12 +51,12 @@ class FeatureHelper {
     /// 获取指定的功能
     @SuppressWarnings("DataFlowIssue")
     @NonNull
-    LcFeature loadFeature(int featureId) {
+    ImmutableFeature loadFeature(int featureId) {
         return featureCache.get(featureId, this::getFeature);
     }
 
-    private LcFeature map(Feature bean) {
-        return LcFeature.builder()
+    private ImmutableFeature map(Feature bean) {
+        return ImmutableFeature.builder()
                 .id(bean.getId())
                 .module(bean.getModule())
                 .code(bean.getCode())
@@ -77,7 +77,7 @@ class FeatureHelper {
     }
 
     @Transactional(readOnly = true)
-    private LcFeature getFeature(int featureId) {
+    private ImmutableFeature getFeature(int featureId) {
         var dbBean = featureRepository.findById(featureId);
         if (dbBean == null) {
             throw new BizCodeException(BizCodes.DATA_LOSS, "缺少功能: %s", featureId);

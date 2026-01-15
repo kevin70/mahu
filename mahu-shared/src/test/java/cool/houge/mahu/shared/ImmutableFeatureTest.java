@@ -11,17 +11,17 @@ import org.roaringbitmap.longlong.Roaring64NavigableMap;
 
 ///
 /// @author ZY (kzou227@qq.com)
-class LcFeatureTest {
+class ImmutableFeatureTest {
 
     @Test
     void testStatus() {
-        var b = LcFeature.builder().status(0).build();
+        var b = ImmutableFeature.builder().status(0).build();
         assertThat(b.isActive()).isFalse();
     }
 
     @Test
     void testEffectiveFrom() {
-        var b = LcFeature.builder()
+        var b = ImmutableFeature.builder()
                 .status(Status.ACTIVE.getCode())
                 .effectiveFrom(LocalDateTime.now().plusDays(1))
                 .build();
@@ -30,7 +30,7 @@ class LcFeatureTest {
 
     @Test
     void testEffectiveTo() {
-        var b = LcFeature.builder()
+        var b = ImmutableFeature.builder()
                 .status(Status.ACTIVE.getCode())
                 .effectiveFrom(LocalDateTime.now().minusDays(1))
                 .effectiveTo(LocalDateTime.now().minusDays(1))
@@ -40,7 +40,7 @@ class LcFeatureTest {
 
     @Test
     void testStartTimeAndEndTime() {
-        var b = LcFeature.builder()
+        var b = ImmutableFeature.builder()
                 .status(Status.ACTIVE.getCode())
                 .startTime(LocalTime.of(8, 20))
                 .endTime(LocalTime.of(20, 20))
@@ -55,7 +55,7 @@ class LcFeatureTest {
 
     @Test
     void testStartTimeAndEndTimeAndCrossDay() {
-        var b = LcFeature.builder()
+        var b = ImmutableFeature.builder()
                 .status(Status.ACTIVE.getCode())
                 .startTime(LocalTime.of(8, 20))
                 .endTime(LocalTime.of(3, 20))
@@ -70,7 +70,7 @@ class LcFeatureTest {
 
     @Test
     void testWeekdays() {
-        var b = LcFeature.builder()
+        var b = ImmutableFeature.builder()
                 .status(Status.ACTIVE.getCode())
                 .weekdays(List.of(1, 2))
                 .build();
@@ -83,7 +83,7 @@ class LcFeatureTest {
     void testDenyUserRb() {
         var denyUserRb = new Roaring64NavigableMap();
         denyUserRb.add(1);
-        var b = LcFeature.builder()
+        var b = ImmutableFeature.builder()
                 .status(Status.ACTIVE.getCode())
                 .denyUserRb(denyUserRb)
                 .build();
@@ -94,7 +94,7 @@ class LcFeatureTest {
     void testAllowUserRb() {
         var allowUserRb = new Roaring64NavigableMap();
         allowUserRb.add(1);
-        var b = LcFeature.builder()
+        var b = ImmutableFeature.builder()
                 .status(Status.ACTIVE.getCode())
                 .allowUserRb(allowUserRb)
                 .build();

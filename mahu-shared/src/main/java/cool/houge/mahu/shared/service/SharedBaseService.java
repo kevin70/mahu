@@ -1,9 +1,9 @@
 package cool.houge.mahu.shared.service;
 
 import cool.houge.mahu.entity.sys.DelayMessage;
-import cool.houge.mahu.shared.LcDict;
-import cool.houge.mahu.shared.LcDictType;
-import cool.houge.mahu.shared.LcFeature;
+import cool.houge.mahu.shared.ImmutableDict;
+import cool.houge.mahu.shared.ImmutableDictType;
+import cool.houge.mahu.shared.ImmutableFeature;
 import cool.houge.mahu.shared.repository.sys.DelayMessageRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
@@ -34,7 +34,7 @@ public class SharedBaseService {
     ///
     /// @param featureId 功能ID
     /// @return 对应的功能对象
-    public @NonNull LcFeature getFeature(int featureId) {
+    public @NonNull ImmutableFeature getFeature(int featureId) {
         return featureHelper.loadFeature(featureId);
     }
 
@@ -44,7 +44,7 @@ public class SharedBaseService {
     ///
     /// @param dictId 字典项ID
     /// @return 对应的字典项对象
-    public @NonNull LcDict getDict(int dictId) {
+    public @NonNull ImmutableDict getDict(int dictId) {
         return dicHelper.loadDict(dictId);
     }
 
@@ -54,13 +54,13 @@ public class SharedBaseService {
     ///
     /// @param typeId 字典类型ID
     /// @return 对应的字典类型对象
-    public @NonNull LcDictType getDictType(String typeId) {
+    public @NonNull ImmutableDictType getDictType(String typeId) {
         return dicHelper.loadDictType(typeId);
     }
 
     /// 查询所有公共的字典类型
-    public List<LcDictType> loadPublicDictTypes() {
-        return dicHelper.allDictTypes().stream().filter(LcDictType::isPublic).toList();
+    public List<ImmutableDictType> loadPublicDictTypes() {
+        return dicHelper.allDictTypes().stream().filter(ImmutableDictType::isPublic).toList();
     }
 
     /// 推送延迟消息

@@ -1,16 +1,16 @@
 package cool.houge.mahu.shared.service;
 
-import static cool.houge.mahu.shared.G.SCHEDULED_EXECUTOR;
+import static cool.houge.mahu.G.SCHEDULED_EXECUTOR;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.Env;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
-import cool.houge.mahu.shared.G;
-import cool.houge.mahu.shared.LcDict;
-import cool.houge.mahu.shared.LcDictType;
+import cool.houge.mahu.shared.ImmutableDict;
+import cool.houge.mahu.shared.ImmutableDictType;
 import cool.houge.mahu.shared.repository.DictRepository;
 import cool.houge.mahu.shared.repository.DictTypeRepository;
 import io.ebean.annotation.Transactional;
@@ -35,42 +35,42 @@ class DicHelper {
     private final DictTypeRepository dictTypeRepository;
     private final DictRepository dictRepository;
 
-    private final Cache<String, LcDictType> dictTypeCache = Caffeine.newBuilder()
+    private final Cache<String, ImmutableDictType> dictTypeCache = Caffeine.newBuilder()
             .recordStats()
             .expireAfterWrite(Duration.ofDays(1))
             .build();
-    private final Cache<Integer, LcDict> dictCache = Caffeine.newBuilder()
+    private final Cache<Integer, ImmutableDict> dictCache = Caffeine.newBuilder()
             .recordStats()
             .expireAfterWrite(Duration.ofDays(1))
             .build();
 
     @Service.PostConstruct
     void init() {
-        var delay = G.adaptCacheTtl(Duration.ofMinutes(10), Duration.ofMinutes(1));
+        var delay = Env.current().isProd() ? Duration.ofMinutes(10) : Duration.ofMinutes(1);
         SCHEDULED_EXECUTOR
                 .get()
                 .scheduleWithFixedDelay(this::refreshAll, delay.toMillis(), delay.toMillis(), TimeUnit.MILLISECONDS);
         this.refreshAll();
     }
 
-    Collection<LcDictType> allDictTypes() {
+    Collection<ImmutableDictType> allDictTypes() {
         return dictTypeCache.asMap().values();
     }
 
     @SuppressWarnings("DataFlowIssue")
     @NonNull
-    LcDictType loadDictType(String typeId) {
+    ImmutableDictType loadDictType(String typeId) {
         return dictTypeCache.get(typeId, this::getDictType);
     }
 
     @SuppressWarnings("DataFlowIssue")
     @NonNull
-    LcDict loadDict(int dc) {
+    ImmutableDict loadDict(int dc) {
         return dictCache.get(dc, this::getDict);
     }
 
-    private LcDictType map(DictType bean) {
-        return LcDictType.builder()
+    private ImmutableDictType map(DictType bean) {
+        return ImmutableDictType.builder()
                 .id(bean.getId())
                 .name(bean.getName())
                 .description(bean.getDescription())
@@ -79,8 +79,8 @@ class DicHelper {
                 .build();
     }
 
-    private LcDict map(Dict bean) {
-        return LcDict.builder()
+    private ImmutableDict map(Dict bean) {
+        return ImmutableDict.builder()
                 .dc(bean.getDc())
                 .value(bean.getValue())
                 .label(bean.getLabel())
@@ -90,7 +90,7 @@ class DicHelper {
     }
 
     @Transactional(readOnly = true)
-    private LcDictType getDictType(String dictTypeId) {
+    private ImmutableDictType getDictType(String dictTypeId) {
         var dbDictType = dictTypeRepository.findById(dictTypeId);
         if (dbDictType == null) {
             throw new BizCodeException(BizCodes.DATA_LOSS, "缺少字典类型: %s", dictTypeId);
@@ -99,7 +99,7 @@ class DicHelper {
     }
 
     @Transactional(readOnly = true)
-    private LcDict getDict(int dc) {
+    private ImmutableDict getDict(int dc) {
         var dbDict = dictRepository.findById(dc);
         if (dbDict == null) {
             throw new BizCodeException(BizCodes.DATA_LOSS, "缺少字典: %s", dc);
@@ -114,7 +114,7 @@ class DicHelper {
             var lcType = map(dictType);
             dictTypeCache.put(lcType.getId(), lcType);
 
-            for (LcDict dict : lcType.getDicts()) {
+            for (ImmutableDict dict : lcType.getDicts()) {
                 dictCache.put(dict.getDc(), dict);
             }
         }
