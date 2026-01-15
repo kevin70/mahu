@@ -18,12 +18,11 @@ get:
   x-permission-code: SYS_ADMIN:R
   tags: [h_admin]
   parameters:
-    - $ref: "../components/parameters/size.yaml"
+    - $ref: "../components/parameters/per_page.yaml"
     - $ref: "../components/parameters/page.yaml"
-    - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"
     - $ref: "../components/parameters/include_deleted.yaml"
-    - $ref: "../components/parameters/no_total.yaml"
+    - $ref: "../components/parameters/include_total.yaml"
   responses:
     "200":
       description: OK

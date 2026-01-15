@@ -1,4 +1,4 @@
-name: size
+name: per_page
 in: query
 description: |
   分页：返回的记录数量
