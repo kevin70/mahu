@@ -1,0 +1,24 @@
+[versions]
+ebean = "17.2.0"
+helidon = "4.3.2"
+
+[libraries]
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.3" }
+postgresql = { module = "org.postgresql:postgresql", version = "42.7.8" }
+
+ebean-core = { module = "io.ebean:ebean-core", version.ref = "ebean" }
+ebean-querybean = { module = "io.ebean:ebean-querybean", version.ref = "ebean" }
+ebean-postgres = { module = "io.ebean:ebean-postgres", version.ref = "ebean" }
+ebean-jackson-mapper = { module = "io.ebean:ebean-jackson-mapper", version.ref = "ebean" }
+
+helidon-service-registry = { module = "io.helidon.service:helidon-service-registry", version.ref = "helidon" }
+helidon-security-jwt = { module = "io.helidon.security:helidon-security-jwt", version.ref = "helidon" }
+helidon-health-checks = { module = "io.helidon.health:helidon-health-checks", version.ref = "helidon" }
+helidon-http-media-jackson = { module = "io.helidon.http.media:helidon-http-media-jackson", version.ref = "helidon" }
+helidon-fault-tolerance = { module = "io.helidon.fault-tolerance:helidon-fault-tolerance", version.ref = "helidon" }
+
+[bundles]
+ebean = ["ebean-core", "ebean-querybean", "ebean-postgres", "postgresql"]
+
+[plugins]
+io.ebean = { id = "io.ebean", version.ref = "ebean" }
