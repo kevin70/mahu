@@ -13,7 +13,10 @@ import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
+import io.ebean.PagedList;
 import io.ebean.Query;
+import io.ebean.cool.houge.NoTotalPagedList;
+import io.ebean.typequery.IQueryBean;
 import java.util.List;
 import org.jspecify.annotations.NonNull;
 
@@ -146,5 +149,25 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
         //     }
         // }
         return this;
+    }
+
+    /// 分页查询
+    ///
+    /// @param query 查询对象
+    /// @param page 分页参数
+    /// @return this
+    protected PagedList<T> findPage(Query<T> query, Page page) {
+        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPerPage());
+        return page.isIncludeTotal() ? query.findPagedList() : new NoTotalPagedList<>(query.findPagedList());
+    }
+
+    /// 分页查询
+    ///
+    /// @param query 查询对象
+    /// @param page 分页参数
+    /// @return this
+    protected PagedList<T> findPage(IQueryBean<T, ?> query, Page page) {
+        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPerPage());
+        return page.isIncludeTotal() ? query.findPagedList() : new NoTotalPagedList<>(query.findPagedList());
     }
 }

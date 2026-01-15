@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
-/// 分页列表
+/// 没有总记录数的分页列表
 ///
 /// @author ZY (kzou227@qq.com)
 public class NoTotalPagedList<T> implements PagedList<T> {
