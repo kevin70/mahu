@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNullElse;
 
 import com.google.common.primitives.Ints;
 import io.helidon.common.parameters.Parameters;
+import java.util.List;
 import org.jspecify.annotations.NonNull;
 
 /// 分页信息的抽象接口。
@@ -50,6 +51,13 @@ public interface Page {
     /// @return 排序参数。
     @NonNull
     Sort getSort();
+
+    /// 获取当前排序对象中的所有排序项。
+    ///
+    /// @return 当前排序对象中的排序项列表。
+    default List<Sort.Order> sortOrders() {
+        return getSort().getOrders();
+    }
 
     /// 创建一个表示无分页设置但具有指定排序的分页对象。
     ///

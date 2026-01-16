@@ -18,9 +18,10 @@ package cool.houge.mahu.domain;
 import static java.util.Objects.requireNonNull;
 
 import io.helidon.common.parameters.Parameters;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -103,7 +104,7 @@ public class Sort {
         DESC
     }
 
-    // 排序项
+    /// 排序项
     @Getter
     @ToString
     @EqualsAndHashCode
@@ -112,17 +113,40 @@ public class Sort {
         /// 排序属性
         private final String property;
         /// 排序方向
+        @EqualsAndHashCode.Exclude
         private final Direction direction;
 
         private Order(String property, Direction direction) {
-            this.property = requireNonNull(property, "排序属性不能为空");
+            this.property = requireNonNull(property, "排序属性不能为空").toUpperCase();
             this.direction = requireNonNull(direction, "排序方向不能为空");
+        }
+
+        /// 检查给定字符串是否与当前排序属性（忽略大小写）匹配。
+        ///
+        /// @param s 待比较的字符串
+        /// @return 如果给定字符串与排序属性相匹配（忽略大小写），则返回 true；否则返回 false。
+        public boolean equalsIgnoreCase(String s) {
+            return property.equalsIgnoreCase(s);
+        }
+
+        /// 判断当前排序方向是否为正序。
+        ///
+        /// @return 如果当前排序方向是正序，则返回 true；否则返回 false。
+        public boolean isAsc() {
+            return direction == Direction.ASC;
+        }
+
+        /// 判断当前排序方向是否为倒序。
+        ///
+        /// @return 如果当前排序方向是倒序，则返回 true；否则返回 false。
+        public boolean isDesc() {
+            return !isAsc();
         }
     }
 
     public static class Builder {
 
-        private final List<Order> orders = new ArrayList<>();
+        private final Set<Order> orders = new LinkedHashSet<>();
 
         /// 正序
         public Builder asc(String property) {
