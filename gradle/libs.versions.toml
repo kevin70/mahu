@@ -1,10 +1,28 @@
 [versions]
 ebean = "17.2.0"
 helidon = "4.3.2"
+mapstruct = "1.6.3"
+fastexcel = "0.19.0"
 
 [libraries]
+jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
+checker-qual = { module = "org.checkerframework:checker-qual", version = "3.49.5" }
+error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version = "2.41.0" }
+guava = { module = "com.google.guava:guava", version = "33.4.8-jre" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.3" }
 postgresql = { module = "org.postgresql:postgresql", version = "42.7.8" }
+valkey-glide = { module = "io.valkey:valkey-glide", version = "2.2.5" }
+commons-collections4 = { module = "org.apache.commons:commons-collections4", version = "4.5.0" }
+commons-text = { module = "org.apache.commons:commons-text", version = "1.14.0" }
+commons-compress = { module = "org.apache.commons:commons-compress", version = "3.2.0" }
+roaringbitmap = { module = "com.github.RoaringBitmap.RoaringBitmap:roaringbitmap", version = "1.6.0" }
+db-scheduler = { module = "com.github.kagkarlsson:db-scheduler", version = "16.0.0" }
+ulid-creator = { module = "com.github.f4b6a3:ulid-creator", version = "5.2.3" }
+
+instancio-junit = { module = "org.instancio:instancio-junit", version = "5.4.1" }
+
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 
 ebean-core = { module = "io.ebean:ebean-core", version.ref = "ebean" }
 ebean-querybean = { module = "io.ebean:ebean-querybean", version.ref = "ebean" }
@@ -16,9 +34,48 @@ helidon-security-jwt = { module = "io.helidon.security:helidon-security-jwt", ve
 helidon-health-checks = { module = "io.helidon.health:helidon-health-checks", version.ref = "helidon" }
 helidon-http-media-jackson = { module = "io.helidon.http.media:helidon-http-media-jackson", version.ref = "helidon" }
 helidon-fault-tolerance = { module = "io.helidon.fault-tolerance:helidon-fault-tolerance", version.ref = "helidon" }
+helidon-logging-log4j = { module = "io.helidon.logging:helidon-logging-log4j", version.ref = "helidon" }
+helidon-webserver = { module = "io.helidon.webserver:helidon-webserver", version.ref = "helidon" }
+helidon-webserver-cors = { module = "io.helidon.webserver:helidon-webserver-cors", version.ref = "helidon" }
+helidon-webserver-context = { module = "io.helidon.webserver:helidon-webserver-context", version.ref = "helidon" }
+helidon-webserver-observe-info = { module = "io.helidon.webserver.observe:helidon-webserver-observe-info", version.ref = "helidon" }
+helidon-webserver-observe-config = { module = "io.helidon.webserver.observe:helidon-webserver-observe-config", version.ref = "helidon" }
+helidon-webserver-observe-health = { module = "io.helidon.webserver.observe:helidon-webserver-observe-health", version.ref = "helidon" }
+helidon-webserver-observe-log = { module = "io.helidon.webserver.observe:helidon-webserver-observe-log", version.ref = "helidon" }
+helidon-webserver-observe-metrics = { module = "io.helidon.webserver.observe:helidon-webserver-observe-metrics", version.ref = "helidon" }
+
+fastexcel = { module = "org.dhatim:fastexcel", version.ref = "fastexcel" }
+fastexcel-reader = { module = "org.dhatim:fastexcel", version.ref = "fastexcel" }
 
 [bundles]
-ebean = ["ebean-core", "ebean-querybean", "ebean-postgres", "postgresql"]
+base = ["checker-qual", "error_prone_annotations", "jspecify", "guava", "ulid-creator"]
+ebean = ["ebean-core", "ebean-querybean", "ebean-postgres", "postgresql", "ebean-jackson-mapper"]
+helidon-base = [
+    "helidon-service-registry",
+    "helidon-security-jwt",
+    "helidon-health-checks",
+    "helidon-http-media-jackson",
+    "helidon-fault-tolerance",
+    "helidon-logging-log4j"
+]
+helidon-web = [
+    "helidon-service-registry",
+    "helidon-security-jwt",
+    "helidon-health-checks",
+    "helidon-http-media-jackson",
+    "helidon-fault-tolerance",
+    "helidon-logging-log4j",
+    "helidon-webserver",
+    "helidon-webserver-cors",
+    "helidon-webserver-context",
+    "helidon-webserver-observe-info",
+    "helidon-webserver-observe-config",
+    "helidon-webserver-observe-health",
+    "helidon-webserver-observe-log",
+    "helidon-webserver-observe-metrics"
+]
+fastexcel = ["fastexcel", "fastexcel-reader"]
+testing = ["instancio-junit"]
 
 [plugins]
-io.ebean = { id = "io.ebean", version.ref = "ebean" }
+ebean = { id = "io.ebean", version.ref = "ebean" }
