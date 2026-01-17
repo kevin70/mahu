@@ -18,7 +18,7 @@ get:
   x-permission-code: SYS_AUTH_CLIENT:R
   tags: [h_auth_client]
   parameters:
-    - $ref: "../components/parameters/per_page.yaml"
+    - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
     - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"

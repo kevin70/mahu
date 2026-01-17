@@ -115,7 +115,7 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
     /// @param page 分页参数
     /// @return this
     protected final HBeanRepository<I, T> applyPage(Query<T> query, Page page) {
-        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPerPage());
+        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPageSize());
         return this;
     }
 
@@ -151,7 +151,7 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
     /// @param page 分页参数
     /// @return this
     protected PagedList<T> findPage(Query<T> query, Page page) {
-        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPerPage());
+        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPageSize());
         return page.isIncludeTotal() ? query.findPagedList() : new NoTotalPagedList<>(query.findPagedList());
     }
 
@@ -161,7 +161,7 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
     /// @param page 分页参数
     /// @return this
     protected PagedList<T> findPage(IQueryBean<T, ?> query, Page page) {
-        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPerPage());
+        query.setFirstRow((int) page.getOffset()).setMaxRows(page.getPageSize());
         return page.isIncludeTotal() ? query.findPagedList() : new NoTotalPagedList<>(query.findPagedList());
     }
 }

@@ -23,12 +23,12 @@ public class Page {
     /// 默认页码
     private static final int DEFAULT_PAGE = 1;
     /// 每页默认条目数
-    private static final int DEFAULT_PER_PAGE = 20;
+    private static final int DEFAULT_PAGE_SIZE = 20;
 
     /// 要查询的页码
     private final int page;
     /// 每页要返回的条目数
-    private final int perPage;
+    private final int pageSize;
     /// 是否返回总记录数量
     private final boolean includeTotal;
     /// 偏移量
@@ -36,18 +36,18 @@ public class Page {
     /// 排序参数
     private final Sort sort;
 
-    private Page(int page, int perPage, boolean includeTotal, Sort sort) {
+    private Page(int page, int pageSize, boolean includeTotal, Sort sort) {
         if (page <= 0) {
             throw new IllegalArgumentException("页码必须为正数: " + page);
         }
-        if (perPage <= 0) {
-            throw new IllegalArgumentException("页大小必须为正数: " + perPage);
+        if (pageSize <= 0) {
+            throw new IllegalArgumentException("每页条目数必须为正数: " + pageSize);
         }
 
         this.page = page;
-        this.perPage = perPage;
+        this.pageSize = pageSize;
         this.includeTotal = includeTotal;
-        this.offset = (long) (page - 1) * perPage;
+        this.offset = (long) (page - 1) * pageSize;
         this.sort = requireNonNullElse(sort, Sort.unsorted());
     }
 
@@ -62,7 +62,7 @@ public class Page {
     ///
     /// 参数中可包含以下键值对：
     /// - `page`：要查询的页码。
-    /// - `per_page`：每页要返回的条目数。
+    /// - `page_size`：每页要返回的条目数。
     /// - `include_total`：是否返回总记录数量（布尔值）。
     /// - `sort`：排序参数。
     ///
@@ -72,9 +72,9 @@ public class Page {
         var page = params.first("page")
             .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PAGE))
             .orElse(DEFAULT_PAGE);
-        var perPage = params.first("per_page")
-            .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PER_PAGE))
-            .orElse(DEFAULT_PER_PAGE);
+        var perPage = params.first("page_size")
+            .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PAGE_SIZE))
+            .orElse(DEFAULT_PAGE_SIZE);
         var includeTotal = params.first("include_total").asBoolean().orElse(true);
         return new Page(page, perPage, includeTotal, sort);
     }
@@ -82,19 +82,19 @@ public class Page {
     /// 创建分页对象
     ///
     /// @param page 要查询的页码
-    /// @param perPage 每页要返回的条目数
+    /// @param pageSize 每页要返回的条目数
     /// @param includeTotal 是否返回总记录数量（布尔值）
     /// @param sort 排序参数
     /// @return 分页对象
     @JsonCreator
     public static @NonNull Page of(
             @JsonProperty("page") Integer page,
-            @JsonProperty("per_page") Integer perPage,
+            @JsonProperty("page_size") Integer pageSize,
             @JsonProperty("include_total") Boolean includeTotal,
             @JsonProperty("sort") Sort sort) {
         return new Page(
                 requireNonNullElse(page, DEFAULT_PAGE),
-                requireNonNullElse(perPage, DEFAULT_PER_PAGE),
+                requireNonNullElse(pageSize, DEFAULT_PAGE_SIZE),
                 requireNonNullElse(includeTotal, true),
                 requireNonNullElse(sort, Sort.unsorted())
                 //
@@ -110,7 +110,7 @@ public class Page {
     public static class Builder {
 
         private int page = DEFAULT_PAGE;
-        private int perPage = DEFAULT_PER_PAGE;
+        private int pageSize = DEFAULT_PAGE_SIZE;
         private boolean includeTotal = true;
         private Sort sort = Sort.unsorted();
 
@@ -121,8 +121,8 @@ public class Page {
             return this;
         }
 
-        public Builder perPage(int perPage) {
-            this.perPage = perPage;
+        public Builder pageSize(int perPage) {
+            this.pageSize = perPage;
             return this;
         }
 
@@ -137,7 +137,7 @@ public class Page {
         }
 
         public Page build() {
-            return new Page(page, perPage, includeTotal, sort);
+            return new Page(page, pageSize, includeTotal, sort);
         }
     }
 }

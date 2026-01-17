@@ -18,7 +18,7 @@ get:
   x-permission-code: SYS_ADMIN:R
   tags: [h_admin]
   parameters:
-    - $ref: "../components/parameters/per_page.yaml"
+    - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
     - $ref: "../components/parameters/include_total.yaml"
     - $ref: "../components/parameters/sort.yaml"

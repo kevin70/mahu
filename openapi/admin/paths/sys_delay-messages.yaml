@@ -4,7 +4,7 @@ get:
   x-permission-code: SYS_DELAY_MESSAGE:R
   tags: [h_delay_message]
   parameters:
-    - $ref: "../components/parameters/per_page.yaml"
+    - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
     - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"

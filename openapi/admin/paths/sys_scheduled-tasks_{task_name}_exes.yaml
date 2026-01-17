@@ -28,7 +28,7 @@ get:
   x-permission-code: SYS_SCHEDULED_TASK:R
   tags: [h_scheduled_task]
   parameters:
-    - $ref: "../components/parameters/per_page.yaml"
+    - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
     - $ref: "../components/parameters/filter.yaml"
     - $ref: "../components/parameters/sort.yaml"
