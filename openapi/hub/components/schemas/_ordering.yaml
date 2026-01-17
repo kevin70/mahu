@@ -2,4 +2,4 @@ type: integer
 format: int32
 description: 排序值
 minimum: 0
-maximum: 999999
+maximum: 65535
