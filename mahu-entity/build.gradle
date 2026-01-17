@@ -2,11 +2,11 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.ebean:querybean-generator")
+    annotationProcessor(libs.ebean.querybean.generator)
     compileOnly("io.avaje:avaje-lang:1.1")
 
     api(project(":mahu-base"))
-    api("io.ebean:ebean-api")
-    api("io.helidon.common:helidon-common")
-    implementation("io.ebean:ebean-querybean")
+    api(libs.helidon.common)
+    api(libs.ebean.api)
+    implementation(libs.ebean.querybean)
 }

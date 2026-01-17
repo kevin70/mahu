@@ -2,17 +2,14 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
+    annotationProcessor(libs.helidon.bundles.apt)
 
     api(project(":mahu-entity"))
     api(project(":mahu-config"))
-    api("io.minio:minio")
-    api("io.helidon.service:helidon-service-registry")
-    api("com.github.ben-manes.caffeine:caffeine")
-    implementation("org.postgresql:postgresql")
-    implementation("io.ebean:ebean-postgres")
-    implementation("io.helidon.health:helidon-health-checks")
+    implementation(libs.minio)
+    implementation(libs.caffeine)
+    implementation(libs.bundles.ebean)
+    implementation(libs.bundles.helidon.base)
 
-    testAnnotationProcessor("io.helidon.codegen:helidon-codegen-apt")
-    testAnnotationProcessor("io.helidon.service:helidon-service-codegen")
+    testAnnotationProcessor(libs.helidon.bundles.apt)
 }

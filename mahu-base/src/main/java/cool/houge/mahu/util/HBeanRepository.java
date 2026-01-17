@@ -70,15 +70,9 @@ public class HBeanRepository<I, T> extends BeanRepository<@NonNull I, @NonNull T
         }
 
         if (sortItems.isEmpty()) {
-            if (!dataFilter.page().isUnpaged()) {
-                this.applyPage(query, dataFilter.page());
-            }
+            this.applyPage(query, dataFilter.page());
         } else {
-            if (dataFilter.page().isUnpaged()) {
-                this.applySort(query, dataFilter.page().getSort(), sortItems);
-            } else {
-                this.applyPage(query, dataFilter.page(), sortItems);
-            }
+            this.applySort(query, dataFilter.page().getSort(), sortItems);
         }
     }
 

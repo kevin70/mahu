@@ -17,6 +17,7 @@ package cool.houge.mahu.domain;
 
 import static java.util.Objects.requireNonNull;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.helidon.common.parameters.Parameters;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -42,11 +43,6 @@ public class Sort {
         this.orders = orders;
     }
 
-    /// 排序构建器
-    public static Builder builder() {
-        return new Builder();
-    }
-
     /// 空排序
     public static Sort unsorted() {
         return new Sort(Collections.emptyList());
@@ -69,8 +65,9 @@ public class Sort {
     /// 将排序参数转换为 Sort 对象
     ///
     /// @param params 排序参数列表
-    public static @NonNull Sort of(@NonNull List<String> params) {
-        if (params.isEmpty()) {
+    @JsonCreator
+    public static @NonNull Sort of(List<String> params) {
+        if (params == null || params.isEmpty()) {
             return Sort.unsorted();
         }
 
@@ -102,6 +99,34 @@ public class Sort {
         ASC,
         /// 倒序
         DESC
+    }
+
+    /// 排序构建器
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /// 构建器
+    public static class Builder {
+
+        private final Set<Order> orders = new LinkedHashSet<>();
+        private Builder() {}
+
+        /// 正序
+        public Builder asc(String property) {
+            orders.add(new Order(property, Direction.ASC));
+            return this;
+        }
+
+        /// 倒序
+        public Builder desc(String property) {
+            orders.add(new Order(property, Direction.DESC));
+            return this;
+        }
+
+        public Sort build() {
+            return new Sort(List.copyOf(orders));
+        }
     }
 
     /// 排序项
@@ -141,27 +166,6 @@ public class Sort {
         /// @return 如果当前排序方向是倒序，则返回 true；否则返回 false。
         public boolean isDesc() {
             return !isAsc();
-        }
-    }
-
-    public static class Builder {
-
-        private final Set<Order> orders = new LinkedHashSet<>();
-
-        /// 正序
-        public Builder asc(String property) {
-            orders.add(new Order(property, Direction.ASC));
-            return this;
-        }
-
-        /// 倒序
-        public Builder desc(String property) {
-            orders.add(new Order(property, Direction.DESC));
-            return this;
-        }
-
-        public Sort build() {
-            return new Sort(List.copyOf(orders));
         }
     }
 }

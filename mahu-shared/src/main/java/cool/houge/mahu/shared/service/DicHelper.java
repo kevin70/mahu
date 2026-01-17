@@ -1,7 +1,5 @@
 package cool.houge.mahu.shared.service;
 
-import static cool.houge.mahu.G.SCHEDULED_EXECUTOR;
-
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import cool.houge.mahu.BizCodeException;
@@ -46,11 +44,11 @@ class DicHelper {
 
     @Service.PostConstruct
     void init() {
-        var delay = Env.current().isProd() ? Duration.ofMinutes(10) : Duration.ofMinutes(1);
-        SCHEDULED_EXECUTOR
-                .get()
-                .scheduleWithFixedDelay(this::refreshAll, delay.toMillis(), delay.toMillis(), TimeUnit.MILLISECONDS);
-        this.refreshAll();
+        // var delay = Env.current().isProd() ? Duration.ofMinutes(10) : Duration.ofMinutes(1);
+        // SCHEDULED_EXECUTOR
+        //         .get()
+        //         .scheduleWithFixedDelay(this::refreshAll, delay.toMillis(), delay.toMillis(), TimeUnit.MILLISECONDS);
+        // this.refreshAll();
     }
 
     Collection<ImmutableDictType> allDictTypes() {

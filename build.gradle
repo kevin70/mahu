@@ -90,9 +90,9 @@ allprojects {
             target("src/**/*.sql")
             prettier(["prettier": prettierVersion, "prettier-plugin-sql": "0.19.2"])
                 .config([
-                    "plugins"    : ["prettier-plugin-sql"],
-                    "language"   : 'postgresql',
-                    "keywordCase": 'upper',
+                    "plugins"     : ["prettier-plugin-sql"],
+                    "language"    : 'postgresql',
+                    "keywordCase" : 'upper',
                     "dataTypeCase": 'upper',
                 ])
                 .nodeExecutable(nodeExe)
@@ -201,26 +201,16 @@ allprojects {
     }
 
     dependencies {
-        annotationProcessor("org.projectlombok:lombok")
-        annotationProcessor("org.mapstruct:mapstruct-processor")
-        annotationProcessor("io.avaje:avaje-validator-generator")
-        compileOnly("org.projectlombok:lombok")
-        compileOnly("org.mapstruct:mapstruct")
-        implementation("com.github.f4b6a3:ulid-creator")
+        annotationProcessor(libs.lombok)
+        annotationProcessor(libs.mapstruct.processor)
+        annotationProcessor(libs.avaje.validator.generator)
+        compileOnly(libs.lombok)
+        compileOnly(libs.mapstruct)
 
-        testAnnotationProcessor("org.projectlombok:lombok")
-        testCompileOnly("org.projectlombok:lombok")
-        testImplementation("org.apache.logging.log4j:log4j-core")
-        testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-
-        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-        testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-        testImplementation("org.junit.jupiter:junit-jupiter-params")
-        testImplementation("org.assertj:assertj-core")
-        testImplementation("org.awaitility:awaitility")
-        testImplementation("org.mockito:mockito-junit-jupiter")
-        testImplementation("org.instancio:instancio-junit")
+        testAnnotationProcessor(libs.lombok)
+        testCompileOnly(libs.lombok)
+        testImplementation(libs.bundles.testing)
+        testImplementation(libs.bundles.log4j)
     }
 
     repositories {
