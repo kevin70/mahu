@@ -129,13 +129,11 @@ public class Sort {
     /// 排序项
     @Getter
     @ToString
-    @EqualsAndHashCode
     public static class Order {
 
         /// 排序属性
         private final String property;
         /// 排序方向
-        @EqualsAndHashCode.Exclude
         private final Direction direction;
 
         private Order(String property, Direction direction) {
