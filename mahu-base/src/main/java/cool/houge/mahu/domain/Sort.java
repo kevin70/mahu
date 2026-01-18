@@ -20,9 +20,10 @@ import static java.util.Objects.requireNonNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.helidon.common.parameters.Parameters;
 import java.util.Collections;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -32,6 +33,7 @@ import org.jspecify.annotations.NonNull;
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
+@Builder
 @ToString
 @EqualsAndHashCode
 public class Sort {
@@ -40,7 +42,14 @@ public class Sort {
     private final List<Order> orders;
 
     private Sort(List<Order> orders) {
-        this.orders = orders;
+        if (orders.isEmpty()) {
+            this.orders = Collections.emptyList();
+        } else {
+            var uniqueProperties = new HashSet<>();
+            this.orders = orders.stream()
+                    .filter(order -> uniqueProperties.add(order.getProperty().toUpperCase()))
+                    .collect(Collectors.toList());
+        }
     }
 
     /// 空排序
@@ -101,16 +110,8 @@ public class Sort {
         DESC
     }
 
-    /// 排序构建器
-    public static Builder builder() {
-        return new Builder();
-    }
-
     /// 构建器
     public static class Builder {
-
-        private final Set<Order> orders = new LinkedHashSet<>();
-        private Builder() {}
 
         /// 正序
         public Builder asc(String property) {
@@ -122,10 +123,6 @@ public class Sort {
         public Builder desc(String property) {
             orders.add(new Order(property, Direction.DESC));
             return this;
-        }
-
-        public Sort build() {
-            return new Sort(List.copyOf(orders));
         }
     }
 
@@ -142,7 +139,7 @@ public class Sort {
         private final Direction direction;
 
         private Order(String property, Direction direction) {
-            this.property = requireNonNull(property, "排序属性不能为空").toUpperCase();
+            this.property = requireNonNull(property, "排序属性不能为空");
             this.direction = requireNonNull(direction, "排序方向不能为空");
         }
 
