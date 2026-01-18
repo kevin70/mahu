@@ -9,6 +9,7 @@ import com.google.common.primitives.Ints;
 import io.helidon.common.parameters.Parameters;
 import java.util.List;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -29,16 +30,16 @@ public class Page {
     private static final int DEFAULT_PAGE_SIZE = 20;
 
     /// 要查询的页码
-    @lombok.Builder.Default
+    @Default
     private int page = DEFAULT_PAGE;
     /// 每页要返回的条目数
-    @lombok.Builder.Default
+    @Default
     private int pageSize = DEFAULT_PAGE_SIZE;
     /// 是否返回总记录数量
-    @lombok.Builder.Default
+    @Default
     private boolean includeTotal = true;
     /// 排序参数
-    @lombok.Builder.Default
+    @Default
     private Sort sort = Sort.unsorted();
 
     private Page(int page, int pageSize, boolean includeTotal, Sort sort) {
