@@ -1,5 +1,6 @@
 package cool.houge.mahu.domain;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNullElse;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.primitives.Ints;
 import io.helidon.common.parameters.Parameters;
 import java.util.List;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,6 +18,7 @@ import org.jspecify.annotations.NonNull;
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
+@Builder
 @ToString
 @EqualsAndHashCode
 public class Page {
@@ -26,28 +29,25 @@ public class Page {
     private static final int DEFAULT_PAGE_SIZE = 20;
 
     /// 要查询的页码
-    private final int page;
+    @lombok.Builder.Default
+    private int page = DEFAULT_PAGE;
     /// 每页要返回的条目数
-    private final int pageSize;
+    @lombok.Builder.Default
+    private int pageSize = DEFAULT_PAGE_SIZE;
     /// 是否返回总记录数量
-    private final boolean includeTotal;
-    /// 偏移量
-    private final long offset;
+    @lombok.Builder.Default
+    private boolean includeTotal = true;
     /// 排序参数
-    private final Sort sort;
+    @lombok.Builder.Default
+    private Sort sort = Sort.unsorted();
 
     private Page(int page, int pageSize, boolean includeTotal, Sort sort) {
-        if (page <= 0) {
-            throw new IllegalArgumentException("页码必须为正数: " + page);
-        }
-        if (pageSize <= 0) {
-            throw new IllegalArgumentException("每页条目数必须为正数: " + pageSize);
-        }
+        checkPage(page);
+        checkPageSize(pageSize);
 
         this.page = page;
         this.pageSize = pageSize;
         this.includeTotal = includeTotal;
-        this.offset = (long) (page - 1) * pageSize;
         this.sort = requireNonNullElse(sort, Sort.unsorted());
     }
 
@@ -56,6 +56,11 @@ public class Page {
     /// @return 当前排序对象中的排序项列表。
     public List<Sort.Order> sortOrders() {
         return sort.getOrders();
+    }
+
+    /// 获取偏移量
+    public long getOffset() {
+        return (long) (page - 1) * pageSize;
     }
 
     /// 根据传入的参数创建一个分页请求对象。
@@ -69,12 +74,8 @@ public class Page {
     /// @param params 包含分页参数的对象。
     public static @NonNull Page of(@NonNull Parameters params) {
         var sort = Sort.of(params);
-        var page = params.first("page")
-            .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PAGE))
-            .orElse(DEFAULT_PAGE);
-        var perPage = params.first("page_size")
-            .map(s -> requireNonNullElse(Ints.tryParse(s), DEFAULT_PAGE_SIZE))
-            .orElse(DEFAULT_PAGE_SIZE);
+        var page = params.first("page").map(Ints::tryParse).orElse(DEFAULT_PAGE);
+        var perPage = params.first("page_size").map(Ints::tryParse).orElse(DEFAULT_PAGE_SIZE);
         var includeTotal = params.first("include_total").asBoolean().orElse(true);
         return new Page(page, perPage, includeTotal, sort);
     }
@@ -101,43 +102,11 @@ public class Page {
                 );
     }
 
-    /// 分页构建器
-    public static Builder builder() {
-        return new Builder();
+    private static void checkPage(int page) {
+        checkArgument(page > 0, "页码必须为正数: %s", page);
     }
 
-    /// 构建器
-    public static class Builder {
-
-        private int page = DEFAULT_PAGE;
-        private int pageSize = DEFAULT_PAGE_SIZE;
-        private boolean includeTotal = true;
-        private Sort sort = Sort.unsorted();
-
-        private Builder() {}
-
-        public Builder page(int page) {
-            this.page = page;
-            return this;
-        }
-
-        public Builder pageSize(int perPage) {
-            this.pageSize = perPage;
-            return this;
-        }
-
-        public Builder includeTotal(boolean includeTotal) {
-            this.includeTotal = includeTotal;
-            return this;
-        }
-
-        public Builder sort(@NonNull Sort sort) {
-            this.sort = sort;
-            return this;
-        }
-
-        public Page build() {
-            return new Page(page, pageSize, includeTotal, sort);
-        }
+    private static void checkPageSize(int pageSize) {
+        checkArgument(pageSize > 0, "每页条目数必须为正数: %s", pageSize);
     }
 }
