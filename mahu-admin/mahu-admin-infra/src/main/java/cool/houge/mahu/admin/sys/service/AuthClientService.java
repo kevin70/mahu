@@ -4,8 +4,9 @@ import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.domain.DataFilter;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AuthClient;
+import cool.houge.mahu.shared.query.AuthClientQuery;
 import cool.houge.mahu.shared.repository.sys.AuthClientRepository;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -48,8 +49,8 @@ public class AuthClientService {
 
     /// 分页查询
     @Transactional(readOnly = true)
-    public PagedList<AuthClient> findPage(DataFilter dataFilter) {
-        return authClientRepository.findPage(dataFilter);
+    public PagedList<AuthClient> findPage(AuthClientQuery query, Page page) {
+        return authClientRepository.findPage(query, page);
     }
 
     /// 查询指定 ID 的客户端

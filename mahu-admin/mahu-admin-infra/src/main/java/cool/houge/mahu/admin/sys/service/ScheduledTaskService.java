@@ -2,9 +2,10 @@ package cool.houge.mahu.admin.sys.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.domain.DataFilter;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
+import cool.houge.mahu.shared.query.ScheduledTaskQuery;
 import cool.houge.mahu.shared.repository.sys.ScheduledExeLogRepository;
 import cool.houge.mahu.shared.repository.sys.ScheduledTaskRepository;
 import io.ebean.PagedList;
@@ -45,13 +46,13 @@ public class ScheduledTaskService {
 
     /// 分页查询系统定时任务
     @Transactional(readOnly = true)
-    public PagedList<ScheduledTask> findPage(DataFilter dataFilter) {
-        return scheduledTaskRepository.findPage(dataFilter);
+    public PagedList<ScheduledTask> findPage(ScheduledTaskQuery query, Page page) {
+        return scheduledTaskRepository.findPage(query, page);
     }
 
     /// 分页查询定时任务执行日志
     @Transactional(readOnly = true)
-    public PagedList<ScheduledTaskExeLog> findPage4ExecutionLog(String taskId, DataFilter dataFilter) {
-        return scheduledExeLogRepository.findPage(taskId, dataFilter);
+    public PagedList<ScheduledTaskExeLog> findPage4ExecutionLog(String taskName, Page page) {
+        return scheduledExeLogRepository.findPage(taskName, page);
     }
 }

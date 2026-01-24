@@ -1,7 +1,5 @@
 package cool.houge.mahu.admin.controller;
 
-import static cool.houge.mahu.web.ServerRequestUtils.pathInt;
-
 import com.google.common.collect.Lists;
 import cool.houge.mahu.admin.oas.controller.HPublicDictService;
 import cool.houge.mahu.admin.sys.service.DictService;

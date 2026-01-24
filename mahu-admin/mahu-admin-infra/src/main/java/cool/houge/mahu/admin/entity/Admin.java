@@ -31,7 +31,7 @@ public class Admin implements Auditable {
     /// 主键
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     /// 创建时间
     @WhenCreated
     private Instant createdAt;

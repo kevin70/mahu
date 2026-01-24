@@ -28,7 +28,7 @@ public class AdminAuthLog {
     ///
     /// 管理员认证记录，此时认证还未完成缺少上下文对象无法使用 `@WhoCreated` 获取当前认证用户信息。
     /// 此处需要在创建位置手动赋值。
-    private Long adminId;
+    private Integer adminId;
     /// 授权类型
     private String grantType;
     /// 认证终端 ID

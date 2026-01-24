@@ -4,9 +4,10 @@ import com.google.common.collect.Lists;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.domain.DataFilter;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.shared.query.DictQuery;
 import cool.houge.mahu.shared.repository.DictTypeRepository;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -83,11 +84,9 @@ public class DictService {
     }
 
     /// 分页查询数据
-    ///
-    /// @param dataFilter 数据过滤
     @Transactional(readOnly = true)
-    public PagedList<DictType> findPage(DataFilter dataFilter) {
-        return dictTypeRepository.findPage(dataFilter);
+    public PagedList<DictType> findPage(DictQuery query, Page page) {
+        return dictTypeRepository.findPage(query, page);
     }
 
     /// 查询指定代码的数据

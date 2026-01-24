@@ -1,8 +1,8 @@
 package cool.houge.mahu.admin.controller.sys;
 
-import static cool.houge.mahu.web.ServerRequestUtils.pathArg;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
+import cool.houge.mahu.admin.dto.AdminQuery;
 import cool.houge.mahu.admin.oas.controller.HAdminService;
 import cool.houge.mahu.admin.oas.vo.AdminLogType;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
@@ -35,14 +35,14 @@ public class AdminController implements HAdminService, WebSupport {
 
     @Override
     public void deleteSysAdmin(ServerRequest request, ServerResponse response) {
-        var id = adminId(request);
+        var id = pathAdminId(request);
         adminService.delete(id);
         response.status(NO_CONTENT_204).send();
     }
 
     @Override
     public void getSysAdmin(ServerRequest request, ServerResponse response) {
-        var id = adminId(request);
+        var id = pathAdminId(request);
         var entity = adminService.obtainById(id);
         var rs = beanMapper.toSysAdminResponse(entity);
         response.send(rs);
@@ -50,32 +50,33 @@ public class AdminController implements HAdminService, WebSupport {
 
     @Override
     public void pageSysAdmin(ServerRequest request, ServerResponse response) {
-        var dataFilter = dataFilter(request);
+        var query = AdminQuery.builder();
 
-        var plist = adminService.findPage(dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toSysAdminResponse);
+        var plist = adminService.findPage(query.build(), page(request));
+        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysAdminResponse);
         response.send(rs);
     }
 
     @Override
     public void pageSysAdminLog(ServerRequest request, ServerResponse response) {
-        var dataFilter = dataFilter(request);
         var type = pathArg(request, "type").as(AdminLogType::valueOf).get();
+        var adminId = queryInt(request, "admin_id").orElse(null);
+        var page = page(request);
         switch (type) {
             case ACCESS -> {
-                var plist = adminService.pageAdminAccessLog(dataFilter);
-                var rs = dataFilter.toResult(plist, beanMapper::toAdminAccessLogResponse);
+                var plist = adminService.pageAdminAccessLog(adminId, page);
+                var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAccessLogResponse);
                 response.send(rs);
             }
             case AUTH -> {
-                var plist = adminService.pageAdminAuthLog(dataFilter);
-                var rs = dataFilter.toResult(plist, beanMapper::toAdminAuthLogResponse);
+                var plist = adminService.pageAdminAuthLog(adminId, page);
+                var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAuthLogResponse);
                 response.send(rs);
             }
             // AUDIT
             default -> {
-                var plist = adminService.pageAdminAuditLog(dataFilter);
-                var rs = dataFilter.toResult(plist, beanMapper::toAdminAuditLogResponse);
+                var plist = adminService.pageAdminAuditLog(adminId, page);
+                var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAuditLogResponse);
                 response.send(rs);
             }
         }
@@ -85,14 +86,14 @@ public class AdminController implements HAdminService, WebSupport {
     public void updateSysAdmin(ServerRequest request, ServerResponse response) {
         var vo = request.content().as(SysAdminUpsertRequest.class);
         validate(vo);
-        var id = adminId(request);
+        var id = pathAdminId(request);
 
         var entity = beanMapper.toAdmin(vo).setId(id);
         adminService.update(entity);
         response.status(NO_CONTENT_204).send();
     }
 
-    long adminId(ServerRequest request) {
-        return pathArg(request, "admin_id").asLong().get();
+    int pathAdminId(ServerRequest request) {
+        return pathInt(request, "admin_id");
     }
 }

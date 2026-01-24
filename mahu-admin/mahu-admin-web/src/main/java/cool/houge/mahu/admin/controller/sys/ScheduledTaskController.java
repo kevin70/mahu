@@ -1,10 +1,10 @@
 package cool.houge.mahu.admin.controller.sys;
 
-import static cool.houge.mahu.web.ServerRequestUtils.pathString;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.oas.controller.HScheduledTaskService;
 import cool.houge.mahu.admin.sys.service.ScheduledTaskService;
+import cool.houge.mahu.shared.query.ScheduledTaskQuery;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.ServerRequest;
@@ -36,18 +36,18 @@ public class ScheduledTaskController implements HScheduledTaskService, WebSuppor
 
     @Override
     public void pageSysScheduledTask(ServerRequest request, ServerResponse response) {
-        var dataFilter = dataFilter(request);
-        var plist = scheduledTaskService.findPage(dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toSysScheduledTaskResponse);
+        var query = new ScheduledTaskQuery();
+        var page = page(request);
+        var plist = scheduledTaskService.findPage(query, page);
+        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysScheduledTaskResponse);
         response.send(rs);
     }
 
     @Override
     public void pageSysScheduledTaskExe(ServerRequest request, ServerResponse response) {
-        var taskId = taskName(request);
-        var dataFilter = dataFilter(request);
-        var plist = scheduledTaskService.findPage4ExecutionLog(taskId, dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toSysScheduledTaskExeResponse);
+        var taskName = taskName(request);
+        var plist = scheduledTaskService.findPage4ExecutionLog(taskName, page(request));
+        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysScheduledTaskExeResponse);
         response.send(rs);
     }
 

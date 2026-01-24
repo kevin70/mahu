@@ -27,7 +27,7 @@ public class AdminAccessLog {
     protected Instant createdAt;
     /// 操作管理员 ID
     @WhoCreated
-    private Long adminId;
+    private Integer adminId;
     /// 访问 IP
     private String ipAddr;
     /// 请求方法

@@ -36,6 +36,5 @@ dependencies {
     implementation("io.helidon.webserver:helidon-webserver")
     implementation("io.ebean:ebean-core")
     implementation("io.ebean:ebean-querybean")
-    implementation("io.github.nstdio:rsql-parser")
     implementation("com.fasterxml.jackson.core:jackson-databind")
 }

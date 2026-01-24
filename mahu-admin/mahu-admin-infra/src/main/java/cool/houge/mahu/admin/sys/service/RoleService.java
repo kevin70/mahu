@@ -5,7 +5,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.entity.Role;
 import cool.houge.mahu.admin.sys.repository.RoleRepository;
-import cool.houge.mahu.domain.DataFilter;
+import cool.houge.mahu.domain.Page;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
@@ -56,7 +56,7 @@ public class RoleService {
     }
 
     @Transactional(readOnly = true)
-    public PagedList<Role> findPage(DataFilter dataFilter) {
-        return roleRepository.findPage(dataFilter);
+    public PagedList<Role> findPage(Page page) {
+        return roleRepository.findPage(page);
     }
 }

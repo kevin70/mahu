@@ -1,6 +1,5 @@
 package cool.houge.mahu.admin.controller.sys;
 
-import static cool.houge.mahu.web.ServerRequestUtils.pathString;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import com.google.common.base.Strings;
@@ -10,6 +9,7 @@ import cool.houge.mahu.admin.oas.controller.HDictService;
 import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.sys.service.DictService;
+import cool.houge.mahu.shared.query.DictQuery;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.ServerRequest;
@@ -67,9 +67,10 @@ public class DictController implements HDictService, WebSupport {
 
     @Override
     public void pageSysDictType(ServerRequest request, ServerResponse response) {
-        var dataFilter = dataFilter(request);
-        var plist = dictService.findPage(dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toSysDictTypeResponse);
+        var query = new DictQuery();
+        var page = page(request);
+        var plist = dictService.findPage(query, page);
+        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysDictTypeResponse);
         response.send(rs);
     }
 

@@ -1,13 +1,12 @@
 package cool.houge.mahu.shared.repository.sys;
 
-import cool.houge.mahu.domain.DataFilter;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
 import cool.houge.mahu.entity.sys.query.QScheduledTaskExeLog;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
-import java.util.List;
 
 /// 定时任务执行日志
 ///
@@ -20,18 +19,8 @@ public class ScheduledExeLogRepository extends HBeanRepository<Long, ScheduledTa
     }
 
     /// 分页查询
-    ///
-    /// **支持 RSQL 过滤的属性：**
-    ///
-    /// | 字段 | 数据类型 |
-    /// | --- | ----- |
-    /// | task_name | string |
-    public PagedList<ScheduledTaskExeLog> findPage(String taskName, DataFilter dataFilter) {
-        return new QScheduledTaskExeLog(db())
-                .scheduledTask
-                .taskName
-                .eq(taskName)
-                .also(o -> super.apply(o.query(), dataFilter, List.of()))
-                .findPagedList();
+    public PagedList<ScheduledTaskExeLog> findPage(String taskName, Page page) {
+        var qb = new QScheduledTaskExeLog(db()).scheduledTask.taskName.eqIfPresent(taskName);
+        return super.findPage(qb, page);
     }
 }

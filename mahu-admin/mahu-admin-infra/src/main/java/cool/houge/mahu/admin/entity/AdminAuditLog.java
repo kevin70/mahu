@@ -28,7 +28,7 @@ public class AdminAuditLog {
     protected Instant createdAt;
     /// 操作管理员 ID
     @WhoCreated
-    private Long adminId;
+    private Integer adminId;
     /// 操作 IP
     private String ipAddr;
     /// 事件类型

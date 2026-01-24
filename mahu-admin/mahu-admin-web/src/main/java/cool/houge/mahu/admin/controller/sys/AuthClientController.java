@@ -1,12 +1,12 @@
 package cool.houge.mahu.admin.controller.sys;
 
-import static cool.houge.mahu.web.ServerRequestUtils.pathString;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.oas.controller.HAuthClientService;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
 import cool.houge.mahu.admin.sys.service.AuthClientService;
 import cool.houge.mahu.entity.sys.AuthClient;
+import cool.houge.mahu.shared.query.AuthClientQuery;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.ServerRequest;
@@ -51,9 +51,9 @@ public class AuthClientController implements HAuthClientService, WebSupport {
 
     @Override
     public void pageSysAuthClient(ServerRequest request, ServerResponse response) {
-        var filter = dataFilter(request);
-        var plist = authClientService.findPage(filter);
-        var rs = filter.toResult(plist, beanMapper::toSysAuthClientResponse);
+        var query = new AuthClientQuery();
+        var plist = authClientService.findPage(query, page(request));
+        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysAuthClientResponse);
         response.send(rs);
     }
 

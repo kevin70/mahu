@@ -3,7 +3,6 @@ package cool.houge.mahu.web;
 import com.google.common.primitives.Ints;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.domain.DataFilter;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.domain.Sort;
 import io.avaje.validation.Validator;
@@ -24,13 +23,6 @@ public interface WebSupport {
     /// @param o 校验的对象
     default void validate(Object o) {
         Validator.instance().validate(o);
-    }
-
-    /// 获取数据过滤对象
-    ///
-    /// @param request 请求对象
-    default DataFilter dataFilter(ServerRequest request) {
-        return new WebDataFilter(request);
     }
 
     /// 获取分页参数对象

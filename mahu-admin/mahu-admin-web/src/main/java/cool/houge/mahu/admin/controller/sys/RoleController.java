@@ -1,6 +1,5 @@
 package cool.houge.mahu.admin.controller.sys;
 
-import static cool.houge.mahu.web.ServerRequestUtils.pathInt;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.oas.controller.HRoleService;
@@ -51,9 +50,9 @@ public class RoleController implements HRoleService, WebSupport {
 
     @Override
     public void pageSysRole(ServerRequest request, ServerResponse response) {
-        var dataFilter = dataFilter(request);
-        var plist = roleService.findPage(dataFilter);
-        var rs = dataFilter.toResult(plist, beanMapper::toSysRoleResponse);
+        var page = page(request);
+        var plist = roleService.findPage(page);
+        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysRoleResponse);
         response.send(rs);
     }
 

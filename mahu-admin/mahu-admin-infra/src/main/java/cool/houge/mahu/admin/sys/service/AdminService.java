@@ -7,6 +7,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.Status;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
+import cool.houge.mahu.admin.dto.AdminQuery;
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
 import cool.houge.mahu.admin.entity.AdminAuditLog;
@@ -16,7 +17,7 @@ import cool.houge.mahu.admin.sys.repository.AdminAccessLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminAuditLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminAuthLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminRepository;
-import cool.houge.mahu.domain.DataFilter;
+import cool.houge.mahu.domain.Page;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Event;
@@ -45,7 +46,7 @@ public class AdminService {
     ///
     /// @param uid 用户 ID
     @Transactional
-    public Profile getProfile(long uid) {
+    public Profile getProfile(int uid) {
         var user = adminRepository.obtainById(uid);
         if (Status.ACTIVE.neq(user.getStatus())) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "帐号已被禁止");
@@ -74,7 +75,7 @@ public class AdminService {
 
     /// 删除指定 ID 的职员
     @Transactional
-    public void delete(long id) {
+    public void delete(int id) {
         adminRepository.delete(new Admin().setId(id));
     }
 
@@ -95,7 +96,7 @@ public class AdminService {
 
     /// 查询指定 ID 的职员
     @Transactional(readOnly = true)
-    public Admin obtainById(long id) {
+    public Admin obtainById(int id) {
         var entity = adminRepository.obtainById(id);
         log.debug("加载职员角色 {}", entity.getRoles());
         return entity;
@@ -103,26 +104,26 @@ public class AdminService {
 
     /// 分页查询
     @Transactional(readOnly = true)
-    public PagedList<Admin> findPage(DataFilter dataFilter) {
-        return adminRepository.findPage(dataFilter);
+    public PagedList<Admin> findPage(AdminQuery query, Page page) {
+        return adminRepository.findPage(query, page);
     }
 
     /// 管理员访问日志分页查询
     @Transactional(readOnly = true)
-    public PagedList<AdminAccessLog> pageAdminAccessLog(DataFilter dataFilter) {
-        return adminAccessLogRepository.findPage(dataFilter);
+    public PagedList<AdminAccessLog> pageAdminAccessLog(Integer adminId, Page page) {
+        return adminAccessLogRepository.findPage(adminId, page);
     }
 
     /// 管理员认证日志分页查询
     @Transactional(readOnly = true)
-    public PagedList<AdminAuthLog> pageAdminAuthLog(DataFilter dataFilter) {
-        return adminAuthLogRepository.findPage(dataFilter);
+    public PagedList<AdminAuthLog> pageAdminAuthLog(Integer adminId, Page page) {
+        return adminAuthLogRepository.findPage(adminId, page);
     }
 
     /// 管理员操作日志分页查询
     @Transactional(readOnly = true)
-    public PagedList<AdminAuditLog> pageAdminAuditLog(DataFilter dataFilter) {
-        return adminAuditLogRepository.findPage(dataFilter);
+    public PagedList<AdminAuditLog> pageAdminAuditLog(Integer adminId, Page page) {
+        return adminAuditLogRepository.findPage(adminId, page);
     }
 
     void encryptPassword(Admin bean) {

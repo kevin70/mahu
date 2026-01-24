@@ -74,7 +74,7 @@ public class AuditPersistController extends BeanPersistAdapter {
 
         // 当前操作用户
         var currentUser = server.config().getCurrentUserProvider().currentUser();
-        entity.setAdminId((long) currentUser);
+        entity.setAdminId((int) currentUser);
 
         // 获取请求的 IP 地址并设置
         var ipAddr = Contexts.context()

@@ -1,28 +1,27 @@
 package cool.houge.mahu.admin.sys.repository;
 
 import com.google.common.base.Strings;
+import cool.houge.mahu.admin.dto.AdminQuery;
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.query.QAdmin;
-import cool.houge.mahu.domain.DataFilter;
-import cool.houge.mahu.rsql.FilterItem;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service.Singleton;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.List;
 
 /// 管理员
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
-public class AdminRepository extends HBeanRepository<Long, Admin> {
+public class AdminRepository extends HBeanRepository<Integer, Admin> {
 
     public AdminRepository(Database db) {
         super(Admin.class, db);
     }
 
-    public Admin obtainById(long id) {
+    public Admin obtainById(Integer id) {
         return findByIdOrEmpty(id)
                 .orElseThrow(() -> new EntityNotFoundException(Strings.lenientFormat("未找到用户[id=%s]", id)));
     }
@@ -32,28 +31,8 @@ public class AdminRepository extends HBeanRepository<Long, Admin> {
     }
 
     /// 分页查询
-    ///
-    /// **支持 RSQL 过滤的属性：**
-    ///
-    /// | 字段 | 数据类型 |
-    /// | --- | ----- |
-    /// | created_at | date-time |
-    /// | updated_at | date-time |
-    /// | nickname | string |
-    /// | status | enum |
-    public PagedList<Admin> findPage(DataFilter dataFilter) {
-        return new QAdmin(db())
-                .also(o -> super.apply(o.query(), dataFilter, filterableItems()))
-                .findPagedList();
-    }
-
-    List<FilterItem> filterableItems() {
-        return List.of(
-                FilterItem.of(QAdmin.Alias.createdAt),
-                FilterItem.of(QAdmin.Alias.updatedAt),
-                FilterItem.of(QAdmin.Alias.nickname),
-                FilterItem.of(QAdmin.Alias.status)
-                //
-                );
+    public PagedList<Admin> findPage(AdminQuery query, Page page) {
+        var qb = new QAdmin(db());
+        return super.findPage(qb, page);
     }
 }

@@ -68,7 +68,7 @@ public class TokenService implements TokenVerifier {
     public AuthContext verify(String token) {
         var jwt = parseToken(token);
         var adminId = jwt.userPrincipal()
-                .map(Long::valueOf)
+                .map(Integer::valueOf)
                 .orElseThrow(() -> new BizCodeException(BizCodes.UNAUTHENTICATED, "非法的访问令牌"));
 
         LazyValue<@NonNull Admin> adminLv = LazyValue.create(() -> {
@@ -82,7 +82,7 @@ public class TokenService implements TokenVerifier {
         return new AuthContext() {
 
             @Override
-            public long adminId() {
+            public int adminId() {
                 return adminId;
             }
 
@@ -196,7 +196,7 @@ public class TokenService implements TokenVerifier {
     Admin loginByRefreshToken(TokenPayload payload) {
         var jwt = parseToken(payload.getRefreshToken());
         var sub = jwt.userPrincipal().orElseThrow();
-        var user = adminRepository.findById(Long.valueOf(sub));
+        var user = adminRepository.findById(Integer.valueOf(sub));
         if (user == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", sub));
         }
