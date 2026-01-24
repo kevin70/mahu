@@ -60,7 +60,9 @@ public class SharedBaseService {
 
     /// 查询所有公共的字典类型
     public List<ImmutableDictType> loadPublicDictTypes() {
-        return dicHelper.allDictTypes().stream().filter(ImmutableDictType::isPublic).toList();
+        return dicHelper.allDictTypes().stream()
+                .filter(ImmutableDictType::isPublic)
+                .toList();
     }
 
     /// 推送延迟消息
