@@ -5,8 +5,7 @@ required:
   - access_url
 properties:
   object_id:
-    type: integer
-    format: int64
+    type: string
     description: 对象 ID
   upload_url:
     type: string
