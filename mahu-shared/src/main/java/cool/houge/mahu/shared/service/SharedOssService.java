@@ -45,7 +45,7 @@ public class SharedOssService {
     ///
     /// @param objectId 对象 ID
     /// @return 访问 URL
-    public String presignedGetUrlByStoredObject(long objectId) {
+    public String presignedGetUrlByStoredObject(String objectId) {
         var obj = storedObjectRepository.findById(objectId);
         if (obj == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, "未找到 StoredObject");
@@ -69,7 +69,7 @@ public class SharedOssService {
     ///
     /// @param objectId 对象 ID
     /// @return 访问 URL
-    public String presignedGetUrlByIdPhoto(long objectId) {
+    public String presignedGetUrlByIdPhoto(String objectId) {
         var obj = idPhotoRepository.findById(objectId);
         if (obj == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, "未找到 IdPhoto");

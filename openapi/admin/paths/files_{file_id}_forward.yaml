@@ -4,9 +4,8 @@ parameters:
     description: 文件 ID
     required: true
     schema:
-      type: integer
-      format: int64
-      minimum: 1
+      type: string
+      maxLength: 50
 get:
   summary: 定向资源
   operationId: forwardFile

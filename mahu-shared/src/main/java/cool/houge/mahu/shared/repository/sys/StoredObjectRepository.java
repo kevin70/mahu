@@ -11,7 +11,7 @@ import java.util.List;
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
-public class StoredObjectRepository extends HBeanRepository<Long, StoredObject> {
+public class StoredObjectRepository extends HBeanRepository<String, StoredObject> {
 
     public StoredObjectRepository(Database db) {
         super(StoredObject.class, db);
@@ -22,7 +22,7 @@ public class StoredObjectRepository extends HBeanRepository<Long, StoredObject> 
     /// @param ids 资源 IDs
     /// @param type 资源类型
     /// @param newStatus 新的状态
-    public int updateStatus(List<Long> ids, StoredObject.Type type, int newStatus) {
+    public int updateStatus(List<String> ids, StoredObject.Type type, int newStatus) {
         var qb = new QStoredObject(db());
         return qb.id.in(ids).type.eq(type).asUpdate().set(qb.status, newStatus).update();
     }

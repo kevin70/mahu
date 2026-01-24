@@ -11,7 +11,7 @@ import java.util.List;
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
-public class IdPhotoRepository extends HBeanRepository<Long, IdPhoto> {
+public class IdPhotoRepository extends HBeanRepository<String, IdPhoto> {
 
     public IdPhotoRepository(Database db) {
         super(IdPhoto.class, db);
@@ -22,7 +22,7 @@ public class IdPhotoRepository extends HBeanRepository<Long, IdPhoto> {
     /// @param ids 资源 IDs
     /// @param type 资源类型
     /// @param newStatus 新的状态
-    public int updateStatus(List<Long> ids, IdPhoto.Type type, int newStatus) {
+    public int updateStatus(List<String> ids, IdPhoto.Type type, int newStatus) {
         var qb = new QIdPhoto(db());
         return qb.id.in(ids).type.eq(type).asUpdate().set(qb.status, newStatus).update();
     }

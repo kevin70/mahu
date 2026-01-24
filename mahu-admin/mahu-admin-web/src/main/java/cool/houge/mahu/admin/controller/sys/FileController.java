@@ -37,7 +37,7 @@ public class FileController implements HFileService, WebSupport {
 
     @Override
     public void forwardFile(ServerRequest request, ServerResponse response) {
-        var fileId = pathLong(request, "file_id");
+        var fileId = pathString(request, "file_id");
         var location = sharedOssService.presignedGetUrlByStoredObject(fileId);
         response.status(FOUND_302).header(HeaderNames.LOCATION, location).send();
     }

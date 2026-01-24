@@ -7,4 +7,4 @@ package cool.houge.mahu.shared.dto;
 /// @param uploadUrl 上传地址
 /// @param accessUrl 上传成功后访问 URL
 /// @author ZY (kzou227@qq.com)
-public record PresignedUploadResult(long objectId, String objectKey, String uploadUrl, String accessUrl) {}
+public record PresignedUploadResult(String objectId, String objectKey, String uploadUrl, String accessUrl) {}

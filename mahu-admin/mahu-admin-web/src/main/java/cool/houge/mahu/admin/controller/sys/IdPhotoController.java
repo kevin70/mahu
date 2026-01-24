@@ -1,6 +1,5 @@
 package cool.houge.mahu.admin.controller.sys;
 
-import static cool.houge.mahu.web.ServerRequestUtils.pathLong;
 import static io.helidon.http.Status.FOUND_302;
 
 import cool.houge.mahu.admin.oas.controller.HIdPhotoService;
@@ -37,7 +36,7 @@ public class IdPhotoController implements HIdPhotoService, WebSupport {
 
     @Override
     public void forwardIdPhoto(ServerRequest request, ServerResponse response) {
-        var idPhotoId = pathLong(request, "id_photo_id");
+        var idPhotoId = pathString(request, "id_photo_id");
         var location = sharedOssService.presignedGetUrlByIdPhoto(idPhotoId);
         response.status(FOUND_302).header(HeaderNames.LOCATION, location).send();
     }

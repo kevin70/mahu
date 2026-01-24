@@ -4,8 +4,8 @@ parameters:
     description: 证件照 ID
     required: true
     schema:
-      type: integer
-      format: int64
+      type: string
+      maxLength: 50
 get:
   summary: 定向证件照
   operationId: forwardIdPhoto
