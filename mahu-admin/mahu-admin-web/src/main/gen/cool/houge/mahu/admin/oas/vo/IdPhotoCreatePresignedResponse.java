@@ -13,7 +13,7 @@ public class IdPhotoCreatePresignedResponse {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("object_id")
-    private Long objectId;
+    private String objectId;
     /**
      * 上传 URL
      */
