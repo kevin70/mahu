@@ -3,10 +3,10 @@
 
 -- changeset kzou227@qq.com:202511241531
 CREATE TABLE sys.object (
-  id bigserial CONSTRAINT object_pk PRIMARY KEY,
+  id VARCHAR(50) NOT NULL CONSTRAINT object_pk PRIMARY KEY,
   created_at TIMESTAMP,
   updated_at TIMESTAMP,
-  uid BIGINT NOT NULL,
+  uid BIGINT,
   type SMALLINT DEFAULT 0 NOT NULL,
   status SMALLINT NOT NULL,
   object_key VARCHAR(512) NOT NULL,
@@ -30,9 +30,5 @@ comment ON COLUMN sys.object.status IS '状态';
 comment ON COLUMN sys.object.object_key IS '对象的完整 key（含前缀）';
 
 comment ON COLUMN sys.object.metadata IS '可以用来存储额外的元数据，比如图片尺寸、背景颜色、格式等。 ';
-
-ALTER SEQUENCE sys.object_id_seq RESTART
-WITH
-  1000001;
 
 -- rollback drop table sys.object;

@@ -3,7 +3,7 @@
 
 -- changeset kzou227@qq.com:202511241532
 CREATE TABLE sys.id_photo (
-  id bigserial CONSTRAINT id_photo_pk PRIMARY KEY,
+  id VARCHAR(50) NOT NULL CONSTRAINT id_photo_pk PRIMARY KEY,
   created_at TIMESTAMP,
   updated_at TIMESTAMP,
   uid BIGINT NOT NULL,
@@ -32,13 +32,5 @@ comment ON COLUMN sys.id_photo.status IS '状态';
 comment ON COLUMN sys.id_photo.object_key IS '对象的完整 key（含前缀）';
 
 comment ON COLUMN sys.id_photo.metadata IS '可以用来存储额外的元数据，比如图片尺寸、背景颜色、格式等。 ';
-
-CREATE INDEX id_photo_uid_i ON sys.id_photo (uid);
-
-CREATE INDEX id_photo_status_created_at_i ON sys.id_photo (status, created_at);
-
-ALTER SEQUENCE sys.id_photo_id_seq RESTART
-WITH
-  1000001;
 
 -- rollback drop table sys.id_photo;
