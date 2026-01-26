@@ -22,7 +22,6 @@ import io.helidon.common.parameters.Parameters;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,6 +37,9 @@ import org.jspecify.annotations.NonNull;
 @EqualsAndHashCode
 public class Sort {
 
+    /// 空排序
+    private static final Sort UNSORTED = new Sort(Collections.emptyList());
+
     /// 排序集合
     private final List<Order> orders;
 
@@ -48,13 +50,13 @@ public class Sort {
             var uniqueProperties = new HashSet<>();
             this.orders = orders.stream()
                     .filter(order -> uniqueProperties.add(order.getProperty().toUpperCase()))
-                    .collect(Collectors.toList());
+                    .toList();
         }
     }
 
     /// 空排序
     public static Sort unsorted() {
-        return new Sort(Collections.emptyList());
+        return UNSORTED;
     }
 
     /// 根据传入的参数创建一个排序对象。

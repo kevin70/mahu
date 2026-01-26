@@ -9,19 +9,14 @@ import com.google.common.primitives.Ints;
 import io.helidon.common.parameters.Parameters;
 import java.util.List;
 import lombok.Builder;
-import lombok.Builder.Default;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Value;
 import org.jspecify.annotations.NonNull;
 
 /// 分页信息的抽象接口。
 ///
 /// @author ZY (kzou227@qq.com)
-@Getter
+@Value
 @Builder
-@ToString
-@EqualsAndHashCode
 public class Page {
 
     /// 默认页码
@@ -30,17 +25,13 @@ public class Page {
     private static final int DEFAULT_PAGE_SIZE = 20;
 
     /// 要查询的页码
-    @Default
-    private int page = DEFAULT_PAGE;
+    int page;
     /// 每页要返回的条目数
-    @Default
-    private int pageSize = DEFAULT_PAGE_SIZE;
+    int pageSize;
     /// 是否返回总记录数量
-    @Default
-    private boolean includeTotal = true;
+    boolean includeTotal;
     /// 排序参数
-    @Default
-    private Sort sort = Sort.unsorted();
+    Sort sort;
 
     private Page(int page, int pageSize, boolean includeTotal, Sort sort) {
         checkPage(page);
@@ -109,5 +100,15 @@ public class Page {
 
     private static void checkPageSize(int pageSize) {
         checkArgument(pageSize > 0, "每页条目数必须为正数: %s", pageSize);
+    }
+
+    public static class Builder {
+
+        Builder() {
+            this.page = DEFAULT_PAGE;
+            this.pageSize = DEFAULT_PAGE_SIZE;
+            this.includeTotal = true;
+            this.sort = Sort.unsorted();
+        }
     }
 }

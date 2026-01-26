@@ -22,6 +22,17 @@ get:
     - $ref: "../components/parameters/page.yaml"
     - $ref: "../components/parameters/include_total.yaml"
     - $ref: "../components/parameters/sort.yaml"
+    - in: query
+      name: type_id
+      description: 字典类型 ID
+      schema:
+        type: string
+    - in: query
+      name: dc
+      description: 字典代码
+      schema:
+        type: integer
+        format: int32
   responses:
     "200":
       description: OK

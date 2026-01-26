@@ -67,9 +67,12 @@ public class DictController implements HDictService, WebSupport {
 
     @Override
     public void pageSysDictType(ServerRequest request, ServerResponse response) {
-        var query = new DictQuery();
+        var qb = DictQuery.builder();
+        queryArg(request, "type_id").ifPresent(qb::typeId);
+        queryInt(request, "dc").ifPresent(qb::dc);
+
         var page = page(request);
-        var plist = dictService.findPage(query, page);
+        var plist = dictService.findPage(qb.build(), page);
         var rs = beanMapper.toPageResponse(plist, beanMapper::toSysDictTypeResponse);
         response.send(rs);
     }
