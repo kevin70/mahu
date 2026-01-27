@@ -8,11 +8,9 @@ dependencies {
     api(project(":mahu-entity"))
     api(project(":mahu-config"))
     api(project(":mahu-shared"))
+    api(libs.bundles.jackson)
     api(libs.bundles.helidon.base)
     api(libs.bundles.helidon.config)
-
-//    api("io.minio:minio")
-//    api("com.password4j:password4j")
     implementation(libs.bundles.helidon.webclient)
     implementation(libs.password4j)
     implementation(libs.minio)

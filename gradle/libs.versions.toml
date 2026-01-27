@@ -5,14 +5,14 @@ mapstruct = "1.6.3"
 fastexcel = "0.19.0"
 log4j = "2.25.3"
 avaje-validator = "2.16"
-jackson = "2.21.0"
+jackson = "2.20.0"
 
 junit = "6.0.1"
 
 [libraries]
 jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
 checker-qual = { module = "org.checkerframework:checker-qual", version = "3.49.5" }
-error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version = "2.41.0" }
+error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version = { strictly = "2.43.0" } }
 lombok = { module = "org.projectlombok:lombok", version = "1.18.42" }
 guava = { module = "com.google.guava:guava", version = "33.4.8-jre" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.3" }
@@ -38,6 +38,7 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 jackson-module-parameter-names = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
 jackson-module-afterburner = { module = "com.fasterxml.jackson.module:jackson-module-afterburner", version.ref = "jackson" }
+jackson-datatype-jdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jackson" }
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 jackson-datatype-guava = { module = "com.fasterxml.jackson.datatype:jackson-datatype-guava", version.ref = "jackson" }
 
@@ -97,6 +98,7 @@ jackson = [
     "jackson-databind",
     "jackson-module-parameter-names",
     "jackson-module-afterburner",
+    "jackson-datatype-jdk8",
     "jackson-datatype-jsr310",
     "jackson-datatype-guava"
 ]

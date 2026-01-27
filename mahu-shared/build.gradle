@@ -8,6 +8,7 @@ dependencies {
     api(project(":mahu-config"))
     implementation(libs.minio)
     implementation(libs.caffeine)
+    implementation(libs.bundles.jackson)
     implementation(libs.bundles.ebean)
     implementation(libs.bundles.helidon.base)
 
