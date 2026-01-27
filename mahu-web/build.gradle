@@ -4,6 +4,6 @@ dependencies {
     implementation(project(":mahu-base"))
     implementation(libs.bundles.log4j)
     implementation(libs.ebean.api)
-    implementation(libs.bundles.helidon.web)
+    implementation(libs.bundles.helidon.webserver)
     implementation(libs.bundles.avaje.validator)
 }

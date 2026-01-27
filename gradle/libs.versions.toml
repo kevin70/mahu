@@ -110,11 +110,6 @@ ebean = [
 ]
 helidon-base = [
     "helidon-service-registry",
-    "helidon-security-jwt",
-    "helidon-health-checks",
-    "helidon-http-media-jackson",
-    "helidon-fault-tolerance",
-    "helidon-logging-log4j"
 ]
 helidon-common = [
     "helidon-common-parameters",
@@ -125,7 +120,11 @@ helidon-config = [
     "helidon-config-yaml",
     "helidon-config-encryption"
 ]
-helidon-web = [
+helidon-client = [
+    "helidon-webclient",
+    "helidon-http-media-jackson",
+]
+helidon-webserver = [
     "helidon-service-registry",
     "helidon-security-jwt",
     "helidon-health-checks",

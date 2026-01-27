@@ -40,7 +40,7 @@ dependencies {
     implementation(project(":mahu-shared"))
 
     implementation(libs.bundles.helidon.config)
-    implementation(libs.bundles.helidon.web)
+    implementation(libs.bundles.helidon.webserver)
     implementation(libs.bundles.ebean)
     implementation(libs.bundles.log4j)
     implementation(libs.db.scheduler)

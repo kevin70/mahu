@@ -132,7 +132,7 @@ dependencies {
     implementation(project(":mahu-web"))
     implementation(project(":mahu-admin:mahu-admin-infra"))
     implementation(libs.bundles.avaje.validator)
-    implementation(libs.bundles.helidon.web)
+    implementation(libs.bundles.helidon.webserver)
     implementation(libs.bundles.avaje.validator)
     implementation(libs.bundles.ebean)
 
