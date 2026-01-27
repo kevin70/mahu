@@ -120,7 +120,7 @@ helidon-config = [
     "helidon-config-yaml",
     "helidon-config-encryption"
 ]
-helidon-client = [
+helidon-webclient = [
     "helidon-webclient",
     "helidon-http-media-jackson",
 ]

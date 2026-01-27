@@ -13,7 +13,7 @@ dependencies {
 
 //    api("io.minio:minio")
 //    api("com.password4j:password4j")
-    implementation(libs.helidon.webclient)
+    implementation(libs.bundles.helidon.webclient)
     implementation(libs.password4j)
     implementation(libs.minio)
     implementation(libs.caffeine)
