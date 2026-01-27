@@ -5,6 +5,7 @@ mapstruct = "1.6.3"
 fastexcel = "0.19.0"
 log4j = "2.25.3"
 avaje-validator = "2.16"
+jackson = "2.21.0"
 
 junit = "6.0.1"
 
@@ -24,6 +25,7 @@ roaringbitmap = { module = "com.github.RoaringBitmap.RoaringBitmap:roaringbitmap
 db-scheduler = { module = "com.github.kagkarlsson:db-scheduler", version = "16.0.0" }
 ulid-creator = { module = "com.github.f4b6a3:ulid-creator", version = "5.2.3" }
 minio = { module = "io.minio:minio", version = "8.6.0" }
+password4j = { module = "com.password4j:password4j", version = "1.8.4" }
 
 assert-core = { module = "org.assertj:assertj-core", version = "3.27.6" }
 awaitility = { module = "org.awaitility:awaitility", version = "4.3.0" }
@@ -33,6 +35,12 @@ mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version 
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-module-parameter-names = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
+jackson-module-afterburner = { module = "com.fasterxml.jackson.module:jackson-module-afterburner", version.ref = "jackson" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+jackson-datatype-guava = { module = "com.fasterxml.jackson.datatype:jackson-datatype-guava", version.ref = "jackson" }
+
 ebean-querybean-generator = { module = "io.ebean:querybean-generator", version.ref = "ebean" }
 ebean-api = { module = "io.ebean:ebean-api", version.ref = "ebean" }
 ebean-core = { module = "io.ebean:ebean-core", version.ref = "ebean" }
@@ -41,13 +49,18 @@ ebean-postgres = { module = "io.ebean:ebean-postgres", version.ref = "ebean" }
 ebean-jackson-mapper = { module = "io.ebean:ebean-jackson-mapper", version.ref = "ebean" }
 
 helidon-bundles-apt = { module = "io.helidon.bundles:helidon-bundles-apt", version.ref = "helidon" }
-helidon-common = { module = "io.helidon.common:helidon-common", version.ref = "helidon" }
+helidon-common-context = { module = "io.helidon.common:helidon-common-context", version.ref = "helidon" }
+helidon-common-parameters = { module = "io.helidon.common:helidon-common-parameters", version.ref = "helidon" }
+helidon-common-configurable = { module = "io.helidon.common:helidon-common-configurable", version.ref = "helidon" }
+helidon-config-yaml = { module = "io.helidon.config:helidon-config-yaml", version.ref = "helidon" }
+helidon-config-encryption = { module = "io.helidon.config:helidon-config-encryption", version.ref = "helidon" }
 helidon-service-registry = { module = "io.helidon.service:helidon-service-registry", version.ref = "helidon" }
 helidon-security-jwt = { module = "io.helidon.security:helidon-security-jwt", version.ref = "helidon" }
 helidon-health-checks = { module = "io.helidon.health:helidon-health-checks", version.ref = "helidon" }
 helidon-http-media-jackson = { module = "io.helidon.http.media:helidon-http-media-jackson", version.ref = "helidon" }
 helidon-fault-tolerance = { module = "io.helidon.fault-tolerance:helidon-fault-tolerance", version.ref = "helidon" }
 helidon-logging-log4j = { module = "io.helidon.logging:helidon-logging-log4j", version.ref = "helidon" }
+helidon-webclient = { module = "io.helidon.webclient:helidon-webclient", version.ref = "helidon" }
 helidon-webserver = { module = "io.helidon.webserver:helidon-webserver", version.ref = "helidon" }
 helidon-webserver-cors = { module = "io.helidon.webserver:helidon-webserver-cors", version.ref = "helidon" }
 helidon-webserver-context = { module = "io.helidon.webserver:helidon-webserver-context", version.ref = "helidon" }
@@ -80,6 +93,13 @@ base = [
     "guava",
     "ulid-creator"
 ]
+jackson = [
+    "jackson-databind",
+    "jackson-module-parameter-names",
+    "jackson-module-afterburner",
+    "jackson-datatype-jsr310",
+    "jackson-datatype-guava"
+]
 ebean = [
     "ebean-api",
     "ebean-core",
@@ -95,6 +115,15 @@ helidon-base = [
     "helidon-http-media-jackson",
     "helidon-fault-tolerance",
     "helidon-logging-log4j"
+]
+helidon-common = [
+    "helidon-common-parameters",
+    "helidon-common-context",
+    "helidon-common-configurable"
+]
+helidon-config = [
+    "helidon-config-yaml",
+    "helidon-config-encryption"
 ]
 helidon-web = [
     "helidon-service-registry",
@@ -112,9 +141,18 @@ helidon-web = [
     "helidon-webserver-observe-log",
     "helidon-webserver-observe-metrics"
 ]
-avaje-validator = ["avaje-validator-constraints", "avaje-validator"]
-fastexcel = ["fastexcel", "fastexcel-reader"]
-log4j = ["log4j-core", "log4j-slf4j2-impl"]
+avaje-validator = [
+    "avaje-validator-constraints",
+    "avaje-validator"
+]
+fastexcel = [
+    "fastexcel",
+    "fastexcel-reader"
+]
+log4j = [
+    "log4j-core",
+    "log4j-slf4j2-impl"
+]
 testing = [
     "junit-jupiter",
     "junit-platform-launcher",

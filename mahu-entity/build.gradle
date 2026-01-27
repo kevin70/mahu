@@ -6,7 +6,7 @@ dependencies {
     compileOnly("io.avaje:avaje-lang:1.1")
 
     api(project(":mahu-base"))
-    api(libs.helidon.common)
-    api(libs.ebean.api)
+    implementation(libs.ebean.api)
     implementation(libs.ebean.querybean)
+    implementation(libs.bundles.helidon.common)
 }

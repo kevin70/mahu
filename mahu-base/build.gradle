@@ -33,8 +33,7 @@ dependencies {
     api(libs.ulid.creator)
     api(libs.roaringbitmap)
 
-    implementation("io.helidon.webserver:helidon-webserver")
-    implementation("io.ebean:ebean-core")
-    implementation("io.ebean:ebean-querybean")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation(libs.bundles.ebean)
+    implementation(libs.bundles.jackson)
+    implementation(libs.bundles.helidon.common)
 }

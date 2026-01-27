@@ -126,28 +126,15 @@ tasks.register("deployDev") {
 }
 
 dependencies {
-    annotationProcessor("io.avaje:avaje-validator-generator")
-    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
+    annotationProcessor(libs.avaje.validator.generator)
+    annotationProcessor(libs.helidon.bundles.apt)
 
     implementation(project(":mahu-web"))
     implementation(project(":mahu-admin:mahu-admin-infra"))
-    implementation("io.helidon:helidon")
-    implementation("io.helidon.logging:helidon-logging-log4j")
-    implementation("io.helidon.webserver:helidon-webserver")
-    implementation("io.helidon.webserver:helidon-webserver-cors")
-    implementation("io.helidon.webserver:helidon-webserver-context")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-info")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-config")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-health")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-log")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-metrics")
+    implementation(libs.bundles.avaje.validator)
+    implementation(libs.bundles.helidon.web)
+    implementation(libs.bundles.avaje.validator)
+    implementation(libs.bundles.ebean)
 
-    implementation("io.avaje:avaje-validator-constraints")
-    implementation("io.avaje:avaje-validator") {
-        exclude module: "avaje-validator-http-plugin"
-    }
-    implementation("org.apache.logging.log4j:log4j-core")
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-
-    testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5")
+    // testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5")
 }

@@ -2,32 +2,36 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.ebean:querybean-generator")
-    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
+    annotationProcessor(libs.ebean.querybean.generator)
+    annotationProcessor(libs.helidon.bundles.apt)
 
     api(project(":mahu-entity"))
     api(project(":mahu-config"))
     api(project(":mahu-shared"))
-    api("org.apache.logging.log4j:log4j-api")
-    api("io.helidon.security:helidon-security-jwt")
-    api("io.helidon.webclient:helidon-webclient")
-    api("io.helidon.health:helidon-health-checks")
-    api("io.helidon.http.media:helidon-http-media-jackson")
-    api("io.helidon.fault-tolerance:helidon-fault-tolerance")
-    api("io.helidon.service:helidon-service-registry")
+    api(libs.bundles.helidon.base)
+    api(libs.bundles.helidon.config)
 
-    api("io.minio:minio")
-    api("com.password4j:password4j")
-    api("com.github.ben-manes.caffeine:caffeine")
-    api("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap")
+//    api("io.minio:minio")
+//    api("com.password4j:password4j")
+    implementation(libs.helidon.webclient)
+    implementation(libs.password4j)
+    implementation(libs.minio)
+    implementation(libs.caffeine)
+    implementation(libs.roaringbitmap)
+    implementation("com.rabbitmq.client:amqp-client:0.8.0")
 
-    implementation("org.postgresql:postgresql")
-    implementation("io.ebean:ebean-postgres")
-    implementation("io.ebean:ebean-jackson-mapper")
-    implementation("com.github.binarywang:weixin-java-miniapp")
-    implementation("com.github.binarywang:weixin-java-pay")
-    implementation("io.valkey:valkey-glide:2.2.5:${osdetector.classifier}")
+    implementation(libs.bundles.ebean)
+//    implementation("com.github.binarywang:weixin-java-miniapp")
+//    implementation("com.github.binarywang:weixin-java-pay")
+    // implementation("io.valkey:valkey-glide:2.2.5:${osdetector.classifier}")
+    implementation(libs.valkey.glide) {
+        artifact {
+            classifier = osdetector.classifier
+        }
+    }
+    implementation("org.apache.rocketmq:rocketmq-client-java-noshade:5.1.0")
+    implementation("org.apache.pulsar:pulsar-client-original:4.1.2")
 
     // testImplementation(project(":mahu-test"))
-    testImplementation("io.helidon.testing:helidon-testing-junit5")
+//    testImplementation("io.helidon.testing:helidon-testing-junit5")
 }

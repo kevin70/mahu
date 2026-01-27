@@ -3,9 +3,7 @@ apply plugin: "java-library"
 dependencies {
     implementation(project(":mahu-base"))
     implementation(libs.bundles.log4j)
-    implementation("io.ebean:ebean-api")
-    implementation("com.google.guava:guava")
-    implementation("io.helidon.webserver:helidon-webserver")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
-    implementation("io.avaje:avaje-validator")
+    implementation(libs.ebean.api)
+    implementation(libs.bundles.helidon.web)
+    implementation(libs.bundles.avaje.validator)
 }
