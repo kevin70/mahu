@@ -112,6 +112,7 @@ ebean = [
 ]
 helidon-base = [
     "helidon-service-registry",
+    "helidon-health-checks",
 ]
 helidon-common = [
     "helidon-common-parameters",
@@ -121,6 +122,16 @@ helidon-common = [
 helidon-config = [
     "helidon-config-yaml",
     "helidon-config-encryption"
+]
+helidon-service = [
+    "helidon-common-parameters",
+    "helidon-common-context",
+    "helidon-common-configurable",
+    "helidon-service-registry",
+    "helidon-health-checks",
+    "helidon-config-yaml",
+    "helidon-config-encryption",
+    "helidon-security-jwt"
 ]
 helidon-webclient = [
     "helidon-webclient",

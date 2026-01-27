@@ -9,8 +9,7 @@ dependencies {
     api(project(":mahu-config"))
     api(project(":mahu-shared"))
     api(libs.bundles.jackson)
-    api(libs.bundles.helidon.base)
-    api(libs.bundles.helidon.config)
+    api(libs.bundles.helidon.service)
     implementation(libs.bundles.helidon.webclient)
     implementation(libs.password4j)
     implementation(libs.minio)
@@ -19,8 +18,9 @@ dependencies {
     implementation("com.rabbitmq.client:amqp-client:0.8.0")
 
     implementation(libs.bundles.ebean)
-//    implementation("com.github.binarywang:weixin-java-miniapp")
-//    implementation("com.github.binarywang:weixin-java-pay")
+    implementation(libs.bundles.log4j)
+    //    implementation("com.github.binarywang:weixin-java-miniapp")
+    //    implementation("com.github.binarywang:weixin-java-pay")
     // implementation("io.valkey:valkey-glide:2.2.5:${osdetector.classifier}")
     implementation(libs.valkey.glide) {
         artifact {
@@ -31,5 +31,5 @@ dependencies {
     implementation("org.apache.pulsar:pulsar-client-original:4.1.2")
 
     // testImplementation(project(":mahu-test"))
-//    testImplementation("io.helidon.testing:helidon-testing-junit5")
+    //    testImplementation("io.helidon.testing:helidon-testing-junit5")
 }
