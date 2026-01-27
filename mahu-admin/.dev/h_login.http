@@ -1,0 +1,14 @@
+### 获取访问令牌
+POST {{base_uri}}/login/token
+Content-Type: application/json
+
+{
+    "client_id": "{{client_id}}",
+    "grant_type": "password",
+    "username": "houge",
+    "password": "houge"
+}
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
