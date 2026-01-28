@@ -1,5 +1,6 @@
 package cool.houge.mahu.shared.repository.sys;
 
+import com.google.common.base.Strings;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.query.QAuthClient;
@@ -33,6 +34,16 @@ public class AuthClientRepository extends HBeanRepository<String, AuthClient> {
     /// 分页查询
     public PagedList<AuthClient> findPage(AuthClientQuery query, Page page) {
         var qb = new QAuthClient(db());
+        if (!Strings.isNullOrEmpty(query.getClientId())) {
+            qb.clientId.eq(query.getClientId());
+        }
+        if (query.getTerminalType() != null) {
+            qb.terminalType.eq(query.getTerminalType());
+        }
+        if (!Strings.isNullOrEmpty(query.getWechatAppid())) {
+            qb.wechatAppid.eq(query.getWechatAppid());
+        }
+
         return super.findPage(qb, page);
     }
 }

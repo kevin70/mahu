@@ -23,7 +23,7 @@ get:
     - $ref: "../components/parameters/include_total.yaml"
     - $ref: "../components/parameters/sort.yaml"
     - in: query
-      name: type_id
+      name: id
       description: 字典类型 ID
       schema:
         type: string

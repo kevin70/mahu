@@ -20,8 +20,21 @@ get:
   parameters:
     - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
-    - $ref: "../components/parameters/filter.yaml"
-    - $ref: "../components/parameters/sort.yaml"
+    - in: query
+      name: client_id
+      description: 客户端 ID
+      schema:
+        type: string
+    - in: query
+      name: terminal_type
+      description: 终端类型
+      schema:
+        type: string
+    - in: query
+      name: wechat_appid
+      description: 微信应用 ID
+      schema:
+        type: string
   responses:
     "200":
       description: OK

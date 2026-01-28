@@ -68,7 +68,7 @@ public class DictController implements HDictService, WebSupport {
     @Override
     public void pageSysDictType(ServerRequest request, ServerResponse response) {
         var qb = DictQuery.builder();
-        queryArg(request, "type_id").ifPresent(qb::typeId);
+        queryArg(request, "id").ifPresent(qb::id);
         queryInt(request, "dc").ifPresent(qb::dc);
 
         var page = page(request);

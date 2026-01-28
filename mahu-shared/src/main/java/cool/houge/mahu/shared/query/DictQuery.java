@@ -9,7 +9,7 @@ import lombok.Value;
 public class DictQuery {
 
     /// 类型 ID
-    String typeId;
+    String id;
     /// 字典代码
     Integer dc;
 }
