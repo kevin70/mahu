@@ -35,7 +35,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     /// 分页查询
     public PagedList<DictType> findPage(DictQuery query, Page page) {
         var qb = new QDictType(db());
-        qb.id.eqIfPresent(query.getId());
+        qb.id.eqIfPresent(query.getTypeId());
         if (query.getDc() != null) {
             qb.data.dc.eq(query.getDc());
         }

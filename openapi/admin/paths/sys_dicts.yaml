@@ -21,7 +21,7 @@ get:
     - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
     - in: query
-      name: id
+      name: type_id
       description: 字典类型 ID
       schema:
         type: string
