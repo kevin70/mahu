@@ -31,9 +31,12 @@ public class FeatureController implements HFeatureService, WebSupport {
 
     @Override
     public void pageSysFeature(ServerRequest request, ServerResponse response) {
-        var query = new FeatureQuery();
+        var qb = FeatureQuery.builder();
+        qb.statusList(queryIntArgs(request, "status"));
+        queryArg(request, "name").ifPresent(qb::name);
+
         var page = page(request);
-        var plist = featureService.findPage(query, page);
+        var plist = featureService.findPage(qb.build(), page);
         var rs = beanMapper.toPageResponse(plist, beanMapper::toSysFeatureResponse);
         response.send(rs);
     }

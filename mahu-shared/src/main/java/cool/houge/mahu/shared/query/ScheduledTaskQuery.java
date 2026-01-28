@@ -1,7 +1,12 @@
 package cool.houge.mahu.shared.query;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
+@Value
+@Builder
 public class ScheduledTaskQuery {
+
+    /// 任务名称
+    String taskName;
 }

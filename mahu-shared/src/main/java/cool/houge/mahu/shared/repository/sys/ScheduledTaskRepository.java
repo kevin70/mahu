@@ -1,5 +1,6 @@
 package cool.houge.mahu.shared.repository.sys;
 
+import com.google.common.base.Strings;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.query.QScheduledTask;
@@ -25,15 +26,12 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
     }
 
     /// 分页查询
-    ///
-    /// **支持 RSQL 过滤的属性：**
-    ///
-    /// | 字段 | 数据类型 |
-    /// | --- | ----- |
-    /// | id | string |
-    /// | task_name | string |
     public PagedList<ScheduledTask> findPage(ScheduledTaskQuery query, Page page) {
         var qb = new QScheduledTask(db());
+        if (!Strings.isNullOrEmpty(query.getTaskName())) {
+            qb.taskName.icontains(query.getTaskName());
+        }
+
         return super.findPage(qb, page);
     }
 }

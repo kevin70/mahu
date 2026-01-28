@@ -12,9 +12,9 @@ import lombok.Value;
 @Builder
 public class AdminQuery {
 
+    /// 登录名
+    String username;
     /// 状态
     @Default
     List<Integer> statusList = List.of();
-    /// 登录名
-    String username;
 }

@@ -33,6 +33,12 @@ public class AdminRepository extends HBeanRepository<Integer, Admin> {
     /// 分页查询
     public PagedList<Admin> findPage(AdminQuery query, Page page) {
         var qb = new QAdmin(db());
+        if (!Strings.isNullOrEmpty(query.getUsername())) {
+            qb.username.eq(query.getUsername());
+        }
+        if (query.getStatusList().isEmpty()) {
+            qb.status.in(query.getStatusList());
+        }
         return super.findPage(qb, page);
     }
 }

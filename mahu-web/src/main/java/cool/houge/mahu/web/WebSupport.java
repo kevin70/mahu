@@ -1,5 +1,6 @@
 package cool.houge.mahu.web;
 
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
@@ -132,7 +133,7 @@ public interface WebSupport {
     /// @param request 请求对象
     /// @param name 参数名称
     default OptionalValue<String> queryArg(ServerRequest request, String name) {
-        return request.query().first(name);
+        return request.query().first(name).as(String::trim);
     }
 
     /// 从查询参数中获取整型列表的参数值
@@ -148,6 +149,6 @@ public interface WebSupport {
     /// @param request 请求对象
     /// @param name 参数名称
     default List<String> queryArgs(ServerRequest request, String name) {
-        return request.query().all(name, List::of);
+        return Lists.transform(request.query().all(name, List::of), s -> s != null ? s.trim() : null);
     }
 }
