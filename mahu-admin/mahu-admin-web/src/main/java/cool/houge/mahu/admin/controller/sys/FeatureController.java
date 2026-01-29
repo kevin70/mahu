@@ -32,7 +32,7 @@ public class FeatureController implements HFeatureService, WebSupport {
     @Override
     public void pageSysFeature(ServerRequest request, ServerResponse response) {
         var qb = FeatureQuery.builder();
-        qb.statusList(queryIntArgs(request, "status"));
+        queryIntArgs(request, "status").ifPresent(qb::statusList);
         queryArg(request, "name").ifPresent(qb::name);
 
         var page = page(request);
