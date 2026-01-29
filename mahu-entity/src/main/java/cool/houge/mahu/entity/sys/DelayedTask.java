@@ -10,14 +10,14 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
-/// 延迟消息
+/// 延迟任务
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
 @Entity
 @Table(schema = "sys")
-public class DelayMessage {
+public class DelayedTask {
 
     /// 主键
     @Id
@@ -28,6 +28,8 @@ public class DelayMessage {
     /// 更新时间
     @WhenModified
     private Instant updatedAt;
+    /// 功能 ID
+    private Integer featureId;
     /// 消息主题
     private String topic;
     /// 状态
@@ -39,18 +41,16 @@ public class DelayMessage {
     private Integer status;
     /// 消息延迟到的绝对时间（精确到毫秒）
     private Instant delayUntil;
-    /// 初始重试间隔（1000 毫秒，即 1 秒）
-    private Integer delay;
-    /// 重试间隔的倍数（指数退避策略，间隔依次为 1s、2s、4s、8s...）
-    private Integer multiplier;
-    /// 最大重试间隔（10000 毫秒，即 10 秒，避免间隔无限增大）
-    private Integer maxDelay;
+    /// 已执行次数
+    private Integer attempts;
     /// 最大重试次数（包括首次执行）
     private Integer maxAttempts;
-    /// 已重试次数
-    private Integer retryCount;
+    /// 锁定时间
+    private Instant lockAt;
+    /// 锁租约(秒)，worker 处理任务允许的最长时间
+    private Integer leaseSeconds;
     /// 消息内容存储业务所需的所有数据
-    private String body;
-    /// 功能 ID
-    private Integer featureId;
+    private String payload;
+    /// 幂等键
+    private String idempotencyKey;
 }

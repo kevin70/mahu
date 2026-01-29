@@ -28,7 +28,7 @@ databaseChangeLog:
   - include:
       file: "db/changelog/changelog-tables/sys.feature.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.delay_message.sql"
+      file: "db/changelog/changelog-tables/sys.delayed_task.sql"
   - include:
       file: "db/changelog/changelog-tables/sys.object.sql"
   - include:

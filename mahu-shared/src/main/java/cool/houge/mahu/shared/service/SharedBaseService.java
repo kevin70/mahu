@@ -1,10 +1,10 @@
 package cool.houge.mahu.shared.service;
 
-import cool.houge.mahu.entity.sys.DelayMessage;
+import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.shared.ImmutableDict;
 import cool.houge.mahu.shared.ImmutableDictType;
 import cool.houge.mahu.shared.ImmutableFeature;
-import cool.houge.mahu.shared.repository.sys.DelayMessageRepository;
+import cool.houge.mahu.shared.repository.sys.DelayedTaskRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
 import java.util.List;
@@ -26,7 +26,7 @@ public class SharedBaseService {
     /// 字典助手
     private final DicHelper dicHelper;
     /// 延迟消息仓库
-    private final DelayMessageRepository delayMessageRepository;
+    private final DelayedTaskRepository delayedTaskRepository;
 
     /// 获取指定的功能
     ///
@@ -65,14 +65,13 @@ public class SharedBaseService {
                 .toList();
     }
 
-    /// 推送延迟消息
+    /// 推送延迟任务
     ///
-    /// 将延迟消息保存到数据库中，并进行批量保存操作。
-    /// 该方法需要事务支持。
+    /// 将延迟任务保存到数据库中，并进行批量保存操作。
     ///
-    /// @param message 要推送的延迟消息
+    /// @param task 延迟任务
     @Transactional
-    public void pushDelayMessage(DelayMessage message) {
-        delayMessageRepository.batchSave(message);
+    public void pushDelayTask(DelayedTask task) {
+        delayedTaskRepository.batchSave(task);
     }
 }
