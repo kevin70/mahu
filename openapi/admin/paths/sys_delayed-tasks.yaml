@@ -1,8 +1,8 @@
 get:
-  summary: 延迟消息分页列表
-  operationId: pageSysDelayMessages
-  x-permission-code: SYS_DELAY_MESSAGE:R
-  tags: [h_delay_message]
+  summary: 延迟任务分页列表
+  operationId: pageSysDelayedTask
+  x-permission-code: SYS_DELAYED_TASK:R
+  tags: [h_delayed_task]
   parameters:
     - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
@@ -12,4 +12,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SysDelayMessagePageResponse.yaml"
+            $ref: "../components/schemas/SysDelayedTaskPageResponse.yaml"

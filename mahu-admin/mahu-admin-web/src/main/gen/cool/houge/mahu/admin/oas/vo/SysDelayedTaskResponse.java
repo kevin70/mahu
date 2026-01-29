@@ -9,7 +9,7 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class SysDelayMessageResponse {
+public class SysDelayedTaskResponse {
 
     /**
      * ID
@@ -31,9 +31,17 @@ public class SysDelayMessageResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
     private LocalDateTime updatedAt;
     /**
+     * 功能 ID（用于追踪统计）
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("feature_id")
+    private Integer featureId;
+    /**
      * 主题
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("topic")
     private String topic;
     /**
@@ -41,55 +49,54 @@ public class SysDelayMessageResponse {
      * minimum: 10
      * maximum: 99
      */
-     @Min(10) @Max(99)
+      @NotNull
+ @Min(10) @Max(99)
     @com.fasterxml.jackson.annotation.JsonProperty("status")
     private Integer status;
     /**
-     * 消息延迟到的绝对时间（精确到毫秒）
+     * 下一次可执行时间（含重试）
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("delay_until")
     private LocalDateTime delayUntil;
     /**
-     * 初始重试间隔（1000 毫秒，即 1 秒）
+     * 已尝试次数
      */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("delay")
-    private Integer delay;
-    /**
-     * 重试间隔的倍数（指数退避策略，间隔依次为 1s、2s、4s、8s...）
-     */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("multiplier")
-    private Integer multiplier;
-    /**
-     * 最大重试间隔（10000 毫秒，即 10 秒）
-     */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("max_delay")
-    private Integer maxDelay;
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("attempts")
+    private Integer attempts;
     /**
      * 最大重试次数（包括首次执行）
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("max_attempts")
     private Integer maxAttempts;
     /**
-     * 重试次数
+     * 任务锁定时间（开始执行时间）
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("retry_count")
-    private Integer retryCount;
+    @com.fasterxml.jackson.annotation.JsonProperty("lock_at")
+    private LocalDateTime lockAt;
     /**
-     * 消息内容
+     * 锁租约(秒)，worker 处理任务允许的最长时间
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("body")
-    private Map<String, Object> body;
+    @com.fasterxml.jackson.annotation.JsonProperty("lease_seconds")
+    private Integer leaseSeconds;
     /**
-     * 功能 ID（用于追踪统计）
+     * 消息内容存储业务所需的所有数据
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("payload")
+    private Map<String, Object> payload;
+    /**
+     * 幂等键
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("feature_id")
-    private Integer featureId;
+    @com.fasterxml.jackson.annotation.JsonProperty("idempotency_key")
+    private String idempotencyKey;
 }

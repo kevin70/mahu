@@ -44,8 +44,8 @@ tags:
     x-displayName: 定时任务
   - name: h_feature
     x-displayName: 功能配置
-  - name: h_delay_message
-    x-displayName: 延迟消息
+  - name: h_delayed_task
+    x-displayName: 延迟任务
 x-tagGroups:
   - name: 基础模块
     tags:
@@ -64,6 +64,7 @@ x-tagGroups:
       - h_admin
       - h_scheduled_task
       - h_feature
+      - h_delayed_task
 paths:
   /samples:
     $ref: "paths/samples.yaml"
@@ -114,11 +115,11 @@ paths:
     $ref: "paths/sys_scheduled-tasks.yaml"
   /sys/scheduled-tasks/{task_name}/exes:
     $ref: "paths/sys_scheduled-tasks_{task_name}_exes.yaml"
+  /sys/delayed-tasks:
+    $ref: "paths/sys_delayed-tasks.yaml"
   /sys/admin-logs/{type}:
     $ref: "paths/sys_admin-logs_{type}.yaml"
   /sys/features:
     $ref: "paths/sys_features.yaml"
   /sys/features/{feature_id}:
     $ref: "paths/sys_features_{feature_id}.yaml"
-  /sys/delay-messages:
-    $ref: "paths/sys_delay-messages.yaml"

@@ -1,6 +1,13 @@
 type: object
 required:
   - id
+  - feature_id
+  - topic
+  - status
+  - delay_until
+  - attempts
+  - max_attempts
+  - payload
 properties:
   id:
     type: string
@@ -14,6 +21,10 @@ properties:
     type: string
     format: date-time
     description: 修改时间
+  feature_id:
+    type: integer
+    format: int32
+    description: 功能 ID（用于追踪统计）
   topic:
     type: string
     description: 主题
@@ -22,32 +33,27 @@ properties:
   delay_until:
     type: string
     format: date-time
-    description: 消息延迟到的绝对时间（精确到毫秒）
-  delay:
+    description: 下一次可执行时间（含重试）
+  attempts:
     type: integer
     format: int32
-    description: 初始重试间隔（1000 毫秒，即 1 秒）
-  multiplier:
-    type: integer
-    format: int32
-    description: 重试间隔的倍数（指数退避策略，间隔依次为 1s、2s、4s、8s...）
-  max_delay:
-    type: integer
-    format: int32
-    description: 最大重试间隔（10000 毫秒，即 10 秒）
+    description: 已尝试次数
   max_attempts:
     type: integer
     format: int32
     description: 最大重试次数（包括首次执行）
-  retry_count:
+  lock_at:
+    type: string
+    format: date-time
+    description: 任务锁定时间（开始执行时间）
+  lease_seconds:
     type: integer
     format: int32
-    description: 重试次数
-  body:
+    description: 锁租约(秒)，worker 处理任务允许的最长时间
+  payload:
     type: object
-    description: 消息内容
+    description: 消息内容存储业务所需的所有数据
     additionalProperties: true
-  feature_id:
-    type: integer
-    format: int32
-    description: 功能 ID（用于追踪统计）
+  idempotency_key:
+    type: string
+    description: 幂等键
