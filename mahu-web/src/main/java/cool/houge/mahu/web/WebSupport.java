@@ -1,6 +1,5 @@
 package cool.houge.mahu.web;
 
-import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
@@ -12,6 +11,7 @@ import io.helidon.common.mapper.OptionalValue;
 import io.helidon.common.mapper.Value;
 import io.helidon.webserver.http.ServerRequest;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /// Web 支持接口
@@ -96,9 +96,9 @@ public interface WebSupport {
     ///
     /// @param request 请求对象
     /// @param name 参数名称
-    default Optional<Boolean> queryBoolean(ServerRequest request, String name) {
+    default OptionalValue<Boolean> queryBoolean(ServerRequest request, String name) {
         try {
-            return queryArg(request, name).asBoolean().asOptional();
+            return queryArg(request, name).asBoolean();
         } catch (MapperException e) {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
         }
@@ -108,9 +108,9 @@ public interface WebSupport {
     ///
     /// @param request 请求对象
     /// @param name 参数名称
-    default Optional<Integer> queryInt(ServerRequest request, String name) {
+    default OptionalValue<Integer> queryInt(ServerRequest request, String name) {
         try {
-            return queryArg(request, name).asInt().asOptional();
+            return queryArg(request, name).asInt();
         } catch (MapperException e) {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
         }
@@ -120,9 +120,9 @@ public interface WebSupport {
     ///
     /// @param request 请求对象
     /// @param name 参数名称
-    default long queryLong(ServerRequest request, String name) {
+    default OptionalValue<Long> queryLong(ServerRequest request, String name) {
         try {
-            return queryArg(request, name).asLong().get();
+            return queryArg(request, name).asLong();
         } catch (MapperException e) {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
         }
@@ -140,15 +140,23 @@ public interface WebSupport {
     ///
     /// @param request 请求对象
     /// @param name 参数名称
-    default List<Integer> queryIntArgs(ServerRequest request, String name) {
-        return queryArgs(request, name).stream().map(Ints::tryParse).toList();
+    default Optional<List<Integer>> queryIntArgs(ServerRequest request, String name) {
+        return queryArgs(request, name).map(o -> o.stream()
+                .map(String::trim)
+                .map(Ints::tryParse)
+                .filter(Objects::nonNull)
+                .toList());
     }
 
     /// 从查询参数中获取列表的参数值
     ///
     /// @param request 请求对象
     /// @param name 参数名称
-    default List<String> queryArgs(ServerRequest request, String name) {
-        return Lists.transform(request.query().all(name, List::of), s -> s != null ? s.trim() : null);
+    default Optional<List<String>> queryArgs(ServerRequest request, String name) {
+        var q = request.query();
+        if (!q.contains(name)) {
+            return Optional.empty();
+        }
+        return Optional.of(q.all(name));
     }
 }
