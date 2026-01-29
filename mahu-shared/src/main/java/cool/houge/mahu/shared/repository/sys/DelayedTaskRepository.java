@@ -1,9 +1,12 @@
 package cool.houge.mahu.shared.repository.sys;
 
 import com.github.f4b6a3.ulid.UlidFactory;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.DelayedTask;
+import cool.houge.mahu.entity.sys.query.QDelayedTask;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
+import io.ebean.PagedList;
 import io.ebean.TransactionCallbackAdapter;
 import io.helidon.common.context.Contexts;
 import io.helidon.service.registry.Service;
@@ -47,6 +50,12 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
                             );
             log.debug("保存延迟任务到 Context: {}", bean);
         }
+    }
+
+    /// 分页查询
+    public PagedList<DelayedTask> findPage(Page page) {
+        var qb = new QDelayedTask(db());
+        return super.findPage(qb, page);
     }
 
     private class DelayedTaskHolder extends TransactionCallbackAdapter {
