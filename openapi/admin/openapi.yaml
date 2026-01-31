@@ -40,10 +40,10 @@ tags:
     x-displayName: 角色管理
   - name: h_admin
     x-displayName: 管理员管理
-  - name: h_scheduled_task
-    x-displayName: 定时任务
   - name: h_feature
     x-displayName: 功能配置
+  - name: h_scheduled_task
+    x-displayName: 定时任务
   - name: h_delayed_task
     x-displayName: 延时任务
 x-tagGroups:
@@ -62,8 +62,8 @@ x-tagGroups:
       - h_permission
       - h_role
       - h_admin
-      - h_scheduled_task
       - h_feature
+      - h_scheduled_task
       - h_delayed_task
 paths:
   /samples:
@@ -111,15 +111,15 @@ paths:
     $ref: "paths/sys_admins.yaml"
   /sys/admins/{admin_id}:
     $ref: "paths/sys_admins_{admin_id}.yaml"
-  /sys/scheduled-tasks:
-    $ref: "paths/sys_scheduled-tasks.yaml"
-  /sys/scheduled-tasks/{task_name}/exes:
-    $ref: "paths/sys_scheduled-tasks_{task_name}_exes.yaml"
-  /sys/delayed-tasks:
-    $ref: "paths/sys_delayed-tasks.yaml"
   /sys/admin-logs/{type}:
     $ref: "paths/sys_admin-logs_{type}.yaml"
   /sys/features:
     $ref: "paths/sys_features.yaml"
   /sys/features/{feature_id}:
     $ref: "paths/sys_features_{feature_id}.yaml"
+  /sys/scheduled-tasks:
+    $ref: "paths/sys_scheduled-tasks.yaml"
+  /sys/scheduled-tasks/{task_name}/exes:
+    $ref: "paths/sys_scheduled-tasks_{task_name}_exes.yaml"
+  /sys/delayed-tasks:
+    $ref: "paths/sys_delayed-tasks.yaml"
