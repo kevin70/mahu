@@ -1,0 +1,4 @@
+type: array
+items:
+  $ref: "./_status.yaml"
+maxItems: 99

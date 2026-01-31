@@ -10,12 +10,7 @@ get:
       name: status
       description: 状态
       schema:
-        type: array
-        items:
-          type: integer
-          minimum: 0
-          maximum: 9999
-        maxItems: 99
+        $ref: "../components/schemas/_status_array.yaml"
     - in: query
       name: name
       description: 名称
