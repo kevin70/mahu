@@ -45,10 +45,10 @@ public class Feature implements Auditable {
     private String description;
     /// 状态
     ///
-    /// - [cool.houge.mahu.StatusCodes#DRAFT]
-    /// - [cool.houge.mahu.StatusCodes#ACTIVE]
-    /// - [cool.houge.mahu.StatusCodes#DISABLED]
-    /// - [cool.houge.mahu.StatusCodes#ARCHIVED]
+    /// - [cool.houge.mahu.Status#DRAFT]
+    /// - [cool.houge.mahu.Status#ACTIVE]
+    /// - [cool.houge.mahu.Status#DISABLED]
+    /// - [cool.houge.mahu.Status#ARCHIVED]
     private Integer status;
     /// 生效开始时间（精确到秒）
     private LocalDateTime effectiveFrom;
