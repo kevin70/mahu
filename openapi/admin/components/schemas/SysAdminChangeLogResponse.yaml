@@ -1,0 +1,50 @@
+type: object
+description: 管理员变更记录
+required:
+  - id
+  - created_at
+  - admin_id
+  - ip_addr
+properties:
+  id:
+    type: string
+    description: 日志 ID
+  created_at:
+    type: string
+    format: date-time
+    description: 创建时间
+  admin_id:
+    type: integer
+    format: int64
+    description: 管理员 ID
+  ip_addr:
+    type: string
+    description: 访问 IP
+  source:
+    type: string
+    description: 操作来源
+  items:
+    type: array
+    description: 变更项
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 类型
+        tenant_id:
+          type: string
+          description: 租户 ID
+        data_id:
+          type: string
+          description: 数据 ID
+        event_time:
+          type: integer
+          format: int64
+          description: 事件创建时间戳
+        data:
+          type: string
+          description: 新数据
+        old_data:
+          type: string
+          description: 旧数据

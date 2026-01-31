@@ -3,8 +3,8 @@ description: 管理员日志类型
 enum:
   - ACCESS
   - AUTH
-  - AUDIT
+  - CHANGE
 x-enum-descriptions:
   - 访问记录
   - 认证记录
-  - 操作记录
+  - 变更记录
