@@ -11,8 +11,8 @@ import cool.houge.mahu.admin.oas.vo.FileCreatePresignedResponse;
 import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedRequest;
 import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
-import cool.houge.mahu.admin.oas.vo.SysAdminAuditLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAuthLogResponse;
+import cool.houge.mahu.admin.oas.vo.SysAdminChangeLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientResponse;
@@ -98,7 +98,7 @@ public interface SysBeanMapper extends TopBeanMapper {
 
     SysAdminAccessLogResponse toAdminAccessLogResponse(AdminAccessLog bean);
 
-    SysAdminAuditLogResponse toAdminChangeLogResponse(AdminChangeLog bean);
+    SysAdminChangeLogResponse toAdminChangeLogResponse(AdminChangeLog bean);
 
     Feature toFeature(SysFeatureUpdateRequest bean);
 
