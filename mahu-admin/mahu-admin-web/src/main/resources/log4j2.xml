@@ -8,7 +8,7 @@
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
-        pattern="%d %p{length=1} [%t] %c{1.1.1.*}.%M:%L|%X{traceId} - %m%n%rEx"
+        pattern="%d %p{length=1} [%t] %c{1.1.1.*} %M:%L [%X{traceId}] - %m%n%rEx"
       />
         </Console>
     </Appenders>
@@ -22,6 +22,8 @@
         <Logger name="io.ebean.SQL" level="DEBUG" />
 
         <Logger name="com.password4j" level="ERROR" />
+
+        <Logger name="io.helidon.metadata.MetadataFileImpl" level="INFO" />
         <Logger name="io.helidon.webserver" level="INFO" />
         <Logger name="io.helidon.service" level="INFO" />
 
