@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.entity;
 
 import cool.houge.mahu.entity.Auditable;
+import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.DbJson;
 import io.ebean.annotation.DbJsonType;
 import io.ebean.annotation.SoftDelete;
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "role", schema = "sys")
+@ChangeLog(updatesThatInclude = {"name", "remark", "ordering", "permissions"})
 public class Role implements Auditable {
 
     /// 主键
