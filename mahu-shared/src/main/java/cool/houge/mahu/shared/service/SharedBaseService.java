@@ -65,13 +65,13 @@ public class SharedBaseService {
                 .toList();
     }
 
-    /// 推送延迟任务
+    /// 推送延时任务
     ///
-    /// 将延迟任务保存到数据库中，并进行批量保存操作。
+    /// 将延时任务保存到数据库中，并进行批量保存操作。
     ///
-    /// @param task 延迟任务
+    /// @param task 延时任务
     @Transactional
-    public void pushDelayTask(DelayedTask task) {
+    public void emit(DelayedTask task) {
         delayedTaskRepository.batchSave(task);
     }
 }

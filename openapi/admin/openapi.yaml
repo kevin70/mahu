@@ -45,7 +45,7 @@ tags:
   - name: h_feature
     x-displayName: 功能配置
   - name: h_delayed_task
-    x-displayName: 延迟任务
+    x-displayName: 延时任务
 x-tagGroups:
   - name: 基础模块
     tags:

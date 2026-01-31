@@ -16,7 +16,7 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/// 延迟任务
+/// 延时任务
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
@@ -36,7 +36,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
         var ctx = Contexts.context();
         if (ctx.isEmpty()) {
             this.save(bean);
-            log.debug("持久化延迟任务: {}", bean);
+            log.debug("持久化延时任务: {}", bean);
         } else {
             ctx.get()
                     .get(DelayedTaskHolder.class)
@@ -48,7 +48,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
                             }
                             //
                             );
-            log.debug("保存延迟任务到 Context: {}", bean);
+            log.debug("保存延时任务到 Context: {}", bean);
         }
     }
 
@@ -66,7 +66,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
         public void preCommit() {
             if (!tasks.isEmpty()) {
                 DelayedTaskRepository.this.saveAll(tasks);
-                log.debug("批量持久化延迟任务: {}", tasks);
+                log.debug("批量持久化延时任务: {}", tasks);
             }
         }
 

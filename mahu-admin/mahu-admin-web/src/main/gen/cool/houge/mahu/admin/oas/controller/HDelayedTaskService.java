@@ -15,7 +15,7 @@ public interface HDelayedTaskService extends HttpService {
     }
 
     ///
-    /// `GET /sys/delayed-tasks` 延迟任务分页列表
+    /// `GET /sys/delayed-tasks` 延时任务分页列表
     ///
     /// @param request the server request
     /// @param response the server response

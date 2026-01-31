@@ -10,7 +10,7 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
-/// 延迟任务
+/// 延时任务
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter

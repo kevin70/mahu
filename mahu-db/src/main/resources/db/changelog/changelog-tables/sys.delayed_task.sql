@@ -18,7 +18,7 @@ CREATE TABLE sys.delayed_task (
   idempotency_key VARCHAR(128)
 );
 
-comment ON TABLE sys.delayed_task IS '延迟任务';
+comment ON TABLE sys.delayed_task IS '延时任务';
 
 comment ON COLUMN sys.delayed_task.id IS '主键';
 

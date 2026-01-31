@@ -1,5 +1,5 @@
 get:
-  summary: 延迟任务分页列表
+  summary: 延时任务分页列表
   operationId: pageSysDelayedTask
   x-permission-code: SYS_DELAYED_TASK:R
   tags: [h_delayed_task]
