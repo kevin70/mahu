@@ -14,6 +14,7 @@ import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
 import java.util.Collection;
+import java.util.Comparator;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -71,12 +72,16 @@ class DicHelper {
                 .name(bean.getName())
                 .description(bean.getDescription())
                 .disabled(bean.getDisabled())
-                .dicts(bean.getData().stream().map(this::map).toList())
+                .dicts(bean.getData().stream()
+                        .map(this::map)
+                        .sorted(Comparator.comparing(ImmutableDict::getOrdering).reversed())
+                        .toList())
                 .build();
     }
 
     private ImmutableDict map(Dict bean) {
         return ImmutableDict.builder()
+                .typeId(bean.getType().getId())
                 .dc(bean.getDc())
                 .value(bean.getValue())
                 .label(bean.getLabel())

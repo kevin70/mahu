@@ -9,10 +9,10 @@ import lombok.Value;
 @Value
 @Builder
 public class ImmutableDict {
+    /// 字典类型 ID
+    String typeId;
     /// 字典代码
     int dc;
-    /// 字典类型 ID
-    int typeId;
     /// 字典值
     String value;
     /// 标签
