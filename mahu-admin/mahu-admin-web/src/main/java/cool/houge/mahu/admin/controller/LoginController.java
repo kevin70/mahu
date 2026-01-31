@@ -11,7 +11,7 @@ import cool.houge.mahu.admin.sys.service.TokenService;
 import cool.houge.mahu.util.GrantType;
 import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebSupport;
-import io.helidon.service.registry.Service.Singleton;
+import io.helidon.service.registry.Service;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 /// [获取访问令牌](https://oauth.net/2/)
 ///
 /// @author ZY (kzou227@qq.com)
-@Singleton
+@Service.Singleton
 @AllArgsConstructor
 public class LoginController implements HLoginService, WebSupport {
 
@@ -31,11 +31,11 @@ public class LoginController implements HLoginService, WebSupport {
         var body = request.content().as(LoginTokenRequest.class);
 
         TokenPayload payload;
-        if (GrantType.PASSWORD.code.equals(body.getGrantType())) {
+        if (GrantType.PASSWORD.matches(body.getGrantType())) {
             var bean = beanMapper.toTokenPasswordForm(body);
             validate(bean);
             payload = beanMapper.toTokenPayload(bean, GrantType.PASSWORD);
-        } else if (GrantType.REFRESH_TOKEN.code.equals(body.getGrantType())) {
+        } else if (GrantType.REFRESH_TOKEN.matches(body.getGrantType())) {
             var bean = beanMapper.toTokenRefreshTokenForm(body);
             validate(bean);
             payload = beanMapper.toTokenPayload(bean, GrantType.REFRESH_TOKEN);
