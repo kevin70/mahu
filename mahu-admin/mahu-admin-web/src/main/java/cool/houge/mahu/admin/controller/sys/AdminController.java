@@ -77,8 +77,8 @@ public class AdminController implements HAdminService, WebSupport {
             }
             // AUDIT
             default -> {
-                var plist = adminService.pageAdminAuditLog(adminId, page);
-                var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAuditLogResponse);
+                var plist = adminService.pageAdminChangeLog(adminId, page);
+                var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminChangeLogResponse);
                 response.send(rs);
             }
         }

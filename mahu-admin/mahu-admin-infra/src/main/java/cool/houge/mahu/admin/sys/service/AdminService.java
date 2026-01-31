@@ -10,12 +10,12 @@ import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.dto.AdminQuery;
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
-import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
+import cool.houge.mahu.admin.entity.AdminChangeLog;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
 import cool.houge.mahu.admin.sys.repository.AdminAccessLogRepository;
-import cool.houge.mahu.admin.sys.repository.AdminAuditLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminAuthLogRepository;
+import cool.houge.mahu.admin.sys.repository.AdminChangeLogRepository;
 import cool.houge.mahu.admin.sys.repository.AdminRepository;
 import cool.houge.mahu.domain.Page;
 import io.ebean.PagedList;
@@ -38,7 +38,7 @@ public class AdminService {
     final AdminRepository adminRepository;
     final AdminAccessLogRepository adminAccessLogRepository;
     final AdminAuthLogRepository adminAuthLogRepository;
-    final AdminAuditLogRepository adminAuditLogRepository;
+    final AdminChangeLogRepository adminChangeLogRepository;
     final Event.Emitter<CollectProfileEvent> collectProfileEvent;
     final EntityBeanMapper beanMapper;
 
@@ -122,8 +122,8 @@ public class AdminService {
 
     /// 管理员操作日志分页查询
     @Transactional(readOnly = true)
-    public PagedList<AdminAuditLog> pageAdminAuditLog(Integer adminId, Page page) {
-        return adminAuditLogRepository.findPage(adminId, page);
+    public PagedList<AdminChangeLog> pageAdminChangeLog(Integer adminId, Page page) {
+        return adminChangeLogRepository.findPage(adminId, page);
     }
 
     void encryptPassword(Admin bean) {

@@ -2,8 +2,8 @@ package cool.houge.mahu.admin.controller.sys;
 
 import cool.houge.mahu.admin.entity.Admin;
 import cool.houge.mahu.admin.entity.AdminAccessLog;
-import cool.houge.mahu.admin.entity.AdminAuditLog;
 import cool.houge.mahu.admin.entity.AdminAuthLog;
+import cool.houge.mahu.admin.entity.AdminChangeLog;
 import cool.houge.mahu.admin.entity.Role;
 import cool.houge.mahu.admin.internal.TopBeanMapper;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
@@ -98,7 +98,7 @@ public interface SysBeanMapper extends TopBeanMapper {
 
     SysAdminAccessLogResponse toAdminAccessLogResponse(AdminAccessLog bean);
 
-    SysAdminAuditLogResponse toAdminAuditLogResponse(AdminAuditLog bean);
+    SysAdminAuditLogResponse toAdminChangeLogResponse(AdminChangeLog bean);
 
     Feature toFeature(SysFeatureUpdateRequest bean);
 
