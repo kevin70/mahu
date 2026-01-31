@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin;
 
-import cool.houge.mahu.admin.sys.repository.AuditPersistController;
+import cool.houge.mahu.admin.sys.repository.PersistChangeLogListener;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.ContainerConfig;
@@ -33,7 +33,8 @@ class DatabaseProvider implements Supplier<Database> {
                 .databaseBooleanFalse("F")
                 .jsonInclude(JsonConfig.Include.NON_NULL)
                 .currentUserProvider(new ContextCurrentUserProvider())
-                .add(new AuditPersistController())
+                .changeLogIncludeInserts(false)
+                .changeLogListener(new PersistChangeLogListener())
                 .shutdownHook(false);
         this.v = DatabaseFactory.create(dbc);
     }
