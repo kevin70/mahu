@@ -8,7 +8,7 @@
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
-        pattern="%d{YYYY-MM-dd'T'HH:mm:ss.SSS} %p{length=1} %X{traceId:-} %c{5}/%L %m%n"
+        pattern="%d %p{length=1} [%t] %c{1.1.1.*} %M:%L [%X{traceId}] - %m%n%rEx"
       />
         </Console>
     </Appenders>
