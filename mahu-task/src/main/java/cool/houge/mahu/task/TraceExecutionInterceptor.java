@@ -1,7 +1,6 @@
 package cool.houge.mahu.task;
 
-import com.github.f4b6a3.uuid.UuidCreator;
-import com.github.f4b6a3.uuid.codec.base.Base58BtcCodec;
+import com.github.f4b6a3.ulid.UlidCreator;
 import com.github.kagkarlsson.scheduler.event.ExecutionChain;
 import com.github.kagkarlsson.scheduler.event.ExecutionInterceptor;
 import com.github.kagkarlsson.scheduler.task.CompletionHandler;
@@ -12,10 +11,11 @@ import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
 import io.ebean.Database;
 import io.ebean.annotation.Transactional;
 import io.helidon.logging.common.HelidonMdc;
-import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.time.Instant;
 
 /// 日志追踪拦截器
 ///
@@ -29,7 +29,7 @@ public class TraceExecutionInterceptor implements ExecutionInterceptor {
     @Override
     public CompletionHandler<?> execute(
             TaskInstance<?> taskInstance, ExecutionContext executionContext, ExecutionChain chain) {
-        var traceId = Base58BtcCodec.INSTANCE.encode(UuidCreator.getTimeOrderedEpoch());
+        var traceId = UlidCreator.getUlid().toString();
         var startTime = Instant.now();
 
         try {
@@ -53,7 +53,7 @@ public class TraceExecutionInterceptor implements ExecutionInterceptor {
             var execution = context.getExecution();
             var task = db.reference(ScheduledTask.class, execution.getTaskName());
             var bean = new ScheduledTaskExeLog()
-                    .setId(UuidCreator.getTimeOrderedEpoch())
+                    .setId(UlidCreator.getUlid().toUuid())
                     .setScheduledTask(task)
                     .setPickedBy(execution.pickedBy)
                     .setStartTime(startedAt)
