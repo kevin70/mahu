@@ -81,7 +81,7 @@ allprojects {
         def prettierVersion = "3.6.2"
 
         java {
-            palantirJavaFormat("2.80.0")
+            palantirJavaFormat("2.89.0")
             targetExclude("**/src/main/gen/**/*", "**/build/generated/**/*")
         }
         sql {
