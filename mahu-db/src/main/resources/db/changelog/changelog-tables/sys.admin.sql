@@ -6,7 +6,7 @@ CREATE TABLE sys.admin (
   id serial CONSTRAINT admin_pk PRIMARY KEY,
   created_at TIMESTAMP,
   updated_at TIMESTAMP,
-  deleted "char" DEFAULT 'F'::"char",
+  deleted BOOLEAN DEFAULT FALSE,
   username VARCHAR(128),
   password VARCHAR(1024),
   nickname VARCHAR(128),
@@ -42,7 +42,7 @@ COMMENT ON COLUMN sys.admin.gender IS '性别
 
 CREATE UNIQUE INDEX admin_username_ui ON sys.admin (username)
 WHERE
-  (deleted = 'F'::"char");
+  (deleted = FALSE);
 
 ALTER SEQUENCE sys.admin_id_seq RESTART
 WITH

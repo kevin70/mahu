@@ -6,7 +6,7 @@ CREATE TABLE sys.auth_client (
   client_id VARCHAR(50) NOT NULL CONSTRAINT auth_client_pk PRIMARY KEY,
   created_at TIMESTAMP,
   updated_at TIMESTAMP,
-  deleted "char" DEFAULT 'F'::"char",
+  deleted BOOLEAN DEFAULT FALSE,
   client_secret VARCHAR(4000),
   remark VARCHAR(500),
   label VARCHAR(128),

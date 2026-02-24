@@ -9,7 +9,7 @@ CREATE TABLE sys.scheduled_task_exe_log (
   picked_by VARCHAR(50),
   start_time TIMESTAMP,
   done_time TIMESTAMP,
-  success "char",
+  success BOOLEAN,
   trace_id VARCHAR(26),
   fail_cause JSONB
 );

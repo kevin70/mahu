@@ -6,7 +6,7 @@ CREATE TABLE sys.role (
   id INTEGER NOT NULL CONSTRAINT role_pk PRIMARY KEY,
   created_at TIMESTAMP WITHOUT TIME ZONE,
   updated_at TIMESTAMP WITHOUT TIME ZONE,
-  deleted "char" DEFAULT 'F'::"char",
+  deleted BOOLEAN DEFAULT FALSE,
   name VARCHAR(32),
   remark VARCHAR(255),
   ordering SMALLINT,
@@ -33,6 +33,6 @@ COMMENT ON COLUMN sys.role.permissions IS '拥有的权限代码';
 
 CREATE INDEX role_name_ui ON sys.role (NAME)
 WHERE
-  (deleted = 'F'::"char");
+  (deleted = FALSE);
 
 -- rollback drop table sys.role;
