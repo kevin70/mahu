@@ -19,17 +19,19 @@ public class UserAssetRepository extends BeanRepository<UUID, UserAsset> {
 
     // language=SQL
     private static final RawSql INCREMENT_BALANCE_SQL = RawSqlBuilder.parse("WITH ua AS (UPDATE user_asset"
-            + " SET balance=balance+:amount,total_in=total_in+:amount,updated_at=CURRENT_TIMESTAMP"
-            + " WHERE uid=:uid AND kind=:kind"
-            + " RETURNING balance AS balance_after,frozen AS frozen_after,total_in),"
-            + " tx AS ("
-            + "INSERT INTO asset_transaction (id,created_at,uid,kind,change_amount,balance_before,"
-            + "balance_after,frozen_before,frozen_after,direction,reference_id,idempotent_key,feature_id)"
-            + " SELECT :tx_id,CURRENT_TIMESTAMP(0),:uid,:kind,:amount,ua.balance_after-:amount,ua.balance_after,"
-            + "ua.frozen_after,ua.frozen_after,'credit',:reference_id,:idempotent_key,:feature_id"
-            + " FROM ua RETURNING *) SELECT * FROM tx").create();
+                    + " SET balance=balance+:amount,total_in=total_in+:amount,updated_at=CURRENT_TIMESTAMP"
+                    + " WHERE uid=:uid AND kind=:kind"
+                    + " RETURNING balance AS balance_after,frozen AS frozen_after,total_in),"
+                    + " tx AS ("
+                    + "INSERT INTO asset_transaction (id,created_at,uid,kind,change_amount,balance_before,"
+                    + "balance_after,frozen_before,frozen_after,direction,reference_id,idempotent_key,feature_id)"
+                    + " SELECT :tx_id,CURRENT_TIMESTAMP(0),:uid,:kind,:amount,ua.balance_after-:amount,ua.balance_after,"
+                    + "ua.frozen_after,ua.frozen_after,'credit',:reference_id,:idempotent_key,:feature_id"
+                    + " FROM ua RETURNING *) SELECT * FROM tx")
+            .create();
     // language=SQL
-    private static final RawSql INCREMENT_UPSERT_BALANCE_SQL = RawSqlBuilder.parse("""
+    private static final RawSql INCREMENT_UPSERT_BALANCE_SQL =
+            RawSqlBuilder.parse("""
         with ua as (
             INSERT INTO user_asset (created_at, updated_at, uid, kind, balance, total_in)
                 VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, :uid, :kind, :amount, :amount)
@@ -94,7 +96,8 @@ public class UserAssetRepository extends BeanRepository<UUID, UserAsset> {
         return b.get();
     }
 
-    public AssetTransaction decrementBalance(long uid, AssetKind kind, long amount, String referenceId, int featureId, String idempotentKey) {
+    public AssetTransaction decrementBalance(
+            long uid, AssetKind kind, long amount, String referenceId, int featureId, String idempotentKey) {
         //
         return null;
     }

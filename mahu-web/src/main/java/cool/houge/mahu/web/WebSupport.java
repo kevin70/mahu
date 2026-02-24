@@ -141,11 +141,12 @@ public interface WebSupport {
     /// @param request 请求对象
     /// @param name 参数名称
     default Optional<List<Integer>> queryIntArgs(ServerRequest request, String name) {
-        return queryArgs(request, name).map(o -> o.stream()
-                .map(String::trim)
-                .map(Ints::tryParse)
-                .filter(Objects::nonNull)
-                .toList());
+        return queryArgs(request, name)
+                .map(o -> o.stream()
+                        .map(String::trim)
+                        .map(Ints::tryParse)
+                        .filter(Objects::nonNull)
+                        .toList());
     }
 
     /// 从查询参数中获取列表的参数值
