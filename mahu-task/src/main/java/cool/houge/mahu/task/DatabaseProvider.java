@@ -36,9 +36,6 @@ class DatabaseProvider implements Supplier<Database> {
                 //
                 );
         dbc.setSlowQueryMillis(100);
-        dbc.setDatabaseBooleanTrue("T");
-        dbc.setDatabaseBooleanFalse("F");
-
         dbc.setJsonInclude(JsonConfig.Include.NON_NULL);
         dbc.setCurrentUserProvider(() -> {
             throw new UnsupportedOperationException("不支持获取当前用户");
