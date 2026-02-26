@@ -18,15 +18,9 @@ dependencies {
 
     implementation(libs.bundles.ebean)
     implementation(libs.bundles.log4j)
-    //    implementation("com.github.binarywang:weixin-java-miniapp")
-    //    implementation("com.github.binarywang:weixin-java-pay")
-    // implementation("io.valkey:valkey-glide:2.2.5:${osdetector.classifier}")
     implementation(libs.valkey.glide) {
         artifact {
             classifier = osdetector.classifier
         }
     }
-
-    // testImplementation(project(":mahu-test"))
-    //    testImplementation("io.helidon.testing:helidon-testing-junit5")
 }

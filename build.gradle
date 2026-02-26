@@ -159,47 +159,6 @@ allprojects {
         }
     }
 
-//    dependencyManagement {
-//        imports {
-//            mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.0")
-//            mavenBom("io.helidon:helidon-bom:4.3.2")
-//            mavenBom("io.ebean:ebean-bom:17.2.0")
-//            mavenBom("org.testcontainers:testcontainers-bom:1.21.3")
-//        }
-//        dependencies {
-//            dependency("io.helidon.bundles:helidon-bundles-apt:4.3.0")
-//            dependency("org.checkerframework:checker-qual:3.49.5")
-//            dependency("com.google.errorprone:error_prone_annotations:2.41.0")
-//            dependency("com.google.guava:guava:33.4.8-jre")
-//            dependency("org.apache.commons:commons-collections4:4.5.0")
-//            dependency("org.apache.commons:commons-text:1.14.0")
-//            dependency("org.apache.commons:commons-compress:1.28.0")
-//            dependency("org.opensearch.client:opensearch-java:3.2.0")
-//
-//            dependency("io.avaje:avaje-validator-constraints:2.14")
-//            dependency("io.avaje:avaje-validator:2.14")
-//            dependency("io.avaje:avaje-validator-generator:2.14")
-//            dependency("org.mapstruct:mapstruct:1.6.3")
-//            dependency("org.mapstruct:mapstruct-processor:1.6.3")
-//            dependency("org.instancio:instancio-junit:5.4.1")
-//            dependency("io.minio:minio:8.5.17")
-//            dependency("com.password4j:password4j:1.8.1")
-//            dependency("com.github.RoaringBitmap.RoaringBitmap:roaringbitmap:1.5.2")
-//            dependency("io.github.nstdio:rsql-parser:2.3.4")
-//            dependency("com.github.kagkarlsson:db-scheduler:16.6.0")
-//            dependency("org.dhatim:fastexcel:0.19.0")
-//            dependency("org.dhatim:fastexcel-reader:0.19.0")
-//            dependency("com.github.f4b6a3:ulid-creator:5.2.3")
-//
-//            // 微信第三方 SDK
-//            dependency("com.github.binarywang:weixin-java-miniapp:4.7.7-20250730.233020")
-//            dependency("com.github.binarywang:weixin-java-pay:4.7.7-20250730.233020")
-//        }
-//        // resolutionStrategy {
-//        //     cacheChangingModulesFor 0, 'seconds'
-//        // }
-//    }
-
     dependencies {
         constraints {
             implementation(libs.guava)
