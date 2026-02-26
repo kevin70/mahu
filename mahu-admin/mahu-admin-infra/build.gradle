@@ -15,7 +15,6 @@ dependencies {
     implementation(libs.minio)
     implementation(libs.caffeine)
     implementation(libs.roaringbitmap)
-    implementation("com.rabbitmq.client:amqp-client:0.8.0")
 
     implementation(libs.bundles.ebean)
     implementation(libs.bundles.log4j)
@@ -27,8 +26,6 @@ dependencies {
             classifier = osdetector.classifier
         }
     }
-    implementation("org.apache.rocketmq:rocketmq-client-java-noshade:5.1.0")
-    implementation("org.apache.pulsar:pulsar-client-original:4.1.2")
 
     // testImplementation(project(":mahu-test"))
     //    testImplementation("io.helidon.testing:helidon-testing-junit5")
