@@ -29,8 +29,8 @@ public class ImmutableDictType {
     String name;
     /// 字典类型的描述信息
     String description;
-    /// 字典类型是否被禁用
-    boolean disabled;
+    /// 是否启用
+    boolean enabled;
     /// 字典类型的可见性配置
     ///
     /// - `0`：私有

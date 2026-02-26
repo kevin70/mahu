@@ -17,8 +17,8 @@ public class ImmutableDict {
     String value;
     /// 标签
     String label;
-    /// 是否禁用
-    boolean disabled;
+    /// 是否启用
+    boolean enabled;
     /// 排序值
     int ordering;
 }

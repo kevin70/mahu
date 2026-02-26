@@ -12,9 +12,9 @@ properties:
   description:
     type: string
     description: 字典类型描述
-  disabled:
+  enabled:
     type: boolean
-    description: 是否禁用
+    description: 是否启用
   data:
     type: array
     description: 字典数据

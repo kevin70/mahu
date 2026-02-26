@@ -1,17 +1,22 @@
 package cool.houge.mahu.admin.oas.vo;
 
+import io.avaje.validation.constraints.*;
+
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * 管理员日志类型
  */
+
 public enum AdminLogType {
+
     ACCESS("ACCESS"),
     AUTH("AUTH"),
     CHANGE("CHANGE");
 
-    private final String value;
+    private String value;
 
     AdminLogType(String value) {
         this.value = value;

@@ -22,9 +22,9 @@ properties:
   description:
     type: string
     description: 字典类型描述
-  disabled:
+  enabled:
     type: boolean
-    description: 是否禁用
+    description: 是否启用
   visibility:
     type: integer
     format: int32
@@ -45,7 +45,7 @@ properties:
         - created_at
         - updated_at
         - dc
-        - name
+        - label
         - ordering
       properties:
         created_at:
@@ -60,9 +60,9 @@ properties:
           type: integer
           format: int32
           description: 字典数据代码，唯一
-        name:
+        label:
           type: string
-          description: 字典数据名称
+          description: 字典数据标签
           minLength: 1
           maxLength: 100
         value:
@@ -71,6 +71,6 @@ properties:
           maxLength: 4096
         ordering:
           $ref: "./_ordering.yaml"
-        disabled:
+        enabled:
           type: boolean
-          description: 是否禁用
+          description: 是否启用

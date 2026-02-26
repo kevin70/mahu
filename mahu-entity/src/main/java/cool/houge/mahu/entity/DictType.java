@@ -35,11 +35,11 @@ public class DictType implements Auditable {
     private String name;
     /// 描述
     private String description;
-    /// 是否禁用
+    /// 是否启动
     ///
-    /// - `true`：禁用
-    /// - `false`：启用
-    private Boolean disabled;
+    /// - `true`：启用
+    /// - `false`：禁用
+    private Boolean enabled;
     /// 可见性配置
     @Enumerated
     private Visibility visibility;

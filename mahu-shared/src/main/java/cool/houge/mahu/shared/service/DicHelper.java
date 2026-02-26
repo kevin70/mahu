@@ -71,7 +71,7 @@ class DicHelper {
                 .id(bean.getId())
                 .name(bean.getName())
                 .description(bean.getDescription())
-                .disabled(bean.getDisabled())
+                .enabled(bean.getEnabled())
                 .dicts(bean.getData().stream()
                         .map(this::map)
                         .sorted(Comparator.comparing(ImmutableDict::getOrdering).reversed())
@@ -85,7 +85,7 @@ class DicHelper {
                 .dc(bean.getDc())
                 .value(bean.getValue())
                 .label(bean.getLabel())
-                .disabled(bean.getDisabled())
+                .enabled(bean.getEnabled())
                 .ordering(bean.getOrdering())
                 .build();
     }

@@ -29,8 +29,6 @@ class DatabaseProvider implements Supplier<Database> {
                 .containerConfig(new ContainerConfig())
                 .dataSource(ds)
                 .slowQueryMillis(200)
-                .databaseBooleanTrue("T")
-                .databaseBooleanFalse("F")
                 .jsonInclude(JsonConfig.Include.NON_NULL)
                 .currentUserProvider(new ContextCurrentUserProvider())
                 .changeLogIncludeInserts(false)

@@ -31,12 +31,12 @@ public class SysDictTypeResponseDataInner {
     @com.fasterxml.jackson.annotation.JsonProperty("dc")
     private Integer dc;
     /**
-     * 字典数据名称
+     * 字典数据标签
      */
       @NotNull
  @Size(min=1,max=100)
-    @com.fasterxml.jackson.annotation.JsonProperty("name")
-    private String name;
+    @com.fasterxml.jackson.annotation.JsonProperty("label")
+    private String label;
     /**
      * 字典类型描述
      */
@@ -53,9 +53,9 @@ public class SysDictTypeResponseDataInner {
     @com.fasterxml.jackson.annotation.JsonProperty("ordering")
     private Integer ordering;
     /**
-     * 是否禁用
+     * 是否启用
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
-    private Boolean disabled;
+    @com.fasterxml.jackson.annotation.JsonProperty("enabled")
+    private Boolean enabled;
 }

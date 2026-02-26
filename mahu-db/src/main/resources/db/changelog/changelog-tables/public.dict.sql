@@ -6,7 +6,7 @@ CREATE TABLE public.dict_type (
   id VARCHAR(50) NOT NULL CONSTRAINT dict_type_pk PRIMARY KEY,
   name VARCHAR(255),
   description VARCHAR(4096),
-  disabled BOOLEAN,
+  enabled BOOLEAN,
   visibility SMALLINT,
   value_regex VARCHAR(512),
   created_at TIMESTAMP,
@@ -21,7 +21,7 @@ comment ON COLUMN public.dict_type.name IS '字典类型名称';
 
 comment ON COLUMN public.dict_type.description IS '描述';
 
-comment ON COLUMN public.dict_type.disabled IS '是否禁用：TRUE=禁用, FALSE=启用';
+comment ON COLUMN public.dict_type.enabled IS '是否启用';
 
 comment ON COLUMN public.dict_type.visibility IS '可见性
 - 0: 私有的，仅限内部使用
@@ -42,7 +42,7 @@ CREATE TABLE public.dict (
   dc serial CONSTRAINT dict_pk PRIMARY KEY,
   label VARCHAR(255),
   value VARCHAR(4096),
-  disabled BOOLEAN,
+  enabled BOOLEAN,
   ordering INTEGER,
   type_id VARCHAR(50) NOT NULL,
   created_at TIMESTAMP,
@@ -57,7 +57,7 @@ comment ON COLUMN public.dict.label IS '字典数据文本';
 
 comment ON COLUMN public.dict.value IS '字典数据值';
 
-comment ON COLUMN public.dict_type.disabled IS '是否禁用：TRUE=禁用, FALSE=启用';
+comment ON COLUMN public.dict_type.enabled IS '是否启用';
 
 comment ON COLUMN public.dict.ordering IS '排序值';
 

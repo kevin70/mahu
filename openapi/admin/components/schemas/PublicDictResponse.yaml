@@ -14,6 +14,6 @@ properties:
   label:
     type: string
     description: 字典数据标签
-  disabled:
+  enabled:
     type: boolean
-    description: 是否禁用
+    description: 是否启用

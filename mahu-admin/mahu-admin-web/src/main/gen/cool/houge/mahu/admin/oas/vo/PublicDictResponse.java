@@ -29,9 +29,9 @@ public class PublicDictResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("label")
     private String label;
     /**
-     * 是否禁用
+     * 是否启用
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
-    private Boolean disabled;
+    @com.fasterxml.jackson.annotation.JsonProperty("enabled")
+    private Boolean enabled;
 }

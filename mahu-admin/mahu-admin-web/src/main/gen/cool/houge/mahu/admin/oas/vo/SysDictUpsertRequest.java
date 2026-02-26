@@ -36,10 +36,9 @@ public class SysDictUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("ordering")
     private Integer ordering;
     /**
-     * 状态（F:禁用, T:启用）
+     * 是否启用
      */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
-    private Boolean disabled;
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("enabled")
+    private Boolean enabled;
 }

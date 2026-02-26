@@ -2,7 +2,6 @@ type: object
 required:
   - label
   - ordering
-  - disabled
 properties:
   dc:
     type: integer
@@ -19,6 +18,6 @@ properties:
     maxLength: 4096
   ordering:
     $ref: "./_ordering.yaml"
-  disabled:
+  enabled:
     type: boolean
-    description: 状态（F:禁用, T:启用）
+    description: 是否启用

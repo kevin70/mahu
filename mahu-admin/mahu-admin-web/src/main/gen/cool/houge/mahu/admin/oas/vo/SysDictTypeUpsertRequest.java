@@ -32,12 +32,11 @@ public class SysDictTypeUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("description")
     private String description;
     /**
-     * 是否禁用
+     * 是否启用
      */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("disabled")
-    private Boolean disabled;
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("enabled")
+    private Boolean enabled;
     /**
      * 可见性 - 0: 私有的，仅限内部使用 - 1: 公共的 - 2: 受限的 
      */

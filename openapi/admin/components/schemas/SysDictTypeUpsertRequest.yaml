@@ -2,7 +2,6 @@ type: object
 required:
   - id
   - name
-  - disabled
 properties:
   id:
     type: string
@@ -18,9 +17,9 @@ properties:
     type: string
     description: 字典类型描述
     maxLength: 4096
-  disabled:
+  enabled:
     type: boolean
-    description: 是否禁用
+    description: 是否启用
   visibility:
     type: integer
     format: int32

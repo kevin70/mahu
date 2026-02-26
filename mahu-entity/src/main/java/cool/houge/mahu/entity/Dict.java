@@ -38,9 +38,9 @@ public class Dict implements Auditable {
     private String value;
     /// 是否禁用
     ///
-    /// - `true`：禁用
-    /// - `false`：启用
-    private Boolean disabled;
+    /// - `true`：启用
+    /// - `false`：禁用
+    private Boolean enabled;
     /// 排序值
     @OrderBy("DESC")
     private Integer ordering;
