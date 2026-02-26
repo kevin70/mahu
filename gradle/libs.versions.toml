@@ -21,7 +21,7 @@ valkey-glide = { module = "io.valkey:valkey-glide", version = "2.2.5" }
 commons-collections4 = { module = "org.apache.commons:commons-collections4", version = "4.5.0" }
 commons-text = { module = "org.apache.commons:commons-text", version = "1.14.0" }
 commons-compress = { module = "org.apache.commons:commons-compress", version = "3.2.0" }
-roaringbitmap = { module = "com.github.RoaringBitmap.RoaringBitmap:roaringbitmap", version = "1.6.0" }
+roaringbitmap = { module = "org.roaringbitmap:RoaringBitmap", version = "1.6.10" }
 db-scheduler = { module = "com.github.kagkarlsson:db-scheduler", version = "16.0.0" }
 ulid-creator = { module = "com.github.f4b6a3:ulid-creator", version = "5.2.3" }
 minio = { module = "io.minio:minio", version = "8.6.0" }
