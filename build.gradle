@@ -201,6 +201,13 @@ allprojects {
 //    }
 
     dependencies {
+        constraints {
+            implementation(libs.guava)
+            implementation(libs.gson)
+            implementation(libs.commons.lang3)
+            implementation(libs.postgresql)
+        }
+
         annotationProcessor(libs.lombok)
         annotationProcessor(libs.mapstruct.processor)
         annotationProcessor(libs.avaje.validator.generator)

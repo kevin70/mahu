@@ -1,5 +1,5 @@
 [versions]
-ebean = "17.2.0"
+ebean = "17.3.0"
 helidon = "4.3.2"
 mapstruct = "1.6.3"
 fastexcel = "0.19.0"
@@ -14,10 +14,12 @@ jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
 checker-qual = { module = "org.checkerframework:checker-qual", version = "3.49.5" }
 error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version = { strictly = "2.43.0" } }
 lombok = { module = "org.projectlombok:lombok", version = "1.18.42" }
-guava = { module = "com.google.guava:guava", version = "33.4.8-jre" }
+guava = { module = "com.google.guava:guava", version = "33.5.0-jre" }
+gson = { module = "com.google.code.gson:gson", version = "2.13.2" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.3" }
 postgresql = { module = "org.postgresql:postgresql", version = "42.7.8" }
 valkey-glide = { module = "io.valkey:valkey-glide", version = "2.2.5" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version = "3.20.0" }
 commons-collections4 = { module = "org.apache.commons:commons-collections4", version = "4.5.0" }
 commons-text = { module = "org.apache.commons:commons-text", version = "1.14.0" }
 commons-compress = { module = "org.apache.commons:commons-compress", version = "3.2.0" }
