@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.controller;
 
 import cool.houge.mahu.admin.bean.Profile;
-import cool.houge.mahu.admin.entity.Admin;
+import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
 import cool.houge.mahu.admin.oas.vo.LoginTokenResponse;
 import cool.houge.mahu.admin.oas.vo.MePasswordUpdateRequest;

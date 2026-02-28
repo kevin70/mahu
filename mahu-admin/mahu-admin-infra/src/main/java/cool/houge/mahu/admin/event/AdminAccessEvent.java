@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.event;
 
-import cool.houge.mahu.admin.entity.AdminAccessLog;
+import cool.houge.mahu.entity.sys.AdminAccessLog;
 
 /// 管理员访问日志
 ///

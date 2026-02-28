@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.bean;
 
-import cool.houge.mahu.admin.entity.Admin;
-import cool.houge.mahu.admin.entity.Role;
+import cool.houge.mahu.entity.sys.Admin;
+import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
 import cool.houge.mahu.entity.sys.AuthClient;

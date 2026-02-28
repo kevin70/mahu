@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.entity;
+package cool.houge.mahu.entity.sys;
 
 import io.ebean.annotation.WhenCreated;
 import jakarta.persistence.Entity;

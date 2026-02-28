@@ -1,8 +1,8 @@
 package cool.houge.mahu.admin.sys.repository;
 
 import com.github.f4b6a3.ulid.UlidCreator;
-import cool.houge.mahu.admin.entity.AdminChangeItem;
-import cool.houge.mahu.admin.entity.AdminChangeLog;
+import cool.houge.mahu.entity.sys.AdminChangeItem;
+import cool.houge.mahu.entity.sys.AdminChangeLog;
 import io.ebean.Database;
 import io.ebean.event.changelog.ChangeLogListener;
 import io.ebean.event.changelog.ChangeSet;

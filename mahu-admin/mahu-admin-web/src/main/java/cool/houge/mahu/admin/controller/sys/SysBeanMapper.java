@@ -1,10 +1,10 @@
 package cool.houge.mahu.admin.controller.sys;
 
-import cool.houge.mahu.admin.entity.Admin;
-import cool.houge.mahu.admin.entity.AdminAccessLog;
-import cool.houge.mahu.admin.entity.AdminAuthLog;
-import cool.houge.mahu.admin.entity.AdminChangeLog;
-import cool.houge.mahu.admin.entity.Role;
+import cool.houge.mahu.entity.sys.Admin;
+import cool.houge.mahu.entity.sys.AdminAccessLog;
+import cool.houge.mahu.entity.sys.AdminAuthLog;
+import cool.houge.mahu.entity.sys.AdminChangeLog;
+import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.admin.internal.TopBeanMapper;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedResponse;

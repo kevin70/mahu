@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.entity;
+package cool.houge.mahu.entity.sys;
 
 import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.ChangeLog;
