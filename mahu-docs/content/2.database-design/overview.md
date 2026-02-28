@@ -1,0 +1,222 @@
+
+## 项目概述
+
+Mahu 项目使用 PostgreSQL 数据库，采用 Liquibase 进行数据库版本管理。数据库设计遵循模块化原则，将不同功能的表组织到不同的模式中。
+
+## 数据库架构
+
+### 模式划分
+
+数据库包含以下两个主要模式：
+
+1. **sys 模式** - 系统相关表
+   - 用户管理、认证、权限控制
+   - 日志记录、定时任务
+   - 系统功能配置
+
+2. **public 模式** - 公共表
+   - 字典管理等通用功能
+
+### 模式关系图
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      Mahu 数据库架构                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐        ┌─────────────┐                    │
+│  │   sys 模式   │        │ public 模式  │                    │
+│  │             │        │             │                    │
+│  │ • 用户管理    │        │ • 字典管理    │                    │
+│  │ • 认证授权    │        │             │                    │
+│  │ • 权限控制    │        └─────────────┘                    │
+│  │ • 日志记录    │                                            │
+│  │ • 定时任务    │                                            │
+│  │ • 功能配置    │                                            │
+│  └─────────────┘                                            │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## 设计原则
+
+### 1. 命名规范
+- **表名**：使用小写字母和下划线分隔（如：`admin_access_log`）
+- **字段名**：使用小写字母和下划线分隔（如：`created_at`）
+- **约束命名**：
+  - 主键约束：`表名_pk`（如：`admin_pk`）
+  - 唯一索引：`表名_字段名_ui`（如：`admin_username_ui`）
+  - 普通索引：`表名_字段名_i`（如：`scheduled_task_execution_time_i`）
+
+### 2. 通用字段设计
+大多数表都包含以下通用字段，确保数据的一致性和可维护性：
+
+| 字段名 | 数据类型 | 默认值 | 说明 |
+|--------|----------|--------|------|
+| id | 序列/整数/UUID | - | 主键，唯一标识 |
+| created_at | TIMESTAMP | - | 记录创建时间 |
+| updated_at | TIMESTAMP | - | 记录最后更新时间 |
+| deleted | BOOLEAN | FALSE | 软删除标志 |
+
+### 3. 数据完整性
+- **主键约束**：每个表都有主键约束
+- **外键约束**：关联表之间使用外键确保数据完整性
+- **唯一约束**：防止重复数据
+- **检查约束**：确保数据有效性
+
+### 4. 安全设计
+- **密码安全**：`sys.admin.password` 字段使用 VARCHAR(1024) 类型，支持存储加密后的密码
+- **密钥安全**：`sys.auth_client.client_secret` 字段使用 VARCHAR(4000) 类型，支持存储加密密钥
+- **敏感数据保护**：敏感信息使用适当长度的字段存储
+- **访问控制**：通过角色和权限系统实现细粒度访问控制
+- **审计日志**：记录所有关键操作，便于安全审计
+
+### 5. 性能优化
+- **索引策略**：为常用查询字段创建索引
+- **数据类型优化**：使用合适的数据类型减少存储空间
+- **大文本处理**：对大文本字段使用 TEXT 类型
+- **JSONB 使用**：对灵活的结构化数据使用 JSONB 类型
+- **序列管理**：合理使用序列生成主键，避免冲突
+
+### 6. 扩展性设计
+- **软删除支持**：通过 `deleted` 字段支持软删除，便于数据恢复
+- **JSONB 字段**：存储灵活的结构化数据，支持未来扩展
+- **模块化设计**：按功能模块组织表结构
+- **长文本支持**：对需要存储较长文本的字段使用 VARCHAR(4096) 等适当类型
+- **正则表达式验证**：支持自定义格式验证规则（如 `dict_type.value_regex`）
+
+### 7. 数据一致性
+- **启用状态控制**：通过 `enabled` 字段控制数据可用性
+- **时间戳管理**：`created_at` 和 `updated_at` 字段记录数据生命周期
+- **多级可见性**：支持私有、公共、受限等多种可见性级别
+## 技术栈
+
+### 数据库管理系统
+- **数据库**：PostgreSQL
+- **版本管理**：Liquibase
+- **变更管理**：通过 SQL 文件管理数据库变更
+
+### 版本管理结构
+```
+db/changelog/
+├── changelog-root.yaml          # 根变更日志文件
+├── changelog-schemas/           # 模式定义
+│   └── schemas.sql
+├── changelog-tables/            # 表结构定义
+│   ├── public.dict.sql
+│   ├── sys.admin.sql
+│   ├── sys.admin_access_log.sql
+│   ├── sys.admin_auth_log.sql
+│   ├── sys.admin_change_log.sql
+│   ├── sys.admin_role.sql
+│   ├── sys.auth_client.sql
+│   ├── sys.delayed_task.sql
+│   ├── sys.feature.sql
+│   ├── sys.id_photo.sql
+│   ├── sys.object.sql
+│   ├── sys.role.sql
+│   ├── sys.scheduled_task.sql
+│   ├── sys.scheduled_task_exe_log.sql
+│   ├── 0_init_data.sql          # 初始化业务数据
+│   └── 0_init_data_sit.sql      # SIT环境测试数据
+└── changelog-views/             # 视图定义（当前为空）
+    └── .gitkeep
+```
+
+## 安全考虑
+
+### 1. 数据安全
+- **密码存储**：`sys.admin.password` 使用 VARCHAR(1024) 类型，支持存储加密后的密码
+- **密钥管理**：`sys.auth_client.client_secret` 使用 VARCHAR(4000) 类型，支持存储加密密钥
+- **敏感数据**：敏感信息使用适当长度的字段存储
+
+### 2. 访问控制
+- **角色权限**：通过 `sys.role` 和 `sys.admin_role` 表实现细粒度权限控制
+- **功能控制**：`sys.feature` 表支持功能级别的访问控制
+- **审计日志**：`sys.admin_access_log`、`sys.admin_auth_log`、`sys.admin_change_log` 记录所有关键操作
+
+### 3. 数据隔离
+- **模式隔离**：系统表（sys）和公共表（public）分离
+- **可见性控制**：`public.dict_type.visibility` 字段控制字典类型的可见性级别
+
+## 维护指南
+
+### 1. 数据库备份
+```sql
+-- 定期备份建议
+pg_dump -h localhost -U username -d mahu -F c -b -v -f mahu_backup.dump
+```
+
+### 2. 索引维护
+```sql
+-- 分析索引使用情况
+SELECT * FROM pg_stat_user_indexes;
+
+-- 重建索引
+REINDEX TABLE sys.admin;
+```
+
+### 3. 数据清理
+```sql
+-- 清理过期日志数据（示例）
+DELETE FROM sys.admin_access_log 
+WHERE created_at < NOW() - INTERVAL '90 days';
+
+-- 软删除数据清理
+UPDATE sys.admin SET deleted = TRUE 
+WHERE last_login_at < NOW() - INTERVAL '365 days';
+```
+
+### 4. 性能监控
+- **慢查询监控**：定期检查慢查询日志
+- **连接数监控**：监控数据库连接数
+- **存储空间**：监控表空间使用情况
+
+## 序列管理
+
+数据库使用序列生成主键：
+
+| 序列名 | 所属表 | 起始值 | 说明 |
+|--------|--------|--------|------|
+| sys.admin_id_seq | sys.admin | 1001 | 管理员ID序列 |
+| public.dict_dc_seq | public.dict | 100001 | 字典代码序列 |
+
+## 数据初始化
+
+数据库包含以下初始化脚本：
+
+1. **业务数据初始化** (`0_init_data.sql`)
+   - 初始化系统必需的基础数据
+   - 创建默认管理员账户
+   - 设置系统默认配置
+
+2. **测试数据初始化** (`0_init_data_sit.sql`)
+   - SIT（系统集成测试）环境专用数据
+   - 包含测试用户和测试数据
+   - 用于自动化测试和集成测试
+
+## 最佳实践
+
+### 1. 新表设计
+- 遵循现有的命名规范和字段设计
+- 包含通用字段（id, created_at, updated_at, deleted）
+- 为常用查询字段创建索引
+- 考虑数据增长和查询性能
+
+### 2. 数据迁移
+- 使用 Liquibase 管理所有数据库变更
+- 编写可回滚的变更脚本
+- 测试变更脚本在开发环境
+- 备份生产数据 before 执行迁移
+
+### 3. 查询优化
+- 避免 SELECT *，只选择需要的字段
+- 使用合适的 JOIN 类型
+- 为复杂查询创建视图
+- 定期分析查询执行计划
+
+## 相关文档
+
+- [sys 模式详细设计](./sys-schema.md)
+- [public 模式详细设计](./public-schema.md)
+- [Liquibase 变更日志](../mahu-db/src/main/resources/db/changelog/changelog-root.yaml)
