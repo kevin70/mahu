@@ -29,7 +29,12 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
         super(DelayedTask.class, db);
     }
 
-    /// 批量保存
+    /// 批量保存延时任务
+    ///
+    /// 如果在事务上下文中，任务会被暂存，在事务提交时批量保存
+    /// 如果不在事务上下文中，任务会立即保存
+    ///
+    /// @param bean 延时任务实体
     public void batchSave(DelayedTask bean) {
         bean.setId(ULID_FACTORY.create().toUuid());
 
@@ -41,31 +46,40 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
             ctx.get()
                     .get(DelayedTaskHolder.class)
                     .ifPresentOrElse(
-                            holder -> holder.add(bean), () -> {
-                                var cb = new DelayedTaskHolder().add(bean);
+                            holder -> holder.add(bean),
+                            () -> {
+                                var cb = new DelayedTaskHolder(this).add(bean);
                                 ctx.get().register(cb);
                                 db().register(cb);
                             }
-                            //
-                            );
+                    );
             log.debug("保存延时任务到 Context: {}", bean);
         }
     }
 
-    /// 分页查询
+    /// 分页查询延时任务
+    ///
+    /// @param page 分页参数
+    /// @return 分页结果
     public PagedList<DelayedTask> findPage(Page page) {
         var qb = new QDelayedTask(db());
         return super.findPage(qb, page);
     }
 
-    private class DelayedTaskHolder extends TransactionCallbackAdapter {
+    /// 延时任务持有者，用于在事务中暂存任务
+    private static class DelayedTaskHolder extends TransactionCallbackAdapter {
 
-        List<DelayedTask> tasks = new ArrayList<>(4);
+        private final DelayedTaskRepository repository;
+        private final List<DelayedTask> tasks = new ArrayList<>(4);
+
+        DelayedTaskHolder(DelayedTaskRepository repository) {
+            this.repository = repository;
+        }
 
         @Override
         public void preCommit() {
             if (!tasks.isEmpty()) {
-                DelayedTaskRepository.this.saveAll(tasks);
+                repository.saveAll(tasks);
                 log.debug("批量持久化延时任务: {}", tasks);
             }
         }
