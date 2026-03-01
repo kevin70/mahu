@@ -1,9 +1,2 @@
 title: 数据库设计
 icon: false
-items:
-  - title: 概述
-    href: overview.md
-  - title: sys 模式
-    href: sys-schema.md
-  - title: public 模式
-    href: public-schema.md
