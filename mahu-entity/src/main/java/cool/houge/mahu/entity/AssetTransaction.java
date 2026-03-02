@@ -38,7 +38,7 @@ public class AssetTransaction {
     /// 关联业务单号，如订单id
     private String referenceId;
     /// 幂等 key（避免重复执行）
-    private String idempotentKey;
+    private String idempotencyKey;
     /// 功能标识
     private Integer featureId;
 

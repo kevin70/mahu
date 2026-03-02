@@ -24,9 +24,9 @@ public class UserAssetRepository extends BeanRepository<UUID, UserAsset> {
                     + " RETURNING balance AS balance_after,frozen AS frozen_after,total_in),"
                     + " tx AS ("
                     + "INSERT INTO asset_transaction (id,created_at,uid,kind,change_amount,balance_before,"
-                    + "balance_after,frozen_before,frozen_after,direction,reference_id,idempotent_key,feature_id)"
+                    + "balance_after,frozen_before,frozen_after,direction,reference_id,idempotency_key,feature_id)"
                     + " SELECT :tx_id,CURRENT_TIMESTAMP(0),:uid,:kind,:amount,ua.balance_after-:amount,ua.balance_after,"
-                    + "ua.frozen_after,ua.frozen_after,'credit',:reference_id,:idempotent_key,:feature_id"
+                    + "ua.frozen_after,ua.frozen_after,'credit',:reference_id,:idempotency_key,:feature_id"
                     + " FROM ua RETURNING *) SELECT * FROM tx")
             .create();
     // language=SQL
@@ -43,7 +43,7 @@ public class UserAssetRepository extends BeanRepository<UUID, UserAsset> {
              tx as (
                  INSERT INTO asset_transaction (id, created_at, uid, kind, change_amount,
                                                 balance_before, balance_after, frozen_before, frozen_after,
-                                                direction, reference_id, idempotent_key, feature_id)
+                                                direction, reference_id, idempotency_key, feature_id)
                      SELECT gen_random_uuid(),
                             CURRENT_TIMESTAMP,
                             :uid,
@@ -55,7 +55,7 @@ public class UserAssetRepository extends BeanRepository<UUID, UserAsset> {
                             ua.frozen_after,
                             'credit',
                             :reference_id,
-                            :idempotent_key,
+                            :idempotency_key,
                             :feature_id
                      FROM ua
                      returning *)
@@ -67,14 +67,14 @@ public class UserAssetRepository extends BeanRepository<UUID, UserAsset> {
     }
 
     public AssetTransaction incrementBalance(
-            long uid, AssetKind kind, long amount, String referenceId, int featureId, String idempotentKey) {
+            long uid, AssetKind kind, long amount, String referenceId, int featureId, String idempotencyKey) {
         var txId = UlidCreator.getMonotonicUlid().toString();
         var a = db().createQuery(AssetTransaction.class)
                 .setRawSql(INCREMENT_BALANCE_SQL)
                 .setParameter("uid", uid)
                 .setParameter("kind", kind)
                 .setParameter("amount", amount)
-                .setParameter("idempotent_key", idempotentKey)
+                .setParameter("idempotency_key", idempotencyKey)
                 .setParameter("feature_id", featureId)
                 .setParameter("tx_id", txId)
                 .findOneOrEmpty();
@@ -86,7 +86,7 @@ public class UserAssetRepository extends BeanRepository<UUID, UserAsset> {
                 .setParameter("uid", uid)
                 .setParameter("kind", kind)
                 .setParameter("amount", amount)
-                .setParameter("idempotent_key", idempotentKey)
+                .setParameter("idempotency_key", idempotencyKey)
                 .setParameter("feature_id", featureId)
                 .setParameter("tx_id", txId)
                 .findOneOrEmpty();
@@ -97,7 +97,7 @@ public class UserAssetRepository extends BeanRepository<UUID, UserAsset> {
     }
 
     public AssetTransaction decrementBalance(
-            long uid, AssetKind kind, long amount, String referenceId, int featureId, String idempotentKey) {
+            long uid, AssetKind kind, long amount, String referenceId, int featureId, String idempotencyKey) {
         //
         return null;
     }
