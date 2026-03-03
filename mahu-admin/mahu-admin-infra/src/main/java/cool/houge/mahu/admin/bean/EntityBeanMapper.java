@@ -1,11 +1,11 @@
 package cool.houge.mahu.admin.bean;
 
-import cool.houge.mahu.entity.sys.Admin;
-import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.Feature;
+import cool.houge.mahu.entity.sys.Role;
 import io.helidon.service.registry.Service.Contract;
 import io.helidon.service.registry.Service.Singleton;
 import org.mapstruct.AnnotateWith;

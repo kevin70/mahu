@@ -2,9 +2,9 @@ package cool.houge.mahu.admin.sys.repository;
 
 import com.google.common.base.Strings;
 import cool.houge.mahu.admin.dto.AdminQuery;
-import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.admin.entity.query.QAdmin;
 import cool.houge.mahu.domain.Page;
+import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

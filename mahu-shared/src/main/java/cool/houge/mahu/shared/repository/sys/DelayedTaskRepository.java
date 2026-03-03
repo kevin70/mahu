@@ -43,16 +43,11 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
             this.save(bean);
             log.debug("持久化延时任务: {}", bean);
         } else {
-            ctx.get()
-                    .get(DelayedTaskHolder.class)
-                    .ifPresentOrElse(
-                            holder -> holder.add(bean),
-                            () -> {
-                                var cb = new DelayedTaskHolder(this).add(bean);
-                                ctx.get().register(cb);
-                                db().register(cb);
-                            }
-                    );
+            ctx.get().get(DelayedTaskHolder.class).ifPresentOrElse(holder -> holder.add(bean), () -> {
+                var cb = new DelayedTaskHolder(this).add(bean);
+                ctx.get().register(cb);
+                db().register(cb);
+            });
             log.debug("保存延时任务到 Context: {}", bean);
         }
     }

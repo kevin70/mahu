@@ -1,8 +1,8 @@
 package cool.houge.mahu.admin.sys.repository;
 
-import cool.houge.mahu.entity.sys.AdminChangeLog;
 import cool.houge.mahu.admin.entity.query.QAdminChangeLog;
 import cool.houge.mahu.domain.Page;
+import cool.houge.mahu.entity.sys.AdminChangeLog;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
