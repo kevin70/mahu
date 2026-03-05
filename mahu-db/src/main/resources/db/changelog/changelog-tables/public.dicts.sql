@@ -40,10 +40,10 @@ comment ON COLUMN public.dict_types.updated_at IS '更新时间';
 CREATE TABLE public.dicts (
   dc serial CONSTRAINT dicts_pk PRIMARY KEY,
   label VARCHAR(255),
-  value VARCHAR(4096),
+  value VARCHAR(1024),
   enabled BOOLEAN,
   ordering INTEGER,
-  type_id VARCHAR(50) NOT NULL,
+  group_id VARCHAR(50) NOT NULL,
   created_at TIMESTAMP,
   updated_at TIMESTAMP
 );
@@ -60,13 +60,13 @@ comment ON COLUMN public.dict_types.enabled IS '是否启用';
 
 comment ON COLUMN public.dicts.ordering IS '排序值';
 
-comment ON COLUMN public.dicts.type_id IS '字典类型代码';
+comment ON COLUMN public.dicts.group_id IS '字典类型代码';
 
 comment ON COLUMN public.dicts.created_at IS '创建时间';
 
 comment ON COLUMN public.dicts.updated_at IS '更新时间';
 
-CREATE UNIQUE INDEX dicts_type_id_uidx ON public.dicts (type_id);
+CREATE UNIQUE INDEX dicts_group_id_value_uidx ON public.dicts (group_id, value);
 
 ALTER SEQUENCE public.dicts_dc_seq RESTART
 WITH
