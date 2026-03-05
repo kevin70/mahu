@@ -1,9 +1,8 @@
 -- liquibase formatted sql
 ;
 
--- changeset kzou227@qq.com:202508251124
-CREATE TABLE sys.role (
-  id INTEGER NOT NULL CONSTRAINT role_pk PRIMARY KEY,
+CREATE TABLE sys.roles (
+  id INTEGER NOT NULL CONSTRAINT roles_pk PRIMARY KEY,
   created_at TIMESTAMP WITHOUT TIME ZONE,
   updated_at TIMESTAMP WITHOUT TIME ZONE,
   deleted BOOLEAN DEFAULT FALSE,
@@ -13,26 +12,26 @@ CREATE TABLE sys.role (
   permissions JSONB
 );
 
-COMMENT ON TABLE sys.role IS '权限表';
+COMMENT ON TABLE sys.roles IS '权限表';
 
-COMMENT ON COLUMN sys.role.id IS '主键';
+COMMENT ON COLUMN sys.roles.id IS '主键';
 
-COMMENT ON COLUMN sys.role.created_at IS '创建时间';
+COMMENT ON COLUMN sys.roles.created_at IS '创建时间';
 
-COMMENT ON COLUMN sys.role.updated_at IS '更新时间';
+COMMENT ON COLUMN sys.roles.updated_at IS '更新时间';
 
-COMMENT ON COLUMN sys.role.deleted IS '软删除标识';
+COMMENT ON COLUMN sys.roles.deleted IS '软删除标识';
 
-COMMENT ON COLUMN sys.role.name IS '角色名称';
+COMMENT ON COLUMN sys.roles.name IS '角色名称';
 
-COMMENT ON COLUMN sys.role.remark IS '备注';
+COMMENT ON COLUMN sys.roles.remark IS '备注';
 
-COMMENT ON COLUMN sys.role.ordering IS '排序值';
+COMMENT ON COLUMN sys.roles.ordering IS '排序值';
 
-COMMENT ON COLUMN sys.role.permissions IS '拥有的权限代码';
+COMMENT ON COLUMN sys.roles.permissions IS '拥有的权限代码';
 
-CREATE INDEX role_name_ui ON sys.role (NAME)
+CREATE INDEX role_name_idx ON sys.roles (NAME)
 WHERE
   (deleted = FALSE);
 
--- rollback drop table sys.role;
+-- rollback drop table sys.roles;

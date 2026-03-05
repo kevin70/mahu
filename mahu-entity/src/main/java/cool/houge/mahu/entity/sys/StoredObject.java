@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys", name = "object")
+@Table(schema = "sys", name = "objects")
 public class StoredObject {
 
     /// 主键

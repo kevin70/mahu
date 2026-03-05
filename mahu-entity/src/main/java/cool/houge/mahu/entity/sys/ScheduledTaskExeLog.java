@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys", name = "scheduled_task_logs")
+@Table(schema = "sys", name = "scheduled_task_exe_logs")
 public class ScheduledTaskExeLog {
 
     /// 日志追踪 ID

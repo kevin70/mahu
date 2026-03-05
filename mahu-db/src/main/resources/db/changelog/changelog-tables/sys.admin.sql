@@ -1,9 +1,8 @@
 -- liquibase formatted sql
 ;
 
--- changeset kzou227@qq.com:202508251122
-CREATE TABLE sys.admin (
-  id serial CONSTRAINT admin_pk PRIMARY KEY,
+CREATE TABLE sys.admins (
+  id serial CONSTRAINT admins_pk PRIMARY KEY,
   created_at TIMESTAMP,
   updated_at TIMESTAMP,
   deleted BOOLEAN DEFAULT FALSE,
@@ -15,32 +14,32 @@ CREATE TABLE sys.admin (
   gender SMALLINT
 );
 
-COMMENT ON TABLE sys.admin IS '员工';
+COMMENT ON TABLE sys.admins IS '员工';
 
-COMMENT ON COLUMN sys.admin.id IS '主键';
+COMMENT ON COLUMN sys.admins.id IS '主键';
 
-COMMENT ON COLUMN sys.admin.created_at IS '创建时间';
+COMMENT ON COLUMN sys.admins.created_at IS '创建时间';
 
-COMMENT ON COLUMN sys.admin.updated_at IS '更新时间';
+COMMENT ON COLUMN sys.admins.updated_at IS '更新时间';
 
-COMMENT ON COLUMN sys.admin.deleted IS '软删除标志';
+COMMENT ON COLUMN sys.admins.deleted IS '软删除标志';
 
-COMMENT ON COLUMN sys.admin.username IS '用户名';
+COMMENT ON COLUMN sys.admins.username IS '用户名';
 
-COMMENT ON COLUMN sys.admin.password IS '登录密码';
+COMMENT ON COLUMN sys.admins.password IS '登录密码';
 
-COMMENT ON COLUMN sys.admin.nickname IS '昵称';
+COMMENT ON COLUMN sys.admins.nickname IS '昵称';
 
-COMMENT ON COLUMN sys.admin.avatar IS '头像地址';
+COMMENT ON COLUMN sys.admins.avatar IS '头像地址';
 
-COMMENT ON COLUMN sys.admin.status IS '用户状态';
+COMMENT ON COLUMN sys.admins.status IS '用户状态';
 
-COMMENT ON COLUMN sys.admin.gender IS '性别
+COMMENT ON COLUMN sys.admins.gender IS '性别
 - 0：其他
 - 1：男性
 - 2：女性';
 
-CREATE UNIQUE INDEX admin_username_ui ON sys.admin (username)
+CREATE UNIQUE INDEX admin_username_uidx ON sys.admins (username)
 WHERE
   (deleted = FALSE);
 
@@ -48,4 +47,4 @@ ALTER SEQUENCE sys.admin_id_seq RESTART
 WITH
   1001;
 
--- rollback drop table sys.admin;
+-- rollback drop table sys.admins;

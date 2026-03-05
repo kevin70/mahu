@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys", name = "id_photo")
+@Table(schema = "sys", name = "id_photos")
 public class IdPhoto {
 
     /// 主键

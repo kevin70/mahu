@@ -1,9 +1,8 @@
 -- liquibase formatted sql
 ;
 
--- changeset kzou227@qq.com:202508242200
-CREATE TABLE sys.scheduled_task (
-  task_name VARCHAR(50) NOT NULL CONSTRAINT scheduled_task_pk PRIMARY KEY,
+CREATE TABLE sys.scheduled_tasks (
+  task_name VARCHAR(50) NOT NULL CONSTRAINT scheduled_tasks_pk PRIMARY KEY,
   task_instance VARCHAR(50) NOT NULL,
   task_data bytea,
   execution_time TIMESTAMP NOT NULL,
@@ -17,14 +16,14 @@ CREATE TABLE sys.scheduled_task (
   priority SMALLINT
 );
 
-COMMENT ON TABLE sys.scheduled_task IS '定时任务：https://github.com/kagkarlsson/db-scheduler';
+COMMENT ON TABLE sys.scheduled_tasks IS '定时任务：https://github.com/kagkarlsson/db-scheduler';
 
-COMMENT ON COLUMN sys.scheduled_task.task_name IS '任务名称';
+COMMENT ON COLUMN sys.scheduled_tasks.task_name IS '任务名称';
 
-COMMENT ON COLUMN sys.scheduled_task.task_data IS '任务数据';
+COMMENT ON COLUMN sys.scheduled_tasks.task_data IS '任务数据';
 
-CREATE INDEX scheduled_task_execution_time_i ON sys.scheduled_task (execution_time);
+CREATE INDEX scheduled_task_execution_time_idx ON sys.scheduled_tasks (execution_time);
 
-CREATE INDEX scheduled_task_last_heartbeat_i ON sys.scheduled_task (last_heartbeat);
+CREATE INDEX scheduled_task_last_heartbeat_idx ON sys.scheduled_tasks (last_heartbeat);
 
--- rollback drop table sys.scheduled_task;
+-- rollback drop table sys.scheduled_tasks;

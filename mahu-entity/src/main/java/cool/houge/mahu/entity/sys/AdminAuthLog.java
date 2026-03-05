@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys", name = "admin_auth_log")
+@Table(schema = "sys", name = "admin_auth_logs")
 public class AdminAuthLog {
 
     /// 日志追踪 ID
