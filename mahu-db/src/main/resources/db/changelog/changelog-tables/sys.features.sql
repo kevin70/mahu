@@ -21,11 +21,11 @@ CREATE TABLE sys.features (
   properties_schema JSONB
 );
 
-CREATE UNIQUE INDEX uidx_feature_code_uidx ON sys.features (code);
+CREATE UNIQUE INDEX features_code_uidx ON sys.features (code);
 
-CREATE INDEX idx_feature_module_idx ON sys.features (module);
+CREATE INDEX features_module_idx ON sys.features (module);
 
-CREATE INDEX idx_feature_status_idx ON sys.features (status);
+CREATE INDEX features_status_idx ON sys.features (status);
 
 comment ON COLUMN sys.features.id IS '主键';
 

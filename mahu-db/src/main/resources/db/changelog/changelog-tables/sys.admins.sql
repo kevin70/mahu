@@ -39,7 +39,7 @@ COMMENT ON COLUMN sys.admins.gender IS '性别
 - 1：男性
 - 2：女性';
 
-CREATE UNIQUE INDEX admin_username_uidx ON sys.admins (username)
+CREATE UNIQUE INDEX admins_username_uidx ON sys.admins (username)
 WHERE
   (deleted = FALSE);
 

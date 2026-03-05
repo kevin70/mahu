@@ -49,13 +49,13 @@ comment ON COLUMN sys.delayed_tasks.payload IS '消息内容存储业务所需�
 
 comment ON COLUMN sys.delayed_tasks.idempotency_key IS '幂等键';
 
-CREATE UNIQUE INDEX delayed_task_topic_idempotency_key_uidx ON sys.delayed_tasks (topic, idempotency_key);
+CREATE UNIQUE INDEX delayed_tasks_topic_idempotency_key_uidx ON sys.delayed_tasks (topic, idempotency_key);
 
-CREATE INDEX delayed_task_delay_until_idx ON sys.delayed_tasks (delay_until)
+CREATE INDEX delayed_tasks_delay_until_idx ON sys.delayed_tasks (delay_until)
 WHERE
   (status = 11);
 
-CREATE INDEX delayed_task_lock_at_idx ON sys.delayed_tasks (lock_at)
+CREATE INDEX delayed_tasks_lock_at_idx ON sys.delayed_tasks (lock_at)
 WHERE
   (status = 50);
 

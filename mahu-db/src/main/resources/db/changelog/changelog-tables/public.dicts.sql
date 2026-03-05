@@ -66,7 +66,7 @@ comment ON COLUMN public.dicts.created_at IS '创建时间';
 
 comment ON COLUMN public.dicts.updated_at IS '更新时间';
 
-CREATE UNIQUE INDEX dict_type_id_uidx ON public.dicts (type_id);
+CREATE UNIQUE INDEX dicts_type_id_uidx ON public.dicts (type_id);
 
 ALTER SEQUENCE public.dicts_dc_seq RESTART
 WITH

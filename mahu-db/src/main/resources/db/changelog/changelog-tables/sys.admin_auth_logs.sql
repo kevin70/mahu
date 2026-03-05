@@ -29,6 +29,6 @@ COMMENT ON COLUMN sys.admin_auth_logs.ip_addr IS '认证 IP';
 
 COMMENT ON COLUMN sys.admin_auth_logs.user_agent IS '认证的 User Agent';
 
-CREATE INDEX admin_auth_log_admin_id_idx ON sys.admin_auth_logs (admin_id);
+CREATE INDEX admin_auth_logs_admin_id_idx ON sys.admin_auth_logs (admin_id);
 
 -- rollback drop table sys.admin_auth_logs;

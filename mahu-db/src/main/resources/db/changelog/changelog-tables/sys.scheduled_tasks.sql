@@ -22,8 +22,8 @@ COMMENT ON COLUMN sys.scheduled_tasks.task_name IS '任务名称';
 
 COMMENT ON COLUMN sys.scheduled_tasks.task_data IS '任务数据';
 
-CREATE INDEX scheduled_task_execution_time_idx ON sys.scheduled_tasks (execution_time);
+CREATE INDEX scheduled_tasks_execution_time_idx ON sys.scheduled_tasks (execution_time);
 
-CREATE INDEX scheduled_task_last_heartbeat_idx ON sys.scheduled_tasks (last_heartbeat);
+CREATE INDEX scheduled_tasks_last_heartbeat_idx ON sys.scheduled_tasks (last_heartbeat);
 
 -- rollback drop table sys.scheduled_tasks;

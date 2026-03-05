@@ -57,6 +57,6 @@ comment ON COLUMN sys.admin_change_items.data IS '新数据';
 
 comment ON COLUMN sys.admin_change_items.old_data IS '旧数据';
 
-CREATE INDEX admin_change_item_change_log_id_idx ON sys.admin_change_items (change_log_id);
+CREATE INDEX admin_change_items_change_log_id_idx ON sys.admin_change_items (change_log_id);
 
 -- rollback DROP TABLE sys.admin_change_items;

@@ -30,7 +30,7 @@ COMMENT ON COLUMN sys.roles.ordering IS '排序值';
 
 COMMENT ON COLUMN sys.roles.permissions IS '拥有的权限代码';
 
-CREATE INDEX role_name_idx ON sys.roles (NAME)
+CREATE INDEX roles_name_idx ON sys.roles (NAME)
 WHERE
   (deleted = FALSE);
 

@@ -33,6 +33,6 @@ COMMENT ON COLUMN sys.scheduled_task_logs.trace_id IS '日志追踪 ID';
 
 COMMENT ON COLUMN sys.scheduled_task_logs.fail_cause IS '失败原因';
 
-CREATE INDEX scheduled_task_log_task_name_idx ON sys.scheduled_task_logs (task_name);
+CREATE INDEX scheduled_task_logs_task_name_idx ON sys.scheduled_task_logs (task_name);
 
 -- rollback drop table sys.scheduled_task_logs;

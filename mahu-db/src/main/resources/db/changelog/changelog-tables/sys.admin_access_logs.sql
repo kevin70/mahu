@@ -24,6 +24,6 @@ COMMENT ON COLUMN sys.admin_access_logs.created_at IS '创建时间';
 
 COMMENT ON COLUMN sys.admin_access_logs.admin_id IS '管理员 ID';
 
-CREATE INDEX admin_access_log_admin_id_idx ON sys.admin_access_logs (admin_id);
+CREATE INDEX admin_access_logs_admin_id_idx ON sys.admin_access_logs (admin_id);
 
 -- rollback drop table sys.admin_access_logs;
