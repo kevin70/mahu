@@ -4,35 +4,35 @@ databaseChangeLog:
 
   ### 公共表
   - include:
-      file: "db/changelog/changelog-tables/public.dict.sql"
+      file: "db/changelog/changelog-tables/public.dicts.sql"
 
   ### 系统表
   - include:
-      file: "db/changelog/changelog-tables/sys.auth_client.sql"
+      file: "db/changelog/changelog-tables/sys.auth_clients.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.scheduled_task.sql"
+      file: "db/changelog/changelog-tables/sys.scheduled_tasks.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.scheduled_task_exe_log.sql"
+      file: "db/changelog/changelog-tables/sys.scheduled_task_exe_logs.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.role.sql"
+      file: "db/changelog/changelog-tables/sys.roles.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.admin.sql"
+      file: "db/changelog/changelog-tables/sys.admins.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.admin_role.sql"
+      file: "db/changelog/changelog-tables/sys.admin_roles.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.admin_access_log.sql"
+      file: "db/changelog/changelog-tables/sys.admin_access_logs.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.admin_auth_log.sql"
+      file: "db/changelog/changelog-tables/sys.admin_auth_logs.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.admin_change_log.sql"
+      file: "db/changelog/changelog-tables/sys.admin_change_logs.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.feature.sql"
+      file: "db/changelog/changelog-tables/sys.features.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.delayed_task.sql"
+      file: "db/changelog/changelog-tables/sys.delayed_tasks.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.object.sql"
+      file: "db/changelog/changelog-tables/sys.objects.sql"
   - include:
-      file: "db/changelog/changelog-tables/sys.id_photo.sql"
+      file: "db/changelog/changelog-tables/sys.id_photos.sql"
 
   ### 初始化业务数据
   - include:
