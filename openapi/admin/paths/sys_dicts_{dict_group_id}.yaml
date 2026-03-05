@@ -1,8 +1,8 @@
 parameters:
-  - $ref: "../components/parameters/path_dict_type_id.yaml"
+  - $ref: "../components/parameters/path_dict_group_id.yaml"
 get:
-  summary: 获取字典类型数据
-  operationId: getSysDictType
+  summary: 获取字典分组数据
+  operationId: getSysDictGroup
   x-permission-code: SYS_DICT:R
   tags: [h_dict]
   responses:
@@ -11,23 +11,23 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SysDictTypeResponse.yaml"
+            $ref: "../components/schemas/SysDictGroupResponse.yaml"
 put:
-  summary: 修改字典类型
-  operationId: updateSysDictType
+  summary: 修改字典分组
+  operationId: updateSysDictGroup
   x-permission-code: SYS_DICT:W
   tags: [h_dict]
   requestBody:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/SysDictTypeUpsertRequest.yaml"
+          $ref: "../components/schemas/SysDictGroupUpsertRequest.yaml"
   responses:
     "204":
       description: OK
 delete:
-  summary: 删除字典类型
-  operationId: deleteSysDictType
+  summary: 删除字典分组
+  operationId: deleteSysDictGroup
   x-permission-code: SYS_DICT:W
   tags: [h_dict]
   responses:
@@ -46,3 +46,4 @@ post:
   responses:
     "204":
       description: OK
+

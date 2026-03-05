@@ -6,7 +6,7 @@ import com.google.common.base.Strings;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.oas.controller.HDictService;
-import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
+import cool.houge.mahu.admin.oas.vo.SysDictGroupUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.sys.service.DictService;
 import cool.houge.mahu.shared.query.DictQuery;
@@ -29,71 +29,71 @@ public class DictController implements HDictService, WebSupport {
 
     @Override
     public void createSysDictData(ServerRequest request, ServerResponse response) {
-        var dictTypeId = dictTypeId(request);
+        var dictGroupId = dictGroupId(request);
         var vo = request.content().as(SysDictUpsertRequest.class);
         validate(vo);
 
         var bean = beanMapper.toDict(vo);
-        dictService.save(dictTypeId, bean);
+        dictService.save(dictGroupId, bean);
         response.status(NO_CONTENT_204).send();
     }
 
     @Override
-    public void createSysDictType(ServerRequest request, ServerResponse response) {
-        var vo = request.content().as(SysDictTypeUpsertRequest.class);
+    public void createSysDictGroup(ServerRequest request, ServerResponse response) {
+        var vo = request.content().as(SysDictGroupUpsertRequest.class);
         validate(vo);
         validateDataValue(vo);
 
-        var bean = beanMapper.toDictType(vo);
+        var bean = beanMapper.toDictGroup(vo);
         dictService.save(bean);
         response.status(NO_CONTENT_204).send();
     }
 
     @Override
-    public void deleteSysDictType(ServerRequest request, ServerResponse response) {
-        var dictTypeId = dictTypeId(request);
-        dictService.deleteById(dictTypeId);
+    public void deleteSysDictGroup(ServerRequest request, ServerResponse response) {
+        var dictGroupId = dictGroupId(request);
+        dictService.deleteById(dictGroupId);
         response.status(NO_CONTENT_204).send();
     }
 
     @Override
-    public void getSysDictType(ServerRequest request, ServerResponse response) {
-        var dictTypeId = dictTypeId(request);
+    public void getSysDictGroup(ServerRequest request, ServerResponse response) {
+        var dictGroupId = dictGroupId(request);
 
-        var bean = dictService.findById(dictTypeId);
-        var rs = beanMapper.toSysDictTypeResponse(bean);
+        var bean = dictService.findById(dictGroupId);
+        var rs = beanMapper.toSysDictGroupResponse(bean);
         response.send(rs);
     }
 
     @Override
-    public void pageSysDictType(ServerRequest request, ServerResponse response) {
+    public void pageSysDictGroup(ServerRequest request, ServerResponse response) {
         var qb = DictQuery.builder();
-        queryArg(request, "type_id").ifPresent(qb::typeId);
+        queryArg(request, "group_id").ifPresent(qb::groupId);
         queryInt(request, "dc").ifPresent(qb::dc);
 
         var page = page(request);
         var plist = dictService.findPage(qb.build(), page);
-        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysDictTypeResponse);
+        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysDictGroupResponse);
         response.send(rs);
     }
 
     @Override
-    public void updateSysDictType(ServerRequest request, ServerResponse response) {
-        var dictTypeId = dictTypeId(request);
-        var vo = request.content().as(SysDictTypeUpsertRequest.class).setId(dictTypeId);
+    public void updateSysDictGroup(ServerRequest request, ServerResponse response) {
+        var dictGroupId = dictGroupId(request);
+        var vo = request.content().as(SysDictGroupUpsertRequest.class).setId(dictGroupId);
         validate(vo);
         validateDataValue(vo);
 
-        var bean = beanMapper.toDictType(vo);
+        var bean = beanMapper.toDictGroup(vo);
         dictService.update(bean);
         response.status(NO_CONTENT_204).send();
     }
 
-    String dictTypeId(ServerRequest request) {
-        return pathString(request, "type_id");
+    String dictGroupId(ServerRequest request) {
+        return pathString(request, "group_id");
     }
 
-    void validateDataValue(SysDictTypeUpsertRequest bean) {
+    void validateDataValue(SysDictGroupUpsertRequest bean) {
         if (Strings.isNullOrEmpty(bean.getValueRegex())
                 || bean.getData() == null
                 || bean.getData().isEmpty()) {

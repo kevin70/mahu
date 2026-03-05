@@ -91,12 +91,12 @@ class DicHelper {
     }
 
     @Transactional(readOnly = true)
-    private ImmutableDictGroup getDictType(String dictTypeId) {
-        var dbDictType = dictGroupRepository.findById(dictTypeId);
-        if (dbDictType == null) {
-            throw new BizCodeException(BizCodes.DATA_LOSS, "缺少字典类型: %s", dictTypeId);
+    private ImmutableDictGroup getDictType(String dictGroupId) {
+        var dbDictGroup = dictGroupRepository.findById(dictGroupId);
+        if (dbDictGroup == null) {
+            throw new BizCodeException(BizCodes.DATA_LOSS, "缺少字典分组: %s", dictGroupId);
         }
-        return map(dbDictType);
+        return map(dbDictGroup);
     }
 
     @Transactional(readOnly = true)

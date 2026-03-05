@@ -1,5 +1,5 @@
-### 字典类型列表
-GET {{base_uri}}/p/dicts?include_data=true&type_id=15
+### 字典分组列表
+GET {{base_uri}}/p/dicts?include_data=true&group_id=15
 
 
 ### 获取字典数据

@@ -29,7 +29,7 @@ public class Dict implements Auditable {
     /// 更新时间
     @WhenModified
     private Instant updatedAt;
-    /// 数据字典类型
+    /// 数据字典分组
     @ManyToOne
     private DictGroup group;
     /// 标签

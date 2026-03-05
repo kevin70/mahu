@@ -15,13 +15,13 @@ properties:
     description: 修改时间
   id:
     type: string
-    description: 字典类型代码，唯一
+    description: 字典分组代码，唯一
   name:
     type: string
-    description: 字典类型名称
+    description: 字典分组名称
   description:
     type: string
-    description: 字典类型描述
+    description: 字典分组描述
   enabled:
     type: boolean
     description: 是否启用
@@ -67,10 +67,11 @@ properties:
           maxLength: 100
         value:
           type: string
-          description: 字典类型描述
+          description: 字典分组描述
           maxLength: 4096
         ordering:
           $ref: "./_ordering.yaml"
         enabled:
           type: boolean
           description: 是否启用
+

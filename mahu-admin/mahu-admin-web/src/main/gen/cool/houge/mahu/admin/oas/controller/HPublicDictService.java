@@ -23,7 +23,7 @@ public interface HPublicDictService extends HttpService {
     void getPublicDict(ServerRequest request, ServerResponse response);
 
     ///
-    /// `GET /p/dicts` 字典类型列表
+    /// `GET /p/dicts` 字典分组列表
     ///
     /// @param request the server request
     /// @param response the server response

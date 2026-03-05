@@ -13,7 +13,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-/// 数据字典类型
+/// 数据字典分组
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
@@ -22,7 +22,7 @@ import lombok.Setter;
 @Table(name = "dict_groups")
 public class DictGroup implements Auditable {
 
-    /// 字典类型编码，唯一
+    /// 字典分组编码，唯一
     @Id
     private String id;
     /// 创建时间
@@ -31,7 +31,7 @@ public class DictGroup implements Auditable {
     /// 更新时间
     @WhenModified
     private Instant updatedAt;
-    /// 字典类型名称
+    /// 字典分组名称
     private String name;
     /// 描述
     private String description;

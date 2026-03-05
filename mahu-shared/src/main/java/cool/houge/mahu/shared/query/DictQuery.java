@@ -8,8 +8,8 @@ import lombok.Value;
 @Builder
 public class DictQuery {
 
-    /// 类型 ID
-    String typeId;
+    /// 分组 ID
+    String groupId;
     /// 字典代码
     Integer dc;
 }

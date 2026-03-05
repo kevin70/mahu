@@ -34,14 +34,14 @@ public class PublicDictController implements HPublicDictService, WebSupport {
     @Override
     public void listPublicDict(ServerRequest request, ServerResponse response) {
         var queryParams = request.query();
-        var idList = queryParams.all("type_id", List::of).stream()
+        var idList = queryParams.all("group_id", List::of).stream()
                 .map(String::trim)
                 .filter(Predicate.not(String::isEmpty))
                 .collect(Collectors.toSet());
         var includeData = queryParams.first("include_data").asBoolean().orElse(false);
 
         var list = dictService.findByIds(idList);
-        var rs = Lists.transform(list, (o) -> beanMapper.toPublicDictTypeResponse(o, includeData));
+        var rs = Lists.transform(list, (o) -> beanMapper.toPublicDictGroupResponse(o, includeData));
         response.send(rs);
     }
 }

@@ -1,4 +1,4 @@
-### 新建字典类型
+### 新建字典分组
 POST {{base_uri}}/sys/dicts
 Authorization: Bearer {{access_token}}
 Content-Type: application/json

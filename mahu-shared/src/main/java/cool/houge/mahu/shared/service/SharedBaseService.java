@@ -13,7 +13,7 @@ import org.jspecify.annotations.NonNull;
 
 /// 基础服务类
 ///
-/// 该类提供了一些基础的服务方法，包括获取功能、字典项和字典类型，以及推送延迟消息。
+/// 该类提供了一些基础的服务方法，包括获取功能、字典项和字典分组，以及推送延迟消息。
 /// 这些方法可以被其他服务类继承或直接使用。
 ///
 /// @author ZY (kzou227@qq.com)
@@ -48,18 +48,18 @@ public class SharedBaseService {
         return dicHelper.loadDict(dictId);
     }
 
-    /// 获取指定的字典类型
+    /// 获取指定的字典分组
     ///
-    /// 通过字典类型ID加载并返回对应的字典类型对象。
+    /// 通过字典分组ID加载并返回对应的字典分组对象。
     ///
-    /// @param typeId 字典类型ID
-    /// @return 对应的字典类型对象
-    public @NonNull ImmutableDictGroup getDictType(String typeId) {
-        return dicHelper.loadDictType(typeId);
+    /// @param groupId 字典分组ID
+    /// @return 对应的字典分组对象
+    public @NonNull ImmutableDictGroup getDictGroup(String groupId) {
+        return dicHelper.loadDictType(groupId);
     }
 
-    /// 查询所有公共的字典类型
-    public List<ImmutableDictGroup> loadPublicDictTypes() {
+    /// 查询所有公共的字典分组
+    public List<ImmutableDictGroup> loadPublicDictGroups() {
         return dicHelper.allDictTypes().stream()
                 .filter(ImmutableDictGroup::isPublic)
                 .toList();

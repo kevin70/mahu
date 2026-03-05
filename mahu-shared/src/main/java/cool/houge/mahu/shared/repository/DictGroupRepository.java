@@ -13,7 +13,7 @@ import io.helidon.service.registry.Service;
 import java.util.Collection;
 import java.util.List;
 
-/// 数字字典类型
+/// 数字字典分组
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
@@ -35,7 +35,7 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
     /// 分页查询
     public PagedList<DictGroup> findPage(DictQuery query, Page page) {
         var qb = new QDictType(db());
-        qb.id.eqIfPresent(query.getTypeId());
+        qb.id.eqIfPresent(query.getGroupId());
         if (query.getDc() != null) {
             qb.data.dc.eq(query.getDc());
         }

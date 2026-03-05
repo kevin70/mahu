@@ -12,8 +12,8 @@ import cool.houge.mahu.admin.oas.vo.SysAdminResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientResponse;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
-import cool.houge.mahu.admin.oas.vo.SysDictTypeResponse;
-import cool.houge.mahu.admin.oas.vo.SysDictTypeUpsertRequest;
+import cool.houge.mahu.admin.oas.vo.SysDictGroupResponse;
+import cool.houge.mahu.admin.oas.vo.SysDictGroupUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysFeatureResponse;
 import cool.houge.mahu.admin.oas.vo.SysFeatureUpdateRequest;
@@ -65,11 +65,11 @@ public interface SysBeanMapper extends TopBeanMapper {
         return roles.stream().map(Role::getId).toList();
     }
 
-    DictGroup toDictType(SysDictTypeUpsertRequest bean);
+    DictGroup toDictGroup(SysDictGroupUpsertRequest bean);
 
     Dict toDict(SysDictUpsertRequest bean);
 
-    SysDictTypeResponse toSysDictTypeResponse(DictGroup bean);
+    SysDictGroupResponse toSysDictGroupResponse(DictGroup bean);
 
     AuthClient toAuthClient(SysAuthClientUpsertRequest bean);
 

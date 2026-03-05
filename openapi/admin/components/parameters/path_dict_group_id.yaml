@@ -1,0 +1,8 @@
+name: group_id
+in: path
+required: true
+description: |
+  分组代码
+schema:
+  type: string
+

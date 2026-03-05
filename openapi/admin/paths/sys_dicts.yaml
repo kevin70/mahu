@@ -1,6 +1,6 @@
 post:
-  summary: 新建字典类型
-  operationId: createSysDictType
+  summary: 新建字典分组
+  operationId: createSysDictGroup
   x-permission-code: SYS_DICT:W
   tags: [h_dict]
   requestBody:
@@ -8,21 +8,21 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/SysDictTypeUpsertRequest.yaml"
+          $ref: "../components/schemas/SysDictGroupUpsertRequest.yaml"
   responses:
     "204":
       description: OK
 get:
-  summary: 字典类型分页列表
-  operationId: pageSysDictType
+  summary: 字典分组分页列表
+  operationId: pageSysDictGroup
   x-permission-code: SYS_DICT:R
   tags: [h_dict]
   parameters:
     - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
     - in: query
-      name: type_id
-      description: 字典类型 ID
+      name: group_id
+      description: 字典分组 ID
       schema:
         type: string
     - in: query

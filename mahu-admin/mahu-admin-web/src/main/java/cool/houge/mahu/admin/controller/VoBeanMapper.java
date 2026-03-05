@@ -6,8 +6,8 @@ import cool.houge.mahu.admin.oas.vo.LoginTokenResponse;
 import cool.houge.mahu.admin.oas.vo.MePasswordUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.MeProfileResponse;
 import cool.houge.mahu.admin.oas.vo.MeProfileUpdateRequest;
+import cool.houge.mahu.admin.oas.vo.PublicDictGroupResponse;
 import cool.houge.mahu.admin.oas.vo.PublicDictResponse;
-import cool.houge.mahu.admin.oas.vo.PublicDictTypeResponse;
 import cool.houge.mahu.admin.oas.vo.TokenPasswordForm;
 import cool.houge.mahu.admin.oas.vo.TokenRefreshTokenForm;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
@@ -33,7 +33,7 @@ import org.mapstruct.ReportingPolicy;
 public interface VoBeanMapper {
 
     @Mapping(target = "data", conditionExpression = "java(includeData)")
-    PublicDictTypeResponse toPublicDictTypeResponse(DictGroup bean, boolean includeData);
+    PublicDictGroupResponse toPublicDictGroupResponse(DictGroup bean, boolean includeData);
 
     PublicDictResponse toPublicDictDataResponse(Dict bean);
 

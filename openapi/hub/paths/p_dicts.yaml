@@ -1,12 +1,12 @@
 get:
-  summary: 字典类型列表
+  summary: 字典分组列表
   operationId: listPublicDict
   tags: [ h_public_dict ]
   security: [ ]
   parameters:
     - in: query
-      name: type_id
-      description: 字典类型 ID
+      name: group_id
+      description: 字典分组 ID
       schema:
         type: array
         items:
@@ -26,4 +26,4 @@ get:
             type: array
             description: 字典列表
             items:
-              $ref: "../components/schemas/PublicDictTypeResponse.yaml"
+              $ref: "../components/schemas/PublicDictGroupResponse.yaml"
