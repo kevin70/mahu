@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "role", schema = "sys")
+@Table(name = "roles", schema = "sys")
 @ChangeLog(updatesThatInclude = {"name", "remark", "ordering", "permissions"})
 public class Role implements Auditable {
 

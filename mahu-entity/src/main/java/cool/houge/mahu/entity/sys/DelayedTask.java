@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys")
+@Table(name = "delayed_tasks", schema = "sys")
 public class DelayedTask {
 
     /// 主键

@@ -9,6 +9,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "admin", schema = "sys")
+@Table(name = "admins", schema = "sys")
 @ChangeLog(updatesThatInclude = {"nickname", "avatar", "status", "roles"})
 public class Admin implements Auditable {
 
@@ -58,7 +59,11 @@ public class Admin implements Auditable {
     private Integer status;
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(schema = "sys", name = "admin_role")
+    @JoinTable(
+            schema = "sys",
+            name = "admin_roles",
+            joinColumns = @JoinColumn(name = "admin_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
     /* ========================== 非持久化属性 ========================== */

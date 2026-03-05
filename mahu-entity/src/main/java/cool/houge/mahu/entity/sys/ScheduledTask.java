@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "scheduled_task", schema = "sys")
+@Table(name = "scheduled_tasks", schema = "sys")
 public class ScheduledTask implements Auditable {
 
     /// 任务名称

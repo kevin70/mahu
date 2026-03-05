@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "auth_client", schema = "sys")
+@Table(name = "auth_clients", schema = "sys")
 @ChangeLog(updatesThatInclude = {"clientSecret", "remark", "label", "terminalType", ""})
 public class AuthClient implements Auditable {
 
