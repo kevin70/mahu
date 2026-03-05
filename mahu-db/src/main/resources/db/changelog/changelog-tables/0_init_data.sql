@@ -4,7 +4,7 @@
 -- changeset kzou227@qq.com:202508251150
 -- comment: 测试专用
 INSERT INTO
-  sys.auth_client (
+  sys.auth_clients (
     created_at,
     updated_at,
     deleted,
@@ -22,13 +22,13 @@ VALUES
     '测试专用'
   );
 
--- rollback delete from sys.auth_client where client_id='0KPY6J2C5XP5R';
+-- rollback delete from sys.auth_clients where client_id='0KPY6J2C5XP5R';
 ;
 
 -- changeset kzou227@qq.com:202508251151
 -- comment: 系统超级管理员
 INSERT INTO
-  sys.role (
+  sys.roles (
     id,
     created_at,
     updated_at,
@@ -50,13 +50,13 @@ VALUES
     '["*"]'::JSONB
   );
 
--- rollback delete from sys.role where id=1;
+-- rollback delete from sys.roles where id=1;
 ;
 
 -- changeset kzou227@qq.com:202508251152
 -- comment: 系统超级管理员
 INSERT INTO
-  sys.admin (
+  sys.admins (
     id,
     created_at,
     updated_at,
@@ -83,9 +83,9 @@ VALUES
   );
 
 INSERT INTO
-  sys.admin_role (admin_id, role_id)
+  sys.admin_roles (admin_id, role_id)
 VALUES
   (1, 1);
 
--- rollback delete from sys.admin where id=1;
--- rollback delete from sys.admin_role where admin_id=1 and role_id=1;
+-- rollback delete from sys.admins where id=1;
+-- rollback delete from sys.admin_roles where admin_id=1 and role_id=1;

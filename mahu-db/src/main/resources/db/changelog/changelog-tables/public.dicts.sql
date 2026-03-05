@@ -56,7 +56,7 @@ comment ON COLUMN public.dicts.label IS '字典数据文本';
 
 comment ON COLUMN public.dicts.value IS '字典数据值';
 
-comment ON COLUMN public.dict_types.enabled IS '是否启用';
+comment ON COLUMN public.dicts.enabled IS '是否启用';
 
 comment ON COLUMN public.dicts.ordering IS '排序值';
 
