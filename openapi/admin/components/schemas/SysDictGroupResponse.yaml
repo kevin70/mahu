@@ -74,4 +74,3 @@ properties:
         enabled:
           type: boolean
           description: 是否启用
-

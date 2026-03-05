@@ -36,4 +36,3 @@ properties:
     description: 字典数据
     items:
       $ref: "./SysDictUpsertRequest.yaml"
-
