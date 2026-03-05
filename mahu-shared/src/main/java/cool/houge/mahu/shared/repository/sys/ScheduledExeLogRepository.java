@@ -2,7 +2,7 @@ package cool.houge.mahu.shared.repository.sys;
 
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.ScheduledTaskLog;
-import cool.houge.mahu.entity.sys.query.QScheduledTaskExeLog;
+import cool.houge.mahu.entity.sys.query.QScheduledTaskLog;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
@@ -20,7 +20,7 @@ public class ScheduledExeLogRepository extends HBeanRepository<Long, ScheduledTa
 
     /// 分页查询
     public PagedList<ScheduledTaskLog> findPage(String taskName, Page page) {
-        var qb = new QScheduledTaskExeLog(db()).scheduledTask.taskName.eqIfPresent(taskName);
+        var qb = new QScheduledTaskLog(db()).scheduledTask.taskName.eqIfPresent(taskName);
         return super.findPage(qb, page);
     }
 }

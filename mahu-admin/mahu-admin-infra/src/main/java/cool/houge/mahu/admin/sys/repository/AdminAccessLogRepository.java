@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.sys.repository;
 
-import cool.houge.mahu.admin.entity.query.QAdminAccessLog;
+import cool.houge.mahu.entity.sys.query.QAdminAccessLog;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AdminAccessLog;
 import cool.houge.mahu.util.HBeanRepository;

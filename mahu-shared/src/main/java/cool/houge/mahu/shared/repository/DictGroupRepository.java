@@ -4,7 +4,7 @@ import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.query.QDict;
-import cool.houge.mahu.entity.query.QDictType;
+import cool.houge.mahu.entity.query.QDictGroup;
 import cool.houge.mahu.shared.query.DictQuery;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
@@ -25,7 +25,7 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
 
     /// 查询指定代码的数据，如果传入的 `ids` 为 `null` 则返回所有数据
     public List<DictGroup> findByIds(Collection<String> ids) {
-        var qb = new QDictType(db());
+        var qb = new QDictGroup(db());
         if (ids != null && !ids.isEmpty()) {
             qb.id.in(ids);
         }
@@ -34,7 +34,7 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
 
     /// 分页查询
     public PagedList<DictGroup> findPage(DictQuery query, Page page) {
-        var qb = new QDictType(db());
+        var qb = new QDictGroup(db());
         qb.id.eqIfPresent(query.getGroupId());
         if (query.getDc() != null) {
             qb.data.dc.eq(query.getDc());
@@ -53,6 +53,6 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
 
     /// 加载所有字典数据
     public List<DictGroup> findAllData() {
-        return new QDictType(db()).fetch("data").findList();
+        return new QDictGroup(db()).fetch("data").findList();
     }
 }

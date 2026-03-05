@@ -2,7 +2,7 @@ package cool.houge.mahu.admin.sys.repository;
 
 import com.google.common.base.Strings;
 import cool.houge.mahu.admin.dto.AdminQuery;
-import cool.houge.mahu.admin.entity.query.QAdmin;
+import cool.houge.mahu.entity.sys.query.QAdmin;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.util.HBeanRepository;
