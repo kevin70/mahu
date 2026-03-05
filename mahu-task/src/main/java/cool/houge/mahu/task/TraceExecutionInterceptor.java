@@ -7,7 +7,7 @@ import com.github.kagkarlsson.scheduler.task.CompletionHandler;
 import com.github.kagkarlsson.scheduler.task.ExecutionContext;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
 import cool.houge.mahu.entity.sys.ScheduledTask;
-import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
+import cool.houge.mahu.entity.sys.ScheduledTaskLog;
 import io.ebean.Database;
 import io.ebean.annotation.Transactional;
 import io.helidon.logging.common.HelidonMdc;
@@ -51,7 +51,7 @@ public class TraceExecutionInterceptor implements ExecutionInterceptor {
         try {
             var execution = context.getExecution();
             var task = db.reference(ScheduledTask.class, execution.getTaskName());
-            var bean = new ScheduledTaskExeLog()
+            var bean = new ScheduledTaskLog()
                     .setId(UlidCreator.getUlid().toUuid())
                     .setScheduledTask(task)
                     .setPickedBy(execution.pickedBy)

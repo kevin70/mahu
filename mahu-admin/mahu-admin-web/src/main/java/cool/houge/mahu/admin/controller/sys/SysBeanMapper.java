@@ -31,7 +31,7 @@ import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.entity.sys.ScheduledTask;
-import cool.houge.mahu.entity.sys.ScheduledTaskExeLog;
+import cool.houge.mahu.entity.sys.ScheduledTaskLog;
 import cool.houge.mahu.shared.dto.PresignedUploadPayload;
 import cool.houge.mahu.shared.dto.PresignedUploadResult;
 import io.helidon.service.registry.Service;
@@ -88,7 +88,7 @@ public interface SysBeanMapper extends TopBeanMapper {
     SysScheduledTaskResponse toSysScheduledTaskResponse(ScheduledTask bean);
 
     @Mapping(target = "taskName", source = "scheduledTask.taskName")
-    SysScheduledTaskExeResponse toSysScheduledTaskExeResponse(ScheduledTaskExeLog bean);
+    SysScheduledTaskExeResponse toSysScheduledTaskExeResponse(ScheduledTaskLog bean);
 
     ScheduledTask toScheduledTask(String taskName);
 
