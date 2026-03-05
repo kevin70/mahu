@@ -11,51 +11,51 @@ public interface HDictService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.post("/sys/dicts/{group_id}", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictData);
-        rules.post("/sys/dicts", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictGroup);
-        rules.delete("/sys/dicts/{group_id}", authenticate().andAuthorize("SYS_DICT:W"), this::deleteSysDictGroup);
-        rules.get("/sys/dicts/{group_id}", authenticate().andAuthorize("SYS_DICT:R"), this::getSysDictGroup);
-        rules.get("/sys/dicts", authenticate().andAuthorize("SYS_DICT:R"), this::pageSysDictGroup);
-        rules.put("/sys/dicts/{group_id}", authenticate().andAuthorize("SYS_DICT:W"), this::updateSysDictGroup);
+        rules.post("/sys/dict-groups/{group_id}", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictData);
+        rules.post("/sys/dict-groups", authenticate().andAuthorize("SYS_DICT:W"), this::createSysDictGroup);
+        rules.delete("/sys/dict-groups/{group_id}", authenticate().andAuthorize("SYS_DICT:W"), this::deleteSysDictGroup);
+        rules.get("/sys/dict-groups/{group_id}", authenticate().andAuthorize("SYS_DICT:R"), this::getSysDictGroup);
+        rules.get("/sys/dict-groups", authenticate().andAuthorize("SYS_DICT:R"), this::pageSysDictGroup);
+        rules.put("/sys/dict-groups/{group_id}", authenticate().andAuthorize("SYS_DICT:W"), this::updateSysDictGroup);
     }
 
     ///
-    /// `POST /sys/dicts/{group_id}` 新增字典数据
+    /// `POST /sys/dict-groups/{group_id}` 新增字典数据
     ///
     /// @param request the server request
     /// @param response the server response
     void createSysDictData(ServerRequest request, ServerResponse response);
 
     ///
-    /// `POST /sys/dicts` 新建字典分组
+    /// `POST /sys/dict-groups` 新建字典分组
     ///
     /// @param request the server request
     /// @param response the server response
     void createSysDictGroup(ServerRequest request, ServerResponse response);
 
     ///
-    /// `DELETE /sys/dicts/{group_id}` 删除字典分组
+    /// `DELETE /sys/dict-groups/{group_id}` 删除字典分组
     ///
     /// @param request the server request
     /// @param response the server response
     void deleteSysDictGroup(ServerRequest request, ServerResponse response);
 
     ///
-    /// `GET /sys/dicts/{group_id}` 获取字典分组数据
+    /// `GET /sys/dict-groups/{group_id}` 获取字典分组数据
     ///
     /// @param request the server request
     /// @param response the server response
     void getSysDictGroup(ServerRequest request, ServerResponse response);
 
     ///
-    /// `GET /sys/dicts` 字典分组分页列表
+    /// `GET /sys/dict-groups` 字典分组分页列表
     ///
     /// @param request the server request
     /// @param response the server response
     void pageSysDictGroup(ServerRequest request, ServerResponse response);
 
     ///
-    /// `PUT /sys/dicts/{group_id}` 修改字典分组
+    /// `PUT /sys/dict-groups/{group_id}` 修改字典分组
     ///
     /// @param request the server request
     /// @param response the server response

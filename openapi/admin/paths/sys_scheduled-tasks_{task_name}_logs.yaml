@@ -24,7 +24,7 @@ delete:
       description: OK
 get:
   summary: 定时任务执行记录
-  operationId: pageSysScheduledTaskExe
+  operationId: pageSysScheduledTaskLog
   x-permission-code: SYS_SCHEDULED_TASK:R
   tags: [h_scheduled_task]
   parameters:
@@ -36,4 +36,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/SysScheduledTaskExePageResponse.yaml"
+            $ref: "../components/schemas/SysScheduledTaskLogPageResponse.yaml"

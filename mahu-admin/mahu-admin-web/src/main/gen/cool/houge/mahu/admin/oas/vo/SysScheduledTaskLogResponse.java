@@ -9,7 +9,7 @@ import io.avaje.validation.constraints.*;
 
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class SysScheduledTaskExeResponse {
+public class SysScheduledTaskLogResponse {
 
     /**
      * 创建时间

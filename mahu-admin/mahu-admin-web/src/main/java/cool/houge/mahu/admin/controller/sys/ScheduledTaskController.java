@@ -46,10 +46,10 @@ public class ScheduledTaskController implements HScheduledTaskService, WebSuppor
     }
 
     @Override
-    public void pageSysScheduledTaskExe(ServerRequest request, ServerResponse response) {
+    public void pageSysScheduledTaskLog(ServerRequest request, ServerResponse response) {
         var taskName = taskName(request);
         var plist = scheduledTaskService.findPage4ExecutionLog(taskName, page(request));
-        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysScheduledTaskExeResponse);
+        var rs = beanMapper.toPageResponse(plist, beanMapper::toSysScheduledTaskLogResponse);
         response.send(rs);
     }
 

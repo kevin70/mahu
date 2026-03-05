@@ -11,21 +11,21 @@ public interface HScheduledTaskService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.delete("/sys/scheduled-tasks/{task_name}/exes", authenticate().andAuthorize("SYS_SCHEDULED_TASK:W"), this::cancelSysScheduledTask);
-        rules.post("/sys/scheduled-tasks/{task_name}/exes", authenticate().andAuthorize("SYS_SCHEDULED_TASK:W"), this::executeSysScheduledTask);
+        rules.delete("/sys/scheduled-tasks/{task_name}/logs", authenticate().andAuthorize("SYS_SCHEDULED_TASK:W"), this::cancelSysScheduledTask);
+        rules.post("/sys/scheduled-tasks/{task_name}/logs", authenticate().andAuthorize("SYS_SCHEDULED_TASK:W"), this::executeSysScheduledTask);
         rules.get("/sys/scheduled-tasks", authenticate().andAuthorize("SYS_SCHEDULED_TASK:R"), this::pageSysScheduledTask);
-        rules.get("/sys/scheduled-tasks/{task_name}/exes", authenticate().andAuthorize("SYS_SCHEDULED_TASK:R"), this::pageSysScheduledTaskExe);
+        rules.get("/sys/scheduled-tasks/{task_name}/logs", authenticate().andAuthorize("SYS_SCHEDULED_TASK:R"), this::pageSysScheduledTaskLog);
     }
 
     ///
-    /// `DELETE /sys/scheduled-tasks/{task_name}/exes` 取消执行任务
+    /// `DELETE /sys/scheduled-tasks/{task_name}/logs` 取消执行任务
     ///
     /// @param request the server request
     /// @param response the server response
     void cancelSysScheduledTask(ServerRequest request, ServerResponse response);
 
     ///
-    /// `POST /sys/scheduled-tasks/{task_name}/exes` 立即执行任务
+    /// `POST /sys/scheduled-tasks/{task_name}/logs` 立即执行任务
     ///
     /// @param request the server request
     /// @param response the server response
@@ -39,10 +39,10 @@ public interface HScheduledTaskService extends HttpService {
     void pageSysScheduledTask(ServerRequest request, ServerResponse response);
 
     ///
-    /// `GET /sys/scheduled-tasks/{task_name}/exes` 定时任务执行记录
+    /// `GET /sys/scheduled-tasks/{task_name}/logs` 定时任务执行记录
     ///
     /// @param request the server request
     /// @param response the server response
-    void pageSysScheduledTaskExe(ServerRequest request, ServerResponse response);
+    void pageSysScheduledTaskLog(ServerRequest request, ServerResponse response);
 
 }

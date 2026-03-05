@@ -19,7 +19,7 @@ import cool.houge.mahu.admin.oas.vo.SysFeatureResponse;
 import cool.houge.mahu.admin.oas.vo.SysFeatureUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.SysRoleResponse;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
-import cool.houge.mahu.admin.oas.vo.SysScheduledTaskExeResponse;
+import cool.houge.mahu.admin.oas.vo.SysScheduledTaskLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskResponse;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
@@ -88,7 +88,7 @@ public interface SysBeanMapper extends TopBeanMapper {
     SysScheduledTaskResponse toSysScheduledTaskResponse(ScheduledTask bean);
 
     @Mapping(target = "taskName", source = "scheduledTask.taskName")
-    SysScheduledTaskExeResponse toSysScheduledTaskExeResponse(ScheduledTaskLog bean);
+    SysScheduledTaskLogResponse toSysScheduledTaskLogResponse(ScheduledTaskLog bean);
 
     ScheduledTask toScheduledTask(String taskName);
 

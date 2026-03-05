@@ -97,10 +97,10 @@ paths:
     $ref: "paths/sys_auth-clients.yaml"
   /sys/auth-clients/{client_id}:
     $ref: "paths/sys_auth-clients_{client_id}.yaml"
-  /sys/dicts:
-    $ref: "paths/sys_dicts.yaml"
-  /sys/dicts/{group_id}:
-    $ref: "paths/sys_dicts_{dict_group_id}.yaml"
+  /sys/dict-groups:
+    $ref: "paths/sys_dict-groups.yaml"
+  /sys/dict-groups/{group_id}:
+    $ref: "paths/sys_dict-groups_{group_id}.yaml"
   /sys/permissions:
     $ref: "paths/sys_permissions.yaml"
   /sys/roles:
@@ -119,7 +119,7 @@ paths:
     $ref: "paths/sys_features_{feature_id}.yaml"
   /sys/scheduled-tasks:
     $ref: "paths/sys_scheduled-tasks.yaml"
-  /sys/scheduled-tasks/{task_name}/exes:
-    $ref: "paths/sys_scheduled-tasks_{task_name}_exes.yaml"
+  /sys/scheduled-tasks/{task_name}/logs:
+    $ref: "paths/sys_scheduled-tasks_{task_name}_logs.yaml"
   /sys/delayed-tasks:
     $ref: "paths/sys_delayed-tasks.yaml"
