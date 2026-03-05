@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251108
 CREATE TABLE sys.delayed_tasks (
   id UUID NOT NULL CONSTRAINT delayed_tasks_pk PRIMARY KEY,
   created_at TIMESTAMP,

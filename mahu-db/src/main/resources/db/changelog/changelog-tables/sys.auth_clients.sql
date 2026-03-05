@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251100
 CREATE TABLE sys.auth_clients (
   client_id VARCHAR(50) NOT NULL CONSTRAINT auth_clients_pk PRIMARY KEY,
   created_at TIMESTAMP,

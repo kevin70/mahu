@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251107
 CREATE TABLE sys.scheduled_task_logs (
   id UUID NOT NULL CONSTRAINT scheduled_task_logs_pk PRIMARY KEY,
   created_at TIMESTAMP,

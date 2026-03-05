@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251125
 CREATE TABLE public.dict_groups (
   id VARCHAR(50) NOT NULL CONSTRAINT dict_groups_pk PRIMARY KEY,
   name VARCHAR(255),

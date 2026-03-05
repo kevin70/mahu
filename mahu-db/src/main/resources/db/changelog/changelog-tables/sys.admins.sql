@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251102
 CREATE TABLE sys.admins (
   id serial CONSTRAINT admins_pk PRIMARY KEY,
   created_at TIMESTAMP,
@@ -43,8 +44,8 @@ CREATE UNIQUE INDEX admins_username_uidx ON sys.admins (username)
 WHERE
   (deleted = FALSE);
 
-ALTER SEQUENCE sys.admin_id_seq RESTART
+ALTER SEQUENCE sys.admins_id_seq RESTART
 WITH
-  1001;
+  100001;
 
 -- rollback drop table sys.admins;

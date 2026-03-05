@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251111
 CREATE TABLE sys.objects (
   id VARCHAR(50) NOT NULL CONSTRAINT objects_pk PRIMARY KEY,
   created_at TIMESTAMP,

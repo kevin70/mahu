@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251110
 CREATE TABLE sys.id_photos (
   id VARCHAR(50) NOT NULL CONSTRAINT id_photos_pk PRIMARY KEY,
   created_at TIMESTAMP,

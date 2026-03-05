@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251103
 CREATE TABLE sys.admin_roles (
   admin_id INTEGER NOT NULL,
   role_id INTEGER NOT NULL

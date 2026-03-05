@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 ;
 
+-- changeset kzou227@qq.com:202508251101
 CREATE TABLE sys.roles (
   id INTEGER NOT NULL CONSTRAINT roles_pk PRIMARY KEY,
   created_at TIMESTAMP WITHOUT TIME ZONE,
