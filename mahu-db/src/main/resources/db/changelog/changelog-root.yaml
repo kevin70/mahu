@@ -4,6 +4,8 @@ databaseChangeLog:
 
   ### 公共表
   - include:
+      file: "db/changelog/changelog-tables/public.dict_groups.sql"
+  - include:
       file: "db/changelog/changelog-tables/public.dicts.sql"
 
   ### 系统表
@@ -25,6 +27,8 @@ databaseChangeLog:
       file: "db/changelog/changelog-tables/sys.admin_auth_logs.sql"
   - include:
       file: "db/changelog/changelog-tables/sys.admin_change_logs.sql"
+  - include:
+      file: "db/changelog/changelog-tables/sys.admin_change_items.sql"
   - include:
       file: "db/changelog/changelog-tables/sys.features.sql"
   - include:
