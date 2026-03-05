@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "dict")
+@Table(name = "dicts")
 public class Dict implements Auditable {
 
     /// 字典代码
@@ -31,7 +31,7 @@ public class Dict implements Auditable {
     private Instant updatedAt;
     /// 数据字典类型
     @ManyToOne
-    private DictType type;
+    private DictGroup group;
     /// 标签
     private String label;
     /// 值

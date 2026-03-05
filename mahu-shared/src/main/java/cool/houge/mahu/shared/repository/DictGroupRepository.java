@@ -2,7 +2,7 @@ package cool.houge.mahu.shared.repository;
 
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.Dict;
-import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.query.QDict;
 import cool.houge.mahu.entity.query.QDictType;
 import cool.houge.mahu.shared.query.DictQuery;
@@ -17,14 +17,14 @@ import java.util.List;
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
-public class DictTypeRepository extends HBeanRepository<String, DictType> {
+public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
 
-    public DictTypeRepository(Database db) {
-        super(DictType.class, db);
+    public DictGroupRepository(Database db) {
+        super(DictGroup.class, db);
     }
 
     /// 查询指定代码的数据，如果传入的 `ids` 为 `null` 则返回所有数据
-    public List<DictType> findByIds(Collection<String> ids) {
+    public List<DictGroup> findByIds(Collection<String> ids) {
         var qb = new QDictType(db());
         if (ids != null && !ids.isEmpty()) {
             qb.id.in(ids);
@@ -33,7 +33,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     }
 
     /// 分页查询
-    public PagedList<DictType> findPage(DictQuery query, Page page) {
+    public PagedList<DictGroup> findPage(DictQuery query, Page page) {
         var qb = new QDictType(db());
         qb.id.eqIfPresent(query.getTypeId());
         if (query.getDc() != null) {
@@ -52,7 +52,7 @@ public class DictTypeRepository extends HBeanRepository<String, DictType> {
     }
 
     /// 加载所有字典数据
-    public List<DictType> findAllData() {
+    public List<DictGroup> findAllData() {
         return new QDictType(db()).fetch("data").findList();
     }
 }

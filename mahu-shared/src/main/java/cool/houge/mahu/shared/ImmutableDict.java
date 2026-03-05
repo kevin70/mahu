@@ -10,7 +10,7 @@ import lombok.Value;
 @Builder
 public class ImmutableDict {
     /// 字典类型 ID
-    String typeId;
+    String groupId;
     /// 字典代码
     int dc;
     /// 字典值

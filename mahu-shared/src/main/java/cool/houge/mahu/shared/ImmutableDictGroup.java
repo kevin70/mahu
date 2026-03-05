@@ -19,7 +19,7 @@ import org.jspecify.annotations.NonNull;
 /// @author ZY (kzou227@qq.com)
 @Value
 @Builder
-public class ImmutableDictType {
+public class ImmutableDictGroup {
 
     Helper helper = new Helper();
 

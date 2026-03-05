@@ -22,7 +22,7 @@ import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskExeResponse;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskResponse;
 import cool.houge.mahu.entity.Dict;
-import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminAccessLog;
 import cool.houge.mahu.entity.sys.AdminAuthLog;
@@ -65,11 +65,11 @@ public interface SysBeanMapper extends TopBeanMapper {
         return roles.stream().map(Role::getId).toList();
     }
 
-    DictType toDictType(SysDictTypeUpsertRequest bean);
+    DictGroup toDictType(SysDictTypeUpsertRequest bean);
 
     Dict toDict(SysDictUpsertRequest bean);
 
-    SysDictTypeResponse toSysDictTypeResponse(DictType bean);
+    SysDictTypeResponse toSysDictTypeResponse(DictGroup bean);
 
     AuthClient toAuthClient(SysAuthClientUpsertRequest bean);
 

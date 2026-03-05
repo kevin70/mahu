@@ -19,8 +19,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "dict_type")
-public class DictType implements Auditable {
+@Table(name = "dict_groups")
+public class DictGroup implements Auditable {
 
     /// 字典类型编码，唯一
     @Id
@@ -46,7 +46,7 @@ public class DictType implements Auditable {
     /// 值正则表达式规则
     private String valueRegex;
     /// 字典数据
-    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dict> data;
 
     /// 可见性

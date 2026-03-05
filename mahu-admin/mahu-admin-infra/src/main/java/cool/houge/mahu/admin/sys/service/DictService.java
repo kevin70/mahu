@@ -6,9 +6,9 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.Dict;
-import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.shared.query.DictQuery;
-import cool.houge.mahu.shared.repository.DictTypeRepository;
+import cool.houge.mahu.shared.repository.DictGroupRepository;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
@@ -31,17 +31,17 @@ public class DictService {
     private static final Logger log = LogManager.getLogger(DictService.class);
 
     private final EntityBeanMapper beanMapper;
-    private final DictTypeRepository dictTypeRepository;
+    private final DictGroupRepository dictGroupRepository;
 
     /// 保存字典数据
     @Transactional
-    public void save(DictType bean) {
-        dictTypeRepository.save(bean);
+    public void save(DictGroup bean) {
+        dictGroupRepository.save(bean);
     }
 
     /// 更新字典数据
     @Transactional
-    public void update(DictType bean) {
+    public void update(DictGroup bean) {
         var dbBean = obtainById(bean.getId());
         beanMapper.map(dbBean, bean);
 
@@ -50,14 +50,14 @@ public class DictService {
         } else {
             mergeDictData(dbBean.getData(), bean.getData());
         }
-        dictTypeRepository.update(dbBean);
+        dictGroupRepository.update(dbBean);
     }
 
     /// 删除指定代码的字典数据
     @Transactional
     public void deleteById(String id) {
         var bean = obtainById(id);
-        dictTypeRepository.delete(bean);
+        dictGroupRepository.delete(bean);
         log.info("删除数据字典 {}", bean);
     }
 
@@ -68,7 +68,7 @@ public class DictService {
         var list = Optional.ofNullable(dbBean.getData()).orElseGet(ArrayList::new);
         list.add(bean);
         dbBean.setData(list);
-        dictTypeRepository.update(dbBean);
+        dictGroupRepository.update(dbBean);
     }
 
     /// 查询指定字典数据
@@ -76,7 +76,7 @@ public class DictService {
     /// @param dc 字典数据代码
     @Transactional(readOnly = true)
     public Dict findDictData(Integer dc) {
-        var bean = dictTypeRepository.findDictData(dc);
+        var bean = dictGroupRepository.findDictData(dc);
         if (bean == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND);
         }
@@ -85,24 +85,24 @@ public class DictService {
 
     /// 分页查询数据
     @Transactional(readOnly = true)
-    public PagedList<DictType> findPage(DictQuery query, Page page) {
-        return dictTypeRepository.findPage(query, page);
+    public PagedList<DictGroup> findPage(DictQuery query, Page page) {
+        return dictGroupRepository.findPage(query, page);
     }
 
     /// 查询指定代码的数据
     @Transactional(readOnly = true)
-    public DictType findById(String typeId) {
+    public DictGroup findById(String typeId) {
         return obtainById(typeId);
     }
 
     /// 查询指定代码的数据，如果传入的 `ids` 为 `null` 则返回所有数据
     @Transactional(readOnly = true)
-    public List<DictType> findByIds(Collection<String> ids) {
-        return dictTypeRepository.findByIds(ids);
+    public List<DictGroup> findByIds(Collection<String> ids) {
+        return dictGroupRepository.findByIds(ids);
     }
 
-    private DictType obtainById(String typeId) {
-        var bean = dictTypeRepository.findById(typeId);
+    private DictGroup obtainById(String typeId) {
+        var bean = dictGroupRepository.findById(typeId);
         if (bean == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND);
         }

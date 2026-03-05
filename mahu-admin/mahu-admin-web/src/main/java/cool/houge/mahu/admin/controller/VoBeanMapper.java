@@ -13,7 +13,7 @@ import cool.houge.mahu.admin.oas.vo.TokenRefreshTokenForm;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.entity.Dict;
-import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.util.GrantType;
 import io.helidon.service.registry.Service;
@@ -33,7 +33,7 @@ import org.mapstruct.ReportingPolicy;
 public interface VoBeanMapper {
 
     @Mapping(target = "data", conditionExpression = "java(includeData)")
-    PublicDictTypeResponse toPublicDictTypeResponse(DictType bean, boolean includeData);
+    PublicDictTypeResponse toPublicDictTypeResponse(DictGroup bean, boolean includeData);
 
     PublicDictResponse toPublicDictDataResponse(Dict bean);
 

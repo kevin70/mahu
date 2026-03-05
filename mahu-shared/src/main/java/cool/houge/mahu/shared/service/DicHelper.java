@@ -5,11 +5,11 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.entity.Dict;
-import cool.houge.mahu.entity.DictType;
+import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.shared.ImmutableDict;
-import cool.houge.mahu.shared.ImmutableDictType;
+import cool.houge.mahu.shared.ImmutableDictGroup;
 import cool.houge.mahu.shared.repository.DictRepository;
-import cool.houge.mahu.shared.repository.DictTypeRepository;
+import cool.houge.mahu.shared.repository.DictGroupRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
@@ -29,10 +29,10 @@ import org.jspecify.annotations.NonNull;
 class DicHelper {
 
     private static final Logger log = LogManager.getLogger(DicHelper.class);
-    private final DictTypeRepository dictTypeRepository;
+    private final DictGroupRepository dictGroupRepository;
     private final DictRepository dictRepository;
 
-    private final Cache<String, ImmutableDictType> dictTypeCache = Caffeine.newBuilder()
+    private final Cache<String, ImmutableDictGroup> dictTypeCache = Caffeine.newBuilder()
             .recordStats()
             .expireAfterWrite(Duration.ofDays(1))
             .build();
@@ -50,13 +50,13 @@ class DicHelper {
         // this.refreshAll();
     }
 
-    Collection<ImmutableDictType> allDictTypes() {
+    Collection<ImmutableDictGroup> allDictTypes() {
         return dictTypeCache.asMap().values();
     }
 
     @SuppressWarnings("DataFlowIssue")
     @NonNull
-    ImmutableDictType loadDictType(String typeId) {
+    ImmutableDictGroup loadDictType(String typeId) {
         return dictTypeCache.get(typeId, this::getDictType);
     }
 
@@ -66,8 +66,8 @@ class DicHelper {
         return dictCache.get(dc, this::getDict);
     }
 
-    private ImmutableDictType map(DictType bean) {
-        return ImmutableDictType.builder()
+    private ImmutableDictGroup map(DictGroup bean) {
+        return ImmutableDictGroup.builder()
                 .id(bean.getId())
                 .name(bean.getName())
                 .description(bean.getDescription())
@@ -81,7 +81,7 @@ class DicHelper {
 
     private ImmutableDict map(Dict bean) {
         return ImmutableDict.builder()
-                .typeId(bean.getType().getId())
+                .groupId(bean.getGroup().getId())
                 .dc(bean.getDc())
                 .value(bean.getValue())
                 .label(bean.getLabel())
@@ -91,8 +91,8 @@ class DicHelper {
     }
 
     @Transactional(readOnly = true)
-    private ImmutableDictType getDictType(String dictTypeId) {
-        var dbDictType = dictTypeRepository.findById(dictTypeId);
+    private ImmutableDictGroup getDictType(String dictTypeId) {
+        var dbDictType = dictGroupRepository.findById(dictTypeId);
         if (dbDictType == null) {
             throw new BizCodeException(BizCodes.DATA_LOSS, "缺少字典类型: %s", dictTypeId);
         }
@@ -110,9 +110,9 @@ class DicHelper {
 
     @Transactional(readOnly = true)
     private void refreshAll() {
-        var all = dictTypeRepository.findAllData();
-        for (DictType dictType : all) {
-            var lcType = map(dictType);
+        var all = dictGroupRepository.findAllData();
+        for (DictGroup dictGroup : all) {
+            var lcType = map(dictGroup);
             dictTypeCache.put(lcType.getId(), lcType);
 
             for (ImmutableDict dict : lcType.getDicts()) {

@@ -2,7 +2,7 @@ package cool.houge.mahu.shared.service;
 
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.shared.ImmutableDict;
-import cool.houge.mahu.shared.ImmutableDictType;
+import cool.houge.mahu.shared.ImmutableDictGroup;
 import cool.houge.mahu.shared.ImmutableFeature;
 import cool.houge.mahu.shared.repository.sys.DelayedTaskRepository;
 import io.ebean.annotation.Transactional;
@@ -54,14 +54,14 @@ public class SharedBaseService {
     ///
     /// @param typeId 字典类型ID
     /// @return 对应的字典类型对象
-    public @NonNull ImmutableDictType getDictType(String typeId) {
+    public @NonNull ImmutableDictGroup getDictType(String typeId) {
         return dicHelper.loadDictType(typeId);
     }
 
     /// 查询所有公共的字典类型
-    public List<ImmutableDictType> loadPublicDictTypes() {
+    public List<ImmutableDictGroup> loadPublicDictTypes() {
         return dicHelper.allDictTypes().stream()
-                .filter(ImmutableDictType::isPublic)
+                .filter(ImmutableDictGroup::isPublic)
                 .toList();
     }
 
