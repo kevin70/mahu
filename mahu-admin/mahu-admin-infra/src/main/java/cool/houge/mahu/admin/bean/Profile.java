@@ -11,6 +11,8 @@ public class Profile {
 
     /// 管理员 ID.
     private Long adminId;
+    /// 用户名
+    private String username;
     /// 用户昵称.
     private String nickname;
     /// 用户头像.
