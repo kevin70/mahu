@@ -1,4 +1,0 @@
-{
-  "prettier.documentSelectors": ["*.md", "*.yaml", "*.json", "*.mts", "*.cjs", "*.ts", "*.tsx"],
-  "editor.formatOnSave": true
-}
