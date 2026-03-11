@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import com.google.common.base.Strings;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -47,15 +48,23 @@ public class StoredObject {
     /// 资源类型
     public enum Type {
         /// `0`管理员头像
-        ADMIN_AVATAR("p/admin/avatars"),
+        ADMIN_AVATAR("p/admin/avatars", true),
         ;
 
         /// OSS 存储目录前缀
         @Getter
         private final String prefix;
+        /// 开放的
+        @Getter
+        private final boolean open;
 
-        Type(String prefix) {
+        Type(String prefix, boolean open) {
             this.prefix = prefix;
+            this.open = open;
+        }
+
+        public String buildObjectKey(String id, String ext) {
+            return Strings.isNullOrEmpty(ext) ? prefix + "/" + id : prefix + "/" + id + "." + ext;
         }
 
         public static Type ofIndex(Integer i) {

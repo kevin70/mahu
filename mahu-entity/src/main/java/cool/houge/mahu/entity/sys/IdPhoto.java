@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import com.google.common.base.Strings;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -55,6 +56,10 @@ public class IdPhoto {
 
         Type(String prefix) {
             this.prefix = prefix;
+        }
+
+        public String buildObjectKey(String id, String ext) {
+            return Strings.isNullOrEmpty(ext) ? prefix + "/" + id : prefix + "/" + id + "." + ext;
         }
 
         public static IdPhoto.Type ofIndex(Integer i) {

@@ -30,15 +30,21 @@ public class SharedOssService {
     ///
     /// @return 预签名上传
     public PresignedUploadResult presignedUpload(StoredObject.Type type, PresignedUploadPayload payload) {
-        var objectKey = buildObjectKey(type.getPrefix(), payload.getFileName());
+        var id = UlidCreator.getMonotonicUlid().toString();
+        var objectKey = type.buildObjectKey(id, Files.getFileExtension(payload.getFileName()));
         var uploadUrl = ossHelper.presignedUploadUrl(objectKey, Map.of());
 
         // 保存预约上传文件
-        var storeObject =
-                new StoredObject().setType(type).setObjectKey(objectKey).setStatus(Status.PENDING.getCode());
+        var storeObject = new StoredObject()
+                .setId(id)
+                .setType(type)
+                .setObjectKey(objectKey)
+                .setStatus(Status.PENDING.getCode());
         storedObjectRepository.save(storeObject);
-        return new PresignedUploadResult(
-                storeObject.getId(), objectKey, uploadUrl, ossHelper.presignedGetUrl(objectKey));
+
+        // 公共的资源直接使用公共访问链接
+        var accessUrl = type.isOpen() ? ossHelper.accessUrl(objectKey) : ossHelper.presignedGetUrl(objectKey);
+        return new PresignedUploadResult(storeObject.getId(), objectKey, uploadUrl, accessUrl);
     }
 
     /// 获取[StoredObject]访问 URL
@@ -57,10 +63,12 @@ public class SharedOssService {
     ///
     /// @return 预签名上传
     public PresignedUploadResult presignedUpload(IdPhoto.Type type, PresignedUploadPayload payload) {
-        var objectKey = buildObjectKey(type.getPrefix(), payload.getFileName());
+        var id = UlidCreator.getMonotonicUlid().toString();
+        var objectKey = type.buildObjectKey(id, Files.getFileExtension(payload.getFileName()));
         var uploadUrl = ossHelper.presignedUploadUrl(objectKey, Map.of());
 
-        var idPhoto = new IdPhoto().setType(type).setObjectKey(objectKey).setStatus(Status.PENDING.getCode());
+        var idPhoto =
+                new IdPhoto().setId(id).setType(type).setObjectKey(objectKey).setStatus(Status.PENDING.getCode());
         idPhotoRepository.save(idPhoto);
         return new PresignedUploadResult(idPhoto.getId(), objectKey, uploadUrl, ossHelper.presignedGetUrl(objectKey));
     }
@@ -82,11 +90,5 @@ public class SharedOssService {
     /// @param objectKey 对象的完整 key（含前缀）
     public String presignedGetUrl(String objectKey) {
         return ossHelper.presignedGetUrl(objectKey);
-    }
-
-    private String buildObjectKey(String prefix, String filename) {
-        var ext = Files.getFileExtension(filename);
-        var k = UlidCreator.getMonotonicUlid();
-        return ext.isEmpty() ? prefix + "/" + k : prefix + "/" + k + "." + ext;
     }
 }

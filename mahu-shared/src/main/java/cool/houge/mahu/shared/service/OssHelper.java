@@ -44,6 +44,13 @@ class OssHelper {
         return presignedUrl(Method.GET, objectKey, Map.of());
     }
 
+    /// 获取对象的访问 URL
+    ///
+    /// @param objectKey 对象的完整 key（含前缀）
+    String accessUrl(String objectKey) {
+        return ossConfig.accessUrl() + objectKey;
+    }
+
     private String presignedUrl(Method method, String objectKey, Map<String, String> queryParams) {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
