@@ -3,6 +3,7 @@ package cool.houge.mahu.admin.controller.sys;
 import cool.houge.mahu.admin.internal.TopBeanMapper;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedResponse;
+import cool.houge.mahu.admin.oas.vo.FileType;
 import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedRequest;
 import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
@@ -32,6 +33,7 @@ import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskLog;
+import cool.houge.mahu.entity.sys.StoredObject;
 import cool.houge.mahu.shared.dto.PresignedUploadPayload;
 import cool.houge.mahu.shared.dto.PresignedUploadResult;
 import io.helidon.service.registry.Service;
@@ -103,6 +105,8 @@ public interface SysBeanMapper extends TopBeanMapper {
     Feature toFeature(SysFeatureUpdateRequest bean);
 
     PresignedUploadPayload toPresignedUploadPayload(FileCreatePresignedRequest bean);
+
+    StoredObject.Type toStoredObjectType(FileType bean);
 
     FileCreatePresignedResponse toFileCreatePresignedResponse(PresignedUploadResult bean);
 

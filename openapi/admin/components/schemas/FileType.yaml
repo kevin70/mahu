@@ -1,0 +1,6 @@
+type: string
+description: 上传文件类型
+enum:
+  - ADMIN_AVATAR
+x-enumDescriptions:
+  ADMIN_AVATAR: 管理员头像

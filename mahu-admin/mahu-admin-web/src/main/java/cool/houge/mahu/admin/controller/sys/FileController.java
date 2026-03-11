@@ -4,7 +4,6 @@ import static io.helidon.http.Status.FOUND_302;
 
 import cool.houge.mahu.admin.oas.controller.HFileService;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
-import cool.houge.mahu.entity.sys.StoredObject;
 import cool.houge.mahu.shared.service.SharedOssService;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.http.HeaderNames;
@@ -28,7 +27,7 @@ public class FileController implements HFileService, WebSupport {
         var vo = request.content().as(FileCreatePresignedRequest.class);
         validate(vo);
 
-        var type = StoredObject.Type.ofIndex(vo.getType());
+        var type = beanMapper.toStoredObjectType(vo.getType());
         var payload = beanMapper.toPresignedUploadPayload(vo);
         var result = sharedOssService.presignedUpload(type, payload);
         response.send(beanMapper.toFileCreatePresignedResponse(result));

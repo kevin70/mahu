@@ -4,10 +4,7 @@ required:
   - file_name
 properties:
   type:
-    type: integer
-    format: int32
-    minimum: 0
-    description: 类型
+    $ref: './FileType.yaml'
   file_name:
     type: string
     description: 上传文件的名称

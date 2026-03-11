@@ -1,5 +1,8 @@
 package cool.houge.mahu.admin.oas.vo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import cool.houge.mahu.admin.oas.vo.FileType;
 import io.avaje.validation.constraints.*;
 
 
@@ -8,13 +11,12 @@ import io.avaje.validation.constraints.*;
 public class FileCreatePresignedRequest {
 
     /**
-     * 类型
-     * minimum: 0
+     * Get type
      */
       @NotNull
- @Min(0)
+
     @com.fasterxml.jackson.annotation.JsonProperty("type")
-    private Integer type;
+    private FileType type;
     /**
      * 上传文件的名称
      */
