@@ -33,7 +33,7 @@ public class RoleController implements HRoleService, WebSupport {
 
     @Override
     public void deleteSysRole(ServerRequest request, ServerResponse response) {
-        var id = pathInt(request, "id");
+        var id = pathInt(request, "role_id");
 
         roleService.deleteById(id);
         response.status(NO_CONTENT_204).send();
@@ -41,7 +41,7 @@ public class RoleController implements HRoleService, WebSupport {
 
     @Override
     public void getSysRole(ServerRequest request, ServerResponse response) {
-        var id = pathInt(request, "id");
+        var id = pathInt(request, "role_id");
 
         var bean = roleService.findById(id);
         var rs = beanMapper.toSysRoleResponse(bean);
@@ -61,8 +61,7 @@ public class RoleController implements HRoleService, WebSupport {
         var vo = request.content().as(SysRoleUpsertRequest.class);
         validate(vo);
 
-        var pathParams = request.path().pathParameters();
-        var id = pathParams.first("id").asInt().get();
+        var id = pathInt(request, "role_id");
 
         var bean = beanMapper.toRole(vo).setId(id);
         roleService.update(bean);
