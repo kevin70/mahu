@@ -36,7 +36,7 @@ public class AdminRepository extends HBeanRepository<Integer, Admin> {
         if (!Strings.isNullOrEmpty(query.getUsername())) {
             qb.username.eq(query.getUsername());
         }
-        if (query.getStatusList().isEmpty()) {
+        if (!query.getStatusList().isEmpty()) {
             qb.status.in(query.getStatusList());
         }
         return super.findPage(qb, page);
