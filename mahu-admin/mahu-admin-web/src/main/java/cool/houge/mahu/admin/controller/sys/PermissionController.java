@@ -22,10 +22,16 @@ public class PermissionController implements HPermissionService, WebSupport {
             var o = new SysPermissionResponse()
                     .setCode(value.name())
                     .setModule(value.module())
-                    .setLabel(value.label())
-                    .setCanRead(value.canRead())
-                    .setCanWrite(value.canWrite())
-                    .setCanDelete(value.canDelete());
+                    .setLabel(value.label());
+            if (value.canRead()) {
+                o.setReadCode(value.name() + ":R");
+            }
+            if (value.canWrite()) {
+                o.setWriteCode(value.name() + ":W");
+            }
+            if (value.canDelete()) {
+                o.setDeleteCode(value.name() + ":D");
+            }
             list.add(o);
         }
         response.send(list);

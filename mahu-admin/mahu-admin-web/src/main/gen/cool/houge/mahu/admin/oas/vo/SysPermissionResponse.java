@@ -29,21 +29,21 @@ public class SysPermissionResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("label")
     private String label;
     /**
-     * 是否可读取
+     * 读取权限代码
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("can_read")
-    private Boolean canRead;
+    @com.fasterxml.jackson.annotation.JsonProperty("read_code")
+    private String readCode;
     /**
-     * 是否可写入
+     * 写入权限代码
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("can_write")
-    private Boolean canWrite;
+    @com.fasterxml.jackson.annotation.JsonProperty("write_code")
+    private String writeCode;
     /**
-     * 是否可删除
+     * 删除权限代码
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("can_delete")
-    private Boolean canDelete;
+    @com.fasterxml.jackson.annotation.JsonProperty("delete_code")
+    private String deleteCode;
 }
