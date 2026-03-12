@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.sys.repository;
 
 import com.github.f4b6a3.ulid.UlidCreator;
+import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.entity.sys.AdminChangeItem;
 import cool.houge.mahu.entity.sys.AdminChangeLog;
 import io.ebean.Database;
@@ -32,11 +33,12 @@ public class PersistChangeLogListener implements ChangeLogListener {
                         .setData(o.getData())
                         .setOldData(o.getOldData()))
                 .toList();
+
         var changeLog = new AdminChangeLog()
                 .setId(UlidCreator.getMonotonicUlid().toString())
                 .setSource(changeSet.getSource())
                 .setIpAddr(changeSet.getUserIpAddress())
-                .setAdminId(Integer.valueOf(changeSet.getUserId()))
+                .setAdminId(AuthContext.current().adminId())
                 .setItems(items);
         db.saveAll(changeLog);
     }
