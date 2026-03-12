@@ -4,7 +4,7 @@ required:
   - file_name
 properties:
   type:
-    $ref: './FileType.yaml'
+    $ref: "./FileType.yaml"
   file_name:
     type: string
     description: 上传文件的名称
