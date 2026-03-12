@@ -2,14 +2,12 @@
 plugins {
     id("java")
     id("application")
+    id("jacoco")
     alias(libs.plugins.ebean)
     alias(libs.plugins.openapi.generator)
-
-    id("jacoco")
     alias(libs.plugins.node)
     alias(libs.plugins.spotless)
     alias(libs.plugins.sonarlint)
-
     alias(libs.plugins.ssh)
     alias(libs.plugins.download)
     alias(libs.plugins.release)
@@ -53,9 +51,7 @@ allprojects {
     }
 
     node {
-        download = true
-        version = "22.19.0"
-        distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
+        download = false
         workDir = rootProject.layout.projectDirectory.dir(".gradle/")
         pnpmWorkDir = rootProject.layout.projectDirectory.dir(".gradle/")
     }
@@ -73,12 +69,6 @@ allprojects {
     }
 
     spotless {
-        def osName = System.getProperty("os.name").toLowerCase()
-        def nodeExe = osName.contains("win") ? node.resolvedNodeDir.file("node.exe").get() :
-            node.resolvedNodeDir.file("bin/node").get()
-        def npmExe = osName.contains("win") ? node.resolvedNodeDir.file("npm.cmd").get() :
-            node.resolvedNodeDir.file("bin/npm").get()
-        def cacheDir = "${rootDir}/.gradle/spotless-npm-install-cache"
         def prettierVersion = "3.6.2"
 
         java {
@@ -94,31 +84,19 @@ allprojects {
                     "keywordCase" : 'upper',
                     "dataTypeCase": 'upper',
                 ])
-                .nodeExecutable(nodeExe)
-                .npmExecutable(npmExe)
-                .npmInstallCache(cacheDir)
                 .npmrc("${rootDir}/.npmrc")
         }
         yaml {
             target("src/**/*.yaml", "openapi/admin/**/*.yaml")
             prettier(["prettier": prettierVersion])
-                .nodeExecutable(nodeExe)
-                .npmExecutable(npmExe)
-                .npmInstallCache(cacheDir)
                 .npmrc("${rootDir}/.npmrc")
         }
         format("xml") {
             target("src/**/*.xml")
             prettier(["prettier": prettierVersion, "@prettier/plugin-xml": "3.4.2"])
                 .config(["tabSize": 4, "plugins": ["@prettier/plugin-xml"]])
-                .nodeExecutable(nodeExe)
-                .npmExecutable(npmExe)
-                .npmInstallCache(cacheDir)
                 .npmrc("${rootDir}/.npmrc")
         }
-    }
-    [tasks.spotlessSql, tasks.spotlessYaml, tasks.spotlessXml].forEach {
-        it.dependsOn(nodeSetup)
     }
 
     sonarLint {
