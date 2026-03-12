@@ -90,11 +90,13 @@ ebean-postgres = { module = "io.ebean:ebean-postgres", version.ref = "ebean" }
 ebean-jackson-mapper = { module = "io.ebean:ebean-jackson-mapper", version.ref = "ebean" }
 
 helidon-bundles-apt = { module = "io.helidon.bundles:helidon-bundles-apt", version.ref = "helidon" }
+helidon-config-metadata-codegen = { module = "io.helidon.config:helidon-config-metadata-codegen", version.ref = "helidon" }
 helidon-common-context = { module = "io.helidon.common:helidon-common-context", version.ref = "helidon" }
 helidon-common-parameters = { module = "io.helidon.common:helidon-common-parameters", version.ref = "helidon" }
 helidon-common-configurable = { module = "io.helidon.common:helidon-common-configurable", version.ref = "helidon" }
 helidon-config-yaml = { module = "io.helidon.config:helidon-config-yaml", version.ref = "helidon" }
 helidon-config-encryption = { module = "io.helidon.config:helidon-config-encryption", version.ref = "helidon" }
+helidon-config-metadata = { module = "io.helidon.config:helidon-config-metadata", version.ref = "helidon" }
 helidon-service-registry = { module = "io.helidon.service:helidon-service-registry", version.ref = "helidon" }
 helidon-security-jwt = { module = "io.helidon.security:helidon-security-jwt", version.ref = "helidon" }
 helidon-health-checks = { module = "io.helidon.health:helidon-health-checks", version.ref = "helidon" }
@@ -158,6 +160,10 @@ helidon-base = [
     "helidon-service-registry",
     "helidon-health-checks",
 ]
+helidon-bundles-apt = [
+    "helidon-bundles-apt",
+    "helidon-config-metadata-codegen"
+]
 helidon-common = [
     "helidon-common-parameters",
     "helidon-common-context",
@@ -165,7 +171,8 @@ helidon-common = [
 ]
 helidon-config = [
     "helidon-config-yaml",
-    "helidon-config-encryption"
+    "helidon-config-encryption",
+    "helidon-config-metadata"
 ]
 helidon-service = [
     "helidon-common-parameters",

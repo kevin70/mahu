@@ -1,7 +1,7 @@
 apply plugin: "java-library"
 
 dependencies {
-    implementation(libs.helidon.bundles.apt)
+    annotationProcessor(libs.helidon.bundles.apt)
     annotationProcessor(project(":mahu-codegen"))
 
     api(project(":mahu-base"))
