@@ -8,6 +8,18 @@ avaje-validator = "2.16"
 jackson = "2.20.0"
 
 junit = "6.0.1"
+liquibase = "4.29.2"
+picocli = "4.7.7"
+openapi-generator = "7.16.0"
+avaje-lang = "1.1"
+spotless = "8.0.0"
+node-gradle = "7.1.0"
+sonarlint = "7.0.1"
+ssh = "2.12.0"
+download = "5.6.0"
+release = "3.1.0"
+jib = "3.5.2"
+osdetector = "1.7.3"
 
 [libraries]
 jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
@@ -28,6 +40,10 @@ db-scheduler = { module = "com.github.kagkarlsson:db-scheduler", version = "16.0
 ulid-creator = { module = "com.github.f4b6a3:ulid-creator", version = "5.2.3" }
 minio = { module = "io.minio:minio", version = "8.6.0" }
 password4j = { module = "com.password4j:password4j", version = "1.8.4" }
+avaje-lang = { module = "io.avaje:avaje-lang", version.ref = "avaje-lang" }
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
+picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
+openapi-generator-cli = { module = "org.openapitools:openapi-generator-cli", version.ref = "openapi-generator" }
 
 assert-core = { module = "org.assertj:assertj-core", version = "3.27.6" }
 awaitility = { module = "org.awaitility:awaitility", version = "4.3.0" }
@@ -160,8 +176,7 @@ avaje-validator = [
     "avaje-validator"
 ]
 fastexcel = [
-    "fastexcel",
-    "fastexcel-reader"
+    "fastexcel"
 ]
 log4j = [
     "log4j-core",
@@ -180,3 +195,12 @@ testing = [
 
 [plugins]
 ebean = { id = "io.ebean", version.ref = "ebean" }
+openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-generator" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+node = { id = "com.github.node-gradle.node", version.ref = "node-gradle" }
+sonarlint = { id = "name.remal.sonarlint", version.ref = "sonarlint" }
+ssh = { id = "org.hidetake.ssh", version.ref = "ssh" }
+download = { id = "de.undercouch.download", version.ref = "download" }
+release = { id = "net.researchgate.release", version.ref = "release" }
+jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }
+osdetector = { id = "com.google.osdetector", version.ref = "osdetector" }

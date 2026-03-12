@@ -3,19 +3,20 @@ plugins {
     id("java")
     id("application")
     alias(libs.plugins.ebean)
-    id("org.openapi.generator") version "7.16.0"
+    alias(libs.plugins.openapi.generator)
 
     id("jacoco")
-    id("com.github.node-gradle.node") version "7.1.0"
-    id("com.diffplug.spotless") version "8.0.0"
-    id("name.remal.sonarlint") version "7.0.1"
+    alias(libs.plugins.node)
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.sonarlint)
 
-    id("org.hidetake.ssh") version "2.12.0"
-    id("de.undercouch.download") version "5.6.0"
-    id("net.researchgate.release") version "3.1.0"
-    id("com.google.cloud.tools.jib") version "3.5.2"
-    id("com.google.osdetector") version "1.7.3"
+    alias(libs.plugins.ssh)
+    alias(libs.plugins.download)
+    alias(libs.plugins.release)
+    alias(libs.plugins.jib)
+    alias(libs.plugins.osdetector)
 }
+ext.helidonVersion = libs.versions.helidon.get()
 
 release {
     tagTemplate = 'V${version}'

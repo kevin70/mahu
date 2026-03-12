@@ -30,7 +30,6 @@ compileJava.dependsOn("appVersion")
 
 dependencies {
     api(libs.bundles.base)
-    api(libs.ulid.creator)
     api(libs.roaringbitmap)
 
     implementation(libs.bundles.ebean)

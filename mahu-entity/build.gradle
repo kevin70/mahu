@@ -3,7 +3,7 @@ apply plugin: "io.ebean"
 
 dependencies {
     annotationProcessor(libs.ebean.querybean.generator)
-    compileOnly("io.avaje:avaje-lang:1.1")
+    compileOnly(libs.avaje.lang)
 
     api(project(":mahu-base"))
     implementation(libs.ebean.api)

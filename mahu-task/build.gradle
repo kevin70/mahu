@@ -32,8 +32,8 @@ jib {
 }
 
 dependencies {
-    annotationProcessor("io.ebean:querybean-generator")
-    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
+    annotationProcessor(libs.ebean.querybean.generator)
+    annotationProcessor(libs.helidon.bundles.apt)
 
     implementation(project(":mahu-entity"))
     implementation(project(":mahu-config"))

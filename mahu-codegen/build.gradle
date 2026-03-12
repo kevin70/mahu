@@ -2,5 +2,5 @@ apply plugin: "java-library"
 
 dependencies {
     implementation(libs.helidon.bundles.apt)
-    implementation("org.openapitools:openapi-generator-cli:7.16.0")
+    implementation(libs.openapi.generator.cli)
 }

@@ -1,7 +1,7 @@
 //file:noinspection UnnecessaryQualifiedReference
 buildscript {
     dependencies {
-        classpath("io.helidon.config:helidon-config-yaml:4.2.6")
+        classpath("io.helidon.config:helidon-config-yaml:" + rootProject.ext.helidonVersion)
     }
 }
 
@@ -61,7 +61,7 @@ tasks.register("rollback-1", JavaExec.class) {
 }
 
 dependencies {
-    liquibaseRuntime("org.liquibase:liquibase-core:4.29.2")
-    liquibaseRuntime("info.picocli:picocli:4.7.7")
-    liquibaseRuntime("org.postgresql:postgresql:42.7.7")
+    liquibaseRuntime(libs.liquibase.core)
+    liquibaseRuntime(libs.picocli)
+    liquibaseRuntime(libs.postgresql)
 }
