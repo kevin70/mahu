@@ -144,6 +144,7 @@ allprojects {
             implementation(libs.gson)
             implementation(libs.commons.lang3)
             implementation(libs.postgresql)
+            implementation(libs.error.prone.annotations)
         }
 
         annotationProcessor(libs.lombok)

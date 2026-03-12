@@ -2,7 +2,6 @@
 ebean = "17.3.0"
 helidon = "4.4.0"
 mapstruct = "1.6.3"
-fastexcel = "0.19.0"
 log4j = "2.25.3"
 avaje-validator = "2.16"
 jackson = "2.20.0"
@@ -21,34 +20,57 @@ release = "3.1.0"
 jib = "3.5.2"
 osdetector = "1.7.3"
 
+jspecify = "1.0.0"
+checker-qual = "3.49.5"
+error-prone-annotations = "2.43.0"
+lombok = "1.18.42"
+guava = "33.5.0-jre"
+gson = "2.13.2"
+caffeine = "3.2.3"
+postgresql = "42.7.8"
+valkey-glide = "2.2.5"
+commons-lang3 = "3.20.0"
+roaringbitmap = "1.6.10"
+db-scheduler = "16.0.0"
+ulid-creator = "5.2.3"
+minio = "8.6.0"
+password4j = "1.8.4"
+assertj = "3.27.6"
+awaitility = "4.3.0"
+instancio = "5.5.1"
+mockito = "5.21.0"
+
+# reserved (currently unused)
+fastexcel = "0.19.0"
+commons-collections4 = "4.5.0"
+commons-text = "1.14.0"
+commons-compress = "3.2.0"
+
 [libraries]
-jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
-checker-qual = { module = "org.checkerframework:checker-qual", version = "3.49.5" }
-error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version = { strictly = "2.43.0" } }
-lombok = { module = "org.projectlombok:lombok", version = "1.18.42" }
-guava = { module = "com.google.guava:guava", version = "33.5.0-jre" }
-gson = { module = "com.google.code.gson:gson", version = "2.13.2" }
-caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.3" }
-postgresql = { module = "org.postgresql:postgresql", version = "42.7.8" }
-valkey-glide = { module = "io.valkey:valkey-glide", version = "2.2.5" }
-commons-lang3 = { module = "org.apache.commons:commons-lang3", version = "3.20.0" }
-commons-collections4 = { module = "org.apache.commons:commons-collections4", version = "4.5.0" }
-commons-text = { module = "org.apache.commons:commons-text", version = "1.14.0" }
-commons-compress = { module = "org.apache.commons:commons-compress", version = "3.2.0" }
-roaringbitmap = { module = "org.roaringbitmap:RoaringBitmap", version = "1.6.10" }
-db-scheduler = { module = "com.github.kagkarlsson:db-scheduler", version = "16.0.0" }
-ulid-creator = { module = "com.github.f4b6a3:ulid-creator", version = "5.2.3" }
-minio = { module = "io.minio:minio", version = "8.6.0" }
-password4j = { module = "com.password4j:password4j", version = "1.8.4" }
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
+checker-qual = { module = "org.checkerframework:checker-qual", version.ref = "checker-qual" }
+error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error-prone-annotations" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+valkey-glide = { module = "io.valkey:valkey-glide", version.ref = "valkey-glide" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
+roaringbitmap = { module = "org.roaringbitmap:RoaringBitmap", version.ref = "roaringbitmap" }
+db-scheduler = { module = "com.github.kagkarlsson:db-scheduler", version.ref = "db-scheduler" }
+ulid-creator = { module = "com.github.f4b6a3:ulid-creator", version.ref = "ulid-creator" }
+minio = { module = "io.minio:minio", version.ref = "minio" }
+password4j = { module = "com.password4j:password4j", version.ref = "password4j" }
 avaje-lang = { module = "io.avaje:avaje-lang", version.ref = "avaje-lang" }
 liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
 openapi-generator-cli = { module = "org.openapitools:openapi-generator-cli", version.ref = "openapi-generator" }
 
-assert-core = { module = "org.assertj:assertj-core", version = "3.27.6" }
-awaitility = { module = "org.awaitility:awaitility", version = "4.3.0" }
-instancio-junit = { module = "org.instancio:instancio-junit", version = "5.5.1" }
-mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version = "5.21.0" }
+assert-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitility" }
+instancio-junit = { module = "org.instancio:instancio-junit", version.ref = "instancio" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
 
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
@@ -97,12 +119,16 @@ avaje-validator-constraints = { module = "io.avaje:avaje-validator-constraints",
 avaje-validator = { module = "io.avaje:avaje-validator", version.ref = "avaje-validator" }
 avaje-validator-generator = { module = "io.avaje:avaje-validator-generator", version.ref = "avaje-validator" }
 
-fastexcel = { module = "org.dhatim:fastexcel", version.ref = "fastexcel" }
-fastexcel-reader = { module = "org.dhatim:fastexcel", version.ref = "fastexcel" }
-
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
+
+# reserved (currently unused)
+fastexcel = { module = "org.dhatim:fastexcel", version.ref = "fastexcel" }
+fastexcel-reader = { module = "org.dhatim:fastexcel", version.ref = "fastexcel" }
+commons-collections4 = { module = "org.apache.commons:commons-collections4", version.ref = "commons-collections4" }
+commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text" }
+commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commons-compress" }
 
 [bundles]
 base = [
@@ -174,9 +200,6 @@ helidon-webserver = [
 avaje-validator = [
     "avaje-validator-constraints",
     "avaje-validator"
-]
-fastexcel = [
-    "fastexcel"
 ]
 log4j = [
     "log4j-core",
