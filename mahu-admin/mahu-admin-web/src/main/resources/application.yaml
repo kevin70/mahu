@@ -13,11 +13,13 @@ server:
 # 跨域配置
 cors:
   enabled: true
-  allow-origins: ["*"]
-  allow-methods: ["*"]
-  allow-headers: ["*"]
-  allow-credentials: false
-  max-age: 7200
+  paths:
+    - enabled: true
+      path-pattern: "/*"
+      allow-origins: [ "*" ]
+      allow-methods: [ "*" ]
+      allow-headers: [ "*" ]
+      allow-credentials: false
 
 db:
   name: "${info.name}"
