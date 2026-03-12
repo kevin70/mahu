@@ -6,7 +6,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 import static io.helidon.webserver.http.SecureHandler.*;
 
-@io.helidon.common.Generated(value = "7.16.0", trigger = "openapi-generator")
+@io.helidon.common.Generated(value = "7.20.0", trigger = "openapi-generator")
 public interface HLoginService extends HttpService {
 
     @Override

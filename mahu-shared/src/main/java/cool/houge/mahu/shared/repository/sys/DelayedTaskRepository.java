@@ -13,6 +13,7 @@ import io.helidon.service.registry.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.jspecify.annotations.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,8 +57,11 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     ///
     /// @param page 分页参数
     /// @return 分页结果
-    public PagedList<DelayedTask> findPage(Page page) {
+    public PagedList<DelayedTask> findPage(@Nullable String topic, Page page) {
         var qb = new QDelayedTask(db());
+        if (topic != null && !topic.isBlank()) {
+            qb.topic.eq(topic);
+        }
         return super.findPage(qb, page);
     }
 

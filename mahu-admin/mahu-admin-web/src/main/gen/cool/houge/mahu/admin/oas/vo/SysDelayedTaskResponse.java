@@ -1,8 +1,6 @@
 package cool.houge.mahu.admin.oas.vo;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import io.avaje.validation.constraints.*;
 
@@ -87,12 +85,12 @@ public class SysDelayedTaskResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("lease_seconds")
     private Integer leaseSeconds;
     /**
-     * 消息内容存储业务所需的所有数据
+     * 消息内容（JSON 字符串）
      */
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("payload")
-    private Map<String, Object> payload;
+    private String payload;
     /**
      * 幂等键
      */

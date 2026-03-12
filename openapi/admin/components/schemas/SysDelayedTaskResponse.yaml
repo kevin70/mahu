@@ -51,9 +51,8 @@ properties:
     format: int32
     description: 锁租约(秒)，worker 处理任务允许的最长时间
   payload:
-    type: object
-    description: 消息内容存储业务所需的所有数据
-    additionalProperties: true
+    type: string
+    description: 消息内容（JSON 字符串）
   idempotency_key:
     type: string
     description: 幂等键

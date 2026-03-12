@@ -13,6 +13,7 @@ import cool.houge.mahu.admin.oas.vo.SysAdminResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientResponse;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
+import cool.houge.mahu.admin.oas.vo.SysDelayedTaskResponse;
 import cool.houge.mahu.admin.oas.vo.SysDictGroupResponse;
 import cool.houge.mahu.admin.oas.vo.SysDictGroupUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
@@ -29,6 +30,7 @@ import cool.houge.mahu.entity.sys.AdminAccessLog;
 import cool.houge.mahu.entity.sys.AdminAuthLog;
 import cool.houge.mahu.entity.sys.AdminChangeLog;
 import cool.houge.mahu.entity.sys.AuthClient;
+import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.entity.sys.ScheduledTask;
@@ -88,6 +90,8 @@ public interface SysBeanMapper extends TopBeanMapper {
     SysAdminResponse toSysAdminResponse(Admin bean);
 
     SysScheduledTaskResponse toSysScheduledTaskResponse(ScheduledTask bean);
+
+    SysDelayedTaskResponse toSysDelayedTaskResponse(DelayedTask bean);
 
     @Mapping(target = "taskName", source = "scheduledTask.taskName")
     SysScheduledTaskLogResponse toSysScheduledTaskLogResponse(ScheduledTaskLog bean);
