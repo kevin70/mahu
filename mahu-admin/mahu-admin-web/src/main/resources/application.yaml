@@ -16,9 +16,9 @@ cors:
   paths:
     - enabled: true
       path-pattern: "/*"
-      allow-origins: [ "*" ]
-      allow-methods: [ "*" ]
-      allow-headers: [ "*" ]
+      allow-origins: ["*"]
+      allow-methods: ["*"]
+      allow-headers: ["*"]
       allow-credentials: false
 
 db:
