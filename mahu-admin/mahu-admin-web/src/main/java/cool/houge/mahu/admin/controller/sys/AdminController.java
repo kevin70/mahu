@@ -75,7 +75,7 @@ public class AdminController implements HAdminService, WebSupport {
                 var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAuthLogResponse);
                 response.send(rs);
             }
-            // AUDIT
+            // CHANGE
             default -> {
                 var plist = adminService.pageAdminChangeLog(adminId, page);
                 var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminChangeLogResponse);
