@@ -13,6 +13,12 @@ get:
   parameters:
     - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"
+    - name: admin_id
+      in: query
+      description: 管理员 ID（用于过滤日志）
+      schema:
+        type: integer
+        format: int32
   responses:
     "200":
       description: OK

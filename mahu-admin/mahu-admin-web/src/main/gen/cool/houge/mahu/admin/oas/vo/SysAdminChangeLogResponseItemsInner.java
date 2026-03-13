@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.oas.vo;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.time.LocalDateTime;
 import io.avaje.validation.constraints.*;
 
 
@@ -9,11 +10,23 @@ import io.avaje.validation.constraints.*;
 public class SysAdminChangeLogResponseItemsInner {
 
     /**
-     * 类型
+     * 日志项 ID
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("type")
-    private String type;
+    @com.fasterxml.jackson.annotation.JsonProperty("id")
+    private String id;
+    /**
+     * 创建时间
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("created_at")
+    private LocalDateTime createdAt;
+    /**
+     * 表名
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("table_name")
+    private String tableName;
     /**
      * 租户 ID
      */
@@ -26,6 +39,12 @@ public class SysAdminChangeLogResponseItemsInner {
     
     @com.fasterxml.jackson.annotation.JsonProperty("data_id")
     private String dataId;
+    /**
+     * 变更类型
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("change_type")
+    private String changeType;
     /**
      * 事件创建时间戳
      */

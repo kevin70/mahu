@@ -29,15 +29,25 @@ properties:
     items:
       type: object
       properties:
-        type:
+        id:
           type: string
-          description: 类型
+          description: 日志项 ID
+        created_at:
+          type: string
+          format: date-time
+          description: 创建时间
+        table_name:
+          type: string
+          description: 表名
         tenant_id:
           type: string
           description: 租户 ID
         data_id:
           type: string
           description: 数据 ID
+        change_type:
+          type: string
+          description: 变更类型
         event_time:
           type: integer
           format: int64
