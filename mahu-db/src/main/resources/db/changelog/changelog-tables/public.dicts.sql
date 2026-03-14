@@ -13,23 +13,23 @@ CREATE TABLE public.dicts (
   updated_at TIMESTAMP
 );
 
-comment ON TABLE public.dicts IS '字典数据';
+COMMENT ON TABLE public.dicts IS '字典数据';
 
-comment ON COLUMN public.dicts.dc IS '字典代码';
+COMMENT ON COLUMN public.dicts.dc IS '字典代码';
 
-comment ON COLUMN public.dicts.label IS '字典数据文本';
+COMMENT ON COLUMN public.dicts.label IS '字典数据文本';
 
-comment ON COLUMN public.dicts.value IS '字典数据值';
+COMMENT ON COLUMN public.dicts.value IS '字典数据值';
 
-comment ON COLUMN public.dicts.enabled IS '是否启用';
+COMMENT ON COLUMN public.dicts.enabled IS '是否启用';
 
-comment ON COLUMN public.dicts.ordering IS '排序值';
+COMMENT ON COLUMN public.dicts.ordering IS '排序值';
 
-comment ON COLUMN public.dicts.group_id IS '字典分组代码';
+COMMENT ON COLUMN public.dicts.group_id IS '字典分组代码';
 
-comment ON COLUMN public.dicts.created_at IS '创建时间';
+COMMENT ON COLUMN public.dicts.created_at IS '创建时间';
 
-comment ON COLUMN public.dicts.updated_at IS '更新时间';
+COMMENT ON COLUMN public.dicts.updated_at IS '更新时间';
 
 CREATE UNIQUE INDEX dicts_group_id_value_uidx ON public.dicts (group_id, value);
 

@@ -10,16 +10,16 @@ CREATE TABLE sys.admin_change_logs (
   source VARCHAR(64)
 );
 
-comment ON TABLE sys.admin_change_logs IS '管理员变更记录';
+COMMENT ON TABLE sys.admin_change_logs IS '管理员变更记录';
 
-comment ON COLUMN sys.admin_change_logs.id IS '主键';
+COMMENT ON COLUMN sys.admin_change_logs.id IS '主键';
 
-comment ON COLUMN sys.admin_change_logs.created_at IS '创建时间';
+COMMENT ON COLUMN sys.admin_change_logs.created_at IS '创建时间';
 
-comment ON COLUMN sys.admin_change_logs.admin_id IS '管理员 ID';
+COMMENT ON COLUMN sys.admin_change_logs.admin_id IS '管理员 ID';
 
-comment ON COLUMN sys.admin_change_logs.ip_addr IS '操作 IP';
+COMMENT ON COLUMN sys.admin_change_logs.ip_addr IS '操作 IP';
 
-comment ON COLUMN sys.admin_change_logs.source IS '操作来源';
+COMMENT ON COLUMN sys.admin_change_logs.source IS '操作来源';
 
 -- rollback DROP TABLE sys.admin_change_logs;

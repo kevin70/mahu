@@ -18,37 +18,37 @@ CREATE TABLE sys.delayed_tasks (
   idempotency_key VARCHAR(128)
 );
 
-comment ON TABLE sys.delayed_tasks IS '延时任务';
+COMMENT ON TABLE sys.delayed_tasks IS '延时任务';
 
-comment ON COLUMN sys.delayed_tasks.id IS '主键';
+COMMENT ON COLUMN sys.delayed_tasks.id IS '主键';
 
-comment ON COLUMN sys.delayed_tasks.created_at IS '创建时间';
+COMMENT ON COLUMN sys.delayed_tasks.created_at IS '创建时间';
 
-comment ON COLUMN sys.delayed_tasks.updated_at IS '更新时间';
+COMMENT ON COLUMN sys.delayed_tasks.updated_at IS '更新时间';
 
-comment ON COLUMN sys.delayed_tasks.feature_id IS '功能 ID（用于追踪统计）';
+COMMENT ON COLUMN sys.delayed_tasks.feature_id IS '功能 ID（用于追踪统计）';
 
-comment ON COLUMN sys.delayed_tasks.topic IS '主题';
+COMMENT ON COLUMN sys.delayed_tasks.topic IS '主题';
 
-comment ON COLUMN sys.delayed_tasks.status IS '状态
+COMMENT ON COLUMN sys.delayed_tasks.status IS '状态
 - 11 待处理
 - 50 进行中
 - 88 已完成
 - 95 已归档';
 
-comment ON COLUMN sys.delayed_tasks.delay_until IS '下一次可执行时间（含重试）';
+COMMENT ON COLUMN sys.delayed_tasks.delay_until IS '下一次可执行时间（含重试）';
 
-comment ON COLUMN sys.delayed_tasks.attempts IS '已尝试次数';
+COMMENT ON COLUMN sys.delayed_tasks.attempts IS '已尝试次数';
 
-comment ON COLUMN sys.delayed_tasks.max_attempts IS '最大尝试次数（包括首次执行）';
+COMMENT ON COLUMN sys.delayed_tasks.max_attempts IS '最大尝试次数（包括首次执行）';
 
-comment ON COLUMN sys.delayed_tasks.lock_at IS '锁定时间';
+COMMENT ON COLUMN sys.delayed_tasks.lock_at IS '锁定时间';
 
-comment ON COLUMN sys.delayed_tasks.lease_seconds IS '锁租约(秒)，worker 处理任务允许的最长时间';
+COMMENT ON COLUMN sys.delayed_tasks.lease_seconds IS '锁租约(秒)，worker 处理任务允许的最长时间';
 
-comment ON COLUMN sys.delayed_tasks.payload IS '消息内容存储业务所需的所有数据';
+COMMENT ON COLUMN sys.delayed_tasks.payload IS '消息内容存储业务所需的所有数据';
 
-comment ON COLUMN sys.delayed_tasks.idempotency_key IS '幂等键';
+COMMENT ON COLUMN sys.delayed_tasks.idempotency_key IS '幂等键';
 
 CREATE UNIQUE INDEX delayed_tasks_topic_idempotency_key_uidx ON sys.delayed_tasks (topic, idempotency_key);
 

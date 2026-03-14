@@ -58,9 +58,9 @@ class FeatureHelper {
                 .weekdays(ofNullable(bean.getWeekdays()).map(List::copyOf).orElse(List.of()))
                 .allowUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getAllowUserRb()))
                 .denyUserRb(RoaringBitmapUtils.toRoaring64NavigableMap(bean.getDenyUserRb()))
-                .properties(
-                        ofNullable(bean.getProperties()).map(Map::copyOf).orElse(Map.of()))
-                .propertiesSchema(ofNullable(bean.getPropertiesSchema()).map(Map::copyOf).orElse(Map.of()))
+                .properties(ofNullable(bean.getProperties()).map(Map::copyOf).orElse(Map.of()))
+                .propertiesSchema(
+                        ofNullable(bean.getPropertiesSchema()).map(Map::copyOf).orElse(Map.of()))
                 .build();
     }
 
