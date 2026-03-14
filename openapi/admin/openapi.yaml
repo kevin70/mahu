@@ -117,6 +117,10 @@ paths:
     $ref: "paths/sys_features.yaml"
   /sys/features/{feature_id}:
     $ref: "paths/sys_features_{feature_id}.yaml"
+  /sys/feature-flags:
+    $ref: "paths/sys_feature-flags.yaml"
+  /sys/feature-flags/{feature_flag_id}:
+    $ref: "paths/sys_feature-flags_{feature_flag_id}.yaml"
   /sys/scheduled-tasks:
     $ref: "paths/sys_scheduled-tasks.yaml"
   /sys/scheduled-tasks/{task_name}/logs:

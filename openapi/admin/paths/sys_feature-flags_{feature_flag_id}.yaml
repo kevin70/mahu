@@ -1,0 +1,34 @@
+parameters:
+  - in: path
+    name: feature_flag_id
+    required: true
+    description: 功能开关 ID
+    schema:
+      type: integer
+      format: int32
+get:
+  summary: 获取指定功能开关
+  operationId: getSysFeatureFlag
+  x-permission-code: SYS_FEATURE_FLAG:R
+  tags: [h_feature]
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/SysFeatureFlagResponse.yaml"
+put:
+  summary: 修改功能开关
+  operationId: updateSysFeatureFlag
+  x-permission-code: SYS_FEATURE_FLAG:W
+  tags: [h_feature]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/SysFeatureFlagUpdateRequest.yaml"
+  responses:
+    "204":
+      description: OK

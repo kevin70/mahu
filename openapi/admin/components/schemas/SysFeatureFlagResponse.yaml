@@ -1,0 +1,46 @@
+type: object
+required:
+  - id
+  - code
+  - name
+  - enabled
+  - preset
+  - ordering
+properties:
+  id:
+    type: integer
+    format: int32
+    description: 功能开关 ID
+  created_at:
+    type: string
+    format: date-time
+    description: 创建时间
+  updated_at:
+    type: string
+    format: date-time
+    description: 修改时间
+  code:
+    type: string
+    description: 全局唯一标识，程序通过此字段读取开关；命名规范：{module}.{feature}，如 payment.wechat
+  name:
+    type: string
+    description: 可读名称，如"微信支付"
+  description:
+    type: string
+    description: 开关用途说明，建议描述：功能用途 + 关闭后的影响
+  enabled:
+    type: boolean
+    description: 开关状态：true=开启，false=关闭，修改后直接生效
+  preset:
+    type: boolean
+    description: 系统预置标志：true=内置开关，禁止删除
+  enable_at:
+    type: string
+    format: date-time
+    description: 定时开启时间，NULL=不启用定时；定时任务到期后置 enabled=true 并清空此字段
+  disable_at:
+    type: string
+    format: date-time
+    description: 定时关闭时间，NULL=不启用定时；定时任务到期后置 enabled=false 并清空此字段
+  ordering:
+    $ref: "./_ordering.yaml"

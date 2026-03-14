@@ -1,0 +1,44 @@
+post:
+  summary: 新建功能开关
+  operationId: createSysFeatureFlag
+  x-permission-code: SYS_FEATURE_FLAG:W
+  tags: [h_feature]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/SysFeatureFlagCreateRequest.yaml"
+  responses:
+    "204":
+      description: OK
+get:
+  summary: 功能开关分页列表
+  operationId: pageSysFeatureFlag
+  x-permission-code: SYS_FEATURE_FLAG:R
+  tags: [h_feature]
+  parameters:
+    - $ref: "../components/parameters/page_size.yaml"
+    - $ref: "../components/parameters/page.yaml"
+    - in: query
+      name: enabled
+      description: 是否启用
+      schema:
+        type: boolean
+    - in: query
+      name: name
+      description: 名称
+      schema:
+        type: string
+    - in: query
+      name: code
+      description: 代码
+      schema:
+        type: string
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/SysFeatureFlagPageResponse.yaml"

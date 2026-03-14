@@ -1,0 +1,32 @@
+type: object
+required:
+  - name
+  - enabled
+properties:
+  code:
+    type: string
+    description: 全局唯一标识，preset 为 false 时允许修改；命名规范：{module}.{feature}，如 payment.wechat
+    minLength: 1
+    maxLength: 128
+  name:
+    type: string
+    description: 名称
+    minLength: 1
+    maxLength: 128
+  description:
+    type: string
+    description: 描述
+    maxLength: 4096
+  enabled:
+    type: boolean
+    description: 开关状态：true=开启，false=关闭，修改后直接生效
+  enable_at:
+    type: string
+    format: date-time
+    description: 定时开启时间，NULL=不启用定时；定时任务到期后置 enabled=true 并清空此字段
+  disable_at:
+    type: string
+    format: date-time
+    description: 定时关闭时间，NULL=不启用定时；定时任务到期后置 enabled=false 并清空此字段
+  ordering:
+    $ref: "./_ordering.yaml"
