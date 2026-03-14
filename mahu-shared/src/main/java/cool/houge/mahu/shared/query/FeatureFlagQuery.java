@@ -16,4 +16,3 @@ public class FeatureFlagQuery {
     /// 代码
     String code;
 }
-

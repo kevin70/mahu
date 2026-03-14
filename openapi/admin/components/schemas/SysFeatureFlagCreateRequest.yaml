@@ -30,4 +30,3 @@ properties:
     description: 定时关闭时间，NULL=不启用定时；定时任务到期后置 enabled=false 并清空此字段
   ordering:
     $ref: "./_ordering.yaml"
-

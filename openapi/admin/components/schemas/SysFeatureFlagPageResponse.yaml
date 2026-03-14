@@ -7,4 +7,3 @@ properties:
     description: 列表
     items:
       $ref: "./SysFeatureFlagResponse.yaml"
-
