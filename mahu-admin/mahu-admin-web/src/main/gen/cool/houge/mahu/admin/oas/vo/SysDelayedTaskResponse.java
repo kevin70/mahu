@@ -43,7 +43,7 @@ public class SysDelayedTaskResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("topic")
     private String topic;
     /**
-     * 数据状态  - `10` `DRAFT` 草稿 - `11` `PENDING` 进行中 - `20` `APPROVED` 已批准/已通过/已授权 - `22` `ACTIVE` 活跃 - `30` `PAID` 已支付 - `54` `DISABLED` 已禁用 
+     * 数据状态  - `10` `DRAFT` 草稿 - `11` `PENDING` 待处理 - `12` `SUSPENDED` 暂停 - `16` `PROCESSING` 进行中 - `20` `APPROVED` 已批准 - `22` `ACTIVE` 活跃 - `30` `PARTIAL_PAID` 部分支付 - `31` `PAID` 已支付 - `32` `PARTIAL_REFUNDED` 部分退款 - `33` `REFUNDED` 已退款 - `40` `PACKAGED` 已打包 - `41` `SHIPPED` 已发货 - `42` `IN_TRANSIT` 运输中 - `43` `DELIVERED` 已送达 - `72` `LOCKED` 锁定 - `74` `DISABLED` 已禁用 - `86` `REJECTED` 被拒绝 - `87` `VOIDED` 作废 - `88` `COMPLETED` 已完成 - `89` `FAILED` 失败 - `90` `EXPIRED` 已过期 - `92` `INACTIVE` 非活跃 - `93` `CANCELLED` 已取消 - `95` `DELETED` 已删除 - `97` `ARCHIVED` 归档 - `99` `TERMINATED` 已终止 
      * minimum: 10
      * maximum: 99
      */

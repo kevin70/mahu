@@ -66,9 +66,11 @@ public class Feature implements Auditable {
     /// 禁用的用户
     private byte[] denyUserRb;
     /// 扩展属性
-    private Map<String, Object> extraProperties;
+    @DbJsonB
+    private Map<String, Object> properties;
     /// 扩展属性 JSON Schema
-    private Map<String, Object> extraSchema;
+    @DbJsonB
+    private Map<String, Object> propertiesSchema;
 
     public Feature setAllowUsers(List<Long> list) {
         return setRb(list, this::setAllowUserRb);

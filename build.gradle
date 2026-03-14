@@ -51,7 +51,9 @@ allprojects {
     }
 
     node {
-        download = false
+        download = true
+        version = "22.19.0"
+        distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
         workDir = rootProject.layout.projectDirectory.dir(".gradle/")
         pnpmWorkDir = rootProject.layout.projectDirectory.dir(".gradle/")
     }

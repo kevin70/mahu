@@ -66,11 +66,11 @@ properties:
     items:
       type: integer
       format: int64
-  extra_properties:
+  properties:
     type: object
     description: 扩展属性
     additionalProperties: true
-  extra_schema:
+  properties_schema:
     type: object
     description: 扩展属性 JSON Schema
     additionalProperties: true

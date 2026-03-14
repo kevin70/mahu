@@ -44,9 +44,9 @@ public class ImmutableFeature {
     /// 禁用的用户
     ImmutableLongBitmapDataProvider denyUserRb;
     /// 扩展属性
-    Map<String, Object> extraProperties;
+    Map<String, Object> properties;
     /// 扩展属性 JSON Schema
-    Map<String, Object> extraSchema;
+    Map<String, Object> propertiesSchema;
 
     /// 判断功能配置是否处于激活状态
     ///
