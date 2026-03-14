@@ -5,6 +5,7 @@ import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.Feature;
+import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.entity.sys.Role;
 import io.helidon.service.registry.Service.Contract;
 import io.helidon.service.registry.Service.Singleton;
@@ -40,4 +41,6 @@ public interface EntityBeanMapper {
     void map(@MappingTarget AuthClient target, AuthClient bean);
 
     void map(@MappingTarget Feature target, Feature bean);
+
+    void map(@MappingTarget FeatureFlag target, FeatureFlag bean);
 }

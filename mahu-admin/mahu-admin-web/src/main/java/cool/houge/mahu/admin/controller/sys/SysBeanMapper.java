@@ -19,6 +19,9 @@ import cool.houge.mahu.admin.oas.vo.SysDictGroupUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysFeatureResponse;
 import cool.houge.mahu.admin.oas.vo.SysFeatureUpdateRequest;
+import cool.houge.mahu.admin.oas.vo.SysFeatureFlagCreateRequest;
+import cool.houge.mahu.admin.oas.vo.SysFeatureFlagResponse;
+import cool.houge.mahu.admin.oas.vo.SysFeatureFlagUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.SysRoleResponse;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskLogResponse;
@@ -32,6 +35,7 @@ import cool.houge.mahu.entity.sys.AdminChangeLog;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.entity.sys.Feature;
+import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskLog;
@@ -100,6 +104,8 @@ public interface SysBeanMapper extends TopBeanMapper {
 
     SysFeatureResponse toSysFeatureResponse(Feature bean);
 
+    SysFeatureFlagResponse toSysFeatureFlagResponse(FeatureFlag bean);
+
     SysAdminAuthLogResponse toAdminAuthLogResponse(AdminAuthLog bean);
 
     SysAdminAccessLogResponse toAdminAccessLogResponse(AdminAccessLog bean);
@@ -107,6 +113,10 @@ public interface SysBeanMapper extends TopBeanMapper {
     SysAdminChangeLogResponse toAdminChangeLogResponse(AdminChangeLog bean);
 
     Feature toFeature(SysFeatureUpdateRequest bean);
+
+    FeatureFlag toFeatureFlag(SysFeatureFlagCreateRequest bean);
+
+    FeatureFlag toFeatureFlag(SysFeatureFlagUpdateRequest bean);
 
     PresignedUploadPayload toPresignedUploadPayload(FileCreatePresignedRequest bean);
 
