@@ -20,8 +20,6 @@ import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysFeatureFlagCreateRequest;
 import cool.houge.mahu.admin.oas.vo.SysFeatureFlagResponse;
 import cool.houge.mahu.admin.oas.vo.SysFeatureFlagUpdateRequest;
-import cool.houge.mahu.admin.oas.vo.SysFeatureResponse;
-import cool.houge.mahu.admin.oas.vo.SysFeatureUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.SysRoleResponse;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysScheduledTaskLogResponse;
@@ -102,8 +100,6 @@ public interface SysBeanMapper extends TopBeanMapper {
 
     ScheduledTask toScheduledTask(String taskName);
 
-    SysFeatureResponse toSysFeatureResponse(Feature bean);
-
     SysFeatureFlagResponse toSysFeatureFlagResponse(FeatureFlag bean);
 
     SysAdminAuthLogResponse toAdminAuthLogResponse(AdminAuthLog bean);
@@ -112,15 +108,13 @@ public interface SysBeanMapper extends TopBeanMapper {
 
     SysAdminChangeLogResponse toAdminChangeLogResponse(AdminChangeLog bean);
 
-    Feature toFeature(SysFeatureUpdateRequest bean);
+    PresignedUploadPayload toPresignedUploadPayload(FileCreatePresignedRequest bean);
+
+    StoredObject.Type toStoredObjectType(FileType bean);
 
     FeatureFlag toFeatureFlag(SysFeatureFlagCreateRequest bean);
 
     FeatureFlag toFeatureFlag(SysFeatureFlagUpdateRequest bean);
-
-    PresignedUploadPayload toPresignedUploadPayload(FileCreatePresignedRequest bean);
-
-    StoredObject.Type toStoredObjectType(FileType bean);
 
     FileCreatePresignedResponse toFileCreatePresignedResponse(PresignedUploadResult bean);
 
