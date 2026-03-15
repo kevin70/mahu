@@ -1,9 +1,0 @@
-### 证件照预签名上传 - createIdPhotoPresigned
-POST {{base_uri}}/id-photos
-Authorization: Bearer {{access_token}}
-Content-Type: application/json
-
-{
-    "type": 0,
-    "file_name": "{{$random.uuid}}.png"
-}
