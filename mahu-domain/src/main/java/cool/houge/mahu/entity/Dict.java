@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "dicts")
-public class Dict implements Auditable {
+public class Dict {
 
     /// 字典代码
     @Id

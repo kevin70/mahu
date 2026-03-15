@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "dict_groups")
-public class DictGroup implements Auditable {
+public class DictGroup {
 
     /// 字典分组编码，唯一
     @Id

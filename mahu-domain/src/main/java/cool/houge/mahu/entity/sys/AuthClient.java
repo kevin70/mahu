@@ -1,6 +1,5 @@
 package cool.houge.mahu.entity.sys;
 
-import cool.houge.mahu.entity.Auditable;
 import cool.houge.mahu.entity.TerminalType;
 import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.SoftDelete;
@@ -23,7 +22,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "auth_clients", schema = "sys")
 @ChangeLog(updatesThatInclude = {"clientSecret", "remark", "label", "terminalType", ""})
-public class AuthClient implements Auditable {
+public class AuthClient {
 
     /// 客户端 ID
     @Id

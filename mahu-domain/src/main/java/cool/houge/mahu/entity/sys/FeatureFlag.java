@@ -1,6 +1,5 @@
 package cool.houge.mahu.entity.sys;
 
-import cool.houge.mahu.entity.Auditable;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(schema = "sys", name = "feature_flags")
-public class FeatureFlag implements Auditable {
+public class FeatureFlag {
 
     /// 主键，自增
     @Id

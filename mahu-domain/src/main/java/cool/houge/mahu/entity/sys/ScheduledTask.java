@@ -1,6 +1,5 @@
 package cool.houge.mahu.entity.sys;
 
-import cool.houge.mahu.entity.Auditable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -16,7 +15,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "scheduled_tasks", schema = "sys")
-public class ScheduledTask implements Auditable {
+public class ScheduledTask {
 
     /// 任务名称
     @Id
