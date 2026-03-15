@@ -34,6 +34,7 @@ public class FeatureFlagRepository extends HBeanRepository<Integer, FeatureFlag>
             qb.code.icontains(query.getCode());
         }
 
+        qb.ordering.desc();
         return super.findPage(qb, page);
     }
 }
