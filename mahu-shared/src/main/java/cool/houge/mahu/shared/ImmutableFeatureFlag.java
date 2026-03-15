@@ -1,6 +1,6 @@
 package cool.houge.mahu.shared;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Value;
 
@@ -28,21 +28,21 @@ public class ImmutableFeatureFlag {
     boolean preset;
 
     /// 定时开启时间，NULL=不启用定时
-    Instant enableAt;
+    LocalDateTime enableAt;
 
     /// 定时关闭时间，NULL=不启用定时
-    Instant disableAt;
+    LocalDateTime disableAt;
 
     /// 排序权重，值越大越靠前
     int ordering;
 
     /// 基于当前时间判断是否处于“生效中”状态
     public boolean isActive() {
-        return isActive(Instant.now());
+        return isActive(LocalDateTime.now());
     }
 
     /// 基于指定时间判断是否处于“生效中”状态
-    public boolean isActive(Instant now) {
+    public boolean isActive(LocalDateTime now) {
         if (!enabled) {
             return false;
         }
