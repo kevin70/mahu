@@ -32,7 +32,6 @@ import cool.houge.mahu.entity.sys.AdminAuthLog;
 import cool.houge.mahu.entity.sys.AdminChangeLog;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.DelayedTask;
-import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.entity.sys.ScheduledTask;
