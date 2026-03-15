@@ -54,11 +54,27 @@
 +----------+
 ```
 
-## 构建文档
+## OpenAPI 与文档常用命令
 
-```
-podman run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build
-```
+在项目根目录执行：
+
+- **安装 OpenAPI 相关前端依赖**：
+
+  ```bash
+  ./gradlew openapiDepsInstall
+  ```
+
+- **生成/更新管理端 OpenAPI 服务器端代码**（包括先打包 OpenAPI，再生成 Helidon SE 代码并复制到 `mahu-admin-web/src/main/gen`）：
+
+  ```bash
+  ./gradlew :mahu-admin:mahu-admin-web:openApiGenerate
+  ```
+
+- **构建文档站点**（如需）：
+
+  ```bash
+  podman run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build
+  ```
 
 ## 应用环境名称规范
 

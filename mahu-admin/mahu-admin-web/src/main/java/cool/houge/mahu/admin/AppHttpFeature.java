@@ -8,6 +8,7 @@ import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebMetadata;
 import cool.houge.mahu.web.problem.RestErrorHandler;
+import cool.houge.mahu.web.security.SimpleHttpSecurity;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
 import io.helidon.http.ForbiddenException;
@@ -50,7 +51,9 @@ public class AppHttpFeature implements HttpFeature, Filter {
 
     @Override
     public void setup(HttpRouting.Builder routing) {
-        routing.error(Throwable.class, new RestErrorHandler()).addFilter(this).security(new SimpleSecurity());
+        routing.error(Throwable.class, new RestErrorHandler())
+                .addFilter(this)
+                .security(new SimpleHttpSecurity());
         for (Filter filter : filters) {
             routing.addFilter(filter);
         }
@@ -106,37 +109,5 @@ public class AppHttpFeature implements HttpFeature, Filter {
 
     String traceId(ServerRequest request) {
         return request.headers().first(X_REQUEST_ID).orElseGet(G::traceId);
-    }
-
-    private static class SimpleSecurity implements HttpSecurity {
-
-        @Override
-        public boolean authenticate(ServerRequest request, ServerResponse response, boolean requiredHint)
-                throws UnauthorizedException {
-            obtainAuthContext(request);
-            return true;
-        }
-
-        @Override
-        public boolean authorize(ServerRequest request, ServerResponse response, String... roleHint)
-                throws ForbiddenException {
-            if (roleHint.length != 0) {
-                var ac = obtainAuthContext(request);
-                for (String s : roleHint) {
-                    if (ac.hasPermission(s)) {
-                        return true;
-                    }
-                }
-            }
-            throw new ForbiddenException("没有访问权限");
-        }
-
-        AuthContext obtainAuthContext(ServerRequest request) {
-            var ac = request.context().get(AuthContext.class);
-            if (ac.isEmpty() || ac.get() == AuthContext.ANONYMOUS) {
-                throw new UnauthorizedException("缺少认证");
-            }
-            return ac.get();
-        }
     }
 }

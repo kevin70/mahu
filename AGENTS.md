@@ -32,8 +32,7 @@
   - `mahu-db`：数据库 Schema 与变更脚本（Liquibase，`src/main/resources/db/changelog`）
   - `mahu-codegen`：代码生成相关逻辑（如有需要可进一步查看）
 - **文档与开放接口**
-  - `docs`：基于 VitePress 的项目文档（例如 `docs/src/index.md`）
-  - `mahu-docs`：更细粒度的设计与规范文档（数据库设计、AI、通用设计等）
+  - `docs`：项目文档与设计规范（数据库设计、AI、通用设计等）
   - `openapi`：OpenAPI 规范与相关工具（`openapi/dist/mahu-admin-openapi.yaml` 等）
 
 ---
@@ -45,8 +44,7 @@
   - `mahu-db/README.md`：Liquibase 使用原则（每个 `changeSet` 必须有 `rollback`）
   - `mahu-db/src/main/resources/db/changelog/changelog-root.yaml`：数据库所有变更入口，引用各 `*.sql` 变更文件
 - **系统文档与设计说明**:
-  - `docs/src/`：VitePress 文档源文件（如 `index.md`、`database_standards.md`、`env_configuration.md` 等）
-  - `mahu-docs/content/`：包含数据库设计、通用设计、AI 相关说明等
+  - `docs/content/`：包含数据库设计、通用设计、AI 相关说明等
 
 在回答与数据库、接口规范、环境配置相关的问题时，应优先查阅上述文档文件中的内容，再进行总结与推理。
 
@@ -100,7 +98,7 @@
   - 回答时保持简洁、信息密度高，必要时引用具体文件路径与模块名称。
 - **查找信息的优先顺序**:
   1. 已存在的代码与配置（Java / SQL / YAML / Gradle）
-  2. 项目内的文档（`docs/`、`mahu-docs/`、`README.md` 系列）
+  2. 项目内的文档（`docs/`、`README.md` 系列）
   3. 在缺少信息时，再结合通用最佳实践进行合理推断，并在回答中说明是假设。
 - **修改代码时**:
   - 避免破坏模块边界（例如 `mahu-db` 只做数据库相关变更，不直接承担业务逻辑）。
