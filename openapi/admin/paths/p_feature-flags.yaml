@@ -1,0 +1,23 @@
+get:
+  summary: 功能开关列表（公共）
+  operationId: listPublicFeatureFlags
+  tags: [h_public_feature_flag]
+  security: []
+  parameters:
+    - in: query
+      name: code
+      description: 功能开关代码，可传多个
+      schema:
+        type: array
+        items:
+          type: string
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            description: 功能开关列表，仅含 code/name/active
+            items:
+              $ref: "../components/schemas/PublicFeatureFlagResponse.yaml"

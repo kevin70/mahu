@@ -29,6 +29,8 @@ tags:
     x-displayName: 证件照
   - name: h_public_dict
     x-displayName: 公共字典
+  - name: h_public_feature_flag
+    x-displayName: 公共功能开关
 
   - name: h_auth_client
     x-displayName: 认证终端
@@ -53,6 +55,7 @@ x-tagGroups:
       - h_login
       - h_me
       - h_public_dict
+      - h_public_feature_flag
   - name: 系统模块
     tags:
       - h_file
@@ -75,6 +78,8 @@ paths:
     $ref: "paths/p_dicts.yaml"
   /p/dicts/{dc}:
     $ref: "paths/p_dicts_{dc}.yaml"
+  /p/feature-flags:
+    $ref: "paths/p_feature-flags.yaml"
 
   ### =============================== 认证/用户数据接口 =============================== ###
   /login/token:
