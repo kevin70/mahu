@@ -1,6 +1,5 @@
-package cool.houge.mahu.web.security;
+package cool.houge.mahu.admin.security;
 
-import cool.houge.mahu.admin.security.AuthContext;
 import io.helidon.http.ForbiddenException;
 import io.helidon.http.UnauthorizedException;
 import io.helidon.webserver.http.HttpSecurity;

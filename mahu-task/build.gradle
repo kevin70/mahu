@@ -35,9 +35,9 @@ dependencies {
     annotationProcessor(libs.ebean.querybean.generator)
     annotationProcessor(libs.helidon.bundles.apt)
 
-    implementation(project(":mahu-entity"))
+    // 聚合后的领域层：实体 + 共享业务
+    implementation(project(":mahu-domain"))
     implementation(project(":mahu-config"))
-    implementation(project(":mahu-shared"))
 
     implementation(libs.bundles.helidon.config)
     implementation(libs.bundles.helidon.webserver)

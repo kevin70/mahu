@@ -62,7 +62,7 @@ public class IdPhoto {
             return Strings.isNullOrEmpty(ext) ? prefix + "/" + id : prefix + "/" + id + "." + ext;
         }
 
-        public static IdPhoto.Type ofIndex(Integer i) {
+        public static Type ofIndex(Integer i) {
             if (i == null || i < 0 || i >= values().length) {
                 throw new IllegalArgumentException("非法的 IdPhoto.Type");
             }

@@ -4,3 +4,4 @@ package cool.houge.mahu.entity;
 ///
 /// @author ZY (kzou227@qq.com)
 public interface Auditable {}
+

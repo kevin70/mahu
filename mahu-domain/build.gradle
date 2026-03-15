@@ -2,10 +2,15 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
+    annotationProcessor(libs.ebean.querybean.generator)
     annotationProcessor(libs.helidon.bundles.apt)
+    compileOnly(libs.avaje.lang)
 
-    api(project(":mahu-entity"))
     api(project(":mahu-config"))
+    implementation(libs.ebean.api)
+    implementation(libs.ebean.querybean)
+    implementation(libs.bundles.helidon.common)
+
     implementation(libs.minio)
     implementation(libs.caffeine)
     implementation(libs.bundles.jackson)
@@ -15,3 +20,4 @@ dependencies {
 
     testAnnotationProcessor(libs.helidon.bundles.apt)
 }
+
