@@ -21,10 +21,9 @@
 
 - **核心模块**
   - `mahu-base`：基础设施与通用代码
-  - `mahu-config`：配置相关
-  - `mahu-entity`：实体定义（与数据库表一一对应，遵循根 `README.md` 中的 Java Package 规范）
-  - `mahu-shared`：共享业务逻辑
-- `mahu-web`：Web / API 服务（Helidon SE WebServer，依赖 `mahu-base` 等）
+  - `mahu-config`：配置相关与配置装配逻辑
+  - `mahu-domain`：领域层（EBean 实体 + 共享业务逻辑，遵循根 `README.md` 中的 Java Package 规范）
+- `mahu-web`：Web / API 服务（Helidon SE WebServer，依赖 `mahu-base`、`mahu-domain` 等）
 - **业务模块**
   - `mahu-admin:mahu-admin-infra`：管理端后台基础设施
   - `mahu-admin:mahu-admin-web`：管理端 Web 应用，使用 OpenAPI Generator 生成部分代码（`src/main/gen`）
