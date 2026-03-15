@@ -9,7 +9,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.Status;
 import cool.houge.mahu.entity.sys.Feature;
 import cool.houge.mahu.shared.ImmutableFeature;
-import cool.houge.mahu.shared.repository.sys.FeatureRepository;
+import cool.houge.mahu.repository.sys.FeatureRepository;
 import cool.houge.mahu.util.RoaringBitmapUtils;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;

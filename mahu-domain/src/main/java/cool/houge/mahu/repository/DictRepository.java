@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared.repository;
+package cool.houge.mahu.repository;
 
 import cool.houge.mahu.entity.Dict;
 import io.ebean.BeanRepository;

@@ -4,7 +4,7 @@ import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.shared.ImmutableDict;
 import cool.houge.mahu.shared.ImmutableDictGroup;
 import cool.houge.mahu.shared.ImmutableFeature;
-import cool.houge.mahu.shared.repository.sys.DelayedTaskRepository;
+import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
 import java.util.List;

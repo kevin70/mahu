@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared.repository;
+package cool.houge.mahu.repository;
 
 import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.entity.AssetKind;

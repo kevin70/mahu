@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared.repository.sys;
+package cool.houge.mahu.repository.sys;
 
 import com.github.f4b6a3.ulid.UlidFactory;
 import cool.houge.mahu.domain.Page;

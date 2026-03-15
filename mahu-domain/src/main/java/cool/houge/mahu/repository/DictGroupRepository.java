@@ -1,11 +1,11 @@
-package cool.houge.mahu.shared.repository;
+package cool.houge.mahu.repository;
 
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.query.QDict;
 import cool.houge.mahu.entity.query.QDictGroup;
-import cool.houge.mahu.shared.query.DictQuery;
+import cool.houge.mahu.query.DictQuery;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

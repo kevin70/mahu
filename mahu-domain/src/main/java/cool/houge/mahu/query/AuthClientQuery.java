@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared.query;
+package cool.houge.mahu.query;
 
 import cool.houge.mahu.entity.TerminalType;
 import lombok.Builder;

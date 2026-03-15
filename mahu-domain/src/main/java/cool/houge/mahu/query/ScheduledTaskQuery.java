@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared.query;
+package cool.houge.mahu.query;
 
 import lombok.Builder;
 import lombok.Value;

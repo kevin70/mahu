@@ -16,7 +16,7 @@ import cool.houge.mahu.config.ConfigPrefixes;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminAuthLog;
-import cool.houge.mahu.shared.repository.sys.AuthClientRepository;
+import cool.houge.mahu.repository.sys.AuthClientRepository;
 import cool.houge.mahu.util.Metadata;
 import io.ebean.annotation.Transactional;
 import io.helidon.common.LazyValue;

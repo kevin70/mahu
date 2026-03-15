@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared.repository.sys;
+package cool.houge.mahu.repository.sys;
 
 import cool.houge.mahu.entity.sys.StoredObject;
 import cool.houge.mahu.entity.sys.query.QStoredObject;
