@@ -36,6 +36,9 @@ properties:
   value_regex:
     type: string
     description: 值正则表达式规则
+  preset:
+    type: boolean
+    description: 是否预置
   data:
     type: array
     description: 字典数据

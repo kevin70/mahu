@@ -50,6 +50,12 @@ public class SysDictGroupUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("value_regex")
     private String valueRegex;
     /**
+     * 是否预置
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("preset")
+    private Boolean preset;
+    /**
      * 字典数据
      */
     

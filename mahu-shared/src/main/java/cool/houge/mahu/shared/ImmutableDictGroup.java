@@ -37,6 +37,8 @@ public class ImmutableDictGroup {
     /// - `1`：公开
     /// - `2`：受限
     int visibility;
+    /// 是否预置
+    boolean preset;
     /// 字典分组下的所有字典项的列表
     List<@NonNull ImmutableDict> dicts;
 

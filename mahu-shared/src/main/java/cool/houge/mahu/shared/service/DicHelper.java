@@ -72,6 +72,7 @@ class DicHelper {
                 .name(bean.getName())
                 .description(bean.getDescription())
                 .enabled(bean.getEnabled())
+                .preset(bean.isPreset())
                 .dicts(bean.getData().stream()
                         .map(this::map)
                         .sorted(Comparator.comparing(ImmutableDict::getOrdering).reversed())

@@ -35,3 +35,12 @@ COMMENT ON COLUMN public.dict_groups.created_at IS '创建时间';
 COMMENT ON COLUMN public.dict_groups.updated_at IS '更新时间';
 
 -- rollback drop table public.dict_groups;
+;
+
+-- changeset kzou227@qq.com:202603151000
+ALTER TABLE public.dict_groups
+ADD COLUMN preset BOOLEAN DEFAULT FALSE;
+
+COMMENT ON COLUMN public.dict_groups.preset IS '是否预置';
+
+-- rollback ALTER TABLE public.dict_groups DROP COLUMN preset;

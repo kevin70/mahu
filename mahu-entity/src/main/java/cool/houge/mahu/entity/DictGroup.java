@@ -45,6 +45,8 @@ public class DictGroup implements Auditable {
     private Visibility visibility;
     /// 值正则表达式规则
     private String valueRegex;
+    /// 是否预置
+    private boolean preset;
     /// 字典数据
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dict> data;

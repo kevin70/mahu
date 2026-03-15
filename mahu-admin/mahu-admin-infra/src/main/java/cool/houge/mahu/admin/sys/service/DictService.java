@@ -57,6 +57,10 @@ public class DictService {
     @Transactional
     public void deleteById(String id) {
         var bean = obtainById(id);
+        if (bean.isPreset()) {
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "预置字典分组不可删除");
+        }
+
         dictGroupRepository.delete(bean);
         log.info("删除数据字典 {}", bean);
     }
