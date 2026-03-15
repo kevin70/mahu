@@ -2,7 +2,7 @@ post:
   summary: 新建功能开关
   operationId: createSysFeatureFlag
   x-permission-code: SYS_FEATURE_FLAG:W
-  tags: [h_feature]
+  tags: [h_feature_flag]
   requestBody:
     required: true
     content:
@@ -16,7 +16,7 @@ get:
   summary: 功能开关分页列表
   operationId: pageSysFeatureFlag
   x-permission-code: SYS_FEATURE_FLAG:R
-  tags: [h_feature]
+  tags: [h_feature_flag]
   parameters:
     - $ref: "../components/parameters/page_size.yaml"
     - $ref: "../components/parameters/page.yaml"

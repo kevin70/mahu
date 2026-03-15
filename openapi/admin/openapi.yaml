@@ -40,8 +40,8 @@ tags:
     x-displayName: 角色管理
   - name: h_admin
     x-displayName: 管理员管理
-  - name: h_feature
-    x-displayName: 功能配置
+  - name: h_feature_flag
+    x-displayName: 功能开关
   - name: h_scheduled_task
     x-displayName: 定时任务
   - name: h_delayed_task
@@ -62,7 +62,7 @@ x-tagGroups:
       - h_permission
       - h_role
       - h_admin
-      - h_feature
+      - h_feature_flag
       - h_scheduled_task
       - h_delayed_task
 paths:
@@ -113,10 +113,6 @@ paths:
     $ref: "paths/sys_admins_{admin_id}.yaml"
   /sys/admin-logs/{type}:
     $ref: "paths/sys_admin-logs_{type}.yaml"
-  /sys/features:
-    $ref: "paths/sys_features.yaml"
-  /sys/features/{feature_id}:
-    $ref: "paths/sys_features_{feature_id}.yaml"
   /sys/feature-flags:
     $ref: "paths/sys_feature-flags.yaml"
   /sys/feature-flags/{feature_flag_id}:

@@ -10,7 +10,7 @@ get:
   summary: 获取指定功能开关
   operationId: getSysFeatureFlag
   x-permission-code: SYS_FEATURE_FLAG:R
-  tags: [h_feature]
+  tags: [h_feature_flag]
   responses:
     "200":
       description: OK
@@ -22,7 +22,7 @@ put:
   summary: 修改功能开关
   operationId: updateSysFeatureFlag
   x-permission-code: SYS_FEATURE_FLAG:W
-  tags: [h_feature]
+  tags: [h_feature_flag]
   requestBody:
     required: true
     content:
