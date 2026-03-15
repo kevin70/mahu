@@ -103,6 +103,7 @@ helidon-health-checks = { module = "io.helidon.health:helidon-health-checks", ve
 helidon-http-media-jackson = { module = "io.helidon.http.media:helidon-http-media-jackson", version.ref = "helidon" }
 helidon-fault-tolerance = { module = "io.helidon.fault-tolerance:helidon-fault-tolerance", version.ref = "helidon" }
 helidon-logging-log4j = { module = "io.helidon.logging:helidon-logging-log4j", version.ref = "helidon" }
+helidon-scheduling = { module = "io.helidon.scheduling:helidon-scheduling", version.ref = "helidon" }
 helidon-webclient = { module = "io.helidon.webclient:helidon-webclient", version.ref = "helidon" }
 helidon-webserver = { module = "io.helidon.webserver:helidon-webserver", version.ref = "helidon" }
 helidon-webserver-cors = { module = "io.helidon.webserver:helidon-webserver-cors", version.ref = "helidon" }
@@ -182,13 +183,15 @@ helidon-service = [
     "helidon-health-checks",
     "helidon-config-yaml",
     "helidon-config-encryption",
-    "helidon-security-jwt"
+    "helidon-security-jwt",
+    "helidon-scheduling"
 ]
 helidon-webclient = [
     "helidon-webclient",
     "helidon-http-media-jackson",
 ]
 helidon-webserver = [
+    "helidon-scheduling",
     "helidon-service-registry",
     "helidon-security-jwt",
     "helidon-health-checks",
