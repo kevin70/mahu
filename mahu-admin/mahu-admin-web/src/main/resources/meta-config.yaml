@@ -1,39 +1,25 @@
-# 元配置机制
-# 元配置支持通过专用配置文件对配置系统本身进行初始化。系统会在当前目录和类路径中扫描名为`meta-config.*`的文件（其中 * 表示支持的媒体类型后缀，例如当引入`helidon-config-yaml`模块时可使用`yaml`格式）。
+# 元配置机制（Helidon Config）
+# 元配置支持通过专用配置文件对配置系统本身进行初始化。系统会在当前目录和类路径中扫描名为
+# `meta-config.*` 的文件（其中 * 表示支持的媒体类型后缀，例如当引入 `helidon-config-yaml` 模块时可使用 `yaml` 格式）。
 #
-# 元配置可定义需要加载的配置源，包括：
-# - 重试策略
-# - 轮询策略
-# - 变更监听机制
+# 优先级规则（非常重要）：
+# - **前面声明的配置源优先级更高，后面的优先级更低**
+# - 当多个配置源中存在相同 key 时，**排在前面的值会覆盖排在后面的值**
 #
-# YAML 格式元配置文件示例：
-# ```
+# 典型用途：
+# - 最后面的 classpath 资源（如 `application.yaml`、`mahu-admin.yaml`）提供默认值
+# - 中间的文件（`$HOME`、`/etc`）用于本地/环境级覆盖
+# - 最前面的 environment-variables、system-properties 作为最高优先级的覆盖手段
+#
+# 示例（简化）：
 # sources:
-#   - type: "environment-variables"
-#   - type: "system-properties"
-#   - type: "file"
-#     properties:
-#       path: "conf/dev.yaml"
-#       optional: true
-#   - type: "file"
-#     properties:
-#       path: "conf/config.yaml"
-#       optional: true
-#   - type: "classpath"
-#     properties:
-#       resource: "default.yaml"
-# ```
-#
-# 上述配置将按顺序加载以下配置源：
-# - 环境变量配置源
-# - 系统属性配置源
-# - 可选文件配置源（`conf/dev.yaml`）
-# - 可选文件配置源（`conf/config.yaml`）
-# - 强制类路径资源配置源（`default.yaml`）
+#   - type: environment-variables    # 最高优先级
+#   - type: system-properties
+#   - type: file                     # 中间优先级
+#   - type: classpath                # 最低优先级（默认配置）
 #
 # 注：
 # - 未标注 `optional: true` 的配置源默认为强制加载（mandatory）
-# - 配置源按声明顺序形成优先级链（后加载的配置会覆盖先前的同名参数）
 
 sources:
   - type: environment-variables
