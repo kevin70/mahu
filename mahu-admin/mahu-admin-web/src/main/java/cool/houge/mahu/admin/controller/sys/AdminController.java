@@ -51,7 +51,7 @@ public class AdminController implements HAdminService, WebSupport {
     @Override
     public void pageSysAdmin(ServerRequest request, ServerResponse response) {
         var query = AdminQuery.builder();
-        queryIntArgs(request, "status").ifPresent(query::statusList);
+        queryIntList(request, "status").ifPresent(query::statusList);
         queryArg(request, "username").ifPresent(query::username);
 
         var plist = adminService.findPage(query.build(), page(request));
