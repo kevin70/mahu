@@ -1,5 +1,7 @@
 package cool.houge.mahu.shared.service;
 
+import cool.houge.mahu.BizCodeException;
+import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import cool.houge.mahu.shared.ImmutableDict;
@@ -31,6 +33,22 @@ public class AppSharedService {
     /// 获取指定的功能开关
     public @NonNull ImmutableFeatureFlag getFeatureFlag(String code) {
         return featureFlagCacheService.loadFeature(code);
+    }
+
+    /// 确保指定的功能开关处于生效状态，否则抛出业务异常。
+    public @NonNull ImmutableFeatureFlag ensureFeatureFlagOn(String code) {
+        ImmutableFeatureFlag flag;
+        try {
+            flag = getFeatureFlag(code);
+        } catch (BizCodeException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BizCodeException(BizCodes.INTERNAL, "加载功能开关失败: " + code, e);
+        }
+        if (!flag.isActive()) {
+            throw new BizCodeException(BizCodes.PERMISSION_DENIED, "功能未开启: " + code);
+        }
+        return flag;
     }
 
     /// 获取指定的字典项
