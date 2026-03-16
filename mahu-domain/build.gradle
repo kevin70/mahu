@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.ebean.api)
     implementation(libs.ebean.querybean)
     implementation(libs.bundles.helidon.common)
+    implementation(libs.bundles.helidon.service)
 
     implementation(libs.minio)
     implementation(libs.caffeine)

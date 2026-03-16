@@ -11,6 +11,8 @@ import cool.houge.mahu.repository.DictRepository;
 import cool.houge.mahu.shared.ImmutableDict;
 import cool.houge.mahu.shared.ImmutableDictGroup;
 import io.ebean.annotation.Transactional;
+import io.helidon.config.Config;
+import io.helidon.scheduling.FixedRate;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
 import java.util.Collection;
@@ -29,38 +31,49 @@ import org.jspecify.annotations.NonNull;
 class DicHelper {
 
     private static final Logger log = LogManager.getLogger(DicHelper.class);
+
+    private final Config config;
     private final DictGroupRepository dictGroupRepository;
     private final DictRepository dictRepository;
 
     private final Cache<String, ImmutableDictGroup> dictTypeCache = Caffeine.newBuilder()
             .recordStats()
-            .expireAfterWrite(Duration.ofDays(1))
+            .expireAfterWrite(Duration.ofHours(2))
             .build();
     private final Cache<Integer, ImmutableDict> dictCache = Caffeine.newBuilder()
             .recordStats()
-            .expireAfterWrite(Duration.ofDays(1))
+            .expireAfterWrite(Duration.ofHours(2))
             .build();
 
     @Service.PostConstruct
     void init() {
-        // var delay = Env.current().isProd() ? Duration.ofMinutes(10) : Duration.ofMinutes(1);
-        // SCHEDULED_EXECUTOR
-        //         .get()
-        //         .scheduleWithFixedDelay(this::refreshAll, delay.toMillis(), delay.toMillis(), TimeUnit.MILLISECONDS);
-        // this.refreshAll();
+        this.refreshAll();
+        log.debug("字典全量缓存刷新完成");
+
+        FixedRate.builder()
+                .interval(Duration.ofMinutes(10))
+                .delayBy(Duration.ofMinutes(10))
+                .config(config.get("scheduling.dict-cache-refresh"))
+                .task((invocation) -> {
+                    try {
+                        refreshAll();
+                    } catch (Exception e) {
+                        // 避免定时任务异常中断调度，记录错误等待人工介入
+                        log.error("定时刷新字典缓存失败", e);
+                    }
+                })
+                .build();
     }
 
     Collection<ImmutableDictGroup> allDictTypes() {
         return dictTypeCache.asMap().values();
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @NonNull
     ImmutableDictGroup loadDictType(String typeId) {
         return dictTypeCache.get(typeId, this::getDictType);
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @NonNull
     ImmutableDict loadDict(int dc) {
         return dictCache.get(dc, this::getDict);
@@ -92,6 +105,7 @@ class DicHelper {
     }
 
     @Transactional(readOnly = true)
+    @NonNull
     private ImmutableDictGroup getDictType(String dictGroupId) {
         var dbDictGroup = dictGroupRepository.findById(dictGroupId);
         if (dbDictGroup == null) {
@@ -101,6 +115,7 @@ class DicHelper {
     }
 
     @Transactional(readOnly = true)
+    @NonNull
     private ImmutableDict getDict(int dc) {
         var dbDict = dictRepository.findById(dc);
         if (dbDict == null) {
@@ -120,6 +135,5 @@ class DicHelper {
                 dictCache.put(dict.getDc(), dict);
             }
         }
-        log.debug("字典全量缓存刷新完成");
     }
 }
