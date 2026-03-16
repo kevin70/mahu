@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared;
+package cool.houge.mahu;
 
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
@@ -14,17 +14,18 @@ import io.helidon.service.registry.Service.Singleton;
 import java.util.function.Supplier;
 import javax.sql.DataSource;
 
-/// 数据库
+/// 测试环境数据库提供者
 ///
-/// @author ZY (kzou227@qq.com)
+/// 仅在 mahu-domain 的测试环境中使用，基于 `TestDataSourceProvider` 提供的 DataSource
+/// 创建 EBean Database 实例。
 @Singleton
 @RunLevel(RunLevel.STARTUP)
 @Weight(Weighted.DEFAULT_WEIGHT + 999)
-class DatabaseProvider implements Supplier<Database> {
+class TestDatabaseProvider implements Supplier<Database> {
 
     final Database v;
 
-    DatabaseProvider(DataSource ds) {
+    TestDatabaseProvider(DataSource ds) {
         var dbc = new DatabaseConfig()
                 .containerConfig(new ContainerConfig())
                 .dataSource(ds)
@@ -51,3 +52,4 @@ class DatabaseProvider implements Supplier<Database> {
         this.v.shutdown();
     }
 }
+
