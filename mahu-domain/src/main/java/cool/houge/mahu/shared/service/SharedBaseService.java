@@ -5,6 +5,7 @@ import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import cool.houge.mahu.shared.ImmutableDict;
 import cool.houge.mahu.shared.ImmutableDictGroup;
 import cool.houge.mahu.shared.ImmutableFeature;
+import cool.houge.mahu.shared.ImmutableFeatureFlag;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
 import java.util.List;
@@ -21,14 +22,16 @@ import org.jspecify.annotations.NonNull;
 @AllArgsConstructor
 public class SharedBaseService {
 
-    /// 功能助手
+    /// 功能配置缓存助手（旧版）
     private final FeatureHelper featureHelper;
-    /// 字典助手
-    private final DicHelper dicHelper;
+    /// 功能开关缓存服务
+    private final FeatureFlagCacheService featureFlagCacheService;
+    /// 字典缓存服务
+    private final DictCacheService dictCacheService;
     /// 延迟消息仓库
     private final DelayedTaskRepository delayedTaskRepository;
 
-    /// 获取指定的功能
+    /// 获取指定的功能（基于旧版功能配置表）
     ///
     /// 通过功能ID加载并返回对应的功能对象。
     ///
@@ -38,6 +41,16 @@ public class SharedBaseService {
         return featureHelper.loadFeature(featureId);
     }
 
+    /// 获取指定的功能开关
+    ///
+    /// 通过功能开关 code 加载并返回对应的快照对象。
+    ///
+    /// @param code 功能开关 code（如 `payment.wechat`）
+    /// @return 对应的功能开关快照
+    public @NonNull ImmutableFeatureFlag getFeatureFlag(String code) {
+        return featureFlagCacheService.loadFeature(code);
+    }
+
     /// 获取指定的字典项
     ///
     /// 通过字典项ID加载并返回对应的字典项对象。
@@ -45,7 +58,7 @@ public class SharedBaseService {
     /// @param dictId 字典项ID
     /// @return 对应的字典项对象
     public @NonNull ImmutableDict getDict(int dictId) {
-        return dicHelper.loadDict(dictId);
+        return dictCacheService.loadDict(dictId);
     }
 
     /// 获取指定的字典分组
@@ -55,12 +68,12 @@ public class SharedBaseService {
     /// @param groupId 字典分组ID
     /// @return 对应的字典分组对象
     public @NonNull ImmutableDictGroup getDictGroup(String groupId) {
-        return dicHelper.loadDictType(groupId);
+        return dictCacheService.loadDictType(groupId);
     }
 
     /// 查询所有公共的字典分组
     public List<ImmutableDictGroup> loadPublicDictGroups() {
-        return dicHelper.allDictTypes().stream()
+        return dictCacheService.allDictTypes().stream()
                 .filter(ImmutableDictGroup::isPublic)
                 .toList();
     }

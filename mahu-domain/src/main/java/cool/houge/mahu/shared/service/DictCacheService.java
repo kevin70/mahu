@@ -22,15 +22,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
 
-/// 字典帮助类
+/// 字典缓存服务。
+///
+/// 职责：
+/// - 从数据库全量加载字典分组及字典项，构建只读快照模型
+/// - 通过 Caffeine 保持内存缓存，减少数据库访问
+/// - 在应用启动时立即加载一次，并基于 `scheduling.dict-cache-refresh` 做定时全量刷新
 ///
 /// @author ZY (kzou227@qq.com)
 @Service.RunLevel(Service.RunLevel.STARTUP)
 @Service.Singleton
 @AllArgsConstructor
-class DicHelper {
+class DictCacheService {
 
-    private static final Logger log = LogManager.getLogger(DicHelper.class);
+    private static final Logger log = LogManager.getLogger(DictCacheService.class);
 
     private final Config config;
     private final DictGroupRepository dictGroupRepository;
@@ -137,3 +142,4 @@ class DicHelper {
         }
     }
 }
+
