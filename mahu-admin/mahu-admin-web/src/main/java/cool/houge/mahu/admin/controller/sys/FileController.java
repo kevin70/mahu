@@ -4,7 +4,7 @@ import static io.helidon.http.Status.FOUND_302;
 
 import cool.houge.mahu.admin.oas.controller.HFileService;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
-import cool.houge.mahu.shared.service.SharedOssService;
+import cool.houge.mahu.shared.service.OssSharedService;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.http.HeaderNames;
 import io.helidon.service.registry.Service;
@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class FileController implements HFileService, WebSupport {
 
     private final SysBeanMapper beanMapper;
-    private final SharedOssService sharedOssService;
+    private final OssSharedService sharedOssService;
 
     @Override
     public void createFilePresigned(ServerRequest request, ServerResponse response) {

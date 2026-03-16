@@ -5,7 +5,7 @@ import static io.helidon.http.Status.FOUND_302;
 import cool.houge.mahu.admin.oas.controller.HIdPhotoService;
 import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedRequest;
 import cool.houge.mahu.entity.sys.IdPhoto;
-import cool.houge.mahu.shared.service.SharedOssService;
+import cool.houge.mahu.shared.service.OssSharedService;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.http.HeaderNames;
 import io.helidon.service.registry.Service;
@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 public class IdPhotoController implements HIdPhotoService, WebSupport {
 
     private final SysBeanMapper beanMapper;
-    private final SharedOssService sharedOssService;
+    private final OssSharedService sharedOssService;
 
     @Override
     public void createIdPhotoPresigned(ServerRequest request, ServerResponse response) {
