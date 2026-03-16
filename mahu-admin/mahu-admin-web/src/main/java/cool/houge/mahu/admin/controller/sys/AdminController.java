@@ -3,6 +3,7 @@ package cool.houge.mahu.admin.controller.sys;
 import static io.helidon.http.Status.NO_CONTENT_204;
 
 import cool.houge.mahu.admin.dto.AdminQuery;
+import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HAdminService;
 import cool.houge.mahu.admin.oas.vo.AdminLogType;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;

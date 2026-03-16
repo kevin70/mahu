@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller;
+package cool.houge.mahu.admin.mapping;
 
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;

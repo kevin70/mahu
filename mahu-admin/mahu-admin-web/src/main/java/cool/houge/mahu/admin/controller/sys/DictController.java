@@ -5,6 +5,7 @@ import static io.helidon.http.Status.NO_CONTENT_204;
 import com.google.common.base.Strings;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HDictService;
 import cool.houge.mahu.admin.oas.vo.SysDictGroupUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;

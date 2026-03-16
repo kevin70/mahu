@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.internal;
+package cool.houge.mahu.admin.mapping;
 
 import com.google.common.collect.ImmutableMap;
 import io.ebean.PagedList;

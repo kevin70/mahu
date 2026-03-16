@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HFeatureFlagService;
 import cool.houge.mahu.admin.oas.vo.SysFeatureFlagCreateRequest;
 import cool.houge.mahu.admin.oas.vo.SysFeatureFlagUpdateRequest;

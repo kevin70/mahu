@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin;
+package cool.houge.mahu.admin.web.filter;
 
 import cool.houge.mahu.admin.event.AdminAccessEvent;
 import cool.houge.mahu.admin.security.AuthContext;

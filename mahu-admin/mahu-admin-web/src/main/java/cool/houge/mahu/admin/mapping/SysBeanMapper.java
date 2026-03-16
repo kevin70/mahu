@@ -1,6 +1,4 @@
-package cool.houge.mahu.admin.controller.sys;
-
-import cool.houge.mahu.admin.internal.TopBeanMapper;
+package cool.houge.mahu.admin.mapping;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedResponse;
 import cool.houge.mahu.admin.oas.vo.FileType;

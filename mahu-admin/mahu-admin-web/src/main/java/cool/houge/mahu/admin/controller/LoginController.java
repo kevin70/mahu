@@ -4,6 +4,7 @@ import static com.google.common.base.Strings.lenientFormat;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.mapping.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HLoginService;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;

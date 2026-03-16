@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.controller.sys;
 
+import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HDelayedTaskService;
 import cool.houge.mahu.admin.sys.service.DelayedTaskService;
 import cool.houge.mahu.web.WebSupport;

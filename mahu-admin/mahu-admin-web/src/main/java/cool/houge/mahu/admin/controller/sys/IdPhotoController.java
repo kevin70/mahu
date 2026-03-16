@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.FOUND_302;
 
+import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HIdPhotoService;
 import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedRequest;
 import cool.houge.mahu.entity.sys.IdPhoto;

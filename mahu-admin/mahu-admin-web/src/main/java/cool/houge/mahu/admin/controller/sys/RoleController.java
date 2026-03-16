@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
+import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HRoleService;
 import cool.houge.mahu.admin.oas.vo.SysRoleUpsertRequest;
 import cool.houge.mahu.admin.sys.service.RoleService;

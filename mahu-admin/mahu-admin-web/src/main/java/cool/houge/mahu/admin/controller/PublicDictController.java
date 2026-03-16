@@ -1,6 +1,7 @@
 package cool.houge.mahu.admin.controller;
 
 import com.google.common.collect.Lists;
+import cool.houge.mahu.admin.mapping.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HPublicDictService;
 import cool.houge.mahu.admin.sys.service.DictService;
 import cool.houge.mahu.web.WebSupport;
