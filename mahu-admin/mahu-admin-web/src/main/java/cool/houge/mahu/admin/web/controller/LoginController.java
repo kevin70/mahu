@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller;
+package cool.houge.mahu.admin.web.controller;
 
 import static com.google.common.base.Strings.lenientFormat;
 
@@ -50,3 +50,4 @@ public class LoginController implements HLoginService, WebSupport {
         response.send(rs);
     }
 }
+

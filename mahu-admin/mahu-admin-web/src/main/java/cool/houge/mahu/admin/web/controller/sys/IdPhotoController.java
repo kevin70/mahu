@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller.sys;
+package cool.houge.mahu.admin.web.controller.sys;
 
 import static io.helidon.http.Status.FOUND_302;
 
@@ -42,3 +42,4 @@ public class IdPhotoController implements HIdPhotoService, WebSupport {
         response.status(FOUND_302).header(HeaderNames.LOCATION, location).send();
     }
 }
+

@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller.sys;
+package cool.houge.mahu.admin.web.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
@@ -100,3 +100,4 @@ public class AdminController implements HAdminService, WebSupport {
         return pathInt(request, "admin_id");
     }
 }
+

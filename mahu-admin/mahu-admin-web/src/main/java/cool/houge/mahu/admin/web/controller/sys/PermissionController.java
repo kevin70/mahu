@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller.sys;
+package cool.houge.mahu.admin.web.controller.sys;
 
 import cool.houge.mahu.admin.Permissions;
 import cool.houge.mahu.admin.oas.controller.HPermissionService;
@@ -37,3 +37,4 @@ public class PermissionController implements HPermissionService, WebSupport {
         response.send(list);
     }
 }
+

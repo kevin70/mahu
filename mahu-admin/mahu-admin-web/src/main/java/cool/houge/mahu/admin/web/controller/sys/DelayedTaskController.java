@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller.sys;
+package cool.houge.mahu.admin.web.controller.sys;
 
 import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HDelayedTaskService;
@@ -26,3 +26,4 @@ public class DelayedTaskController implements HDelayedTaskService, WebSupport {
         response.send(rs);
     }
 }
+

@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller.sys;
+package cool.houge.mahu.admin.web.controller.sys;
 
 import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HFeatureFlagService;
@@ -65,3 +65,4 @@ public class FeatureController implements HFeatureFlagService, WebSupport {
         response.status(Status.NO_CONTENT_204).send();
     }
 }
+

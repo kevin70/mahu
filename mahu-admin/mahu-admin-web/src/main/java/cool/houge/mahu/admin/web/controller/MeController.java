@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller;
+package cool.houge.mahu.admin.web.controller;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
@@ -58,3 +58,4 @@ public class MeController implements HMeService, WebSupport {
         response.status(NO_CONTENT_204).send();
     }
 }
+

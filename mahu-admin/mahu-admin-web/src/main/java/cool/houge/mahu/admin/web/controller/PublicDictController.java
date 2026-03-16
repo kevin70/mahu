@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.controller;
+package cool.houge.mahu.admin.web.controller;
 
 import com.google.common.collect.Lists;
 import cool.houge.mahu.admin.mapping.VoBeanMapper;
@@ -46,3 +46,4 @@ public class PublicDictController implements HPublicDictService, WebSupport {
         response.send(rs);
     }
 }
+
