@@ -12,11 +12,12 @@ import cool.houge.mahu.web.problem.handler.UnsupportedTypeExceptionHandler;
 import io.helidon.webserver.http.ErrorHandler;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,15 +47,16 @@ public class RestErrorHandler implements ErrorHandler<Throwable> {
     @Override
     public void handle(ServerRequest req, ServerResponse res, @NonNull Throwable ex) {
         ProblemResponse errorResponse = null;
-        var a = ex;
-        while (a != null && errorResponse == null) {
+        Throwable current = ex;
+        while (current != null && errorResponse == null) {
             for (var h : problemHandlers) {
-                if (h.canHandle(a)) {
-                    errorResponse = h.handle(a);
+                if (h.canHandle(current)) {
+                    errorResponse = h.handle(current);
+                    break;
                 }
             }
             if (errorResponse == null) {
-                a = a.getCause();
+                current = current.getCause();
             }
         }
 
@@ -62,7 +64,7 @@ public class RestErrorHandler implements ErrorHandler<Throwable> {
             errorResponse = new ProblemResponse()
                     .setStatus(500)
                     .setCode(BizCodes.INTERNAL.code())
-                    .setMessage(ex.getMessage());
+                    .setMessage(Objects.requireNonNullElse(ex.getMessage(), BizCodes.INTERNAL.message()));
         }
 
         send0(req, res, ex, errorResponse);

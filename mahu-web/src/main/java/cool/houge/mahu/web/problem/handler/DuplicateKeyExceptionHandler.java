@@ -19,7 +19,7 @@ public class DuplicateKeyExceptionHandler implements ProblemHandler {
     @Override
     public ProblemResponse handle(Throwable ex) {
         return new ProblemResponse()
-                .setStatus(Status.CONFLICT_409_CODE)
+                .setStatus(Status.CONFLICT_409.code())
                 .setCode(BizCodes.ALREADY_EXISTS.code())
                 .setMessage(BizCodes.ALREADY_EXISTS.message());
     }

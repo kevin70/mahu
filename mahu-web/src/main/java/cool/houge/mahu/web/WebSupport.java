@@ -48,7 +48,7 @@ public interface WebSupport {
         try {
             return pathArg(request, name).asBoolean().get();
         } catch (MapperException e) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Objects.requireNonNullElse(e.getMessage(), "Invalid argument"));
         }
     }
 
@@ -60,7 +60,7 @@ public interface WebSupport {
         try {
             return pathArg(request, name).asInt().get();
         } catch (MapperException e) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Objects.requireNonNullElse(e.getMessage(), "Invalid argument"));
         }
     }
 
@@ -72,7 +72,7 @@ public interface WebSupport {
         try {
             return pathArg(request, name).asLong().get();
         } catch (MapperException e) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Objects.requireNonNullElse(e.getMessage(), "Invalid argument"));
         }
     }
 
@@ -100,7 +100,7 @@ public interface WebSupport {
         try {
             return queryArg(request, name).asBoolean();
         } catch (MapperException e) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Objects.requireNonNullElse(e.getMessage(), "Invalid argument"));
         }
     }
 
@@ -112,7 +112,7 @@ public interface WebSupport {
         try {
             return queryArg(request, name).asInt();
         } catch (MapperException e) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Objects.requireNonNullElse(e.getMessage(), "Invalid argument"));
         }
     }
 
@@ -124,7 +124,7 @@ public interface WebSupport {
         try {
             return queryArg(request, name).asLong();
         } catch (MapperException e) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
+            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, Objects.requireNonNullElse(e.getMessage(), "Invalid argument"));
         }
     }
 
