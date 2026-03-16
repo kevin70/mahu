@@ -1,0 +1,53 @@
+package cool.houge.mahu.shared;
+
+import io.ebean.Database;
+import io.ebean.DatabaseFactory;
+import io.ebean.config.ContainerConfig;
+import io.ebean.config.CurrentUserProvider;
+import io.ebean.config.DatabaseConfig;
+import io.ebean.config.JsonConfig;
+import io.helidon.common.Weight;
+import io.helidon.common.Weighted;
+import io.helidon.service.registry.Service;
+import io.helidon.service.registry.Service.RunLevel;
+import io.helidon.service.registry.Service.Singleton;
+import java.util.function.Supplier;
+import javax.sql.DataSource;
+
+/// 数据库
+///
+/// @author ZY (kzou227@qq.com)
+@Singleton
+@RunLevel(RunLevel.STARTUP)
+@Weight(Weighted.DEFAULT_WEIGHT + 999)
+class DatabaseProvider implements Supplier<Database> {
+
+    final Database v;
+
+    DatabaseProvider(DataSource ds) {
+        var dbc = new DatabaseConfig()
+                .containerConfig(new ContainerConfig())
+                .dataSource(ds)
+                .slowQueryMillis(200)
+                .jsonInclude(JsonConfig.Include.NON_NULL)
+                .changeLogIncludeInserts(false)
+                .currentUserProvider(new CurrentUserProvider() {
+                    @Override
+                    public Object currentUser() {
+                        return -1;
+                    }
+                })
+                .shutdownHook(false);
+        this.v = DatabaseFactory.create(dbc);
+    }
+
+    @Override
+    public Database get() {
+        return this.v;
+    }
+
+    @Service.PreDestroy
+    void destroy() {
+        this.v.shutdown();
+    }
+}

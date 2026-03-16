@@ -3,9 +3,9 @@ sources:
   - type: system-properties
   - type: file
     properties:
-      path: ${user.home}/houge/blma.yaml
+      path: ${user.home}/houge/mahu.yaml
       optional: true
   - type: file
     properties:
-      path: /etc/houge/blma.yaml
+      path: /etc/houge/mahu.yaml
       optional: true
