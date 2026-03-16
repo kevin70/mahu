@@ -11,7 +11,10 @@ import io.helidon.service.registry.Service.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/// 数据库健康检查
+/// 数据库健康检查。
+///
+/// 通过执行一个简单的探活 SQL（`select 1`）验证数据库连接是否可用，
+/// 不依赖特定数据库方言的函数（如 `version()`），适用于多种数据库实现。
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
@@ -32,18 +35,18 @@ public class DatabaseHealthCheck implements HealthCheck {
 
     @Override
     public String name() {
-        return database.name();
+        // 为了在多数据源场景下更直观地区分，各检查项名称增加统一前缀。
+        return "db-" + database.name();
     }
 
     @Override
     public HealthCheckResponse call() {
         try {
-            var v = database.sqlQuery("select version()")
-                    .mapToScalar(String.class)
-                    .findOne();
+            // 简单探活查询，不依赖具体数据库方言
+            database.sqlQuery("select 1").findOne();
             return HealthCheckResponse.builder()
                     .status(Status.UP)
-                    .detail("version", v)
+                    .detail("database", database.name())
                     .build();
         } catch (Exception e) {
             log.error("数据库健康检查意外失败 {}", database, e);
