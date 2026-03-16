@@ -71,9 +71,7 @@
 ## 五、代码风格与约定（Agent 需要遵守）
 
 - **Java 版本**: 统一使用 Java 25（`sourceCompatibility` / `targetCompatibility`）
-- **代码格式化**:
-  - 使用 Palantir Java Format（`spotless.java { palantirJavaFormat("2.89.0") }`）
-  - **不要**手工更改格式风格，尽量保持与现有代码一致；如需大规模格式化，由本地开发者运行 `spotless` 相关任务。
+- **代码格式化**: 用 `./gradlew spotlessApply`，勿手工改格式。
 - **包结构规范**（来自根 `README.md`）:
   - `util`：工具类
   - `entity`：与数据库表一一对应的数据实体
@@ -81,9 +79,7 @@
   - `service`：业务服务对象（类名以 `Service` 结尾）
   - `shared`：共享内部公共业务逻辑
   - `controller`：REST 接口对象（类名以 `Controller` 结尾）
-- **静态检查与生成代码**:
-  - 使用 SonarLint 插件（见根 `build.gradle` 的 `sonarLint` 配置）
-  - 对于 OpenAPI 生成的 `oas` 相关代码，有明确的忽略路径与排除规则；**Agent 一般不应直接编辑生成代码**，除非用户明确要求，并应优先修改上游 OpenAPI 规范或模板。
+- **静态检查与生成代码**: SonarLint（见根 `build.gradle`）。不直接编辑生成代码（`oas`、带 `@Generated` 的类）；除非用户明确要求，优先改 OpenAPI 规范或模板。
 - **数据库变更**:
   - 所有数据库变更应通过 Liquibase `changeSet` 管理，并在 `mahu-db` 模块中添加对应 SQL 文件。
   - 每个 `changeSet` 必须包含可行的 `rollback` 语句，保持与 `mahu-db/README.md` 的原则一致。
