@@ -4,7 +4,11 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Value;
 
-/// 功能开关快照
+/// 功能开关快照模型。
+///
+/// 该类是对 `sys.feature_flags` 表的只读投影，用于在业务代码中以不可变对象的形式表达
+/// 单个功能开关的当前配置与生效状态判断逻辑。通常由缓存服务
+///（如 `FeatureFlagCacheService`）构建后在各模块间共享。
 @Value
 @Builder
 public class ImmutableFeatureFlag {

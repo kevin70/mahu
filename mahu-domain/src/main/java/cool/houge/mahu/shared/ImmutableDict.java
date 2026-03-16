@@ -3,9 +3,10 @@ package cool.houge.mahu.shared;
 import lombok.Builder;
 import lombok.Value;
 
-/// 字典
+/// 字典项快照模型。
 ///
-/// @author ZY (kzou227@qq.com)
+/// 该类是对单条字典项的只读视图，通常由 `DictCacheService` 从数据库字典表加载并构建，
+/// 用于在业务代码中以不可变对象的形式安全地传递和使用。
 @Value
 @Builder
 public class ImmutableDict {

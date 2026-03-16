@@ -11,12 +11,11 @@ import lombok.Builder;
 import lombok.Value;
 import org.jspecify.annotations.NonNull;
 
-/// 字典分组
+/// 字典分组快照模型。
 ///
-/// 该类用于表示字典分组，包含字典分组的唯一标识符、名称、描述信息等属性。
-/// 同时提供了一些方法来判断字典分组的可见性以及通过值获取字典项。
-///
-/// @author ZY (kzou227@qq.com)
+/// 该类表示一组字典项的只读聚合视图，包含分组标识、名称、可见性等元数据，以及
+/// 该分组下的所有 `ImmutableDict` 列表。内部通过延迟构建的 `value -> ImmutableDict`
+/// 索引，支持按字典值快速查找字典项，并提供私有/公开/受限等可见性判断方法。
 @Value
 @Builder
 public class ImmutableDictGroup {
