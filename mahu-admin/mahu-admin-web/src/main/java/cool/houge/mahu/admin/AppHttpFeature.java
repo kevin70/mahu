@@ -48,9 +48,7 @@ public class AppHttpFeature implements HttpFeature, Filter {
 
     @Override
     public void setup(HttpRouting.Builder routing) {
-        routing.error(Throwable.class, new RestErrorHandler())
-                .addFilter(this)
-                .security(new SimpleHttpSecurity());
+        routing.error(Throwable.class, new RestErrorHandler()).addFilter(this).security(new SimpleHttpSecurity());
         for (Filter filter : filters) {
             routing.addFilter(filter);
         }

@@ -38,4 +38,3 @@ public class SimpleHttpSecurity implements HttpSecurity {
         return ac.get();
     }
 }
-
