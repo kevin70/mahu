@@ -1,6 +1,8 @@
 type: object
+description: |
+  分页响应基类。当请求参数 `include_total` 为 false 时，响应中不包含 `total_items` 字段。
 properties:
   total_items:
     type: integer
     format: int32
-    description: 总记录数量
+    description: 总记录数量；仅当请求中 `include_total` 为 true 时存在
