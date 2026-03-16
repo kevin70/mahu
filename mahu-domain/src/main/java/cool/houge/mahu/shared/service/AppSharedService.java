@@ -4,7 +4,6 @@ import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import cool.houge.mahu.shared.ImmutableDict;
 import cool.houge.mahu.shared.ImmutableDictGroup;
-import cool.houge.mahu.shared.ImmutableFeature;
 import cool.houge.mahu.shared.ImmutableFeatureFlag;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
@@ -22,19 +21,12 @@ import org.jspecify.annotations.NonNull;
 @AllArgsConstructor
 public class AppSharedService {
 
-    /// 功能配置缓存助手（旧版）
-    private final FeatureHelper featureHelper;
     /// 功能开关缓存服务
     private final FeatureFlagCacheService featureFlagCacheService;
     /// 字典缓存服务
     private final DictCacheService dictCacheService;
     /// 延迟消息仓库
     private final DelayedTaskRepository delayedTaskRepository;
-
-    /// 获取指定的功能（基于旧版功能配置表）
-    public @NonNull ImmutableFeature getFeature(int featureId) {
-        return featureHelper.loadFeature(featureId);
-    }
 
     /// 获取指定的功能开关
     public @NonNull ImmutableFeatureFlag getFeatureFlag(String code) {
