@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -14,6 +15,16 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(schema = "sys", name = "feature_flags")
+@ChangeLog(
+        updatesThatInclude = {
+            "name",
+            "description",
+            "enabled",
+            "preset",
+            "enableAt",
+            "disableAt",
+            "ordering"
+        })
 public class FeatureFlag {
 
     /// 主键，自增

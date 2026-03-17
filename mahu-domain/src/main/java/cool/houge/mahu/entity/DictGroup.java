@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity;
 
+import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.CascadeType;
@@ -18,6 +19,15 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
+@ChangeLog(
+        updatesThatInclude = {
+            "name",
+            "description",
+            "enabled",
+            "visibility",
+            "valueRegex",
+            "preset"
+        })
 @Entity
 @Table(name = "dict_groups")
 public class DictGroup {

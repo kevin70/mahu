@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -17,6 +18,17 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "delayed_tasks", schema = "sys")
+@ChangeLog(
+        updatesThatInclude = {
+            "status",
+            "delayUntil",
+            "attempts",
+            "maxAttempts",
+            "lockAt",
+            "leaseSeconds",
+            "payload",
+            "idempotencyKey"
+        })
 public class DelayedTask {
 
     /// 主键

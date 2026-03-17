@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import io.ebean.annotation.ChangeLog;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -15,6 +16,20 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "scheduled_tasks", schema = "sys")
+@ChangeLog(
+        updatesThatInclude = {
+            "taskInstance",
+            "taskData",
+            "executionTime",
+            "picked",
+            "pickedBy",
+            "lastSuccess",
+            "lastFailure",
+            "consecutiveFailures",
+            "lastHeartbeat",
+            "version",
+            "priority"
+        })
 public class ScheduledTask {
 
     /// 任务名称

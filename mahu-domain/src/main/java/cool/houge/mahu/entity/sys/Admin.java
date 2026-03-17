@@ -27,7 +27,15 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "admins", schema = "sys")
-@ChangeLog(updatesThatInclude = {"nickname", "avatar", "status", "roles"})
+@ChangeLog(
+        updatesThatInclude = {
+            "deleted",
+            "username",
+            "nickname",
+            "avatar",
+            "status",
+            "roles"
+        })
 public class Admin {
 
     /// 主键

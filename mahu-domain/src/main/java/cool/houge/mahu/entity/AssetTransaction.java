@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity;
 
+import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.WhenCreated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +16,13 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
+@ChangeLog(
+        updatesThatInclude = {
+            "status",
+            "referenceId",
+            "idempotencyKey",
+            "featureId"
+        })
 @Entity
 public class AssetTransaction {
 

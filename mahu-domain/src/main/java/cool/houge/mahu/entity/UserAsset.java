@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity;
 
+import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -15,6 +16,13 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
+@ChangeLog(
+        updatesThatInclude = {
+            "balance",
+            "frozen",
+            "totalIn",
+            "totalOut"
+        })
 @Entity
 public class UserAsset {
 

@@ -1,6 +1,7 @@
 package cool.houge.mahu.entity.sys;
 
 import com.google.common.base.Strings;
+import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -21,6 +22,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(schema = "sys", name = "objects")
+@ChangeLog(
+        updatesThatInclude = {
+            "status",
+            "objectKey",
+            "metadata"
+        })
 public class StoredObject {
 
     /// 主键
