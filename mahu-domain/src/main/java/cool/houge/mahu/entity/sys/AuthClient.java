@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "auth_clients", schema = "sys")
-@ChangeLog(updatesThatInclude = {"clientSecret", "remark", "label", "terminalType", ""})
+@ChangeLog(updatesThatInclude = {"clientSecret", "remark", "label", "terminalType"})
 public class AuthClient {
 
     /// 客户端 ID

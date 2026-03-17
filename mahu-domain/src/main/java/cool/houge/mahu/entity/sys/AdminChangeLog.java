@@ -1,7 +1,7 @@
 package cool.houge.mahu.entity.sys;
 
 import io.ebean.annotation.WhenCreated;
-import io.ebean.annotation.WhoCreated;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -27,13 +27,12 @@ public class AdminChangeLog {
     @WhenCreated
     protected Instant createdAt;
     /// 操作管理员 ID
-    @WhoCreated
     private Integer adminId;
     /// 操作 IP
     private String ipAddr;
     /// 来源应用
     private String source;
     /// 变更记录项
-    @OneToMany(mappedBy = "changeLog")
+    @OneToMany(mappedBy = "changeLog", cascade = CascadeType.PERSIST)
     private List<AdminChangeItem> items;
 }

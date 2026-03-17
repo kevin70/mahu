@@ -1,6 +1,8 @@
 package cool.houge.mahu.admin;
 
+import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.sys.repository.PersistChangeLogListener;
+import cool.houge.mahu.util.Metadata;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.ContainerConfig;
@@ -32,6 +34,13 @@ class DatabaseProvider implements Supplier<Database> {
                 .jsonInclude(JsonConfig.Include.NON_NULL)
                 .currentUserProvider(new ContextCurrentUserProvider())
                 .changeLogIncludeInserts(false)
+                .changeLogPrepare(changeSet -> {
+                    var userContext = AuthContext.current();
+                    var metadata = Metadata.current();
+                    changeSet.setUserId(String.valueOf(userContext.adminId()));
+                    changeSet.setUserIpAddress(metadata.clientAddr());
+                    return true;
+                })
                 .changeLogListener(new PersistChangeLogListener())
                 .shutdownHook(false);
         this.v = DatabaseFactory.create(dbc);
