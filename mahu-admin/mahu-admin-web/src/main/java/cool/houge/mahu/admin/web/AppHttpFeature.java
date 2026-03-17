@@ -29,8 +29,7 @@ public class AppHttpFeature implements HttpFeature {
     }
 
     private void registerGlobalErrorHandlingAndSecurity(HttpRouting.Builder routing) {
-        routing.error(Throwable.class, new RestErrorHandler())
-                .security(new SimpleHttpSecurity());
+        routing.error(Throwable.class, new RestErrorHandler()).security(new SimpleHttpSecurity());
     }
 
     private void registerGlobalFilters(HttpRouting.Builder routing) {
@@ -45,4 +44,3 @@ public class AppHttpFeature implements HttpFeature {
         }
     }
 }
-

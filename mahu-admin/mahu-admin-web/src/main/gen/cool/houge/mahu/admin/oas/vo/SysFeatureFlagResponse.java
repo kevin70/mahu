@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import io.avaje.validation.constraints.*;
 
 
@@ -20,13 +20,13 @@ public class SysFeatureFlagResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     /**
      * 修改时间
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
     /**
      * 全局唯一标识，程序通过此字段读取开关；命名规范：{module}.{feature}，如 payment.wechat
      */
@@ -66,13 +66,13 @@ public class SysFeatureFlagResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("enable_at")
-    private LocalDateTime enableAt;
+    private OffsetDateTime enableAt;
     /**
      * 定时关闭时间，NULL=不启用定时；定时任务到期后置 enabled=false 并清空此字段
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("disable_at")
-    private LocalDateTime disableAt;
+    private OffsetDateTime disableAt;
     /**
      * 排序值
      * minimum: 0

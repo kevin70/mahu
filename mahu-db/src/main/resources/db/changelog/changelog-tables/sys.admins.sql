@@ -4,8 +4,8 @@
 -- changeset kzou227@qq.com:202508251102
 CREATE TABLE sys.admins (
   id serial CONSTRAINT admins_pk PRIMARY KEY,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   deleted BOOLEAN DEFAULT FALSE,
   username VARCHAR(128),
   password VARCHAR(1024),

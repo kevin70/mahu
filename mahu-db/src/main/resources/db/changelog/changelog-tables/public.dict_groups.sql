@@ -9,8 +9,8 @@ CREATE TABLE public.dict_groups (
   enabled BOOLEAN,
   visibility SMALLINT,
   value_regex VARCHAR(512),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ
 );
 
 COMMENT ON TABLE public.dict_groups IS '字典分组';

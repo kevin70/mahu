@@ -52,4 +52,3 @@ class TestDataSourceProvider implements Supplier<DataSource> {
         v.shutdown();
     }
 }
-

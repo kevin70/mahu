@@ -9,8 +9,8 @@ CREATE TABLE public.dicts (
   enabled BOOLEAN,
   ordering INTEGER,
   group_id VARCHAR(50) NOT NULL,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ
 );
 
 COMMENT ON TABLE public.dicts IS '字典数据';

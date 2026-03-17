@@ -16,13 +16,7 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
-@ChangeLog(
-        updatesThatInclude = {
-            "balance",
-            "frozen",
-            "totalIn",
-            "totalOut"
-        })
+@ChangeLog(updatesThatInclude = {"balance", "frozen", "totalIn", "totalOut"})
 @Entity
 public class UserAsset {
 

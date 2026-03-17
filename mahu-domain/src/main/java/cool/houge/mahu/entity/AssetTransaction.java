@@ -16,13 +16,7 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
-@ChangeLog(
-        updatesThatInclude = {
-            "status",
-            "referenceId",
-            "idempotencyKey",
-            "featureId"
-        })
+@ChangeLog(updatesThatInclude = {"status", "referenceId", "idempotencyKey", "featureId"})
 @Entity
 public class AssetTransaction {
 

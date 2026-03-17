@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +16,7 @@ public class SysScheduledTaskLogResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     /**
      * 任务名称
      */
@@ -37,14 +37,14 @@ public class SysScheduledTaskLogResponse {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("start_time")
-    private LocalDateTime startTime;
+    private OffsetDateTime startTime;
     /**
      * 完成时间
      */
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("done_time")
-    private LocalDateTime doneTime;
+    private OffsetDateTime doneTime;
     /**
      * 是否执行成功
      */

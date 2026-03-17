@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import io.avaje.validation.constraints.*;
 
 
@@ -34,7 +34,7 @@ public class SysScheduledTaskResponse {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("execution_time")
-    private LocalDateTime executionTime;
+    private OffsetDateTime executionTime;
     /**
      * 任务是否在执行中
      */
@@ -52,13 +52,13 @@ public class SysScheduledTaskResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("last_success")
-    private LocalDateTime lastSuccess;
+    private OffsetDateTime lastSuccess;
     /**
      * 上次执行失败的时间
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("last_failure")
-    private LocalDateTime lastFailure;
+    private OffsetDateTime lastFailure;
     /**
      * 连续执行失败的次数
      */
@@ -70,7 +70,7 @@ public class SysScheduledTaskResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("last_heartbeat")
-    private LocalDateTime lastHeartbeat;
+    private OffsetDateTime lastHeartbeat;
     /**
      * 任务版本号（乐观锁）
      */

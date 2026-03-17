@@ -4,8 +4,8 @@
 -- changeset kzou227@qq.com:202508251110
 CREATE TABLE sys.id_photos (
   id VARCHAR(50) NOT NULL CONSTRAINT id_photos_pk PRIMARY KEY,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   uid BIGINT NOT NULL,
   type SMALLINT DEFAULT 0 NOT NULL,
   status SMALLINT NOT NULL,

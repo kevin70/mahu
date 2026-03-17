@@ -2,9 +2,9 @@ package cool.houge.mahu.web;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.domain.DateRange;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.domain.Sort;
-import cool.houge.mahu.domain.DateRange;
 import io.avaje.validation.Validator;
 import io.helidon.common.mapper.MapperException;
 import io.helidon.common.mapper.OptionalValue;
@@ -193,8 +193,7 @@ public interface WebSupport {
             try {
                 list.add(Integer.parseInt(s));
             } catch (NumberFormatException ex) {
-                throw new BizCodeException(
-                        BizCodes.INVALID_ARGUMENT, "参数 " + paramName + " 含非法整数值: " + s);
+                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "参数 " + paramName + " 含非法整数值: " + s);
             }
         }
         return list;
@@ -209,8 +208,7 @@ public interface WebSupport {
             try {
                 list.add(Long.parseLong(s));
             } catch (NumberFormatException ex) {
-                throw new BizCodeException(
-                        BizCodes.INVALID_ARGUMENT, "参数 " + paramName + " 含非法长整型值: " + s);
+                throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "参数 " + paramName + " 含非法长整型值: " + s);
             }
         }
         return list;

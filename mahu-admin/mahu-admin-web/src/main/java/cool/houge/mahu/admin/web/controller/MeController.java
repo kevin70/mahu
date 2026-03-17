@@ -58,4 +58,3 @@ public class MeController implements HMeService, WebSupport {
         response.status(NO_CONTENT_204).send();
     }
 }
-

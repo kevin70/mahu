@@ -26,4 +26,3 @@ public class DelayedTaskController implements HDelayedTaskService, WebSupport {
         response.send(rs);
     }
 }
-

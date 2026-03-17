@@ -37,4 +37,3 @@ public class PermissionController implements HPermissionService, WebSupport {
         response.send(list);
     }
 }
-

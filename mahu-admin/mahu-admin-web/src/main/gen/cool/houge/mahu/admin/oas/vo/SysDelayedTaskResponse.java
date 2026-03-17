@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import io.avaje.validation.constraints.*;
 
@@ -21,13 +21,13 @@ public class SysDelayedTaskResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     /**
      * 修改时间
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
     /**
      * 功能 ID（用于追踪统计）
      */
@@ -57,7 +57,7 @@ public class SysDelayedTaskResponse {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("delay_until")
-    private LocalDateTime delayUntil;
+    private OffsetDateTime delayUntil;
     /**
      * 已尝试次数
      */
@@ -77,7 +77,7 @@ public class SysDelayedTaskResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("lock_at")
-    private LocalDateTime lockAt;
+    private OffsetDateTime lockAt;
     /**
      * 锁租约(秒)，worker 处理任务允许的最长时间
      */

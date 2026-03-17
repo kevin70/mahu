@@ -69,4 +69,3 @@ public class RoleController implements HRoleService, WebSupport {
         response.status(NO_CONTENT_204).send();
     }
 }
-

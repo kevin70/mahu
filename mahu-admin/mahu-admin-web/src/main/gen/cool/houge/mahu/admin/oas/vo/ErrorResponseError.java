@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.oas.vo;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class ErrorResponseError {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("timestamp")
-    private LocalDateTime timestamp;
+    private OffsetDateTime timestamp;
     /**
      * 请求路径
      */

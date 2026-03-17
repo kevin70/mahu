@@ -4,8 +4,8 @@
 -- changeset kzou227@qq.com:202508251100
 CREATE TABLE sys.auth_clients (
   client_id VARCHAR(50) NOT NULL CONSTRAINT auth_clients_pk PRIMARY KEY,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   deleted BOOLEAN DEFAULT FALSE,
   client_secret VARCHAR(4000),
   remark VARCHAR(500),

@@ -9,11 +9,11 @@ CREATE TABLE sys.feature_flags (
   description TEXT,
   enabled BOOLEAN DEFAULT FALSE NOT NULL,
   preset BOOLEAN DEFAULT FALSE NOT NULL,
-  enable_at TIMESTAMP,
-  disable_at TIMESTAMP,
+  enable_at TIMESTAMPTZ,
+  disable_at TIMESTAMPTZ,
   ordering SMALLINT DEFAULT 0 NOT NULL,
-  created_at TIMESTAMP DEFAULT now() NOT NULL,
-  updated_at TIMESTAMP DEFAULT now() NOT NULL,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   CONSTRAINT chk_schedule_order CHECK (
     (enable_at IS NULL)
     OR (disable_at IS NULL)

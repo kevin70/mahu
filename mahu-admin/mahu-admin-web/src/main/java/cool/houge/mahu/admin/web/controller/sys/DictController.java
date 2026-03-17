@@ -110,4 +110,3 @@ public class DictController implements HDictService, WebSupport {
         }
     }
 }
-

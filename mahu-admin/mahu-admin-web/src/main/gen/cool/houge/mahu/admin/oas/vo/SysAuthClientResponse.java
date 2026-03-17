@@ -3,7 +3,7 @@ package cool.houge.mahu.admin.oas.vo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import cool.houge.mahu.admin.oas.vo.TerminalTypeEnum;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import io.avaje.validation.constraints.*;
 
     /**
@@ -25,13 +25,13 @@ public class SysAuthClientResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     /**
      * 修改时间
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
     /**
      * 客户端密钥
      */

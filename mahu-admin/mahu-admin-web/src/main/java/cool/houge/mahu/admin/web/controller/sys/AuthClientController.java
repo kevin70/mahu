@@ -78,4 +78,3 @@ public class AuthClientController implements HAuthClientService, WebSupport {
         return pathString(request, "client_id");
     }
 }
-

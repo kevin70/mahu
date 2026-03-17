@@ -61,9 +61,7 @@ public class AppRequestContextFilter implements Filter {
     }
 
     AuthContext resolveAuthContext(RoutingRequest request) {
-        return resolveToken(request)
-                .map(this::verifyToken)
-                .orElse(AuthContext.ANONYMOUS);
+        return resolveToken(request).map(this::verifyToken).orElse(AuthContext.ANONYMOUS);
     }
 
     private AuthContext verifyToken(String token) {
@@ -91,4 +89,3 @@ public class AppRequestContextFilter implements Filter {
         return request.headers().first(X_REQUEST_ID).orElseGet(G::traceId);
     }
 }
-

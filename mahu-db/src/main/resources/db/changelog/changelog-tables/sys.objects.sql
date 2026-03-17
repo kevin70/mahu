@@ -4,8 +4,8 @@
 -- changeset kzou227@qq.com:202508251111
 CREATE TABLE sys.objects (
   id VARCHAR(50) NOT NULL CONSTRAINT objects_pk PRIMARY KEY,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   uid BIGINT,
   type SMALLINT DEFAULT 0 NOT NULL,
   status SMALLINT NOT NULL,

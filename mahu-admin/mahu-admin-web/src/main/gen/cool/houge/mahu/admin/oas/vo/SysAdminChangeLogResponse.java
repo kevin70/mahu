@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.oas.vo;
 
 import cool.houge.mahu.admin.oas.vo.SysAdminChangeLogResponseItemsInner;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,7 @@ public class SysAdminChangeLogResponse {
       @NotNull
 
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     /**
      * 管理员 ID
      */

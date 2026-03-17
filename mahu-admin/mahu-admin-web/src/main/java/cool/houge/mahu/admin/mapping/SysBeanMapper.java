@@ -1,4 +1,5 @@
 package cool.houge.mahu.admin.mapping;
+
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedRequest;
 import cool.houge.mahu.admin.oas.vo.FileCreatePresignedResponse;
 import cool.houge.mahu.admin.oas.vo.FileType;
@@ -38,6 +39,8 @@ import cool.houge.mahu.entity.sys.StoredObject;
 import cool.houge.mahu.shared.dto.PresignedUploadPayload;
 import cool.houge.mahu.shared.dto.PresignedUploadResult;
 import io.helidon.service.registry.Service;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.List;
 import org.mapstruct.AnnotateWith;
 import org.mapstruct.Mapper;
@@ -55,6 +58,14 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface SysBeanMapper extends TopBeanMapper {
+
+    default Instant map(OffsetDateTime v) {
+        return v == null ? null : v.toInstant();
+    }
+
+    default OffsetDateTime map(Instant v) {
+        return v == null ? null : v.atOffset(java.time.ZoneOffset.UTC);
+    }
 
     @Named("roleIdsToRoles")
     default List<Role> roleIdsToRoles(List<Integer> roleIds) {

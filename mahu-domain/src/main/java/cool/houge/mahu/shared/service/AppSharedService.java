@@ -74,4 +74,3 @@ public class AppSharedService {
         delayedTaskRepository.batchSave(task);
     }
 }
-

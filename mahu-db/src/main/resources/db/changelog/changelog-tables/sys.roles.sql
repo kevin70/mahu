@@ -4,8 +4,8 @@
 -- changeset kzou227@qq.com:202508251101
 CREATE TABLE sys.roles (
   id INTEGER NOT NULL CONSTRAINT roles_pk PRIMARY KEY,
-  created_at TIMESTAMP WITHOUT TIME ZONE,
-  updated_at TIMESTAMP WITHOUT TIME ZONE,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   deleted BOOLEAN DEFAULT FALSE,
   name VARCHAR(32),
   remark VARCHAR(255),

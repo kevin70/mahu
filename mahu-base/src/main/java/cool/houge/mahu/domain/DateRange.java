@@ -16,9 +16,11 @@ import org.jspecify.annotations.Nullable;
 public class DateRange {
 
     /// 开始时间（包含），可为空
-    @Nullable DayStartTime start;
+    @Nullable
+    DayStartTime start;
     /// 结束时间（包含），可为空
-    @Nullable DayEndTime end;
+    @Nullable
+    DayEndTime end;
 
     /// 使用 LocalDate 构建完整日期区间
     ///
@@ -59,4 +61,3 @@ public class DateRange {
         return Optional.ofNullable(end).map(DayEndTime::toDateTime);
     }
 }
-

@@ -19,15 +19,7 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
-@ChangeLog(
-        updatesThatInclude = {
-            "name",
-            "description",
-            "enabled",
-            "visibility",
-            "valueRegex",
-            "preset"
-        })
+@ChangeLog(updatesThatInclude = {"name", "description", "enabled", "visibility", "valueRegex", "preset"})
 @Entity
 @Table(name = "dict_groups")
 public class DictGroup {

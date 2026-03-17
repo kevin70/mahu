@@ -4,11 +4,11 @@
 -- changeset kzou227@qq.com:202508251107
 CREATE TABLE sys.scheduled_task_logs (
   id UUID NOT NULL CONSTRAINT scheduled_task_logs_pk PRIMARY KEY,
-  created_at TIMESTAMP,
+  created_at TIMESTAMPTZ,
   task_name VARCHAR(50),
   picked_by VARCHAR(50),
-  start_time TIMESTAMP,
-  done_time TIMESTAMP,
+  start_time TIMESTAMPTZ,
+  done_time TIMESTAMPTZ,
   success BOOLEAN,
   trace_id VARCHAR(26),
   fail_cause JSONB

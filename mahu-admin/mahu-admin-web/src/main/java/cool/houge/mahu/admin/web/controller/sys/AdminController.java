@@ -100,4 +100,3 @@ public class AdminController implements HAdminService, WebSupport {
         return pathInt(request, "admin_id");
     }
 }
-

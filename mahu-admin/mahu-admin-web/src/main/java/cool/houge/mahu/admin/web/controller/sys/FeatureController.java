@@ -65,4 +65,3 @@ public class FeatureController implements HFeatureFlagService, WebSupport {
         response.status(Status.NO_CONTENT_204).send();
     }
 }
-

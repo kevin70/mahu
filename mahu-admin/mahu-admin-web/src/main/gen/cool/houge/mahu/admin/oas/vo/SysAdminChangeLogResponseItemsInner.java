@@ -1,7 +1,7 @@
 package cool.houge.mahu.admin.oas.vo;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import io.avaje.validation.constraints.*;
 
 
@@ -20,7 +20,7 @@ public class SysAdminChangeLogResponseItemsInner {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     /**
      * 表名
      */

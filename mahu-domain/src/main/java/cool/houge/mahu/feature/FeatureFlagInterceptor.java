@@ -22,9 +22,7 @@ class FeatureFlagInterceptor implements Interception.Interceptor {
 
     @Override
     public <V> V proceed(InterceptionContext ctx, Chain<V> chain, Object... args) throws Exception {
-        var codeOpt = ctx.elementInfo()
-                .annotation(FEATURE_FLAG_ON_TYPENAME)
-                .stringValue();
+        var codeOpt = ctx.elementInfo().annotation(FEATURE_FLAG_ON_TYPENAME).stringValue();
 
         if (codeOpt.isEmpty()) {
             return chain.proceed(args);

@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,13 +23,13 @@ public class SysAdminResponse {
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     /**
      * 修改时间
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
     /**
      * 是否已经删除的数据
      */

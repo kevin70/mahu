@@ -22,12 +22,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(schema = "sys", name = "id_photos")
-@ChangeLog(
-        updatesThatInclude = {
-            "status",
-            "objectKey",
-            "metadata"
-        })
+@ChangeLog(updatesThatInclude = {"status", "objectKey", "metadata"})
 public class IdPhoto {
 
     /// 主键

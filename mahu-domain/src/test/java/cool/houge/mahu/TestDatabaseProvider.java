@@ -52,4 +52,3 @@ class TestDatabaseProvider implements Supplier<Database> {
         this.v.shutdown();
     }
 }
-

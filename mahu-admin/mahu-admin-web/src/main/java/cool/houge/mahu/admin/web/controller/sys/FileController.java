@@ -41,4 +41,3 @@ public class FileController implements HFileService, WebSupport {
         response.status(FOUND_302).header(HeaderNames.LOCATION, location).send();
     }
 }
-

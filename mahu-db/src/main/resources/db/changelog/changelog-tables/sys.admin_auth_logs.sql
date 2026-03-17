@@ -4,7 +4,7 @@
 -- changeset kzou227@qq.com:202508251105
 CREATE TABLE sys.admin_auth_logs (
   id UUID NOT NULL CONSTRAINT admin_auth_logs_pk PRIMARY KEY,
-  created_at TIMESTAMP,
+  created_at TIMESTAMPTZ,
   admin_id BIGINT,
   grant_type VARCHAR(50),
   client_id VARCHAR(26),

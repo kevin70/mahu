@@ -4,15 +4,15 @@
 -- changeset kzou227@qq.com:202508251108
 CREATE TABLE sys.delayed_tasks (
   id UUID NOT NULL CONSTRAINT delayed_tasks_pk PRIMARY KEY,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   feature_id INTEGER,
   topic VARCHAR(50),
   status SMALLINT,
-  delay_until TIMESTAMP,
+  delay_until TIMESTAMPTZ,
   attempts INTEGER,
   max_attempts SMALLINT,
-  lock_at TIMESTAMP,
+  lock_at TIMESTAMPTZ,
   lease_seconds SMALLINT,
   payload JSONB,
   idempotency_key VARCHAR(128)

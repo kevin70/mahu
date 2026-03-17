@@ -21,14 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "roles", schema = "sys")
-@ChangeLog(
-        updatesThatInclude = {
-            "deleted",
-            "name",
-            "remark",
-            "ordering",
-            "permissions"
-        })
+@ChangeLog(updatesThatInclude = {"deleted", "name", "remark", "ordering", "permissions"})
 public class Role {
 
     /// 主键

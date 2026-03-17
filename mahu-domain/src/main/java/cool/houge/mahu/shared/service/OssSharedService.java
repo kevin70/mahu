@@ -82,4 +82,3 @@ public class OssSharedService {
         return ossHelper.presignedGetUrl(objectKey);
     }
 }
-

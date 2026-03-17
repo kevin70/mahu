@@ -17,14 +17,7 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
-@ChangeLog(
-        updatesThatInclude = {
-            "group",
-            "label",
-            "value",
-            "enabled",
-            "ordering"
-        })
+@ChangeLog(updatesThatInclude = {"group", "label", "value", "enabled", "ordering"})
 @Entity
 @Table(name = "dicts")
 public class Dict {

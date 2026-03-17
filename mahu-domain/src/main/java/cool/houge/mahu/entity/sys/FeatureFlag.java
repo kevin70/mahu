@@ -6,7 +6,7 @@ import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,16 +15,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(schema = "sys", name = "feature_flags")
-@ChangeLog(
-        updatesThatInclude = {
-            "name",
-            "description",
-            "enabled",
-            "preset",
-            "enableAt",
-            "disableAt",
-            "ordering"
-        })
+@ChangeLog(updatesThatInclude = {"name", "description", "enabled", "preset", "enableAt", "disableAt", "ordering"})
 public class FeatureFlag {
 
     /// 主键，自增
@@ -47,19 +38,19 @@ public class FeatureFlag {
     private boolean preset;
 
     /// 定时开启时间，NULL=不启用定时；定时任务到期后置 enabled=true 并清空此字段
-    private LocalDateTime enableAt;
+    private Instant enableAt;
 
     /// 定时关闭时间，NULL=不启用定时；定时任务到期后置 enabled=false 并清空此字段
-    private LocalDateTime disableAt;
+    private Instant disableAt;
 
     /// 排序权重，值越大越靠前，后台管理页展示顺序依据
     private Integer ordering;
 
     /// 创建时间
     @WhenCreated
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     /// 更新时间
     @WhenModified
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }

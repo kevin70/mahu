@@ -42,4 +42,3 @@ public class IdPhotoController implements HIdPhotoService, WebSupport {
         response.status(FOUND_302).header(HeaderNames.LOCATION, location).send();
     }
 }
-

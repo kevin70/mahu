@@ -65,14 +65,6 @@ openApiGenerate {
         performBeanValidation: "true",
         serializationLibrary : "jackson"
     ])
-    typeMappings.set([
-        DateTime: "LocalDateTime",
-        Time: "LocalTime"
-    ])
-    importMappings.set([
-        "LocalDateTime": "java.time.LocalDateTime",
-        "LocalTime": "java.time.LocalTime"
-    ])
 }
 
 tasks.named("openApiGenerate").configure {

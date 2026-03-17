@@ -46,4 +46,3 @@ public class PublicDictController implements HPublicDictService, WebSupport {
         response.send(rs);
     }
 }
-

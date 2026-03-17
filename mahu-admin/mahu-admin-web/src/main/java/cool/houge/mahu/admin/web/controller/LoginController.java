@@ -50,4 +50,3 @@ public class LoginController implements HLoginService, WebSupport {
         response.send(rs);
     }
 }
-

@@ -58,4 +58,3 @@ public class ScheduledTaskController implements HScheduledTaskService, WebSuppor
         return pathString(request, "task_name");
     }
 }
-

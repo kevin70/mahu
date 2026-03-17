@@ -1,7 +1,5 @@
 package cool.houge.mahu.shared.service;
 
-import static java.util.Optional.ofNullable;
-
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import cool.houge.mahu.BizCodeException;
@@ -15,8 +13,6 @@ import io.helidon.scheduling.FixedRate;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -98,4 +94,3 @@ class FeatureFlagCacheService {
         }
     }
 }
-

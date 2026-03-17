@@ -45,11 +45,10 @@ public final class G {
     ///
     /// @param runnable 要执行的 Runnable
     public static void withTraceId(Runnable runnable) {
-        withTraceId(
-                () -> {
-                    runnable.run();
-                    return null;
-                });
+        withTraceId(() -> {
+            runnable.run();
+            return null;
+        });
     }
 
     /// 在已有或新建的跟踪ID上下文中运行 Supplier 并返回结果
