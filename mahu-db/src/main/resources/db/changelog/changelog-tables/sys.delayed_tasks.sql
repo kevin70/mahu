@@ -32,9 +32,9 @@ COMMENT ON COLUMN sys.delayed_tasks.topic IS '主题';
 
 COMMENT ON COLUMN sys.delayed_tasks.status IS '状态
 - 11 待处理
-- 50 进行中
+- 16 进行中
 - 88 已完成
-- 95 已归档';
+- 97 已归档';
 
 COMMENT ON COLUMN sys.delayed_tasks.delay_until IS '下一次可执行时间（含重试）';
 
@@ -58,6 +58,6 @@ WHERE
 
 CREATE INDEX delayed_tasks_lock_at_idx ON sys.delayed_tasks (lock_at)
 WHERE
-  (status = 50);
+  (status = 16);
 
 -- rollback drop table sys.delay_message;
