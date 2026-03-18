@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.dto;
+package cool.houge.mahu.admin.sys.query;
 
 import cool.houge.mahu.domain.DateRange;
 import lombok.Builder;
@@ -6,6 +6,8 @@ import lombok.Builder.Default;
 import lombok.Value;
 
 /// 管理员日志查询
+///
+/// 仅用于构造后台日志分页查询条件。
 ///
 /// @author ZY (kzou227@qq.com)
 @Value
