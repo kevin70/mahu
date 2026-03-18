@@ -1,7 +1,11 @@
 package cool.houge.mahu.domain;
 
+import static java.util.Objects.requireNonNull;
+
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 import lombok.Value;
 import org.jspecify.annotations.Nullable;
@@ -51,13 +55,44 @@ public class DateRange {
         return new DateRange(s, e);
     }
 
-    /// 起始时间点（可选）
-    public Optional<LocalDateTime> from() {
-        return Optional.ofNullable(start).map(DayStartTime::toDateTime);
+    /// 起始时间点（可选，包含）。
+    ///
+    /// <p>注意：{@link DayStartTime}/{@link DayEndTime} 只描述“某天的开始/结束”这一<strong>本地时间</strong>概念，转为
+    /// {@link Instant} 时必须指定一个 UTC 偏移量（{@link ZoneOffset}）。
+    ///
+    /// <p>该重载使用当前系统偏移量（可能随 DST 变化）。如需固定偏移量（例如永远 +08:00），请使用 {@link #from(ZoneOffset)}。
+    public Optional<Instant> from() {
+        return from(systemOffset());
     }
 
-    /// 结束时间点（可选）
-    public Optional<LocalDateTime> to() {
-        return Optional.ofNullable(end).map(DayEndTime::toDateTime);
+    /// 起始时间点（可选，包含）。
+    ///
+    /// <p>使用调用方提供的固定 UTC 偏移量将本地时间映射到时间线。
+    public Optional<Instant> from(ZoneOffset offset) {
+        requireNonNull(offset, "offset");
+        return Optional.ofNullable(start)
+                .map(DayStartTime::toDateTime)
+                .map(it -> it.toInstant(offset));
+    }
+
+    /// 结束时间点（可选，包含）。
+    ///
+    /// <p>该重载使用当前系统偏移量（可能随 DST 变化）。如需固定偏移量，请使用 {@link #to(ZoneOffset)}。
+    public Optional<Instant> to() {
+        return to(systemOffset());
+    }
+
+    /// 结束时间点（可选，包含）。
+    ///
+    /// <p>使用调用方提供的固定 UTC 偏移量将本地时间映射到时间线。
+    public Optional<Instant> to(ZoneOffset offset) {
+        requireNonNull(offset, "offset");
+        return Optional.ofNullable(end)
+                .map(DayEndTime::toDateTime)
+                .map(it -> it.toInstant(offset));
+    }
+
+    private static ZoneOffset systemOffset() {
+        return OffsetDateTime.now().getOffset();
     }
 }
