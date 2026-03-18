@@ -145,27 +145,37 @@ allprojects {
     dependencies {
         // BOM + Version Catalog: all versions live in :mahu-bom
         implementation(platform(project(":mahu-bom")))
+        compileOnly(platform(project(":mahu-bom")))
+        testImplementation(platform(project(":mahu-bom")))
+        testCompileOnly(platform(project(":mahu-bom")))
         annotationProcessor(platform(project(":mahu-bom")))
+        testAnnotationProcessor(platform(project(":mahu-bom")))
 
-        annotationProcessor(libs.lombok)
-        annotationProcessor(libs.mapstruct.processor)
-        annotationProcessor(libs.avaje.validator.generator)
-        compileOnly(libs.lombok)
-        compileOnly(libs.mapstruct)
+        plugins.withId("java-library") {
+            dependencies {
+                api(platform(project(":mahu-bom")))
+            }
+        }
 
-        testAnnotationProcessor(libs.lombok)
-        testCompileOnly(libs.lombok)
-        testImplementation(libs.junit.jupiter)
-        testImplementation(libs.junit.platform.launcher)
-        testImplementation(libs.junit.jupiter.params)
-        testImplementation(libs.assert.core)
-        testImplementation(libs.awaitility)
-        testImplementation(libs.instancio.junit)
-        testImplementation(libs.mockito.junit.jupiter)
-        testImplementation(libs.helidon.testing.junit5)
+        annotationProcessor("org.projectlombok:lombok")
+        annotationProcessor("org.mapstruct:mapstruct-processor")
+        annotationProcessor("io.avaje:avaje-validator-generator")
+        compileOnly("org.projectlombok:lombok")
+        compileOnly("org.mapstruct:mapstruct")
 
-        testImplementation(libs.log4j.core)
-        testImplementation(libs.log4j.slf4j2.impl)
+        testAnnotationProcessor("org.projectlombok:lombok")
+        testCompileOnly("org.projectlombok:lombok")
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testImplementation("org.junit.platform:junit-platform-launcher")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
+        testImplementation("org.assertj:assertj-core")
+        testImplementation("org.awaitility:awaitility")
+        testImplementation("org.instancio:instancio-junit")
+        testImplementation("org.mockito:mockito-junit-jupiter")
+        testImplementation("io.helidon.testing:helidon-testing-junit5")
+
+        testImplementation("org.apache.logging.log4j:log4j-core")
+        testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     }
 
     repositories {

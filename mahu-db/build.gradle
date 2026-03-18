@@ -62,7 +62,7 @@ tasks.register("rollback-1", JavaExec.class) {
 }
 
 dependencies {
-    liquibaseRuntime(libs.liquibase.core)
-    liquibaseRuntime(libs.picocli)
-    liquibaseRuntime(libs.postgresql)
+    liquibaseRuntime("org.liquibase:liquibase-core")
+    liquibaseRuntime("info.picocli:picocli")
+    liquibaseRuntime("org.postgresql:postgresql")
 }

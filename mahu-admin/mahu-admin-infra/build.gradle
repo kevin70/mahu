@@ -2,46 +2,46 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor(libs.ebean.querybean.generator)
-    annotationProcessor(libs.helidon.bundles.apt)
+    annotationProcessor("io.ebean:querybean-generator")
+    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
     // 聚合后的领域层：实体 + 共享业务
     api(project(":mahu-domain"))
     api(project(":mahu-config"))
-    api(libs.jackson.databind)
-    api(libs.jackson.module.parameter.names)
-    api(libs.jackson.module.afterburner)
-    api(libs.jackson.datatype.jdk8)
-    api(libs.jackson.datatype.jsr310)
-    api(libs.jackson.datatype.guava)
+    api("com.fasterxml.jackson.core:jackson-databind")
+    api("com.fasterxml.jackson.module:jackson-module-parameter-names")
+    api("com.fasterxml.jackson.module:jackson-module-afterburner")
+    api("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
+    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    api("com.fasterxml.jackson.datatype:jackson-datatype-guava")
 
-    api(libs.helidon.common.parameters)
-    api(libs.helidon.common.context)
-    api(libs.helidon.common.configurable)
-    api(libs.helidon.service.registry)
-    api(libs.helidon.health.checks)
-    api(libs.helidon.config.yaml)
-    api(libs.helidon.config.encryption)
-    api(libs.helidon.security.jwt)
-    api(libs.helidon.scheduling)
+    api("io.helidon.common:helidon-common-parameters")
+    api("io.helidon.common:helidon-common-context")
+    api("io.helidon.common:helidon-common-configurable")
+    api("io.helidon.service:helidon-service-registry")
+    api("io.helidon.health:helidon-health-checks")
+    api("io.helidon.config:helidon-config-yaml")
+    api("io.helidon.config:helidon-config-encryption")
+    api("io.helidon.security:helidon-security-jwt")
+    api("io.helidon.scheduling:helidon-scheduling")
 
-    implementation(libs.helidon.webclient)
-    implementation(libs.helidon.http.media.jackson)
-    implementation(libs.password4j)
-    implementation(libs.minio)
-    implementation(libs.caffeine)
-    implementation(libs.roaringbitmap)
+    implementation("io.helidon.webclient:helidon-webclient")
+    implementation("io.helidon.http.media:helidon-http-media-jackson")
+    implementation("com.password4j:password4j")
+    implementation("io.minio:minio")
+    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("org.roaringbitmap:RoaringBitmap")
 
-    implementation(libs.ebean.api)
-    implementation(libs.ebean.core)
-    implementation(libs.ebean.querybean)
-    implementation(libs.ebean.postgres)
-    implementation(libs.postgresql)
-    implementation(libs.ebean.jackson.mapper)
+    implementation("io.ebean:ebean-api")
+    implementation("io.ebean:ebean-core")
+    implementation("io.ebean:ebean-querybean")
+    implementation("io.ebean:ebean-postgres")
+    implementation("org.postgresql:postgresql")
+    implementation("io.ebean:ebean-jackson-mapper")
 
-    implementation(libs.log4j.core)
-    implementation(libs.log4j.slf4j2.impl)
-    implementation(libs.valkey.glide) {
+    implementation("org.apache.logging.log4j:log4j-core")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
+    implementation("io.valkey:valkey-glide") {
         artifact {
             classifier = osdetector.classifier
         }
