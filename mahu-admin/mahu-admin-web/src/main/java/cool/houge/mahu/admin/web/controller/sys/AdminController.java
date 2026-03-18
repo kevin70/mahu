@@ -65,7 +65,7 @@ public class AdminController implements HAdminService, WebSupport {
     public void pageSysAdminLog(ServerRequest request, ServerResponse response) {
         var type = pathArg(request, "type").as(AdminLogType::valueOf).get();
         var adminId = queryInt(request, "admin_id").orElse(null);
-        var createdAtRange = queryDateRange(request);
+        var createdAtRange = dateRange(request);
         var page = page(request);
         var logQuery = AdminLogQuery.builder().adminId(adminId).createdAtRange(createdAtRange).build();
         switch (type) {
