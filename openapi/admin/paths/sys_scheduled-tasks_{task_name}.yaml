@@ -1,0 +1,24 @@
+parameters:
+  - name: task_name
+    description: 任务名称
+    in: path
+    required: true
+    schema:
+      type: string
+post:
+  summary: 立即执行任务
+  operationId: executeSysScheduledTask
+  x-permission-code: SYS_SCHEDULED_TASK:W
+  tags: [h_scheduled_task]
+  responses:
+    204:
+      description: OK
+delete:
+  deprecated: true
+  summary: 取消执行任务
+  operationId: cancelSysScheduledTask
+  x-permission-code: SYS_SCHEDULED_TASK:W
+  tags: [h_scheduled_task]
+  responses:
+    204:
+      description: OK

@@ -124,6 +124,8 @@ paths:
     $ref: "paths/sys_feature-flags_{feature_flag_id}.yaml"
   /sys/scheduled-tasks:
     $ref: "paths/sys_scheduled-tasks.yaml"
+  /sys/scheduled-tasks/{task_name}:
+    $ref: "paths/sys_scheduled-tasks_{task_name}.yaml"
   /sys/scheduled-tasks/{task_name}/logs:
     $ref: "paths/sys_scheduled-tasks_{task_name}_logs.yaml"
   /sys/delayed-tasks:

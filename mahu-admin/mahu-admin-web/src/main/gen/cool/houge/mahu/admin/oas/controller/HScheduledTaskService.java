@@ -11,21 +11,21 @@ public interface HScheduledTaskService extends HttpService {
 
     @Override
     default void routing(HttpRules rules) {
-        rules.delete("/sys/scheduled-tasks/{task_name}/logs", authenticate().andAuthorize("SYS_SCHEDULED_TASK:W"), this::cancelSysScheduledTask);
-        rules.post("/sys/scheduled-tasks/{task_name}/logs", authenticate().andAuthorize("SYS_SCHEDULED_TASK:W"), this::executeSysScheduledTask);
+        rules.delete("/sys/scheduled-tasks/{task_name}", authenticate().andAuthorize("SYS_SCHEDULED_TASK:W"), this::cancelSysScheduledTask);
+        rules.post("/sys/scheduled-tasks/{task_name}", authenticate().andAuthorize("SYS_SCHEDULED_TASK:W"), this::executeSysScheduledTask);
         rules.get("/sys/scheduled-tasks", authenticate().andAuthorize("SYS_SCHEDULED_TASK:R"), this::pageSysScheduledTask);
         rules.get("/sys/scheduled-tasks/{task_name}/logs", authenticate().andAuthorize("SYS_SCHEDULED_TASK:R"), this::pageSysScheduledTaskLog);
     }
 
     ///
-    /// `DELETE /sys/scheduled-tasks/{task_name}/logs` 取消执行任务
+    /// `DELETE /sys/scheduled-tasks/{task_name}` 取消执行任务
     ///
     /// @param request the server request
     /// @param response the server response
     void cancelSysScheduledTask(ServerRequest request, ServerResponse response);
 
     ///
-    /// `POST /sys/scheduled-tasks/{task_name}/logs` 立即执行任务
+    /// `POST /sys/scheduled-tasks/{task_name}` 立即执行任务
     ///
     /// @param request the server request
     /// @param response the server response

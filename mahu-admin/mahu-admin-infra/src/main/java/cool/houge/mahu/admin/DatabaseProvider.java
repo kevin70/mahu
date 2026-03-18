@@ -33,7 +33,7 @@ class DatabaseProvider implements Supplier<Database> {
                 .slowQueryMillis(200)
                 .jsonInclude(JsonConfig.Include.NON_NULL)
                 .currentUserProvider(new ContextCurrentUserProvider())
-                .changeLogIncludeInserts(false)
+                .changeLogIncludeInserts(true)
                 .changeLogPrepare(changeSet -> {
                     var userContext = AuthContext.current();
                     var metadata = Metadata.current();
