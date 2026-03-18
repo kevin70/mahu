@@ -8,16 +8,39 @@ dependencies {
     // 聚合后的领域层：实体 + 共享业务
     api(project(":mahu-domain"))
     api(project(":mahu-config"))
-    api(libs.bundles.jackson)
-    api(libs.bundles.helidon.service)
-    implementation(libs.bundles.helidon.webclient)
+    api(libs.jackson.databind)
+    api(libs.jackson.module.parameter.names)
+    api(libs.jackson.module.afterburner)
+    api(libs.jackson.datatype.jdk8)
+    api(libs.jackson.datatype.jsr310)
+    api(libs.jackson.datatype.guava)
+
+    api(libs.helidon.common.parameters)
+    api(libs.helidon.common.context)
+    api(libs.helidon.common.configurable)
+    api(libs.helidon.service.registry)
+    api(libs.helidon.health.checks)
+    api(libs.helidon.config.yaml)
+    api(libs.helidon.config.encryption)
+    api(libs.helidon.security.jwt)
+    api(libs.helidon.scheduling)
+
+    implementation(libs.helidon.webclient)
+    implementation(libs.helidon.http.media.jackson)
     implementation(libs.password4j)
     implementation(libs.minio)
     implementation(libs.caffeine)
     implementation(libs.roaringbitmap)
 
-    implementation(libs.bundles.ebean)
-    implementation(libs.bundles.log4j)
+    implementation(libs.ebean.api)
+    implementation(libs.ebean.core)
+    implementation(libs.ebean.querybean)
+    implementation(libs.ebean.postgres)
+    implementation(libs.postgresql)
+    implementation(libs.ebean.jackson.mapper)
+
+    implementation(libs.log4j.core)
+    implementation(libs.log4j.slf4j2.impl)
     implementation(libs.valkey.glide) {
         artifact {
             classifier = osdetector.classifier

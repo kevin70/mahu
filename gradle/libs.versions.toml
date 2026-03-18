@@ -1,16 +1,6 @@
 [versions]
 ebean = "17.3.0"
-helidon = "4.4.0"
-mapstruct = "1.6.3"
-log4j = "2.25.3"
-avaje-validator = "2.16"
-jackson = "2.21.1"
-
-junit = "6.0.1"
-liquibase = "4.29.2"
-picocli = "4.7.7"
 openapi-generator = "7.20.0"
-avaje-lang = "1.1"
 spotless = "8.3.0"
 node-gradle = "7.1.0"
 sonarlint = "7.0.1"
@@ -20,211 +10,85 @@ release = "3.1.0"
 jib = "3.5.3"
 osdetector = "1.7.3"
 
-jspecify = "1.0.0"
-checker-qual = "3.49.5"
-error-prone-annotations = "2.43.0"
-lombok = "1.18.42"
-guava = "33.5.0-jre"
-gson = "2.13.2"
-caffeine = "3.2.3"
-postgresql = "42.7.8"
-valkey-glide = "2.2.5"
-commons-lang3 = "3.20.0"
-roaringbitmap = "1.6.10"
-db-scheduler = "16.0.0"
-ulid-creator = "5.2.3"
-minio = "8.6.0"
-password4j = "1.8.4"
-assertj = "3.27.6"
-awaitility = "4.3.0"
-instancio = "5.5.1"
-mockito = "5.21.0"
-
-# reserved (currently unused)
-fastexcel = "0.19.0"
-commons-collections4 = "4.5.0"
-commons-text = "1.14.0"
-commons-compress = "3.2.0"
-
 [libraries]
-jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
-checker-qual = { module = "org.checkerframework:checker-qual", version.ref = "checker-qual" }
-error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error-prone-annotations" }
-lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
-guava = { module = "com.google.guava:guava", version.ref = "guava" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
-postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
-valkey-glide = { module = "io.valkey:valkey-glide", version.ref = "valkey-glide" }
-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
-roaringbitmap = { module = "org.roaringbitmap:RoaringBitmap", version.ref = "roaringbitmap" }
-db-scheduler = { module = "com.github.kagkarlsson:db-scheduler", version.ref = "db-scheduler" }
-ulid-creator = { module = "com.github.f4b6a3:ulid-creator", version.ref = "ulid-creator" }
-minio = { module = "io.minio:minio", version.ref = "minio" }
-password4j = { module = "com.password4j:password4j", version.ref = "password4j" }
-avaje-lang = { module = "io.avaje:avaje-lang", version.ref = "avaje-lang" }
-liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
-picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
-openapi-generator-cli = { module = "org.openapitools:openapi-generator-cli", version.ref = "openapi-generator" }
+jspecify = { module = "org.jspecify:jspecify" }
+checker-qual = { module = "org.checkerframework:checker-qual" }
+error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations" }
+lombok = { module = "org.projectlombok:lombok" }
+guava = { module = "com.google.guava:guava" }
+gson = { module = "com.google.code.gson:gson" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine" }
+postgresql = { module = "org.postgresql:postgresql" }
+valkey-glide = { module = "io.valkey:valkey-glide" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3" }
+roaringbitmap = { module = "org.roaringbitmap:RoaringBitmap" }
+db-scheduler = { module = "com.github.kagkarlsson:db-scheduler" }
+ulid-creator = { module = "com.github.f4b6a3:ulid-creator" }
+minio = { module = "io.minio:minio" }
+password4j = { module = "com.password4j:password4j" }
+avaje-lang = { module = "io.avaje:avaje-lang" }
+liquibase-core = { module = "org.liquibase:liquibase-core" }
+picocli = { module = "info.picocli:picocli" }
+openapi-generator-cli = { module = "org.openapitools:openapi-generator-cli" }
 
-assert-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
-awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitility" }
-instancio-junit = { module = "org.instancio:instancio-junit", version.ref = "instancio" }
-mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+assert-core = { module = "org.assertj:assertj-core" }
+awaitility = { module = "org.awaitility:awaitility" }
+instancio-junit = { module = "org.instancio:instancio-junit" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter" }
 
-mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
-mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+mapstruct = { module = "org.mapstruct:mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor" }
 
-jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
-jackson-module-parameter-names = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
-jackson-module-afterburner = { module = "com.fasterxml.jackson.module:jackson-module-afterburner", version.ref = "jackson" }
-jackson-datatype-jdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jackson" }
-jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
-jackson-datatype-guava = { module = "com.fasterxml.jackson.datatype:jackson-datatype-guava", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
+jackson-module-parameter-names = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names" }
+jackson-module-afterburner = { module = "com.fasterxml.jackson.module:jackson-module-afterburner" }
+jackson-datatype-jdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
+jackson-datatype-guava = { module = "com.fasterxml.jackson.datatype:jackson-datatype-guava" }
 
-ebean-querybean-generator = { module = "io.ebean:querybean-generator", version.ref = "ebean" }
-ebean-api = { module = "io.ebean:ebean-api", version.ref = "ebean" }
-ebean-core = { module = "io.ebean:ebean-core", version.ref = "ebean" }
-ebean-querybean = { module = "io.ebean:ebean-querybean", version.ref = "ebean" }
-ebean-postgres = { module = "io.ebean:ebean-postgres", version.ref = "ebean" }
-ebean-jackson-mapper = { module = "io.ebean:ebean-jackson-mapper", version.ref = "ebean" }
+ebean-querybean-generator = { module = "io.ebean:querybean-generator" }
+ebean-api = { module = "io.ebean:ebean-api" }
+ebean-core = { module = "io.ebean:ebean-core" }
+ebean-querybean = { module = "io.ebean:ebean-querybean" }
+ebean-postgres = { module = "io.ebean:ebean-postgres" }
+ebean-jackson-mapper = { module = "io.ebean:ebean-jackson-mapper" }
 
-helidon-bundles-apt = { module = "io.helidon.bundles:helidon-bundles-apt", version.ref = "helidon" }
-helidon-config-metadata-codegen = { module = "io.helidon.config:helidon-config-metadata-codegen", version.ref = "helidon" }
-helidon-common-context = { module = "io.helidon.common:helidon-common-context", version.ref = "helidon" }
-helidon-common-parameters = { module = "io.helidon.common:helidon-common-parameters", version.ref = "helidon" }
-helidon-common-configurable = { module = "io.helidon.common:helidon-common-configurable", version.ref = "helidon" }
-helidon-config-yaml = { module = "io.helidon.config:helidon-config-yaml", version.ref = "helidon" }
-helidon-config-encryption = { module = "io.helidon.config:helidon-config-encryption", version.ref = "helidon" }
-helidon-config-metadata = { module = "io.helidon.config:helidon-config-metadata", version.ref = "helidon" }
-helidon-service-registry = { module = "io.helidon.service:helidon-service-registry", version.ref = "helidon" }
-helidon-security-jwt = { module = "io.helidon.security:helidon-security-jwt", version.ref = "helidon" }
-helidon-health-checks = { module = "io.helidon.health:helidon-health-checks", version.ref = "helidon" }
-helidon-http-media-jackson = { module = "io.helidon.http.media:helidon-http-media-jackson", version.ref = "helidon" }
-helidon-fault-tolerance = { module = "io.helidon.fault-tolerance:helidon-fault-tolerance", version.ref = "helidon" }
-helidon-logging-log4j = { module = "io.helidon.logging:helidon-logging-log4j", version.ref = "helidon" }
-helidon-scheduling = { module = "io.helidon.scheduling:helidon-scheduling", version.ref = "helidon" }
-helidon-webclient = { module = "io.helidon.webclient:helidon-webclient", version.ref = "helidon" }
-helidon-webserver = { module = "io.helidon.webserver:helidon-webserver", version.ref = "helidon" }
-helidon-webserver-cors = { module = "io.helidon.webserver:helidon-webserver-cors", version.ref = "helidon" }
-helidon-webserver-context = { module = "io.helidon.webserver:helidon-webserver-context", version.ref = "helidon" }
-helidon-webserver-observe-info = { module = "io.helidon.webserver.observe:helidon-webserver-observe-info", version.ref = "helidon" }
-helidon-webserver-observe-config = { module = "io.helidon.webserver.observe:helidon-webserver-observe-config", version.ref = "helidon" }
-helidon-webserver-observe-health = { module = "io.helidon.webserver.observe:helidon-webserver-observe-health", version.ref = "helidon" }
-helidon-webserver-observe-log = { module = "io.helidon.webserver.observe:helidon-webserver-observe-log", version.ref = "helidon" }
-helidon-webserver-observe-metrics = { module = "io.helidon.webserver.observe:helidon-webserver-observe-metrics", version.ref = "helidon" }
-helidon-testing-junit5 = { module = "io.helidon.testing:helidon-testing-junit5", version.ref = "helidon" }
+helidon-bundles-apt = { module = "io.helidon.bundles:helidon-bundles-apt" }
+helidon-config-metadata-codegen = { module = "io.helidon.config:helidon-config-metadata-codegen" }
+helidon-common-context = { module = "io.helidon.common:helidon-common-context" }
+helidon-common-parameters = { module = "io.helidon.common:helidon-common-parameters" }
+helidon-common-configurable = { module = "io.helidon.common:helidon-common-configurable" }
+helidon-config-yaml = { module = "io.helidon.config:helidon-config-yaml" }
+helidon-config-encryption = { module = "io.helidon.config:helidon-config-encryption" }
+helidon-config-metadata = { module = "io.helidon.config:helidon-config-metadata" }
+helidon-service-registry = { module = "io.helidon.service:helidon-service-registry" }
+helidon-security-jwt = { module = "io.helidon.security:helidon-security-jwt" }
+helidon-health-checks = { module = "io.helidon.health:helidon-health-checks" }
+helidon-http-media-jackson = { module = "io.helidon.http.media:helidon-http-media-jackson" }
+helidon-fault-tolerance = { module = "io.helidon.fault-tolerance:helidon-fault-tolerance" }
+helidon-logging-log4j = { module = "io.helidon.logging:helidon-logging-log4j" }
+helidon-scheduling = { module = "io.helidon.scheduling:helidon-scheduling" }
+helidon-webclient = { module = "io.helidon.webclient:helidon-webclient" }
+helidon-webserver = { module = "io.helidon.webserver:helidon-webserver" }
+helidon-webserver-cors = { module = "io.helidon.webserver:helidon-webserver-cors" }
+helidon-webserver-context = { module = "io.helidon.webserver:helidon-webserver-context" }
+helidon-webserver-observe-info = { module = "io.helidon.webserver.observe:helidon-webserver-observe-info" }
+helidon-webserver-observe-config = { module = "io.helidon.webserver.observe:helidon-webserver-observe-config" }
+helidon-webserver-observe-health = { module = "io.helidon.webserver.observe:helidon-webserver-observe-health" }
+helidon-webserver-observe-log = { module = "io.helidon.webserver.observe:helidon-webserver-observe-log" }
+helidon-webserver-observe-metrics = { module = "io.helidon.webserver.observe:helidon-webserver-observe-metrics" }
+helidon-testing-junit5 = { module = "io.helidon.testing:helidon-testing-junit5" }
 
-log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
-log4j-slf4j2-impl = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core" }
+log4j-slf4j2-impl = { module = "org.apache.logging.log4j:log4j-slf4j2-impl" }
 
-avaje-validator-constraints = { module = "io.avaje:avaje-validator-constraints", version.ref = "avaje-validator" }
-avaje-validator = { module = "io.avaje:avaje-validator", version.ref = "avaje-validator" }
-avaje-validator-generator = { module = "io.avaje:avaje-validator-generator", version.ref = "avaje-validator" }
+avaje-validator-constraints = { module = "io.avaje:avaje-validator-constraints" }
+avaje-validator = { module = "io.avaje:avaje-validator" }
+avaje-validator-generator = { module = "io.avaje:avaje-validator-generator" }
 
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
-junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
-
-# reserved (currently unused)
-fastexcel = { module = "org.dhatim:fastexcel", version.ref = "fastexcel" }
-fastexcel-reader = { module = "org.dhatim:fastexcel", version.ref = "fastexcel" }
-commons-collections4 = { module = "org.apache.commons:commons-collections4", version.ref = "commons-collections4" }
-commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text" }
-commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commons-compress" }
-
-[bundles]
-base = [
-    "checker-qual",
-    "error_prone_annotations",
-    "jspecify",
-    "guava",
-    "ulid-creator"
-]
-jackson = [
-    "jackson-databind",
-    "jackson-module-parameter-names",
-    "jackson-module-afterburner",
-    "jackson-datatype-jdk8",
-    "jackson-datatype-jsr310",
-    "jackson-datatype-guava"
-]
-ebean = [
-    "ebean-api",
-    "ebean-core",
-    "ebean-querybean",
-    "ebean-postgres",
-    "postgresql",
-    "ebean-jackson-mapper"
-]
-helidon-base = [
-    "helidon-service-registry",
-    "helidon-health-checks",
-]
-helidon-bundles-apt = [
-    "helidon-bundles-apt",
-    "helidon-config-metadata-codegen"
-]
-helidon-common = [
-    "helidon-common-parameters",
-    "helidon-common-context",
-    "helidon-common-configurable"
-]
-helidon-config = [
-    "helidon-config-yaml",
-    "helidon-config-encryption",
-    "helidon-config-metadata"
-]
-helidon-service = [
-    "helidon-common-parameters",
-    "helidon-common-context",
-    "helidon-common-configurable",
-    "helidon-service-registry",
-    "helidon-health-checks",
-    "helidon-config-yaml",
-    "helidon-config-encryption",
-    "helidon-security-jwt",
-    "helidon-scheduling"
-]
-helidon-webclient = [
-    "helidon-webclient",
-    "helidon-http-media-jackson",
-]
-helidon-webserver = [
-    "helidon-scheduling",
-    "helidon-service-registry",
-    "helidon-security-jwt",
-    "helidon-health-checks",
-    "helidon-http-media-jackson",
-    "helidon-fault-tolerance",
-    "helidon-logging-log4j",
-    "helidon-webserver",
-    "helidon-webserver-cors",
-    "helidon-webserver-context",
-    "helidon-webserver-observe-info",
-    "helidon-webserver-observe-config",
-    "helidon-webserver-observe-health",
-    "helidon-webserver-observe-log",
-    "helidon-webserver-observe-metrics"
-]
-avaje-validator = [
-    "avaje-validator-constraints",
-    "avaje-validator"
-]
-log4j = [
-    "log4j-core",
-    "log4j-slf4j2-impl"
-]
-testing = [
-    "junit-jupiter",
-    "junit-platform-launcher",
-    "junit-jupiter-params",
-    "assert-core",
-    "awaitility",
-    "instancio-junit",
-    "mockito-junit-jupiter",
-    "helidon-testing-junit5"
-]
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
 
 [plugins]
 ebean = { id = "io.ebean", version.ref = "ebean" }

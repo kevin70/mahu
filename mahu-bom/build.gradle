@@ -1,0 +1,102 @@
+plugins {
+    id("java-platform")
+}
+
+javaPlatform {
+    allowDependencies()
+}
+
+dependencies {
+    constraints {
+        // Base / utils
+        api("org.jspecify:jspecify:1.0.0")
+        api("org.checkerframework:checker-qual:3.49.5")
+        api("com.google.errorprone:error_prone_annotations:2.43.0")
+        api("org.projectlombok:lombok:1.18.42")
+        api("com.google.guava:guava:33.5.0-jre")
+        api("com.google.code.gson:gson:2.13.2")
+        api("com.github.ben-manes.caffeine:caffeine:3.2.3")
+        api("org.apache.commons:commons-lang3:3.20.0")
+        api("org.roaringbitmap:RoaringBitmap:1.6.10")
+        api("com.github.f4b6a3:ulid-creator:5.2.3")
+
+        // DB / scheduler / cache
+        api("org.postgresql:postgresql:42.7.8")
+        api("com.github.kagkarlsson:db-scheduler:16.0.0")
+        api("io.valkey:valkey-glide:2.2.5")
+
+        // Storage / security
+        api("io.minio:minio:8.6.0")
+        api("com.password4j:password4j:1.8.4")
+
+        // Avaje
+        api("io.avaje:avaje-lang:1.1")
+        api("io.avaje:avaje-validator-constraints:2.16")
+        api("io.avaje:avaje-validator:2.16")
+        api("io.avaje:avaje-validator-generator:2.16")
+
+        // Jackson
+        api("com.fasterxml.jackson.core:jackson-databind:2.21.1")
+        api("com.fasterxml.jackson.module:jackson-module-parameter-names:2.21.1")
+        api("com.fasterxml.jackson.module:jackson-module-afterburner:2.21.1")
+        api("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.21.1")
+        api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.1")
+        api("com.fasterxml.jackson.datatype:jackson-datatype-guava:2.21.1")
+
+        // EBean
+        api("io.ebean:querybean-generator:17.3.0")
+        api("io.ebean:ebean-api:17.3.0")
+        api("io.ebean:ebean-core:17.3.0")
+        api("io.ebean:ebean-querybean:17.3.0")
+        api("io.ebean:ebean-postgres:17.3.0")
+        api("io.ebean:ebean-jackson-mapper:17.3.0")
+
+        // Helidon (runtime + buildscript usage)
+        api("io.helidon.bundles:helidon-bundles-apt:4.4.0")
+        api("io.helidon.config:helidon-config-metadata-codegen:4.4.0")
+        api("io.helidon.config:helidon-config-yaml:4.4.0")
+        api("io.helidon.config:helidon-config-encryption:4.4.0")
+        api("io.helidon.config:helidon-config-metadata:4.4.0")
+        api("io.helidon.common:helidon-common-context:4.4.0")
+        api("io.helidon.common:helidon-common-parameters:4.4.0")
+        api("io.helidon.common:helidon-common-configurable:4.4.0")
+        api("io.helidon.service:helidon-service-registry:4.4.0")
+        api("io.helidon.security:helidon-security-jwt:4.4.0")
+        api("io.helidon.health:helidon-health-checks:4.4.0")
+        api("io.helidon.http.media:helidon-http-media-jackson:4.4.0")
+        api("io.helidon.fault-tolerance:helidon-fault-tolerance:4.4.0")
+        api("io.helidon.logging:helidon-logging-log4j:4.4.0")
+        api("io.helidon.scheduling:helidon-scheduling:4.4.0")
+        api("io.helidon.webclient:helidon-webclient:4.4.0")
+        api("io.helidon.webserver:helidon-webserver:4.4.0")
+        api("io.helidon.webserver:helidon-webserver-cors:4.4.0")
+        api("io.helidon.webserver:helidon-webserver-context:4.4.0")
+        api("io.helidon.webserver.observe:helidon-webserver-observe-info:4.4.0")
+        api("io.helidon.webserver.observe:helidon-webserver-observe-config:4.4.0")
+        api("io.helidon.webserver.observe:helidon-webserver-observe-health:4.4.0")
+        api("io.helidon.webserver.observe:helidon-webserver-observe-log:4.4.0")
+        api("io.helidon.webserver.observe:helidon-webserver-observe-metrics:4.4.0")
+        api("io.helidon.testing:helidon-testing-junit5:4.4.0")
+
+        // Log4j
+        api("org.apache.logging.log4j:log4j-core:2.25.3")
+        api("org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3")
+
+        // Tooling
+        api("org.liquibase:liquibase-core:4.29.2")
+        api("info.picocli:picocli:4.7.7")
+        api("org.openapitools:openapi-generator-cli:7.20.0")
+        api("org.mapstruct:mapstruct:1.6.3")
+        api("org.mapstruct:mapstruct-processor:1.6.3")
+
+        // Testing
+        api("org.junit.jupiter:junit-jupiter:6.0.1")
+        api("org.junit.platform:junit-platform-launcher:6.0.1")
+        api("org.junit.jupiter:junit-jupiter-params:6.0.1")
+        api("org.assertj:assertj-core:3.27.6")
+        api("org.awaitility:awaitility:4.3.0")
+        api("org.instancio:instancio-junit:5.5.1")
+        api("org.mockito:mockito-junit-jupiter:5.21.0")
+    }
+}
+

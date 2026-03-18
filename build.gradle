@@ -14,13 +14,15 @@ plugins {
     alias(libs.plugins.jib)
     alias(libs.plugins.osdetector)
 }
-ext.helidonVersion = libs.versions.helidon.get()
 
 release {
     tagTemplate = 'V${version}'
 }
 
 allprojects {
+    if (it.name == "mahu-bom") {
+        return;
+    }
 
     apply plugin: "java"
     apply plugin: "jacoco"
@@ -141,13 +143,9 @@ allprojects {
     }
 
     dependencies {
-        constraints {
-            implementation(libs.guava)
-            implementation(libs.gson)
-            implementation(libs.commons.lang3)
-            implementation(libs.postgresql)
-            implementation(libs.error.prone.annotations)
-        }
+        // BOM + Version Catalog: all versions live in :mahu-bom
+        implementation(platform(project(":mahu-bom")))
+        annotationProcessor(platform(project(":mahu-bom")))
 
         annotationProcessor(libs.lombok)
         annotationProcessor(libs.mapstruct.processor)
@@ -157,8 +155,17 @@ allprojects {
 
         testAnnotationProcessor(libs.lombok)
         testCompileOnly(libs.lombok)
-        testImplementation(libs.bundles.testing)
-        testImplementation(libs.bundles.log4j)
+        testImplementation(libs.junit.jupiter)
+        testImplementation(libs.junit.platform.launcher)
+        testImplementation(libs.junit.jupiter.params)
+        testImplementation(libs.assert.core)
+        testImplementation(libs.awaitility)
+        testImplementation(libs.instancio.junit)
+        testImplementation(libs.mockito.junit.jupiter)
+        testImplementation(libs.helidon.testing.junit5)
+
+        testImplementation(libs.log4j.core)
+        testImplementation(libs.log4j.slf4j2.impl)
     }
 
     repositories {

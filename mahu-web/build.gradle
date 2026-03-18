@@ -2,8 +2,25 @@ apply plugin: "java-library"
 
 dependencies {
     implementation(project(":mahu-base"))
-    implementation(libs.bundles.log4j)
+    implementation(libs.log4j.core)
+    implementation(libs.log4j.slf4j2.impl)
     implementation(libs.ebean.api)
-    implementation(libs.bundles.helidon.webserver)
-    implementation(libs.bundles.avaje.validator)
+    implementation(libs.helidon.scheduling)
+    implementation(libs.helidon.service.registry)
+    implementation(libs.helidon.security.jwt)
+    implementation(libs.helidon.health.checks)
+    implementation(libs.helidon.http.media.jackson)
+    implementation(libs.helidon.fault.tolerance)
+    implementation(libs.helidon.logging.log4j)
+    implementation(libs.helidon.webserver)
+    implementation(libs.helidon.webserver.cors)
+    implementation(libs.helidon.webserver.context)
+    implementation(libs.helidon.webserver.observe.info)
+    implementation(libs.helidon.webserver.observe.config)
+    implementation(libs.helidon.webserver.observe.health)
+    implementation(libs.helidon.webserver.observe.log)
+    implementation(libs.helidon.webserver.observe.metrics)
+
+    implementation(libs.avaje.validator.constraints)
+    implementation(libs.avaje.validator)
 }

@@ -29,10 +29,28 @@ tasks.register("appVersion") {
 compileJava.dependsOn("appVersion")
 
 dependencies {
-    api(libs.bundles.base)
+    api(libs.checker.qual)
+    api(libs.error.prone.annotations)
+    api(libs.jspecify)
+    api(libs.guava)
+    api(libs.ulid.creator)
     api(libs.roaringbitmap)
 
-    implementation(libs.bundles.ebean)
-    implementation(libs.bundles.jackson)
-    implementation(libs.bundles.helidon.common)
+    implementation(libs.ebean.api)
+    implementation(libs.ebean.core)
+    implementation(libs.ebean.querybean)
+    implementation(libs.ebean.postgres)
+    implementation(libs.postgresql)
+    implementation(libs.ebean.jackson.mapper)
+
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.module.parameter.names)
+    implementation(libs.jackson.module.afterburner)
+    implementation(libs.jackson.datatype.jdk8)
+    implementation(libs.jackson.datatype.jsr310)
+    implementation(libs.jackson.datatype.guava)
+
+    implementation(libs.helidon.common.parameters)
+    implementation(libs.helidon.common.context)
+    implementation(libs.helidon.common.configurable)
 }

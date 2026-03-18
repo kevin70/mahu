@@ -5,7 +5,9 @@ dependencies {
     annotationProcessor(project(":mahu-codegen"))
 
     api(project(":mahu-base"))
-    api(libs.bundles.helidon.config)
+    api(libs.helidon.config.yaml)
+    api(libs.helidon.config.encryption)
+    api(libs.helidon.config.metadata)
 }
 
 tasks.withType(JavaCompile).configureEach {

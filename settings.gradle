@@ -8,6 +8,7 @@ pluginManagement {
 
 rootProject.name = "mahu"
 
+include "mahu-bom"
 include "mahu-db"
 include "mahu-codegen"
 include "mahu-base"

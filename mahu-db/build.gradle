@@ -1,7 +1,8 @@
 //file:noinspection UnnecessaryQualifiedReference
 buildscript {
     dependencies {
-        classpath("io.helidon.config:helidon-config-yaml:" + rootProject.ext.helidonVersion)
+        classpath(platform(project(":mahu-bom")))
+        classpath("io.helidon.config:helidon-config-yaml")
     }
 }
 
