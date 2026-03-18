@@ -19,6 +19,8 @@ import org.jspecify.annotations.Nullable;
 @Value
 public class DateRange {
 
+    public static final DateRange EMPTY = new DateRange(null, null);
+
     /// 开始时间（包含），可为空
     @Nullable
     DayStartTime start;
@@ -53,6 +55,10 @@ public class DateRange {
         DayStartTime s = (start == null || start.isEmpty()) ? null : DayStartTime.of(start);
         DayEndTime e = (end == null || end.isEmpty()) ? null : DayEndTime.of(end);
         return new DateRange(s, e);
+    }
+
+    public boolean isEmpty() {
+        return start == null && end == null;
     }
 
     /// 起始时间点（可选，包含）。

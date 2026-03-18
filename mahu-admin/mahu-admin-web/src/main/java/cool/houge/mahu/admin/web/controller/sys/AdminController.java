@@ -2,6 +2,7 @@ package cool.houge.mahu.admin.web.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
+import cool.houge.mahu.admin.dto.AdminLogQuery;
 import cool.houge.mahu.admin.dto.AdminQuery;
 import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HAdminService;
@@ -64,21 +65,23 @@ public class AdminController implements HAdminService, WebSupport {
     public void pageSysAdminLog(ServerRequest request, ServerResponse response) {
         var type = pathArg(request, "type").as(AdminLogType::valueOf).get();
         var adminId = queryInt(request, "admin_id").orElse(null);
+        var createdAtRange = queryDateRange(request);
         var page = page(request);
+        var logQuery = AdminLogQuery.builder().adminId(adminId).createdAtRange(createdAtRange).build();
         switch (type) {
             case ACCESS -> {
-                var plist = adminService.pageAdminAccessLog(adminId, page);
+                var plist = adminService.pageAdminAccessLog(logQuery, page);
                 var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAccessLogResponse);
                 response.send(rs);
             }
             case AUTH -> {
-                var plist = adminService.pageAdminAuthLog(adminId, page);
+                var plist = adminService.pageAdminAuthLog(logQuery, page);
                 var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAuthLogResponse);
                 response.send(rs);
             }
             // CHANGE
             default -> {
-                var plist = adminService.pageAdminChangeLog(adminId, page);
+                var plist = adminService.pageAdminChangeLog(logQuery, page);
                 var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminChangeLogResponse);
                 response.send(rs);
             }

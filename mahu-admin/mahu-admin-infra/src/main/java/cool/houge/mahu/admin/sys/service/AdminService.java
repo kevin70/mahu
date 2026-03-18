@@ -7,6 +7,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.Status;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
+import cool.houge.mahu.admin.dto.AdminLogQuery;
 import cool.houge.mahu.admin.dto.AdminQuery;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
 import cool.houge.mahu.admin.sys.repository.AdminAccessLogRepository;
@@ -110,20 +111,20 @@ public class AdminService {
 
     /// 管理员访问日志分页查询
     @Transactional(readOnly = true)
-    public PagedList<AdminAccessLog> pageAdminAccessLog(Integer adminId, Page page) {
-        return adminAccessLogRepository.findPage(adminId, page);
+    public PagedList<AdminAccessLog> pageAdminAccessLog(AdminLogQuery query, Page page) {
+        return adminAccessLogRepository.findPage(query, page);
     }
 
     /// 管理员认证日志分页查询
     @Transactional(readOnly = true)
-    public PagedList<AdminAuthLog> pageAdminAuthLog(Integer adminId, Page page) {
-        return adminAuthLogRepository.findPage(adminId, page);
+    public PagedList<AdminAuthLog> pageAdminAuthLog(AdminLogQuery query, Page page) {
+        return adminAuthLogRepository.findPage(query, page);
     }
 
     /// 管理员操作日志分页查询
     @Transactional(readOnly = true)
-    public PagedList<AdminChangeLog> pageAdminChangeLog(Integer adminId, Page page) {
-        return adminChangeLogRepository.findPage(adminId, page);
+    public PagedList<AdminChangeLog> pageAdminChangeLog(AdminLogQuery query, Page page) {
+        return adminChangeLogRepository.findPage(query, page);
     }
 
     void encryptPassword(Admin bean) {

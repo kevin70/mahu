@@ -130,7 +130,7 @@ public interface WebSupport {
     /// 从查询参数中获取日期区间（可选）。
     ///
     /// 默认使用参数名 "start_date" 与 "end_date"。
-    default Optional<DateRange> queryDateRange(ServerRequest request) {
+    default DateRange queryDateRange(ServerRequest request) {
         return queryDateRange(request, "start_date", "end_date");
     }
 
@@ -143,16 +143,16 @@ public interface WebSupport {
     /// @param request 请求对象
     /// @param startParam 开始日期参数名
     /// @param endParam 结束日期参数名
-    default Optional<DateRange> queryDateRange(ServerRequest request, String startParam, String endParam) {
+    default DateRange queryDateRange(ServerRequest request, String startParam, String endParam) {
         var startOpt = queryArg(request, startParam);
         var endOpt = queryArg(request, endParam);
         try {
             String start = startOpt.orElse(null);
             String end = endOpt.orElse(null);
             if (start == null && end == null) {
-                return Optional.empty();
+                return DateRange.EMPTY;
             }
-            return Optional.of(DateRange.ofNullable(start, end));
+            return DateRange.ofNullable(start, end);
         } catch (IllegalArgumentException e) {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, e.getMessage());
         }
