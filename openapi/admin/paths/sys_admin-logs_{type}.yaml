@@ -19,6 +19,8 @@ get:
       schema:
         type: integer
         format: int32
+    - $ref: "../components/parameters/start_date.yaml"
+    - $ref: "../components/parameters/end_date.yaml"
   responses:
     "200":
       description: OK

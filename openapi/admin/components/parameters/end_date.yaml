@@ -1,0 +1,7 @@
+name: end_date
+in: query
+description: |
+  结束日期（包含）。格式：YYYY-MM-DD
+schema:
+  type: string
+  format: date

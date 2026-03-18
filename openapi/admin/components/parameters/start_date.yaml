@@ -1,0 +1,7 @@
+name: start_date
+in: query
+description: |
+  起始日期（包含）。格式：YYYY-MM-DD
+schema:
+  type: string
+  format: date
