@@ -50,10 +50,8 @@ public abstract class PostgresLiquibaseTestBase {
 
         try (var db = liquibase.database.DatabaseFactory.getInstance()
                 .findCorrectDatabaseImplementation(new JdbcConnection(DS.getConnection()))) {
-            var liquibase = new Liquibase(
-                    "db/changelog/changelog-root.yaml",
-                    new ClassLoaderResourceAccessor(PostgresLiquibaseTestBase.class.getClassLoader()),
-                    db);
+            var accessor = new ClassLoaderResourceAccessor(Thread.currentThread().getContextClassLoader());
+            var liquibase = new Liquibase("/db/changelog/changelog-root.yaml", accessor, db);
             liquibase.update(new Contexts("sit"), new LabelExpression("sit"));
         }
 

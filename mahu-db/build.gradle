@@ -8,6 +8,7 @@ buildscript {
 
 plugins {
     id "java-library"
+    id "com.google.cloud.tools.jib"
 }
 
 configurations {
@@ -24,13 +25,13 @@ def liquibaseArgs() {
             "${System.getProperty("user.home")}/houge/mahu.yaml").optional())
         .build()
 
-    def searchPath = "${projectDir}/src/main/resources".toString()
-    def changelogFile = "db/changelog/changelog-root.yaml"
+    def searchPath = "${projectDir}/src/main/resources/db/changelog/".toString()
+    def changelogFile = "changelog-root.yaml"
     def url = config.get("db.url").asString().orElse("jdbc:postgresql://127.0.0.1:5432/mahu_dev")
     def username = config.get("db.username").asString().orElse("test")
     def password = config.get("db.password").asString().orElse("test")
     return [
-        "--classpath=$searchPath",
+        "--search-path=$searchPath",
         "--changelog-file=$changelogFile",
         "--url=$url",
         "--username=$username",
@@ -62,7 +63,47 @@ tasks.register("rollback-1", JavaExec.class) {
 }
 
 dependencies {
+    liquibaseRuntime(platform(project(":mahu-bom")))
     liquibaseRuntime("org.liquibase:liquibase-core")
     liquibaseRuntime("info.picocli:picocli")
     liquibaseRuntime("org.postgresql:postgresql")
 }
+
+tasks.register("syncChangelog", Sync) {
+    from layout.projectDirectory.dir("src/main/resources/db/changelog")
+    into layout.projectDirectory.dir("jib/liquibase/changelog")
+}
+
+jib {
+    from {
+        image = "docker.1ms.run/liquibase/liquibase:5"
+    }
+
+    to {
+        image = "houge-cool/mahu-db"
+        tags = ["$project.version", "latest"]
+    }
+
+    container {
+        args = ["status"]
+        environment = [
+            'LIQUIBASE_COMMAND_CHANGELOG_FILE': 'changelog/changelog-root.yaml',
+        ]
+    }
+
+    extraDirectories {
+        paths {
+            path {
+                from = file("jib")
+                into = "/liquibase"
+            }
+        }
+        permissions = [
+            "/liquibase/changelog/**": "644"
+        ]
+    }
+}
+
+tasks.named("jib") {dependsOn "syncChangelog"}
+tasks.named("jibDockerBuild") {dependsOn "syncChangelog"}
+tasks.named("jibBuildTar") {dependsOn "syncChangelog"}
