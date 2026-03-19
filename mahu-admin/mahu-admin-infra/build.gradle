@@ -5,12 +5,10 @@ dependencies {
     annotationProcessor("io.ebean:querybean-generator")
     annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
-    // 聚合后的领域层：实体 + 共享业务
     api(project(":mahu-domain"))
     api(project(":mahu-config"))
     api("com.fasterxml.jackson.core:jackson-databind")
     api("com.fasterxml.jackson.module:jackson-module-parameter-names")
-    api("com.fasterxml.jackson.module:jackson-module-afterburner")
     api("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
     api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     api("com.fasterxml.jackson.datatype:jackson-datatype-guava")
@@ -20,8 +18,6 @@ dependencies {
     api("io.helidon.common:helidon-common-configurable")
     api("io.helidon.service:helidon-service-registry")
     api("io.helidon.health:helidon-health-checks")
-    api("io.helidon.config:helidon-config-yaml")
-    api("io.helidon.config:helidon-config-encryption")
     api("io.helidon.security:helidon-security-jwt")
     api("io.helidon.scheduling:helidon-scheduling")
 
@@ -32,15 +28,12 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("org.roaringbitmap:RoaringBitmap")
 
-    implementation("io.ebean:ebean-api")
     implementation("io.ebean:ebean-core")
     implementation("io.ebean:ebean-querybean")
     implementation("io.ebean:ebean-postgres")
     implementation("org.postgresql:postgresql")
     implementation("io.ebean:ebean-jackson-mapper")
 
-    implementation("org.apache.logging.log4j:log4j-core")
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     implementation("io.valkey:valkey-glide") {
         artifact {
             classifier = osdetector.classifier

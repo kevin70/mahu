@@ -7,97 +7,37 @@ javaPlatform {
 }
 
 dependencies {
-    api platform("io.helidon:helidon-bom:$helidonVersion")
-    api platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion")
-    api platform("io.ebean:ebean-bom:$ebeanVersion")
-    api platform("org.junit:junit-bom:6.0.3")
-    api platform("org.instancio:instancio-bom:6.0.0-RC2")
+    api(platform(libs.spring.boot.dependencies))
+    api(platform(libs.helidon.bom))
+    api(platform(libs.jackson.bom))
+    api(platform(libs.ebean.bom))
+    api(platform(libs.instancio.bom))
 
     constraints {
         // Base / utils
-        api("org.jspecify:jspecify:$jspecifyVersion")
-        api("org.checkerframework:checker-qual:$checkerQualVersion")
-        api("com.google.errorprone:error_prone_annotations:$errorProneAnnotationsVersion")
-        api("org.projectlombok:lombok:$lombokVersion")
-        api("com.google.guava:guava:$guavaVersion")
-        api("com.google.code.gson:gson:$gsonVersion")
-        api("com.github.ben-manes.caffeine:caffeine:$caffeineVersion")
-        api("org.apache.commons:commons-lang3:$commonsLang3Version")
-        api("org.roaringbitmap:RoaringBitmap:$roaringBitmapVersion")
-        api("com.github.f4b6a3:ulid-creator:$ulidCreatorVersion")
+        api(libs.jspecify)
+        api(libs.guava)
+        api(libs.roaringbitmap)
+        api(libs.ulid.creator)
 
         // DB / scheduler / cache
-        api("org.postgresql:postgresql:$postgresqlVersion")
-        api("com.github.kagkarlsson:db-scheduler:$dbSchedulerVersion")
-        api("io.valkey:valkey-glide:$valkeyGlideVersion")
+        api(libs.db.scheduler)
+        api(libs.valkey.glide)
 
         // Storage / security
-        api("io.minio:minio:$minioVersion")
-        api("com.password4j:password4j:$password4jVersion")
+        api(libs.minio)
+        api(libs.password4j)
 
         // Avaje
-        api("io.avaje:avaje-validator-constraints:$avajeValidatorVersion")
-        api("io.avaje:avaje-validator:$avajeValidatorVersion")
-        api("io.avaje:avaje-validator-generator:$avajeValidatorVersion")
-
-        // Jackson
-//        api("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-//        api("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
-//        api("com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion")
-//        api("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
-//        api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-//        api("com.fasterxml.jackson.datatype:jackson-datatype-guava:$jacksonVersion")
-
-        // EBean
-//        api("io.ebean:querybean-generator:$ebeanVersion")
-//        api("io.ebean:ebean-api:$ebeanVersion")
-//        api("io.ebean:ebean-core:$ebeanVersion")
-//        api("io.ebean:ebean-querybean:$ebeanVersion")
-//        api("io.ebean:ebean-postgres:$ebeanVersion")
-//        api("io.ebean:ebean-jackson-mapper:$ebeanVersion")
-
-        // Helidon (runtime + buildscript usage)
-//        api("io.helidon.bundles:helidon-bundles-apt:$helidonVersion")
-//        api("io.helidon.config:helidon-config-metadata-codegen:$helidonVersion")
-//        api("io.helidon.config:helidon-config-yaml:$helidonVersion")
-//        api("io.helidon.config:helidon-config-encryption:$helidonVersion")
-//        api("io.helidon.config:helidon-config-metadata:$helidonVersion")
-//        api("io.helidon.common:helidon-common-context:$helidonVersion")
-//        api("io.helidon.common:helidon-common-parameters:$helidonVersion")
-//        api("io.helidon.common:helidon-common-configurable:$helidonVersion")
-//        api("io.helidon.service:helidon-service-registry:$helidonVersion")
-//        api("io.helidon.security:helidon-security-jwt:$helidonVersion")
-//        api("io.helidon.health:helidon-health-checks:$helidonVersion")
-//        api("io.helidon.http.media:helidon-http-media-jackson:$helidonVersion")
-//        api("io.helidon.fault-tolerance:helidon-fault-tolerance:$helidonVersion")
-//        api("io.helidon.logging:helidon-logging-log4j:$helidonVersion")
-//        api("io.helidon.scheduling:helidon-scheduling:$helidonVersion")
-//        api("io.helidon.webclient:helidon-webclient:$helidonVersion")
-//        api("io.helidon.webserver:helidon-webserver:$helidonVersion")
-//        api("io.helidon.webserver:helidon-webserver-cors:$helidonVersion")
-//        api("io.helidon.webserver:helidon-webserver-context:$helidonVersion")
-//        api("io.helidon.webserver.observe:helidon-webserver-observe-info:$helidonVersion")
-//        api("io.helidon.webserver.observe:helidon-webserver-observe-config:$helidonVersion")
-//        api("io.helidon.webserver.observe:helidon-webserver-observe-health:$helidonVersion")
-//        api("io.helidon.webserver.observe:helidon-webserver-observe-log:$helidonVersion")
-//        api("io.helidon.webserver.observe:helidon-webserver-observe-metrics:$helidonVersion")
-//        api("io.helidon.testing:helidon-testing-junit5:$helidonVersion")
-
-        // Log4j
-        api("org.apache.logging.log4j:log4j-core:$log4jVersion")
-        api("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+        api(libs.avaje.validator.constraints)
+        api(libs.avaje.validator)
+        api(libs.avaje.validator.generator)
 
         // Tooling
-        api("org.liquibase:liquibase-core:$liquibaseVersion")
-        api("info.picocli:picocli:$picocliVersion")
-        api("org.openapitools:openapi-generator-cli:$openapiGeneratorVersion")
-        api("org.mapstruct:mapstruct:$mapstructVersion")
-        api("org.mapstruct:mapstruct-processor:$mapstructVersion")
-
-        // Testing
-        api("org.assertj:assertj-core:$assertjVersion")
-        api("org.awaitility:awaitility:$awaitilityVersion")
-        api("org.mockito:mockito-junit-jupiter:$mockitoVersion")
+        api(libs.picocli)
+        api(libs.openapi.generator.cli)
+        api(libs.mapstruct)
+        api(libs.mapstruct.processor)
     }
 }
 

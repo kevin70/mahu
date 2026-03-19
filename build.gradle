@@ -143,19 +143,9 @@ allprojects {
     }
 
     dependencies {
-        // BOM + Version Catalog: all versions live in :mahu-bom
         implementation(platform(project(":mahu-bom")))
-        compileOnly(platform(project(":mahu-bom")))
-        testImplementation(platform(project(":mahu-bom")))
-        testCompileOnly(platform(project(":mahu-bom")))
         annotationProcessor(platform(project(":mahu-bom")))
         testAnnotationProcessor(platform(project(":mahu-bom")))
-
-        plugins.withId("java-library") {
-            dependencies {
-                api(platform(project(":mahu-bom")))
-            }
-        }
 
         annotationProcessor("org.projectlombok:lombok")
         annotationProcessor("org.mapstruct:mapstruct-processor")

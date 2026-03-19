@@ -3,11 +3,11 @@ apply plugin: "java-library"
 dependencies {
     annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
     annotationProcessor(project(":mahu-codegen"))
+    compileOnly("io.helidon.config:helidon-config-metadata")
 
     api(project(":mahu-base"))
     api("io.helidon.config:helidon-config-yaml")
     api("io.helidon.config:helidon-config-encryption")
-    api("io.helidon.config:helidon-config-metadata")
 }
 
 tasks.withType(JavaCompile).configureEach {

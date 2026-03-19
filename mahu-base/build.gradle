@@ -29,28 +29,22 @@ tasks.register("appVersion") {
 compileJava.dependsOn("appVersion")
 
 dependencies {
-    api("org.checkerframework:checker-qual")
-    api("com.google.errorprone:error_prone_annotations")
-    api("org.jspecify:jspecify")
-    api("com.google.guava:guava")
-    api("com.github.f4b6a3:ulid-creator")
-    api("org.roaringbitmap:RoaringBitmap")
+    implementation("org.jspecify:jspecify")
+    implementation("com.google.guava:guava")
+    implementation("com.github.f4b6a3:ulid-creator")
+    implementation("org.roaringbitmap:RoaringBitmap")
 
-    implementation("io.ebean:ebean-api")
     implementation("io.ebean:ebean-core")
     implementation("io.ebean:ebean-querybean")
     implementation("io.ebean:ebean-postgres")
-    implementation("org.postgresql:postgresql")
     implementation("io.ebean:ebean-jackson-mapper")
 
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.fasterxml.jackson.module:jackson-module-parameter-names")
-    implementation("com.fasterxml.jackson.module:jackson-module-afterburner")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-guava")
 
     implementation("io.helidon.common:helidon-common-parameters")
-    implementation("io.helidon.common:helidon-common-context")
     implementation("io.helidon.common:helidon-common-configurable")
 }

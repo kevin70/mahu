@@ -126,13 +126,8 @@ dependencies {
     implementation("io.avaje:avaje-validator-constraints")
     implementation("io.avaje:avaje-validator")
 
-    implementation("io.helidon.scheduling:helidon-scheduling")
-    implementation("io.helidon.service:helidon-service-registry")
-    implementation("io.helidon.security:helidon-security-jwt")
-    implementation("io.helidon.health:helidon-health-checks")
-    implementation("io.helidon.http.media:helidon-http-media-jackson")
-    implementation("io.helidon.fault-tolerance:helidon-fault-tolerance")
     implementation("io.helidon.logging:helidon-logging-log4j")
+    implementation("io.helidon.http.media:helidon-http-media-jackson")
     implementation("io.helidon.webserver:helidon-webserver")
     implementation("io.helidon.webserver:helidon-webserver-cors")
     implementation("io.helidon.webserver:helidon-webserver-context")
@@ -144,10 +139,7 @@ dependencies {
 
     implementation("io.ebean:ebean-api")
     implementation("io.ebean:ebean-core")
-    implementation("io.ebean:ebean-querybean")
-    implementation("io.ebean:ebean-postgres")
-    implementation("org.postgresql:postgresql")
-    implementation("io.ebean:ebean-jackson-mapper")
-
+    implementation("org.apache.logging.log4j:log4j-core")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     // testImplementation("io.helidon.webserver.testing.junit5:helidon-webserver-testing-junit5")
 }
