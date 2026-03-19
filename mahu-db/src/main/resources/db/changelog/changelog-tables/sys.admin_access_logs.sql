@@ -5,7 +5,7 @@
 CREATE TABLE sys.admin_access_logs (
   id UUID NOT NULL CONSTRAINT admin_access_logs_pk PRIMARY KEY,
   created_at TIMESTAMPTZ,
-  admin_id BIGINT,
+  admin_id INTEGER,
   ip_addr VARCHAR(64),
   method VARCHAR(16),
   uri_path VARCHAR(1024),

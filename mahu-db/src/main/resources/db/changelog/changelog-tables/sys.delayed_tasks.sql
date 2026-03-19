@@ -60,4 +60,4 @@ CREATE INDEX delayed_tasks_lock_at_idx ON sys.delayed_tasks (lock_at)
 WHERE
   (status = 16);
 
--- rollback drop table sys.delay_message;
+-- rollback drop table sys.delayed_tasks;
