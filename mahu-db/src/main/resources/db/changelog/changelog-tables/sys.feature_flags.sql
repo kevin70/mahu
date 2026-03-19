@@ -13,12 +13,7 @@ CREATE TABLE sys.feature_flags (
   disable_at TIMESTAMPTZ,
   ordering SMALLINT DEFAULT 0 NOT NULL,
   created_at TIMESTAMPTZ,
-  updated_at TIMESTAMPTZ,
-  CONSTRAINT chk_schedule_order CHECK (
-    (enable_at IS NULL)
-    OR (disable_at IS NULL)
-    OR (disable_at > enable_at)
-  )
+  updated_at TIMESTAMPTZ
 );
 
 CREATE INDEX idx_feature_flags_schedule ON sys.feature_flags (enable_at, disable_at)

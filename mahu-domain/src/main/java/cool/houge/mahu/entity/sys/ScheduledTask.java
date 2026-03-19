@@ -38,7 +38,7 @@ public class ScheduledTask {
     /// 任务实例
     private String taskInstance;
     /// 任务数据
-    private String taskData;
+    private byte[] taskData;
     /// 执行时间
     private Instant executionTime;
     /// 是否在执行中

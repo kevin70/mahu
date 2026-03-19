@@ -36,7 +36,10 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findByIds_null_returns_all() {
-        db().saveAll(List.of(group("g1"), group("g2"), group("g3")));
+        var g1 = group("g1");
+        var g2 = group("g2");
+        var g3 = group("g3");
+        db().saveAll(List.of(g1, g2, g3));
 
         var all = repo().findByIds(null);
 
@@ -45,7 +48,10 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findByIds_filters_by_ids() {
-        db().saveAll(List.of(group("g1"), group("g2"), group("g3")));
+        var g1 = group("g1");
+        var g2 = group("g2");
+        var g3 = group("g3");
+        db().saveAll(List.of(g1, g2, g3));
 
         var some = repo().findByIds(Set.of("g1", "g3"));
 
@@ -76,7 +82,10 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findPage_filters_by_groupId_and_sorts_by_updatedAt_desc() {
-        db().saveAll(List.of(group("g1"), group("g2"), group("g3")));
+        var g1 = group("g1");
+        var g2 = group("g2");
+        var g3 = group("g3");
+        db().saveAll(List.of(g1, g2, g3));
 
         // make ordering deterministic
         setUpdatedAt("g1", Instant.parse("2020-01-01T00:00:00Z"));

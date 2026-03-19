@@ -1,6 +1,7 @@
 package cool.houge.mahu.entity.sys;
 
 import io.ebean.annotation.ChangeLog;
+import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
@@ -62,6 +63,7 @@ public class DelayedTask {
     /// 锁租约(秒)，worker 处理任务允许的最长时间
     private Integer leaseSeconds;
     /// 消息内容存储业务所需的所有数据
+    @DbJsonB
     private String payload;
     /// 幂等键
     private String idempotencyKey;
