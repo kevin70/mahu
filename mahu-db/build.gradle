@@ -45,9 +45,10 @@ tasks.register("update", JavaExec.class) {
     classpath += configurations.liquibaseRuntime
     mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
 
-    args = liquibaseArgs() + [
-        "update"
-    ]
+    doFirst {
+        // 延迟到执行阶段再读取本地配置文件，避免拖慢 Gradle 配置阶段
+        args = liquibaseArgs() + ["update"]
+    }
 }
 
 tasks.register("rollback-1", JavaExec.class) {
@@ -56,10 +57,10 @@ tasks.register("rollback-1", JavaExec.class) {
     classpath += configurations.liquibaseRuntime
     mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
 
-    args = liquibaseArgs() + [
-        "rollback-count",
-        "1"
-    ]
+    doFirst {
+        // 延迟到执行阶段再读取本地配置文件，避免拖慢 Gradle 配置阶段
+        args = liquibaseArgs() + ["rollback-count", "1"]
+    }
 }
 
 dependencies {
