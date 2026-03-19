@@ -99,6 +99,7 @@ public interface SysBeanMapper extends TopBeanMapper {
     @Mapping(target = "roleIds", source = "roles", qualifiedByName = "rolesToRoleIds")
     SysAdminResponse toSysAdminResponse(Admin bean);
 
+    @Mapping(target = "taskData", source = "taskDataBase64")
     SysScheduledTaskResponse toSysScheduledTaskResponse(ScheduledTask bean);
 
     SysDelayedTaskResponse toSysDelayedTaskResponse(DelayedTask bean);

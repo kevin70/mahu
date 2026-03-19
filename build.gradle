@@ -74,6 +74,8 @@ allprojects {
 
     spotless {
         def prettierVersion = "3.6.2"
+        def npmrcFile = "${rootDir}/.npmrc"
+        def prettierBase = ["prettier": prettierVersion]
 
         java {
             palantirJavaFormat("2.89.0")
@@ -81,25 +83,24 @@ allprojects {
         }
         sql {
             target("src/**/*.sql")
-            prettier(["prettier": prettierVersion, "prettier-plugin-sql": "0.19.2"])
+            prettier(prettierBase + ["prettier-plugin-sql": "0.19.2"])
                 .config([
                     "plugins"     : ["prettier-plugin-sql"],
                     "language"    : 'postgresql',
                     "keywordCase" : 'upper',
                     "dataTypeCase": 'upper',
                 ])
-                .npmrc("${rootDir}/.npmrc")
+                .npmrc(npmrcFile)
         }
         yaml {
             target("src/**/*.yaml", "openapi/admin/**/*.yaml")
-            prettier(["prettier": prettierVersion])
-                .npmrc("${rootDir}/.npmrc")
+            prettier(prettierBase).npmrc(npmrcFile)
         }
         format("xml") {
             target("src/**/*.xml")
-            prettier(["prettier": prettierVersion, "@prettier/plugin-xml": "3.4.2"])
+            prettier(prettierBase + ["@prettier/plugin-xml": "3.4.2"])
                 .config(["tabSize": 4, "plugins": ["@prettier/plugin-xml"]])
-                .npmrc("${rootDir}/.npmrc")
+                .npmrc(npmrcFile)
         }
     }
 
@@ -176,4 +177,31 @@ tasks.register("openapiDepsInstall", com.github.gradle.node.pnpm.task.PnpmTask.c
     pnpmCommand = [
         "install"
     ]
+}
+
+tasks.register("jacocoRootReport", JacocoReport) {
+    group = "verification"
+    description = "Generates an aggregate JaCoCo report for all modules."
+
+    def jacocoProjects = allprojects.findAll { it.name != "mahu-bom" && it.plugins.hasPlugin("java") }
+
+    dependsOn(jacocoProjects.collect { it.tasks.named("test") })
+
+    def sourceSetsByProject = jacocoProjects.collect { p ->
+        p.extensions.findByType(org.gradle.api.tasks.SourceSetContainer)
+    }.findAll { it != null }
+
+    additionalSourceDirs.from(sourceSetsByProject.collectMany { it.named("main").get().allSource.srcDirs })
+    sourceDirectories.from(sourceSetsByProject.collectMany { it.named("main").get().allSource.srcDirs })
+    classDirectories.from(sourceSetsByProject.collectMany { it.named("main").get().output.classesDirs.files })
+
+    executionData.from(jacocoProjects.collect { p ->
+        p.fileTree(dir: p.layout.buildDirectory.asFile.get(), includes: ["jacoco/test.exec", "jacoco/test*.exec"])
+    })
+
+    reports {
+        xml.required = true
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/root")
+    }
 }

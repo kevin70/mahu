@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import java.time.Instant;
+import java.util.Base64;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -58,4 +59,11 @@ public class ScheduledTask {
     private Long version;
     /// 执行优先级
     private Integer priority;
+
+    public String getTaskDataBase64() {
+        if (taskData == null) {
+            return null;
+        }
+        return Base64.getEncoder().encodeToString(taskData);
+    }
 }

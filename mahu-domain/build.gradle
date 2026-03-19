@@ -7,6 +7,7 @@ dependencies {
 
     api(project(":mahu-config"))
     api("org.apache.logging.log4j:log4j-api")
+    api("com.google.guava:guava")
     api("com.github.f4b6a3:ulid-creator")
     api("io.helidon.common:helidon-common-parameters")
     api("io.helidon.common:helidon-common-context")
