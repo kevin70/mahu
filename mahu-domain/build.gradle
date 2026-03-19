@@ -34,10 +34,14 @@ dependencies {
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.awaitility:awaitility")
     testImplementation("org.mockito:mockito-junit-jupiter")
-    testImplementation("org.instancio.junit:instancio-junit")
-    testImplementation("org.instancio.guava:instancio-guava")
+    testImplementation("org.instancio:instancio-junit")
+    testImplementation("org.instancio:instancio-guava")
     testImplementation("org.apache.logging.log4j:log4j-core")
     testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
     testImplementation("io.helidon.testing:helidon-testing-junit5")
+    testImplementation(project(":mahu-db"))
+    testImplementation("org.liquibase:liquibase-core")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
 }
 

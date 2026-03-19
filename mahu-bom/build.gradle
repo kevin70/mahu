@@ -12,6 +12,7 @@ dependencies {
     api(platform(libs.jackson.bom))
     api(platform(libs.ebean.bom))
     api(platform(libs.instancio.bom))
+    api(platform(libs.testcontainers.bom))
 
     constraints {
         // Base / utils
