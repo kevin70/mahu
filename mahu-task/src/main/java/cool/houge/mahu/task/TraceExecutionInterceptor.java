@@ -6,6 +6,7 @@ import com.github.kagkarlsson.scheduler.event.ExecutionInterceptor;
 import com.github.kagkarlsson.scheduler.task.CompletionHandler;
 import com.github.kagkarlsson.scheduler.task.ExecutionContext;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
+import cool.houge.mahu.G;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskLog;
 import io.ebean.Database;
@@ -28,22 +29,20 @@ public class TraceExecutionInterceptor implements ExecutionInterceptor {
     @Override
     public CompletionHandler<?> execute(
             TaskInstance<?> taskInstance, ExecutionContext executionContext, ExecutionChain chain) {
-        var traceId = UlidCreator.getUlid().toString();
-        var startTime = Instant.now();
-
-        try {
-            HelidonMdc.set("traceId", traceId);
-            var rs = chain.proceed(taskInstance, executionContext);
-            log.info("任务执行成功");
-            this.saveExecutionLog(executionContext, traceId, startTime, true);
-            return rs;
-        } catch (Exception e) {
-            this.saveExecutionLog(executionContext, traceId, startTime, false);
-            log.error("任务执行失败", e);
-            throw e;
-        } finally {
-            HelidonMdc.remove("traceId");
-        }
+        return G.withTraceId(() -> {
+            var startTime = Instant.now();
+            var traceId = HelidonMdc.get(G.MDC_TRACE_ID).orElseThrow();
+            try {
+                var rs = chain.proceed(taskInstance, executionContext);
+                log.info("任务执行成功");
+                this.saveExecutionLog(executionContext, traceId, startTime, true);
+                return rs;
+            } catch (Exception e) {
+                this.saveExecutionLog(executionContext, traceId, startTime, false);
+                log.error("任务执行失败", e);
+                throw e;
+            }
+        });
     }
 
     @Transactional

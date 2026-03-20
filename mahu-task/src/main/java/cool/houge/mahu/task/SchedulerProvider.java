@@ -33,7 +33,7 @@ class SchedulerProvider implements Supplier<Scheduler> {
     SchedulerProvider(DataSource ds, List<Task<?>> tasks, Database db) {
         this.tasks = List.copyOf(tasks);
         this.v = Scheduler.create(ds, this.tasks)
-                .tableName("sys.scheduled_task")
+                .tableName("sys.scheduled_tasks")
                 .threads(Runtime.getRuntime().availableProcessors())
                 .addExecutionInterceptor(new TraceExecutionInterceptor(db))
                 .alwaysPersistTimestampInUTC()

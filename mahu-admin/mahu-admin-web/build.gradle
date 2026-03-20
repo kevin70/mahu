@@ -39,7 +39,19 @@ jib {
         environment = [
             "TZ": "Asia/Shanghai"
         ]
-        jvmFlags = ["-XX:+UseZGC"]
+        jvmFlags = [
+            "-XX:MetaspaceSize=64m",
+            "-XX:MaxMetaspaceSize=512m",
+            "-XX:+UseZGC",
+            "-Xlog:gc*,safepoint:file=/logs/zgc.log:time,uptime,pid,tid,level,tags:filecount=5,filesize=100M",
+            "-XX:+HeapDumpOnOutOfMemoryError",
+            "-XX:HeapDumpPath=/logs/heapdump.hprof",
+            "-XX:ErrorFile=/logs/hs_err_%p.log",
+            "-XX:+ExitOnOutOfMemoryError",
+            "-XX:+DisableExplicitGC",
+            "-XX:StartFlightRecording=filename=/logs/app.jfr,maxsize=200m,maxage=1d,settings=profile,dumponexit=true",
+            "-XX:+PrintCommandLineFlags"
+        ]
         mainClass = application.mainClass
         ports = ["9090"]
         //noinspection UnnecessaryQualifiedReference

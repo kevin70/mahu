@@ -21,13 +21,22 @@ jib {
         environment = [
             "TZ": "Asia/Shanghai"
         ]
-        jvmFlags = ["-XX:+UseZGC"]
+        jvmFlags = [
+            "-XX:MetaspaceSize=64m",
+            "-XX:MaxMetaspaceSize=512m",
+            "-XX:+UseZGC",
+            "-Xlog:gc*,safepoint:file=/logs/zgc.log:time,uptime,pid,tid,level,tags:filecount=5,filesize=100M",
+            "-XX:+HeapDumpOnOutOfMemoryError",
+            "-XX:HeapDumpPath=/logs/heapdump.hprof",
+            "-XX:ErrorFile=/logs/hs_err_%p.log",
+            "-XX:+ExitOnOutOfMemoryError",
+            "-XX:+DisableExplicitGC",
+            "-XX:StartFlightRecording=filename=/logs/app.jfr,maxsize=200m,maxage=1d,settings=profile,dumponexit=true",
+            "-XX:+PrintCommandLineFlags"
+        ]
         mainClass = application.mainClass
         ports = ["9090"]
         labels = ["Build-Time": java.time.OffsetDateTime.now().toString()]
-    }
-    dockerClient {
-        executable = "podman"
     }
 }
 
@@ -38,35 +47,19 @@ dependencies {
     // 聚合后的领域层：实体 + 共享业务
     implementation(project(":mahu-domain"))
     implementation(project(":mahu-config"))
+    implementation("com.github.kagkarlsson:db-scheduler")
+    implementation("io.ebean:ebean-core")
 
-    implementation("io.helidon.config:helidon-config-yaml")
-    implementation("io.helidon.config:helidon-config-encryption")
-    implementation("io.helidon.config:helidon-config-metadata")
-
-    implementation("io.helidon.scheduling:helidon-scheduling")
     implementation("io.helidon.service:helidon-service-registry")
-    implementation("io.helidon.security:helidon-security-jwt")
     implementation("io.helidon.health:helidon-health-checks")
     implementation("io.helidon.http.media:helidon-http-media-jackson")
     implementation("io.helidon.fault-tolerance:helidon-fault-tolerance")
     implementation("io.helidon.logging:helidon-logging-log4j")
     implementation("io.helidon.webserver:helidon-webserver")
-    implementation("io.helidon.webserver:helidon-webserver-cors")
     implementation("io.helidon.webserver:helidon-webserver-context")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-info")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-config")
     implementation("io.helidon.webserver.observe:helidon-webserver-observe-health")
-    implementation("io.helidon.webserver.observe:helidon-webserver-observe-log")
     implementation("io.helidon.webserver.observe:helidon-webserver-observe-metrics")
-
-    implementation("io.ebean:ebean-api")
-    implementation("io.ebean:ebean-core")
-    implementation("io.ebean:ebean-querybean")
-    implementation("io.ebean:ebean-postgres")
-    implementation("org.postgresql:postgresql")
-    implementation("io.ebean:ebean-jackson-mapper")
 
     implementation("org.apache.logging.log4j:log4j-core")
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-    implementation("com.github.kagkarlsson:db-scheduler")
 }
