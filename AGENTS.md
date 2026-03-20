@@ -8,7 +8,7 @@
 
 | 类别 | 要点 |
 |------|------|
-| 栈 | Java **25**；Helidon SE；EBean；PostgreSQL；Liquibase（`mahu-db`） |
+| 栈 | Java **25**；Helidon SE **4.4**；EBean；PostgreSQL；Liquibase（`mahu-db`） |
 | 坐标 | Gradle `group`：`cool.houge.mahu`（根 `build.gradle`） |
 | 格式 | `./gradlew spotlessApply`；CI/自检用 `spotlessCheck`；勿手工对拍 |
 | 数据库 | 仅 Liquibase；每处 `changeSet` 须有可行 **rollback**（`mahu-db/README.md`） |
@@ -84,3 +84,17 @@
 仓库内：`.agents/skills/*/SKILL.md`。与上游对齐与校验见根目录 `skills-lock.json`（`computedHash`）；以锁文件与 SKILL 正文为准。
 
 细则仍以各模块 `README`、`build.gradle`、`docs/` 为权威来源。
+
+---
+
+## 七、Helidon Service Registry DI 约定（补充）
+
+本仓库使用 Helidon Service Registry（编译时 DI），依赖注入通过 `io.helidon.service.registry.Service` 注解完成。
+
+- **作用域声明（必须）**：服务类使用 `@Service.Singleton` / `@Service.PerLookup` / `@Service.PerRequest` 之一声明作用域。
+- **生命周期回调（必须）**：
+  - 初始化逻辑放在 `@Service.PostConstruct` 方法中
+  - 清理逻辑放在 `@Service.PreDestroy` 方法中
+- **启动顺序（必须）**：启动顺序敏感时使用 `@Service.RunLevel`（如 `Service.RunLevel.STARTUP + 1` 这类写法）控制执行先后。
+- **依赖注入方式（建议）**：依赖优先通过**构造器注入**实现（常见做法：`final` 字段 + Lombok 生成构造器，或手写构造器），避免字段注入。
+- **与仓库现状的兼容说明**：仓库当前未发现 `@Service.Inject` / `@Service.Contract` / `@Inject` 的用法，因此不把它们作为强制约束；如确需使用，请先与现有 Helidon SR 用法对齐并在合入前自检影响范围。
