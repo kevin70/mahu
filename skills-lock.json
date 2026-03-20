@@ -1,10 +1,10 @@
 {
   "version": 1,
   "skills": {
-    "gradle-build-performance": {
-      "source": "new-silvermoon/awesome-android-agent-skills",
+    "api-design-principles": {
+      "source": "wshobson/agents",
       "sourceType": "github",
-      "computedHash": "4d9868684c2a41e519604e797df4cd8c6b32aa604dcb0d6b63174ea316a7f19f"
+      "computedHash": "b242f962d5f78bf8bc147e92f2aa0341459b9f5f2f955e9867a8c41b85f22648"
     },
     "java-junit": {
       "source": "github/awesome-copilot",
@@ -20,11 +20,6 @@
       "source": "github/awesome-copilot",
       "sourceType": "github",
       "computedHash": "96f080496b55308f9e65e35789f243641e6986139a798fed81b452bac3cda34e"
-    },
-    "openapi-specification-v3.2": {
-      "source": "hairyf/skills",
-      "sourceType": "github",
-      "computedHash": "fe7383c64d470758e3ee423d14e108e56990927f4d0ecab8f51704e6e0a32621"
     },
     "postgresql-optimization": {
       "source": "github/awesome-copilot",
