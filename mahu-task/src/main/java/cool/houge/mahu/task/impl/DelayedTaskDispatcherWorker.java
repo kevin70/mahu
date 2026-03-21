@@ -41,7 +41,7 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
 
     /// `findDuePendingSkipLocked` + `claimPending` + emit 必须在同一事务内，行锁语义才成立。
     @Transactional
-    private Void execute(TaskInstance<Void> taskInstance, ExecutionContext context) {
+    void execute(TaskInstance<Void> taskInstance, ExecutionContext context) {
         var now = Instant.now();
         var candidates = delayedTaskRepository.findDuePendingSkipLocked(now, BATCH_SIZE);
         var emitted = 0;
@@ -55,7 +55,6 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
         if (emitted > 0) {
             log.info("DelayedTaskDispatcherWorker(pending): emitted={}, at={}", emitted, now);
         }
-        return null;
     }
 
     private boolean claimPendingToProcessing(DelayedTask task, Instant now) {

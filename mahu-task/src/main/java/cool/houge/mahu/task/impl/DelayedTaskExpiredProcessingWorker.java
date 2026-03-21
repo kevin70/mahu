@@ -37,7 +37,7 @@ public class DelayedTaskExpiredProcessingWorker implements Supplier<Task<?>> {
 
     /// `findExpiredProcessingSkipLocked` + 状态转换必须在同一事务内，行锁语义才成立。
     @Transactional
-    private Void execute(TaskInstance<Void> taskInstance, ExecutionContext context) {
+    void execute(TaskInstance<Void> taskInstance, ExecutionContext context) {
         var now = Instant.now();
         var candidates = delayedTaskRepository.findExpiredProcessingSkipLocked(now, BATCH_SIZE);
         var transitioned = 0;
@@ -52,7 +52,6 @@ public class DelayedTaskExpiredProcessingWorker implements Supplier<Task<?>> {
                     transitioned,
                     now);
         }
-        return null;
     }
 
     private boolean transitionExpiredToPendingOrFailed(DelayedTask task, Instant now) {

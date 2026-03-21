@@ -82,13 +82,14 @@ public class AppSharedService {
     @Transactional
     public void enqueueDelayedTask(
             DelayedTaskTopics topic,
+            @NonNull String referenceId,
             Instant expectedAt,
             String payload,
-            String idempotencyKey,
-            @NonNull String referenceId) {
+            String idempotencyKey) {
         var task = new DelayedTask();
         task.setFeatureId(topic.featureFlagId());
         task.setTopic(topic.topic());
+        task.setReferenceId(referenceId);
         task.setStatus(Status.PENDING.getCode());
         task.setDelayUntil(expectedAt);
         task.setAttempts(0);
@@ -96,7 +97,6 @@ public class AppSharedService {
         task.setLeaseSeconds(topic.leaseSeconds());
         task.setPayload(payload);
         task.setIdempotencyKey(idempotencyKey);
-        task.setReferenceId(referenceId);
         delayedTaskRepository.enqueueDelayedTask(task);
     }
 

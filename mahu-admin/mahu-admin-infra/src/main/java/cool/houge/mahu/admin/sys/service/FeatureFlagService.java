@@ -94,7 +94,7 @@ public class FeatureFlagService {
         var payload = payloadFeatureFlag(featureFlagId, expectedEnableAt);
         var idempotencyKey = idempotencyKey(topic.topic(), featureFlagId, expectedEnableAt);
         appSharedService.enqueueDelayedTask(
-                topic, expectedEnableAt, payload, idempotencyKey, String.valueOf(featureFlagId));
+                topic, String.valueOf(featureFlagId), expectedEnableAt, payload, idempotencyKey);
     }
 
     private void enqueueDisableDelayedTask(int featureFlagId, Instant expectedDisableAt) {
@@ -102,7 +102,7 @@ public class FeatureFlagService {
         var payload = payloadFeatureFlag(featureFlagId, expectedDisableAt);
         var idempotencyKey = idempotencyKey(topic.topic(), featureFlagId, expectedDisableAt);
         appSharedService.enqueueDelayedTask(
-                topic, expectedDisableAt, payload, idempotencyKey, String.valueOf(featureFlagId));
+                topic, String.valueOf(featureFlagId), expectedDisableAt, payload, idempotencyKey);
     }
 
     private static String payloadFeatureFlag(int featureFlagId, Instant expectedAt) {
