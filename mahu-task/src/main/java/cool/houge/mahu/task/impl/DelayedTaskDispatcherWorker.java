@@ -29,6 +29,7 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
 
     private static final Logger log = LogManager.getLogger(DelayedTaskDispatcherWorker.class);
     private static final int BATCH_SIZE = 50;
+    private static final int MAX_BATCHES = 3;
 
     private final DelayedTaskRepository delayedTaskRepository;
     private final Event.Emitter<DelayedTaskClaimedEvent> delayedTaskClaimedEmitter;
@@ -42,18 +43,32 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
     /// `findDuePendingSkipLocked` + `claimPending` + emit 必须在同一事务内，行锁语义才成立。
     @Transactional
     void execute(TaskInstance<Void> taskInstance, ExecutionContext context) {
-        var now = Instant.now();
-        var candidates = delayedTaskRepository.findDuePendingSkipLocked(now, BATCH_SIZE);
-        var emitted = 0;
-        for (DelayedTask task : candidates) {
-            if (claimPendingToProcessing(task, now)) {
-                delayedTaskClaimedEmitter.emit(new DelayedTaskClaimedEvent(
-                        task.getId(), task.getTopic(), task.getPayload(), task.getReferenceId()));
-                emitted++;
+        var totalEmitted = 0;
+        var batchesProcessed = 0;
+        for (var batch = 0; batch < MAX_BATCHES; batch++) {
+            var now = Instant.now();
+            var candidates = delayedTaskRepository.findDuePendingSkipLocked(now, BATCH_SIZE);
+            if (candidates.isEmpty()) {
+                break;
+            }
+            batchesProcessed++;
+            for (DelayedTask task : candidates) {
+                if (claimPendingToProcessing(task, now)) {
+                    delayedTaskClaimedEmitter.emit(new DelayedTaskClaimedEvent(
+                            task.getId(), task.getTopic(), task.getPayload(), task.getReferenceId()));
+                    totalEmitted++;
+                }
+            }
+            if (candidates.size() < BATCH_SIZE) {
+                break;
             }
         }
-        if (emitted > 0) {
-            log.info("DelayedTaskDispatcherWorker(pending): emitted={}, at={}", emitted, now);
+        if (totalEmitted > 0) {
+            log.info(
+                    "DelayedTaskDispatcherWorker(pending): emitted={}, batchesProcessed={}, at={}",
+                    totalEmitted,
+                    batchesProcessed,
+                    Instant.now());
         }
     }
 
