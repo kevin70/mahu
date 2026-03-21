@@ -35,10 +35,14 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     /// 与 {@link #claimPending} 中 `lease_seconds` 为 null 时的默认租约一致（秒）。
     public static final int DEFAULT_LEASE_SECONDS = 60;
 
-    /// 租约到期条件，与 `lock_at + lease <= now` 等价：`lock_at <= now - lease`（PostgreSQL）。
-    /// `?` 绑定为判定时刻（通常为 `Instant.now()`）；使用 `t0` 与 Ebean 根实体别名一致。
-    private static final String LEASE_EXPIRED_PREDICATE =
-            "t0.lock_at <= ? - (interval '1 second' * COALESCE(t0.lease_seconds, " + DEFAULT_LEASE_SECONDS + "))";
+    /// 租约到期条件（查询场景），与 `lock_at + lease <= now` 等价：`lock_at <= now - lease`（PostgreSQL）。
+    /// 说明：显式转 `?::timestamptz`，避免驱动在表达式中将参数推断为错误类型。
+    private static final String LEASE_EXPIRED_QUERY_PREDICATE = "t0.lock_at <= (?::timestamptz - (interval '1 second' * "
+            + "COALESCE(t0.lease_seconds, " + DEFAULT_LEASE_SECONDS + ")))";
+
+    /// 租约到期条件（更新场景），不能引用查询别名（如 `t0`）。
+    private static final String LEASE_EXPIRED_UPDATE_PREDICATE = "lock_at <= (?::timestamptz - (interval '1 second' * "
+            + "COALESCE(lease_seconds, " + DEFAULT_LEASE_SECONDS + ")))";
 
     public DelayedTaskRepository(Database db) {
         super(DelayedTask.class, db);
@@ -102,7 +106,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     public List<DelayedTask> findExpiredProcessing(Instant now, int limit) {
         var qb = new QDelayedTask(db());
         qb.status.eq(Status.PROCESSING.getCode());
-        qb.raw(LEASE_EXPIRED_PREDICATE, now);
+        qb.raw(LEASE_EXPIRED_QUERY_PREDICATE, now);
         qb.lockAt.asc();
         qb.setMaxRows(limit);
         return qb.findList();
@@ -127,7 +131,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     public List<DelayedTask> findExpiredProcessingSkipLocked(Instant now, int limit) {
         var qb = new QDelayedTask(db());
         qb.status.eq(Status.PROCESSING.getCode());
-        qb.raw(LEASE_EXPIRED_PREDICATE, now);
+        qb.raw(LEASE_EXPIRED_QUERY_PREDICATE, now);
         qb.lockAt.asc();
         qb.setMaxRows(limit);
         qb.forUpdateSkipLocked();
@@ -195,7 +199,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
         return qb.id.eq(id)
                         .status
                         .eq(Status.PROCESSING.getCode())
-                        .raw(LEASE_EXPIRED_PREDICATE, now)
+                        .raw(LEASE_EXPIRED_UPDATE_PREDICATE, now)
                         .asUpdate()
                         .set(qb.status, Status.PENDING.getCode())
                         .set(qb.lockAt, null)
@@ -210,7 +214,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
         return qb.id.eq(id)
                         .status
                         .eq(Status.PROCESSING.getCode())
-                        .raw(LEASE_EXPIRED_PREDICATE, now)
+                        .raw(LEASE_EXPIRED_UPDATE_PREDICATE, now)
                         .asUpdate()
                         .set(qb.status, Status.FAILED.getCode())
                         .set(qb.lockAt, null)

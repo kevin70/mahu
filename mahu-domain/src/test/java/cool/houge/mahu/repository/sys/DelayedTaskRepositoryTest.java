@@ -1,6 +1,7 @@
 package cool.houge.mahu.repository.sys;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.instancio.Select.field;
 
 import cool.houge.mahu.Status;
@@ -73,6 +74,178 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
         var onlyT1 = repo().findPage("t1", page);
         assertThat(onlyT1.getList()).extracting(DelayedTask::getTopic).containsOnly("t1");
+    }
+
+    @Test
+    void enqueueDelayedTask_rejects_blank_reference_id() {
+        var t = task("topic-blank-ref");
+        t.setReferenceId(" ");
+
+        assertThatThrownBy(() -> repo().enqueueDelayedTask(t))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("referenceId");
+    }
+
+    @Test
+    void findDuePending_only_returns_due_pending_tasks() {
+        var now = Instant.parse("2025-06-01T12:00:00Z");
+        var duePending = task("due");
+        duePending.setStatus(Status.PENDING.getCode());
+        duePending.setDelayUntil(now.minusSeconds(1));
+
+        var futurePending = task("future");
+        futurePending.setStatus(Status.PENDING.getCode());
+        futurePending.setDelayUntil(now.plusSeconds(60));
+
+        var dueProcessing = task("processing");
+        dueProcessing.setStatus(Status.PROCESSING.getCode());
+        dueProcessing.setDelayUntil(now.minusSeconds(1));
+
+        db().saveAll(List.of(duePending, futurePending, dueProcessing));
+
+        var found = repo().findDuePending(now, 20);
+        assertThat(found).extracting(DelayedTask::getTopic).containsOnly("due");
+    }
+
+    @Test
+    void claimPending_updates_status_lock_and_attempts_only_when_due_pending() {
+        var now = Instant.parse("2025-06-01T12:00:00Z");
+        var t = task("claimable");
+        t.setStatus(Status.PENDING.getCode());
+        t.setDelayUntil(now.minusSeconds(5));
+        t.setAttempts(0);
+        db().save(t);
+
+        var claimed = repo().claimPending(t.getId(), now, 120, 1);
+        assertThat(claimed).isTrue();
+
+        var loaded = db().find(DelayedTask.class, t.getId());
+        assertThat(loaded.getStatus()).isEqualTo(Status.PROCESSING.getCode());
+        assertThat(loaded.getLockAt()).isEqualTo(now);
+        assertThat(loaded.getLeaseSeconds()).isEqualTo(120);
+        assertThat(loaded.getAttempts()).isEqualTo(1);
+    }
+
+    @Test
+    void claimPending_returns_false_when_not_due() {
+        var now = Instant.parse("2025-06-01T12:00:00Z");
+        var t = task("not-due");
+        t.setStatus(Status.PENDING.getCode());
+        t.setDelayUntil(now.plusSeconds(60));
+        t.setLockAt(null);
+        db().save(t);
+
+        var claimed = repo().claimPending(t.getId(), now, 120, 1);
+        assertThat(claimed).isFalse();
+
+        var loaded = db().find(DelayedTask.class, t.getId());
+        assertThat(loaded.getStatus()).isEqualTo(Status.PENDING.getCode());
+        assertThat(loaded.getLockAt()).isNull();
+    }
+
+    @Test
+    void complete_only_transitions_from_processing() {
+        var processing = task("processing-complete");
+        processing.setStatus(Status.PROCESSING.getCode());
+        processing.setLockAt(Instant.parse("2025-06-01T11:59:00Z"));
+        db().save(processing);
+
+        var pending = task("pending-no-complete");
+        pending.setStatus(Status.PENDING.getCode());
+        db().save(pending);
+
+        repo().complete(processing.getId());
+        repo().complete(pending.getId());
+
+        var done = db().find(DelayedTask.class, processing.getId());
+        assertThat(done.getStatus()).isEqualTo(Status.COMPLETED.getCode());
+        assertThat(done.getLockAt()).isNull();
+        assertThat(done.getDelayUntil()).isNull();
+
+        var untouched = db().find(DelayedTask.class, pending.getId());
+        assertThat(untouched.getStatus()).isEqualTo(Status.PENDING.getCode());
+    }
+
+    @Test
+    void archive_only_transitions_from_processing() {
+        var processing = task("processing-archive");
+        processing.setStatus(Status.PROCESSING.getCode());
+        processing.setLockAt(Instant.parse("2025-06-01T11:59:00Z"));
+        db().save(processing);
+
+        var pending = task("pending-no-archive");
+        pending.setStatus(Status.PENDING.getCode());
+        db().save(pending);
+
+        repo().archive(processing.getId());
+        repo().archive(pending.getId());
+
+        var archived = db().find(DelayedTask.class, processing.getId());
+        assertThat(archived.getStatus()).isEqualTo(Status.ARCHIVED.getCode());
+        assertThat(archived.getLockAt()).isNull();
+        assertThat(archived.getDelayUntil()).isNull();
+
+        var untouched = db().find(DelayedTask.class, pending.getId());
+        assertThat(untouched.getStatus()).isEqualTo(Status.PENDING.getCode());
+    }
+
+    @Test
+    void transitionExpiredToPending_updates_only_when_lease_expired() {
+        var now = Instant.parse("2025-06-01T12:00:00Z");
+        var expired = task("expired-to-pending");
+        expired.setStatus(Status.PROCESSING.getCode());
+        expired.setLockAt(now.minusSeconds(120));
+        expired.setLeaseSeconds(30);
+        db().save(expired);
+
+        var withinLease = task("within-lease-no-transition");
+        withinLease.setStatus(Status.PROCESSING.getCode());
+        withinLease.setLockAt(now.minusSeconds(10));
+        withinLease.setLeaseSeconds(30);
+        db().save(withinLease);
+
+        var nextRetryAt = now.plusSeconds(90);
+        var transitioned = repo().transitionExpiredToPending(expired.getId(), now, nextRetryAt);
+        var notTransitioned = repo().transitionExpiredToPending(withinLease.getId(), now, nextRetryAt);
+        assertThat(transitioned).isTrue();
+        assertThat(notTransitioned).isFalse();
+
+        var transitionedTask = db().find(DelayedTask.class, expired.getId());
+        assertThat(transitionedTask.getStatus()).isEqualTo(Status.PENDING.getCode());
+        assertThat(transitionedTask.getDelayUntil()).isEqualTo(nextRetryAt);
+        assertThat(transitionedTask.getLockAt()).isNull();
+
+        var untouched = db().find(DelayedTask.class, withinLease.getId());
+        assertThat(untouched.getStatus()).isEqualTo(Status.PROCESSING.getCode());
+    }
+
+    @Test
+    void transitionExpiredToFailed_updates_only_when_lease_expired() {
+        var now = Instant.parse("2025-06-01T12:00:00Z");
+        var expired = task("expired-to-failed");
+        expired.setStatus(Status.PROCESSING.getCode());
+        expired.setLockAt(now.minusSeconds(120));
+        expired.setLeaseSeconds(30);
+        db().save(expired);
+
+        var withinLease = task("within-lease-no-fail");
+        withinLease.setStatus(Status.PROCESSING.getCode());
+        withinLease.setLockAt(now.minusSeconds(10));
+        withinLease.setLeaseSeconds(30);
+        db().save(withinLease);
+
+        var transitioned = repo().transitionExpiredToFailed(expired.getId(), now);
+        var notTransitioned = repo().transitionExpiredToFailed(withinLease.getId(), now);
+        assertThat(transitioned).isTrue();
+        assertThat(notTransitioned).isFalse();
+
+        var failed = db().find(DelayedTask.class, expired.getId());
+        assertThat(failed.getStatus()).isEqualTo(Status.FAILED.getCode());
+        assertThat(failed.getDelayUntil()).isNull();
+        assertThat(failed.getLockAt()).isNull();
+
+        var untouched = db().find(DelayedTask.class, withinLease.getId());
+        assertThat(untouched.getStatus()).isEqualTo(Status.PROCESSING.getCode());
     }
 
     private static DelayedTask task(String topic) {
