@@ -2,6 +2,8 @@ package cool.houge.mahu.shared.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.Status;
+import cool.houge.mahu.delayed.DelayedTaskTopics;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import cool.houge.mahu.shared.ImmutableDict;
@@ -9,7 +11,9 @@ import cool.houge.mahu.shared.ImmutableDictGroup;
 import cool.houge.mahu.shared.ImmutableFeatureFlag;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
+import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
 
@@ -70,7 +74,40 @@ public class AppSharedService {
 
     /// 推送延时任务
     @Transactional
-    public void emit(DelayedTask task) {
-        delayedTaskRepository.batchSave(task);
+    public void enqueueDelayedTask(DelayedTask task) {
+        delayedTaskRepository.enqueueDelayedTask(task);
+    }
+
+    /// 推送功能开关相关延时任务（payload 与 idempotencyKey 由外部提供）
+    @Transactional
+    public void enqueueDelayedTask(
+            DelayedTaskTopics topic,
+            Instant expectedAt,
+            String payload,
+            String idempotencyKey
+    ) {
+        var task = new DelayedTask();
+        task.setFeatureId(topic.featureFlagId());
+        task.setTopic(topic.topic());
+        task.setStatus(Status.PENDING.getCode());
+        task.setDelayUntil(expectedAt);
+        task.setAttempts(0);
+        task.setMaxAttempts(topic.maxAttempts());
+        task.setLeaseSeconds(topic.leaseSeconds());
+        task.setPayload(payload);
+        task.setIdempotencyKey(idempotencyKey);
+        delayedTaskRepository.enqueueDelayedTask(task);
+    }
+
+    /// 完成 delayed_task：置为 COMPLETED 并清空调度相关字段。
+    @Transactional
+    public void completeDelayedTask(UUID delayedTaskId) {
+        delayedTaskRepository.complete(delayedTaskId);
+    }
+
+    /// 归档 delayed_task：置为 ARCHIVED 并清空调度相关字段。
+    @Transactional
+    public void archiveDelayedTask(UUID delayedTaskId) {
+        delayedTaskRepository.archive(delayedTaskId);
     }
 }

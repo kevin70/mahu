@@ -2,15 +2,21 @@ package cool.houge.mahu.admin.sys.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.delayed.DelayedTaskTopics;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
+import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.query.FeatureFlagQuery;
+import cool.houge.mahu.shared.service.AppSharedService;
 import cool.houge.mahu.repository.sys.FeatureFlagRepository;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
 import lombok.AllArgsConstructor;
+
+import java.time.Instant;
+import java.util.Objects;
 
 /// 功能开关服务
 @Service.Singleton
@@ -19,22 +25,31 @@ public class FeatureFlagService {
 
     private final EntityBeanMapper beanMapper;
     private final FeatureFlagRepository featureFlagRepository;
+    private final AppSharedService appSharedService;
 
     /// 新建功能开关
     @Transactional
     public void create(FeatureFlag entity) {
         featureFlagRepository.save(entity);
+        enqueueDelayedTasksForNewFlag(entity);
     }
 
     /// 更新功能开关
     @Transactional
     public void update(FeatureFlag entity) {
         var dbEntity = obtainById(entity.getId());
+        var oldEnableAt = dbEntity.getEnableAt();
+        var oldDisableAt = dbEntity.getDisableAt();
         // if (dbEntity.isPreset()) {
         //     entity.setCode(null);
         // }
         beanMapper.map(dbEntity, entity);
         featureFlagRepository.update(dbEntity);
+
+        // 仅当 enableAt/disableAt 实际发生变化时，才会推送新的延迟任务；
+        // 旧任务到点后在 worker 校验 expectedAt 不匹配时会被安全地 no-op 并归档。
+        enqueueDelayedTasksIfNeeded(dbEntity.getId(), oldEnableAt, dbEntity.getEnableAt(),
+                oldDisableAt, dbEntity.getDisableAt());
     }
 
     /// 查询指定功能开关
@@ -55,5 +70,53 @@ public class FeatureFlagService {
             throw new BizCodeException(BizCodes.NOT_FOUND, "未找到功能开关: %s", id);
         }
         return b;
+    }
+
+    private void enqueueDelayedTasksForNewFlag(FeatureFlag flag) {
+        if (flag.getEnableAt() != null) {
+            enqueueEnableDelayedTask(flag.getId(), flag.getEnableAt());
+        }
+        if (flag.getDisableAt() != null) {
+            enqueueDisableDelayedTask(flag.getId(), flag.getDisableAt());
+        }
+    }
+
+    private void enqueueDelayedTasksIfNeeded(
+            int featureFlagId,
+            Instant oldEnableAt,
+            Instant newEnableAt,
+            Instant oldDisableAt,
+            Instant newDisableAt
+    ) {
+        if (!Objects.equals(oldEnableAt, newEnableAt) && newEnableAt != null) {
+            enqueueEnableDelayedTask(featureFlagId, newEnableAt);
+        }
+        if (!Objects.equals(oldDisableAt, newDisableAt) && newDisableAt != null) {
+            enqueueDisableDelayedTask(featureFlagId, newDisableAt);
+        }
+    }
+
+    private void enqueueEnableDelayedTask(int featureFlagId, Instant expectedEnableAt) {
+        var topic = DelayedTaskTopics.FEATURE_FLAG_ENABLE;
+        var payload = payloadFeatureFlag(featureFlagId, expectedEnableAt);
+        var idempotencyKey = idempotencyKey(topic.topic(), featureFlagId, expectedEnableAt);
+        appSharedService.enqueueDelayedTask(topic, expectedEnableAt, payload, idempotencyKey);
+    }
+
+    private void enqueueDisableDelayedTask(int featureFlagId, Instant expectedDisableAt) {
+        var topic = DelayedTaskTopics.FEATURE_FLAG_DISABLE;
+        var payload = payloadFeatureFlag(featureFlagId, expectedDisableAt);
+        var idempotencyKey = idempotencyKey(topic.topic(), featureFlagId, expectedDisableAt);
+        appSharedService.enqueueDelayedTask(topic, expectedDisableAt, payload, idempotencyKey);
+    }
+
+    private static String payloadFeatureFlag(int featureFlagId, Instant expectedAt) {
+        // JSONB 字段落库：payload 只携带 featureFlagId + expectedAt（毫秒）
+        var expectedAtMillis = expectedAt.toEpochMilli();
+        return "{\"featureFlagId\":" + featureFlagId + ",\"expectedAtEpochMilli\":" + expectedAtMillis + "}";
+    }
+
+    private static String idempotencyKey(String topic, int featureFlagId, Instant expectedAt) {
+        return topic + ":" + featureFlagId + ":" + expectedAt.toEpochMilli();
     }
 }

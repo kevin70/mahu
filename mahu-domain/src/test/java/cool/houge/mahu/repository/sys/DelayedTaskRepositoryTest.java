@@ -3,6 +3,7 @@ package cool.houge.mahu.repository.sys;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.instancio.Select.field;
 
+import cool.houge.mahu.Status;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.testing.PostgresLiquibaseTestBase;
@@ -31,10 +32,29 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
         t.setPayload("{\"k\":\"v\"}");
         t.setIdempotencyKey("k1");
 
-        repo().batchSave(t);
+        repo().enqueueDelayedTask(t);
 
         assertThat(t.getId()).isNotNull();
         assertThat(db().find(DelayedTask.class, t.getId())).isNotNull();
+    }
+
+    @Test
+    void findExpiredProcessing_respects_per_task_lease_seconds() {
+        var t0 = Instant.parse("2025-06-01T12:00:00Z");
+        var stillWithinLease = task("within-lease");
+        stillWithinLease.setStatus(Status.PROCESSING.getCode());
+        stillWithinLease.setLockAt(t0.minusSeconds(100));
+        stillWithinLease.setLeaseSeconds(500);
+
+        var leaseExpired = task("expired");
+        leaseExpired.setStatus(Status.PROCESSING.getCode());
+        leaseExpired.setLockAt(t0.minusSeconds(100));
+        leaseExpired.setLeaseSeconds(30);
+
+        db().saveAll(List.of(stillWithinLease, leaseExpired));
+
+        var found = repo().findExpiredProcessing(t0, 20);
+        assertThat(found).extracting(DelayedTask::getTopic).containsOnly("expired");
     }
 
     @Test
