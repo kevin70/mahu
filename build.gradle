@@ -30,6 +30,7 @@ allprojects {
     apply plugin: "com.diffplug.spotless"
     apply plugin: "name.remal.sonarlint"
     apply plugin: "com.google.osdetector"
+    apply plugin: "com.github.node-gradle.node"
 
     group = "cool.houge.mahu"
 
@@ -168,9 +169,6 @@ allprojects {
         mavenCentral()
     }
 }
-
-// Node 工具链仅在根项目与需要执行 pnpm 的模块启用，避免拖慢所有子模块的配置阶段
-apply plugin: "com.github.node-gradle.node"
 
 tasks.register("openapiDepsInstall", com.github.gradle.node.pnpm.task.PnpmTask.class) {
     group("openapi tools")

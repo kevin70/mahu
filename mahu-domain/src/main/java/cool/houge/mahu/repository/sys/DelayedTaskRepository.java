@@ -37,8 +37,9 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
 
     /// 租约到期条件（查询场景），与 `lock_at + lease <= now` 等价：`lock_at <= now - lease`（PostgreSQL）。
     /// 说明：显式转 `?::timestamptz`，避免驱动在表达式中将参数推断为错误类型。
-    private static final String LEASE_EXPIRED_QUERY_PREDICATE = "t0.lock_at <= (?::timestamptz - (interval '1 second' * "
-            + "COALESCE(t0.lease_seconds, " + DEFAULT_LEASE_SECONDS + ")))";
+    private static final String LEASE_EXPIRED_QUERY_PREDICATE =
+            "t0.lock_at <= (?::timestamptz - (interval '1 second' * " + "COALESCE(t0.lease_seconds, "
+                    + DEFAULT_LEASE_SECONDS + ")))";
 
     /// 租约到期条件（更新场景），不能引用查询别名（如 `t0`）。
     private static final String LEASE_EXPIRED_UPDATE_PREDICATE = "lock_at <= (?::timestamptz - (interval '1 second' * "
@@ -158,6 +159,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
                         .set(qb.lockAt, now)
                         .set(qb.leaseSeconds, leaseSeconds)
                         .set(qb.attempts, nextAttempts)
+                        .set(qb.updatedAt, Instant.now())
                         .update()
                 == 1;
     }
@@ -188,6 +190,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
                 .set(qb.status, terminalStatus.getCode())
                 .set(qb.delayUntil, null)
                 .set(qb.lockAt, null)
+                .set(qb.updatedAt, Instant.now())
                 .update();
     }
 
@@ -204,6 +207,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
                         .set(qb.status, Status.PENDING.getCode())
                         .set(qb.lockAt, null)
                         .set(qb.delayUntil, delayUntil)
+                        .set(qb.updatedAt, Instant.now())
                         .update()
                 == 1;
     }
@@ -219,6 +223,7 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
                         .set(qb.status, Status.FAILED.getCode())
                         .set(qb.lockAt, null)
                         .set(qb.delayUntil, null)
+                        .set(qb.updatedAt, Instant.now())
                         .update()
                 == 1;
     }

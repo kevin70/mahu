@@ -102,6 +102,6 @@ public class FeatureFlagService {
     }
 
     private static String idempotencyKey(int featureFlagId, Instant expectedAt) {
-        return featureFlagId + ":" + expectedAt.toEpochMilli();
+        return featureFlagId + ":" + expectedAt;
     }
 }

@@ -8,6 +8,7 @@ import cool.houge.mahu.task.handler.DelayedTaskHandler;
 import io.ebean.annotation.Transactional;
 import io.helidon.config.Config;
 import io.helidon.scheduling.FixedRate;
+import io.helidon.scheduling.TaskManager;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
 import java.time.Instant;
@@ -23,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 /// - claim 后按 topic 路由到对应的 DI handler
 /// - handler 只做业务逻辑判定/更新；delayed_task 状态落库由 worker 统一完成
 @Service.Singleton
+@Service.RunLevel(Service.RunLevel.SERVER)
 @AllArgsConstructor
 public class DelayedTaskDispatcherWorker {
 
@@ -32,17 +34,19 @@ public class DelayedTaskDispatcherWorker {
     private static final int BATCH_SIZE = 50;
 
     private final Config config;
+    private final TaskManager taskManager;
     private final List<DelayedTaskHandler> delayedTaskHandlers;
     private final DelayedTaskRepository delayedTaskRepository;
 
     @Service.PostConstruct
     void init() {
-        FixedRate.builder()
+        var task = FixedRate.builder()
                 .interval(DEFAULT_INTERVAL)
                 .delayBy(DEFAULT_INTERVAL)
                 .config(config.get(SCHEDULING_KEY))
                 .task(inv -> safeExecute())
                 .build();
+        taskManager.register(task);
     }
 
     private void safeExecute() {
