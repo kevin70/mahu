@@ -8,15 +8,11 @@ import cool.houge.mahu.task.handler.DelayedTaskHandler;
 import io.helidon.service.registry.Service.Singleton;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /// 处理 sys.delayed_tasks 中与功能开关翻转相关的延时任务。
 @Singleton
 @AllArgsConstructor
 public class FeatureFlagDelayedTaskHandler implements DelayedTaskHandler {
-
-    private static final Logger log = LogManager.getLogger(FeatureFlagDelayedTaskHandler.class);
 
     private static final String ENABLE_TOPIC = DelayedTaskTopics.FEATURE_FLAG_ENABLE.topic();
     private static final String DISABLE_TOPIC = DelayedTaskTopics.FEATURE_FLAG_DISABLE.topic();
@@ -30,18 +26,7 @@ public class FeatureFlagDelayedTaskHandler implements DelayedTaskHandler {
 
     @Override
     public DelayedTaskCompletionResult handle(ClaimedDelayedTask task) {
-        final int featureFlagId;
-        try {
-            featureFlagId = Integer.parseInt(task.referenceId());
-        } catch (Exception e) {
-            log.warn(
-                    "功能开关延时任务：referenceId 非法，归档 delayedTaskId={}, referenceId={}",
-                    task.delayedTaskId(),
-                    task.referenceId(),
-                    e);
-            return DelayedTaskCompletionResult.ARCHIVE;
-        }
-
+        final int featureFlagId = task.referenceIdAsInt();
         var now = Instant.now();
         if (ENABLE_TOPIC.equals(task.topic())) {
             featureFlagRepository.enableIfDue(featureFlagId, now);
