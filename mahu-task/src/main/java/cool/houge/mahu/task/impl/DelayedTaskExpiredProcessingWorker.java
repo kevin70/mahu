@@ -1,18 +1,13 @@
 package cool.houge.mahu.task.impl;
 
-import static com.github.kagkarlsson.scheduler.task.schedule.Schedules.fixedDelay;
-
-import com.github.kagkarlsson.scheduler.task.ExecutionContext;
-import com.github.kagkarlsson.scheduler.task.Task;
-import com.github.kagkarlsson.scheduler.task.TaskInstance;
-import com.github.kagkarlsson.scheduler.task.helper.Tasks;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import io.ebean.annotation.Transactional;
+import io.helidon.config.Config;
+import io.helidon.scheduling.FixedRate;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.function.Supplier;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,22 +17,38 @@ import org.apache.logging.log4j.Logger;
 /// - 根据 attempts/maxAttempts 转换为 PENDING(重试) 或 FAILED(停止重试)
 @Service.Singleton
 @AllArgsConstructor
-public class DelayedTaskExpiredProcessingWorker implements Supplier<Task<?>> {
+public class DelayedTaskExpiredProcessingWorker {
 
     private static final Logger log = LogManager.getLogger(DelayedTaskExpiredProcessingWorker.class);
+    private static final String SCHEDULING_KEY = "scheduling.delayed-task-expired-processing";
+    private static final Duration DEFAULT_INTERVAL = Duration.ofSeconds(5);
     private static final int BATCH_SIZE = 50;
 
+    private final Config config;
     private final DelayedTaskRepository delayedTaskRepository;
 
-    @Override
-    public Task<?> get() {
-        return Tasks.recurring("delayed-tasks-dispatcher-expired-processing", fixedDelay(Duration.ofSeconds(5)))
-                .execute(this::execute);
+    @Service.PostConstruct
+    void init() {
+        FixedRate.builder()
+                .interval(DEFAULT_INTERVAL)
+                .delayBy(DEFAULT_INTERVAL)
+                .config(config.get(SCHEDULING_KEY))
+                .task(inv -> safeExecute())
+                .build();
+    }
+
+    private void safeExecute() {
+        try {
+            execute();
+        } catch (Exception e) {
+            // 避免调度线程因未捕获异常中断，错误留痕后等待下次调度恢复。
+            log.error("延时任务调度器(expired-processing)：本轮执行失败", e);
+        }
     }
 
     /// `findExpiredProcessingSkipLocked` + 状态转换必须在同一事务内，行锁语义才成立。
     @Transactional
-    void execute(TaskInstance<Void> taskInstance, ExecutionContext context) {
+    void execute() {
         var now = Instant.now();
         var candidates = delayedTaskRepository.findExpiredProcessingSkipLocked(now, BATCH_SIZE);
         var transitioned = 0;
@@ -48,7 +59,7 @@ public class DelayedTaskExpiredProcessingWorker implements Supplier<Task<?>> {
         }
         if (transitioned > 0) {
             log.info(
-                    "DelayedTaskExpiredProcessingWorker(expired): transitioned(expired->pending/failed)={}, at={}",
+                    "延时任务调度器(expired-processing)：本次回收 transitioned(expired->pending/failed)={}, at={}",
                     transitioned,
                     now);
         }
