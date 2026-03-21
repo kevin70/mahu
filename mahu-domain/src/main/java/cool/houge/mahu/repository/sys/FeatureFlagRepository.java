@@ -9,6 +9,7 @@ import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import io.helidon.service.registry.Service;
+import java.time.Instant;
 
 /// 功能开关
 @Service.Singleton
@@ -36,5 +37,39 @@ public class FeatureFlagRepository extends HBeanRepository<Integer, FeatureFlag>
 
         qb.ordering.desc();
         return super.findPage(qb, page);
+    }
+
+    /// 原子开启：仅当 enable_at <= now 时才执行更新。
+    public boolean enableIfDue(int id, Instant now) {
+        var qb = new QFeatureFlag(db());
+        return qb.id.eq(id)
+                        .enabled
+                        .isFalse()
+                        .enableAt
+                        .isNotNull()
+                        .enableAt
+                        .le(now)
+                        .asUpdate()
+                        .set(qb.enabled, true)
+                        .set(qb.enableAt, null)
+                        .update()
+                == 1;
+    }
+
+    /// 原子关闭：仅当 disable_at <= now 时才执行更新。
+    public boolean disableIfDue(int id, Instant now) {
+        var qb = new QFeatureFlag(db());
+        return qb.id.eq(id)
+                        .enabled
+                        .isTrue()
+                        .disableAt
+                        .isNotNull()
+                        .disableAt
+                        .le(now)
+                        .asUpdate()
+                        .set(qb.enabled, false)
+                        .set(qb.disableAt, null)
+                        .update()
+                == 1;
     }
 }

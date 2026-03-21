@@ -92,7 +92,7 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
     }
 
     @Transactional
-    private ClaimResult claimDuePending(int maxBatches) {
+    ClaimResult claimDuePending(int maxBatches) {
         var claimedTasks = new ArrayList<ClaimedDelayedTask>(BATCH_SIZE * maxBatches);
         var batchesProcessed = 0;
 
@@ -109,8 +109,10 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
                     claimedTasks.add(new ClaimedDelayedTask(
                             task.getId(),
                             task.getTopic(),
-                        task.getReferenceId(), task.getPayload(),
-                        task.getDelayUntil()));
+                            task.getReferenceId(),
+                            task.getPayload(),
+                            task.getIdempotencyKey(),
+                            task.getDelayUntil()));
                 }
             }
 

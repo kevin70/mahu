@@ -1,7 +1,6 @@
 package cool.houge.mahu.task.handler.impl;
 
 import cool.houge.mahu.delayed.DelayedTaskTopics;
-import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.repository.sys.FeatureFlagRepository;
 import cool.houge.mahu.task.handler.ClaimedDelayedTask;
 import cool.houge.mahu.task.handler.DelayedTaskCompletionResult;
@@ -31,38 +30,25 @@ public class FeatureFlagDelayedTaskHandler implements DelayedTaskHandler {
 
     @Override
     public DelayedTaskCompletionResult handle(ClaimedDelayedTask task) {
-        var featureFlag = featureFlagRepository.findById(Integer.valueOf(task.referenceId()));
-        if (featureFlag == null) {
+        final int featureFlagId;
+        try {
+            featureFlagId = Integer.parseInt(task.referenceId());
+        } catch (Exception e) {
+            log.warn(
+                    "功能开关延时任务：referenceId 非法，归档 delayedTaskId={}, referenceId={}",
+                    task.delayedTaskId(),
+                    task.referenceId(),
+                    e);
             return DelayedTaskCompletionResult.ARCHIVE;
         }
 
         var now = Instant.now();
         if (ENABLE_TOPIC.equals(task.topic())) {
-            applyEnableIfExpected(featureFlag, now);
+            featureFlagRepository.enableIfDue(featureFlagId, now);
         }
         if (DISABLE_TOPIC.equals(task.topic())) {
-            applyDisableIfExpected(featureFlag, now);
+            featureFlagRepository.disableIfDue(featureFlagId, now);
         }
         return DelayedTaskCompletionResult.COMPLETE;
-    }
-
-    private void applyEnableIfExpected(FeatureFlag featureFlag, Instant now) {
-        var enableAt = featureFlag.getEnableAt();
-        if (enableAt == null || enableAt.isAfter(now)) {
-            return;
-        }
-        featureFlag.setEnabled(true);
-        featureFlag.setEnableAt(null);
-        featureFlagRepository.update(featureFlag);
-    }
-
-    private void applyDisableIfExpected(FeatureFlag featureFlag, Instant now) {
-        var disableAt = featureFlag.getDisableAt();
-        if (disableAt == null || disableAt.isAfter(now)) {
-            return;
-        }
-        featureFlag.setEnabled(false);
-        featureFlag.setDisableAt(null);
-        featureFlagRepository.update(featureFlag);
     }
 }
