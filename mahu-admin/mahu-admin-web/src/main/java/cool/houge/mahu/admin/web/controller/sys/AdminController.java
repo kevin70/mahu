@@ -2,12 +2,12 @@ package cool.houge.mahu.admin.web.controller.sys;
 
 import static io.helidon.http.Status.NO_CONTENT_204;
 
-import cool.houge.mahu.admin.sys.query.AdminLogQuery;
-import cool.houge.mahu.admin.sys.query.AdminQuery;
 import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HAdminService;
 import cool.houge.mahu.admin.oas.vo.AdminLogType;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
+import cool.houge.mahu.admin.sys.query.AdminLogQuery;
+import cool.houge.mahu.admin.sys.query.AdminQuery;
 import cool.houge.mahu.admin.sys.service.AdminService;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
@@ -67,7 +67,10 @@ public class AdminController implements HAdminService, WebSupport {
         var adminId = queryInt(request, "admin_id").orElse(null);
         var createdAtRange = dateRange(request);
         var page = page(request);
-        var logQuery = AdminLogQuery.builder().adminId(adminId).createdAtRange(createdAtRange).build();
+        var logQuery = AdminLogQuery.builder()
+                .adminId(adminId)
+                .createdAtRange(createdAtRange)
+                .build();
         switch (type) {
             case ACCESS -> {
                 var plist = adminService.pageAdminAccessLog(logQuery, page);

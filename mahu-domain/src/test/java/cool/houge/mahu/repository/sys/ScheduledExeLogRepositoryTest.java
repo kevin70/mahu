@@ -44,7 +44,9 @@ class ScheduledExeLogRepositoryTest extends PostgresLiquibaseTestBase {
         var page = Page.builder().page(1).pageSize(20).includeTotal(true).build();
 
         var onlyT1 = repo().findPage("task1", page);
-        assertThat(onlyT1.getList()).extracting(l -> l.getScheduledTask().getTaskName()).containsOnly("task1");
+        assertThat(onlyT1.getList())
+                .extracting(l -> l.getScheduledTask().getTaskName())
+                .containsOnly("task1");
 
         var all = repo().findPage(null, page);
         assertThat(all.getList().size()).isGreaterThanOrEqualTo(3);
@@ -70,4 +72,3 @@ class ScheduledExeLogRepositoryTest extends PostgresLiquibaseTestBase {
         return t;
     }
 }
-

@@ -32,10 +32,13 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
         t.setPayload("{\"k\":\"v\"}");
         t.setIdempotencyKey("k1");
 
+        t.setReferenceId("ref-1");
         repo().enqueueDelayedTask(t);
 
         assertThat(t.getId()).isNotNull();
-        assertThat(db().find(DelayedTask.class, t.getId())).isNotNull();
+        var loaded = db().find(DelayedTask.class, t.getId());
+        assertThat(loaded).isNotNull();
+        assertThat(loaded.getReferenceId()).isEqualTo("ref-1");
     }
 
     @Test
@@ -83,6 +86,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
         t.setPayload("{}");
         t.setIdempotencyKey(topic + "_k");
         t.setFeatureId(1);
+        t.setReferenceId("ref:" + topic);
         return t;
     }
 }

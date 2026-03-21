@@ -47,4 +47,3 @@ class IdPhotoRepositoryTest extends PostgresLiquibaseTestBase {
         return p;
     }
 }
-

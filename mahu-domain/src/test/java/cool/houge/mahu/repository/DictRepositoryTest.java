@@ -61,4 +61,3 @@ class DictRepositoryTest extends PostgresLiquibaseTestBase {
         return d;
     }
 }
-

@@ -36,6 +36,13 @@ public class SysDelayedTaskResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("feature_id")
     private Integer featureId;
     /**
+     * 业务侧实体主键/关联 ID（必填）
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("reference_id")
+    private String referenceId;
+    /**
      * 主题
      */
       @NotNull

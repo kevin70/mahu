@@ -14,6 +14,7 @@ CREATE TABLE sys.delayed_tasks (
   max_attempts SMALLINT,
   lock_at TIMESTAMPTZ,
   lease_seconds SMALLINT,
+  reference_id VARCHAR(128) NOT NULL,
   payload JSONB,
   idempotency_key VARCHAR(128)
 );
@@ -45,6 +46,8 @@ COMMENT ON COLUMN sys.delayed_tasks.max_attempts IS '最大尝试次数（包括
 COMMENT ON COLUMN sys.delayed_tasks.lock_at IS '锁定时间';
 
 COMMENT ON COLUMN sys.delayed_tasks.lease_seconds IS '锁租约(秒)，worker 处理任务允许的最长时间';
+
+COMMENT ON COLUMN sys.delayed_tasks.reference_id IS '业务侧实体主键/关联 ID（必填）';
 
 COMMENT ON COLUMN sys.delayed_tasks.payload IS '消息内容存储业务所需的所有数据';
 

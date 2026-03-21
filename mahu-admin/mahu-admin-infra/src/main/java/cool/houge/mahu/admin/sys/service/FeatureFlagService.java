@@ -2,21 +2,19 @@ package cool.houge.mahu.admin.sys.service;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.delayed.DelayedTaskTopics;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.entity.sys.DelayedTask;
+import cool.houge.mahu.delayed.DelayedTaskTopics;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.query.FeatureFlagQuery;
-import cool.houge.mahu.shared.service.AppSharedService;
 import cool.houge.mahu.repository.sys.FeatureFlagRepository;
+import cool.houge.mahu.shared.service.AppSharedService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
-import lombok.AllArgsConstructor;
-
 import java.time.Instant;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
 
 /// 功能开关服务
 @Service.Singleton
@@ -48,8 +46,8 @@ public class FeatureFlagService {
 
         // 仅当 enableAt/disableAt 实际发生变化时，才会推送新的延迟任务；
         // 旧任务到点后在 worker 校验 expectedAt 不匹配时会被安全地 no-op 并归档。
-        enqueueDelayedTasksIfNeeded(dbEntity.getId(), oldEnableAt, dbEntity.getEnableAt(),
-                oldDisableAt, dbEntity.getDisableAt());
+        enqueueDelayedTasksIfNeeded(
+                dbEntity.getId(), oldEnableAt, dbEntity.getEnableAt(), oldDisableAt, dbEntity.getDisableAt());
     }
 
     /// 查询指定功能开关
@@ -82,12 +80,7 @@ public class FeatureFlagService {
     }
 
     private void enqueueDelayedTasksIfNeeded(
-            int featureFlagId,
-            Instant oldEnableAt,
-            Instant newEnableAt,
-            Instant oldDisableAt,
-            Instant newDisableAt
-    ) {
+            int featureFlagId, Instant oldEnableAt, Instant newEnableAt, Instant oldDisableAt, Instant newDisableAt) {
         if (!Objects.equals(oldEnableAt, newEnableAt) && newEnableAt != null) {
             enqueueEnableDelayedTask(featureFlagId, newEnableAt);
         }
@@ -100,14 +93,16 @@ public class FeatureFlagService {
         var topic = DelayedTaskTopics.FEATURE_FLAG_ENABLE;
         var payload = payloadFeatureFlag(featureFlagId, expectedEnableAt);
         var idempotencyKey = idempotencyKey(topic.topic(), featureFlagId, expectedEnableAt);
-        appSharedService.enqueueDelayedTask(topic, expectedEnableAt, payload, idempotencyKey);
+        appSharedService.enqueueDelayedTask(
+                topic, expectedEnableAt, payload, idempotencyKey, String.valueOf(featureFlagId));
     }
 
     private void enqueueDisableDelayedTask(int featureFlagId, Instant expectedDisableAt) {
         var topic = DelayedTaskTopics.FEATURE_FLAG_DISABLE;
         var payload = payloadFeatureFlag(featureFlagId, expectedDisableAt);
         var idempotencyKey = idempotencyKey(topic.topic(), featureFlagId, expectedDisableAt);
-        appSharedService.enqueueDelayedTask(topic, expectedDisableAt, payload, idempotencyKey);
+        appSharedService.enqueueDelayedTask(
+                topic, expectedDisableAt, payload, idempotencyKey, String.valueOf(featureFlagId));
     }
 
     private static String payloadFeatureFlag(int featureFlagId, Instant expectedAt) {

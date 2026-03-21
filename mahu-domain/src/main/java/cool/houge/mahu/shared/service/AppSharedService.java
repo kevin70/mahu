@@ -84,8 +84,8 @@ public class AppSharedService {
             DelayedTaskTopics topic,
             Instant expectedAt,
             String payload,
-            String idempotencyKey
-    ) {
+            String idempotencyKey,
+            @NonNull String referenceId) {
         var task = new DelayedTask();
         task.setFeatureId(topic.featureFlagId());
         task.setTopic(topic.topic());
@@ -96,6 +96,7 @@ public class AppSharedService {
         task.setLeaseSeconds(topic.leaseSeconds());
         task.setPayload(payload);
         task.setIdempotencyKey(idempotencyKey);
+        task.setReferenceId(referenceId);
         delayedTaskRepository.enqueueDelayedTask(task);
     }
 

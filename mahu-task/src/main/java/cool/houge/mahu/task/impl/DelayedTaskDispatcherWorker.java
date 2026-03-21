@@ -7,8 +7,8 @@ import com.github.kagkarlsson.scheduler.task.Task;
 import com.github.kagkarlsson.scheduler.task.TaskInstance;
 import com.github.kagkarlsson.scheduler.task.helper.Tasks;
 import cool.houge.mahu.entity.sys.DelayedTask;
-import cool.houge.mahu.task.event.DelayedTaskClaimedEvent;
 import cool.houge.mahu.repository.sys.DelayedTaskRepository;
+import cool.houge.mahu.task.event.DelayedTaskClaimedEvent;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Event;
 import io.helidon.service.registry.Service;
@@ -35,8 +35,7 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
 
     @Override
     public Task<?> get() {
-        return Tasks
-                .recurring("delayed-tasks-dispatcher-pending", fixedDelay(Duration.ofSeconds(5)))
+        return Tasks.recurring("delayed-tasks-dispatcher-pending", fixedDelay(Duration.ofSeconds(5)))
                 .execute(this::execute);
     }
 
@@ -49,9 +48,7 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
         for (DelayedTask task : candidates) {
             if (claimPendingToProcessing(task, now)) {
                 delayedTaskClaimedEmitter.emit(new DelayedTaskClaimedEvent(
-                        task.getId(),
-                        task.getTopic(),
-                        task.getPayload()));
+                        task.getId(), task.getTopic(), task.getPayload(), task.getReferenceId()));
                 emitted++;
             }
         }

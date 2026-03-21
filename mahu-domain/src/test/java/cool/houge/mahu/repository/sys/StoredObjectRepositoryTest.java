@@ -45,4 +45,3 @@ class StoredObjectRepositoryTest extends PostgresLiquibaseTestBase {
         return o;
     }
 }
-

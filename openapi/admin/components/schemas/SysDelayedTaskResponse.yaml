@@ -2,6 +2,7 @@ type: object
 required:
   - id
   - feature_id
+  - reference_id
   - topic
   - status
   - delay_until
@@ -25,6 +26,9 @@ properties:
     type: integer
     format: int32
     description: 功能 ID（用于追踪统计）
+  reference_id:
+    type: string
+    description: 业务侧实体主键/关联 ID（必填）
   topic:
     type: string
     description: 主题

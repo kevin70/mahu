@@ -1,11 +1,11 @@
 package cool.houge.mahu.task.event;
 
-import cool.houge.mahu.delayed.DelayedTaskTopics;
-import cool.houge.mahu.entity.sys.FeatureFlag;
-import cool.houge.mahu.shared.service.AppSharedService;
-import cool.houge.mahu.repository.sys.FeatureFlagRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cool.houge.mahu.delayed.DelayedTaskTopics;
+import cool.houge.mahu.entity.sys.FeatureFlag;
+import cool.houge.mahu.repository.sys.FeatureFlagRepository;
+import cool.houge.mahu.shared.service.AppSharedService;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Event.Observer;
 import io.helidon.service.registry.Service.Singleton;
@@ -23,9 +23,8 @@ public class FeatureFlagDelayedTaskObserver {
     private static final String ENABLE_TOPIC = DelayedTaskTopics.FEATURE_FLAG_ENABLE.topic();
     private static final String DISABLE_TOPIC = DelayedTaskTopics.FEATURE_FLAG_DISABLE.topic();
 
-    private static final ObjectMapper MAPPER = new ObjectMapper()
-            .findAndRegisterModules()
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    private static final ObjectMapper MAPPER =
+            new ObjectMapper().findAndRegisterModules().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
     private final FeatureFlagRepository featureFlagRepository;
     private final AppSharedService appSharedService;
@@ -64,11 +63,7 @@ public class FeatureFlagDelayedTaskObserver {
         appSharedService.completeDelayedTask(taskId);
     }
 
-    private void applyTopicAction(
-            FeatureFlag featureFlag,
-            String topic,
-            Instant now
-    ) {
+    private void applyTopicAction(FeatureFlag featureFlag, String topic, Instant now) {
         if (ENABLE_TOPIC.equals(topic)) {
             var enableAt = featureFlag.getEnableAt();
             if (enableAt != null && !enableAt.isAfter(now)) {
@@ -102,4 +97,3 @@ public class FeatureFlagDelayedTaskObserver {
 
     private record FeatureFlagPayload(int featureFlagId, long expectedAtEpochMilli) {}
 }
-

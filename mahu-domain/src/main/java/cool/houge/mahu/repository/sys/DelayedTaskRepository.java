@@ -1,8 +1,8 @@
 package cool.houge.mahu.repository.sys;
 
 import com.github.f4b6a3.ulid.UlidFactory;
-import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.Status;
+import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.entity.sys.query.QDelayedTask;
 import cool.houge.mahu.util.HBeanRepository;
@@ -11,9 +11,10 @@ import io.ebean.PagedList;
 import io.ebean.TransactionCallbackAdapter;
 import io.helidon.common.context.Contexts;
 import io.helidon.service.registry.Service;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,12 +38,17 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     /// 租约到期条件，与 `lock_at + lease <= now` 等价：`lock_at <= now - lease`（PostgreSQL）。
     /// `?` 绑定为判定时刻（通常为 `Instant.now()`）；使用 `t0` 与 Ebean 根实体别名一致。
     private static final String LEASE_EXPIRED_PREDICATE =
-            "t0.lock_at <= ? - (interval '1 second' * COALESCE(t0.lease_seconds, "
-                    + DEFAULT_LEASE_SECONDS
-                    + "))";
+            "t0.lock_at <= ? - (interval '1 second' * COALESCE(t0.lease_seconds, " + DEFAULT_LEASE_SECONDS + "))";
 
     public DelayedTaskRepository(Database db) {
         super(DelayedTask.class, db);
+    }
+
+    private static void requireNonBlankReferenceId(String referenceId) {
+        Objects.requireNonNull(referenceId, "referenceId");
+        if (referenceId.isBlank()) {
+            throw new IllegalArgumentException("referenceId must not be blank");
+        }
     }
 
     /// 入队（持久化）延时任务。
@@ -50,10 +56,11 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     /// - 若存在当前事务上下文：任务会先暂存，直到事务提交时批量落库
     /// - 若不存在事务上下文：任务会立即保存
     ///
-    /// 说明：这里会自动生成 `DelayedTask.id`；`topic`/`payload`/`idempotencyKey` 由调用方保证一致性。
+    /// 说明：这里会自动生成 `DelayedTask.id`；`topic`/`payload`/`idempotencyKey`/`referenceId` 由调用方保证一致性；`referenceId` 必填且非空白。
     ///
     /// @param task 延时任务实体（id 会被覆盖重写）
     public void enqueueDelayedTask(DelayedTask task) {
+        requireNonBlankReferenceId(task.getReferenceId());
         task.setId(ULID_FACTORY.create().toUuid());
 
         var ctx = Contexts.context();
@@ -90,7 +97,6 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
         qb.setMaxRows(limit);
         return qb.findList();
     }
-
 
     /// 查找租约到期仍处于 PROCESSING 的任务（全 topic）：`status=PROCESSING` 且 `lock_at <= now - lease`。
     public List<DelayedTask> findExpiredProcessing(Instant now, int limit) {
@@ -139,14 +145,17 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     public boolean claimPending(UUID id, Instant now, int leaseSeconds, int nextAttempts) {
         var qb = new QDelayedTask(db());
         return qb.id.eq(id)
-                .status.eq(Status.PENDING.getCode())
-                .delayUntil.le(now)
-                .asUpdate()
-                .set(qb.status, Status.PROCESSING.getCode())
-                .set(qb.lockAt, now)
-                .set(qb.leaseSeconds, leaseSeconds)
-                .set(qb.attempts, nextAttempts)
-                .update() == 1;
+                        .status
+                        .eq(Status.PENDING.getCode())
+                        .delayUntil
+                        .le(now)
+                        .asUpdate()
+                        .set(qb.status, Status.PROCESSING.getCode())
+                        .set(qb.lockAt, now)
+                        .set(qb.leaseSeconds, leaseSeconds)
+                        .set(qb.attempts, nextAttempts)
+                        .update()
+                == 1;
     }
 
     /// 标记为已完成（终结态）：仅允许从 `PROCESSING` 切换到 `COMPLETED`。
@@ -169,7 +178,8 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
         var qb = new QDelayedTask(db());
         // 仅当 status==expectedStatus 时才更新，避免 worker 超时回收期间被其它状态转换覆盖。
         qb.id.eq(id)
-                .status.eq(expectedStatus)
+                .status
+                .eq(expectedStatus)
                 .asUpdate()
                 .set(qb.status, terminalStatus.getCode())
                 .set(qb.delayUntil, null)
@@ -183,26 +193,30 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     public boolean transitionExpiredToPending(UUID id, Instant now, Instant delayUntil) {
         var qb = new QDelayedTask(db());
         return qb.id.eq(id)
-                .status.eq(Status.PROCESSING.getCode())
-                .raw(LEASE_EXPIRED_PREDICATE, now)
-                .asUpdate()
-                .set(qb.status, Status.PENDING.getCode())
-                .set(qb.lockAt, null)
-                .set(qb.delayUntil, delayUntil)
-                .update() == 1;
+                        .status
+                        .eq(Status.PROCESSING.getCode())
+                        .raw(LEASE_EXPIRED_PREDICATE, now)
+                        .asUpdate()
+                        .set(qb.status, Status.PENDING.getCode())
+                        .set(qb.lockAt, null)
+                        .set(qb.delayUntil, delayUntil)
+                        .update()
+                == 1;
     }
 
     /// 超时回收：将「租约已到期」的 `PROCESSING` 任务转为 `FAILED`（不可再重试）。
     public boolean transitionExpiredToFailed(UUID id, Instant now) {
         var qb = new QDelayedTask(db());
         return qb.id.eq(id)
-                .status.eq(Status.PROCESSING.getCode())
-                .raw(LEASE_EXPIRED_PREDICATE, now)
-                .asUpdate()
-                .set(qb.status, Status.FAILED.getCode())
-                .set(qb.lockAt, null)
-                .set(qb.delayUntil, null)
-                .update() == 1;
+                        .status
+                        .eq(Status.PROCESSING.getCode())
+                        .raw(LEASE_EXPIRED_PREDICATE, now)
+                        .asUpdate()
+                        .set(qb.status, Status.FAILED.getCode())
+                        .set(qb.lockAt, null)
+                        .set(qb.delayUntil, null)
+                        .update()
+                == 1;
     }
 
     /// 延时任务持有者，用于在事务中暂存任务

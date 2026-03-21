@@ -31,8 +31,7 @@ public class DelayedTaskExpiredProcessingWorker implements Supplier<Task<?>> {
 
     @Override
     public Task<?> get() {
-        return Tasks
-                .recurring("delayed-tasks-dispatcher-expired-processing", fixedDelay(Duration.ofSeconds(5)))
+        return Tasks.recurring("delayed-tasks-dispatcher-expired-processing", fixedDelay(Duration.ofSeconds(5)))
                 .execute(this::execute);
     }
 
@@ -48,7 +47,10 @@ public class DelayedTaskExpiredProcessingWorker implements Supplier<Task<?>> {
             }
         }
         if (transitioned > 0) {
-            log.info("DelayedTaskExpiredProcessingWorker(expired): transitioned(expired->pending/failed)={}, at={}", transitioned, now);
+            log.info(
+                    "DelayedTaskExpiredProcessingWorker(expired): transitioned(expired->pending/failed)={}, at={}",
+                    transitioned,
+                    now);
         }
         return null;
     }

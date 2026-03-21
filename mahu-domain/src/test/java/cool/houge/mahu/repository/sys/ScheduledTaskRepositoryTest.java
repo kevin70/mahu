@@ -39,7 +39,8 @@ class ScheduledTaskRepositoryTest extends PostgresLiquibaseTestBase {
         db().saveAll(List.of(paySync, payReconcile, userCleanup));
 
         var page = Page.builder().page(1).pageSize(20).includeTotal(true).build();
-        var result = repo().findPage(ScheduledTaskQuery.builder().taskName("pay").build(), page);
+        var result =
+                repo().findPage(ScheduledTaskQuery.builder().taskName("pay").build(), page);
 
         assertThat(result.getList()).extracting(ScheduledTask::getTaskName).contains("pay.sync", "pay.reconcile");
         assertThat(result.getList()).extracting(ScheduledTask::getTaskName).doesNotContain("user.cleanup");
@@ -53,4 +54,3 @@ class ScheduledTaskRepositoryTest extends PostgresLiquibaseTestBase {
         return t;
     }
 }
-

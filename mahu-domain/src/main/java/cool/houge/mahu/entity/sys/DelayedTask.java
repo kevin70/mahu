@@ -28,7 +28,8 @@ import lombok.Setter;
             "lockAt",
             "leaseSeconds",
             "payload",
-            "idempotencyKey"
+            "idempotencyKey",
+            "referenceId"
         })
 public class DelayedTask {
 
@@ -43,6 +44,8 @@ public class DelayedTask {
     private Instant updatedAt;
     /// 功能 ID
     private Integer featureId;
+    /// 业务侧实体主键/关联 ID（必填；如功能开关任务可存 feature_flag_id 的字符串形式）
+    private String referenceId;
     /// 消息主题
     private String topic;
     /// 状态

@@ -76,9 +76,7 @@ public class DateRange {
     /// <p>使用调用方提供的固定 UTC 偏移量将本地时间映射到时间线。
     public Optional<Instant> from(ZoneOffset offset) {
         requireNonNull(offset, "offset");
-        return Optional.ofNullable(start)
-                .map(DayStartTime::toDateTime)
-                .map(it -> it.toInstant(offset));
+        return Optional.ofNullable(start).map(DayStartTime::toDateTime).map(it -> it.toInstant(offset));
     }
 
     /// 结束时间点（可选，包含）。
@@ -93,9 +91,7 @@ public class DateRange {
     /// <p>使用调用方提供的固定 UTC 偏移量将本地时间映射到时间线。
     public Optional<Instant> to(ZoneOffset offset) {
         requireNonNull(offset, "offset");
-        return Optional.ofNullable(end)
-                .map(DayEndTime::toDateTime)
-                .map(it -> it.toInstant(offset));
+        return Optional.ofNullable(end).map(DayEndTime::toDateTime).map(it -> it.toInstant(offset));
     }
 
     private static ZoneOffset systemOffset() {

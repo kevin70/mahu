@@ -76,7 +76,8 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
         var groups = repo().findAllData();
 
         assertThat(groups).extracting(DictGroup::getId).contains("g1", "g2");
-        var g1Loaded = groups.stream().filter(g -> g.getId().equals("g1")).findFirst().orElseThrow();
+        var g1Loaded =
+                groups.stream().filter(g -> g.getId().equals("g1")).findFirst().orElseThrow();
         assertThat(g1Loaded.getData()).extracting(Dict::getDc).containsExactlyInAnyOrder(101, 102);
     }
 
@@ -115,15 +116,11 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
     }
 
     private static DictGroup group(String id) {
-        return Instancio.of(GROUP_MODEL)
-                .set(field(DictGroup::getId), id)
-                .create();
+        return Instancio.of(GROUP_MODEL).set(field(DictGroup::getId), id).create();
     }
 
     private static Dict dict(int dc) {
-        return Instancio.of(DICT_MODEL)
-                .set(field(Dict::getDc), dc)
-                .create();
+        return Instancio.of(DICT_MODEL).set(field(Dict::getDc), dc).create();
     }
 
     private static DictGroup groupWithDicts(String id, List<Dict> dicts) {
@@ -141,4 +138,3 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
                 .update();
     }
 }
-

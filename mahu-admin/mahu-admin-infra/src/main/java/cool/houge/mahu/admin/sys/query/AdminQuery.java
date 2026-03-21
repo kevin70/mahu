@@ -21,4 +21,3 @@ public class AdminQuery {
     @Default
     List<Integer> statusList = List.of();
 }
-

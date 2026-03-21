@@ -21,4 +21,3 @@ public class AdminLogQuery {
     @Default
     DateRange createdAtRange = DateRange.EMPTY;
 }
-
