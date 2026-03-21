@@ -33,7 +33,7 @@ public record ClaimedDelayedTask(
     }
 
     /// 将 referenceId 转换为 long，通常用于业务主键场景。
-    public int referenceIdAsLong() {
+    public long referenceIdAsLong() {
         return Long.parseLong(referenceId);
     }
 
