@@ -1,16 +1,23 @@
 type: object
+required:
+  - label
+  - terminal_type
 properties:
   label:
     type: string
     description: 标签
+    maxLength: 128
   remark:
     type: string
     description: 备注
+    maxLength: 512
   terminal_type:
     $ref: "./TerminalTypeEnum.yaml"
   wechat_appid:
     type: string
     description: 微信应用 ID
+    maxLength: 128
   wechat_appsecret:
     type: string
     description: 微信应用密钥
+    maxLength: 512
