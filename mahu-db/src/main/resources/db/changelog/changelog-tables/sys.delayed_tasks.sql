@@ -6,7 +6,6 @@ CREATE TABLE sys.delayed_tasks (
   id UUID NOT NULL CONSTRAINT delayed_tasks_pk PRIMARY KEY,
   created_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ,
-  feature_id INTEGER,
   topic VARCHAR(50),
   status SMALLINT,
   delay_until TIMESTAMPTZ,
@@ -26,8 +25,6 @@ COMMENT ON COLUMN sys.delayed_tasks.id IS '主键';
 COMMENT ON COLUMN sys.delayed_tasks.created_at IS '创建时间';
 
 COMMENT ON COLUMN sys.delayed_tasks.updated_at IS '更新时间';
-
-COMMENT ON COLUMN sys.delayed_tasks.feature_id IS '功能 ID（用于追踪统计）';
 
 COMMENT ON COLUMN sys.delayed_tasks.topic IS '主题';
 

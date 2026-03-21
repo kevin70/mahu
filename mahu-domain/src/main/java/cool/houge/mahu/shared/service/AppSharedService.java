@@ -115,7 +115,7 @@ public class AppSharedService {
     /// 根据主题定义构造并入队延时任务。
     ///
     /// 该方法会自动填充以下字段：
-    /// - `featureId/topic/maxAttempts/leaseSeconds`：来自 `DelayedTaskTopics`
+    /// - `topic/maxAttempts/leaseSeconds`：来自 `DelayedTaskTopics`
     /// - `status/attempts`：初始化为待处理状态与 0 次尝试
     ///
     /// @param topic 延时任务主题定义
@@ -131,7 +131,6 @@ public class AppSharedService {
             String idempotencyKey,
             String payload) {
         var task = new DelayedTask();
-        task.setFeatureId(topic.featureFlagId());
         task.setTopic(topic.topic());
         task.setReferenceId(referenceId);
         task.setStatus(Status.PENDING.getCode());

@@ -29,13 +29,6 @@ public class SysDelayedTaskResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
     private OffsetDateTime updatedAt;
     /**
-     * 功能 ID（用于追踪统计）
-     */
-      @NotNull
-
-    @com.fasterxml.jackson.annotation.JsonProperty("feature_id")
-    private Integer featureId;
-    /**
      * 业务侧实体主键/关联 ID（必填）
      */
       @NotNull

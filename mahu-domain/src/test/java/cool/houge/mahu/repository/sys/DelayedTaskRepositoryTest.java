@@ -85,7 +85,6 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
         t.setLeaseSeconds(30);
         t.setPayload("{}");
         t.setIdempotencyKey(topic + "_k");
-        t.setFeatureId(1);
         t.setReferenceId("ref:" + topic);
         return t;
     }
