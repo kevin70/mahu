@@ -78,14 +78,19 @@ public class AppSharedService {
         delayedTaskRepository.enqueueDelayedTask(task);
     }
 
+    public void enqueueDelayedTask(
+            DelayedTaskTopics topic, @NonNull String referenceId, Instant expectedAt, String idempotencyKey) {
+        this.enqueueDelayedTask(topic, referenceId, expectedAt, idempotencyKey, null);
+    }
+
     /// 推送功能开关相关延时任务（payload 与 idempotencyKey 由外部提供）
     @Transactional
     public void enqueueDelayedTask(
             DelayedTaskTopics topic,
             @NonNull String referenceId,
             Instant expectedAt,
-            String payload,
-            String idempotencyKey) {
+            String idempotencyKey,
+            String payload) {
         var task = new DelayedTask();
         task.setFeatureId(topic.featureFlagId());
         task.setTopic(topic.topic());
@@ -95,8 +100,10 @@ public class AppSharedService {
         task.setAttempts(0);
         task.setMaxAttempts(topic.maxAttempts());
         task.setLeaseSeconds(topic.leaseSeconds());
-        task.setPayload(payload);
         task.setIdempotencyKey(idempotencyKey);
+        if (payload != null) {
+            task.setPayload(payload);
+        }
         delayedTaskRepository.enqueueDelayedTask(task);
     }
 

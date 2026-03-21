@@ -91,27 +91,17 @@ public class FeatureFlagService {
 
     private void enqueueEnableDelayedTask(int featureFlagId, Instant expectedEnableAt) {
         var topic = DelayedTaskTopics.FEATURE_FLAG_ENABLE;
-        var payload = payloadFeatureFlag(featureFlagId, expectedEnableAt);
-        var idempotencyKey = idempotencyKey(topic.topic(), featureFlagId, expectedEnableAt);
-        appSharedService.enqueueDelayedTask(
-                topic, String.valueOf(featureFlagId), expectedEnableAt, payload, idempotencyKey);
+        var idempotencyKey = idempotencyKey(featureFlagId, expectedEnableAt);
+        appSharedService.enqueueDelayedTask(topic, String.valueOf(featureFlagId), expectedEnableAt, idempotencyKey);
     }
 
     private void enqueueDisableDelayedTask(int featureFlagId, Instant expectedDisableAt) {
         var topic = DelayedTaskTopics.FEATURE_FLAG_DISABLE;
-        var payload = payloadFeatureFlag(featureFlagId, expectedDisableAt);
-        var idempotencyKey = idempotencyKey(topic.topic(), featureFlagId, expectedDisableAt);
-        appSharedService.enqueueDelayedTask(
-                topic, String.valueOf(featureFlagId), expectedDisableAt, payload, idempotencyKey);
+        var idempotencyKey = idempotencyKey(featureFlagId, expectedDisableAt);
+        appSharedService.enqueueDelayedTask(topic, String.valueOf(featureFlagId), expectedDisableAt, idempotencyKey);
     }
 
-    private static String payloadFeatureFlag(int featureFlagId, Instant expectedAt) {
-        // JSONB 字段落库：payload 只携带 featureFlagId + expectedAt（毫秒）
-        var expectedAtMillis = expectedAt.toEpochMilli();
-        return "{\"featureFlagId\":" + featureFlagId + ",\"expectedAtEpochMilli\":" + expectedAtMillis + "}";
-    }
-
-    private static String idempotencyKey(String topic, int featureFlagId, Instant expectedAt) {
-        return topic + ":" + featureFlagId + ":" + expectedAt.toEpochMilli();
+    private static String idempotencyKey(int featureFlagId, Instant expectedAt) {
+        return featureFlagId + ":" + expectedAt.toEpochMilli();
     }
 }

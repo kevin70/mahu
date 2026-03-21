@@ -35,8 +35,8 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
     private static final int BATCH_SIZE = 50;
     private static final int MAX_BATCHES = 3;
 
-    private final DelayedTaskRepository delayedTaskRepository;
     private final List<DelayedTaskHandler> delayedTaskHandlers;
+    private final DelayedTaskRepository delayedTaskRepository;
     private final AppSharedService appSharedService;
 
     @Override
@@ -53,7 +53,6 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
             return;
         }
 
-        var handlerNow = Instant.now();
         var completed = 0;
         for (ClaimedDelayedTask task : claimResult.tasks) {
             try {
@@ -68,7 +67,7 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
                     continue;
                 }
 
-                DelayedTaskCompletionResult action = handler.handle(task, handlerNow);
+                DelayedTaskCompletionResult action = handler.handle(task);
                 switch (action) {
                     case COMPLETE -> appSharedService.completeDelayedTask(task.delayedTaskId());
                     case ARCHIVE -> appSharedService.archiveDelayedTask(task.delayedTaskId());
@@ -110,9 +109,8 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
                     claimedTasks.add(new ClaimedDelayedTask(
                             task.getId(),
                             task.getTopic(),
-                            task.getPayload(),
-                            task.getReferenceId(),
-                            task.getDelayUntil()));
+                        task.getReferenceId(), task.getPayload(),
+                        task.getDelayUntil()));
                 }
             }
 
@@ -131,8 +129,6 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
                 .orElse(null);
     }
 
-    private record ClaimResult(List<ClaimedDelayedTask> tasks, int batchesProcessed) {}
-
     private boolean claimPendingToProcessing(DelayedTask task, Instant now) {
         var attempts = task.getAttempts() == null ? 0 : task.getAttempts();
         var nextAttempts = attempts + 1;
@@ -140,4 +136,6 @@ public class DelayedTaskDispatcherWorker implements Supplier<Task<?>> {
                 task.getLeaseSeconds() == null ? DelayedTaskRepository.DEFAULT_LEASE_SECONDS : task.getLeaseSeconds();
         return delayedTaskRepository.claimPending(task.getId(), now, leaseSeconds, nextAttempts);
     }
+
+    private record ClaimResult(List<ClaimedDelayedTask> tasks, int batchesProcessed) {}
 }
