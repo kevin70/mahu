@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.List;
@@ -48,6 +49,7 @@ public class DictGroup {
     /// 是否预置
     private boolean preset;
     /// 字典数据
+    @OrderBy("ordering desc")
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dict> data;
 

@@ -40,7 +40,7 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
             qb.data.dc.eq(query.getDc());
         }
 
-        qb.updatedAt.desc();
+        qb.id.desc();
         return findPage(qb, page);
     }
 
