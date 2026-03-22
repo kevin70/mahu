@@ -17,7 +17,7 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
-@ChangeLog(updatesThatInclude = {"group", "label", "value", "enabled", "ordering"})
+@ChangeLog(updatesThatInclude = {"group", "label", "value", "enabled", "ordering", "preset"})
 @Entity
 @Table(name = "dicts")
 public class Dict {
@@ -46,4 +46,6 @@ public class Dict {
     /// 排序值
     @OrderBy("DESC")
     private Integer ordering;
+    /// 是否预置
+    private boolean preset;
 }

@@ -19,7 +19,7 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
-@ChangeLog(updatesThatInclude = {"name", "description", "enabled", "visibility", "valueRegex", "preset"})
+@ChangeLog(updatesThatInclude = {"name", "description", "enabled", "visibility", "preset"})
 @Entity
 @Table(name = "dict_groups")
 public class DictGroup {
@@ -45,8 +45,6 @@ public class DictGroup {
     /// 可见性配置
     @Enumerated
     private Visibility visibility;
-    /// 值正则表达式规则
-    private String valueRegex;
     /// 是否预置
     private boolean preset;
     /// 字典数据

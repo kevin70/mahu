@@ -8,8 +8,7 @@ Content-Type: application/json
   "name": "{{$random.name.username}}",
   "description": "{{$random.lorem.paragraph}}",
   "disabled": true,
-  "visibility": 1,
-  "value_regex": "/^[0-9]$/"
+  "visibility": 1
 }
 
 

@@ -8,7 +8,6 @@ CREATE TABLE public.dict_groups (
   description VARCHAR(4096),
   enabled BOOLEAN,
   visibility SMALLINT,
-  value_regex VARCHAR(512),
   created_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ
 );
@@ -27,8 +26,6 @@ COMMENT ON COLUMN public.dict_groups.visibility IS '可见性
 - 0: 私有的，仅限内部使用
 - 1: 公共的
 - 2: 受限的';
-
-COMMENT ON COLUMN public.dict_groups.value_regex IS '字典值格式校验正则，由应用层在写入时执行校验';
 
 COMMENT ON COLUMN public.dict_groups.created_at IS '创建时间';
 

@@ -8,6 +8,7 @@ CREATE TABLE public.dicts (
   value VARCHAR(1024),
   enabled BOOLEAN,
   ordering INTEGER,
+  preset BOOLEAN NOT NULL DEFAULT FALSE,
   group_id VARCHAR(50) NOT NULL,
   created_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ
@@ -24,6 +25,8 @@ COMMENT ON COLUMN public.dicts.value IS '字典数据值';
 COMMENT ON COLUMN public.dicts.enabled IS '是否启用';
 
 COMMENT ON COLUMN public.dicts.ordering IS '排序值';
+
+COMMENT ON COLUMN public.dicts.preset IS '是否预置';
 
 COMMENT ON COLUMN public.dicts.group_id IS '字典分组代码';
 

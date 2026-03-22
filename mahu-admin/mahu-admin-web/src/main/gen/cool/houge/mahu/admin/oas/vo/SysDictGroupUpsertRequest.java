@@ -44,12 +44,6 @@ public class SysDictGroupUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("visibility")
     private Integer visibility;
     /**
-     * 值正则表达式规则
-     */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("value_regex")
-    private String valueRegex;
-    /**
      * 是否预置
      */
     

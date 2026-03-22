@@ -106,6 +106,7 @@ class DictCacheService {
                 .label(bean.getLabel())
                 .enabled(bean.getEnabled())
                 .ordering(bean.getOrdering())
+                .preset(bean.isPreset())
                 .build();
     }
 

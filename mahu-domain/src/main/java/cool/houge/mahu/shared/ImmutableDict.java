@@ -22,4 +22,6 @@ public class ImmutableDict {
     boolean enabled;
     /// 排序值
     int ordering;
+    /// 是否预置
+    boolean preset;
 }
