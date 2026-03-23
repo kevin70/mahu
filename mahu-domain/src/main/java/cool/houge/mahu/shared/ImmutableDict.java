@@ -22,6 +22,8 @@ public class ImmutableDict {
     boolean enabled;
     /// 排序值
     int ordering;
+    /// 展示用颜色（如 CSS 色值）
+    String color;
     /// 是否预置
     boolean preset;
 }

@@ -53,6 +53,12 @@ public class SysDictGroupResponseDataInner {
     @com.fasterxml.jackson.annotation.JsonProperty("ordering")
     private Integer ordering;
     /**
+     * 展示用颜色（如 CSS 色值）
+     */
+     @Size(max=64)
+    @com.fasterxml.jackson.annotation.JsonProperty("color")
+    private String color;
+    /**
      * 是否启用
      */
     

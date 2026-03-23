@@ -8,6 +8,7 @@ CREATE TABLE public.dicts (
   value VARCHAR(1024),
   enabled BOOLEAN,
   ordering INTEGER,
+  color VARCHAR(64),
   preset BOOLEAN NOT NULL DEFAULT FALSE,
   group_id VARCHAR(50) NOT NULL,
   created_at TIMESTAMPTZ,
@@ -25,6 +26,8 @@ COMMENT ON COLUMN public.dicts.value IS '字典数据值';
 COMMENT ON COLUMN public.dicts.enabled IS '是否启用';
 
 COMMENT ON COLUMN public.dicts.ordering IS '排序值';
+
+COMMENT ON COLUMN public.dicts.color IS '展示用颜色（如 CSS 色值）';
 
 COMMENT ON COLUMN public.dicts.preset IS '是否预置';
 

@@ -71,6 +71,10 @@ properties:
           maxLength: 4096
         ordering:
           $ref: "./_ordering.yaml"
+        color:
+          type: string
+          description: 展示用颜色（如 CSS 色值）
+          maxLength: 64
         enabled:
           type: boolean
           description: 是否启用
