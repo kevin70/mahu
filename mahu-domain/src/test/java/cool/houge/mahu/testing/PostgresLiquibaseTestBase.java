@@ -4,7 +4,6 @@ import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.Transaction;
 import io.ebean.config.DatabaseConfig;
-import io.ebean.datasource.DataSourceBuilder;
 import javax.sql.DataSource;
 import liquibase.Contexts;
 import liquibase.LabelExpression;
@@ -14,6 +13,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.postgresql.ds.PGSimpleDataSource;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
@@ -68,14 +68,12 @@ public abstract class PostgresLiquibaseTestBase {
     }
 
     private static void initDs() {
-        DS = DataSourceBuilder.create()
-                .applicationName("mahu-domain-test")
-                .url(PG.getJdbcUrl())
-                .username(PG.getUsername())
-                .password(PG.getPassword())
-                .minConnections(1)
-                .maxConnections(4)
-                .build();
+        var ds = new PGSimpleDataSource();
+        ds.setDatabaseName("mahu_test");
+        ds.setUrl(PG.getJdbcUrl());
+        ds.setUser(PG.getUsername());
+        ds.setPassword(PG.getPassword());
+        DS = ds;
     }
 
     /// 每个用例开启独立事务；配合 `setRollbackOnly()` 确保用例结束后不污染数据库状态。

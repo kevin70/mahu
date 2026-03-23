@@ -3,11 +3,11 @@ package cool.houge.mahu;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.ContainerConfig;
-import io.ebean.config.CurrentUserProvider;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.config.JsonConfig;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
+import io.helidon.config.Config;
 import io.helidon.service.registry.Service;
 import io.helidon.service.registry.Service.RunLevel;
 import io.helidon.service.registry.Service.Singleton;
@@ -25,19 +25,16 @@ class TestDatabaseProvider implements Supplier<Database> {
 
     final Database v;
 
-    TestDatabaseProvider(DataSource ds) {
+    TestDatabaseProvider(Config config, DataSource ds) {
         var dbc = new DatabaseConfig()
                 .containerConfig(new ContainerConfig())
                 .dataSource(ds)
                 .slowQueryMillis(200)
                 .jsonInclude(JsonConfig.Include.NON_NULL)
                 .changeLogIncludeInserts(false)
-                .currentUserProvider(new CurrentUserProvider() {
-                    @Override
-                    public Object currentUser() {
-                        return -1;
-                    }
-                })
+                .currentUserProvider(() -> -1)
+                .encryptKeyManager((tableName, columnName) ->
+                        () -> config.get("db.encrypt.secret-key").asString().get())
                 .shutdownHook(false);
         this.v = DatabaseFactory.create(dbc);
     }

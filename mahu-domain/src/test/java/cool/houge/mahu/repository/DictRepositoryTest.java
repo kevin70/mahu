@@ -31,15 +31,15 @@ class DictRepositoryTest extends PostgresLiquibaseTestBase {
     @Test
     void save_and_findById() {
         var g = group("g1");
-        var d = dict(101, g, "l1", "v1");
+        var d = dict(-101, g, "l1", "v1");
 
         db().save(g);
         repo().save(d);
 
-        var loaded = repo().findById(101);
+        var loaded = repo().findById(-101);
 
         assertThat(loaded).isNotNull();
-        assertThat(loaded.getDc()).isEqualTo(101);
+        assertThat(loaded.getDc()).isEqualTo(-101);
         assertThat(loaded.getLabel()).isEqualTo("l1");
         assertThat(loaded.getGroup().getId()).isEqualTo("g1");
     }
