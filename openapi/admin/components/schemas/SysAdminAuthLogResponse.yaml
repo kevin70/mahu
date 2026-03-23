@@ -17,15 +17,12 @@ properties:
     type: integer
     format: int64
     description: 管理员 ID
-  auth_type:
+  grant_type:
     type: string
-    description: |
-      认证方法
-      - `LOGIN`
-      - `TOKEN_REFRESH`
-  auth_method:
-    type: string
-    description: 认证方法
+    description: 认证类型
+    enum:
+      - PASSWORD
+      - REFRESH_TOKEN
   client_id:
     type: string
     description: 认证客户端 ID

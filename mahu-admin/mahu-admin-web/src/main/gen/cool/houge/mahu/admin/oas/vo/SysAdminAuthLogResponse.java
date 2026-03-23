@@ -1,5 +1,7 @@
 package cool.houge.mahu.admin.oas.vo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import io.avaje.validation.constraints.*;
@@ -32,18 +34,48 @@ public class SysAdminAuthLogResponse {
 
     @com.fasterxml.jackson.annotation.JsonProperty("admin_id")
     private Long adminId;
+
+                /**
+                * 认证类型
+                */
+                public enum GrantTypeEnum {
+                    PASSWORD("PASSWORD"),
+                    REFRESH_TOKEN("REFRESH_TOKEN");
+            
+                    private String value;
+            
+                    GrantTypeEnum(String value) {
+                        this.value = value;
+                    }
+            
+                    @JsonValue
+                    public String getValue() {
+                        return value;
+                    }
+            
+                    @Override
+                    public String toString() {
+                        return String.valueOf(value);
+                    }
+            
+            
+                    @JsonCreator
+                    public static GrantTypeEnum fromValue(String text) {
+                        for (GrantTypeEnum b : GrantTypeEnum.values()) {
+                            if (String.valueOf(b.value).equals(text)) {
+                                return b;
+                            }
+                        }
+                        throw new IllegalArgumentException("Unexpected value '" + text + "'");
+                    }
+                }
+
     /**
-     * 认证方法 - `LOGIN` - `TOKEN_REFRESH` 
+     * 认证类型
      */
     
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_type")
-    private String authType;
-    /**
-     * 认证方法
-     */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("auth_method")
-    private String authMethod;
+    @com.fasterxml.jackson.annotation.JsonProperty("grant_type")
+    private GrantTypeEnum grantType;
     /**
      * 认证客户端 ID
      */
