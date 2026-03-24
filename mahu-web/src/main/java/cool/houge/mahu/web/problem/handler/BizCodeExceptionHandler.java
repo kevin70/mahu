@@ -13,8 +13,9 @@ import static cool.houge.mahu.BizCodes.UNIMPLEMENTED;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.web.problem.ProblemHandler;
-import cool.houge.mahu.web.problem.ProblemResponse;
+import cool.houge.mahu.web.problem.ProblemSpec;
 import io.helidon.http.Status;
+import java.util.Map;
 
 /// [cool.houge.mahu.BizCodeException]
 ///
@@ -22,15 +23,16 @@ import io.helidon.http.Status;
 public class BizCodeExceptionHandler implements ProblemHandler {
 
     @Override
-    public boolean canHandle(Throwable e) {
-        return e instanceof BizCodeException;
+    public Class<? extends Throwable> exceptionType() {
+        return BizCodeException.class;
     }
 
     @Override
-    public ProblemResponse handle(Throwable ex) {
-        var bz = ((BizCodeException) ex).getCode();
+    public ProblemSpec handle(Throwable ex) {
+        var e = (BizCodeException) ex;
+        var bz = e.getCode();
         // 状态码映射
-        Status status =
+        var status =
                 switch (bz) {
                     case INVALID_ARGUMENT, DEADLINE_EXCEEDED, OUT_OF_RANGE, UNIMPLEMENTED -> Status.BAD_REQUEST_400;
                     case UNAUTHENTICATED -> Status.UNAUTHORIZED_401;
@@ -40,6 +42,12 @@ public class BizCodeExceptionHandler implements ProblemHandler {
                     case UNAVAILABLE -> Status.SERVICE_UNAVAILABLE_503;
                     default -> Status.INTERNAL_SERVER_ERROR_500;
                 };
-        return new ProblemResponse().setStatus(status.code()).setCode(bz.code()).setMessage(ex.getMessage());
+
+        return new ProblemSpec()
+                .setStatus(status.code())
+                .setCode(bz.code())
+                .setMessage(bz.message())
+                .setDetails(Map.of("exception", e.getClass().getName(), "exception_message",
+                    e.getMessage()));
     }
 }

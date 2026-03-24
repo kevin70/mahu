@@ -3,7 +3,7 @@ package cool.houge.mahu.web.problem.handler;
 import static cool.houge.mahu.BizCodes.INVALID_ARGUMENT;
 
 import cool.houge.mahu.web.problem.ProblemHandler;
-import cool.houge.mahu.web.problem.ProblemResponse;
+import cool.houge.mahu.web.problem.ProblemSpec;
 import io.avaje.validation.ConstraintViolationException;
 import io.helidon.http.Status;
 import java.util.Map;
@@ -14,22 +14,28 @@ import java.util.Map;
 public class ConstraintViolationExceptionHandler implements ProblemHandler {
 
     @Override
-    public boolean canHandle(Throwable e) {
-        return e instanceof ConstraintViolationException;
+    public Class<? extends Throwable> exceptionType() {
+        return ConstraintViolationException.class;
     }
 
     @Override
-    public ProblemResponse handle(Throwable ex) {
+    public ProblemSpec handle(Throwable ex) {
         var e = (ConstraintViolationException) ex;
         var details = Map.<String, Object>of(
                 "invalid_params",
                 e.violations().stream()
                         .map(o -> Map.of("path", o.path(), "field", o.field(), "message", o.message()))
                         .toList());
-        return new ProblemResponse()
+        return new ProblemSpec()
                 .setStatus(Status.BAD_REQUEST_400.code())
                 .setCode(INVALID_ARGUMENT.code())
                 .setMessage(INVALID_ARGUMENT.message())
-                .setDetails(details);
+                .setDetails(Map.of(
+                        "exception",
+                        e.getClass().getName(),
+                        "exception_message",
+                        String.valueOf(e.getMessage()),
+                        "invalid_params",
+                        details.get("invalid_params")));
     }
 }

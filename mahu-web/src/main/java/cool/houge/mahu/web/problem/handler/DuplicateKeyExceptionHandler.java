@@ -2,9 +2,10 @@ package cool.houge.mahu.web.problem.handler;
 
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.web.problem.ProblemHandler;
-import cool.houge.mahu.web.problem.ProblemResponse;
+import cool.houge.mahu.web.problem.ProblemSpec;
 import io.ebean.DuplicateKeyException;
 import io.helidon.http.Status;
+import java.util.Map;
 
 /// [io.ebean.DuplicateKeyException]
 ///
@@ -12,15 +13,18 @@ import io.helidon.http.Status;
 public class DuplicateKeyExceptionHandler implements ProblemHandler {
 
     @Override
-    public boolean canHandle(Throwable e) {
-        return e instanceof DuplicateKeyException;
+    public Class<? extends Throwable> exceptionType() {
+        return DuplicateKeyException.class;
     }
 
     @Override
-    public ProblemResponse handle(Throwable ex) {
-        return new ProblemResponse()
+    public ProblemSpec handle(Throwable ex) {
+        var e = (DuplicateKeyException) ex;
+        return new ProblemSpec()
                 .setStatus(Status.CONFLICT_409.code())
                 .setCode(BizCodes.ALREADY_EXISTS.code())
-                .setMessage(BizCodes.ALREADY_EXISTS.message());
+                .setMessage(BizCodes.ALREADY_EXISTS.message())
+                .setDetails(Map.of(
+                        "exception", e.getClass().getName(), "exception_message", String.valueOf(e.getMessage())));
     }
 }

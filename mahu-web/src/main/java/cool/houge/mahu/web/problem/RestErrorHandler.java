@@ -1,8 +1,6 @@
 package cool.houge.mahu.web.problem;
 
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.Env;
-import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.problem.handler.BizCodeExceptionHandler;
 import cool.houge.mahu.web.problem.handler.ConstraintViolationExceptionHandler;
 import cool.houge.mahu.web.problem.handler.DuplicateKeyExceptionHandler;
@@ -12,84 +10,142 @@ import cool.houge.mahu.web.problem.handler.UnsupportedTypeExceptionHandler;
 import io.helidon.webserver.http.ErrorHandler;
 import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
-import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
+import java.util.function.Supplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
 
-/// 错误响应处理器
+/// 错误响应处理器。
+///
+/// `problem.handler` 包下的 `*ExceptionHandler` 仅供本类装配使用，不应在业务代码中直接调用。
+/// 新增异常处理器必须通过本类统一注册，以保证匹配优先级、日志与响应结构一致性。
 ///
 /// @author ZY (kzou227@qq.com)
-@AllArgsConstructor
 public class RestErrorHandler implements ErrorHandler<Throwable> {
 
     private static final Logger log = LogManager.getLogger(RestErrorHandler.class);
-    private final List<ProblemHandler> problemHandlers;
+    /// 未命中哨兵，避免对同一异常类型重复执行层级遍历。
+    private static final ProblemHandler NO_HANDLER = new MissingProblemHandler();
+    private final ProblemResponseFactory problemResponseFactory;
+    /// 精确类型索引：异常类 -> 处理器，命中路径为 O(1)。
+    private final Map<Class<? extends Throwable>, ProblemHandler> handlerIndex;
 
     public RestErrorHandler() {
-        this(List.of(
-                new BizCodeExceptionHandler(),
-                new ConstraintViolationExceptionHandler(),
-                new DuplicateKeyExceptionHandler(),
-                new EntityNotFoundExceptionHandler(),
-                new HttpExceptionHandler(),
-                new UnsupportedTypeExceptionHandler()
-                //
-                ));
+        this(buildDefaultHandlers(), new ProblemResponseFactory());
+    }
+
+    public RestErrorHandler(List<ProblemHandler> problemHandlers, ProblemResponseFactory problemResponseFactory) {
+        this.problemResponseFactory = problemResponseFactory;
+        this.handlerIndex = buildIndex(problemHandlers);
+    }
+
+    private static List<ProblemHandler> buildDefaultHandlers() {
+        var handlers = new ArrayList<ProblemHandler>();
+        handlers.add(new BizCodeExceptionHandler());
+        handlers.add(new HttpExceptionHandler());
+        // 可选依赖相关处理器按“异常类是否存在”动态装配，避免启动期类加载失败。
+        addIfClassPresent(
+                handlers, "io.avaje.validation.ConstraintViolationException", ConstraintViolationExceptionHandler::new);
+        addIfClassPresent(handlers, "io.ebean.DuplicateKeyException", DuplicateKeyExceptionHandler::new);
+        addIfClassPresent(handlers, "jakarta.persistence.EntityNotFoundException", EntityNotFoundExceptionHandler::new);
+        addIfClassPresent(
+                handlers, "io.helidon.http.media.UnsupportedTypeException", UnsupportedTypeExceptionHandler::new);
+        return List.copyOf(handlers);
+    }
+
+    private static void addIfClassPresent(
+            List<ProblemHandler> handlers, String exceptionClassName, Supplier<ProblemHandler> handlerSupplier) {
+        if (classPresent(exceptionClassName)) {
+            handlers.add(handlerSupplier.get());
+        }
+    }
+
+    private static boolean classPresent(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException ignored) {
+            return false;
+        }
     }
 
     @Override
     public void handle(ServerRequest req, ServerResponse res, @NonNull Throwable ex) {
-        ProblemResponse errorResponse = null;
+        var spec = resolveProblemSpec(ex);
+        var err = problemResponseFactory.from(req, ex, spec);
+
+        logProblem(req, err, ex);
+        res.status(err.getStatus()).send(Map.of("error", err));
+    }
+
+    private Map<Class<? extends Throwable>, ProblemHandler> buildIndex(List<ProblemHandler> problemHandlers) {
+        var index = new HashMap<Class<? extends Throwable>, ProblemHandler>();
+        for (var handler : problemHandlers) {
+            index.putIfAbsent(handler.exceptionType(), handler);
+        }
+        return Map.copyOf(index);
+    }
+
+    private ProblemSpec resolveProblemSpec(Throwable ex) {
         Throwable current = ex;
-        while (current != null && errorResponse == null) {
-            for (var h : problemHandlers) {
-                if (h.canHandle(current)) {
-                    errorResponse = h.handle(current);
-                    break;
-                }
+        while (current != null) {
+            // 仅做精确类型匹配（不回退父类/接口）。
+            var handler = handlerIndex.get(current.getClass());
+            if (handler != null) {
+                return handler.handle(current);
             }
-            if (errorResponse == null) {
-                current = current.getCause();
-            }
+            current = current.getCause();
+        }
+        return NO_HANDLER.handle(ex);
+    }
+
+    private void logProblem(ServerRequest req, ProblemResponse err, Throwable ex) {
+        var method = req.prologue().method().text();
+        var path = req.path().rawPath();
+        var status = err.getStatus();
+
+        // 5xx 记录完整异常堆栈；4xx 仅记录关键信息降低日志噪音。
+        if (status >= 500) {
+            log.error(
+                    "request_failed method={} path={} status={} code={} message={}",
+                    method,
+                    path,
+                    status,
+                    err.getCode(),
+                    err.getMessage(),
+                    ex);
+            return;
         }
 
-        if (errorResponse == null) {
-            errorResponse = new ProblemResponse()
+        if (log.isDebugEnabled()) {
+            log.debug(
+                    "request_rejected method={} path={} status={} code={} message={}",
+                    method,
+                    path,
+                    status,
+                    err.getCode(),
+                    err.getMessage(),
+                    ex);
+        }
+    }
+
+    private static final class MissingProblemHandler implements ProblemHandler {
+        @Override
+        public ProblemSpec handle(Throwable ex) {
+            return new ProblemSpec()
                     .setStatus(500)
                     .setCode(BizCodes.INTERNAL.code())
                     .setMessage(Objects.requireNonNullElse(ex.getMessage(), BizCodes.INTERNAL.message()));
         }
 
-        send0(req, res, ex, errorResponse);
-    }
-
-    private void send0(ServerRequest req, ServerResponse res, Throwable ex, ProblemResponse err) {
-        var metadata = Metadata.current();
-        err.setTraceId(metadata.traceId())
-                .setTimestamp(OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS))
-                .setPath(req.path().rawPath())
-                .setMethod(req.prologue().method().text());
-
-        if (!Env.current().isProd()) {
-            var list = Arrays.stream(ex.getStackTrace())
-                    .map(StackTraceElement::toString)
-                    .toList();
-            err.setStacktrace(list);
+        @Override
+        public Class<? extends Throwable> exceptionType() {
+            return Throwable.class;
         }
-
-        // 记录错误日志
-        if (err.getStatus() >= 500) {
-            log.error("服务器错误 {}", err, ex);
-        } else {
-            log.debug("{}", err, ex);
-        }
-        res.status(err.getStatus()).send(Map.of("error", err));
     }
 }
