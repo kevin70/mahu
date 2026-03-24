@@ -3,6 +3,8 @@ package cool.houge.mahu.admin.mapping;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
 import cool.houge.mahu.admin.oas.vo.LoginTokenResponse;
+import cool.houge.mahu.admin.oas.vo.MeNotificationPollResponse;
+import cool.houge.mahu.admin.oas.vo.MeNotificationResponse;
 import cool.houge.mahu.admin.oas.vo.MePasswordUpdateRequest;
 import cool.houge.mahu.admin.oas.vo.MeProfileResponse;
 import cool.houge.mahu.admin.oas.vo.MeProfileUpdateRequest;
@@ -10,13 +12,18 @@ import cool.houge.mahu.admin.oas.vo.PublicDictGroupResponse;
 import cool.houge.mahu.admin.oas.vo.PublicDictResponse;
 import cool.houge.mahu.admin.oas.vo.TokenPasswordForm;
 import cool.houge.mahu.admin.oas.vo.TokenRefreshTokenForm;
+import cool.houge.mahu.admin.sys.dto.MeNotificationPollResult;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.sys.Admin;
+import cool.houge.mahu.entity.sys.AdminNotification;
 import cool.houge.mahu.util.GrantType;
 import io.helidon.service.registry.Service;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import org.mapstruct.AnnotateWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,7 +37,11 @@ import org.mapstruct.ReportingPolicy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface VoBeanMapper {
+public interface VoBeanMapper extends TopBeanMapper {
+
+    default OffsetDateTime map(Instant v) {
+        return v == null ? null : v.atOffset(ZoneOffset.UTC);
+    }
 
     @Mapping(target = "data", conditionExpression = "java(includeData)")
     PublicDictGroupResponse toPublicDictGroupResponse(DictGroup bean, boolean includeData);
@@ -54,4 +65,8 @@ public interface VoBeanMapper {
     Admin toAdmin(MeProfileUpdateRequest bean);
 
     MeProfileResponse toMeProfileResponse(Profile bean);
+
+    MeNotificationResponse toMeNotificationResponse(AdminNotification bean);
+
+    MeNotificationPollResponse toMeNotificationPollResponse(MeNotificationPollResult result);
 }

@@ -2,8 +2,11 @@ package cool.houge.mahu.entity.sys;
 
 import io.ebean.annotation.WhenCreated;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import lombok.Getter;
@@ -21,8 +24,10 @@ public class AdminNotificationRead {
     @GeneratedValue
     private Long id;
 
-    /// 通知ID
-    private Long notificationId;
+    /// 通知
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(insertable = false, updatable = false)
+    private AdminNotification notification;
 
     /// 管理员ID
     private Integer adminId;

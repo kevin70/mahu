@@ -4,10 +4,14 @@ import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,4 +57,20 @@ public class AdminNotification {
     /// 更新时间
     @WhenModified
     private Instant updatedAt;
+
+    /// 定向接收人
+    @OneToMany(mappedBy = "notification", fetch = FetchType.LAZY)
+    private List<AdminNotificationTarget> targets;
+
+    /// 已读记录
+    @OneToMany(mappedBy = "notification", fetch = FetchType.LAZY)
+    private List<AdminNotificationRead> reads;
+
+    /// 当前上下文是否已读（非持久化字段）
+    @Transient
+    private Boolean read;
+
+    /// 当前上下文已读时间（非持久化字段）
+    @Transient
+    private Instant readAt;
 }

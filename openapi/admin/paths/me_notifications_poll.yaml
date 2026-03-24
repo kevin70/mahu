@@ -1,6 +1,6 @@
 get:
   summary: 我的通知增量轮询
-  operationId: pollMeNotification
+  operationId: getMeNotificationPoll
   tags: [h_me]
   description: |
     高频轮询增量接口，返回游标之后的变化集合。

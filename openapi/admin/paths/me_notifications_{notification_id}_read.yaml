@@ -8,7 +8,7 @@ parameters:
       format: int64
 post:
   summary: 标记我的通知为已读
-  operationId: readMeNotification
+  operationId: updateMeNotificationRead
   tags: [h_me]
   description: 幂等操作。重复提交同一通知的已读请求，仍返回 204。
   responses:

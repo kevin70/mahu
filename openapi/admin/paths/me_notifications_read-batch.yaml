@@ -1,6 +1,6 @@
 post:
   summary: 批量标记我的通知为已读
-  operationId: readBatchMeNotification
+  operationId: updateBatchMeNotificationRead
   tags: [h_me]
   description: 幂等操作。已读过的通知会被安全忽略。
   requestBody:
