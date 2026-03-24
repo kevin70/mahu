@@ -19,7 +19,13 @@ CREATE TABLE sys.delayed_tasks (
 );
 
 CREATE UNIQUE INDEX delayed_tasks_topic_idempotency_key_uidx ON sys.delayed_tasks (topic, idempotency_key);
-CREATE INDEX delayed_tasks_delay_until_idx ON sys.delayed_tasks (delay_until) WHERE (status = 11);
-CREATE INDEX delayed_tasks_lock_at_idx ON sys.delayed_tasks (lock_at) WHERE (status = 16);
+
+CREATE INDEX delayed_tasks_delay_until_idx ON sys.delayed_tasks (delay_until)
+WHERE
+  (status = 11);
+
+CREATE INDEX delayed_tasks_lock_at_idx ON sys.delayed_tasks (lock_at)
+WHERE
+  (status = 16);
 
 -- rollback drop table sys.delayed_tasks;

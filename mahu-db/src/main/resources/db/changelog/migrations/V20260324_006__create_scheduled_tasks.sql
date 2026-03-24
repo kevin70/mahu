@@ -18,6 +18,7 @@ CREATE TABLE sys.scheduled_tasks (
 );
 
 CREATE INDEX scheduled_tasks_execution_time_idx ON sys.scheduled_tasks (execution_time);
+
 CREATE INDEX scheduled_tasks_last_heartbeat_idx ON sys.scheduled_tasks (last_heartbeat);
 
 -- rollback drop table sys.scheduled_tasks;
