@@ -6,8 +6,7 @@ CREATE TABLE sys.admin_notification_targets (
   id BIGINT GENERATED ALWAYS AS IDENTITY CONSTRAINT admin_notification_targets_pk PRIMARY KEY,
   notification_id BIGINT NOT NULL,
   admin_id INTEGER NOT NULL,
-  created_at TIMESTAMPTZ,
-  CONSTRAINT admin_notification_targets_notification_id_admin_id_uidx UNIQUE (notification_id, admin_id)
+  created_at TIMESTAMPTZ
 );
 
 COMMENT ON TABLE sys.admin_notification_targets IS '管理员通知定向接收人';
@@ -19,6 +18,8 @@ COMMENT ON COLUMN sys.admin_notification_targets.notification_id IS '通知ID';
 COMMENT ON COLUMN sys.admin_notification_targets.admin_id IS '管理员ID';
 
 COMMENT ON COLUMN sys.admin_notification_targets.created_at IS '创建时间';
+
+CREATE UNIQUE INDEX admin_notification_targets_notification_id_admin_id_uidx ON sys.admin_notification_targets (notification_id, admin_id);
 
 CREATE INDEX admin_notification_targets_admin_id_idx ON sys.admin_notification_targets (admin_id);
 

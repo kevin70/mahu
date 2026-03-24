@@ -1,0 +1,22 @@
+type: object
+required:
+  - next_cursor
+  - has_more
+  - unread_count
+  - items
+properties:
+  next_cursor:
+    type: string
+    description: 下一次增量轮询使用的游标
+  has_more:
+    type: boolean
+    description: 是否还有更多数据
+  unread_count:
+    type: integer
+    format: int32
+    description: 当前未读总数
+  items:
+    type: array
+    description: 增量通知列表
+    items:
+      $ref: "./MeNotificationResponse.yaml"

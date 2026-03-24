@@ -88,6 +88,14 @@ paths:
     $ref: "paths/me_profile.yaml"
   /me/password:
     $ref: "paths/me_password.yaml"
+  /me/notifications:
+    $ref: "paths/me_notifications.yaml"
+  /me/notifications/poll:
+    $ref: "paths/me_notifications_poll.yaml"
+  /me/notifications/{notification_id}/read:
+    $ref: "paths/me_notifications_{notification_id}_read.yaml"
+  /me/notifications/read-batch:
+    $ref: "paths/me_notifications_read-batch.yaml"
 
   /files:
     $ref: "paths/files.yaml"

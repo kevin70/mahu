@@ -1,0 +1,50 @@
+get:
+  summary: 我的通知增量轮询
+  operationId: pollMeNotification
+  tags: [h_me]
+  description: |
+    高频轮询增量接口，返回游标之后的变化集合。
+    可见性规则与 `/me/notifications` 一致：
+    - `status = 22`
+    - `(expire_at IS NULL OR expire_at > now())`
+    - scope=2 全局，或 scope=1 命中当前管理员
+
+    游标规则：
+    - 首次请求不传 `cursor`
+    - 后续请求使用上次响应中的 `next_cursor`
+    - 服务端按 `(updated_at DESC, id DESC)` 稳定排序
+  parameters:
+    - in: query
+      name: cursor
+      description: |
+        增量游标。首次请求不传；后续请求传入上次返回的 next_cursor。
+      schema:
+        type: string
+    - in: query
+      name: limit
+      description: 单次拉取条数，默认 50，最大 200
+      schema:
+        type: integer
+        format: int32
+        default: 50
+        minimum: 1
+        maximum: 200
+    - in: query
+      name: include_read
+      description: 是否包含已读通知，默认 false
+      schema:
+        type: boolean
+        default: false
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/MeNotificationPollResponse.yaml"
+    "400":
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ErrorResponse.yaml"

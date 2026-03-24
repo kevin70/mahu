@@ -1,0 +1,56 @@
+type: object
+required:
+  - id
+  - title
+  - content
+  - scope
+  - type
+  - status
+  - payload
+  - read
+properties:
+  id:
+    type: integer
+    format: int64
+    description: 通知 ID
+  title:
+    type: string
+    description: 通知标题
+  content:
+    type: string
+    description: 通知内容
+  scope:
+    type: integer
+    format: int32
+    description: 发送范围：1定向，2全局
+  type:
+    type: integer
+    format: int32
+    description: 通知类型
+  status:
+    type: integer
+    format: int32
+    description: 状态：22生效，90过期
+  payload:
+    type: object
+    description: 扩展载荷
+    additionalProperties: true
+  expire_at:
+    type: string
+    format: date-time
+    description: 过期时间，NULL表示不过期
+  created_at:
+    type: string
+    format: date-time
+    description: 创建时间
+  updated_at:
+    type: string
+    format: date-time
+    description: 更新时间
+  read:
+    type: boolean
+    description: 当前管理员是否已读
+  read_at:
+    type: string
+    format: date-time
+    description: 已读时间

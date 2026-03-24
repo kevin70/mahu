@@ -93,9 +93,7 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
 
         PagedList<DictGroup> result = repo().findPage(query, page);
 
-        assertThat(result.getList())
-                .extracting(DictGroup::getId)
-                .isSortedAccordingTo(Comparator.reverseOrder());
+        assertThat(result.getList()).extracting(DictGroup::getId).isSortedAccordingTo(Comparator.reverseOrder());
 
         var onlyG2 = repo().findPage(DictQuery.builder().groupId("g2").build(), page);
         assertThat(onlyG2.getList()).extracting(DictGroup::getId).containsExactly("g2");

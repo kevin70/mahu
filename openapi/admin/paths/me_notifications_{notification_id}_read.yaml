@@ -1,0 +1,22 @@
+parameters:
+  - in: path
+    name: notification_id
+    required: true
+    description: 通知 ID
+    schema:
+      type: integer
+      format: int64
+post:
+  summary: 标记我的通知为已读
+  operationId: readMeNotification
+  tags: [h_me]
+  description: 幂等操作。重复提交同一通知的已读请求，仍返回 204。
+  responses:
+    "204":
+      description: OK
+    "400":
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ErrorResponse.yaml"

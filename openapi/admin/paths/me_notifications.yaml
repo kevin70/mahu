@@ -1,0 +1,35 @@
+get:
+  summary: 我的通知分页列表
+  operationId: pageMeNotification
+  tags: [h_me]
+  description: |
+    返回当前管理员可见通知：
+    - 仅状态为 `22`（生效）
+    - 且 `(expire_at IS NULL OR expire_at > now())`
+    - 全局通知（scope=2）或定向通知（scope=1 且命中目标管理员）
+
+    `read` 参数用于筛选已读/未读：
+    - `true` 仅已读
+    - `false` 仅未读
+  parameters:
+    - $ref: "../components/parameters/page_size.yaml"
+    - $ref: "../components/parameters/page.yaml"
+    - $ref: "../components/parameters/include_total.yaml"
+    - in: query
+      name: read
+      description: 是否已读，true=已读，false=未读
+      schema:
+        type: boolean
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/MeNotificationPageResponse.yaml"
+    "400":
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ErrorResponse.yaml"

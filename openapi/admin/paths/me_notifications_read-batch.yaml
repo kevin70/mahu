@@ -1,0 +1,20 @@
+post:
+  summary: 批量标记我的通知为已读
+  operationId: readBatchMeNotification
+  tags: [h_me]
+  description: 幂等操作。已读过的通知会被安全忽略。
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/MeNotificationReadBatchRequest.yaml"
+  responses:
+    "204":
+      description: OK
+    "400":
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ErrorResponse.yaml"
