@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 ;
 
--- changeset kzou227@qq.com:202508251104
+-- changeset kzou227@qq.com:20260324-011
 CREATE TABLE sys.admin_access_logs (
   id UUID NOT NULL CONSTRAINT admin_access_logs_pk PRIMARY KEY,
   created_at TIMESTAMPTZ,
@@ -16,14 +16,6 @@ CREATE TABLE sys.admin_access_logs (
   response_bytes BIGINT,
   user_agent VARCHAR(2048)
 );
-
-COMMENT ON TABLE sys.admin_access_logs IS '管理员访问记录';
-
-COMMENT ON COLUMN sys.admin_access_logs.id IS '主键';
-
-COMMENT ON COLUMN sys.admin_access_logs.created_at IS '创建时间';
-
-COMMENT ON COLUMN sys.admin_access_logs.admin_id IS '管理员 ID';
 
 CREATE INDEX admin_access_logs_admin_id_idx ON sys.admin_access_logs (admin_id);
 

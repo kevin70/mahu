@@ -1,66 +1,8 @@
 databaseChangeLog:
-  - include:
-      file: "changelog-schemas/schemas.sql"
+  - includeAll:
+      path: migrations/
       relativeToChangelogFile: true
 
-  ### 公共表
-  - include:
-      file: "changelog-tables/public.dict_groups.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/public.dicts.sql"
-      relativeToChangelogFile: true
-
-  ### 系统表
-  - include:
-      file: "changelog-tables/sys.auth_clients.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.scheduled_tasks.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.scheduled_task_logs.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.roles.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.admins.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.admin_roles.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.admin_access_logs.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.admin_auth_logs.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.admin_change_logs.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.admin_change_items.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.feature_flags.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.delayed_tasks.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.objects.sql"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog-tables/sys.id_photos.sql"
-      relativeToChangelogFile: true
-
-  ### 初始化业务数据
-  - include:
-      file: "changelog-tables/0_init_data.sql"
-      relativeToChangelogFile: true
-
-  ### 初始化 SIT 环境专用的测试数据
-  - include:
-      file: "changelog-tables/0_init_data_sit.sql"
+  - includeAll:
+      path: data/
       relativeToChangelogFile: true

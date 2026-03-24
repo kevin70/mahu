@@ -1,13 +1,14 @@
 -- liquibase formatted sql
 ;
 
--- changeset kzou227@qq.com:202508251125
+-- changeset kzou227@qq.com:20260324-002
 CREATE TABLE public.dict_groups (
   id VARCHAR(50) NOT NULL CONSTRAINT dict_groups_pk PRIMARY KEY,
   name VARCHAR(255),
   description VARCHAR(4096),
   enabled BOOLEAN,
   visibility SMALLINT,
+  preset BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ
 );
@@ -27,17 +28,10 @@ COMMENT ON COLUMN public.dict_groups.visibility IS '可见性
 - 1: 公共的
 - 2: 受限的';
 
+COMMENT ON COLUMN public.dict_groups.preset IS '是否预置';
+
 COMMENT ON COLUMN public.dict_groups.created_at IS '创建时间';
 
 COMMENT ON COLUMN public.dict_groups.updated_at IS '更新时间';
 
 -- rollback drop table public.dict_groups;
-;
-
--- changeset kzou227@qq.com:202603151000
-ALTER TABLE public.dict_groups
-ADD COLUMN preset BOOLEAN DEFAULT FALSE;
-
-COMMENT ON COLUMN public.dict_groups.preset IS '是否预置';
-
--- rollback ALTER TABLE public.dict_groups DROP COLUMN preset;

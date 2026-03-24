@@ -1,15 +1,11 @@
 -- liquibase formatted sql
 ;
 
--- changeset kzou227@qq.com:202508251103
+-- changeset kzou227@qq.com:20260324-010
 CREATE TABLE sys.admin_roles (
   admin_id INTEGER NOT NULL,
   role_id INTEGER NOT NULL
 );
-
-COMMENT ON COLUMN sys.admin_roles.admin_id IS '管理员 ID';
-
-COMMENT ON COLUMN sys.admin_roles.role_id IS '角色ID';
 
 CREATE UNIQUE INDEX admin_roles_admin_id_role_id_uidx ON sys.admin_roles (admin_id, role_id);
 

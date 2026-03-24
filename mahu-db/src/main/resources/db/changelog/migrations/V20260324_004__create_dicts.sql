@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 ;
 
--- changeset kzou227@qq.com:202508251126
+-- changeset kzou227@qq.com:20260324-004
 CREATE TABLE public.dicts (
   dc serial CONSTRAINT dicts_pk PRIMARY KEY,
   label VARCHAR(255),
