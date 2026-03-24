@@ -23,6 +23,12 @@ import lombok.Setter;
 @Table(schema = "sys", name = "admin_notifications")
 public class AdminNotification {
 
+    /// 发送范围：定向
+    public static final Integer SCOPE_DIRECTED = 1;
+
+    /// 发送范围：全局
+    public static final Integer SCOPE_GLOBAL = 2;
+
     /// 主键
     @Id
     @GeneratedValue
