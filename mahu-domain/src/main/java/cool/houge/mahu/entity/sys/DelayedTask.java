@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import cool.houge.mahu.config.Status;
 import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;
@@ -48,10 +49,10 @@ public class DelayedTask {
     private String topic;
     /// 状态
     ///
-    /// - [cool.houge.mahu.Status#PENDING]
-    /// - [cool.houge.mahu.Status#PROCESSING]
-    /// - [cool.houge.mahu.Status#COMPLETED]
-    /// - [cool.houge.mahu.Status#ARCHIVED]
+    /// - [Status#PENDING]
+    /// - [Status#PROCESSING]
+    /// - [Status#COMPLETED]
+    /// - [Status#ARCHIVED]
     private Integer status;
     /// 消息延迟到的绝对时间（精确到毫秒）
     private Instant delayUntil;

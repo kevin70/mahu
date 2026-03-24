@@ -4,8 +4,12 @@ apply plugin: "io.ebean"
 dependencies {
     annotationProcessor("io.ebean:querybean-generator")
     annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
+    annotationProcessor(project(":mahu-codegen"))
+    compileOnly("io.helidon.config:helidon-config-metadata")
 
-    api(project(":mahu-config"))
+    api(project(":mahu-base"))
+    api("io.helidon.config:helidon-config-yaml")
+    api("io.helidon.config:helidon-config-encryption")
     api("org.apache.logging.log4j:log4j-api")
     api("com.google.guava:guava")
     api("com.github.f4b6a3:ulid-creator")
@@ -17,32 +21,7 @@ dependencies {
     api("io.helidon.security:helidon-security-jwt")
     api("io.helidon.scheduling:helidon-scheduling")
 
-    implementation("io.minio:minio")
-    implementation("com.github.ben-manes.caffeine:caffeine")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
-    implementation("com.fasterxml.jackson.module:jackson-module-parameter-names")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-guava")
-
+    implementation("io.ebean:ebean-api")
     implementation("io.ebean:ebean-querybean")
-    implementation("io.ebean:ebean-postgres")
-    implementation("org.postgresql:postgresql")
-    implementation("io.ebean:ebean-jackson-mapper")
-
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.assertj:assertj-core")
-    testImplementation("org.awaitility:awaitility")
-    testImplementation("org.mockito:mockito-junit-jupiter")
-    testImplementation("org.instancio:instancio-junit")
-    testImplementation("org.instancio:instancio-guava")
-    testImplementation("org.apache.logging.log4j:log4j-core")
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-    testImplementation("io.helidon.testing:helidon-testing-junit5")
-    testImplementation(project(":mahu-db"))
-    testImplementation("org.liquibase:liquibase-core")
-    testImplementation("org.testcontainers:testcontainers-postgresql")
-    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
 }
 

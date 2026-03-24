@@ -135,6 +135,7 @@ dependencies {
 
     implementation(project(":mahu-web"))
     implementation(project(":mahu-admin:mahu-admin-infra"))
+    implementation(project(":mahu-shared"))
     implementation("io.avaje:avaje-validator-constraints")
     implementation("io.avaje:avaje-validator")
 

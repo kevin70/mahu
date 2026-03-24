@@ -44,9 +44,10 @@ dependencies {
     annotationProcessor("io.ebean:querybean-generator")
     annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
-    // 聚合后的领域层：实体 + 共享业务
+    // 领域实体与共享能力
     implementation(project(":mahu-domain"))
-    implementation(project(":mahu-config"))
+    implementation(project(":mahu-dal"))
+    implementation(project(":mahu-shared"))
     implementation("com.github.kagkarlsson:db-scheduler")
     implementation("io.ebean:ebean-core")
 

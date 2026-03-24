@@ -1,6 +1,6 @@
 package cool.houge.mahu.task.handler.impl;
 
-import cool.houge.mahu.delayed.DelayedTaskTopics;
+import cool.houge.mahu.config.DelayedTaskTopics;
 import cool.houge.mahu.repository.sys.FeatureFlagRepository;
 import cool.houge.mahu.task.handler.ClaimedDelayedTask;
 import cool.houge.mahu.task.handler.DelayedTaskCompletionResult;

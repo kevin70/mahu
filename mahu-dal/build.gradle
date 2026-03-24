@@ -1,0 +1,30 @@
+apply plugin: "java-library"
+apply plugin: "io.ebean"
+
+dependencies {
+    annotationProcessor("io.ebean:querybean-generator")
+    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
+
+    api(project(":mahu-domain"))
+    api("org.apache.logging.log4j:log4j-api")
+
+    implementation("io.ebean:ebean-querybean")
+    implementation("io.ebean:ebean-postgres")
+    implementation("org.postgresql:postgresql")
+    implementation("io.ebean:ebean-jackson-mapper")
+
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.assertj:assertj-core")
+    testImplementation("org.awaitility:awaitility")
+    testImplementation("org.mockito:mockito-junit-jupiter")
+    testImplementation("org.instancio:instancio-junit")
+    testImplementation("org.instancio:instancio-guava")
+    testImplementation("org.apache.logging.log4j:log4j-core")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
+    testImplementation("io.helidon.testing:helidon-testing-junit5")
+    testImplementation(project(":mahu-db"))
+    testImplementation("org.liquibase:liquibase-core")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+}

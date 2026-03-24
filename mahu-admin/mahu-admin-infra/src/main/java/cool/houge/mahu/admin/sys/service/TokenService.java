@@ -5,7 +5,7 @@ import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.Status;
+import cool.houge.mahu.config.Status;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;

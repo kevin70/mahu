@@ -1,6 +1,6 @@
 package cool.houge.mahu.query;
 
-import cool.houge.mahu.entity.TerminalType;
+import cool.houge.mahu.config.TerminalTypes;
 import lombok.Builder;
 import lombok.Value;
 
@@ -14,7 +14,7 @@ public class AuthClientQuery {
     /// 客户端 ID
     String clientId;
     /// 终端类型
-    TerminalType terminalType;
+    TerminalTypes terminalType;
     /// 微信应用 ID
     String wechatAppid;
 }

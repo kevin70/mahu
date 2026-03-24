@@ -9,7 +9,6 @@ import cool.houge.mahu.admin.oas.controller.HLoginService;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.service.TokenService;
-import cool.houge.mahu.util.GrantType;
 import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service;
@@ -32,14 +31,14 @@ public class LoginController implements HLoginService, WebSupport {
         var body = request.content().as(LoginTokenRequest.class);
 
         TokenPayload payload;
-        if (GrantType.PASSWORD.matches(body.getGrantType())) {
+        if (cool.houge.mahu.config.GrantTypes.PASSWORD.matches(body.getGrantType())) {
             var bean = beanMapper.toTokenPasswordForm(body);
             validate(bean);
-            payload = beanMapper.toTokenPayload(bean, GrantType.PASSWORD);
-        } else if (GrantType.REFRESH_TOKEN.matches(body.getGrantType())) {
+            payload = beanMapper.toTokenPayload(bean, cool.houge.mahu.config.GrantTypes.PASSWORD);
+        } else if (cool.houge.mahu.config.GrantTypes.REFRESH_TOKEN.matches(body.getGrantType())) {
             var bean = beanMapper.toTokenRefreshTokenForm(body);
             validate(bean);
-            payload = beanMapper.toTokenPayload(bean, GrantType.REFRESH_TOKEN);
+            payload = beanMapper.toTokenPayload(bean, cool.houge.mahu.config.GrantTypes.REFRESH_TOKEN);
         } else {
             // 未实现
             throw new BizCodeException(BizCodes.UNIMPLEMENTED, lenientFormat("不支持授权类型[%s]", body.getGrantType()));

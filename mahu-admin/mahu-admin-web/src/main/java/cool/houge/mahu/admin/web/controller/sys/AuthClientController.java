@@ -6,7 +6,7 @@ import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HAuthClientService;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
 import cool.houge.mahu.admin.sys.service.AuthClientService;
-import cool.houge.mahu.entity.TerminalType;
+import cool.houge.mahu.config.TerminalTypes;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.query.AuthClientQuery;
 import cool.houge.mahu.web.WebSupport;
@@ -55,7 +55,7 @@ public class AuthClientController implements HAuthClientService, WebSupport {
     public void pageSysAuthClient(ServerRequest request, ServerResponse response) {
         var qb = AuthClientQuery.builder();
         queryArg(request, "client_id").ifPresent(qb::clientId);
-        queryArg(request, "terminal_type").as(TerminalType::valueOf).ifPresent(qb::terminalType);
+        queryArg(request, "terminal_type").as(TerminalTypes::valueOf).ifPresent(qb::terminalType);
         queryArg(request, "wechat_appid").ifPresent(qb::wechatAppid);
 
         var plist = authClientService.findPage(qb.build(), page(request));

@@ -1,0 +1,18 @@
+apply plugin: "java-library"
+
+dependencies {
+    annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
+
+    api(project(":mahu-domain"))
+
+    implementation(project(":mahu-dal"))
+    implementation("io.minio:minio")
+    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("io.helidon.config:helidon-config")
+    implementation("io.helidon.scheduling:helidon-scheduling")
+    implementation("io.helidon.service:helidon-service-registry")
+    implementation("io.helidon.health:helidon-health-checks")
+    implementation("io.helidon.common:helidon-common")
+    implementation("io.ebean:ebean-api")
+    implementation("org.apache.logging.log4j:log4j-api")
+}

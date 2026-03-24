@@ -3,7 +3,7 @@ package cool.houge.mahu.admin.sys.service;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.delayed.DelayedTaskTopics;
+import cool.houge.mahu.config.DelayedTaskTopics;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.query.FeatureFlagQuery;

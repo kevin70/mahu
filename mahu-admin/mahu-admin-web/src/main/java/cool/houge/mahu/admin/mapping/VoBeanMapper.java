@@ -19,7 +19,6 @@ import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminNotification;
-import cool.houge.mahu.util.GrantType;
 import io.helidon.service.registry.Service;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -53,10 +52,10 @@ public interface VoBeanMapper extends TopBeanMapper {
     TokenRefreshTokenForm toTokenRefreshTokenForm(LoginTokenRequest bean);
 
     @Mapping(target = "grantType", source = "type")
-    TokenPayload toTokenPayload(TokenPasswordForm bean, GrantType type);
+    TokenPayload toTokenPayload(TokenPasswordForm bean, cool.houge.mahu.config.GrantTypes type);
 
     @Mapping(target = "grantType", source = "type")
-    TokenPayload toTokenPayload(TokenRefreshTokenForm bean, GrantType type);
+    TokenPayload toTokenPayload(TokenRefreshTokenForm bean, cool.houge.mahu.config.GrantTypes type);
 
     LoginTokenResponse toLoginTokenResponse(TokenResult bean);
 

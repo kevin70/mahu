@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.Status;
+import cool.houge.mahu.config.Status;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.event.CollectProfileEvent;

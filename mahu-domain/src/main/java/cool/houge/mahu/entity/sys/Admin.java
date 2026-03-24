@@ -1,5 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
+import cool.houge.mahu.config.Status;
 import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
@@ -53,8 +54,8 @@ public class Admin {
     private String avatar;
     /// 状态
     ///
-    /// - [cool.houge.mahu.Status#ACTIVE]
-    /// - [cool.houge.mahu.Status#DISABLED]
+    /// - [Status#ACTIVE]
+    /// - [Status#DISABLED]
     private Integer status;
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
