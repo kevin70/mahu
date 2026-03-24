@@ -69,7 +69,7 @@ public abstract class PostgresLiquibaseTestBase {
 
     private static void initDs() {
         var ds = new PGSimpleDataSource();
-        ds.setDatabaseName("mahu_test");
+        ds.setDatabaseName(PG.getDatabaseName());
         ds.setUrl(PG.getJdbcUrl());
         ds.setUser(PG.getUsername());
         ds.setPassword(PG.getPassword());

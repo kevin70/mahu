@@ -12,7 +12,6 @@ import io.helidon.config.Config;
 import io.helidon.scheduling.FixedRate;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
-import java.util.Collection;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,11 +53,6 @@ class FeatureFlagCacheService {
                     }
                 })
                 .build();
-    }
-
-    /// 获取所有功能配置的不可变视图
-    Collection<ImmutableFeatureFlag> allFeatures() {
-        return featureCache.asMap().values();
     }
 
     /// 根据功能 code 获取功能开关
