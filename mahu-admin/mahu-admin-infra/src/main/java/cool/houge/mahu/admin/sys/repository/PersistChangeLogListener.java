@@ -2,7 +2,7 @@ package cool.houge.mahu.admin.sys.repository;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.f4b6a3.ulid.UlidCreator;
+import com.github.f4b6a3.ulid.UlidFactory;
 import cool.houge.mahu.entity.sys.AdminChangeItem;
 import cool.houge.mahu.entity.sys.AdminChangeLog;
 import io.ebean.Database;
@@ -11,12 +11,14 @@ import io.ebean.event.changelog.ChangeSet;
 import io.ebean.event.changelog.TxnState;
 import io.helidon.service.registry.Services;
 import java.time.Duration;
+import java.util.Optional;
 
 /// 持久化变更日志
 ///
 /// @author ZY (kzou227@qq.com)
 public class PersistChangeLogListener implements ChangeLogListener {
 
+    private static final UlidFactory ULID_FACTORY = UlidFactory.newMonotonicInstance();
     private final Cache<String, AdminChangeLog> cache =
             Caffeine.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
 
@@ -25,9 +27,11 @@ public class PersistChangeLogListener implements ChangeLogListener {
         if (changeSet.getTxnState() == TxnState.IN_PROGRESS) {
             var items = changeSet.getChanges().stream()
                     .map(o -> new AdminChangeItem()
-                            .setId(UlidCreator.getMonotonicUlid().toString())
+                            .setId(ULID_FACTORY.create().toString())
                             .setTableName(o.getType())
-                            .setTenantId(String.valueOf(o.getTenantId()))
+                            .setTenantId(Optional.ofNullable(o.getTenantId())
+                                    .map(String::valueOf)
+                                    .orElse(null))
                             .setDataId(String.valueOf(o.getId()))
                             .setChangeType(o.getEvent().getCode())
                             .setEventTime(o.getEventTime())
@@ -36,7 +40,7 @@ public class PersistChangeLogListener implements ChangeLogListener {
                     .toList();
 
             var changeLog = new AdminChangeLog()
-                    .setId(UlidCreator.getMonotonicUlid().toString())
+                    .setId(ULID_FACTORY.create().toString())
                     .setSource(changeSet.getSource())
                     .setAdminId(Integer.parseInt(changeSet.getUserId()))
                     .setIpAddr(changeSet.getUserIpAddress())
