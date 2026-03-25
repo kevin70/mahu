@@ -73,8 +73,18 @@
 - **构建文档站点**（如需）：
 
   ```bash
-  podman run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build
+  cd docs && pnpm build
   ```
+
+## 构建/测试/格式化常用命令
+
+在项目根目录执行：
+
+- 构建：`./gradlew build`
+- 测试：`./gradlew test`
+- 单模块测试示例：`./gradlew :mahu-web:test`
+- 格式化自检：`./gradlew spotlessCheck`
+- 应用格式化：`./gradlew spotlessApply`
 
 ## 应用环境名称规范
 
