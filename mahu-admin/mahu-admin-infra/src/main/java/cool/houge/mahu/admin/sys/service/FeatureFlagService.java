@@ -6,7 +6,7 @@ import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.config.DelayedTaskTopics;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.FeatureFlag;
-import cool.houge.mahu.query.FeatureFlagQuery;
+import cool.houge.mahu.query.sys.FeatureFlagQuery;
 import cool.houge.mahu.repository.sys.FeatureFlagRepository;
 import cool.houge.mahu.shared.service.AppSharedService;
 import io.ebean.PagedList;

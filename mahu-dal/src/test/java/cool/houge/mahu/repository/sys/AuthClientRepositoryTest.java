@@ -7,7 +7,7 @@ import static org.instancio.Select.field;
 import cool.houge.mahu.config.TerminalType;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AuthClient;
-import cool.houge.mahu.query.AuthClientQuery;
+import cool.houge.mahu.query.sys.AuthClientQuery;
 import cool.houge.mahu.testing.PostgresLiquibaseTestBase;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;

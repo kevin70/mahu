@@ -1,5 +1,6 @@
 package cool.houge.mahu.repository.sys;
 
+import cool.houge.mahu.config.Status;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AdminNotification;
 import cool.houge.mahu.entity.sys.query.QAdminNotification;
@@ -50,10 +51,15 @@ public class AdminNotificationRepository extends HBeanRepository<Long, AdminNoti
     private QAdminNotification visibleQuery(int adminId, Boolean read) {
         var now = Instant.now();
         var qb = new QAdminNotification(db());
-        qb.setDistinct(true);
-        qb.status.eq(22);
+        qb.status.eq(Status.ACTIVE.getCode());
         qb.or().expireAt.isNull().expireAt.gt(now).endOr();
-        qb.or().scope.eq(2).targets.adminId.eq(adminId).endOr();
+        qb.or()
+                .scope
+                .eq(AdminNotification.SCOPE_GLOBAL)
+                .targets
+                .adminId
+                .eq(adminId)
+                .endOr();
 
         if (read != null) {
             if (read) {

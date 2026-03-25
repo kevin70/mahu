@@ -1,4 +1,4 @@
-package cool.houge.mahu.query;
+package cool.houge.mahu.query.sys;
 
 import cool.houge.mahu.config.TerminalType;
 import lombok.Builder;

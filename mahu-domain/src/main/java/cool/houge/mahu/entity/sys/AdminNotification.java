@@ -24,10 +24,9 @@ import lombok.Setter;
 public class AdminNotification {
 
     /// 发送范围：定向
-    public static final Integer SCOPE_DIRECTED = 1;
-
+    public static final int SCOPE_DIRECTED = 1;
     /// 发送范围：全局
-    public static final Integer SCOPE_GLOBAL = 2;
+    public static final int SCOPE_GLOBAL = 2;
 
     /// 主键
     @Id
@@ -47,6 +46,8 @@ public class AdminNotification {
     private Integer type;
 
     /// 状态：22生效，90过期
+    /// - [cool.houge.mahu.config.Status#ACTIVE]
+    /// - [cool.houge.mahu.config.Status#EXPIRED]
     private Integer status;
 
     /// 扩展载荷（JSON对象）

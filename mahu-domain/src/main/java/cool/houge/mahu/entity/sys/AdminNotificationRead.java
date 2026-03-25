@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys", name = "admin_notification_reads")
+@Table(
+        schema = "sys",
+        name = "admin_notification_reads",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"admin_id", "notification_id"})})
 public class AdminNotificationRead {
 
     /// 主键

@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.query.QAuthClient;
-import cool.houge.mahu.query.AuthClientQuery;
+import cool.houge.mahu.query.sys.AuthClientQuery;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
