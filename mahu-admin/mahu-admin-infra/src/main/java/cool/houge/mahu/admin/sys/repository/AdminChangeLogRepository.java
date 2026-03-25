@@ -24,8 +24,7 @@ public class AdminChangeLogRepository extends HBeanRepository<String, AdminChang
     public PagedList<AdminChangeLog> findPage(@NonNull AdminLogQuery query, Page page) {
         var qb = new QAdminChangeLog(db()).adminId.eqIfPresent(query.getAdminId());
         var createdAtRange = query.getCreatedAtRange();
-        createdAtRange.from().ifPresent(qb.createdAt::ge);
-        createdAtRange.to().ifPresent(qb.createdAt::le);
+        createdAtRange.applyFromTo(qb.createdAt::ge, qb.createdAt::le);
         qb.id.desc();
         return super.findPage(qb, page);
     }

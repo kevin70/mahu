@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Optional;
+import java.util.function.Consumer;
 import lombok.Value;
 import org.jspecify.annotations.Nullable;
 
@@ -79,6 +80,17 @@ public class DateRange {
         return Optional.ofNullable(start).map(DayStartTime::toDateTime).map(it -> it.toInstant(offset));
     }
 
+    /// 应用起始时间点（可选，包含）。
+    ///
+    /// <p>若本区间的起始边界为 null，则不会执行 consumer。
+    /// <p>若存在起始边界，则会向 consumer 传入对应的 {@link Instant}（用于查询条件的「>=」）。
+    public void applyFrom(Consumer<Instant> consumer) {
+        requireNonNull(consumer, "consumer");
+        if (start != null) {
+            consumer.accept(start.toDateTime().toInstant(systemOffset()));
+        }
+    }
+
     /// 结束时间点（可选，包含）。
     ///
     /// <p>该重载使用当前系统偏移量（可能随 DST 变化）。如需固定偏移量，请使用 {@link #to(ZoneOffset)}。
@@ -92,6 +104,34 @@ public class DateRange {
     public Optional<Instant> to(ZoneOffset offset) {
         requireNonNull(offset, "offset");
         return Optional.ofNullable(end).map(DayEndTime::toDateTime).map(it -> it.toInstant(offset));
+    }
+
+    /// 应用结束时间点（可选，包含）。
+    ///
+    /// <p>若本区间的结束边界为 null，则不会执行 consumer。
+    /// <p>若存在结束边界，则会向 consumer 传入对应的 {@link Instant}（用于查询条件的「<=」）。
+    public void applyTo(Consumer<Instant> consumer) {
+        requireNonNull(consumer, "consumer");
+        if (end != null) {
+            consumer.accept(end.toDateTime().toInstant(systemOffset()));
+        }
+    }
+
+    /// 同时应用起始和结束时间点（闭区间，均为可选，包含）。
+    ///
+    /// <p>该方法会在一次调用里计算一次 {@code systemOffset()}，并基于同一偏移量把本地日期边界映射为
+    /// {@link Instant}，从而避免 from/to 分别调用时偏移量计算不一致带来的边界差异。
+    /// <p>若起始或结束任意一端为 null，则对应 consumer 不会被执行。
+    public void applyFromTo(Consumer<Instant> fromConsumer, Consumer<Instant> toConsumer) {
+        requireNonNull(fromConsumer, "fromConsumer");
+        requireNonNull(toConsumer, "toConsumer");
+        var offset = systemOffset();
+        if (start != null) {
+            fromConsumer.accept(start.toDateTime().toInstant(offset));
+        }
+        if (end != null) {
+            toConsumer.accept(end.toDateTime().toInstant(offset));
+        }
     }
 
     private static ZoneOffset systemOffset() {

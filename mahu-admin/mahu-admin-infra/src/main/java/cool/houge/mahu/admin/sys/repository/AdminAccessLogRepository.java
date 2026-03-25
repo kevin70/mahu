@@ -25,8 +25,7 @@ public class AdminAccessLogRepository extends HBeanRepository<UUID, AdminAccessL
     public PagedList<AdminAccessLog> findPage(@NonNull AdminLogQuery query, Page page) {
         var qb = new QAdminAccessLog(db()).adminId.eqIfPresent(query.getAdminId());
         var createdAtRange = query.getCreatedAtRange();
-        createdAtRange.from().ifPresent(qb.createdAt::ge);
-        createdAtRange.to().ifPresent(qb.createdAt::le);
+        createdAtRange.applyFromTo(qb.createdAt::ge, qb.createdAt::le);
         qb.id.desc();
         return super.findPage(qb, page);
     }
