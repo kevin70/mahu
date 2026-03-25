@@ -1,4 +1,4 @@
-package cool.houge.mahu.config.annotation;
+package cool.houge.mahu.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

@@ -8,11 +8,6 @@ dependencies {
     api(project(":mahu-domain"))
     api(project(":mahu-shared"))
     implementation(project(":mahu-dal"))
-    api("com.fasterxml.jackson.core:jackson-databind")
-    api("com.fasterxml.jackson.module:jackson-module-parameter-names")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-guava")
 
     api("io.helidon.common:helidon-common-parameters")
     api("io.helidon.common:helidon-common-context")

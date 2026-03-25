@@ -6,7 +6,7 @@ import lombok.Getter;
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
-public enum GrantTypes {
+public enum GrantType {
     /// 用户名密码登录
     PASSWORD("password"),
     /// 刷新令牌
@@ -19,7 +19,7 @@ public enum GrantTypes {
 
     public final String code;
 
-    GrantTypes(String code) {
+    GrantType(String code) {
         this.code = code;
     }
 

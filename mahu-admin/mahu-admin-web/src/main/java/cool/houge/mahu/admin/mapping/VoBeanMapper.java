@@ -15,6 +15,7 @@ import cool.houge.mahu.admin.oas.vo.TokenRefreshTokenForm;
 import cool.houge.mahu.admin.sys.dto.MeNotificationPollResult;
 import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.dto.TokenResult;
+import cool.houge.mahu.config.GrantType;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.sys.Admin;
@@ -52,10 +53,10 @@ public interface VoBeanMapper extends TopBeanMapper {
     TokenRefreshTokenForm toTokenRefreshTokenForm(LoginTokenRequest bean);
 
     @Mapping(target = "grantType", source = "type")
-    TokenPayload toTokenPayload(TokenPasswordForm bean, cool.houge.mahu.config.GrantTypes type);
+    TokenPayload toTokenPayload(TokenPasswordForm bean, GrantType type);
 
     @Mapping(target = "grantType", source = "type")
-    TokenPayload toTokenPayload(TokenRefreshTokenForm bean, cool.houge.mahu.config.GrantTypes type);
+    TokenPayload toTokenPayload(TokenRefreshTokenForm bean, GrantType type);
 
     LoginTokenResponse toLoginTokenResponse(TokenResult bean);
 

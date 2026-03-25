@@ -1,6 +1,6 @@
 package cool.houge.mahu.entity.sys;
 
-import cool.houge.mahu.config.TerminalTypes;
+import cool.houge.mahu.config.TerminalType;
 import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
@@ -53,7 +53,7 @@ public class AuthClient {
     private String label;
     /// 终端类型
     @Enumerated(EnumType.STRING)
-    private TerminalTypes terminalType;
+    private TerminalType terminalType;
     /// 微信应用 ID
     private String wechatAppid;
     /// 微信应用密钥

@@ -1,5 +1,6 @@
 package cool.houge.mahu.admin.sys.dto;
 
+import cool.houge.mahu.config.GrantType;
 import lombok.Data;
 
 /// 令牌请求数据
@@ -11,7 +12,7 @@ public class TokenPayload {
     /// 客户端请求IP
     private String clientIp;
     /// 授权类型
-    private cool.houge.mahu.config.GrantTypes grantType;
+    private GrantType grantType;
     /// 客户端 ID
     private String clientId;
     /// 用户名

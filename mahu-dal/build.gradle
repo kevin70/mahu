@@ -2,7 +2,6 @@ apply plugin: "java-library"
 apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.ebean:querybean-generator")
     annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
     api(project(":mahu-domain"))

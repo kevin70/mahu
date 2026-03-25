@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.instancio.Select.field;
 
-import cool.houge.mahu.config.TerminalTypes;
+import cool.houge.mahu.config.TerminalType;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.query.AuthClientQuery;
@@ -29,7 +29,7 @@ class AuthClientRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void obtainClient_returns_entity_or_throws() {
-        var c1 = authClient("c1", TerminalTypes.BROWSER, "a1");
+        var c1 = authClient("c1", TerminalType.BROWSER, "a1");
         c1.setClientSecret("s1");
         db().save(c1);
 
@@ -39,9 +39,9 @@ class AuthClientRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findPage_filters_by_fields() {
-        var c1 = authClient("c1", TerminalTypes.BROWSER, "a1");
-        var c2 = authClient("c2", TerminalTypes.BROWSER, "a2");
-        var c3 = authClient("c3", TerminalTypes.WECHAT_XCX, "wx1");
+        var c1 = authClient("c1", TerminalType.BROWSER, "a1");
+        var c2 = authClient("c2", TerminalType.BROWSER, "a2");
+        var c3 = authClient("c3", TerminalType.WECHAT_XCX, "wx1");
         db().saveAll(List.of(c1, c2, c3));
 
         var page = Page.builder().page(1).pageSize(20).includeTotal(true).build();
@@ -52,7 +52,7 @@ class AuthClientRepositoryTest extends PostgresLiquibaseTestBase {
 
         var byTerminal = repo().findPage(
                         AuthClientQuery.builder()
-                                .terminalType(TerminalTypes.BROWSER)
+                                .terminalType(TerminalType.BROWSER)
                                 .build(),
                         page);
         assertThat(byTerminal.getList()).extracting(AuthClient::getClientId).contains("c1", "c2");
@@ -62,7 +62,7 @@ class AuthClientRepositoryTest extends PostgresLiquibaseTestBase {
         assertThat(byWechatAppid.getList()).extracting(AuthClient::getClientId).containsExactly("c3");
     }
 
-    private static AuthClient authClient(String clientId, TerminalTypes terminalType, String wechatAppid) {
+    private static AuthClient authClient(String clientId, TerminalType terminalType, String wechatAppid) {
         var c = Instancio.of(CLIENT_MODEL).create();
         c.setClientId(clientId);
         c.setClientSecret("sec_" + clientId);
