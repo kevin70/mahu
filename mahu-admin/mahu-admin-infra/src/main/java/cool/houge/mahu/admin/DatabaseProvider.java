@@ -9,7 +9,6 @@ import io.ebean.config.ContainerConfig;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.config.JsonConfig;
 import io.helidon.common.Weight;
-import io.helidon.common.Weighted;
 import io.helidon.service.registry.Service;
 import io.helidon.service.registry.Service.RunLevel;
 import io.helidon.service.registry.Service.Singleton;
@@ -19,9 +18,9 @@ import javax.sql.DataSource;
 /// 数据库
 ///
 /// @author ZY (kzou227@qq.com)
+@Weight(998)
 @Singleton
 @RunLevel(RunLevel.STARTUP)
-@Weight(Weighted.DEFAULT_WEIGHT + 999)
 class DatabaseProvider implements Supplier<Database> {
 
     final Database v;
@@ -33,6 +32,7 @@ class DatabaseProvider implements Supplier<Database> {
                 .slowQueryMillis(200)
                 .jsonInclude(JsonConfig.Include.NON_NULL)
                 .currentUserProvider(new ContextCurrentUserProvider())
+                .changeLogAsync(false)
                 .changeLogIncludeInserts(true)
                 .changeLogPrepare(changeSet -> {
                     var userContext = AuthContext.current();

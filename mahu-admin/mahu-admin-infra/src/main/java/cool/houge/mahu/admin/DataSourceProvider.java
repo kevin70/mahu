@@ -3,7 +3,6 @@ package cool.houge.mahu.admin;
 import cool.houge.mahu.config.ConfigPrefixes;
 import io.ebean.datasource.DataSourcePool;
 import io.helidon.common.Weight;
-import io.helidon.common.Weighted;
 import io.helidon.config.Config;
 import io.helidon.service.registry.Service;
 import io.helidon.service.registry.Service.RunLevel;
@@ -14,9 +13,9 @@ import javax.sql.DataSource;
 /// 数据源
 ///
 /// @author ZY (kzou227@qq.com)
+@Weight(999)
 @Singleton
 @RunLevel(RunLevel.STARTUP)
-@Weight(Weighted.DEFAULT_WEIGHT + 1000)
 class DataSourceProvider implements Supplier<DataSource> {
 
     final DataSourcePool v;
