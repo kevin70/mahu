@@ -15,7 +15,6 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.web.problem.ProblemHandler;
 import cool.houge.mahu.web.problem.ProblemSpec;
 import io.helidon.http.Status;
-import java.util.Map;
 
 /// [cool.houge.mahu.BizCodeException]
 ///
@@ -43,11 +42,6 @@ public class BizCodeExceptionHandler implements ProblemHandler {
                     default -> Status.INTERNAL_SERVER_ERROR_500;
                 };
 
-        return new ProblemSpec()
-                .setStatus(status.code())
-                .setCode(bz.code())
-                .setMessage(bz.message())
-                .setDetails(Map.of("exception", e.getClass().getName(), "exception_message",
-                    e.getMessage()));
+        return new ProblemSpec().setStatus(status.code()).setCode(bz.code()).setMessage(bz.message());
     }
 }

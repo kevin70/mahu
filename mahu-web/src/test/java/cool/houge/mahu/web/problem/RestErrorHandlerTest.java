@@ -12,8 +12,8 @@ import io.helidon.webserver.http.ServerResponse;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Answers;
+import org.mockito.ArgumentCaptor;
 
 class RestErrorHandlerTest {
 

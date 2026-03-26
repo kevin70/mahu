@@ -30,12 +30,6 @@ public class ConstraintViolationExceptionHandler implements ProblemHandler {
                 .setStatus(Status.BAD_REQUEST_400.code())
                 .setCode(INVALID_ARGUMENT.code())
                 .setMessage(INVALID_ARGUMENT.message())
-                .setDetails(Map.of(
-                        "exception",
-                        e.getClass().getName(),
-                        "exception_message",
-                        String.valueOf(e.getMessage()),
-                        "invalid_params",
-                        details.get("invalid_params")));
+                .setDetails(details);
     }
 }

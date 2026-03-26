@@ -27,19 +27,17 @@ public class HttpExceptionHandler implements ProblemHandler {
                 .setMessage(bz.message())
                 .setDetails(Map.of(
                         "exception", e.getClass().getName(),
-                        "exception_message", String.valueOf(e.getMessage()),
-                        "http_status", status));
+                        "exception_message", String.valueOf(e.getMessage())));
     }
 
     private BizCodes mapBizCode(int status) {
         return switch (status) {
-            case 400, 405, 406 -> BizCodes.INVALID_ARGUMENT;
+            case 400, 405, 406, 415, 422 -> BizCodes.INVALID_ARGUMENT;
             case 401 -> BizCodes.UNAUTHENTICATED;
             case 403 -> BizCodes.PERMISSION_DENIED;
             case 404 -> BizCodes.NOT_FOUND;
             case 409 -> BizCodes.ALREADY_EXISTS;
             case 412 -> BizCodes.FAILED_PRECONDITION;
-            case 415, 422 -> BizCodes.INVALID_ARGUMENT;
             case 429 -> BizCodes.RESOURCE_EXHAUSTED;
             case 501 -> BizCodes.UNIMPLEMENTED;
             case 503 -> BizCodes.UNAVAILABLE;
