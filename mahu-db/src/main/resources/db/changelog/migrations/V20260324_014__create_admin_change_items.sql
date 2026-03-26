@@ -3,9 +3,9 @@
 
 -- changeset kzou227@qq.com:20260324-014
 CREATE TABLE sys.admin_change_items (
-  id VARCHAR(50) NOT NULL CONSTRAINT admin_change_items_pk PRIMARY KEY,
+  id UUID NOT NULL CONSTRAINT admin_change_items_pk PRIMARY KEY,
   created_at TIMESTAMPTZ,
-  change_log_id VARCHAR(50),
+  change_log_id UUID,
   table_name VARCHAR(128),
   tenant_id VARCHAR(32),
   data_id VARCHAR(128),

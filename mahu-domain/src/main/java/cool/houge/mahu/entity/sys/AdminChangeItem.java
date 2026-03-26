@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ public class AdminChangeItem {
 
     /// 日志 ID
     @Id
-    private String id;
+    private UUID id;
     /// 创建时间
     @WhenCreated
     private Instant createdAt;

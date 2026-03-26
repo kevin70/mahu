@@ -61,7 +61,7 @@ public class PersistChangeLogListener implements ChangeLogListener {
             }
 
             changeLog = new AdminChangeLog()
-                    .setId(ULID_FACTORY.create().toString())
+                    .setId(ULID_FACTORY.create().toUuid())
                     .setSource(changeSet.getSource())
                     .setAdminId(adminId)
                     .setIpAddr(changeSet.getUserIpAddress())
@@ -73,7 +73,7 @@ public class PersistChangeLogListener implements ChangeLogListener {
         var items = changeLog.getItems();
         for (var o : changes) {
             items.add(new AdminChangeItem()
-                    .setId(ULID_FACTORY.create().toString())
+                    .setId(ULID_FACTORY.create().toUuid())
                     .setChangeLog(changeLog)
                     .setTableName(o.getType())
                     .setTenantId(o.getTenantId() == null ? null : String.valueOf(o.getTenantId()))
