@@ -21,6 +21,11 @@
       "sourceType": "github",
       "computedHash": "96f080496b55308f9e65e35789f243641e6986139a798fed81b452bac3cda34e"
     },
+    "nginx-configuration": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "computedHash": "9931a0039c76d7642a4822552c39901f5f0330055260fe4032daaadef2b9924e"
+    },
     "postgresql-optimization": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
