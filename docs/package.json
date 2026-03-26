@@ -1,6 +1,6 @@
 {
-  "name": "docus-docs",
-  "description": "Official documentation for Docus, also used as playground.",
+  "name": "mahu-docs",
+  "description": "Mahu 开发文档：面向内部开发者的项目总览、架构设计与数据库规范入口。",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
