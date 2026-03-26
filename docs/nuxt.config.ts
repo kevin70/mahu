@@ -14,6 +14,9 @@ export default defineNuxtConfig({
   fonts: {
     provider: "bunny",
   },
+  devtools: {
+    enabled: false 
+  },
   vite: {
     build: {
       sourcemap: false,

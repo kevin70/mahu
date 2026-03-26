@@ -13,8 +13,7 @@ export default defineAppConfig({
     },
   },
   socials: {
-    docus: 'https://docus.dev/',
-    nuxt: 'https://nuxt.com',
+    // 保持为空：避免模板外链误导；如需入口可替换为公司内 Git/知识库链接
   },
   github: {
     rootDir: 'docs',
@@ -22,19 +21,19 @@ export default defineAppConfig({
   assistant: {
     faqQuestions: [
       { category: '入门', items: [
-        '如何安装 Docus？',
-        '项目的结构是什么？',
-        '如何部署我的文档？',
+        '如何搭建 Mahu 本地开发环境？',
+        '各模块（mahu-web / mahu-domain / mahu-db / mahu-task 等）职责是什么？',
+        'Spotless/测试/OpenAPI 生成的常用命令有哪些？',
       ] },
-      { category: '自定义', items: [
-        '如何自定义主题？',
-        '如何添加自定义组件？',
-        '如何配置 llms.txt 生成？',
+      { category: '数据库', items: [
+        '如何为数据库变更编写 Liquibase changeSet，并提供可用的 rollback？',
+        '数据库 schema 变更应该放在哪个模块？',
+        '如何确保数据库字段与实体/查询条件的一致性？',
       ] },
       { category: 'AI 功能', items: [
-        '如何启用助手？',
-        '什么是 MCP 服务器？',
-        '如何生成 llms-full.txt 文件？',
+        '如何通过 MCP Server 将 Mahu 文档接入 Cursor/VS Code 等工具？',
+        'MCP 的访问地址是什么，如何验证连通性？',
+        'llms.txt / llms-full.txt 用于什么场景？',
       ] },
     ],
   },
@@ -43,20 +42,26 @@ export default defineAppConfig({
       links: [
         {
           icon: 'i-lucide-book-open',
-          label: 'Nuxt UI docs',
-          to: 'https://ui.nuxt.com/getting-started/installation/nuxt',
-          target: '_blank',
+          label: '本仓库文档入口（content/）',
+          to: '/getting-started',
+          target: undefined,
         },
         {
           icon: 'i-lucide-book-open',
-          label: 'Nuxt Content docs',
+          label: '数据库规范',
+          to: '/architecture/database-spec',
+          target: undefined,
+        },
+        {
+          icon: 'i-lucide-cpu',
+          label: 'MCP 接入说明',
+          to: '/ai/mcp',
+          target: undefined,
+        },
+        {
+          icon: 'i-lucide-book-open',
+          label: 'Nuxt Content 参考（外链）',
           to: 'https://content.nuxt.com/docs/getting-started/installation/',
-          target: '_blank',
-        },
-        {
-          icon: 'i-lucide-book-open',
-          label: 'Nuxt Studio docs',
-          to: 'https://nuxt.studio/introduction',
           target: '_blank',
         },
       ],

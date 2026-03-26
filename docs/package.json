@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@nuxt/ui": "^4.6.0",
-    "@nuxtjs/i18n": "^10.2.4",
     "docus": "latest",
     "nuxt": "4.3.1",
     "nuxt-studio": "^1.5.1",

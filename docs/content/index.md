@@ -81,7 +81,7 @@ Mahu 开发文档
   :::u-page-feature
   ---
   icon: i-lucide-database
-  to: /architecture/db-entity-consistency
+  to: /architecture/database-entity-consistency
   ---
   #title
   数据库与实体一致性
