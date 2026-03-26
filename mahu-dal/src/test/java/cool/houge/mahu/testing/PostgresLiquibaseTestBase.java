@@ -1,5 +1,6 @@
 package cool.houge.mahu.testing;
 
+import cool.houge.mahu.TestEncryptKeyManager;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.Transaction;
@@ -47,7 +48,8 @@ public abstract class PostgresLiquibaseTestBase {
         var dbc = new DatabaseConfig()
                 .dataSource(DS)
                 .currentUserProvider(() -> -1)
-                .shutdownHook(false);
+                .shutdownHook(false)
+                .encryptKeyManager(new TestEncryptKeyManager());
         EBEAN_DB = DatabaseFactory.create(dbc);
     }
 

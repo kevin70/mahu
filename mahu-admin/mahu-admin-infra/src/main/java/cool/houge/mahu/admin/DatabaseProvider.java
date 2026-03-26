@@ -9,6 +9,7 @@ import io.ebean.config.ContainerConfig;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.config.JsonConfig;
 import io.helidon.common.Weight;
+import io.helidon.config.Config;
 import io.helidon.service.registry.Service;
 import io.helidon.service.registry.Service.RunLevel;
 import io.helidon.service.registry.Service.Singleton;
@@ -25,11 +26,13 @@ class DatabaseProvider implements Supplier<Database> {
 
     final Database v;
 
-    DatabaseProvider(DataSource ds) {
+    DatabaseProvider(Config config, DataSource ds) {
+        var secretKey = config.get("db.encrypt.secret-key").asString().get();
         var dbc = new DatabaseConfig()
                 .containerConfig(new ContainerConfig())
                 .dataSource(ds)
                 .slowQueryMillis(200)
+                .encryptKeyManager((tableName, columnName) -> () -> secretKey)
                 .jsonInclude(JsonConfig.Include.NON_NULL)
                 .currentUserProvider(new ContextCurrentUserProvider())
                 .changeLogAsync(false)

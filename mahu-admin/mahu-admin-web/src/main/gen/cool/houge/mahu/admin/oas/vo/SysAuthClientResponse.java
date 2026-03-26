@@ -33,12 +33,6 @@ public class SysAuthClientResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("updated_at")
     private OffsetDateTime updatedAt;
     /**
-     * 客户端密钥
-     */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("client_secret")
-    private String clientSecret;
-    /**
      * 标签
      */
     
@@ -62,10 +56,4 @@ public class SysAuthClientResponse {
     
     @com.fasterxml.jackson.annotation.JsonProperty("wechat_appid")
     private String wechatAppid;
-    /**
-     * 微信应用密钥
-     */
-    
-    @com.fasterxml.jackson.annotation.JsonProperty("wechat_appsecret")
-    private String wechatAppsecret;
 }

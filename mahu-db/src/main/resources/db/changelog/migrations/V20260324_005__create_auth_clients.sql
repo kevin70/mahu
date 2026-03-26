@@ -7,12 +7,12 @@ CREATE TABLE sys.auth_clients (
   created_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ,
   deleted BOOLEAN DEFAULT FALSE,
-  client_secret VARCHAR(2048),
+  client_secret BYTEA,
   remark VARCHAR(512),
   label VARCHAR(128),
   terminal_type VARCHAR(32),
   wechat_appid VARCHAR(128),
-  wechat_appsecret VARCHAR(2048)
+  wechat_appsecret BYTEA
 );
 
 COMMENT ON TABLE sys.auth_clients IS '认证客户端';

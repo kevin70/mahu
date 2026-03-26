@@ -28,3 +28,5 @@ db:
   password: "postgres"
   min-idle: 1
   max-size: 64
+  encrypt:
+    secret-key: "U2FsdGVkX19bWgik8nz4vH2LS/q0UIpgKFIMIWlESwYP5RS1SsKcSwRE4pLNoVPtZgMG4gsL1v97lxyBJHELPC+qAXrY/7pR1ePDhfy2G0s="

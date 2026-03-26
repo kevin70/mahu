@@ -11,6 +11,10 @@ properties:
     type: string
     description: 备注
     maxLength: 512
+  client_secret:
+    type: string
+    default: 客户端密钥
+    maxLength: 2048
   terminal_type:
     $ref: "./TerminalTypeEnum.yaml"
   wechat_appid:

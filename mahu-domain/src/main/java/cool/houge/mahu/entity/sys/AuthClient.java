@@ -2,6 +2,7 @@ package cool.houge.mahu.entity.sys;
 
 import cool.houge.mahu.config.TerminalType;
 import io.ebean.annotation.ChangeLog;
+import io.ebean.annotation.Encrypted;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -9,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import lombok.Getter;
@@ -46,6 +48,8 @@ public class AuthClient {
     @SoftDelete
     private Boolean deleted;
     /// 客户端密钥
+    @Lob
+    @Encrypted(dbEncryption = false)
     private String clientSecret;
     /// 备注
     private String remark;
@@ -57,5 +61,7 @@ public class AuthClient {
     /// 微信应用 ID
     private String wechatAppid;
     /// 微信应用密钥
+    @Lob
+    @Encrypted(dbEncryption = false)
     private String wechatAppsecret;
 }

@@ -14,9 +14,6 @@ properties:
     type: string
     format: date-time
     description: 修改时间
-  client_secret:
-    type: string
-    description: 客户端密钥
   label:
     type: string
     description: 标签
@@ -28,6 +25,3 @@ properties:
   wechat_appid:
     type: string
     description: 微信应用 ID
-  wechat_appsecret:
-    type: string
-    description: 微信应用密钥

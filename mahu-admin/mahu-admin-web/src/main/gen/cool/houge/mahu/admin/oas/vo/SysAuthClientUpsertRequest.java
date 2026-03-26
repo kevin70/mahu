@@ -24,6 +24,12 @@ public class SysAuthClientUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("remark")
     private String remark;
     /**
+     * Get clientSecret
+     */
+     @Size(max=2048)
+    @com.fasterxml.jackson.annotation.JsonProperty("client_secret")
+    private String clientSecret;
+    /**
      * Get terminalType
      */
       @NotNull
