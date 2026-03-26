@@ -38,14 +38,15 @@
 |------|------|
 | `mahu-bom` | Java Platform / BOM；与 `gradle/libs.versions.toml` 一起约束版本 |
 | `mahu-base` | 基础设施与通用代码 |
-| `mahu-config` | 配置与装配 |
 | `mahu-domain` | 领域层、EBean；包结构见根 `README.md`「Java Package 规范」 |
-| `mahu-web` | 主 Web / API（Helidon SE） |
-| `mahu-admin:mahu-admin-infra` | 管理端基础设施 |
-| `mahu-admin:mahu-admin-web` | 管理端应用；OpenAPI Generator → `src/main/gen` |
-| `mahu-task` | 独立任务应用（EBean、OpenAPI、`jib` 等） |
-| `mahu-db` | Liquibase：`src/main/resources/db/changelog`，入口 `changelog-root.yaml` |
 | `mahu-codegen` | 代码生成相关 |
+| `mahu-db` | Liquibase：`src/main/resources/db/changelog`，入口 `changelog-root.yaml` |
+| `mahu-dal` | 数据访问层（Repository 等） |
+| `mahu-shared` | 跨应用共享的领域/应用服务 |
+| `mahu-web` | 工具型 Web 能力（Helidon WebServer 相关封装/基础能力） |
+| `mahu-admin:mahu-admin-infra` | 管理端基础设施 |
+| `mahu-admin:mahu-admin-web` | 管理端 Helidon SE Web/API 应用；OpenAPI Generator → `src/main/gen` |
+| `mahu-task` | 独立定时任务服务（db-scheduler） |
 | `docs`、`openapi` | 设计文档与规范资产（如 `openapi/dist/mahu-admin-openapi.yaml`） |
 
 ---
