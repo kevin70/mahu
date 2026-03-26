@@ -10,7 +10,6 @@
     "@nuxt/ui": "^4.6.0",
     "docus": "latest",
     "nuxt": "4.3.1",
-    "nuxt-studio": "^1.5.1",
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
