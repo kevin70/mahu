@@ -5,6 +5,8 @@ import com.google.common.base.Strings;
 import io.helidon.service.registry.Services;
 import java.time.Instant;
 import java.util.UUID;
+import lombok.Builder;
+import lombok.Value;
 
 /// delayed_tasks 被 worker claim 成 PROCESSING 后，传递给 topic handler 的最小任务上下文。
 ///
@@ -16,14 +18,17 @@ import java.util.UUID;
 /// - idempotencyKey：幂等键，用于重复执行保护。
 /// - delayUntil：任务理论触发时间（UTC 时间点）。
 ///
-/// 该 record 同时提供便捷转换方法，避免在 handler 中重复解析逻辑。
-public record ClaimedDelayedTask(
-        UUID delayedTaskId,
-        String topic,
-        String referenceId,
-        String payload,
-        String idempotencyKey,
-        Instant delayUntil) {
+/// 该对象同时提供便捷转换方法，避免在 handler 中重复解析逻辑。
+@Value
+@Builder
+public class ClaimedDelayedTask {
+
+    UUID delayedTaskId;
+    String topic;
+    String referenceId;
+    String payload;
+    String idempotencyKey;
+    Instant delayUntil;
 
     private static final ObjectMapper OBJECT_MAPPER = Services.get(ObjectMapper.class);
 

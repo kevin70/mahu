@@ -28,10 +28,10 @@ public class FeatureFlagDelayedTaskHandler implements DelayedTaskHandler {
     public DelayedTaskCompletionResult handle(ClaimedDelayedTask task) {
         final int featureFlagId = task.referenceIdAsInt();
         var now = Instant.now();
-        if (ENABLE_TOPIC.equals(task.topic())) {
+        if (ENABLE_TOPIC.equals(task.getTopic())) {
             featureFlagRepository.enableIfDue(featureFlagId, now);
         }
-        if (DISABLE_TOPIC.equals(task.topic())) {
+        if (DISABLE_TOPIC.equals(task.getTopic())) {
             featureFlagRepository.disableIfDue(featureFlagId, now);
         }
         return DelayedTaskCompletionResult.COMPLETE;

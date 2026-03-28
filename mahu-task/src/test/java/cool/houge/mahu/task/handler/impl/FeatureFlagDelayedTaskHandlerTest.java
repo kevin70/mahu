@@ -71,13 +71,14 @@ class FeatureFlagDelayedTaskHandlerTest {
     }
 
     private static ClaimedDelayedTask claimedTask(String topic, String referenceId) {
-        return new ClaimedDelayedTask(
-                UUID.fromString("00000000-0000-0000-0000-000000000111"),
-                topic,
-                referenceId,
-                "{\"k\":\"v\"}",
-                "idem-1",
-                Instant.parse("2026-03-28T12:00:00Z"));
+        return ClaimedDelayedTask.builder()
+                .delayedTaskId(UUID.fromString("00000000-0000-0000-0000-000000000111"))
+                .topic(topic)
+                .referenceId(referenceId)
+                .payload("{\"k\":\"v\"}")
+                .idempotencyKey("idem-1")
+                .delayUntil(Instant.parse("2026-03-28T12:00:00Z"))
+                .build();
     }
 }
 

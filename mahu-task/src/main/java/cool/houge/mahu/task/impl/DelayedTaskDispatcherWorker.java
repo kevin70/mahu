@@ -100,24 +100,24 @@ public class DelayedTaskDispatcherWorker {
 
     private boolean dispatchOne(ClaimedDelayedTask task) {
         try {
-            var handler = resolveHandler(task.topic());
+            var handler = resolveHandler(task.getTopic());
             if (handler == null) {
                 log.warn(
                         "延时任务调度器(pending)：未找到 topic 处理器 topic={}，将归档 delayedTaskId={}",
-                        task.topic(),
-                        task.delayedTaskId());
-                delayedTaskRepository.archive(task.delayedTaskId());
+                        task.getTopic(),
+                        task.getDelayedTaskId());
+                delayedTaskRepository.archive(task.getDelayedTaskId());
                 return true;
             }
 
-            finishTask(task.delayedTaskId(), handler.handle(task));
+            finishTask(task.getDelayedTaskId(), handler.handle(task));
             return true;
         } catch (Exception e) {
             // 失败时保持 PROCESSING，由租约回收 worker 基于 attempts/maxAttempts 重试或停止
             log.error(
                     "延时任务调度器(pending)：处理器执行失败，将等待租约回收重试 delayedTaskId={}, topic={}",
-                    task.delayedTaskId(),
-                    task.topic(),
+                    task.getDelayedTaskId(),
+                    task.getTopic(),
                     e);
             return false;
         }
@@ -140,13 +140,14 @@ public class DelayedTaskDispatcherWorker {
         var candidates = delayedTaskRepository.findDuePendingSkipLocked(now, BATCH_SIZE);
         for (DelayedTask task : candidates) {
             if (claimPendingToProcessing(task, now)) {
-                claimedTasks.add(new ClaimedDelayedTask(
-                        task.getId(),
-                        task.getTopic(),
-                        task.getReferenceId(),
-                        task.getPayload(),
-                        task.getIdempotencyKey(),
-                        task.getDelayUntil()));
+                claimedTasks.add(ClaimedDelayedTask.builder()
+                        .delayedTaskId(task.getId())
+                        .topic(task.getTopic())
+                        .referenceId(task.getReferenceId())
+                        .payload(task.getPayload())
+                        .idempotencyKey(task.getIdempotencyKey())
+                        .delayUntil(task.getDelayUntil())
+                        .build());
             }
         }
         return List.copyOf(claimedTasks);

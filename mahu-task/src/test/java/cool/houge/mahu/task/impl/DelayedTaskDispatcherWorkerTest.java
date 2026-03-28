@@ -52,8 +52,8 @@ class DelayedTaskDispatcherWorkerTest {
 
         var claimedTaskCaptor = ArgumentCaptor.forClass(ClaimedDelayedTask.class);
         verify(delayedTaskHandler).handle(claimedTaskCaptor.capture());
-        assertEquals(taskId, claimedTaskCaptor.getValue().delayedTaskId());
-        assertEquals("feature-flag.enable", claimedTaskCaptor.getValue().topic());
+        assertEquals(taskId, claimedTaskCaptor.getValue().getDelayedTaskId());
+        assertEquals("feature-flag.enable", claimedTaskCaptor.getValue().getTopic());
 
         verify(delayedTaskRepository).complete(taskId);
         verify(delayedTaskRepository, never()).archive(taskId);
