@@ -25,7 +25,7 @@ def liquibaseArgs() {
             "${System.getProperty("user.home")}/houge/mahu.yaml").optional())
         .build()
 
-    def searchPath = "${projectDir}/src/main/resources/db/changelog/".toString()
+    def searchPath = "${projectDir}/src/main/resources/".toString()
     def changelogFile = "changelog-root.yaml"
     def url = config.get("db.url").asString().orElse("jdbc:postgresql://127.0.0.1:5432/mahu_dev")
     def username = config.get("db.username").asString().orElse("test")
@@ -71,7 +71,7 @@ dependencies {
 }
 
 tasks.register("syncChangelog", Sync) {
-    from layout.projectDirectory.dir("src/main/resources/db/changelog")
+    from layout.projectDirectory.dir("src/main/resources")
     into layout.projectDirectory.dir("jib/liquibase/changelog")
 }
 
