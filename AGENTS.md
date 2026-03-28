@@ -7,7 +7,7 @@
 ## 一、背景与文档入口
 
 - **仓库元数据**：`rootProject.name = "mahu"`（`settings.gradle`）。
-- **本地依赖**：PostgreSQL、RabbitMQ、MinIO 等 **podman 示例**、**环境简称**（DEV / SIT / UAT / STG / PROD）见根 `README.md`（「开发环境搭建」「应用环境名称规范」）。
+- **本地依赖**：PostgreSQL、MinIO 等 **Docker 示例**、**环境简称**（DEV / SIT / UAT / STG / PROD）见根 `README.md`（「开发环境搭建」「应用环境名称规范」）。
 - **OpenAPI 前端工具链**：Node / **pnpm** 版本与 Gradle 集成见根 `build.gradle` 的 `node {}`。
 - **查阅顺序**（答数据库、接口、环境、配置类问题）：
   1. 根 `README.md`、`changelog-root.yaml`、`docs/content/` 与相关模块代码
@@ -48,12 +48,12 @@
 **代码生成：**
 - `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见根 `README.md`）
 
-**镜像与部署（风险操作，需用户确认）：**
+- **镜像与部署（风险操作，需用户确认）：**
 - 各模块 `jib` - 构建镜像
-- `deployDev` - 部署到开发环境（含 `ssh` / `podman`，先说明风险）
+- `deployDev` - 部署到开发环境（含 `ssh` / `docker`，先说明风险）
 
 **文档：**
-- `podman run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build` - 构建文档站点（见根 `README.md`）
+- `docker run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build` - 构建文档站点（见根 `README.md`）
 
 ---
 
@@ -62,7 +62,7 @@
 - **表达**：简洁；给出路径与模块名；引用代码时格式：`起始行:结束行:路径`。
 - **信源**：代码与配置 → `docs/`、`README.md` → 通识（标注假设）。
 - **改动**：遵守模块边界；库表或 API 不兼容时写明影响与迁移建议。
-- **高风险**：`podman`、`ssh`、远程部署等 — 先说明用途与风险，由用户决定是否执行。
+- **高风险**：`docker`、`ssh`、远程部署等 — 先说明用途与风险，由用户决定是否执行。
 
 ---
 

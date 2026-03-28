@@ -101,26 +101,20 @@
 ### 启动 PostgreSQL
 
 ```
-podman run -d --name postgres -p 15432:5432 -e POSTGRES_DB=mahu-dev -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test m.daocloud.io/docker.io/postgres:17.5-alpine postgres -c fsync=off
-```
-
-### 启动 RabbitMQ
-
-```
-podman run -d --name rabbitmq -p 15672:5672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest m.daocloud.io/docker.io/rabbitmq:4.1.0-management-alpine
+docker run -d --name postgres -p 15432:5432 -e POSTGRES_DB=mahu-dev -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test postgres:17.5-alpine postgres -c fsync=off
 ```
 
 ### 启动 MinIO
 
 ```
-podman run -d --name minio -p 19000:9000 -p 19001:9001 -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin m.daocloud.io/docker.io/minio/minio:RELEASE.2025-05-24T17-08-30Z server --console-address :9001 /data
+docker run -d --name minio -p 19000:9000 -p 19001:9001 -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin minio/minio:RELEASE.2025-05-24T17-08-30Z server --console-address :9001 /data
 ```
 
 ## 申请 HTTPS 证书
 
 ```
-podman run --rm -it -v certs_volume:/acme.sh -e Ali_Key=$Ali_Key -e Ali_Secret=$Ali_Secret\
- m.daocloud.io/docker.io/neilpang/acme.sh --issue --server zerossl\
+docker run --rm -it -v certs_volume:/acme.sh -e Ali_Key=$Ali_Key -e Ali_Secret=$Ali_Secret\
+ neilpang/acme.sh --issue --server zerossl\
  --eab-kid $EAB_KID --eab-hmac-key $EAB_HMAC_KEY --dns dns_ali -d $DOMAIN -d *.$DOMAIN
 ```
 

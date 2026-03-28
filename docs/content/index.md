@@ -89,4 +89,16 @@ Mahu 开发文档
   #description
   Liquibase、实体字段与 repository 查询条件一致性。
   :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-cpu
+  to: /ai/mcp
+  ---
+  #title
+  MCP 接入 Mahu 文档
+
+  #description
+  将 Mahu 文档接入 Claude、Cursor、VS Code 等 AI 工具。
+  :::
 ::
