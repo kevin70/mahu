@@ -45,6 +45,19 @@
 - `./gradlew spotlessCheck` - 格式检查
 - `./gradlew spotlessApply` - 格式化代码
 
+**`mahu-dal` 单元测试标准（按现有测试执行）：**
+- 测试基类统一继承 `mahu-dal/src/test/java/cool/houge/mahu/testing/PostgresLiquibaseTestBase.java`，沿用 Testcontainers + Liquibase（`sit`）初始化，单测事务默认回滚。
+- 测试方法命名采用 `行为_结果` 风格（如 `findPage_filters_by_fields`、`transitionExpiredToPending_updates_only_when_lease_expired`）。
+- 测试数据构造优先使用 Instancio `Model`，忽略波动字段（如 `id`、`createdAt`、`updatedAt`、`version`），仅覆盖当前断言需要的字段。
+- 业务数值 ID 在测试中优先使用负数约定（如 `-101`、`-202`），避免与真实业务正向 ID 语义混淆。
+- 涉及时间/排序的断言使用固定时间（`Instant.parse(...)`），避免不稳定用例。
+- 仓储查询测试至少覆盖正反两条路径：命中/未命中、可更新/不可更新、可见/不可见、到期/未到期。
+- 分页类测试至少断言：过滤条件生效 + 排序规则生效；更新类测试至少断言：返回更新行数 + 落库状态一致。
+- 典型参考：
+  - `mahu-dal/src/test/java/cool/houge/mahu/repository/sys/DelayedTaskRepositoryTest.java`
+  - `mahu-dal/src/test/java/cool/houge/mahu/repository/sys/AdminNotificationRepositoryTest.java`
+  - `mahu-dal/src/test/java/cool/houge/mahu/repository/DictGroupRepositoryTest.java`
+
 **代码生成：**
 - `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见根 `README.md`）
 
