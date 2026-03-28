@@ -1,6 +1,7 @@
 parameters:
   - name: role_id
     in: path
+    required: true
     description: 角色 ID
     schema:
       type: integer

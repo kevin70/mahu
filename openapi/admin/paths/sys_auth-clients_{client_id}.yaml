@@ -1,6 +1,7 @@
 parameters:
   - name: client_id
     in: path
+    required: true
     description: 客户端 ID
     schema:
       type: string
