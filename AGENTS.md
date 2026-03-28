@@ -4,23 +4,6 @@
 
 ---
 
-## 速览（优先遵守）
-
-| 类别 | 要点 |
-|------|------|
-| 栈 | Java **25**；Helidon SE **4.4**；EBean；PostgreSQL；Liquibase（`mahu-db`） |
-| 坐标 | Gradle `group`：`cool.houge.mahu`（根 `build.gradle`） |
-| 格式 | `./gradlew spotlessApply`；CI/自检用 `spotlessCheck`；勿手工对拍 |
-| 数据库 | 仅 Liquibase；每处 `changeSet` 须有可行 **rollback**（`mahu-db/README.md`） |
-| 生成物 | 勿改 `src/main/gen`、`oas/vo`、`@Generated`、Helidon APT（如 `build/generated/**/*__ServiceDescriptor`）；改 OpenAPI / 模板 / 业务源码 |
-| Spotless | 已排除 `**/src/main/gen/**`、`**/build/generated/**`（根 `build.gradle`） |
-| 边界 | `mahu-db` 只做 Schema 与变更；业务逻辑在对应业务模块 |
-| 语言 | 默认 **简体中文**（用户指定其他语言时从其） |
-
-**Windows**：PowerShell 用 `.\gradlew.bat`；`./gradlew` 适用于 Git Bash / WSL。
-
----
-
 ## 一、背景与文档入口
 
 - **仓库元数据**：`rootProject.name = "mahu"`（`settings.gradle`）。
@@ -55,32 +38,35 @@
 
 根目录执行；引用 Task 前请在对应 `build.gradle` 或文档中核对，**勿臆造 Task 名**。
 
-- **常用**：`build`、`test`（JUnit 5 / `useJUnitPlatform`）、单模块例 `:mahu-domain:test`、`:mahu-web:build`、`spotlessApply`、`spotlessCheck`
-- **管理端代码生成**（见 `mahu-admin/mahu-admin-web/build.gradle`、根 `build.gradle`）：  
-  `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate`（写入 `mahu-admin-web/src/main/gen`；流程说明见根 `README.md`）
-- **镜像与部署**（仅用户明确要求且环境允许）：各模块 `jib`；`deployDev` 含 `ssh` / `podman`，先说明风险再执行
-- **文档站点**（根 `README.md`）：`podman run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build`
+**编译与测试：**
+- `./gradlew build` - 完整构建
+- `./gradlew test` - 全量测试
+- `./gradlew :mahu-domain:test` - 单模块测试（示例）
+- `./gradlew spotlessCheck` - 格式检查
+- `./gradlew spotlessApply` - 格式化代码
+
+**代码生成：**
+- `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见根 `README.md`）
+
+**镜像与部署（风险操作，需用户确认）：**
+- 各模块 `jib` - 构建镜像
+- `deployDev` - 部署到开发环境（含 `ssh` / `podman`，先说明风险）
+
+**文档：**
+- `podman run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build` - 构建文档站点（见根 `README.md`）
 
 ---
 
-## 四、代码约定
+## 四、Agent 协作原则
 
-- **包与分层**：`util`、`entity`、`repository`、`service`、`shared`、`controller`（命名后缀见 `README.md` 图示）。
-- **SonarLint**：根 `build.gradle`。
-- **库表与生成物**：Liquibase / 勿改生成代码 — 见速览表。
-
----
-
-## 五、Agent 协作原则
-
-- **表达**：简洁；给出路径与模块名；引用现有代码时用工作区约定格式：`起始行:结束行:路径` 代码块。
+- **表达**：简洁；给出路径与模块名；引用代码时格式：`起始行:结束行:路径`。
 - **信源**：代码与配置 → `docs/`、`README.md` → 通识（标注假设）。
 - **改动**：遵守模块边界；库表或 API 不兼容时写明影响与迁移建议。
 - **高风险**：`podman`、`ssh`、远程部署等 — 先说明用途与风险，由用户决定是否执行。
 
 ---
 
-## 六、Agent Skills
+## 五、Agent Skills
 
 仓库内：`.agents/skills/*/SKILL.md`。与上游对齐与校验见根目录 `skills-lock.json`（`computedHash`）；以锁文件与 SKILL 正文为准。
 
@@ -88,14 +74,11 @@
 
 ---
 
-## 七、Helidon Service Registry DI 约定（补充）
+## 六、Helidon Service Registry DI 约定
 
-本仓库使用 Helidon Service Registry（编译时 DI），依赖注入通过 `io.helidon.service.registry.Service` 注解完成。
+本仓库使用 Helidon Service Registry（编译时 DI），通过 `io.helidon.service.registry.Service` 注解完成依赖注入。
 
-- **作用域声明（必须）**：服务类使用 `@Service.Singleton` / `@Service.PerLookup` / `@Service.PerRequest` 之一声明作用域。
-- **生命周期回调（必须）**：
-  - 初始化逻辑放在 `@Service.PostConstruct` 方法中
-  - 清理逻辑放在 `@Service.PreDestroy` 方法中
-- **启动顺序（必须）**：启动顺序敏感时使用 `@Service.RunLevel`（如 `Service.RunLevel.STARTUP + 1` 这类写法）控制执行先后。
-- **依赖注入方式（建议）**：依赖优先通过**构造器注入**实现（常见做法：`final` 字段 + Lombok 生成构造器，或手写构造器），避免字段注入。
-- **与仓库现状的兼容说明**：仓库当前未发现 `@Service.Inject` / `@Service.Contract` / `@Inject` 的用法，因此不把它们作为强制约束；如确需使用，请先与现有 Helidon SR 用法对齐并在合入前自检影响范围。
+- **作用域**：`@Service.Singleton` / `@Service.PerLookup` / `@Service.PerRequest` 三者之一
+- **生命周期**：`@Service.PostConstruct`（初始化）、`@Service.PreDestroy`（清理）
+- **启动顺序**：`@Service.RunLevel` 控制（如 `RunLevel.STARTUP + 1`）
+- **注入方式**：优先使用构造器注入（`final` 字段 + Lombok 生成器）
