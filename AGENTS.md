@@ -55,6 +55,23 @@
 - 查询类测试至少验证“过滤条件生效 + 排序规则生效”；更新类测试至少验证“返回影响行数 + 落库状态一致”。
 - 各模块测试细节（基类、容器、框架注入方式）以模块 `README`、现有测试范式和 `build.gradle` 为准。
 
+**项目单元测试使用现状（按模块）：**
+- `mahu-dal`：以 `PostgresLiquibaseTestBase` 为统一基线，使用 Testcontainers PostgreSQL + Liquibase（`sit` 标签）初始化库表；每个用例开启事务并默认回滚，适合仓储层真实 SQL 行为验证。
+- `mahu-dal`：数据构造以 Instancio `Model` 为主（忽略 `id/createdAt/updatedAt/version` 等波动字段），断言重点为“查询过滤 + 排序”“状态迁移前置条件 + 落库结果”。
+- `mahu-shared`：以 `@Testing.Test(perMethod = true)` + `Services.set(...)` 为标准模式，在 `@BeforeEach` 绑定 mock，测试方法参数直接注入被测 Service。
+- `mahu-task`：与 `mahu-shared` 一致采用 Helidon Testing + Service Registry 注入；针对 Worker 场景优先测试 `executeAt(Instant)` 这类可控时间入口，避免不稳定的调度线程副作用。
+- `mahu-web`：当前为纯 JUnit + Mockito 轻量单测（无容器/无数据库），重点验证异常匹配、错误响应映射与回退逻辑。
+- `mahu-domain`：当前仅提供测试环境 DI 组件（`TestDataSourceProvider`、`TestDatabaseProvider`），用于为依赖模块提供测试期 DataSource/Database 覆盖。
+- `mahu-admin:mahu-admin-infra`：目前仅有测试资源（`meta-config.yaml`、`mahu-admin-test.yaml`），暂无测试类；新增测试时应优先复用 `mahu-shared/mahu-task` 的 Service Registry 模式。
+
+**推荐最佳实践（汇总）：**
+- **分层选型**：仓储层优先“真实数据库集成测试”（`mahu-dal` 模式）；服务层/Worker 优先“DI 注入 + Mockito 替身单测”（`mahu-shared` / `mahu-task` 模式）；纯工具逻辑优先“无容器轻量单测”（`mahu-web` 模式）。
+- **DI 优先**：在 Helidon 服务测试中，优先通过 `@Testing.Test(perMethod = true)` + `Services.set(...)` 绑定依赖，再通过方法参数注入被测对象；减少手工装配导致的生命周期偏差。
+- **稳定输入**：时间断言固定 `Instant.parse(...)`；业务数值 ID 建议使用负数；排序断言必须显式比较顺序，避免依赖默认顺序。
+- **边界覆盖**：状态机/调度类至少覆盖“成功迁移、前置条件不满足、异常分支、空输入分支”；查询类至少覆盖“命中/未命中”。
+- **配置可控**：测试资源通过 `meta-config.yaml` + `application-test.yaml` 管理，定时任务相关配置在测试中默认关闭（如字典/功能开关缓存刷新），避免后台调度干扰断言。
+- **可追踪性**：每个新增测试应能回答“验证了哪条业务规则”，并在方法名直接体现规则与结果，避免只有路径覆盖没有行为语义。
+
 **代码生成：**
 - `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见根 `README.md`）
 
