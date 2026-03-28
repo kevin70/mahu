@@ -11,6 +11,12 @@ import io.helidon.service.registry.Service.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/// 数据库健康检查
+///
+/// 定期检查数据库连接是否可用。
+/// 通过执行简单的 SQL 查询（`select 1`）来验证数据库连接状态。
+///
+/// @author ZY (kzou227@qq.com)
 @Singleton
 public class DatabaseHealthCheck implements HealthCheck {
 
@@ -22,16 +28,21 @@ public class DatabaseHealthCheck implements HealthCheck {
         this.database = database;
     }
 
+    /// 健康检查类型（就绪性检查）
     @Override
     public HealthCheckType type() {
         return HealthCheckType.READINESS;
     }
 
+    /// 健康检查名称
     @Override
     public String name() {
         return "db-" + database.name();
     }
 
+    /// 执行数据库健康检查
+    ///
+    /// @return 健康检查结果，若数据库可达返回 UP，否则返回 ERROR
     @Override
     public HealthCheckResponse call() {
         try {
