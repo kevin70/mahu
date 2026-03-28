@@ -32,6 +32,7 @@ class ScheduledExeLogRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findPage_filters_by_taskName_via_join() {
+        // 验证按 scheduledTask.taskName 关联过滤日志，同时覆盖 taskName 为空返回全量。
         var t1 = task("task1");
         var t2 = task("task2");
         db().saveAll(List.of(t1, t2));

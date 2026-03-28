@@ -24,6 +24,7 @@ class StoredObjectRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void updateStatus_updates_matching_rows_only() {
+        // 验证批量状态更新返回命中数量，并确保落库状态一致。
         var a = storedObject("o1", StoredObject.Type.ADMIN_AVATAR, 0);
         var b = storedObject("o2", StoredObject.Type.ADMIN_AVATAR, 0);
         db().saveAll(List.of(a, b));

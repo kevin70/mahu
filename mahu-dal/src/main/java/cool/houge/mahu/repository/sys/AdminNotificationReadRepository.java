@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /// 管理员通知已读
+///
+/// 约定：已读写入通过 `on conflict do nothing` 保证幂等。
 @Service.Singleton
 public class AdminNotificationReadRepository extends HBeanRepository<Long, AdminNotificationRead> {
 
@@ -25,11 +27,15 @@ public class AdminNotificationReadRepository extends HBeanRepository<Long, Admin
     }
 
     /// 单条标记已读（幂等）
+    ///
+    /// 若 (admin_id, notification_id) 已存在，则本次调用不报错且不重复插入。
     public void markRead(int adminId, long notificationId) {
         db().insert(newRead(adminId, notificationId, Instant.now()), INSERT_IGNORE_OPTIONS);
     }
 
     /// 批量标记已读（幂等）
+    ///
+    /// 入参为 null 或空集合时直接返回。
     public void markReadBatch(int adminId, List<Long> notificationIds) {
         if (notificationIds == null || notificationIds.isEmpty()) {
             return;
@@ -40,6 +46,8 @@ public class AdminNotificationReadRepository extends HBeanRepository<Long, Admin
     }
 
     /// 查询指定通知集合的已读时间
+    ///
+    /// @return key 为通知 ID，value 为该管理员的已读时间；未命中的通知不会出现在结果中。
     public Map<Long, Instant> findReadAtMap(int adminId, Collection<Long> notificationIds) {
         if (notificationIds == null || notificationIds.isEmpty()) {
             return Map.of();

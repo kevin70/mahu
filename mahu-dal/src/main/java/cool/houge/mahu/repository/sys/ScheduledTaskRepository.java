@@ -12,6 +12,8 @@ import io.helidon.service.registry.Service.Singleton;
 
 /// 定时任务
 ///
+/// 约定：任务唯一键为 `taskName`，并发执行窗口依赖行级锁控制。
+///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask> {
@@ -20,12 +22,16 @@ public class ScheduledTaskRepository extends HBeanRepository<Void, ScheduledTask
         super(ScheduledTask.class, db);
     }
 
-    /// 查询指定的定时任务并锁定
+    /// 查询指定任务并加行锁（FOR UPDATE）。
+    ///
+    /// 用于“读-改-写”同一任务状态时避免并发抢占。
     public ScheduledTask findForUpdate(String taskName) {
         return new QScheduledTask(db()).taskName.eq(taskName).forUpdate().findOne();
     }
 
     /// 分页查询
+    ///
+    /// `taskName` 为空时不过滤；非空时按包含关系（icontains）查询。
     public PagedList<ScheduledTask> findPage(ScheduledTaskQuery query, Page page) {
         var qb = new QScheduledTask(db());
         if (!Strings.isNullOrEmpty(query.getTaskName())) {

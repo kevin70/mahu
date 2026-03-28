@@ -17,11 +17,14 @@ public class IdPhotoRepository extends HBeanRepository<String, IdPhoto> {
         super(IdPhoto.class, db);
     }
 
-    /// 更新状态
+    /// 批量更新证件照状态
+    ///
+    /// 命中规则：`id in (:ids)` 且 `type = :type`。
     ///
     /// @param ids 资源 IDs
     /// @param type 资源类型
     /// @param newStatus 新的状态
+    /// @return 实际被更新的记录数
     public int updateStatus(List<String> ids, IdPhoto.Type type, int newStatus) {
         var qb = new QIdPhoto(db());
         return qb.id.in(ids).type.eq(type).asUpdate().set(qb.status, newStatus).update();

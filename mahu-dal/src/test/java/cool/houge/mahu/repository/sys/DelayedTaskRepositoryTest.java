@@ -109,6 +109,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void claimPending_updates_status_lock_and_attempts_only_when_due_pending() {
+        // 验证领取成功路径：仅到期的 PENDING 才能被原子迁移到 PROCESSING。
         var now = Instant.parse("2025-06-01T12:00:00Z");
         var t = task("claimable");
         t.setStatus(Status.PENDING.getCode());
@@ -128,6 +129,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void claimPending_returns_false_when_not_due() {
+        // 验证领取失败路径：未到期任务不会被错误领取。
         var now = Instant.parse("2025-06-01T12:00:00Z");
         var t = task("not-due");
         t.setStatus(Status.PENDING.getCode());
@@ -145,6 +147,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void complete_only_transitions_from_processing() {
+        // 验证终态迁移前置条件：仅 PROCESSING 可迁移到 COMPLETED。
         var processing = task("processing-complete");
         processing.setStatus(Status.PROCESSING.getCode());
         processing.setLockAt(Instant.parse("2025-06-01T11:59:00Z"));
@@ -168,6 +171,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void archive_only_transitions_from_processing() {
+        // 验证终态迁移前置条件：仅 PROCESSING 可迁移到 ARCHIVED。
         var processing = task("processing-archive");
         processing.setStatus(Status.PROCESSING.getCode());
         processing.setLockAt(Instant.parse("2025-06-01T11:59:00Z"));
@@ -191,6 +195,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void transitionExpiredToPending_updates_only_when_lease_expired() {
+        // 验证租约超时回退：只有超时的 PROCESSING 才会回到 PENDING。
         var now = Instant.parse("2025-06-01T12:00:00Z");
         var expired = task("expired-to-pending");
         expired.setStatus(Status.PROCESSING.getCode());
@@ -221,6 +226,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void transitionExpiredToFailed_updates_only_when_lease_expired() {
+        // 验证超时失败迁移：未超时任务保持 PROCESSING 不变。
         var now = Instant.parse("2025-06-01T12:00:00Z");
         var expired = task("expired-to-failed");
         expired.setStatus(Status.PROCESSING.getCode());

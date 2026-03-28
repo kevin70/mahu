@@ -15,6 +15,8 @@ import java.util.List;
 
 /// 数字字典分组
 ///
+/// 约定：分组主键为 `id`，组内字典项通过 `data` 关联。
+///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
 public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
@@ -23,7 +25,11 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
         super(DictGroup.class, db);
     }
 
-    /// 查询指定代码的数据，如果传入的 `ids` 为 `null` 则返回所有数据
+    /// 查询指定分组 ID 集合。
+    ///
+    /// 行为说明：
+    /// - `ids == null` 或空集合时，不加 ID 过滤，返回全部分组。
+    /// - 传入非空集合时，仅返回命中的分组。
     public List<DictGroup> findByIds(Collection<String> ids) {
         var qb = new QDictGroup(db());
         if (ids != null && !ids.isEmpty()) {
@@ -32,7 +38,13 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
         return qb.findList();
     }
 
-    /// 分页查询
+    /// 分页查询分组
+    ///
+    /// 过滤规则：
+    /// - `groupId` 命中过滤分组主键
+    /// - `dc` 命中过滤关联字典项编码
+    ///
+    /// 排序规则：按 `id DESC` 返回，保证分页顺序稳定。
     public PagedList<DictGroup> findPage(DictQuery query, Page page) {
         var qb = new QDictGroup(db());
         qb.id.eqIfPresent(query.getGroupId());
@@ -44,14 +56,17 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
         return findPage(qb, page);
     }
 
-    /// 查询指定字典数据
+    /// 查询单个字典项
     ///
     /// @param dc 字典数据代码
+    /// @return 命中返回对应字典项，未命中返回 null
     public Dict findDictData(Integer dc) {
         return new QDict(db()).dc.eq(dc).findOne();
     }
 
-    /// 加载所有字典数据
+    /// 查询所有分组并预加载 `data`
+    ///
+    /// 适用于一次性加载分组及其字典项，减少后续按组逐条加载。
     public List<DictGroup> findAllData() {
         return new QDictGroup(db()).fetch("data").findList();
     }

@@ -13,6 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 /// 认证客户端
 ///
+/// 主要用于登录链路按 `clientId` 读取客户端配置，以及后台按条件检索客户端。
+///
 /// @author ZY (kzou227@qq.com)
 @Service.Singleton
 public class AuthClientRepository extends HBeanRepository<String, AuthClient> {
@@ -22,7 +24,10 @@ public class AuthClientRepository extends HBeanRepository<String, AuthClient> {
     }
 
     /// 获取客户端配置
+    ///
     /// @param clientId 客户端 ID
+    /// @return 命中的客户端配置
+    /// @throws EntityNotFoundException 当 clientId 不存在时抛出
     public AuthClient obtainClient(String clientId) {
         return new QAuthClient(db())
                 .clientId
@@ -32,6 +37,11 @@ public class AuthClientRepository extends HBeanRepository<String, AuthClient> {
     }
 
     /// 分页查询
+    ///
+    /// 过滤规则：
+    /// - `clientId` / `wechatAppid` 为精确匹配
+    /// - `terminalType` 为枚举值匹配
+    /// - 条件为空时不参与过滤
     public PagedList<AuthClient> findPage(AuthClientQuery query, Page page) {
         var qb = new QAuthClient(db());
         if (!Strings.isNullOrEmpty(query.getClientId())) {

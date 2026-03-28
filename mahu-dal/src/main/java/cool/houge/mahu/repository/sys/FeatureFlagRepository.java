@@ -12,6 +12,8 @@ import io.helidon.service.registry.Service;
 import java.time.Instant;
 
 /// 功能开关
+///
+/// 提供功能开关的检索与到期自动启停（条件更新）能力。
 @Service.Singleton
 public class FeatureFlagRepository extends HBeanRepository<Integer, FeatureFlag> {
 
@@ -20,6 +22,12 @@ public class FeatureFlagRepository extends HBeanRepository<Integer, FeatureFlag>
     }
 
     /// 分页查询
+    ///
+    /// 过滤规则：
+    /// - `enabled` 精确匹配
+    /// - `name` / `code` 模糊匹配（icontains）
+    ///
+    /// 排序规则：按 `ordering DESC` 返回。
     public PagedList<FeatureFlag> findPage(FeatureFlagQuery query, Page page) {
         var qb = new QFeatureFlag(db());
 
@@ -40,6 +48,8 @@ public class FeatureFlagRepository extends HBeanRepository<Integer, FeatureFlag>
     }
 
     /// 原子开启：仅当 enable_at <= now 时才执行更新。
+    ///
+    /// @return true 表示本次成功开启；false 表示条件不满足或已被并发更新。
     public boolean enableIfDue(int id, Instant now) {
         var qb = new QFeatureFlag(db());
         return qb.id.eq(id)
@@ -57,6 +67,8 @@ public class FeatureFlagRepository extends HBeanRepository<Integer, FeatureFlag>
     }
 
     /// 原子关闭：仅当 disable_at <= now 时才执行更新。
+    ///
+    /// @return true 表示本次成功关闭；false 表示条件不满足或已被并发更新。
     public boolean disableIfDue(int id, Instant now) {
         var qb = new QFeatureFlag(db());
         return qb.id.eq(id)

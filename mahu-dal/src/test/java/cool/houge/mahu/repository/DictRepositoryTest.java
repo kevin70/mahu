@@ -30,6 +30,7 @@ class DictRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void save_and_findById() {
+        // 场景：保存字典后按主键查询；期望返回同一条记录并保留分组关联。
         var g = group("g1");
         var d = dict(-101, g, "l1", "v1");
 

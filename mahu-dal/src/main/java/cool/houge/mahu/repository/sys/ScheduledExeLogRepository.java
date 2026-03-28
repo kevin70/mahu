@@ -10,6 +10,8 @@ import io.helidon.service.registry.Service.Singleton;
 
 /// 定时任务执行日志
 ///
+/// 用于按任务名回溯调度执行记录。
+///
 /// @author ZY (kzou227@qq.com)
 @Singleton
 public class ScheduledExeLogRepository extends HBeanRepository<Long, ScheduledTaskLog> {
@@ -19,6 +21,8 @@ public class ScheduledExeLogRepository extends HBeanRepository<Long, ScheduledTa
     }
 
     /// 分页查询
+    ///
+    /// `taskName` 为空时返回全部日志；非空时仅返回指定任务的执行日志。
     public PagedList<ScheduledTaskLog> findPage(String taskName, Page page) {
         var qb = new QScheduledTaskLog(db()).scheduledTask.taskName.eqIfPresent(taskName);
         return super.findPage(qb, page);

@@ -26,6 +26,7 @@ class FeatureFlagRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findPage_filters_and_sorts_by_ordering_desc() {
+        // 覆盖 enabled/name/code 三类过滤，并验证 ordering 倒序输出。
         var wechatPay = flag(1, "pay.wechat", "微信支付", true, 1);
         var alipay = flag(2, "pay.alipay", "支付宝", true, 3);
         var beta = flag(3, "exp.beta", "Beta", false, 2);

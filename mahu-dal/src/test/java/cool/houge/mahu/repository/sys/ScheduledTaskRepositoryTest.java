@@ -24,6 +24,7 @@ class ScheduledTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findForUpdate_returns_task_or_null() {
+        // 验证行锁查询的命中与缺失两条路径。
         var t = task("task1");
         db().save(t);
 
@@ -33,6 +34,7 @@ class ScheduledTaskRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findPage_filters_by_taskName_icontains() {
+        // 验证 taskName icontains 过滤不会误包含无关任务。
         var paySync = task("pay.sync");
         var payReconcile = task("pay.reconcile");
         var userCleanup = task("user.cleanup");

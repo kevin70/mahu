@@ -24,6 +24,7 @@ class IdPhotoRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void updateStatus_updates_matching_rows_only() {
+        // 验证 updateStatus 按 id+type 命中后，返回更新行数并写入新状态。
         var a = idPhoto("p1", IdPhoto.Type.DEFAULT, 0);
         var b = idPhoto("p2", IdPhoto.Type.DEFAULT, 0);
         var c = idPhoto("p3", IdPhoto.Type.DEFAULT, 1);

@@ -36,6 +36,7 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findByIds_null_returns_all() {
+        // 验证仓储约定：ids 为空时不加过滤，返回全部分组。
         var g1 = group("g1");
         var g2 = group("g2");
         var g3 = group("g3");
@@ -83,6 +84,7 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findPage_filters_by_groupId_and_sorts_by_id_desc() {
+        // 同时覆盖按 groupId 过滤和默认 id 倒序分页行为。
         var g1 = group("g1");
         var g2 = group("g2");
         var g3 = group("g3");
@@ -101,6 +103,7 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findPage_filters_by_dc_via_data() {
+        // 验证通过关联字典项 data.dc 反查分组的查询路径。
         db().save(groupWithDicts("g1", List.of(dict(-101))));
         db().save(groupWithDicts("g2", List.of(dict(-201), dict(-202))));
 

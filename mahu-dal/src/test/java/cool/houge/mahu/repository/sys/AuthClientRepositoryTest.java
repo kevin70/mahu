@@ -29,6 +29,7 @@ class AuthClientRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void obtainClient_returns_entity_or_throws() {
+        // 覆盖存在与不存在两条路径：命中返回实体，缺失抛 EntityNotFoundException。
         var c1 = authClient("c1", TerminalType.BROWSER, "a1");
         c1.setClientSecret("s1");
         db().save(c1);
@@ -39,6 +40,7 @@ class AuthClientRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findPage_filters_by_fields() {
+        // 同一用例覆盖 clientId、terminalType、wechatAppid 三个过滤维度。
         var c1 = authClient("c1", TerminalType.BROWSER, "a1");
         var c2 = authClient("c2", TerminalType.BROWSER, "a2");
         var c3 = authClient("c3", TerminalType.WECHAT_XCX, "wx1");
