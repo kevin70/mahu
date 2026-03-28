@@ -10,7 +10,7 @@
 - **本地依赖**：PostgreSQL、RabbitMQ、MinIO 等 **podman 示例**、**环境简称**（DEV / SIT / UAT / STG / PROD）见根 `README.md`（「开发环境搭建」「应用环境名称规范」）。
 - **OpenAPI 前端工具链**：Node / **pnpm** 版本与 Gradle 集成见根 `build.gradle` 的 `node {}`。
 - **查阅顺序**（答数据库、接口、环境、配置类问题）：
-  1. 根 `README.md`、`mahu-db/README.md`、`changelog-root.yaml`、`docs/content/` 与相关模块代码
+  1. 根 `README.md`、`changelog-root.yaml`、`docs/content/` 与相关模块代码
   2. 再总结；缺信息时的推断须标明为假设
 
 ---
