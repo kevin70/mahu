@@ -38,8 +38,7 @@ public class DictGroup {
     private String name;
     /// 描述
     private String description;
-    /// 是否启动
-    ///
+    /// 是否启用
     /// - `true`：启用
     /// - `false`：禁用
     private Boolean enabled;

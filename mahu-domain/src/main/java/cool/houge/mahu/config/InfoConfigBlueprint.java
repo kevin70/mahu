@@ -4,14 +4,28 @@ import io.helidon.builder.api.Option;
 import io.helidon.builder.api.Option.AllowedValue;
 import io.helidon.builder.api.Prototype;
 
+/// 应用信息配置蓝图
+///
+/// 定义了应用的基础信息配置，包括应用名称和运行环境。
+/// 对应配置前缀：`info.*`
+///
+/// 示例配置（application.yaml）：
+/// ```yaml
+/// info:
+///   name: "Mahu Backend API"
+///   env: "dev"
+/// ```
 @Prototype.Blueprint
 @Prototype.Configured(ConfigPrefixes.INFO)
 interface InfoConfigBlueprint {
 
+    /// 应用名称（必需）
     @Option.Required
     @Option.Configured
     String name();
 
+    /// 运行环境（必需）
+    /// 定义了应用当前运行的环境，影响日志级别、缓存策略等。
     @Option.Required
     @Option.Configured
     @AllowedValue(value = "dev", description = "开发环境，开发者本地或共享编码调试环境")
