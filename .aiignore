@@ -1,0 +1,70 @@
+# AI 工具忽略配置文件 (Mahu 项目)
+# 指定 AI 代理在处理代码和文档时应忽略的文件和目录
+
+## 构建和缓存
+.gradle/
+build/
+**/build/
+.idea/
+*.class
+*.jar
+target/
+
+## 依赖
+node_modules/
+.pnpm-store/
+dist/
+out/
+
+## 生成的代码（勿修改）
+src/main/gen/
+**/build/generated/**
+**/*__ServiceDescriptor*
+
+## 本地开发文件
+.DS_Store
+*.iml
+.run/
+*.log
+*.pid
+*.seed
+
+## 敏感信息
+.env
+.env.local
+*.key
+*.pem
+credentials.json
+
+## 第三方文件（勿修改）
+node_modules/
+.next/
+
+## 静态资源（通常不需要分析）
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.svg
+**/*.webp
+**/*.woff
+**/*.woff2
+**/*.ttf
+**/*.eot
+
+## 文档生成临时文件
+docs/.nuxt/
+docs/.output/
+docs/dist/
+
+## 测试覆盖率报告
+**/coverage/
+**/jacoco/
+build/reports/
+
+## 大型数据文件
+**/*.zip
+**/*.tar.gz
+**/*.sql.gz
+**/*.dump
+
