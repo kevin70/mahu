@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
-import cool.houge.mahu.config.DelayedTaskTopics;
+import cool.houge.mahu.config.DelayedTaskTopic;
 import cool.houge.mahu.config.Status;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.repository.sys.DelayedTaskRepository;
@@ -125,7 +125,7 @@ class AppSharedServiceTest {
         var expectedAt = Instant.parse("2026-03-28T12:00:00Z");
 
         service.enqueueDelayedTask(
-                DelayedTaskTopics.FEATURE_FLAG_ENABLE,
+                DelayedTaskTopic.FEATURE_FLAG_ENABLE,
                 "ref-feature-1",
                 expectedAt,
                 "idem-1",
@@ -136,13 +136,13 @@ class AppSharedServiceTest {
         var task = taskCaptor.getValue();
 
         assertNotNull(task);
-        assertEquals(DelayedTaskTopics.FEATURE_FLAG_ENABLE.topic(), task.getTopic());
+        assertEquals(DelayedTaskTopic.FEATURE_FLAG_ENABLE.topic(), task.getTopic());
         assertEquals("ref-feature-1", task.getReferenceId());
         assertEquals(Status.PENDING.getCode(), task.getStatus());
         assertEquals(expectedAt, task.getDelayUntil());
         assertEquals(0, task.getAttempts());
-        assertEquals(DelayedTaskTopics.FEATURE_FLAG_ENABLE.maxAttempts(), task.getMaxAttempts());
-        assertEquals(DelayedTaskTopics.FEATURE_FLAG_ENABLE.leaseSeconds(), task.getLeaseSeconds());
+        assertEquals(DelayedTaskTopic.FEATURE_FLAG_ENABLE.maxAttempts(), task.getMaxAttempts());
+        assertEquals(DelayedTaskTopic.FEATURE_FLAG_ENABLE.leaseSeconds(), task.getLeaseSeconds());
         assertEquals("idem-1", task.getIdempotencyKey());
         assertEquals("{\"k\":\"v\"}", task.getPayload());
     }

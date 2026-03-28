@@ -9,7 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import cool.houge.mahu.config.DelayedTaskTopics;
+import cool.houge.mahu.config.DelayedTaskTopic;
 import cool.houge.mahu.repository.sys.FeatureFlagRepository;
 import cool.houge.mahu.task.handler.ClaimedDelayedTask;
 import cool.houge.mahu.task.handler.DelayedTaskCompletionResult;
@@ -32,14 +32,14 @@ class FeatureFlagDelayedTaskHandlerTest {
 
     @Test
     void supports_returns_true_for_enable_and_disable_topic(FeatureFlagDelayedTaskHandler handler) {
-        assertTrue(handler.supports(DelayedTaskTopics.FEATURE_FLAG_ENABLE.topic()));
-        assertTrue(handler.supports(DelayedTaskTopics.FEATURE_FLAG_DISABLE.topic()));
+        assertTrue(handler.supports(DelayedTaskTopic.FEATURE_FLAG_ENABLE.topic()));
+        assertTrue(handler.supports(DelayedTaskTopic.FEATURE_FLAG_DISABLE.topic()));
         assertFalse(handler.supports("UNKNOWN_TOPIC"));
     }
 
     @Test
     void handle_enable_topic_calls_enable_and_returns_complete(FeatureFlagDelayedTaskHandler handler) {
-        var task = claimedTask(DelayedTaskTopics.FEATURE_FLAG_ENABLE.topic(), "-101");
+        var task = claimedTask(DelayedTaskTopic.FEATURE_FLAG_ENABLE.topic(), "-101");
 
         var result = handler.handle(task);
 
@@ -50,7 +50,7 @@ class FeatureFlagDelayedTaskHandlerTest {
 
     @Test
     void handle_disable_topic_calls_disable_and_returns_complete(FeatureFlagDelayedTaskHandler handler) {
-        var task = claimedTask(DelayedTaskTopics.FEATURE_FLAG_DISABLE.topic(), "-202");
+        var task = claimedTask(DelayedTaskTopic.FEATURE_FLAG_DISABLE.topic(), "-202");
 
         var result = handler.handle(task);
 

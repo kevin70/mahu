@@ -72,6 +72,14 @@
 - **配置可控**：测试资源通过 `meta-config.yaml` + `application-test.yaml` 管理，定时任务相关配置在测试中默认关闭（如字典/功能开关缓存刷新），避免后台调度干扰断言。
 - **可追踪性**：每个新增测试应能回答“验证了哪条业务规则”，并在方法名直接体现规则与结果，避免只有路径覆盖没有行为语义。
 
+**命名规则与优化建议：**
+- **包与分层命名**：遵循根 `README.md` 的 Java Package 规范（`entity/repository/service/controller/shared/util`），其中 `Repository`、`Service`、`Controller` 后缀为必选约定。
+- **Java 标识符命名**：以 `checkstyle.xml` 为准：包名全小写点分、成员/局部变量 camelCase、方法名 camelCase（允许下划线用于测试语义）。新增规则先改 Checkstyle 再改代码。
+- **测试命名**：测试方法统一 `行为_结果`，并优先表达业务语义而非技术细节；同类场景建议用一致前缀（如 `executeAt_...`、`handle_...`）。
+- **主题与状态常量**：业务枚举值（如 `DelayedTaskTopics.topic()`）禁止硬编码字符串，生产代码与测试代码均应通过常量/枚举获取，避免命名漂移。
+- **数据库迁移命名**：延续 `VYYYYMMDD_NNN__description.sql`，`description` 统一使用小写下划线短语；新增迁移文件按时间与序号递增，避免并行分支冲突。
+- **配置键命名**：配置 key 统一 `kebab-case`（如 `feature-flag-cache-refresh`），按领域分组（`db.*`、`scheduling.*`），禁止同一层级混用 `camelCase`/`snake_case`。
+
 **代码生成：**
 - `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见根 `README.md`）
 

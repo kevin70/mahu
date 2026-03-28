@@ -3,7 +3,7 @@ package cool.houge.mahu.shared.service;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.config.Status;
-import cool.houge.mahu.config.DelayedTaskTopics;
+import cool.houge.mahu.config.DelayedTaskTopic;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import cool.houge.mahu.shared.ImmutableDict;
@@ -62,13 +62,13 @@ public class AppSharedService {
     }
 
     public void enqueueDelayedTask(
-            DelayedTaskTopics topic, @NonNull String referenceId, Instant expectedAt, String idempotencyKey) {
+            DelayedTaskTopic topic, @NonNull String referenceId, Instant expectedAt, String idempotencyKey) {
         this.enqueueDelayedTask(topic, referenceId, expectedAt, idempotencyKey, null);
     }
 
     @Transactional
     public void enqueueDelayedTask(
-            DelayedTaskTopics topic,
+            DelayedTaskTopic topic,
             @NonNull String referenceId,
             Instant expectedAt,
             String idempotencyKey,

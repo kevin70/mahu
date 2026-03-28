@@ -1,6 +1,6 @@
 package cool.houge.mahu.task.handler.impl;
 
-import cool.houge.mahu.config.DelayedTaskTopics;
+import cool.houge.mahu.config.DelayedTaskTopic;
 import cool.houge.mahu.repository.sys.FeatureFlagRepository;
 import cool.houge.mahu.task.handler.ClaimedDelayedTask;
 import cool.houge.mahu.task.handler.DelayedTaskCompletionResult;
@@ -14,8 +14,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FeatureFlagDelayedTaskHandler implements DelayedTaskHandler {
 
-    private static final String ENABLE_TOPIC = DelayedTaskTopics.FEATURE_FLAG_ENABLE.topic();
-    private static final String DISABLE_TOPIC = DelayedTaskTopics.FEATURE_FLAG_DISABLE.topic();
+    private static final String ENABLE_TOPIC = DelayedTaskTopic.FEATURE_FLAG_ENABLE.topic();
+    private static final String DISABLE_TOPIC = DelayedTaskTopic.FEATURE_FLAG_DISABLE.topic();
 
     private final FeatureFlagRepository featureFlagRepository;
 

@@ -3,7 +3,7 @@ package cool.houge.mahu.admin.sys.service;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.config.DelayedTaskTopics;
+import cool.houge.mahu.config.DelayedTaskTopic;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.query.sys.FeatureFlagQuery;
@@ -90,13 +90,13 @@ public class FeatureFlagService {
     }
 
     private void enqueueEnableDelayedTask(int featureFlagId, Instant expectedEnableAt) {
-        var topic = DelayedTaskTopics.FEATURE_FLAG_ENABLE;
+        var topic = DelayedTaskTopic.FEATURE_FLAG_ENABLE;
         var idempotencyKey = idempotencyKey(featureFlagId, expectedEnableAt);
         appSharedService.enqueueDelayedTask(topic, String.valueOf(featureFlagId), expectedEnableAt, idempotencyKey);
     }
 
     private void enqueueDisableDelayedTask(int featureFlagId, Instant expectedDisableAt) {
-        var topic = DelayedTaskTopics.FEATURE_FLAG_DISABLE;
+        var topic = DelayedTaskTopic.FEATURE_FLAG_DISABLE;
         var idempotencyKey = idempotencyKey(featureFlagId, expectedDisableAt);
         appSharedService.enqueueDelayedTask(topic, String.valueOf(featureFlagId), expectedDisableAt, idempotencyKey);
     }

@@ -6,7 +6,7 @@ package cool.houge.mahu.config;
 /// 任务主题落库值采用 {@link Enum#name()}，以保证跨模块一致（admin 写入、worker 领取）。
 ///
 /// @author ZY (kzou227@qq.com)
-public enum DelayedTaskTopics {
+public enum DelayedTaskTopic {
     /// 功能开关启用任务
     FEATURE_FLAG_ENABLE(3, 60),
     /// 功能开关禁用任务
@@ -17,7 +17,7 @@ public enum DelayedTaskTopics {
     /// 租赁锁定时间（秒）
     private final int leaseSeconds;
 
-    DelayedTaskTopics(int maxAttempts, int leaseSeconds) {
+    DelayedTaskTopic(int maxAttempts, int leaseSeconds) {
         this.maxAttempts = maxAttempts;
         this.leaseSeconds = leaseSeconds;
     }
