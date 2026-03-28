@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,23 +62,40 @@ public class DelayedTaskDispatcherWorker {
     /// `findDuePendingSkipLocked` + `claimPending` 必须在同一事务内，行锁语义才成立；
     /// claim 完成后才在事务外执行 topic handler，并由 Worker 统一完成状态更新。
     void execute() {
-        var claimedTasks = claimDuePending();
+        executeAtTransactional(Instant.now());
+    }
+
+    void executeAt(Instant now) {
+        executeAtInternal(now, this::claimDuePending);
+    }
+
+    private void executeAtTransactional(Instant now) {
+        executeAtInternal(now, this::claimDuePendingTransactional);
+    }
+
+    private void executeAtInternal(Instant now, Function<Instant, List<ClaimedDelayedTask>> claimFunction) {
+        var claimedTasks = claimFunction.apply(now);
         if (claimedTasks.isEmpty()) {
             return;
         }
 
+        var completed = processClaimedTasks(claimedTasks);
+
+        log.info(
+                "延时任务调度器(pending)：本次领取/处理 claimed={}, completed={}, at={}",
+                claimedTasks.size(),
+                completed,
+                now);
+    }
+
+    private int processClaimedTasks(List<ClaimedDelayedTask> claimedTasks) {
         var completed = 0;
         for (ClaimedDelayedTask task : claimedTasks) {
             if (dispatchOne(task)) {
                 completed++;
             }
         }
-
-        log.info(
-                "延时任务调度器(pending)：本次领取/处理 claimed={}, completed={}, at={}",
-                claimedTasks.size(),
-                completed,
-                Instant.now());
+        return completed;
     }
 
     private boolean dispatchOne(ClaimedDelayedTask task) {
@@ -113,9 +131,12 @@ public class DelayedTaskDispatcherWorker {
     }
 
     @Transactional
-    private List<ClaimedDelayedTask> claimDuePending() {
+    List<ClaimedDelayedTask> claimDuePendingTransactional(Instant now) {
+        return claimDuePending(now);
+    }
+
+    private List<ClaimedDelayedTask> claimDuePending(Instant now) {
         var claimedTasks = new ArrayList<ClaimedDelayedTask>(BATCH_SIZE);
-        var now = Instant.now();
         var candidates = delayedTaskRepository.findDuePendingSkipLocked(now, BATCH_SIZE);
         for (DelayedTask task : candidates) {
             if (claimPendingToProcessing(task, now)) {
