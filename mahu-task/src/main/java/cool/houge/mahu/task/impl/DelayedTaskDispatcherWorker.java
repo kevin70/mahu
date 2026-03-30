@@ -15,7 +15,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,30 +61,19 @@ public class DelayedTaskDispatcherWorker {
     /// `findDuePendingSkipLocked` + `claimPending` 必须在同一事务内，行锁语义才成立；
     /// claim 完成后才在事务外执行 topic handler，并由 Worker 统一完成状态更新。
     void execute() {
-        executeAtTransactional(Instant.now());
+        executeAt(Instant.now());
     }
 
+    @Transactional
     void executeAt(Instant now) {
-        executeAtInternal(now, this::claimDuePending);
-    }
-
-    private void executeAtTransactional(Instant now) {
-        executeAtInternal(now, this::claimDuePendingTransactional);
-    }
-
-    private void executeAtInternal(Instant now, Function<Instant, List<ClaimedDelayedTask>> claimFunction) {
-        var claimedTasks = claimFunction.apply(now);
+        var claimedTasks = this.claimDuePending(now);
         if (claimedTasks.isEmpty()) {
             return;
         }
 
         var completed = processClaimedTasks(claimedTasks);
 
-        log.info(
-                "延时任务调度器(pending)：本次领取/处理 claimed={}, completed={}, at={}",
-                claimedTasks.size(),
-                completed,
-                now);
+        log.info("延时任务调度器(pending)：本次领取/处理 claimed={}, completed={}, at={}", claimedTasks.size(), completed, now);
     }
 
     private int processClaimedTasks(List<ClaimedDelayedTask> claimedTasks) {
@@ -128,11 +116,6 @@ public class DelayedTaskDispatcherWorker {
             case COMPLETE -> delayedTaskRepository.complete(delayedTaskId);
             case ARCHIVE -> delayedTaskRepository.archive(delayedTaskId);
         }
-    }
-
-    @Transactional
-    List<ClaimedDelayedTask> claimDuePendingTransactional(Instant now) {
-        return claimDuePending(now);
     }
 
     private List<ClaimedDelayedTask> claimDuePending(Instant now) {

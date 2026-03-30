@@ -47,11 +47,11 @@ public class DelayedTaskExpiredProcessingWorker {
     }
 
     /// `findExpiredProcessingSkipLocked` + 状态转换必须在同一事务内，行锁语义才成立。
-    @Transactional
     void execute() {
         executeAt(Instant.now());
     }
 
+    @Transactional
     void executeAt(Instant now) {
         var candidates = delayedTaskRepository.findExpiredProcessingSkipLocked(now, BATCH_SIZE);
         var transitioned = 0;
