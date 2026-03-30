@@ -41,6 +41,7 @@
 **编译与测试：**
 - `./gradlew build` - 完整构建
 - `./gradlew test` - 全量测试
+- `./gradlew jacocoRootReport` - 聚合各模块 JaCoCo 报告（输出到 `build/reports/jacoco/root`）
 - `./gradlew :mahu-domain:test` - 单模块测试（示例）
 - `./gradlew spotlessCheck` - 格式检查
 - `./gradlew spotlessApply` - 格式化代码
@@ -81,14 +82,15 @@
 - **配置键命名**：配置 key 统一 `kebab-case`（如 `feature-flag-cache-refresh`），按领域分组（`db.*`、`scheduling.*`），禁止同一层级混用 `camelCase`/`snake_case`。
 
 **代码生成：**
+- `./gradlew openapiDepsInstall` - 安装 OpenAPI 前端依赖（`openapi/`）
 - `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见根 `README.md`）
 
 - **镜像与部署（风险操作，需用户确认）：**
-- 各模块 `jib` - 构建镜像
-- `deployDev` - 部署到开发环境（含 `ssh` / `docker`，先说明风险）
+- `./gradlew :mahu-admin:mahu-admin-web:jib` - 构建管理端镜像
+- `./gradlew :mahu-admin:mahu-admin-web:deployDev` - 部署管理端到开发环境（含 `ssh` / `docker`，先说明风险）
 
 **文档：**
-- `docker run --rm -it -v ./:/docs docker.1ms.run/kevin70/houge-mkdocs-material build` - 构建文档站点（见根 `README.md`）
+- `cd docs && pnpm build` - 构建文档站点（Nuxt/Docus）
 
 ---
 

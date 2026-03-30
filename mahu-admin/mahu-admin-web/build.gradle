@@ -57,9 +57,6 @@ jib {
         //noinspection UnnecessaryQualifiedReference
         labels = ["Build-Time": java.time.OffsetDateTime.now().toString()]
     }
-    dockerClient {
-        executable = "podman"
-    }
 }
 
 openApiGenerate {
@@ -119,10 +116,10 @@ tasks.register("deployDev") {
     doLast {
         ssh.run {
             session(remotes.dev) {
-                execute "podman pull registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
-                execute "podman stop mahu-admin || true"
-                execute "podman rm mahu-admin || true"
-                execute "podman run -d --name mahu-admin -p 9090:9090 -v /etc/houge:/etc/houge registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
+                execute "docker pull registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
+                execute "docker stop mahu-admin || true"
+                execute "docker rm mahu-admin || true"
+                execute "docker run -d --name mahu-admin -p 9090:9090 -v /etc/houge:/etc/houge registry.cn-hangzhou.aliyuncs.com/houge-cool/mahu-admin"
                 execute "echo \"mahu-admin deployment successful ~~~\""
             }
         }
