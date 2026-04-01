@@ -29,7 +29,7 @@
 * `entity` 数据实体与数据库表一一对应
 * `repository` 数据库访问对象（类名以 `Repository` 结尾）
 * `service` 业务服务对象（类名以 `Service` 结尾）
-* `shared` 共享内部公共业务逻辑
+* `shared` 共享内部公共业务逻辑（类名以 `SharedService` 结尾）
 * `controller` REST 接口对象（类名以 `Controller` 结尾）
 
 ```
@@ -143,17 +143,3 @@ docker run --rm -it -v certs_volume:/acme.sh -e Ali_Key=$Ali_Key -e Ali_Secret=$
     - 或通过顶部菜单栏：`Dashboard`→`Developer`
 3. 在 API Keys 区域，点击 Generate 创建新 API Key
 4. 复制生成的 Key（如 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx）
-
-## JVM 启动参数
-
-```
--Xms2g
--Xmx2g
--XX:MetaspaceSize=128m
--XX:MaxMetaspaceSize=256m
--XX:+UseZGC
--Xlog:gc*=info:file=/logs/gc.log:time,uptime,pid:filecount=5,filesize=100M
--XX:+HeapDumpOnOutOfMemoryError
--XX:HeapDumpPath=/logs/heapdump.hprof
--XX:+DisableExplicitGC
-```
