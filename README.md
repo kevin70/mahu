@@ -1,5 +1,9 @@
 # Mahu
 
+## 相关项目
+
+- [mahu-dashboard（后台仪表盘）](https://gitee.com/kk70/mahu-dashboard)
+
 ## 开发准备
 
 - [Java 25](https://adoptium.net/zh-CN)
