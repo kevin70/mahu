@@ -60,15 +60,7 @@
 
 ## OpenAPI 与文档常用命令
 
-在项目根目录执行：
-
-- **安装 OpenAPI 相关前端依赖**：
-
-  ```bash
-  ./gradlew openapiDepsInstall
-  ```
-
-- **生成/更新管理端 OpenAPI 服务器端代码**（包括先打包 OpenAPI，再生成 Helidon SE 代码并复制到 `mahu-admin-web/src/main/gen`）：
+- **生成/更新管理端 OpenAPI 服务器端代码**：
 
   ```bash
   ./gradlew :mahu-admin:mahu-admin-web:openApiGenerate
@@ -89,16 +81,6 @@
 - 单模块测试示例：`./gradlew :mahu-web:test`
 - 格式化自检：`./gradlew spotlessCheck`
 - 应用格式化：`./gradlew spotlessApply`
-
-## 应用环境名称规范
-
-| 简写   | 全称                         | 用途                     |
-|------|----------------------------|------------------------|
-| DEV  | Development Environment    | 开发环境，开发者本地或共享编码调试环境    |
-| SIT  | System Integration Testing | 系统集成测试环境，验证多个模块/服务间的交互 |
-| UAT  | User Acceptance Testing    | 用户验收测试环境，业务方验证功能是否符合需求 |
-| STG  | Staging Environment        | 预发布环境，功能与PROD一致，用于最终验证 |
-| PROD | Production Environment     | 生产环境，面向真实用户的线上环境       |
 
 ## 开发环境搭建
 
