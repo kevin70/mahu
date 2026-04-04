@@ -7,10 +7,10 @@
 ## 一、背景与文档入口
 
 - **仓库元数据**：`rootProject.name = "mahu"`（`settings.gradle`）。
-- **本地依赖**：PostgreSQL、MinIO 等 **Docker 示例**、**环境简称**（DEV / SIT / UAT / STG / PROD）见根 `README.md`（「开发环境搭建」「应用环境名称规范」）。
+- **本地依赖**：PostgreSQL、MinIO 等 **Docker 示例**见根 `README.md`（「开发环境搭建」）；**环境简称**（DEV / SIT / UAT / STG / PROD）见 `docs/content/2.architecture/1.metadata-dictionary.md`（「环境名称」）。
 - **OpenAPI 前端工具链**：Node / **pnpm** 版本与 Gradle 集成见根 `build.gradle` 的 `node {}`。
 - **查阅顺序**（答数据库、接口、环境、配置类问题）：
-  1. 根 `README.md`、`changelog-root.yaml`、`docs/content/` 与相关模块代码
+  1. 根 `README.md`、`mahu-db/src/main/resources/changelog-root.yaml`、`docs/content/` 与相关模块代码
   2. 再总结；缺信息时的推断须标明为假设
 
 ---
@@ -83,6 +83,7 @@
 
 **代码生成：**
 - `./gradlew openapiDepsInstall` - 安装 OpenAPI 前端依赖（`openapi/`）
+- `./gradlew :mahu-admin:mahu-admin-web:redoclyBundleOpenApi` - 仅打包管理端 OpenAPI 规范（`openapi/dist/mahu-admin-openapi.yaml`）
 - `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见根 `README.md`）
 
 - **镜像与部署（风险操作，需用户确认）：**
