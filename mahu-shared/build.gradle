@@ -13,14 +13,6 @@ dependencies {
     implementation("io.ebean:ebean-api")
     implementation("org.apache.logging.log4j:log4j-api")
 
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.assertj:assertj-core")
-    testImplementation("org.awaitility:awaitility")
-    testImplementation("org.mockito:mockito-junit-jupiter")
     testImplementation("org.instancio:instancio-junit")
     testImplementation("org.instancio:instancio-guava")
-    testImplementation("org.apache.logging.log4j:log4j-core")
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
-    testImplementation("io.helidon.testing:helidon-testing-junit5")
 }

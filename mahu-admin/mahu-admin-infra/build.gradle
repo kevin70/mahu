@@ -1,5 +1,6 @@
 apply plugin: "java-library"
 apply plugin: "io.ebean"
+apply plugin: "com.google.osdetector"
 
 dependencies {
     annotationProcessor("io.ebean:querybean-generator")

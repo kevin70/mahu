@@ -4,6 +4,14 @@ apply plugin: "org.openapi.generator"
 apply plugin: "com.google.cloud.tools.jib"
 apply plugin: "com.github.node-gradle.node"
 
+node {
+    download = true
+    version = "22.19.0"
+    distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
+    workDir = rootProject.layout.projectDirectory.dir(".gradle/")
+    pnpmWorkDir = rootProject.layout.projectDirectory.dir(".gradle/")
+}
+
 sourceSets {
     main {
         java {
