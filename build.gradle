@@ -19,6 +19,14 @@ release {
     tagTemplate = 'V${version}'
 }
 
+node {
+    download = true
+    version = "22.19.0"
+    distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
+    workDir = rootProject.layout.projectDirectory.dir(".gradle/")
+    pnpmWorkDir = rootProject.layout.projectDirectory.dir(".gradle/")
+}
+
 allprojects {
     if (it.name == "mahu-bom") {
         return;
@@ -29,8 +37,6 @@ allprojects {
     apply plugin: "project-report"
     apply plugin: "com.diffplug.spotless"
     apply plugin: "name.remal.sonarlint"
-    apply plugin: "com.google.osdetector"
-    apply plugin: "com.github.node-gradle.node"
 
     group = "cool.houge.mahu"
 
@@ -49,14 +55,6 @@ allprojects {
 
     test {
         useJUnitPlatform()
-    }
-
-    node {
-        download = true
-        version = "22.19.0"
-        distBaseUrl = "https://mirrors.huaweicloud.com/nodejs/"
-        workDir = rootProject.layout.projectDirectory.dir(".gradle/")
-        pnpmWorkDir = rootProject.layout.projectDirectory.dir(".gradle/")
     }
 
     jacoco {
