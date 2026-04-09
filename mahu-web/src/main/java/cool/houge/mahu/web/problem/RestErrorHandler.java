@@ -5,6 +5,7 @@ import cool.houge.mahu.web.problem.handler.BizCodeExceptionHandler;
 import cool.houge.mahu.web.problem.handler.ConstraintViolationExceptionHandler;
 import cool.houge.mahu.web.problem.handler.DuplicateKeyExceptionHandler;
 import cool.houge.mahu.web.problem.handler.EntityNotFoundExceptionHandler;
+import cool.houge.mahu.web.problem.handler.ForbiddenExceptionHandler;
 import cool.houge.mahu.web.problem.handler.HttpExceptionHandler;
 import cool.houge.mahu.web.problem.handler.NotFoundExceptionHandler;
 import cool.houge.mahu.web.problem.handler.UnsupportedTypeExceptionHandler;
@@ -49,6 +50,7 @@ public class RestErrorHandler implements ErrorHandler<Throwable> {
         var handlers = new ArrayList<ProblemHandler>();
         handlers.add(new BizCodeExceptionHandler());
         handlers.add(new HttpExceptionHandler());
+        addIfClassPresent(handlers, "io.helidon.http.ForbiddenException", ForbiddenExceptionHandler::new);
         addIfClassPresent(handlers, "io.helidon.http.NotFoundException", NotFoundExceptionHandler::new);
         // 可选依赖相关处理器按“异常类是否存在”动态装配，避免启动期类加载失败。
         addIfClassPresent(

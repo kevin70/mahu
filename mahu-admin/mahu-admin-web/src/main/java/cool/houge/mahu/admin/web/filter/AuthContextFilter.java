@@ -2,11 +2,11 @@ package cool.houge.mahu.admin.web.filter;
 
 import static io.helidon.http.HeaderNames.AUTHORIZATION;
 
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
+import cool.houge.mahu.shared.security.IpAuthFailureTracker;
 import cool.houge.mahu.util.Metadata;
+import io.helidon.http.ForbiddenException;
 import io.helidon.http.UnauthorizedException;
 import io.helidon.security.jwt.JwtException;
 import io.helidon.service.registry.Service;
@@ -58,7 +58,7 @@ public class AuthContextFilter implements Filter {
                     clientIp,
                     blockedUntil.get(),
                     request.path().rawPath());
-            throw new BizCodeException(BizCodes.RESOURCE_EXHAUSTED, "失败次数过多，请 30 分钟后再试");
+            throw new ForbiddenException("失败次数过多，请稍后再试");
         }
         return resolveToken(request)
                 .map(token -> verifyToken(token.value(), token.source(), clientIp))

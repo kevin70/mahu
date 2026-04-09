@@ -8,12 +8,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import cool.houge.mahu.BizCodeException;
-import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
+import cool.houge.mahu.shared.security.CaffeineIpAuthFailureTracker;
+import cool.houge.mahu.shared.security.IpAuthFailureTracker;
 import cool.houge.mahu.util.Metadata;
 import io.helidon.common.mapper.OptionalValue;
+import io.helidon.http.ForbiddenException;
 import io.helidon.http.UnauthorizedException;
 import io.helidon.security.jwt.JwtException;
 import io.helidon.webserver.http.RoutingRequest;
@@ -96,9 +97,8 @@ class AuthContextFilterTest {
             assertThrows(UnauthorizedException.class, () -> sut.resolveAuthContext(request));
         }
 
-        // 封禁命中：返回资源耗尽错误码，不再触发 token 校验。
-        var ex = assertThrows(BizCodeException.class, () -> sut.resolveAuthContext(request));
-        org.junit.jupiter.api.Assertions.assertEquals(BizCodes.RESOURCE_EXHAUSTED, ex.getCode());
+        // 封禁命中：返回禁止访问异常，不再触发 token 校验。
+        assertThrows(ForbiddenException.class, () -> sut.resolveAuthContext(request));
     }
 
     @Test

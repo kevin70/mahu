@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.web.filter;
+package cool.houge.mahu.shared.security;
 
 import java.time.Instant;
 import java.util.Optional;

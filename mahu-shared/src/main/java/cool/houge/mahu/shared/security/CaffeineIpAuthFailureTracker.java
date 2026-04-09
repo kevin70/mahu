@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.web.filter;
+package cool.houge.mahu.shared.security;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Expiry;
