@@ -4,7 +4,7 @@ info:
   title: Mahu 后台接口文档
   version: 1.0.0
   description:
-    $ref: info_description.md
+    $ref: "info_description.md"
 servers:
   - url: http://127.0.0.1:9093
     description: 本地测试服务
