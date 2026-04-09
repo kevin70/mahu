@@ -38,12 +38,21 @@ public class RestErrorHandler implements ErrorHandler<Throwable> {
     private final Map<Class<? extends Throwable>, ProblemHandler> handlerIndex;
 
     public RestErrorHandler() {
-        this(buildDefaultHandlers(), new ProblemResponseFactory());
+        this.problemResponseFactory = new ProblemResponseFactory();
+        this.handlerIndex = buildIndex(buildDefaultHandlers());
     }
 
     public RestErrorHandler(List<ProblemHandler> problemHandlers, ProblemResponseFactory problemResponseFactory) {
         this.problemResponseFactory = problemResponseFactory;
-        this.handlerIndex = buildIndex(problemHandlers);
+        this.handlerIndex = buildIndex(mergeWithDefaultHandlers(problemHandlers));
+    }
+
+    private static List<ProblemHandler> mergeWithDefaultHandlers(List<ProblemHandler> problemHandlers) {
+        var merged = new ArrayList<ProblemHandler>();
+        // 传入处理器优先，便于在不修改默认链路的前提下覆盖同类型处理。
+        merged.addAll(problemHandlers);
+        merged.addAll(buildDefaultHandlers());
+        return List.copyOf(merged);
     }
 
     private static List<ProblemHandler> buildDefaultHandlers() {
