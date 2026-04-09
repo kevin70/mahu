@@ -17,10 +17,12 @@ public class WebMetadata implements Metadata {
 
     private final ServerRequest request;
     private final String traceId;
+    private final int apiVersion;
 
-    public WebMetadata(ServerRequest request, String traceId) {
+    public WebMetadata(ServerRequest request, String traceId, int apiVersion) {
         this.request = request;
         this.traceId = traceId;
+        this.apiVersion = apiVersion;
     }
 
     @Override
@@ -45,5 +47,10 @@ public class WebMetadata implements Metadata {
     @Override
     public String traceId() {
         return traceId;
+    }
+
+    @Override
+    public int apiVersion() {
+        return apiVersion;
     }
 }

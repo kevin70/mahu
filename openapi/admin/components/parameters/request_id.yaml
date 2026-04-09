@@ -1,0 +1,6 @@
+name: X-Request-Id
+in: header
+required: false
+description: 请求追踪 ID；不传时服务端会生成并在响应头返回
+schema:
+  type: string

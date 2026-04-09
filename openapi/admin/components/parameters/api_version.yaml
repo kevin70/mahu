@@ -1,0 +1,8 @@
+name: X-API-Version
+in: header
+required: false
+description: 接口主版本号；不传默认按 1 处理
+schema:
+  type: string
+  enum: ["1"]
+  default: "1"

@@ -18,6 +18,11 @@ public interface Metadata {
     /// 追踪 ID
     String traceId();
 
+    /// 接口版本号
+    default int apiVersion() {
+        return 1;
+    }
+
     /// 返回当前上下文中的元数据
     static Metadata current() {
         return Contexts.context()

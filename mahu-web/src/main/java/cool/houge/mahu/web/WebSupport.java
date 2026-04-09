@@ -5,6 +5,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.domain.DateRange;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.domain.Sort;
+import cool.houge.mahu.util.Metadata;
 import io.avaje.validation.Validator;
 import io.helidon.common.mapper.MapperException;
 import io.helidon.common.mapper.OptionalValue;
@@ -38,6 +39,11 @@ public interface WebSupport {
     /// @param request 请求对象
     default Sort sort(ServerRequest request) {
         return Sort.of(request.query());
+    }
+
+    /// 获取接口版本号（从请求上下文中的 Metadata 读取）。
+    default int apiVersion(ServerRequest request) {
+        return request.context().get(Metadata.class).map(Metadata::apiVersion).orElse(1);
     }
 
     /// 从查询参数中获取日期区间（可选）。

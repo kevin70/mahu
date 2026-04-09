@@ -14,6 +14,11 @@ components:
       type: http
       scheme: Bearer
       description: 访问令牌
+  parameters:
+    ApiVersion:
+      $ref: "components/parameters/api_version.yaml"
+    RequestId:
+      $ref: "components/parameters/request_id.yaml"
 security:
   - AT: []
 tags:
