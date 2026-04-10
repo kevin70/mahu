@@ -3,31 +3,52 @@ format: int32
 description: |
   数据状态
 
-  - `10` `DRAFT` 草稿
-  - `11` `PENDING` 待处理
-  - `12` `SUSPENDED` 暂停
-  - `16` `PROCESSING` 进行中
-  - `20` `APPROVED` 已批准
-  - `22` `ACTIVE` 活跃
-  - `30` `PARTIAL_PAID` 部分支付
-  - `31` `PAID` 已支付
-  - `32` `PARTIAL_REFUNDED` 部分退款
-  - `33` `REFUNDED` 已退款
-  - `40` `PACKAGED` 已打包
-  - `41` `SHIPPED` 已发货
-  - `42` `IN_TRANSIT` 运输中
-  - `43` `DELIVERED` 已送达
-  - `72` `LOCKED` 锁定
-  - `74` `DISABLED` 已禁用
-  - `86` `REJECTED` 被拒绝
-  - `87` `VOIDED` 作废
-  - `88` `COMPLETED` 已完成
-  - `89` `FAILED` 失败
-  - `90` `EXPIRED` 已过期
-  - `92` `INACTIVE` 非活跃
-  - `93` `CANCELLED` 已取消
-  - `95` `DELETED` 已删除
-  - `97` `ARCHIVED` 归档
-  - `99` `TERMINATED` 已终止
-minimum: 10
-maximum: 99
+  - `100` `DRAFT` 草稿
+  - `110` `CREATED` 已创建
+  - `120` `SUBMITTED` 已提交
+  - `130` `PENDING` 待处理
+  - `170` `PENDING_CONFIRMATION` 待确认
+  - `180` `PENDING_REVIEW` 待审核
+  - `190` `PENDING_PAYMENT` 待支付
+  - `200` `ACTIVE` 活跃
+  - `210` `APPROVED` 已批准
+  - `220` `PROCESSING` 处理中
+  - `230` `CONFIRMED` 已确认
+  - `240` `ACCEPTED` 已接受
+  - `250` `ASSIGNED` 已分配
+  - `260` `AVAILABLE` 可用
+  - `270` `PUBLISHED` 已发布
+  - `280` `RUNNING` 运行中
+  - `290` `RETRYING` 重试中
+  - `300` `PAID` 已支付
+  - `310` `PARTIALLY_PAID` 部分支付
+  - `320` `REFUNDING` 退款中
+  - `330` `REFUNDED` 已退款
+  - `340` `PARTIALLY_REFUNDED` 部分退款
+  - `400` `PACKAGED` 已打包
+  - `410` `SHIPPED` 已发货
+  - `420` `IN_TRANSIT` 运输中
+  - `430` `DELIVERED` 已送达
+  - `700` `LOCKED` 锁定
+  - `710` `SUSPENDED` 暂停
+  - `720` `DISABLED` 已禁用
+  - `730` `FROZEN` 已冻结
+  - `740` `BLOCKED` 已阻断
+  - `750` `INACTIVE` 非活跃
+  - `800` `COMPLETED` 已完成
+  - `810` `ARCHIVED` 归档
+  - `820` `CLOSED` 已关闭
+  - `830` `SETTLED` 已结算
+  - `840` `FULFILLED` 已履约
+  - `900` `FAILED` 失败
+  - `910` `REJECTED` 被拒绝
+  - `920` `EXPIRED` 已过期
+  - `930` `CANCELLED` 已取消
+  - `940` `VOIDED` 作废
+  - `950` `DELETED` 已删除
+  - `960` `TERMINATED` 已终止
+  - `970` `ROLLED_BACK` 已回滚
+  - `980` `TIMED_OUT` 已超时
+  - `990` `ABORTED` 已中止
+minimum: 100
+maximum: 990

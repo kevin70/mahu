@@ -257,7 +257,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
     private static DelayedTask task(String topic) {
         var t = Instancio.of(TASK_MODEL).create();
         t.setTopic(topic);
-        t.setStatus(1);
+        t.setStatus(Status.PENDING.getCode());
         t.setDelayUntil(Instant.parse("2030-01-01T00:00:00Z"));
         t.setAttempts(0);
         t.setMaxAttempts(1);

@@ -21,9 +21,9 @@ class AdminRepositoryTest extends PostgresLiquibaseTestBase {
     @Test
     void findPage_filters_by_username_and_status() {
         db().saveAll(List.of(
-                admin("alice", Status.PENDING.getCode()),
+                admin("alice", Status.ACTIVE.getCode()),
                 admin("bob", Status.DISABLED.getCode()),
-                admin("charlie", Status.PENDING.getCode())));
+                admin("charlie", Status.ACTIVE.getCode())));
 
         var page = Page.builder().page(1).pageSize(20).includeTotal(true).build();
 
@@ -32,10 +32,10 @@ class AdminRepositoryTest extends PostgresLiquibaseTestBase {
 
         var byStatus = repo().findPage(
                         AdminQuery.builder()
-                                .statusList(List.of(Status.PENDING.getCode()))
+                                .statusList(List.of(Status.DISABLED.getCode()))
                                 .build(),
                         page);
-        assertThat(byStatus.getList()).extracting(Admin::getUsername).containsExactlyInAnyOrder("alice", "charlie");
+        assertThat(byStatus.getList()).extracting(Admin::getUsername).containsExactly("bob");
     }
 
     @Test

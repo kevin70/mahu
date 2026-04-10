@@ -3,11 +3,12 @@ format: int32
 description: |
   数据状态
 
-  - `10` `DRAFT` 草稿
-  - `11` `PENDING` 进行中
-  - `20` `APPROVED` 已批准/已通过/已授权
-  - `22` `ACTIVE` 活跃
-  - `30` `PAID` 已支付
-  - `76` `DISABLED` 已禁用
-minimum: 10
-maximum: 99
+  - `100` `DRAFT` 草稿
+  - `130` `PENDING` 待处理
+  - `200` `ACTIVE` 活跃
+  - `210` `APPROVED` 已批准/已通过/已授权
+  - `220` `PROCESSING` 处理中
+  - `300` `PAID` 已支付
+  - `720` `DISABLED` 已禁用
+minimum: 100
+maximum: 990

@@ -4,7 +4,7 @@ get:
   tags: [h_me]
   description: |
     返回当前管理员可见通知：
-    - 仅状态为 `22`（生效）
+    - 仅状态为 `200`（生效）
     - 且 `(expire_at IS NULL OR expire_at > now())`
     - 全局通知（scope=2）或定向通知（scope=1 且命中目标管理员）
 

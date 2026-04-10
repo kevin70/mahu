@@ -8,7 +8,7 @@ CREATE TABLE sys.admin_notifications (
   content TEXT NOT NULL,
   scope SMALLINT NOT NULL,
   type SMALLINT NOT NULL,
-  status SMALLINT NOT NULL DEFAULT 22,
+  status SMALLINT NOT NULL DEFAULT 200,
   payload JSONB NOT NULL DEFAULT '{}'::JSONB,
   expire_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ,
@@ -27,7 +27,7 @@ COMMENT ON COLUMN sys.admin_notifications.scope IS '发送范围：1定向，2�
 
 COMMENT ON COLUMN sys.admin_notifications.type IS '通知类型';
 
-COMMENT ON COLUMN sys.admin_notifications.status IS '状态：22生效，90过期';
+COMMENT ON COLUMN sys.admin_notifications.status IS '状态：200生效，920过期';
 
 COMMENT ON COLUMN sys.admin_notifications.payload IS '扩展载荷（JSON对象）';
 
@@ -39,7 +39,7 @@ COMMENT ON COLUMN sys.admin_notifications.updated_at IS '更新时间';
 
 CREATE INDEX admin_notifications_status_expire_at_idx ON sys.admin_notifications (status, expire_at)
 WHERE
-  (status = 22);
+  (status = 200);
 
 CREATE INDEX admin_notifications_type_created_at_idx ON sys.admin_notifications (type, created_at DESC);
 

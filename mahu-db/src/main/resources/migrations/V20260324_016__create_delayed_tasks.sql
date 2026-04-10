@@ -22,10 +22,10 @@ CREATE UNIQUE INDEX delayed_tasks_topic_idempotency_key_uidx ON sys.delayed_task
 
 CREATE INDEX delayed_tasks_delay_until_idx ON sys.delayed_tasks (delay_until)
 WHERE
-  (status = 11);
+  (status = 130);
 
 CREATE INDEX delayed_tasks_lock_at_idx ON sys.delayed_tasks (lock_at)
 WHERE
-  (status = 16);
+  (status = 220);
 
 -- rollback drop table sys.delayed_tasks;

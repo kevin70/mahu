@@ -26,7 +26,7 @@ VALUES
     '$argon2id$v=19$m=15360,t=2,p=1$RmT8NvroGRJkFVnmimIxcOM3foB5lPOFQYj5OHhyYSFJf+YByD9nAiIZXOZFiVaLb5YPve4v4lfyJyyuE6+sBg$JCSB3sXOeemq5m6JQ1Uo56+GIwlOvotRR7npwUMznns',
     '超级管理员',
     'https://www.gravatar.com/avatar',
-    22,
+    200,
     0
   );
 

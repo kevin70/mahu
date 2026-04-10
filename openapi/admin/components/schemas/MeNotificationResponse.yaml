@@ -30,7 +30,7 @@ properties:
   status:
     type: integer
     format: int32
-    description: 状态：22生效，90过期
+    description: 状态：200生效，920过期
   payload:
     type: object
     description: 扩展载荷

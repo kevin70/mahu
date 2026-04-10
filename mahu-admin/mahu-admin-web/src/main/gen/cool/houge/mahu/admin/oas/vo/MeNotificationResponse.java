@@ -46,7 +46,7 @@ public class MeNotificationResponse {
     @com.fasterxml.jackson.annotation.JsonProperty("type")
     private Integer type;
     /**
-     * 状态：22生效，90过期
+     * 状态：200生效，920过期
      */
       @NotNull
 

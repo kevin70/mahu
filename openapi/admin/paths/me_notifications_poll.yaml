@@ -5,7 +5,7 @@ get:
   description: |
     高频轮询增量接口，返回游标之后的变化集合。
     可见性规则与 `/me/notifications` 一致：
-    - `status = 22`
+    - `status = 200`
     - `(expire_at IS NULL OR expire_at > now())`
     - scope=2 全局，或 scope=1 命中当前管理员
 

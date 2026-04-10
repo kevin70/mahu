@@ -38,7 +38,7 @@ public class SysAdminUpsertRequest {
     @com.fasterxml.jackson.annotation.JsonProperty("avatar")
     private String avatar;
     /**
-     * 状态 - `11` 活跃 - `54` 已禁用 
+     * 状态 - `200` 活跃 - `720` 已禁用 
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("status")

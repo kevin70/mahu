@@ -444,7 +444,7 @@ VALUES
   (
     1100,
     '活跃',
-    '22',
+    '200',
     TRUE,
     9,
     'admin_status',
@@ -471,7 +471,7 @@ VALUES
   (
     1101,
     '禁用',
-    '74',
+    '720',
     TRUE,
     2,
     'admin_status',
@@ -498,7 +498,7 @@ VALUES
   (
     1201,
     '待执行',
-    '11',
+    '130',
     TRUE,
     1,
     'delayed_task_status',
@@ -525,7 +525,7 @@ VALUES
   (
     1202,
     '执行中',
-    '16',
+    '220',
     TRUE,
     2,
     'delayed_task_status',
@@ -552,7 +552,7 @@ VALUES
   (
     1203,
     '完成',
-    '88',
+    '800',
     TRUE,
     3,
     'delayed_task_status',
@@ -579,7 +579,7 @@ VALUES
   (
     1204,
     '归档',
-    '97',
+    '810',
     TRUE,
     4,
     'delayed_task_status',
@@ -589,6 +589,33 @@ VALUES
     'neutral'
   );
 
--- rollback delete from public.dicts where dc in (100, 101, 110, 111, 200, 201, 202, 203, 204, 205, 206, 1000, 1001, 1100, 1101, 1201, 1202, 1203, 1204);
+INSERT INTO
+  public.dicts (
+    dc,
+    label,
+    value,
+    enabled,
+    ordering,
+    group_id,
+    created_at,
+    updated_at,
+    preset,
+    color
+  )
+VALUES
+  (
+    1205,
+    '失败',
+    '900',
+    TRUE,
+    5,
+    'delayed_task_status',
+    '2026-03-23 15:31:40.000000',
+    '2026-03-23 15:36:32.391000',
+    TRUE,
+    'error'
+  );
+
+-- rollback delete from public.dicts where dc in (100, 101, 110, 111, 200, 201, 202, 203, 204, 205, 206, 1000, 1001, 1100, 1101, 1201, 1202, 1203, 1204, 1205);
 -- rollback delete from public.dict_groups where id in ('gender', 'auth_terminal_type', 'dict_color', 'common_enabled_status', 'admin_status', 'delayed_task_status');
 ;
