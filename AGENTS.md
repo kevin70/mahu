@@ -7,10 +7,11 @@
 ## 一、背景与文档入口
 
 - **仓库元数据**：`rootProject.name = "mahu"`（`settings.gradle`）。
-- **本地依赖**：PostgreSQL、MinIO 等 **Docker 示例**见根 `README.md`（「开发环境搭建」）；**环境简称**（DEV / SIT / UAT / STG / PROD）见 `docs/content/2.architecture/1.metadata-dictionary.md`（「环境名称」）。
+- **本地依赖**：PostgreSQL、MinIO 等本地启动示例见 `docs/content/1.getting-started/2.installation.md`；**环境简称**（DEV / SIT / UAT / STG / PROD）见 `docs/content/2.architecture/1.metadata-dictionary.md`（「环境名称」）。
 - **OpenAPI 前端工具链**：Node / **pnpm** 版本与 Gradle 集成见根 `build.gradle` 的 `node {}`。
 - **查阅顺序**（答数据库、接口、环境、配置类问题）：
-  1. 根 `README.md`、`mahu-db/src/main/resources/changelog-root.yaml`、`docs/content/` 与相关模块代码
+  1. `docs/content/`、相关模块代码、`mahu-db/src/main/resources/changelog-root.yaml`
+  2. 根 `README.md`（仅仓库入口级信息）
   2. 再总结；缺信息时的推断须标明为假设
 
 ---
@@ -21,9 +22,9 @@
 |------|------|
 | `mahu-bom` | Java Platform / BOM；与 `gradle/libs.versions.toml` 一起约束版本 |
 | `mahu-base` | 基础设施与通用代码 |
-| `mahu-domain` | 领域层、EBean；包结构见根 `README.md`「Java Package 规范」 |
+| `mahu-domain` | 领域层、EBean；包结构与阅读路径见 `docs/content/1.getting-started/1.introduction.md` |
 | `mahu-codegen` | 代码生成相关 |
-| `mahu-db` | Liquibase：`src/main/resources/db/changelog`，入口 `changelog-root.yaml` |
+| `mahu-db` | Liquibase：入口 `src/main/resources/changelog-root.yaml`，通过 `migrations/` 与 `data/` 管理结构和初始化数据 |
 | `mahu-dal` | 数据访问层（Repository 等） |
 | `mahu-shared` | 跨应用共享的领域/应用服务 |
 | `mahu-web` | 工具型 Web 能力（Helidon WebServer 相关封装/基础能力） |
@@ -74,7 +75,7 @@
 - **可追踪性**：每个新增测试应能回答“验证了哪条业务规则”，并在方法名直接体现规则与结果，避免只有路径覆盖没有行为语义。
 
 **命名规则与优化建议：**
-- **包与分层命名**：遵循根 `README.md` 的 Java Package 规范（`entity/repository/service/controller/shared/util`），其中 `Repository`、`Service`、`Controller` 后缀为必选约定。
+- **包与分层命名**：遵循 `docs/content/1.getting-started/1.introduction.md` 与 `docs/content/2.architecture/4.module-boundaries.md` 的 Java Package / 模块边界规范（`entity/repository/service/controller/shared/util`），其中 `Repository`、`Service`、`Controller` 后缀为必选约定。
 - **Java 标识符命名**：以 `checkstyle.xml` 为准：包名全小写点分、成员/局部变量 camelCase、方法名 camelCase（允许下划线用于测试语义）。新增规则先改 Checkstyle 再改代码。
 - **测试命名**：测试方法统一 `行为_结果`，并优先表达业务语义而非技术细节；同类场景建议用一致前缀（如 `executeAt_...`、`handle_...`）。
 - **主题与状态常量**：业务枚举值（如 `DelayedTaskTopics.topic()`）禁止硬编码字符串，生产代码与测试代码均应通过常量/枚举获取，避免命名漂移。
@@ -84,7 +85,7 @@
 **代码生成：**
 - `./gradlew openapiDepsInstall` - 安装 OpenAPI 前端依赖（`openapi/`）
 - `./gradlew :mahu-admin:mahu-admin-web:redoclyBundleOpenApi` - 仅打包管理端 OpenAPI 规范（`openapi/dist/mahu-admin-openapi.yaml`）
-- `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见根 `README.md`）
+- `./gradlew :mahu-admin:mahu-admin-web:openApiGenerate` - OpenAPI 代码生成（写入 `src/main/gen`；流程见 `docs/content/2.architecture/10.openapi-workflow.md`）
 
 - **镜像与部署（风险操作，需用户确认）：**
 - `./gradlew :mahu-admin:mahu-admin-web:jib` - 构建管理端镜像
@@ -92,6 +93,7 @@
 
 **文档：**
 - `cd docs && pnpm build` - 构建文档站点（Nuxt/Docus）
+- `cd docs && pnpm dev` - 本地预览文档站点
 
 ---
 
@@ -99,7 +101,7 @@
 
 - **表达**：简洁；给出路径与模块名；引用代码时格式：`起始行:结束行:路径`。
 - **语言**：默认使用中文输出与生成内容（包括说明、注释、提交信息、评审意见等）；仅在用户明确要求或上下文必须时使用英文。
-- **信源**：代码与配置 → `docs/`、`README.md` → 通识（标注假设）。
+- **信源**：代码与配置 → `docs/` → `README.md`（仅入口级信息）→ 通识（标注假设）。
 - **改动**：遵守模块边界；库表或 API 不兼容时写明影响与迁移建议。
 - **高风险**：`docker`、`ssh`、远程部署等 — 先说明用途与风险，由用户决定是否执行。
 
