@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared.dto;
+package cool.houge.mahu.model.command;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
-public class PresignedUploadPayload {
+public class PresignedUploadCommand {
     /// 文件名（包含扩展名）
     private String fileName;
 }

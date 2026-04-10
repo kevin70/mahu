@@ -5,7 +5,7 @@ import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.query.QDict;
 import cool.houge.mahu.entity.query.QDictGroup;
-import cool.houge.mahu.query.DictQuery;
+import cool.houge.mahu.model.query.DictGroupQuery;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
@@ -45,7 +45,7 @@ public class DictGroupRepository extends HBeanRepository<String, DictGroup> {
     /// - `dc` 命中过滤关联字典项编码
     ///
     /// 排序规则：按 `id DESC` 返回，保证分页顺序稳定。
-    public PagedList<DictGroup> findPage(DictQuery query, Page page) {
+    public PagedList<DictGroup> findPage(DictGroupQuery query, Page page) {
         var qb = new QDictGroup(db());
         qb.id.eqIfPresent(query.getGroupId());
         if (query.getDc() != null) {

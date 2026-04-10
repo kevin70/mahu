@@ -3,7 +3,7 @@ package cool.houge.mahu.repository.sys;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AdminChangeLog;
 import cool.houge.mahu.entity.sys.query.QAdminChangeLog;
-import cool.houge.mahu.query.sys.AdminLogQuery;
+import cool.houge.mahu.model.query.AdminLogQuery;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

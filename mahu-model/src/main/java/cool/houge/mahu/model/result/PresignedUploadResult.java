@@ -1,4 +1,4 @@
-package cool.houge.mahu.shared.dto;
+package cool.houge.mahu.model.result;
 
 /// 预签名上传结果
 ///

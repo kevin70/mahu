@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.sys.dto;
+package cool.houge.mahu.model.result;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
 ///
 /// @author ZY (kzou227@qq.com)
 @Data
-public class TokenResult {
+public class TokenGrantResult {
 
     /// 访问令牌
     private String accessToken;

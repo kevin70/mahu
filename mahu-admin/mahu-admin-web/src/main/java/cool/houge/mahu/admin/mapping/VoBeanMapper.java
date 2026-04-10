@@ -1,6 +1,5 @@
 package cool.houge.mahu.admin.mapping;
 
-import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
 import cool.houge.mahu.admin.oas.vo.LoginTokenResponse;
 import cool.houge.mahu.admin.oas.vo.MeNotificationPollResponse;
@@ -13,13 +12,14 @@ import cool.houge.mahu.admin.oas.vo.PublicDictResponse;
 import cool.houge.mahu.admin.oas.vo.TokenPasswordForm;
 import cool.houge.mahu.admin.oas.vo.TokenRefreshTokenForm;
 import cool.houge.mahu.admin.sys.dto.MeNotificationPollResult;
-import cool.houge.mahu.admin.sys.dto.TokenPayload;
-import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.config.GrantType;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminNotification;
+import cool.houge.mahu.model.command.TokenGrantCommand;
+import cool.houge.mahu.model.result.AdminProfileResult;
+import cool.houge.mahu.model.result.TokenGrantResult;
 import io.helidon.service.registry.Service;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -53,18 +53,18 @@ public interface VoBeanMapper extends TopBeanMapper {
     TokenRefreshTokenForm toTokenRefreshTokenForm(LoginTokenRequest bean);
 
     @Mapping(target = "grantType", source = "type")
-    TokenPayload toTokenPayload(TokenPasswordForm bean, GrantType type);
+    TokenGrantCommand toTokenPayload(TokenPasswordForm bean, GrantType type);
 
     @Mapping(target = "grantType", source = "type")
-    TokenPayload toTokenPayload(TokenRefreshTokenForm bean, GrantType type);
+    TokenGrantCommand toTokenPayload(TokenRefreshTokenForm bean, GrantType type);
 
-    LoginTokenResponse toLoginTokenResponse(TokenResult bean);
+    LoginTokenResponse toLoginTokenResponse(TokenGrantResult bean);
 
     Admin toAdmin(MePasswordUpdateRequest bean);
 
     Admin toAdmin(MeProfileUpdateRequest bean);
 
-    MeProfileResponse toMeProfileResponse(Profile bean);
+    MeProfileResponse toMeProfileResponse(AdminProfileResult bean);
 
     MeNotificationResponse toMeNotificationResponse(AdminNotification bean);
 

@@ -5,7 +5,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskLog;
-import cool.houge.mahu.query.sys.ScheduledTaskQuery;
+import cool.houge.mahu.model.query.ScheduledTaskQuery;
 import cool.houge.mahu.repository.sys.ScheduledExeLogRepository;
 import cool.houge.mahu.repository.sys.ScheduledTaskRepository;
 import io.ebean.PagedList;

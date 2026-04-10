@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.sys.dto;
+package cool.houge.mahu.model.command;
 
 import cool.houge.mahu.config.GrantType;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.Data;
 ///
 /// @author ZY (kzou227@qq.com)
 @Data
-public class TokenPayload {
+public class TokenGrantCommand {
 
     /// 客户端请求IP
     private String clientIp;

@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.query.QScheduledTask;
-import cool.houge.mahu.query.sys.ScheduledTaskQuery;
+import cool.houge.mahu.model.query.ScheduledTaskQuery;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

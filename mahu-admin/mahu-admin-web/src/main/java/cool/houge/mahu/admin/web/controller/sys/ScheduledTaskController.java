@@ -5,7 +5,7 @@ import static io.helidon.http.Status.NO_CONTENT_204;
 import cool.houge.mahu.admin.mapping.SysBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HScheduledTaskService;
 import cool.houge.mahu.admin.sys.service.ScheduledTaskService;
-import cool.houge.mahu.query.sys.ScheduledTaskQuery;
+import cool.houge.mahu.model.query.ScheduledTaskQuery;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.ServerRequest;

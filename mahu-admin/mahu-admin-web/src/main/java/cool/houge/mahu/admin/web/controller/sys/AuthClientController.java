@@ -8,7 +8,7 @@ import cool.houge.mahu.admin.oas.vo.SysAuthClientUpsertRequest;
 import cool.houge.mahu.admin.sys.service.AuthClientService;
 import cool.houge.mahu.config.TerminalType;
 import cool.houge.mahu.entity.sys.AuthClient;
-import cool.houge.mahu.query.sys.AuthClientQuery;
+import cool.houge.mahu.model.query.AuthClientQuery;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.ServerRequest;

@@ -5,7 +5,6 @@ import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
-import cool.houge.mahu.admin.bean.Profile;
 import cool.houge.mahu.admin.event.CollectProfileEvent;
 import cool.houge.mahu.config.Status;
 import cool.houge.mahu.domain.Page;
@@ -13,8 +12,9 @@ import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminAccessLog;
 import cool.houge.mahu.entity.sys.AdminAuthLog;
 import cool.houge.mahu.entity.sys.AdminChangeLog;
-import cool.houge.mahu.query.sys.AdminLogQuery;
-import cool.houge.mahu.query.sys.AdminQuery;
+import cool.houge.mahu.model.query.AdminLogQuery;
+import cool.houge.mahu.model.query.AdminQuery;
+import cool.houge.mahu.model.result.AdminProfileResult;
 import cool.houge.mahu.repository.sys.AdminAccessLogRepository;
 import cool.houge.mahu.repository.sys.AdminAuthLogRepository;
 import cool.houge.mahu.repository.sys.AdminChangeLogRepository;
@@ -47,13 +47,13 @@ public class AdminService {
     ///
     /// @param uid 用户 ID
     @Transactional
-    public Profile getProfile(int uid) {
+    public AdminProfileResult getProfile(int uid) {
         var user = adminRepository.obtainById(uid);
         if (Status.ACTIVE.neq(user.getStatus())) {
             throw new BizCodeException(BizCodes.PERMISSION_DENIED, "帐号已被禁止");
         }
 
-        var profile = new Profile();
+        var profile = new AdminProfileResult();
         beanMapper.map(profile, user);
         collectProfileEvent.emit(new CollectProfileEvent(uid, profile));
         return profile;

@@ -7,10 +7,10 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.config.Status;
 import cool.houge.mahu.entity.sys.IdPhoto;
 import cool.houge.mahu.entity.sys.StoredObject;
+import cool.houge.mahu.model.command.PresignedUploadCommand;
+import cool.houge.mahu.model.result.PresignedUploadResult;
 import cool.houge.mahu.repository.sys.IdPhotoRepository;
 import cool.houge.mahu.repository.sys.StoredObjectRepository;
-import cool.houge.mahu.shared.dto.PresignedUploadPayload;
-import cool.houge.mahu.shared.dto.PresignedUploadResult;
 import io.helidon.service.registry.Service;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -36,7 +36,7 @@ public class OssSharedService {
     /// @param type 存储对象类型
     /// @param payload 上传请求负载（包含文件名等）
     /// @return 包含预签名 URL 和访问 URL 的响应对象
-    public PresignedUploadResult presignedUpload(StoredObject.Type type, PresignedUploadPayload payload) {
+    public PresignedUploadResult presignedUpload(StoredObject.Type type, PresignedUploadCommand payload) {
         var id = UlidCreator.getMonotonicUlid().toString();
         var objectKey = type.buildObjectKey(id, Files.getFileExtension(payload.getFileName()));
         var uploadUrl = ossHelper.presignedUploadUrl(objectKey, Map.of());
@@ -70,7 +70,7 @@ public class OssSharedService {
     /// @param type 身份证照片类型
     /// @param payload 上传请求负载
     /// @return 包含预签名 URL 和访问 URL 的响应对象
-    public PresignedUploadResult presignedUpload(IdPhoto.Type type, PresignedUploadPayload payload) {
+    public PresignedUploadResult presignedUpload(IdPhoto.Type type, PresignedUploadCommand payload) {
         var id = UlidCreator.getMonotonicUlid().toString();
         var objectKey = type.buildObjectKey(id, Files.getFileExtension(payload.getFileName()));
         var uploadUrl = ossHelper.presignedUploadUrl(objectKey, Map.of());

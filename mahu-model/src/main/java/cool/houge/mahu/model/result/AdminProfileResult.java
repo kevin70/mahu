@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.bean;
+package cool.houge.mahu.model.result;
 
 import java.util.List;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.Data;
 ///
 /// @author ZY (kzou227@qq.com)
 @Data
-public class Profile {
+public class AdminProfileResult {
 
     /// 管理员 ID.
     private Long adminId;

@@ -6,7 +6,7 @@ import static org.instancio.Select.field;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
-import cool.houge.mahu.query.DictQuery;
+import cool.houge.mahu.model.query.DictGroupQuery;
 import cool.houge.mahu.testing.PostgresLiquibaseTestBase;
 import io.ebean.PagedList;
 import java.util.Comparator;
@@ -91,13 +91,13 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
         db().saveAll(List.of(g1, g2, g3));
 
         var page = Page.builder().page(1).pageSize(10).includeTotal(true).build();
-        var query = DictQuery.builder().build();
+        var query = DictGroupQuery.builder().build();
 
         PagedList<DictGroup> result = repo().findPage(query, page);
 
         assertThat(result.getList()).extracting(DictGroup::getId).isSortedAccordingTo(Comparator.reverseOrder());
 
-        var onlyG2 = repo().findPage(DictQuery.builder().groupId("g2").build(), page);
+        var onlyG2 = repo().findPage(DictGroupQuery.builder().groupId("g2").build(), page);
         assertThat(onlyG2.getList()).extracting(DictGroup::getId).containsExactly("g2");
     }
 
@@ -108,7 +108,7 @@ class DictGroupRepositoryTest extends PostgresLiquibaseTestBase {
         db().save(groupWithDicts("g2", List.of(dict(-201), dict(-202))));
 
         var page = Page.builder().page(1).pageSize(10).includeTotal(true).build();
-        var result = repo().findPage(DictQuery.builder().dc(-202).build(), page);
+        var result = repo().findPage(DictGroupQuery.builder().dc(-202).build(), page);
 
         assertThat(result.getList()).extracting(DictGroup::getId).containsExactly("g2");
     }

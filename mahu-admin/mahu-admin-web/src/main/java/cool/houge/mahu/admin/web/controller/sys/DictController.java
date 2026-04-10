@@ -7,7 +7,7 @@ import cool.houge.mahu.admin.oas.controller.HDictService;
 import cool.houge.mahu.admin.oas.vo.SysDictGroupUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysDictUpsertRequest;
 import cool.houge.mahu.admin.sys.service.DictService;
-import cool.houge.mahu.query.DictQuery;
+import cool.houge.mahu.model.query.DictGroupQuery;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service.Singleton;
 import io.helidon.webserver.http.ServerRequest;
@@ -63,7 +63,7 @@ public class DictController implements HDictService, WebSupport {
 
     @Override
     public void pageSysDictGroup(ServerRequest request, ServerResponse response) {
-        var qb = DictQuery.builder();
+        var qb = DictGroupQuery.builder();
         queryArg(request, "group_id").ifPresent(qb::groupId);
         queryInt(request, "dc").ifPresent(qb::dc);
 

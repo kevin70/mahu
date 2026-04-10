@@ -1,6 +1,6 @@
 package cool.houge.mahu.admin.event;
 
-import cool.houge.mahu.admin.bean.Profile;
+import cool.houge.mahu.model.result.AdminProfileResult;
 
 /// 收集个人信息事件
 ///
@@ -10,4 +10,4 @@ import cool.houge.mahu.admin.bean.Profile;
 /// @param profile 个人信息
 ///
 /// @author ZY (kzou227@qq.com)
-public record CollectProfileEvent(long uid, Profile profile) {}
+public record CollectProfileEvent(long uid, AdminProfileResult profile) {}

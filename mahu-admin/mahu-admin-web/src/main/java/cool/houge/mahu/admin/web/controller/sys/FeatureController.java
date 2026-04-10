@@ -5,7 +5,7 @@ import cool.houge.mahu.admin.oas.controller.HFeatureFlagService;
 import cool.houge.mahu.admin.oas.vo.SysFeatureFlagCreateRequest;
 import cool.houge.mahu.admin.oas.vo.SysFeatureFlagUpdateRequest;
 import cool.houge.mahu.admin.sys.service.FeatureFlagService;
-import cool.houge.mahu.query.sys.FeatureFlagQuery;
+import cool.houge.mahu.model.query.FeatureFlagQuery;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.http.Status;
 import io.helidon.service.registry.Service;

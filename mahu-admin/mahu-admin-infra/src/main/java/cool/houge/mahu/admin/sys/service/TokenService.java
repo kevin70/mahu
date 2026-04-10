@@ -7,13 +7,13 @@ import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
-import cool.houge.mahu.admin.sys.dto.TokenPayload;
-import cool.houge.mahu.admin.sys.dto.TokenResult;
 import cool.houge.mahu.config.ConfigPrefixes;
 import cool.houge.mahu.config.Status;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminAuthLog;
+import cool.houge.mahu.model.command.TokenGrantCommand;
+import cool.houge.mahu.model.result.TokenGrantResult;
 import cool.houge.mahu.repository.sys.AdminAuthLogRepository;
 import cool.houge.mahu.repository.sys.AdminRepository;
 import cool.houge.mahu.repository.sys.AuthClientRepository;
@@ -110,7 +110,7 @@ public class TokenService implements TokenVerifier {
     }
 
     @Transactional
-    public TokenResult token(TokenPayload payload) {
+    public TokenGrantResult token(TokenGrantCommand payload) {
         var client = authClientRepository.obtainClient(payload.getClientId());
         var grantType = payload.getGrantType();
 
@@ -143,7 +143,7 @@ public class TokenService implements TokenVerifier {
     }
 
     @Transactional
-    TokenResult makeToken(TokenPayload payload, Admin admin) {
+    TokenGrantResult makeToken(TokenGrantCommand payload, Admin admin) {
         var jwk = obtainJwk();
         var jwtId = UlidCreator.getMonotonicUlid().toString();
         var sub = String.valueOf(admin.getId());
@@ -172,14 +172,14 @@ public class TokenService implements TokenVerifier {
                 .jwks(jwkKeys, jwk.keyId())
                 .build();
 
-        return new TokenResult()
+        return new TokenGrantResult()
                 .setExpiresIn(tokenConfig.accessExpires().toSeconds())
                 .setAccessToken(accessToken.token())
                 .setRefreshToken(refreshToken.token());
     }
 
     @NonNull
-    Admin loginByUsername(TokenPayload payload) {
+    Admin loginByUsername(TokenGrantCommand payload) {
         var user = adminRepository.findByUsername(payload.getUsername());
         if (user == null) {
             throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", payload.getUsername()));
@@ -193,7 +193,7 @@ public class TokenService implements TokenVerifier {
     }
 
     @NonNull
-    Admin loginByRefreshToken(TokenPayload payload) {
+    Admin loginByRefreshToken(TokenGrantCommand payload) {
         var jwt = parseToken(payload.getRefreshToken());
         var sub = jwt.userPrincipal().orElseThrow();
         var user = adminRepository.findById(Integer.valueOf(sub));

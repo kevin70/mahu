@@ -6,7 +6,7 @@ import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
-import cool.houge.mahu.query.DictQuery;
+import cool.houge.mahu.model.query.DictGroupQuery;
 import cool.houge.mahu.repository.DictGroupRepository;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -92,7 +92,7 @@ public class DictService {
 
     /// 分页查询数据
     @Transactional(readOnly = true)
-    public PagedList<DictGroup> findPage(DictQuery query, Page page) {
+    public PagedList<DictGroup> findPage(DictGroupQuery query, Page page) {
         return dictGroupRepository.findPage(query, page);
     }
 

@@ -5,7 +5,7 @@ import static org.instancio.Select.field;
 
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.ScheduledTask;
-import cool.houge.mahu.query.sys.ScheduledTaskQuery;
+import cool.houge.mahu.model.query.ScheduledTaskQuery;
 import cool.houge.mahu.testing.PostgresLiquibaseTestBase;
 import java.util.List;
 import org.instancio.Instancio;

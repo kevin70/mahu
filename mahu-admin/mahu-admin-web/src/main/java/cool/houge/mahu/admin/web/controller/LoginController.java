@@ -7,9 +7,9 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.mapping.VoBeanMapper;
 import cool.houge.mahu.admin.oas.controller.HLoginService;
 import cool.houge.mahu.admin.oas.vo.LoginTokenRequest;
-import cool.houge.mahu.admin.sys.dto.TokenPayload;
 import cool.houge.mahu.admin.sys.service.TokenService;
 import cool.houge.mahu.config.GrantType;
+import cool.houge.mahu.model.command.TokenGrantCommand;
 import cool.houge.mahu.util.Metadata;
 import cool.houge.mahu.web.WebSupport;
 import io.helidon.service.registry.Service;
@@ -31,7 +31,7 @@ public class LoginController implements HLoginService, WebSupport {
     public void login(ServerRequest request, ServerResponse response) {
         var body = request.content().as(LoginTokenRequest.class);
 
-        TokenPayload payload;
+        TokenGrantCommand payload;
         if (GrantType.PASSWORD.matches(body.getGrantType())) {
             var bean = beanMapper.toTokenPasswordForm(body);
             validate(bean);

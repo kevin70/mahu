@@ -5,7 +5,7 @@ import static org.instancio.Select.field;
 
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.FeatureFlag;
-import cool.houge.mahu.query.sys.FeatureFlagQuery;
+import cool.houge.mahu.model.query.FeatureFlagQuery;
 import cool.houge.mahu.testing.PostgresLiquibaseTestBase;
 import java.util.List;
 import org.instancio.Instancio;

@@ -1,4 +1,4 @@
-package cool.houge.mahu.query;
+package cool.houge.mahu.model.query;
 
 import lombok.Builder;
 import lombok.Value;
@@ -6,7 +6,7 @@ import lombok.Value;
 /// 字典查询
 @Value
 @Builder
-public class DictQuery {
+public class DictGroupQuery {
 
     /// 分组 ID
     String groupId;

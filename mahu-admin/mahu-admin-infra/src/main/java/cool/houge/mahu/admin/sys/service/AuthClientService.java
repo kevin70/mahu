@@ -6,7 +6,7 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.AuthClient;
-import cool.houge.mahu.query.sys.AuthClientQuery;
+import cool.houge.mahu.model.query.AuthClientQuery;
 import cool.houge.mahu.repository.sys.AuthClientRepository;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;

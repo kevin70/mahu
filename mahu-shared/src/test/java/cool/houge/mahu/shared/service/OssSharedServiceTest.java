@@ -15,9 +15,9 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.config.Status;
 import cool.houge.mahu.entity.sys.IdPhoto;
 import cool.houge.mahu.entity.sys.StoredObject;
+import cool.houge.mahu.model.command.PresignedUploadCommand;
 import cool.houge.mahu.repository.sys.IdPhotoRepository;
 import cool.houge.mahu.repository.sys.StoredObjectRepository;
-import cool.houge.mahu.shared.dto.PresignedUploadPayload;
 import io.helidon.service.registry.Services;
 import io.helidon.testing.junit5.Testing;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +49,7 @@ class OssSharedServiceTest {
         when(ossHelper.presignedUploadUrl(anyString(), anyMap())).thenReturn("https://upload.local/u");
         when(ossHelper.accessUrl(anyString())).thenReturn("https://cdn.local/file");
 
-        var payload = new PresignedUploadPayload().setFileName("avatar.png");
+        var payload = new PresignedUploadCommand().setFileName("avatar.png");
         var result = service.presignedUpload(StoredObject.Type.ADMIN_AVATAR, payload);
 
         var objectCaptor = ArgumentCaptor.forClass(StoredObject.class);
@@ -73,7 +73,7 @@ class OssSharedServiceTest {
         when(ossHelper.presignedUploadUrl(anyString(), anyMap())).thenReturn("https://upload.local/u");
         when(ossHelper.presignedGetUrl(anyString())).thenReturn("https://download.local/d");
 
-        var payload = new PresignedUploadPayload().setFileName("id.jpg");
+        var payload = new PresignedUploadCommand().setFileName("id.jpg");
         var result = service.presignedUpload(IdPhoto.Type.DEFAULT, payload);
 
         var photoCaptor = ArgumentCaptor.forClass(IdPhoto.class);

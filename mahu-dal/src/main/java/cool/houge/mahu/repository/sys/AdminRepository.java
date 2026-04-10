@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.query.QAdmin;
-import cool.houge.mahu.query.sys.AdminQuery;
+import cool.houge.mahu.model.query.AdminQuery;
 import cool.houge.mahu.util.HBeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

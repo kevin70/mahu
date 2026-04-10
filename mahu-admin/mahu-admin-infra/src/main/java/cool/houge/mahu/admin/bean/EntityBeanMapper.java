@@ -6,6 +6,7 @@ import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.FeatureFlag;
 import cool.houge.mahu.entity.sys.Role;
+import cool.houge.mahu.model.result.AdminProfileResult;
 import io.helidon.service.registry.Service.Contract;
 import io.helidon.service.registry.Service.Singleton;
 import org.mapstruct.AnnotateWith;
@@ -27,7 +28,7 @@ import org.mapstruct.ReportingPolicy;
 public interface EntityBeanMapper {
 
     @Mapping(target = "adminId", source = "id")
-    void map(@MappingTarget Profile target, Admin bean);
+    void map(@MappingTarget AdminProfileResult target, Admin bean);
 
     @Mapping(target = "data", ignore = true)
     void map(@MappingTarget DictGroup target, DictGroup bean);

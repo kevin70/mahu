@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import cool.houge.mahu.config.Status;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.Admin;
-import cool.houge.mahu.query.sys.AdminQuery;
+import cool.houge.mahu.model.query.AdminQuery;
 import cool.houge.mahu.testing.PostgresLiquibaseTestBase;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;

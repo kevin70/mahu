@@ -1,4 +1,4 @@
-package cool.houge.mahu.query.sys;
+package cool.houge.mahu.model.query;
 
 import cool.houge.mahu.domain.DateRange;
 import lombok.Builder;

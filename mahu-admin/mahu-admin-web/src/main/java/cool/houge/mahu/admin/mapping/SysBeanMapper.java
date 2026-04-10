@@ -36,8 +36,8 @@ import cool.houge.mahu.entity.sys.Role;
 import cool.houge.mahu.entity.sys.ScheduledTask;
 import cool.houge.mahu.entity.sys.ScheduledTaskLog;
 import cool.houge.mahu.entity.sys.StoredObject;
-import cool.houge.mahu.shared.dto.PresignedUploadPayload;
-import cool.houge.mahu.shared.dto.PresignedUploadResult;
+import cool.houge.mahu.model.command.PresignedUploadCommand;
+import cool.houge.mahu.model.result.PresignedUploadResult;
 import io.helidon.service.registry.Service;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -117,7 +117,7 @@ public interface SysBeanMapper extends TopBeanMapper {
 
     SysAdminChangeLogResponse toAdminChangeLogResponse(AdminChangeLog bean);
 
-    PresignedUploadPayload toPresignedUploadPayload(FileCreatePresignedRequest bean);
+    PresignedUploadCommand toPresignedUploadPayload(FileCreatePresignedRequest bean);
 
     StoredObject.Type toStoredObjectType(FileType bean);
 
@@ -127,7 +127,7 @@ public interface SysBeanMapper extends TopBeanMapper {
 
     FileCreatePresignedResponse toFileCreatePresignedResponse(PresignedUploadResult bean);
 
-    PresignedUploadPayload toPresignedUploadPayload(IdPhotoCreatePresignedRequest bean);
+    PresignedUploadCommand toPresignedUploadPayload(IdPhotoCreatePresignedRequest bean);
 
     IdPhotoCreatePresignedResponse toIdPhotoCreatePresignedResponse(PresignedUploadResult bean);
 }

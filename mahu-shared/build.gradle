@@ -3,6 +3,7 @@ apply plugin: "java-library"
 dependencies {
     annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
+    api(project(":mahu-model"))
     implementation(project(":mahu-dal"))
     implementation("io.minio:minio")
     implementation("com.github.ben-manes.caffeine:caffeine")
