@@ -15,6 +15,7 @@ import io.helidon.config.Config;
 import io.helidon.scheduling.FixedRate;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Comparator;
 import lombok.AllArgsConstructor;
@@ -55,8 +56,12 @@ class DictCacheService {
     /// 初始化缓存：全量加载字典数据，并启动定时刷新任务
     @Service.PostConstruct
     void init() {
-        this.refreshAll();
-        log.debug("字典全量缓存刷新完成");
+        var stats = refreshAll();
+        log.info(
+                "字典缓存初始化完成 groups={}, dicts={}, elapsedMs={}",
+                stats.groupCount(),
+                stats.dictCount(),
+                stats.elapsedMs());
 
         FixedRate.builder()
                 .interval(Duration.ofMinutes(10))
@@ -64,7 +69,12 @@ class DictCacheService {
                 .config(config.get("scheduling.dict-cache-refresh"))
                 .task((invocation) -> {
                     try {
-                        refreshAll();
+                        var refreshStats = refreshAll();
+                        log.info(
+                                "字典缓存定时刷新完成 groups={}, dicts={}, elapsedMs={}",
+                                refreshStats.groupCount(),
+                                refreshStats.dictCount(),
+                                refreshStats.elapsedMs());
                     } catch (Exception e) {
                         log.error("定时刷新字典缓存失败", e);
                     }
@@ -147,15 +157,26 @@ class DictCacheService {
 
     /// 刷新所有缓存：从数据库全量加载字典分组和字典数据
     @Transactional(readOnly = true)
-    private void refreshAll() {
+    private RefreshStats refreshAll() {
+        var startedAt = Instant.now();
         var all = dictGroupRepository.findAllData();
+        var groupCount = 0;
+        var dictCount = 0;
         for (DictGroup dictGroup : all) {
             var lcType = map(dictGroup);
+            groupCount++;
             dictTypeCache.put(lcType.getId(), lcType);
 
             for (ImmutableDict dict : lcType.getDicts()) {
+                dictCount++;
                 dictCache.put(dict.getDc(), dict);
             }
         }
+        return new RefreshStats(
+                groupCount,
+                dictCount,
+                Duration.between(startedAt, Instant.now()).toMillis());
     }
+
+    private record RefreshStats(int groupCount, int dictCount, long elapsedMs) {}
 }

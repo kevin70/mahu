@@ -12,6 +12,7 @@ import io.helidon.config.Config;
 import io.helidon.scheduling.FixedRate;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,8 +41,8 @@ class FeatureFlagCacheService {
     /// 启动时预热全部功能开关，并注册固定频率刷新任务。
     @Service.PostConstruct
     void init() {
-        refreshAll();
-        log.debug("功能全量缓存刷新完成");
+        var stats = refreshAll();
+        log.info("功能缓存初始化完成 flags={}, elapsedMs={}", stats.flagCount(), stats.elapsedMs());
 
         FixedRate.builder()
                 .interval(Duration.ofMinutes(10))
@@ -49,7 +50,11 @@ class FeatureFlagCacheService {
                 .config(config.get("scheduling.feature-flag-cache-refresh"))
                 .task(inv -> {
                     try {
-                        refreshAll();
+                        var refreshStats = refreshAll();
+                        log.info(
+                                "功能缓存定时刷新完成 flags={}, elapsedMs={}",
+                                refreshStats.flagCount(),
+                                refreshStats.elapsedMs());
                     } catch (Exception e) {
                         log.error("定时刷新功能缓存失败", e);
                     }
@@ -87,13 +92,20 @@ class FeatureFlagCacheService {
 
     /// 全量刷新功能开关缓存。
     ///
-    /// 当前实现按查询结果逐条覆盖缓存，适合功能开关体量较小、读多写少的场景。
+    /// 当前实现按查询结果逐条覆盖缓存，依赖 TTL 自然淘汰已失效的旧 key。
     @Transactional(readOnly = true)
-    private void refreshAll() {
+    private RefreshStats refreshAll() {
+        var startedAt = Instant.now();
         var all = featureFlagRepository.findAll();
+        var flagCount = 0;
         for (FeatureFlag feature : all) {
             var b = map(feature);
+            flagCount++;
             featureCache.put(feature.getCode(), b);
         }
+        return new RefreshStats(
+                flagCount, Duration.between(startedAt, Instant.now()).toMillis());
     }
+
+    private record RefreshStats(int flagCount, long elapsedMs) {}
 }
