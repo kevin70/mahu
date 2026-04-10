@@ -92,7 +92,8 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
         return saveNotification(title, scope, updatedAt, expireAt, Status.ACTIVE.getCode());
     }
 
-    private AdminNotification saveNotification(String title, int scope, Instant updatedAt, Instant expireAt, int status) {
+    private AdminNotification saveNotification(
+            String title, int scope, Instant updatedAt, Instant expireAt, int status) {
         var notification = new AdminNotification()
                 .setTitle(title)
                 .setContent(title + "-content")
@@ -119,4 +120,3 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
                 .execute();
     }
 }
-

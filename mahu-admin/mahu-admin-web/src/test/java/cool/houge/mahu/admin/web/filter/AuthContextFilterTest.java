@@ -35,8 +35,7 @@ class AuthContextFilterTest {
         var request = mock(RoutingRequest.class, Answers.RETURNS_DEEP_STUBS);
         mockClientIp(request);
         mockEmptyAccessTokenQuery(request);
-        when(request.headers().first(io.helidon.http.HeaderNames.AUTHORIZATION))
-                .thenReturn(Optional.empty());
+        when(request.headers().first(io.helidon.http.HeaderNames.AUTHORIZATION)).thenReturn(Optional.empty());
 
         var authContext = sut.resolveAuthContext(request);
 

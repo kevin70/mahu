@@ -41,7 +41,8 @@ class DelayedTaskExpiredProcessingWorkerTest {
         worker.executeAt(NOW);
 
         verify(delayedTaskRepository).transitionExpiredToFailed(taskId, NOW);
-        verify(delayedTaskRepository, never()).transitionExpiredToPending(any(UUID.class), any(Instant.class), any(Instant.class));
+        verify(delayedTaskRepository, never())
+                .transitionExpiredToPending(any(UUID.class), any(Instant.class), any(Instant.class));
     }
 
     @Test
@@ -50,7 +51,8 @@ class DelayedTaskExpiredProcessingWorkerTest {
         var task = delayedTask(taskId, 2, 5);
 
         when(delayedTaskRepository.findExpiredProcessingSkipLocked(NOW, 50)).thenReturn(List.of(task));
-        when(delayedTaskRepository.transitionExpiredToPending(eq(taskId), eq(NOW), any(Instant.class))).thenReturn(true);
+        when(delayedTaskRepository.transitionExpiredToPending(eq(taskId), eq(NOW), any(Instant.class)))
+                .thenReturn(true);
 
         worker.executeAt(NOW);
 
@@ -66,7 +68,8 @@ class DelayedTaskExpiredProcessingWorkerTest {
         var task = delayedTask(taskId, null, null);
 
         when(delayedTaskRepository.findExpiredProcessingSkipLocked(NOW, 50)).thenReturn(List.of(task));
-        when(delayedTaskRepository.transitionExpiredToPending(eq(taskId), eq(NOW), any(Instant.class))).thenReturn(true);
+        when(delayedTaskRepository.transitionExpiredToPending(eq(taskId), eq(NOW), any(Instant.class)))
+                .thenReturn(true);
 
         worker.executeAt(NOW);
 
@@ -82,7 +85,8 @@ class DelayedTaskExpiredProcessingWorkerTest {
         var task = delayedTask(taskId, 999, 1000);
 
         when(delayedTaskRepository.findExpiredProcessingSkipLocked(NOW, 50)).thenReturn(List.of(task));
-        when(delayedTaskRepository.transitionExpiredToPending(eq(taskId), eq(NOW), any(Instant.class))).thenReturn(true);
+        when(delayedTaskRepository.transitionExpiredToPending(eq(taskId), eq(NOW), any(Instant.class)))
+                .thenReturn(true);
 
         worker.executeAt(NOW);
 
@@ -97,7 +101,8 @@ class DelayedTaskExpiredProcessingWorkerTest {
 
         worker.executeAt(NOW);
 
-        verify(delayedTaskRepository, never()).transitionExpiredToPending(any(UUID.class), any(Instant.class), any(Instant.class));
+        verify(delayedTaskRepository, never())
+                .transitionExpiredToPending(any(UUID.class), any(Instant.class), any(Instant.class));
         verify(delayedTaskRepository, never()).transitionExpiredToFailed(any(UUID.class), any(Instant.class));
     }
 
@@ -109,4 +114,3 @@ class DelayedTaskExpiredProcessingWorkerTest {
         return task;
     }
 }
-

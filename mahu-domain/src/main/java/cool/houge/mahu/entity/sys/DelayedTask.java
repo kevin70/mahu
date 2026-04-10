@@ -1,6 +1,5 @@
 package cool.houge.mahu.entity.sys;
 
-import cool.houge.mahu.config.Status;
 import io.ebean.annotation.ChangeLog;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.WhenCreated;

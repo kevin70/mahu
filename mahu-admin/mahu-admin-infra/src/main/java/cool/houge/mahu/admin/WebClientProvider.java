@@ -1,6 +1,5 @@
 package cool.houge.mahu.admin;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.helidon.http.media.jackson.JacksonSupport;
 import io.helidon.service.registry.Service;
@@ -16,10 +15,7 @@ class WebClientProvider implements Supplier<WebClient> {
 
     final WebClient v;
 
-    WebClientProvider() {
-        var objectMapper = new ObjectMapper()
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .findAndRegisterModules();
+    WebClientProvider(ObjectMapper objectMapper) {
         this.v = WebClient.builder()
                 .connectTimeout(Duration.ofSeconds(15))
                 .addMediaSupport(JacksonSupport.create(objectMapper))

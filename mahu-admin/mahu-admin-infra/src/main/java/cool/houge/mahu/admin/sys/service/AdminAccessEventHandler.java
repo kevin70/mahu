@@ -2,7 +2,7 @@ package cool.houge.mahu.admin.sys.service;
 
 import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.admin.event.AdminAccessEvent;
-import cool.houge.mahu.admin.sys.repository.AdminAccessLogRepository;
+import cool.houge.mahu.repository.sys.AdminAccessLogRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Event.Observer;
 import io.helidon.service.registry.Service.Singleton;

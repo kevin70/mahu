@@ -1,9 +1,8 @@
 package cool.houge.mahu.admin;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import cool.houge.mahu.util.MahuObjectMapperFactory;
 import io.helidon.service.registry.Service.Singleton;
 import java.util.function.Supplier;
 
@@ -15,10 +14,6 @@ class ObjectMapperProvider implements Supplier<ObjectMapper> {
 
     @Override
     public ObjectMapper get() {
-        return new ObjectMapper()
-                .findAndRegisterModules()
-                .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return MahuObjectMapperFactory.create(JsonInclude.Include.NON_NULL);
     }
 }

@@ -121,6 +121,4 @@ class DelayedTaskDispatcherWorkerTest {
         task.setDelayUntil(NOW.minusSeconds(1));
         return task;
     }
-
 }
-

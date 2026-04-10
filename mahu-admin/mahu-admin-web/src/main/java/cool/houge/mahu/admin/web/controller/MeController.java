@@ -100,5 +100,4 @@ public class MeController implements HMeService, WebSupport {
         meNotificationService.markReadBatch(ac.adminId(), vo.getNotificationIds());
         response.status(NO_CONTENT_204).send();
     }
-
 }

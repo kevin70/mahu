@@ -112,4 +112,3 @@ class OssSharedServiceTest {
         assertEquals("https://download.local/id-1", url);
     }
 }
-

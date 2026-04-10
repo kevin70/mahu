@@ -125,11 +125,7 @@ class AppSharedServiceTest {
         var expectedAt = Instant.parse("2026-03-28T12:00:00Z");
 
         service.enqueueDelayedTask(
-                DelayedTaskTopic.FEATURE_FLAG_ENABLE,
-                "ref-feature-1",
-                expectedAt,
-                "idem-1",
-                "{\"k\":\"v\"}");
+                DelayedTaskTopic.FEATURE_FLAG_ENABLE, "ref-feature-1", expectedAt, "idem-1", "{\"k\":\"v\"}");
 
         var taskCaptor = ArgumentCaptor.forClass(DelayedTask.class);
         verify(delayedTaskRepository).enqueueDelayedTask(taskCaptor.capture());

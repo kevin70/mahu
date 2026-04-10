@@ -1,4 +1,4 @@
-package cool.houge.mahu.admin.sys.repository;
+package cool.houge.mahu.repository.sys;
 
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.Role;

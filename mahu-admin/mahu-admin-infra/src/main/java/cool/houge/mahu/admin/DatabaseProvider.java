@@ -2,12 +2,9 @@ package cool.houge.mahu.admin;
 
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.sys.repository.PersistChangeLogListener;
+import cool.houge.mahu.util.MahuDatabaseFactory;
 import cool.houge.mahu.util.Metadata;
 import io.ebean.Database;
-import io.ebean.DatabaseFactory;
-import io.ebean.config.ContainerConfig;
-import io.ebean.config.DatabaseConfig;
-import io.ebean.config.JsonConfig;
 import io.helidon.common.Weight;
 import io.helidon.config.Config;
 import io.helidon.service.registry.Service;
@@ -28,25 +25,22 @@ class DatabaseProvider implements Supplier<Database> {
 
     DatabaseProvider(Config config, DataSource ds) {
         var secretKey = config.get("db.encrypt.secret-key").asString().get();
-        var dbc = new DatabaseConfig()
-                .containerConfig(new ContainerConfig())
-                .dataSource(ds)
-                .slowQueryMillis(200)
-                .encryptKeyManager((tableName, columnName) -> () -> secretKey)
-                .jsonInclude(JsonConfig.Include.NON_NULL)
-                .currentUserProvider(new ContextCurrentUserProvider())
-                .changeLogAsync(false)
-                .changeLogIncludeInserts(true)
-                .changeLogPrepare(changeSet -> {
-                    var userContext = AuthContext.current();
-                    var metadata = Metadata.current();
-                    changeSet.setUserId(String.valueOf(userContext.adminId()));
-                    changeSet.setUserIpAddress(metadata.clientAddr());
-                    return true;
-                })
-                .changeLogListener(new PersistChangeLogListener())
-                .shutdownHook(false);
-        this.v = DatabaseFactory.create(dbc);
+        this.v = MahuDatabaseFactory.create(dbc -> {
+            dbc.setDataSource(ds);
+            dbc.setSlowQueryMillis(200);
+            dbc.setEncryptKeyManager((tableName, columnName) -> () -> secretKey);
+            dbc.setCurrentUserProvider(new ContextCurrentUserProvider());
+            dbc.setChangeLogAsync(false);
+            dbc.setChangeLogIncludeInserts(true);
+            dbc.setChangeLogPrepare(changeSet -> {
+                var userContext = AuthContext.current();
+                var metadata = Metadata.current();
+                changeSet.setUserId(String.valueOf(userContext.adminId()));
+                changeSet.setUserIpAddress(metadata.clientAddr());
+                return true;
+            });
+            dbc.setChangeLogListener(new PersistChangeLogListener());
+        });
     }
 
     @Override

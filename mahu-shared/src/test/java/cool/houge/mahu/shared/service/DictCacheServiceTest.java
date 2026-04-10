@@ -96,7 +96,9 @@ class DictCacheServiceTest {
         var loadedAgain = service.loadDictType("group-public");
 
         assertEquals("group-public", loaded.getId());
-        assertEquals(List.of(-202, -101), loaded.getDicts().stream().map(ImmutableDict::getDc).toList());
+        assertEquals(
+                List.of(-202, -101),
+                loaded.getDicts().stream().map(ImmutableDict::getDc).toList());
         assertEquals(loaded, loadedAgain);
         verify(dictGroupRepository, times(1)).findById("group-public");
     }
