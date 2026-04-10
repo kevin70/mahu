@@ -22,7 +22,7 @@ export default defineAppConfig({
     faqQuestions: [
       { category: '入门', items: [
         '如何搭建 Mahu 本地开发环境？',
-        '各模块（mahu-web / mahu-domain / mahu-db / mahu-task 等）职责是什么？',
+        '各模块（mahu-web / mahu-config / mahu-entity / mahu-model / mahu-db / mahu-task 等）职责是什么？',
         'Spotless/测试/OpenAPI 生成的常用命令有哪些？',
       ] },
       { category: '数据库', items: [

@@ -4,7 +4,8 @@ apply plugin: "io.ebean"
 dependencies {
     annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
 
-    api(project(":mahu-domain"))
+    api(project(":mahu-entity"))
+    api(project(":mahu-model"))
     api("org.apache.logging.log4j:log4j-api")
 
     implementation("io.ebean:ebean-querybean")

@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 /// 测试环境数据库提供者
 ///
-/// 仅在 mahu-domain 的测试环境中使用，基于 `TestDataSourceProvider` 提供的 DataSource
+/// 仅在 mahu-entity 的测试环境中使用，基于 `TestDataSourceProvider` 提供的 DataSource
 /// 创建 EBean Database 实例。
 @Singleton
 @RunLevel(RunLevel.STARTUP)

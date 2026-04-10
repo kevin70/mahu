@@ -124,7 +124,6 @@ allprojects {
             exclude group: "org.slf4j", module: "slf4j-simple"
             exclude group: "ch.qos.logback", module: "logback-classic"
             exclude group: "ch.qos.logback", module: "logback-core"
-            exclude group: "io.avaje", module: "avaje-config"
             exclude group: "io.ebean", module: "ebean-migration"
             exclude group: "io.avaje", module: "avaje-validator-inject-plugin"
             exclude group: "io.avaje", module: "avaje-validator-http-plugin"

@@ -1,10 +1,7 @@
 apply plugin: "java-library"
-apply plugin: "io.ebean"
 
 dependencies {
-    annotationProcessor("io.ebean:querybean-generator")
     annotationProcessor("io.helidon.bundles:helidon-bundles-apt")
-    annotationProcessor(project(":mahu-codegen"))
     compileOnly("io.helidon.config:helidon-config-metadata")
 
     api(project(":mahu-base"))
@@ -14,8 +11,4 @@ dependencies {
     api("com.github.f4b6a3:ulid-creator")
     api("io.helidon.common:helidon-common-parameters")
     api("io.helidon.common:helidon-common-context")
-
-    implementation("io.ebean:ebean-api")
-    implementation("io.ebean:ebean-querybean")
 }
-

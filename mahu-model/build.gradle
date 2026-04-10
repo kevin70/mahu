@@ -1,0 +1,6 @@
+apply plugin: "java-library"
+
+dependencies {
+    api(project(":mahu-base"))
+    api(project(":mahu-config"))
+}

@@ -22,7 +22,9 @@
 |------|------|
 | `mahu-bom` | Java Platform / BOM；与 `gradle/libs.versions.toml` 一起约束版本 |
 | `mahu-base` | 基础设施与通用代码 |
-| `mahu-domain` | 领域层、EBean；包结构与阅读路径见 `docs/content/1.getting-started/1.introduction.md` |
+| `mahu-config` | 配置模型、配置前缀、配置相关枚举与 Blueprint |
+| `mahu-entity` | EBean 实体与实体测试基线 |
+| `mahu-model` | 非持久化业务模型；当前主要承载 `query` 查询对象 |
 | `mahu-codegen` | 代码生成相关 |
 | `mahu-db` | Liquibase：入口 `src/main/resources/changelog-root.yaml`，通过 `migrations/` 与 `data/` 管理结构和初始化数据 |
 | `mahu-dal` | 数据访问层（Repository 等） |
@@ -43,7 +45,7 @@
 - `./gradlew build` - 完整构建
 - `./gradlew test` - 全量测试
 - `./gradlew jacocoRootReport` - 聚合各模块 JaCoCo 报告（输出到 `build/reports/jacoco/root`）
-- `./gradlew :mahu-domain:test` - 单模块测试（示例）
+- `./gradlew :mahu-entity:test` - 单模块测试（示例）
 - `./gradlew spotlessCheck` - 格式检查
 - `./gradlew spotlessApply` - 格式化代码
 
@@ -63,7 +65,7 @@
 - `mahu-shared`：以 `@Testing.Test(perMethod = true)` + `Services.set(...)` 为标准模式，在 `@BeforeEach` 绑定 mock，测试方法参数直接注入被测 Service。
 - `mahu-task`：与 `mahu-shared` 一致采用 Helidon Testing + Service Registry 注入；针对 Worker 场景优先测试 `executeAt(Instant)` 这类可控时间入口，避免不稳定的调度线程副作用。
 - `mahu-web`：当前为纯 JUnit + Mockito 轻量单测（无容器/无数据库），重点验证异常匹配、错误响应映射与回退逻辑。
-- `mahu-domain`：当前仅提供测试环境 DI 组件（`TestDataSourceProvider`、`TestDatabaseProvider`），用于为依赖模块提供测试期 DataSource/Database 覆盖。
+- `mahu-entity`：当前提供测试环境 DI 组件（`TestDataSourceProvider`、`TestDatabaseProvider`），用于为依赖模块提供测试期 DataSource/Database 覆盖。
 - `mahu-admin:mahu-admin-infra`：目前仅有测试资源（`meta-config.yaml`、`mahu-admin-test.yaml`），暂无测试类；新增测试时应优先复用 `mahu-shared/mahu-task` 的 Service Registry 模式。
 
 **推荐最佳实践（汇总）：**

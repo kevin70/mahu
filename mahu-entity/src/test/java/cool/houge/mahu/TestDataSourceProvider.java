@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 /// 测试环境数据源提供者
 ///
-/// 仅在 mahu-domain 的测试环境中使用，通过 Helidon Config 读取 `ConfigPrefixes.DB`
+/// 仅在 mahu-entity 的测试环境中使用，通过 Helidon Config 读取 `ConfigPrefixes.DB`
 /// 下的配置创建数据源。
 @Singleton
 @RunLevel(RunLevel.STARTUP)
@@ -26,7 +26,7 @@ class TestDataSourceProvider implements Supplier<DataSource> {
     TestDataSourceProvider(Config root) {
         var config = root.get(ConfigPrefixes.DB);
         this.v = MahuDataSourceFactory.builder(
-                        "mahu-domain-test",
+                        "mahu-entity-test",
                         config.get("url").asString().get(),
                         config.get("username").asString().get(),
                         config.get("password").asString().get())
