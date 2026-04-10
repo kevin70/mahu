@@ -8,10 +8,13 @@ navigation: false
 
 ## 推荐入口
 
+- [系统总览](/architecture/system-overview)
 - [模块职责与边界](/architecture/module-boundaries)
+- [典型请求链路](/architecture/request-lifecycle)
+- [配置体系](/architecture/configuration-model)
+- [OpenAPI 工作流](/architecture/openapi-workflow)
 - [可观测性与错误响应](/architecture/observability)
 - [测试与质量门槛](/architecture/testing-and-quality-gates)
 - [元数据规范](/architecture/metadata-dictionary)
 - [数据库规范](/architecture/database-naming-conventions)
 - [数据库与实体一致性](/architecture/database-entity-consistency)
-

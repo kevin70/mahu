@@ -49,7 +49,7 @@ export default defineAppConfig({
         {
           icon: 'i-lucide-book-open',
           label: '数据库规范',
-          to: '/architecture/database-spec',
+          to: '/architecture/database-naming-conventions',
           target: undefined,
         },
         {
