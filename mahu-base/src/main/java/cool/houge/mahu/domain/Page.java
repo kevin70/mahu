@@ -89,7 +89,7 @@ public class Page {
                 requireNonNullElse(page, DEFAULT_PAGE),
                 requireNonNullElse(pageSize, DEFAULT_PAGE_SIZE),
                 requireNonNullElse(includeTotal, true),
-                requireNonNullElse(sort, Sort.unsorted())
+                sort
                 //
                 );
     }

@@ -2,6 +2,7 @@ package cool.houge.mahu.domain;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.Strings;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -53,8 +54,11 @@ public class DateRange {
     ///
     /// 任一参数为 null 或空字符串时，视为该端无限制。
     public static DateRange ofNullable(@Nullable String start, @Nullable String end) {
-        DayStartTime s = (start == null || start.isEmpty()) ? null : DayStartTime.of(start);
-        DayEndTime e = (end == null || end.isEmpty()) ? null : DayEndTime.of(end);
+        if (Strings.isNullOrEmpty(start) && Strings.isNullOrEmpty(end)) {
+            return EMPTY;
+        }
+        DayStartTime s = Strings.isNullOrEmpty(start) ? null : DayStartTime.of(start);
+        DayEndTime e = Strings.isNullOrEmpty(end) ? null : DayEndTime.of(end);
         return new DateRange(s, e);
     }
 

@@ -7,6 +7,7 @@ import cool.houge.mahu.util.DateTimeUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import lombok.EqualsAndHashCode;
 
 /// 每日开始时间
 ///
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 /// 它主要用于需要精确到天的时间计算场景。
 ///
 /// @author ZY (kzou227@qq.com)
+@EqualsAndHashCode
 public class DayStartTime {
 
     /// 日期对象，表示该开始时间对应的日期
@@ -34,12 +36,7 @@ public class DayStartTime {
     /// @param date 日期字符串
     /// @return DayStartTime 对象
     public static DayStartTime of(String date) {
-        requireNonNull(date, "date");
-        var d = DateTimeUtils.tryParseLocalDateTime(date);
-        if (d == null) {
-            throw new IllegalArgumentException("非法日期: " + date);
-        }
-        return new DayStartTime(d.toLocalDate());
+        return new DayStartTime(parseDate(date));
     }
 
     /// 根据给定的 LocalDate 创建一个 DayStartTime 对象
@@ -60,6 +57,15 @@ public class DayStartTime {
     /// @return 表示当天第一刻的 LocalDateTime 对象
     public LocalDateTime toDateTime() {
         return LocalDateTime.of(date, LocalTime.MIN);
+    }
+
+    private static LocalDate parseDate(String date) {
+        requireNonNull(date, "date");
+        var dateTime = DateTimeUtils.tryParseLocalDateTime(date);
+        if (dateTime == null) {
+            throw new IllegalArgumentException("非法日期: " + date);
+        }
+        return dateTime.toLocalDate();
     }
 
     @Override

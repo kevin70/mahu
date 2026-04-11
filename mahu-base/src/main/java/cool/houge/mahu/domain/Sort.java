@@ -19,9 +19,9 @@ import static java.util.Objects.requireNonNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.helidon.common.parameters.Parameters;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,20 +38,14 @@ import org.jspecify.annotations.NonNull;
 public class Sort {
 
     /// 空排序
-    private static final Sort UNSORTED = new Sort(Collections.emptyList());
+    private static final Sort UNSORTED = new Sort(List.of());
 
     /// 排序集合
     private final List<Order> orders;
 
     private Sort(List<Order> orders) {
-        if (orders.isEmpty()) {
-            this.orders = Collections.emptyList();
-        } else {
-            var uniqueProperties = new HashSet<>();
-            this.orders = orders.stream()
-                    .filter(order -> uniqueProperties.add(order.getProperty().toUpperCase()))
-                    .toList();
-        }
+        var normalizedOrders = normalizeOrders(orders);
+        this.orders = normalizedOrders.isEmpty() ? List.of() : List.copyOf(normalizedOrders);
     }
 
     /// 空排序
@@ -67,6 +61,7 @@ public class Sort {
     /// @param params 包含排序参数的对象。
     /// @return 排序
     public static @NonNull Sort of(@NonNull Parameters params) {
+        requireNonNull(params, "params");
         if (!params.contains("sort")) {
             return Sort.unsorted();
         }
@@ -84,12 +79,19 @@ public class Sort {
 
         var builder = Sort.builder();
         for (String s : params) {
-            if (s == null || s.isEmpty()) {
+            if (s == null) {
                 continue;
             }
 
-            boolean ascending = s.charAt(0) != '-';
-            String paramName = ascending ? s : s.substring(1);
+            var value = s.strip();
+            if (value.isEmpty()) {
+                continue;
+            }
+            boolean ascending = value.charAt(0) != '-';
+            String paramName = ascending ? value : value.substring(1).strip();
+            if (paramName.isEmpty()) {
+                continue;
+            }
             if (ascending) {
                 builder.asc(paramName);
             } else {
@@ -115,6 +117,10 @@ public class Sort {
     /// 构建器
     public static class Builder {
 
+        Builder() {
+            this.orders = new ArrayList<>();
+        }
+
         /// 正序
         public Builder asc(String property) {
             orders.add(new Order(property, Direction.ASC));
@@ -131,6 +137,7 @@ public class Sort {
     /// 排序项
     @Getter
     @ToString
+    @EqualsAndHashCode
     public static class Order {
 
         /// 排序属性
@@ -139,7 +146,7 @@ public class Sort {
         private final Direction direction;
 
         private Order(String property, Direction direction) {
-            this.property = requireNonNull(property, "排序属性不能为空");
+            this.property = normalizeProperty(property);
             this.direction = requireNonNull(direction, "排序方向不能为空");
         }
 
@@ -162,7 +169,34 @@ public class Sort {
         ///
         /// @return 如果当前排序方向是倒序，则返回 true；否则返回 false。
         public boolean isDesc() {
-            return !isAsc();
+            return direction == Direction.DESC;
         }
+    }
+
+    private static List<Order> normalizeOrders(List<Order> orders) {
+        if (orders == null || orders.isEmpty()) {
+            return List.of();
+        }
+
+        var normalizedOrders = new ArrayList<Order>(orders.size());
+        var uniqueProperties = new java.util.HashSet<String>(orders.size());
+        for (Order order : orders) {
+            if (uniqueProperties.add(normalizePropertyKey(order.getProperty()))) {
+                normalizedOrders.add(order);
+            }
+        }
+        return normalizedOrders;
+    }
+
+    private static String normalizeProperty(String property) {
+        var normalized = requireNonNull(property, "排序属性不能为空").strip();
+        if (normalized.isEmpty()) {
+            throw new IllegalArgumentException("排序属性不能为空");
+        }
+        return normalized;
+    }
+
+    private static String normalizePropertyKey(String property) {
+        return property.toUpperCase(Locale.ROOT);
     }
 }
