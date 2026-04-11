@@ -21,7 +21,7 @@ class JacksonSupportProvider implements Supplier<MediaSupport>, Weighted {
 
     @Override
     public MediaSupport get() {
-        return JacksonSupport.create(objectMapper(), "houge-jackson");
+        return JacksonSupport.create(createObjectMapper(), "houge-jackson");
     }
 
     @Override
@@ -29,13 +29,14 @@ class JacksonSupportProvider implements Supplier<MediaSupport>, Weighted {
         return 1;
     }
 
-    private ObjectMapper objectMapper() {
+    private static ObjectMapper createObjectMapper() {
         return new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .registerModule(new Jdk8Module())
                 .registerModule(new ParameterNamesModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .setDefaultPropertyInclusion(JsonInclude.Include.NON_DEFAULT);
+                .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
     }
 }

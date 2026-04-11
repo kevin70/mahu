@@ -18,11 +18,16 @@ class ObjectMapperProvider implements Supplier<ObjectMapper> {
 
     @Override
     public ObjectMapper get() {
+        return createObjectMapper();
+    }
+
+    private static ObjectMapper createObjectMapper() {
         return new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .registerModule(new Jdk8Module())
                 .registerModule(new ParameterNamesModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
     }

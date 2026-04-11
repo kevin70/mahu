@@ -29,11 +29,24 @@ class TestDataSourceProvider implements Supplier<DataSource> {
                 .url(config.get("url").asString().get())
                 .username(config.get("username").asString().get())
                 .password(config.get("password").asString().get())
-                .cstmtCacheSize(250)
-                .pstmtCacheSize(2048)
+                // 测试中仍保留一定 PreparedStatement 缓存，减少重复 prepare 噪音。
+                .pstmtCacheSize(128)
+                // 使用最轻量的探活 SQL。
                 .heartbeatSql("SELECT 1")
+                // 测试环境仍校验连接有效性，避免把坏连接问题误判成业务失败。
                 .validateOnHeartbeat(true)
+                // 关闭 JVM 自动关闭钩子，避免和测试生命周期管理重复。
                 .shutdownOnJvmExit(false)
+                // 测试不采集调用栈，保持连接池行为简单可预测。
+                .captureStackTrace(false)
+                // 每 60 秒执行一次连接池裁剪。
+                .trimPoolFreqSecs(60)
+                // 测试环境最长等待 1 秒拿连接，避免无意义卡住。
+                .waitTimeoutMillis(1000)
+                // 空闲连接 120 秒后允许回收，兼顾稳定与轻量。
+                .maxInactiveTimeSecs(120)
+                // 单连接最长存活 15 分钟，测试运行期内足够稳定。
+                .maxAgeMinutes(15)
                 .minConnections(config.get("min-idle").asInt().orElse(1))
                 // 推荐值：根据应用负载和数据库性能调整（通常为 CPU 核心数 * 2 + 1）
                 .maxConnections(config.get("max-size")
