@@ -13,6 +13,9 @@ import cool.houge.mahu.repository.sys.IdPhotoRepository;
 import cool.houge.mahu.repository.sys.StoredObjectRepository;
 import io.helidon.service.registry.Service;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import lombok.AllArgsConstructor;
 
 /// 对象存储（OSS）共享服务
@@ -27,6 +30,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class OssSharedService {
 
+    private static final Map<String, String> EMPTY_QUERY_PARAMS = Map.of();
+
     private final OssHelper ossHelper;
     private final StoredObjectRepository storedObjectRepository;
     private final IdPhotoRepository idPhotoRepository;
@@ -37,19 +42,16 @@ public class OssSharedService {
     /// @param payload 上传请求负载（包含文件名等）
     /// @return 包含预签名 URL 和访问 URL 的响应对象
     public PresignedUploadResult presignedUpload(StoredObject.Type type, PresignedUploadCommand payload) {
-        var id = UlidCreator.getMonotonicUlid().toString();
-        var objectKey = type.buildObjectKey(id, Files.getFileExtension(payload.getFileName()));
-        var uploadUrl = ossHelper.presignedUploadUrl(objectKey, Map.of());
-
-        var storeObject = new StoredObject()
-                .setId(id)
-                .setType(type)
-                .setObjectKey(objectKey)
-                .setStatus(Status.PENDING.getCode());
-        storedObjectRepository.save(storeObject);
-
-        var accessUrl = type.isOpen() ? ossHelper.accessUrl(objectKey) : ossHelper.presignedGetUrl(objectKey);
-        return new PresignedUploadResult(storeObject.getId(), objectKey, uploadUrl, accessUrl);
+        return createPresignedUpload(
+                payload.getFileName(),
+                type::buildObjectKey,
+                (id, objectKey) -> new StoredObject()
+                        .setId(id)
+                        .setType(type)
+                        .setObjectKey(objectKey)
+                        .setStatus(Status.PENDING.getCode()),
+                storedObjectRepository::save,
+                objectKey -> type.isOpen() ? ossHelper.accessUrl(objectKey) : ossHelper.presignedGetUrl(objectKey));
     }
 
     /// 通过已保存的 StoredObject 获取预签名下载 URL
@@ -58,11 +60,8 @@ public class OssSharedService {
     /// @return 预签名下载 URL
     /// @throws BizCodeException 当对象不存在时抛出异常
     public String presignedGetUrlByStoredObject(String objectId) {
-        var obj = storedObjectRepository.findById(objectId);
-        if (obj == null) {
-            throw new BizCodeException(BizCodes.NOT_FOUND, "未找到 StoredObject");
-        }
-        return presignedGetUrl(obj.getObjectKey());
+        return presignedGetUrlByObjectId(
+                objectId, storedObjectRepository::findById, StoredObject::getObjectKey, "未找到 StoredObject");
     }
 
     /// 为身份证照片生成预签名上传 URL
@@ -71,14 +70,16 @@ public class OssSharedService {
     /// @param payload 上传请求负载
     /// @return 包含预签名 URL 和访问 URL 的响应对象
     public PresignedUploadResult presignedUpload(IdPhoto.Type type, PresignedUploadCommand payload) {
-        var id = UlidCreator.getMonotonicUlid().toString();
-        var objectKey = type.buildObjectKey(id, Files.getFileExtension(payload.getFileName()));
-        var uploadUrl = ossHelper.presignedUploadUrl(objectKey, Map.of());
-
-        var idPhoto =
-                new IdPhoto().setId(id).setType(type).setObjectKey(objectKey).setStatus(Status.PENDING.getCode());
-        idPhotoRepository.save(idPhoto);
-        return new PresignedUploadResult(idPhoto.getId(), objectKey, uploadUrl, ossHelper.presignedGetUrl(objectKey));
+        return createPresignedUpload(
+                payload.getFileName(),
+                type::buildObjectKey,
+                (id, objectKey) -> new IdPhoto()
+                        .setId(id)
+                        .setType(type)
+                        .setObjectKey(objectKey)
+                        .setStatus(Status.PENDING.getCode()),
+                idPhotoRepository::save,
+                ossHelper::presignedGetUrl);
     }
 
     /// 通过已保存的 IdPhoto 获取预签名下载 URL
@@ -87,11 +88,7 @@ public class OssSharedService {
     /// @return 预签名下载 URL
     /// @throws BizCodeException 当照片不存在时抛出异常
     public String presignedGetUrlByIdPhoto(String objectId) {
-        var obj = idPhotoRepository.findById(objectId);
-        if (obj == null) {
-            throw new BizCodeException(BizCodes.NOT_FOUND, "未找到 IdPhoto");
-        }
-        return presignedGetUrl(obj.getObjectKey());
+        return presignedGetUrlByObjectId(objectId, idPhotoRepository::findById, IdPhoto::getObjectKey, "未找到 IdPhoto");
     }
 
     /// 为指定对象生成预签名下载 URL
@@ -100,5 +97,31 @@ public class OssSharedService {
     /// @return 预签名下载 URL
     public String presignedGetUrl(String objectKey) {
         return ossHelper.presignedGetUrl(objectKey);
+    }
+
+    private <T> PresignedUploadResult createPresignedUpload(
+            String fileName,
+            BiFunction<String, String, String> objectKeyBuilder,
+            BiFunction<String, String, T> entityFactory,
+            Consumer<T> entitySaver,
+            Function<String, String> accessUrlResolver) {
+        var id = newObjectId();
+        var objectKey = objectKeyBuilder.apply(id, Files.getFileExtension(fileName));
+        var uploadUrl = ossHelper.presignedUploadUrl(objectKey, EMPTY_QUERY_PARAMS);
+        entitySaver.accept(entityFactory.apply(id, objectKey));
+        return new PresignedUploadResult(id, objectKey, uploadUrl, accessUrlResolver.apply(objectKey));
+    }
+
+    private <T> String presignedGetUrlByObjectId(
+            String objectId, Function<String, T> finder, Function<T, String> objectKeyGetter, String notFoundMessage) {
+        var obj = finder.apply(objectId);
+        if (obj == null) {
+            throw new BizCodeException(BizCodes.NOT_FOUND, notFoundMessage);
+        }
+        return presignedGetUrl(objectKeyGetter.apply(obj));
+    }
+
+    private static String newObjectId() {
+        return UlidCreator.getMonotonicUlid().toString();
     }
 }
