@@ -71,15 +71,15 @@ public class PlatformSharedService {
                 .toList();
     }
 
-    /// 直接写入已构造好的延迟任务实体。
-    @Transactional
-    public void enqueueDelayedTask(DelayedTask task) {
-        delayedTaskRepository.enqueueDelayedTask(task);
+    /// 按命令构造延迟任务并入队。
+    public void enqueueDelayedTask(@NonNull EnqueueDelayedTaskCommand command) {
+        enqueueDelayedTask(buildDelayedTask(command));
     }
 
-    /// 按命令构造延迟任务并入队。
-    public void enqueueTopicDelayedTask(@NonNull EnqueueDelayedTaskCommand command) {
-        enqueueDelayedTask(buildDelayedTask(command));
+    /// 直接写入已构造好的延迟任务实体。
+    @Transactional
+    void enqueueDelayedTask(DelayedTask task) {
+        delayedTaskRepository.enqueueDelayedTask(task);
     }
 
     /// 根据主题约定补齐默认字段，构造待入队的延迟任务。

@@ -131,10 +131,10 @@ class PlatformSharedServiceTest {
     }
 
     @Test
-    void enqueueTopicDelayedTask_uses_null_payload_when_not_provided(PlatformSharedService service) {
+    void enqueueDelayedTask_uses_null_payload_when_not_provided(PlatformSharedService service) {
         var expectedAt = Instant.parse("2026-03-28T12:00:00Z");
 
-        service.enqueueTopicDelayedTask(EnqueueDelayedTaskCommand.builder()
+        service.enqueueDelayedTask(EnqueueDelayedTaskCommand.builder()
                 .topic(DelayedTaskTopic.FEATURE_FLAG_ENABLE)
                 .referenceId("ref-feature-1")
                 .expectedAt(expectedAt)
@@ -158,10 +158,10 @@ class PlatformSharedServiceTest {
     }
 
     @Test
-    void enqueueTopicDelayedTask_builds_task_fields_from_command_with_payload(PlatformSharedService service) {
+    void enqueueDelayedTask_builds_task_fields_from_command_with_payload(PlatformSharedService service) {
         var expectedAt = Instant.parse("2026-03-28T12:00:00Z");
 
-        service.enqueueTopicDelayedTask(EnqueueDelayedTaskCommand.builder()
+        service.enqueueDelayedTask(EnqueueDelayedTaskCommand.builder()
                 .topic(DelayedTaskTopic.FEATURE_FLAG_ENABLE)
                 .referenceId("ref-feature-1")
                 .expectedAt(expectedAt)
@@ -186,10 +186,10 @@ class PlatformSharedServiceTest {
     }
 
     @Test
-    void enqueueTopicDelayedTask_serializes_object_payload_as_json(PlatformSharedService service) {
+    void enqueueDelayedTask_serializes_object_payload_as_json(PlatformSharedService service) {
         var expectedAt = Instant.parse("2026-03-28T12:00:00Z");
 
-        service.enqueueTopicDelayedTask(EnqueueDelayedTaskCommand.builder()
+        service.enqueueDelayedTask(EnqueueDelayedTaskCommand.builder()
                 .topic(DelayedTaskTopic.FEATURE_FLAG_ENABLE)
                 .referenceId("ref-feature-2")
                 .expectedAt(expectedAt)

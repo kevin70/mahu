@@ -93,7 +93,7 @@ public class FeatureFlagService {
     private void enqueueEnableDelayedTask(int featureFlagId, Instant expectedEnableAt) {
         var topic = DelayedTaskTopic.FEATURE_FLAG_ENABLE;
         var idempotencyKey = idempotencyKey(featureFlagId, expectedEnableAt);
-        platformSharedService.enqueueTopicDelayedTask(EnqueueDelayedTaskCommand.builder()
+        platformSharedService.enqueueDelayedTask(EnqueueDelayedTaskCommand.builder()
                 .topic(topic)
                 .referenceId(String.valueOf(featureFlagId))
                 .expectedAt(expectedEnableAt)
@@ -104,7 +104,7 @@ public class FeatureFlagService {
     private void enqueueDisableDelayedTask(int featureFlagId, Instant expectedDisableAt) {
         var topic = DelayedTaskTopic.FEATURE_FLAG_DISABLE;
         var idempotencyKey = idempotencyKey(featureFlagId, expectedDisableAt);
-        platformSharedService.enqueueTopicDelayedTask(EnqueueDelayedTaskCommand.builder()
+        platformSharedService.enqueueDelayedTask(EnqueueDelayedTaskCommand.builder()
                 .topic(topic)
                 .referenceId(String.valueOf(featureFlagId))
                 .expectedAt(expectedDisableAt)
