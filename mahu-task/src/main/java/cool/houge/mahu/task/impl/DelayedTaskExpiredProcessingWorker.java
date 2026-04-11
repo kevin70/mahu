@@ -5,6 +5,7 @@ import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.config.Config;
 import io.helidon.scheduling.FixedRate;
+import io.helidon.scheduling.TaskManager;
 import io.helidon.service.registry.Service;
 import java.time.Duration;
 import java.time.Instant;
@@ -12,10 +13,11 @@ import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/// 延时任务超时租约处理 worker：
-/// - 查找租约到期仍处于 PROCESSING 的 delayed_tasks
-/// - 根据 attempts/maxAttempts 转换为 PENDING(重试) 或 FAILED(停止重试)
+/// 延时任务超时回收 worker：
+/// - 查找租约到期仍处于 PROCESSING 的任务
+/// - 根据 attempts/maxAttempts 转换为重试或失败
 @Service.Singleton
+@Service.RunLevel(Service.RunLevel.SERVER)
 @AllArgsConstructor
 public class DelayedTaskExpiredProcessingWorker {
 
@@ -25,30 +27,30 @@ public class DelayedTaskExpiredProcessingWorker {
     private static final int BATCH_SIZE = 50;
 
     private final Config config;
+    private final TaskManager taskManager;
     private final DelayedTaskRepository delayedTaskRepository;
 
     @Service.PostConstruct
     void init() {
-        FixedRate.builder()
+        var task = FixedRate.builder()
                 .interval(DEFAULT_INTERVAL)
                 .delayBy(DEFAULT_INTERVAL)
                 .config(config.get(SCHEDULING_KEY))
-                .task(inv -> safeExecute())
+                .task(inv -> execute())
                 .build();
+        taskManager.register(task);
     }
 
-    private void safeExecute() {
+    /// 调度入口。
+    ///
+    /// 统一在此处兜底异常，避免调度线程被未捕获异常中断。
+    void execute() {
         try {
-            execute();
+            executeAt(Instant.now());
         } catch (Exception e) {
             // 避免调度线程因未捕获异常中断，错误留痕后等待下次调度恢复。
             log.error("延时任务调度器(expired-processing)：本轮执行失败", e);
         }
-    }
-
-    /// `findExpiredProcessingSkipLocked` + 状态转换必须在同一事务内，行锁语义才成立。
-    void execute() {
-        executeAt(Instant.now());
     }
 
     @Transactional

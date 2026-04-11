@@ -93,43 +93,44 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
 
     /// 查询到期且待处理（PENDING）的任务。
     public List<DelayedTask> findDuePending(Instant now, int limit) {
-        var qb = new QDelayedTask(db());
-        qb.status.eq(Status.PENDING.getCode());
-        qb.delayUntil.le(now);
-        qb.setMaxRows(limit);
-        return qb.findList();
+        return newDuePendingQuery(now, limit).findList();
     }
 
     /// 查询租约超时且处理中（PROCESSING）的任务。
     public List<DelayedTask> findExpiredProcessing(Instant now, int limit) {
-        var qb = new QDelayedTask(db());
-        qb.status.eq(Status.PROCESSING.getCode());
-        qb.raw(LEASE_EXPIRED_QUERY_PREDICATE, now);
-        qb.lockAt.asc();
-        qb.setMaxRows(limit);
-        return qb.findList();
+        return newExpiredProcessingQuery(now, limit).findList();
     }
 
     /// 与 {@link #findDuePending} 语义一致，但使用 `FOR UPDATE SKIP LOCKED` 规避并发竞争。
     public List<DelayedTask> findDuePendingSkipLocked(Instant now, int limit) {
-        var qb = new QDelayedTask(db());
-        qb.status.eq(Status.PENDING.getCode());
-        qb.delayUntil.le(now);
+        var qb = newDuePendingQuery(now, limit);
         qb.delayUntil.asc();
-        qb.setMaxRows(limit);
         qb.forUpdateSkipLocked();
         return qb.findList();
     }
 
     /// 与 {@link #findExpiredProcessing} 语义一致，但使用 `FOR UPDATE SKIP LOCKED`。
     public List<DelayedTask> findExpiredProcessingSkipLocked(Instant now, int limit) {
+        var qb = newExpiredProcessingQuery(now, limit);
+        qb.forUpdateSkipLocked();
+        return qb.findList();
+    }
+
+    private QDelayedTask newDuePendingQuery(Instant now, int limit) {
+        var qb = new QDelayedTask(db());
+        qb.status.eq(Status.PENDING.getCode());
+        qb.delayUntil.le(now);
+        qb.setMaxRows(limit);
+        return qb;
+    }
+
+    private QDelayedTask newExpiredProcessingQuery(Instant now, int limit) {
         var qb = new QDelayedTask(db());
         qb.status.eq(Status.PROCESSING.getCode());
         qb.raw(LEASE_EXPIRED_QUERY_PREDICATE, now);
         qb.lockAt.asc();
         qb.setMaxRows(limit);
-        qb.forUpdateSkipLocked();
-        return qb.findList();
+        return qb;
     }
 
     /// 领取任务：仅当任务仍为 PENDING 且已到 delayUntil 才会成功。
@@ -137,12 +138,10 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
     /// 返回 true 表示本次调用成功占有该任务；false 表示被其他工作节点先一步处理或尚未到期。
     public boolean claimPending(UUID id, Instant now, int leaseSeconds, int nextAttempts) {
         var qb = new QDelayedTask(db());
-        return qb.id.eq(id)
-                        .status
-                        .eq(Status.PENDING.getCode())
-                        .delayUntil
-                        .le(now)
-                        .asUpdate()
+        qb.id.eq(id);
+        qb.status.eq(Status.PENDING.getCode());
+        qb.delayUntil.le(now);
+        return qb.asUpdate()
                         .set(qb.status, Status.PROCESSING.getCode())
                         .set(qb.lockAt, now)
                         .set(qb.leaseSeconds, leaseSeconds)
@@ -154,58 +153,50 @@ public class DelayedTaskRepository extends HBeanRepository<UUID, DelayedTask> {
 
     /// 完成任务：仅 PROCESSING -> COMPLETED。
     public void complete(UUID id) {
-        updateTerminalStatus(id, Status.COMPLETED, Status.PROCESSING.getCode());
+        updateTerminalStatus(id, Status.COMPLETED);
     }
 
     /// 归档任务：仅 PROCESSING -> ARCHIVED。
     public void archive(UUID id) {
-        updateTerminalStatus(id, Status.ARCHIVED, Status.PROCESSING.getCode());
+        updateTerminalStatus(id, Status.ARCHIVED);
     }
 
-    private void updateTerminalStatus(UUID id, Status terminalStatus, int expectedStatus) {
-        var qb = new QDelayedTask(db());
-        qb.id.eq(id)
-                .status
-                .eq(expectedStatus)
-                .asUpdate()
-                .set(qb.status, terminalStatus.getCode())
-                .set(qb.delayUntil, null)
-                .set(qb.lockAt, null)
-                .set(qb.updatedAt, Instant.now())
-                .update();
+    private void updateTerminalStatus(UUID id, Status terminalStatus) {
+        updateTransition(newProcessingQuery(id), terminalStatus, null);
     }
 
     /// 将超时任务回退为待处理（PROCESSING -> PENDING）。
     ///
     /// 返回 true 表示成功迁移，false 表示不满足“处理中且租约超时”前置条件。
     public boolean transitionExpiredToPending(UUID id, Instant now, Instant delayUntil) {
-        var qb = new QDelayedTask(db());
-        return qb.id.eq(id)
-                        .status
-                        .eq(Status.PROCESSING.getCode())
-                        .raw(LEASE_EXPIRED_UPDATE_PREDICATE, now)
-                        .asUpdate()
-                        .set(qb.status, Status.PENDING.getCode())
-                        .set(qb.lockAt, null)
-                        .set(qb.delayUntil, delayUntil)
-                        .set(qb.updatedAt, Instant.now())
-                        .update()
-                == 1;
+        return updateTransition(newExpiredProcessingTransitionQuery(id, now), Status.PENDING, delayUntil);
     }
 
     /// 将超时任务置为失败（PROCESSING -> FAILED）。
     ///
     /// 返回 true 表示成功迁移，false 表示不满足“处理中且租约超时”前置条件。
     public boolean transitionExpiredToFailed(UUID id, Instant now) {
+        return updateTransition(newExpiredProcessingTransitionQuery(id, now), Status.FAILED, null);
+    }
+
+    private QDelayedTask newProcessingQuery(UUID id) {
         var qb = new QDelayedTask(db());
-        return qb.id.eq(id)
-                        .status
-                        .eq(Status.PROCESSING.getCode())
-                        .raw(LEASE_EXPIRED_UPDATE_PREDICATE, now)
-                        .asUpdate()
-                        .set(qb.status, Status.FAILED.getCode())
+        qb.id.eq(id);
+        qb.status.eq(Status.PROCESSING.getCode());
+        return qb;
+    }
+
+    private QDelayedTask newExpiredProcessingTransitionQuery(UUID id, Instant now) {
+        var qb = newProcessingQuery(id);
+        qb.raw(LEASE_EXPIRED_UPDATE_PREDICATE, now);
+        return qb;
+    }
+
+    private boolean updateTransition(QDelayedTask qb, Status targetStatus, @Nullable Instant delayUntil) {
+        return qb.asUpdate()
+                        .set(qb.status, targetStatus.getCode())
                         .set(qb.lockAt, null)
-                        .set(qb.delayUntil, null)
+                        .set(qb.delayUntil, delayUntil)
                         .set(qb.updatedAt, Instant.now())
                         .update()
                 == 1;

@@ -70,7 +70,8 @@
 
 **推荐最佳实践（汇总）：**
 - **分层选型**：仓储层优先“真实数据库集成测试”（`mahu-dal` 模式）；服务层/Worker 优先“DI 注入 + Mockito 替身单测”（`mahu-shared` / `mahu-task` 模式）；纯工具逻辑优先“无容器轻量单测”（`mahu-web` 模式）。
-- **DI 优先**：在 Helidon 服务测试中，优先通过 `@Testing.Test(perMethod = true)` + `Services.set(...)` 绑定依赖，再通过方法参数注入被测对象；减少手工装配导致的生命周期偏差。
+- **Helidon Service Registry 优先**：凡模块已依赖 `helidon-service-registry`，其单元测试默认优先采用 `@Testing.Test(perMethod = true)` + `Services.set(...)` + 方法参数注入的 Service Registry 模式，而不是手工 `new` 组装被测对象。
+- **注解即强制**：如果测试类已经使用了 Helidon Testing / Service Registry 注解（如 `@Testing.Test`），则必须延续 Service Registry 测试模式，不再回退到手工装配。
 - **稳定输入**：时间断言固定 `Instant.parse(...)`；业务数值 ID 建议使用负数；排序断言必须显式比较顺序，避免依赖默认顺序。
 - **边界覆盖**：状态机/调度类至少覆盖“成功迁移、前置条件不满足、异常分支、空输入分支”；查询类至少覆盖“命中/未命中”。
 - **配置可控**：测试资源通过 `meta-config.yaml` + `application-test.yaml` 管理，定时任务相关配置在测试中默认关闭（如字典/功能开关缓存刷新），避免后台调度干扰断言。

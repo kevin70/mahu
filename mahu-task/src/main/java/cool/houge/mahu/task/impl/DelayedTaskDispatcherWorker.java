@@ -19,10 +19,10 @@ import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/// 延时任务调度 worker：
-/// - 轮询获取 delayed_tasks 中到点/租约到期任务
-/// - claim 后按 topic 路由到对应的 DI handler
-/// - handler 只做业务逻辑判定/更新；delayed_task 状态落库由 worker 统一完成
+/// 延时任务分发 worker：
+/// - 扫描已到期的 PENDING 任务
+/// - 领取后按 topic 分发到对应 handler
+/// - 任务终态由 worker 统一落库
 @Service.Singleton
 @Service.RunLevel(Service.RunLevel.SERVER)
 @AllArgsConstructor
@@ -44,24 +44,21 @@ public class DelayedTaskDispatcherWorker {
                 .interval(DEFAULT_INTERVAL)
                 .delayBy(DEFAULT_INTERVAL)
                 .config(config.get(SCHEDULING_KEY))
-                .task(inv -> safeExecute())
+                .task(inv -> execute())
                 .build();
         taskManager.register(task);
     }
 
-    private void safeExecute() {
+    /// 调度入口。
+    ///
+    /// 统一在此处兜底异常，避免调度线程被未捕获异常中断。
+    void execute() {
         try {
-            execute();
+            executeAt(Instant.now());
         } catch (Exception e) {
             // 避免调度线程因未捕获异常中断，错误留痕后等待下次调度恢复。
             log.error("延时任务调度器(pending)：本轮执行失败", e);
         }
-    }
-
-    /// `findDuePendingSkipLocked` + `claimPending` 必须在同一事务内，行锁语义才成立；
-    /// claim 完成后才在事务外执行 topic handler，并由 Worker 统一完成状态更新。
-    void execute() {
-        executeAt(Instant.now());
     }
 
     @Transactional
@@ -71,22 +68,22 @@ public class DelayedTaskDispatcherWorker {
             return;
         }
 
-        var completed = processClaimedTasks(claimedTasks);
+        var completed = processClaimedTasks(claimedTasks, now);
 
         log.info("延时任务调度器(pending)：本次领取/处理 claimed={}, completed={}, at={}", claimedTasks.size(), completed, now);
     }
 
-    private int processClaimedTasks(List<ClaimedDelayedTask> claimedTasks) {
+    private int processClaimedTasks(List<ClaimedDelayedTask> claimedTasks, Instant now) {
         var completed = 0;
         for (ClaimedDelayedTask task : claimedTasks) {
-            if (dispatchOne(task)) {
+            if (dispatchOne(task, now)) {
                 completed++;
             }
         }
         return completed;
     }
 
-    private boolean dispatchOne(ClaimedDelayedTask task) {
+    private boolean dispatchOne(ClaimedDelayedTask task, Instant now) {
         try {
             var handler = resolveHandler(task.getTopic());
             if (handler == null) {
@@ -98,10 +95,10 @@ public class DelayedTaskDispatcherWorker {
                 return true;
             }
 
-            finishTask(task.getDelayedTaskId(), handler.handle(task));
+            finishTask(task.getDelayedTaskId(), handler.handle(task), now);
             return true;
         } catch (Exception e) {
-            // 失败时保持 PROCESSING，由租约回收 worker 基于 attempts/maxAttempts 重试或停止
+            // 失败时保持 PROCESSING，由超时回收 worker 决定重试或失败。
             log.error(
                     "延时任务调度器(pending)：处理器执行失败，将等待租约回收重试 delayedTaskId={}, topic={}",
                     task.getDelayedTaskId(),
@@ -111,7 +108,7 @@ public class DelayedTaskDispatcherWorker {
         }
     }
 
-    private void finishTask(UUID delayedTaskId, DelayedTaskCompletionResult action) {
+    private void finishTask(UUID delayedTaskId, DelayedTaskCompletionResult action, Instant now) {
         switch (action) {
             case COMPLETE -> delayedTaskRepository.complete(delayedTaskId);
             case ARCHIVE -> delayedTaskRepository.archive(delayedTaskId);

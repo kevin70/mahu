@@ -148,6 +148,7 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
     @Test
     void complete_only_transitions_from_processing() {
         // 验证终态迁移前置条件：仅 PROCESSING 可迁移到 COMPLETED。
+        var now = Instant.parse("2025-06-01T12:00:00Z");
         var processing = task("processing-complete");
         processing.setStatus(Status.PROCESSING.getCode());
         processing.setLockAt(Instant.parse("2025-06-01T11:59:00Z"));
@@ -184,10 +185,10 @@ class DelayedTaskRepositoryTest extends PostgresLiquibaseTestBase {
         repo().archive(processing.getId());
         repo().archive(pending.getId());
 
-        var archived = db().find(DelayedTask.class, processing.getId());
-        assertThat(archived.getStatus()).isEqualTo(Status.ARCHIVED.getCode());
-        assertThat(archived.getLockAt()).isNull();
-        assertThat(archived.getDelayUntil()).isNull();
+        var archivedTask = db().find(DelayedTask.class, processing.getId());
+        assertThat(archivedTask.getStatus()).isEqualTo(Status.ARCHIVED.getCode());
+        assertThat(archivedTask.getLockAt()).isNull();
+        assertThat(archivedTask.getDelayUntil()).isNull();
 
         var untouched = db().find(DelayedTask.class, pending.getId());
         assertThat(untouched.getStatus()).isEqualTo(Status.PENDING.getCode());
