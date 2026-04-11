@@ -1,9 +1,11 @@
 package cool.houge.mahu.config;
 
-import java.util.HashMap;
+import cool.houge.mahu.CodedEnum;
+import java.util.Arrays;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -22,7 +24,7 @@ import lombok.Getter;
 /// @author ZY (kzou227@qq.com)
 @Getter
 @AllArgsConstructor
-public enum Status {
+public enum Status implements CodedEnum {
 
     // ========== 100-199 初始/等待态 ==========
     /// 草稿（临时未正式提交）
@@ -137,20 +139,18 @@ public enum Status {
     /// 状态标签描述
     private final String label;
 
-    /// 状态码到枚举的映射表，用于快速查找
-    private static final Map<Integer, Status> CODE_MAP = new HashMap<>();
-
-    static {
-        for (Status status : Status.values()) {
-            CODE_MAP.put(status.code, status);
-        }
-    }
+    /// 状态码到枚举的不可变映射表，初始化时自动校验重复状态码
+    private static final Map<Integer, Status> CODE_MAP = Arrays.stream(Status.values())
+            .collect(Collectors.toUnmodifiableMap(Status::getCode, Function.identity()));
 
     /// 根据状态码获取枚举实例
     ///
     /// @param code 状态码
     /// @return 包含枚举实例的Optional，如果状态码无效则返回空Optional
     public static Optional<Status> fromCode(Integer code) {
+        if (code == null) {
+            return Optional.empty();
+        }
         return Optional.ofNullable(CODE_MAP.get(code));
     }
 
@@ -160,11 +160,7 @@ public enum Status {
     /// @return 对应的状态枚举实例
     /// @throws IllegalArgumentException 当状态码无效时抛出
     public static Status valueOf(Integer code) {
-        Status status = CODE_MAP.get(code);
-        if (status == null) {
-            throw new IllegalArgumentException("无效的状态码: " + code);
-        }
-        return status;
+        return fromCode(code).orElseThrow(() -> new IllegalArgumentException("无效的状态码: " + code));
     }
 
     /// 判断状态码是否有效
@@ -175,22 +171,6 @@ public enum Status {
         return code != null && CODE_MAP.containsKey(code);
     }
 
-    /// 判断当前状态码是否与指定状态码相等
-    ///
-    /// @param code 要比较的状态码
-    /// @return 如果相等返回true，否则返回false
-    public boolean eq(Integer code) {
-        return Objects.equals(this.code, code);
-    }
-
-    /// 判断当前状态码是否与指定状态码不相等
-    ///
-    /// @param code 要比较的状态码
-    /// @return 如果不相等返回true，否则返回false
-    public boolean neq(Integer code) {
-        return !eq(code);
-    }
-
     /// 返回状态的字符串表示
     ///
     /// 格式为：状态名称(状态码)，例如：ACTIVE(200)
@@ -198,6 +178,6 @@ public enum Status {
     /// @return 状态的字符串表示
     @Override
     public String toString() {
-        return String.format("%s(%d)", this.name(), this.code);
+        return this.name() + "(" + this.code + ")";
     }
 }
