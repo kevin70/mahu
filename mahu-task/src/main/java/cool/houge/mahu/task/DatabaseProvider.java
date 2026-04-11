@@ -1,7 +1,11 @@
 package cool.houge.mahu.task;
 
-import cool.houge.mahu.util.MahuDatabaseFactory;
 import io.ebean.Database;
+import io.ebean.DatabaseFactory;
+import io.ebean.config.ContainerConfig;
+import io.ebean.config.DatabaseConfig;
+import io.ebean.config.JsonConfig;
+import io.ebean.datasource.DataSourceConfig;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
 import io.helidon.service.registry.Service;
@@ -21,13 +25,20 @@ class DatabaseProvider implements Supplier<Database> {
     final Database v;
 
     DatabaseProvider(DataSource ds) {
-        this.v = MahuDatabaseFactory.create(dbc -> {
-            dbc.setDataSourceConfig(MahuDatabaseFactory.dataSourceConfig("mahu-task", ds));
-            dbc.setSlowQueryMillis(100);
-            dbc.setCurrentUserProvider(() -> {
-                throw new UnsupportedOperationException("不支持获取当前用户");
-            });
+        var dbc = new DatabaseConfig();
+        dbc.setContainerConfig(new ContainerConfig());
+        dbc.setJsonInclude(JsonConfig.Include.NON_NULL);
+        dbc.shutdownHook(false);
+        dbc.setDataSourceConfig(new DataSourceConfig()
+                .setApplicationName("mahu-task")
+                .dataSource(ds)
+                .setHeartbeatSql("SELECT 1")
+                .setHeartbeatFreqSecs(15));
+        dbc.setSlowQueryMillis(100);
+        dbc.setCurrentUserProvider(() -> {
+            throw new UnsupportedOperationException("不支持获取当前用户");
         });
+        this.v = DatabaseFactory.create(dbc);
     }
 
     @Override

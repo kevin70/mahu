@@ -1,8 +1,12 @@
 package cool.houge.mahu.admin;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cool.houge.mahu.util.MahuObjectMapperFactory;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import io.helidon.common.Weighted;
 import io.helidon.http.media.MediaSupport;
 import io.helidon.http.media.jackson.JacksonSupport;
@@ -26,6 +30,12 @@ class JacksonSupportProvider implements Supplier<MediaSupport>, Weighted {
     }
 
     private ObjectMapper objectMapper() {
-        return MahuObjectMapperFactory.create(JsonInclude.Include.NON_DEFAULT);
+        return new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .registerModule(new Jdk8Module())
+                .registerModule(new ParameterNamesModule())
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .setDefaultPropertyInclusion(JsonInclude.Include.NON_DEFAULT);
     }
 }

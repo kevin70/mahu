@@ -10,7 +10,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.config.DelayedTaskTopic;
@@ -20,7 +22,6 @@ import cool.houge.mahu.model.command.EnqueueDelayedTaskCommand;
 import cool.houge.mahu.repository.sys.DelayedTaskRepository;
 import cool.houge.mahu.shared.ImmutableDictGroup;
 import cool.houge.mahu.shared.ImmutableFeatureFlag;
-import cool.houge.mahu.util.MahuObjectMapperFactory;
 import io.helidon.service.registry.Services;
 import io.helidon.testing.junit5.Testing;
 import java.time.Instant;
@@ -38,7 +39,9 @@ import org.mockito.ArgumentCaptor;
 @Testing.Test(perMethod = true)
 class PlatformSharedServiceTest {
 
-    private final ObjectMapper objectMapper = MahuObjectMapperFactory.createDefault();
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
     private final FeatureFlagCacheService featureFlagCacheService = mock(FeatureFlagCacheService.class);
     private final DictCacheService dictCacheService = mock(DictCacheService.class);
     private final DelayedTaskRepository delayedTaskRepository = mock(DelayedTaskRepository.class);

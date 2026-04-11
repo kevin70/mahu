@@ -1,7 +1,6 @@
 package cool.houge.mahu;
 
 import cool.houge.mahu.config.ConfigPrefixes;
-import cool.houge.mahu.util.MahuDataSourceFactory;
 import io.ebean.datasource.DataSourcePool;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
@@ -25,11 +24,16 @@ class TestDataSourceProvider implements Supplier<DataSource> {
 
     TestDataSourceProvider(Config root) {
         var config = root.get(ConfigPrefixes.DB);
-        this.v = MahuDataSourceFactory.builder(
-                        "mahu-entity-test",
-                        config.get("url").asString().get(),
-                        config.get("username").asString().get(),
-                        config.get("password").asString().get())
+        this.v = DataSourcePool.builder()
+                .name("mahu-entity-test")
+                .url(config.get("url").asString().get())
+                .username(config.get("username").asString().get())
+                .password(config.get("password").asString().get())
+                .cstmtCacheSize(250)
+                .pstmtCacheSize(2048)
+                .heartbeatSql("SELECT 1")
+                .validateOnHeartbeat(true)
+                .shutdownOnJvmExit(false)
                 .minConnections(config.get("min-idle").asInt().orElse(1))
                 // 推荐值：根据应用负载和数据库性能调整（通常为 CPU 核心数 * 2 + 1）
                 .maxConnections(config.get("max-size")

@@ -1,7 +1,10 @@
 package cool.houge.mahu;
 
-import cool.houge.mahu.util.MahuDatabaseFactory;
 import io.ebean.Database;
+import io.ebean.DatabaseFactory;
+import io.ebean.config.ContainerConfig;
+import io.ebean.config.DatabaseConfig;
+import io.ebean.config.JsonConfig;
 import io.helidon.common.Weight;
 import io.helidon.common.Weighted;
 import io.helidon.config.Config;
@@ -23,14 +26,17 @@ class TestDatabaseProvider implements Supplier<Database> {
     final Database v;
 
     TestDatabaseProvider(Config config, DataSource ds) {
-        this.v = MahuDatabaseFactory.create(dbc -> {
-            dbc.setDataSource(ds);
-            dbc.setSlowQueryMillis(200);
-            dbc.setChangeLogIncludeInserts(false);
-            dbc.setCurrentUserProvider(() -> -1);
-            dbc.setEncryptKeyManager((tableName, columnName) ->
-                    () -> config.get("db.encrypt.secret-key").asString().get());
-        });
+        var dbc = new DatabaseConfig();
+        dbc.setContainerConfig(new ContainerConfig());
+        dbc.setJsonInclude(JsonConfig.Include.NON_NULL);
+        dbc.shutdownHook(false);
+        dbc.setDataSource(ds);
+        dbc.setSlowQueryMillis(200);
+        dbc.setChangeLogIncludeInserts(false);
+        dbc.setCurrentUserProvider(() -> -1);
+        dbc.setEncryptKeyManager(
+                (tableName, columnName) -> () -> config.get("db.encrypt.secret-key").asString().get());
+        this.v = DatabaseFactory.create(dbc);
     }
 
     @Override
