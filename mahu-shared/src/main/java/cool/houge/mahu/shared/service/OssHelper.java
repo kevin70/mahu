@@ -82,7 +82,8 @@ class OssHelper {
     /// @param objectKey 对象键
     /// @param queryParams 额外的查询参数
     /// @return 预签名 URL（有效期 1 天）
-    private String presignedUrl(Http.Method method, String objectKey, Map<String, String> queryParams) throws Exception {
+    private String presignedUrl(Http.Method method, String objectKey, Map<String, String> queryParams)
+            throws Exception {
         return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(method)
                 .bucket(ossConfig.bucket())

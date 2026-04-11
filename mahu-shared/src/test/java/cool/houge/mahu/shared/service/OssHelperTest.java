@@ -1,6 +1,5 @@
 package cool.houge.mahu.shared.service;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,13 +36,12 @@ class OssHelperTest {
         verify(minioClient).getPresignedObjectUrl(argsCaptor.capture());
         var args = argsCaptor.getValue();
 
-        assertAll(
-                () -> assertEquals("https://upload.local/u", result),
-                () -> assertEquals(Http.Method.PUT, args.method()),
-                () -> assertEquals("mahu-dev", args.bucket()),
-                () -> assertEquals("p/admin/avatars/file.png", args.object()),
-                () -> assertEquals((int) TimeUnit.DAYS.toSeconds(1), args.expiry()),
-                () -> assertEquals("1", args.extraQueryParams().getFirst("x-test")));
+        assertEquals("https://upload.local/u", result);
+        assertEquals(Http.Method.PUT, args.method());
+        assertEquals("mahu-dev", args.bucket());
+        assertEquals("p/admin/avatars/file.png", args.object());
+        assertEquals((int) TimeUnit.DAYS.toSeconds(1), args.expiry());
+        assertEquals("1", args.extraQueryParams().getFirst("x-test"));
     }
 
     @Test
@@ -57,9 +55,8 @@ class OssHelperTest {
         verify(minioClient).getPresignedObjectUrl(argsCaptor.capture());
         var args = argsCaptor.getValue();
 
-        assertAll(
-                () -> assertEquals("https://upload.local/u", result),
-                () -> assertEquals(0, args.extraQueryParams().entries().size()));
+        assertEquals("https://upload.local/u", result);
+        assertEquals(0, args.extraQueryParams().entries().size());
     }
 
     @Test
@@ -73,13 +70,12 @@ class OssHelperTest {
         verify(minioClient).getPresignedObjectUrl(argsCaptor.capture());
         var args = argsCaptor.getValue();
 
-        assertAll(
-                () -> assertEquals("https://download.local/d", result),
-                () -> assertEquals(Http.Method.GET, args.method()),
-                () -> assertEquals("mahu-dev", args.bucket()),
-                () -> assertEquals("/d/file.jpg", args.object()),
-                () -> assertEquals((int) TimeUnit.DAYS.toSeconds(1), args.expiry()),
-                () -> assertEquals(0, args.extraQueryParams().entries().size()));
+        assertEquals("https://download.local/d", result);
+        assertEquals(Http.Method.GET, args.method());
+        assertEquals("mahu-dev", args.bucket());
+        assertEquals("/d/file.jpg", args.object());
+        assertEquals((int) TimeUnit.DAYS.toSeconds(1), args.expiry());
+        assertEquals(0, args.extraQueryParams().entries().size());
     }
 
     @Test
@@ -113,19 +109,17 @@ class OssHelperTest {
 
         var ex = assertThrows(BizCodeException.class, () -> helper.presignedGetUrl("p/file.png"));
 
-        assertAll(
-                () -> assertEquals(BizCodes.UNAVAILABLE, ex.getCode()),
-                () -> assertEquals("获取预签名下载URL错误", ex.getRawMessage()),
-                () -> assertSame(cause, ex.getCause()));
+        assertEquals(BizCodes.UNAVAILABLE, ex.getCode());
+        assertEquals("获取预签名下载URL错误", ex.getRawMessage());
+        assertSame(cause, ex.getCause());
     }
 
     @Test
     void presignedGetUrl_throws_invalid_argument_when_object_key_is_blank() {
         var ex = assertThrows(BizCodeException.class, () -> helper.presignedGetUrl(" "));
 
-        assertAll(
-                () -> assertEquals(BizCodes.INVALID_ARGUMENT, ex.getCode()),
-                () -> assertEquals("objectKey 不能为空", ex.getRawMessage()));
+        assertEquals(BizCodes.INVALID_ARGUMENT, ex.getCode());
+        assertEquals("objectKey 不能为空", ex.getRawMessage());
     }
 
     @Test
@@ -133,9 +127,8 @@ class OssHelperTest {
         var ex = assertThrows(
                 BizCodeException.class, () -> helper.presignedUploadUrl("p/admin/avatars/file.png", Map.of("", "1")));
 
-        assertAll(
-                () -> assertEquals(BizCodes.INVALID_ARGUMENT, ex.getCode()),
-                () -> assertEquals("生成预签名上传URL参数非法", ex.getRawMessage()));
+        assertEquals(BizCodes.INVALID_ARGUMENT, ex.getCode());
+        assertEquals("生成预签名上传URL参数非法", ex.getRawMessage());
     }
 
     private static Config config(String accessUrl) {
