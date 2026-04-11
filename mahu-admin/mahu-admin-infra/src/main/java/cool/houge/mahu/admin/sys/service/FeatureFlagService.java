@@ -6,9 +6,10 @@ import cool.houge.mahu.admin.bean.EntityBeanMapper;
 import cool.houge.mahu.config.DelayedTaskTopic;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.FeatureFlag;
+import cool.houge.mahu.model.command.EnqueueDelayedTaskCommand;
 import cool.houge.mahu.model.query.FeatureFlagQuery;
 import cool.houge.mahu.repository.sys.FeatureFlagRepository;
-import cool.houge.mahu.shared.service.AppSharedService;
+import cool.houge.mahu.shared.service.PlatformSharedService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service;
@@ -23,7 +24,7 @@ public class FeatureFlagService {
 
     private final EntityBeanMapper beanMapper;
     private final FeatureFlagRepository featureFlagRepository;
-    private final AppSharedService appSharedService;
+    private final PlatformSharedService platformSharedService;
 
     /// 新建功能开关
     @Transactional
@@ -92,13 +93,23 @@ public class FeatureFlagService {
     private void enqueueEnableDelayedTask(int featureFlagId, Instant expectedEnableAt) {
         var topic = DelayedTaskTopic.FEATURE_FLAG_ENABLE;
         var idempotencyKey = idempotencyKey(featureFlagId, expectedEnableAt);
-        appSharedService.enqueueDelayedTask(topic, String.valueOf(featureFlagId), expectedEnableAt, idempotencyKey);
+        platformSharedService.enqueueTopicDelayedTask(EnqueueDelayedTaskCommand.builder()
+                .topic(topic)
+                .referenceId(String.valueOf(featureFlagId))
+                .expectedAt(expectedEnableAt)
+                .idempotencyKey(idempotencyKey)
+                .build());
     }
 
     private void enqueueDisableDelayedTask(int featureFlagId, Instant expectedDisableAt) {
         var topic = DelayedTaskTopic.FEATURE_FLAG_DISABLE;
         var idempotencyKey = idempotencyKey(featureFlagId, expectedDisableAt);
-        appSharedService.enqueueDelayedTask(topic, String.valueOf(featureFlagId), expectedDisableAt, idempotencyKey);
+        platformSharedService.enqueueTopicDelayedTask(EnqueueDelayedTaskCommand.builder()
+                .topic(topic)
+                .referenceId(String.valueOf(featureFlagId))
+                .expectedAt(expectedDisableAt)
+                .idempotencyKey(idempotencyKey)
+                .build());
     }
 
     private static String idempotencyKey(int featureFlagId, Instant expectedAt) {

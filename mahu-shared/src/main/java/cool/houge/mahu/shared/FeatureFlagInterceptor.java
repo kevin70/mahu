@@ -1,6 +1,6 @@
 package cool.houge.mahu.shared;
 
-import cool.houge.mahu.shared.service.AppSharedService;
+import cool.houge.mahu.shared.service.PlatformSharedService;
 import io.helidon.common.types.TypeName;
 import io.helidon.service.registry.Interception;
 import io.helidon.service.registry.InterceptionContext;
@@ -21,7 +21,7 @@ class FeatureFlagInterceptor implements Interception.Interceptor {
 
     private static final TypeName FEATURE_FLAG_ON_TYPENAME = TypeName.create(FeatureFlagOn.class);
 
-    private final AppSharedService appSharedService;
+    private final PlatformSharedService platformSharedService;
 
     /// 执行拦截逻辑：检查功能开关是否启用
     ///
@@ -38,7 +38,7 @@ class FeatureFlagInterceptor implements Interception.Interceptor {
             return chain.proceed(args);
         }
 
-        appSharedService.ensureFeatureFlagOn(codeOpt.get());
+        platformSharedService.ensureFeatureFlagOn(codeOpt.get());
         return chain.proceed(args);
     }
 }

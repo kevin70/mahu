@@ -21,7 +21,7 @@ import org.jspecify.annotations.NonNull;
 /// 功能开关本地缓存服务。
 ///
 /// 在应用启动时从数据库全量预热 `sys.feature_flags`，并通过定时任务持续刷新，
-/// 供 `AppSharedService` 与 `@FeatureFlagOn` 拦截器以低延迟方式读取功能状态。
+/// 供 `PlatformSharedService` 与 `@FeatureFlagOn` 拦截器以低延迟方式读取功能状态。
 @Service.RunLevel(Service.RunLevel.STARTUP)
 @Service.Singleton
 @AllArgsConstructor
