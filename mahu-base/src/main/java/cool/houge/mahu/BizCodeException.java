@@ -32,6 +32,16 @@ public final class BizCodeException extends RuntimeException {
         this.code = code;
     }
 
+    /// 使用业务码、自定义描述和根因构建异常。
+    ///
+    /// @param code    业务码
+    /// @param message 自定义描述
+    /// @param cause   根因异常
+    public BizCodeException(@NonNull BizCode code, @NonNull String message, Throwable cause) {
+        super(message, cause);
+        this.code = code;
+    }
+
     /// 使用业务码和模板描述构建异常
     ///
     /// @param code     业务码

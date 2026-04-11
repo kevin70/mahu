@@ -29,7 +29,7 @@ tags:
   - name: h_me
     x-displayName: 认证用户
   - name: h_file
-    x-displayName: OSS资源
+    x-displayName: 一般文件
   - name: h_id_photo
     x-displayName: 证件照
   - name: h_public_dict
