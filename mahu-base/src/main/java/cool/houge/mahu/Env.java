@@ -1,5 +1,11 @@
 package cool.houge.mahu;
 
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 /// 应用环境枚举类
 ///
 /// 定义软件开发生命周期中各阶段的环境，提供以下核心功能：
@@ -8,9 +14,11 @@ package cool.houge.mahu;
 /// - 多来源配置的当前环境自动识别
 ///
 /// 支持的环境配置来源（按优先级排序）：
-/// 1. 系统环境变量（如容器部署）
-/// 2. JVM系统属性（如本地调试）
-/// 4. 默认值（开发环境）
+/// 1. `MAHU_ENV`
+/// 2. `mahu.env`
+/// 3. `HELIDON_CONFIG_PROFILE`
+/// 4. `helidon.config.profile`
+/// 5. 默认值（开发环境）
 ///
 /// @author ZY (kzou227@qq.com)
 public enum Env {
@@ -78,6 +86,8 @@ public enum Env {
     private final String shortName;
     /// 环境完整名称（如 `Development Environment`）
     private final String fullName;
+    private static final Map<String, Env> BY_SHORT_NAME = Arrays.stream(values())
+            .collect(Collectors.toUnmodifiableMap(env -> env.shortName, Function.identity()));
 
     /// 构造环境枚举实例
     ///
@@ -139,13 +149,14 @@ public enum Env {
         return this == STG || this == PROD;
     }
 
-    /// 环境配置属性键名
-    ///
-    /// 用于从各种配置源读取环境标识，例如：
-    /// - JVM参数: `-Dhouge.env=prod`
-    /// - 配置文件: `houge.env=uat`
-    public static final String ENV_PROPERTY = "houge.env";
-
+    /// 环境配置属性键名。
+    public static final String ENV_PROPERTY = "mahu.env";
+    /// 环境变量形式的环境配置键名。
+    public static final String ENV_VARIABLE = "MAHU_ENV";
+    /// Helidon profile 属性键名。
+    public static final String HELIDON_PROFILE_PROPERTY = "helidon.config.profile";
+    /// Helidon profile 环境变量键名。
+    public static final String HELIDON_PROFILE_ENV_VARIABLE = "HELIDON_CONFIG_PROFILE";
     /// 将字符串转换为环境枚举
     ///
     /// 支持不区分大小写的匹配，例如：
@@ -156,31 +167,29 @@ public enum Env {
     /// @return 对应的 Env 枚举实例
     /// @throws IllegalArgumentException 若输入无法匹配任何环境
     public static Env of(String env) {
-        if (env == null || env.trim().isEmpty()) {
+        var normalizedEnv = normalize(env);
+        if (normalizedEnv == null) {
             throw new IllegalArgumentException("env cannot be null or empty");
         }
-
-        String normalizedEnv = env.trim().toLowerCase();
-        for (Env environment : values()) {
-            if (environment.shortName.equals(normalizedEnv)) {
-                return environment;
-            }
+        var resolved = BY_SHORT_NAME.get(normalizedEnv);
+        if (resolved != null) {
+            return resolved;
         }
         throw new IllegalArgumentException("unknown env: " + env);
     }
 
     /// 获取当前运行环境
     ///
-    /// 采用延迟加载机制，首次调用时初始化，后续直接返回缓存值。
-    ///
     /// 环境识别流程：
-    /// 1. 尝试从系统环境变量读取（变量名为 `HOUGE_ENV`）
-    /// 2. 尝试从JVM系统属性读取（属性名为 `houge.env`）
-    /// 4.  fallback 到默认环境（[#DEV]）
+    /// 1. `MAHU_ENV`
+    /// 2. `mahu.env`
+    /// 3. `HELIDON_CONFIG_PROFILE`
+    /// 4. `helidon.config.profile`
+    /// 5. 默认 `DEV`
     ///
     /// @return 当前应用运行的环境枚举实例（非 null）
     public static Env current() {
-        return CurrentEnvHolder.current;
+        return CurrentEnvHolder.CURRENT;
     }
 
     @Override
@@ -188,30 +197,31 @@ public enum Env {
         return String.format("%s(%s)", fullName, shortName);
     }
 
-    private static class CurrentEnvHolder {
-
-        static final Env current = initializeCurrentEnv();
-
-        /// 从多来源获取环境标识
-        ///
-        /// 按优先级依次尝试不同配置源，确保在各种部署场景下都能正确识别环境。
-        ///
-        /// @return 有效的环境标识字符串或者`null`
-        private static Env initializeCurrentEnv() {
-            String env = System.getenv(ENV_PROPERTY.replace(".", "_").toUpperCase());
-            if (isValidEnv(env)) {
-                return Env.of(env);
+    /// 从多来源解析当前环境。
+    static Env resolveCurrent(String... candidates) {
+        for (String candidate : candidates) {
+            var normalized = normalize(candidate);
+            if (normalized != null) {
+                return of(normalized);
             }
-
-            env = System.getProperty(ENV_PROPERTY);
-            if (isValidEnv(env)) {
-                return Env.of(env);
-            }
-            return Env.DEV;
         }
+        return Env.DEV;
+    }
 
-        private static boolean isValidEnv(String env) {
-            return env != null && !env.trim().isEmpty();
+    private static String normalize(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
         }
+        return value.trim().toLowerCase(Locale.ROOT);
+    }
+
+    private static final class CurrentEnvHolder {
+        private static final Env CURRENT = resolveCurrent(
+                System.getenv(ENV_VARIABLE),
+                System.getProperty(ENV_PROPERTY),
+                System.getenv(HELIDON_PROFILE_ENV_VARIABLE),
+                System.getProperty(HELIDON_PROFILE_PROPERTY));
+
+        private CurrentEnvHolder() {}
     }
 }
