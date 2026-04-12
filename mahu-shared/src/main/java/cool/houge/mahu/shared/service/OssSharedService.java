@@ -109,7 +109,12 @@ public class OssSharedService {
         var objectKey = objectKeyBuilder.apply(id, Files.getFileExtension(fileName));
         var uploadUrl = ossHelper.presignedUploadUrl(objectKey, EMPTY_QUERY_PARAMS);
         entitySaver.accept(entityFactory.apply(id, objectKey));
-        return new PresignedUploadResult(id, objectKey, uploadUrl, accessUrlResolver.apply(objectKey));
+        return PresignedUploadResult.builder()
+                .objectId(id)
+                .objectKey(objectKey)
+                .uploadUrl(uploadUrl)
+                .accessUrl(accessUrlResolver.apply(objectKey))
+                .build();
     }
 
     private <T> String presignedGetUrlByObjectId(

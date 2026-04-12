@@ -56,16 +56,16 @@ class OssSharedServiceTest {
         verify(storedObjectRepository).save(objectCaptor.capture());
         var storedObject = objectCaptor.getValue();
 
-        assertNotNull(result.objectId());
-        assertTrue(result.objectKey().startsWith(StoredObject.Type.ADMIN_AVATAR.getPrefix() + "/"));
-        assertTrue(result.objectKey().endsWith(".png"));
-        assertEquals("https://upload.local/u", result.uploadUrl());
-        assertEquals("https://cdn.local/file", result.accessUrl());
+        assertNotNull(result.getObjectId());
+        assertTrue(result.getObjectKey().startsWith(StoredObject.Type.ADMIN_AVATAR.getPrefix() + "/"));
+        assertTrue(result.getObjectKey().endsWith(".png"));
+        assertEquals("https://upload.local/u", result.getUploadUrl());
+        assertEquals("https://cdn.local/file", result.getAccessUrl());
 
-        assertEquals(result.objectId(), storedObject.getId());
+        assertEquals(result.getObjectId(), storedObject.getId());
         assertEquals(StoredObject.Type.ADMIN_AVATAR, storedObject.getType());
         assertEquals(Status.PENDING.getCode(), storedObject.getStatus());
-        assertEquals(result.objectKey(), storedObject.getObjectKey());
+        assertEquals(result.getObjectKey(), storedObject.getObjectKey());
     }
 
     @Test
@@ -80,16 +80,16 @@ class OssSharedServiceTest {
         verify(idPhotoRepository).save(photoCaptor.capture());
         var idPhoto = photoCaptor.getValue();
 
-        assertNotNull(result.objectId());
-        assertTrue(result.objectKey().startsWith(IdPhoto.Type.DEFAULT.getPrefix() + "/"));
-        assertTrue(result.objectKey().endsWith(".jpg"));
-        assertEquals("https://upload.local/u", result.uploadUrl());
-        assertEquals("https://download.local/d", result.accessUrl());
+        assertNotNull(result.getObjectId());
+        assertTrue(result.getObjectKey().startsWith(IdPhoto.Type.DEFAULT.getPrefix() + "/"));
+        assertTrue(result.getObjectKey().endsWith(".jpg"));
+        assertEquals("https://upload.local/u", result.getUploadUrl());
+        assertEquals("https://download.local/d", result.getAccessUrl());
 
-        assertEquals(result.objectId(), idPhoto.getId());
+        assertEquals(result.getObjectId(), idPhoto.getId());
         assertEquals(IdPhoto.Type.DEFAULT, idPhoto.getType());
         assertEquals(Status.PENDING.getCode(), idPhoto.getStatus());
-        assertEquals(result.objectKey(), idPhoto.getObjectKey());
+        assertEquals(result.getObjectKey(), idPhoto.getObjectKey());
     }
 
     @Test
