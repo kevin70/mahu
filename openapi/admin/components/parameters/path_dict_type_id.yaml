@@ -1,7 +1,0 @@
-name: type_id
-in: path
-required: true
-description: |
-  类型代码
-schema:
-  type: string
