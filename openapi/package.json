@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "author": "KZ (kzou227@qq.com)",
   "scripts": {
-    "openapi-admin": "redocly lint admin@v1 && redocly bundle admin@v1 -o dist/mahu-admin-openapi.yaml && redocly build-docs admin@v1 -o dist/mahu-admin-openapi.html",
+    "openapi-admin": "redocly lint admin@v1 && redocly bundle admin@v1 -o dist/admin/openapi.yaml && redocly build-docs admin@v1 -o dist/admin/openapi.html",
     "openapi": "pnpm openapi-admin"
   },
   "devDependencies": {

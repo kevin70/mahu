@@ -175,6 +175,13 @@ tasks.register("openapiDepsInstall", com.github.gradle.node.pnpm.task.PnpmTask.c
     ]
 }
 
+tasks.register("redoclyBundleOpenApi", com.github.gradle.node.pnpm.task.PnpmTask.class) {
+    group("openapi tools")
+    dependsOn(tasks.named("openapiDepsInstall"))
+    workingDir = rootProject.file("openapi")
+    pnpmCommand = ["openapi"]
+}
+
 tasks.register("jacocoRootReport", JacocoReport) {
     group = "verification"
     description = "Generates an aggregate JaCoCo report for all modules."

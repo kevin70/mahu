@@ -68,7 +68,7 @@ jib {
 }
 
 openApiGenerate {
-    inputSpec = "${rootDir}/openapi/dist/mahu-admin-openapi.yaml"
+    inputSpec = "${rootDir}/openapi/dist/admin/openapi.yaml"
     generatorName = "java-helidon-server"
     packageName = "cool.houge.mahu.admin.oas"
     apiPackage = "cool.houge.mahu.admin.oas.controller"
@@ -86,7 +86,8 @@ openApiGenerate {
 
 tasks.named("openApiGenerate").configure {
     group("openapi tools")
-    dependsOn("clean", "redoclyBundleOpenApi")
+    dependsOn("clean")
+    dependsOn(rootProject.tasks.named("redoclyBundleOpenApi"))
     doLast {
         copy {
             from("${project.layout.buildDirectory.orNull}/generate-resources/main/src/main/java") {
@@ -108,13 +109,6 @@ tasks.named("openApiGenerate").configure {
             into("${projectDir}/src/main/gen")
         }
     }
-}
-
-tasks.register("redoclyBundleOpenApi", com.github.gradle.node.pnpm.task.PnpmTask.class) {
-    group("openapi tools")
-    dependsOn rootProject.tasks.openapiDepsInstall
-    workingDir = rootProject.file("openapi")
-    pnpmCommand = ["openapi-admin"]
 }
 
 tasks.register("deployDev") {
