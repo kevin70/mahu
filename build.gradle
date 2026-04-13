@@ -180,6 +180,14 @@ tasks.register("redoclyBundleOpenApi", com.github.gradle.node.pnpm.task.PnpmTask
     dependsOn(tasks.named("openapiDepsInstall"))
     workingDir = rootProject.file("openapi")
     pnpmCommand = ["openapi"]
+    doLast {
+        delete(rootProject.file("docs/public/openapi"))
+        copy {
+            from(rootProject.file("openapi/dist"))
+            into(rootProject.file("docs/public/openapi"))
+        }
+        delete(rootProject.file("openapi/dist"))
+    }
 }
 
 tasks.register("jacocoRootReport", JacocoReport) {

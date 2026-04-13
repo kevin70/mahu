@@ -68,7 +68,7 @@ jib {
 }
 
 openApiGenerate {
-    inputSpec = "${rootDir}/openapi/dist/admin/openapi.yaml"
+    inputSpec = "${rootDir}/docs/public/openapi/admin/openapi.yaml"
     generatorName = "java-helidon-server"
     packageName = "cool.houge.mahu.admin.oas"
     apiPackage = "cool.houge.mahu.admin.oas.controller"
