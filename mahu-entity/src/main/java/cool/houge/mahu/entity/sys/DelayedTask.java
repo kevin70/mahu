@@ -48,10 +48,10 @@ public class DelayedTask {
     private String topic;
     /// 状态
     ///
-    /// - [Status#PENDING]
-    /// - [Status#PROCESSING]
-    /// - [Status#COMPLETED]
-    /// - [Status#ARCHIVED]
+    /// @see cool.houge.mahu.config.Status#PENDING
+    /// @see cool.houge.mahu.config.Status#PROCESSING
+    /// @see cool.houge.mahu.config.Status#COMPLETED
+    /// @see cool.houge.mahu.config.Status#ARCHIVED
     private Integer status;
     /// 消息延迟到的绝对时间（精确到毫秒）
     private Instant delayUntil;

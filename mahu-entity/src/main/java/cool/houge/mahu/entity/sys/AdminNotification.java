@@ -46,8 +46,8 @@ public class AdminNotification {
     private Integer type;
 
     /// 状态：22生效，90过期
-    /// - [cool.houge.mahu.config.Status#ACTIVE]
-    /// - [cool.houge.mahu.config.Status#EXPIRED]
+    /// @see cool.houge.mahu.config.Status#ACTIVE
+    /// @see cool.houge.mahu.config.Status#EXPIRED
     private Integer status;
 
     /// 扩展载荷（JSON对象）

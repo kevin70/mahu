@@ -53,8 +53,8 @@ public class Admin {
     private String avatar;
     /// 状态
     ///
-    /// - [Status#ACTIVE]
-    /// - [Status#DISABLED]
+    /// @see cool.houge.mahu.config.Status#ACTIVE
+    /// @see cool.houge.mahu.config.Status#DISABLED
     private Integer status;
     /// 用户角色
     @ManyToMany(cascade = CascadeType.ALL)
