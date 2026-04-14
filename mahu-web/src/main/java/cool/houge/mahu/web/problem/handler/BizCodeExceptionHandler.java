@@ -32,16 +32,17 @@ public class BizCodeExceptionHandler implements ProblemHandler {
         var bz = e.getCode();
         // 状态码映射
         var status =
-                switch (bz) {
-                    case INVALID_ARGUMENT, DEADLINE_EXCEEDED, OUT_OF_RANGE, UNIMPLEMENTED -> Status.BAD_REQUEST_400;
-                    case UNAUTHENTICATED -> Status.UNAUTHORIZED_401;
-                    case FAILED_PRECONDITION, PERMISSION_DENIED -> Status.FORBIDDEN_403;
-                    case NOT_FOUND -> Status.NOT_FOUND_404;
-                    case ALREADY_EXISTS -> Status.CONFLICT_409;
-                    case UNAVAILABLE -> Status.SERVICE_UNAVAILABLE_503;
-                    default -> Status.INTERNAL_SERVER_ERROR_500;
-                };
+            switch (bz) {
+                case INVALID_ARGUMENT, DEADLINE_EXCEEDED, OUT_OF_RANGE, UNIMPLEMENTED ->
+                    Status.BAD_REQUEST_400;
+                case UNAUTHENTICATED -> Status.UNAUTHORIZED_401;
+                case FAILED_PRECONDITION, PERMISSION_DENIED -> Status.FORBIDDEN_403;
+                case NOT_FOUND -> Status.NOT_FOUND_404;
+                case ALREADY_EXISTS -> Status.CONFLICT_409;
+                case UNAVAILABLE -> Status.SERVICE_UNAVAILABLE_503;
+                default -> Status.INTERNAL_SERVER_ERROR_500;
+            };
 
-        return new ProblemSpec().setStatus(status.code()).setCode(bz.code()).setMessage(bz.message());
+        return new ProblemSpec().setStatus(status.code()).setCode(bz.code()).setMessage(e.getRawMessage());
     }
 }
