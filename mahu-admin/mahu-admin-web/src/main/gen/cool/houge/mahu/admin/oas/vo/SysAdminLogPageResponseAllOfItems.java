@@ -1,15 +1,14 @@
 package cool.houge.mahu.admin.oas.vo;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonValue;
 import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAuthLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminChangeLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminChangeLogResponseItemsInner;
+import cool.houge.mahu.admin.oas.vo.SysAdminLoginAttemptResponse;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,54 +90,44 @@ public class SysAdminLogPageResponseAllOfItems {
     
     @com.fasterxml.jackson.annotation.JsonProperty("user_agent")
     private String userAgent;
-
-                /**
-                * 认证类型
-                */
-                public enum GrantTypeEnum {
-                    PASSWORD("PASSWORD"),
-                    REFRESH_TOKEN("REFRESH_TOKEN");
-            
-                    private String value;
-            
-                    GrantTypeEnum(String value) {
-                        this.value = value;
-                    }
-            
-                    @JsonValue
-                    public String getValue() {
-                        return value;
-                    }
-            
-                    @Override
-                    public String toString() {
-                        return String.valueOf(value);
-                    }
-            
-            
-                    @JsonCreator
-                    public static GrantTypeEnum fromValue(String text) {
-                        for (GrantTypeEnum b : GrantTypeEnum.values()) {
-                            if (String.valueOf(b.value).equals(text)) {
-                                return b;
-                            }
-                        }
-                        throw new IllegalArgumentException("Unexpected value '" + text + "'");
-                    }
-                }
-
     /**
-     * 认证类型
+     * 授权类型
      */
-    
+      @NotNull
+
     @com.fasterxml.jackson.annotation.JsonProperty("grant_type")
-    private GrantTypeEnum grantType;
+    private String grantType;
     /**
      * 认证客户端 ID
      */
     
     @com.fasterxml.jackson.annotation.JsonProperty("client_id")
     private String clientId;
+    /**
+     * 登录名快照
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("username")
+    private String username;
+    /**
+     * 是否登录成功
+     */
+      @NotNull
+
+    @com.fasterxml.jackson.annotation.JsonProperty("success")
+    private Boolean success;
+    /**
+     * 失败原因码
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("reason_code")
+    private String reasonCode;
+    /**
+     * 失败原因摘要
+     */
+    
+    @com.fasterxml.jackson.annotation.JsonProperty("reason_detail")
+    private String reasonDetail;
     /**
      * 操作来源
      */

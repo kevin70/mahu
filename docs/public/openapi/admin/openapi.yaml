@@ -3,6 +3,19 @@ info:
   title: Mahu 后台接口文档
   version: 1.0.0
   description: |
+    ## x-permission-code
+
+    权限代码 (`x-permission-code`) 是用于标识特定权限的字符串。这些权限代码用于系统的权限管理，以确保用户只能访问他们被授权的资源。
+
+    ### 权限代码格式
+
+    权限代码通常由两部分组成：
+
+    1. **权限名称**：表示权限的唯一标识符。
+    2. **操作类型**：表示对资源的操作类型，如读取(R)、写入(W)和删除(D)。
+
+    例如，权限代码 `DICT:R` 表示对字典管理的读取权限。
+
     ## X-Request-Id
 
     `X-Request-Id` 是一个 HTTP 头字段，用于唯一标识每个请求。它在分布式系统和微服务架构中非常有用，可以帮助跟踪请求在多个服务之间的流动情况，便于日志记录、调试和问题排查。
@@ -42,19 +55,6 @@ info:
       "data": "some data"
     }
     ```
-
-    ## x-permission-code
-
-    权限代码 (`x-permission-code`) 是用于标识特定权限的字符串。这些权限代码用于系统的权限管理，以确保用户只能访问他们被授权的资源。
-
-    ### 权限代码格式
-
-    权限代码通常由两部分组成：
-
-    1. **权限名称**：表示权限的唯一标识符。
-    2. **操作类型**：表示对资源的操作类型，如读取(R)、写入(W)和删除(D)。
-
-    例如，权限代码 `DICT:R` 表示对字典管理的读取权限。
 
     ## X-API-Version
 
@@ -2177,10 +2177,12 @@ components:
       enum:
         - ACCESS
         - AUTH
+        - LOGIN_ATTEMPT
         - CHANGE
       x-enum-descriptions:
         - 访问记录
         - 认证记录
+        - 登录尝试记录
         - 变更记录
     SysAdminAccessLogResponse:
       type: object
@@ -2263,6 +2265,51 @@ components:
         user_agent:
           type: string
           description: HTTP User-Agent
+    SysAdminLoginAttemptResponse:
+      type: object
+      description: 管理员登录尝试记录
+      required:
+        - id
+        - created_at
+        - grant_type
+        - success
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 日志 ID
+        created_at:
+          type: string
+          format: date-time
+          description: 创建时间
+        admin_id:
+          type: integer
+          format: int64
+          description: 命中的管理员 ID
+        grant_type:
+          type: string
+          description: 授权类型
+        client_id:
+          type: string
+          description: 认证客户端 ID
+        username:
+          type: string
+          description: 登录名快照
+        success:
+          type: boolean
+          description: 是否登录成功
+        reason_code:
+          type: string
+          description: 失败原因码
+        reason_detail:
+          type: string
+          description: 失败原因摘要
+        ip_addr:
+          type: string
+          description: 访问 IP
+        user_agent:
+          type: string
+          description: HTTP User-Agent
     SysAdminChangeLogResponse:
       type: object
       description: 管理员变更记录
@@ -2338,10 +2385,12 @@ components:
               mapping:
                 ACCESS: '#/components/schemas/SysAdminAccessLogResponse'
                 AUTH: '#/components/schemas/SysAdminAuthLogResponse'
+                LOGIN_ATTEMPT: '#/components/schemas/SysAdminLoginAttemptResponse'
                 CHANGE: '#/components/schemas/SysAdminChangeLogResponse'
             oneOf:
               - $ref: '#/components/schemas/SysAdminAccessLogResponse'
               - $ref: '#/components/schemas/SysAdminAuthLogResponse'
+              - $ref: '#/components/schemas/SysAdminLoginAttemptResponse'
               - $ref: '#/components/schemas/SysAdminChangeLogResponse'
     SysFeatureFlagResponse:
       type: object

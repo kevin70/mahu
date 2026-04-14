@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.password4j.Password;
 import cool.houge.mahu.BizCodeException;
 import cool.houge.mahu.BizCodes;
+import cool.houge.mahu.admin.event.AdminLoginAttemptEvent;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
 import cool.houge.mahu.config.ConfigPrefixes;
@@ -12,12 +13,12 @@ import cool.houge.mahu.config.Status;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminAuthLog;
+import cool.houge.mahu.entity.sys.AdminLoginAttempt;
 import cool.houge.mahu.model.command.TokenGrantCommand;
 import cool.houge.mahu.model.result.TokenGrantResult;
 import cool.houge.mahu.repository.sys.AdminAuthLogRepository;
 import cool.houge.mahu.repository.sys.AdminRepository;
 import cool.houge.mahu.repository.sys.AuthClientRepository;
-import cool.houge.mahu.util.Metadata;
 import io.ebean.annotation.Transactional;
 import io.helidon.common.LazyValue;
 import io.helidon.common.configurable.Resource;
@@ -28,7 +29,9 @@ import io.helidon.security.jwt.JwtValidator;
 import io.helidon.security.jwt.SignedJwt;
 import io.helidon.security.jwt.jwk.Jwk;
 import io.helidon.security.jwt.jwk.JwkKeys;
+import io.helidon.service.registry.Event.Emitter;
 import io.helidon.service.registry.Service.Singleton;
+import jakarta.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.util.List;
 import java.util.random.RandomGenerator;
@@ -48,12 +51,14 @@ public class TokenService implements TokenVerifier {
     private final TokenConfig tokenConfig;
     private final AdminRepository adminRepository;
     private final AdminAuthLogRepository adminAuthLogRepository;
+    private final Emitter<AdminLoginAttemptEvent> adminLoginAttemptEventEmitter;
     private final AuthClientRepository authClientRepository;
 
     public TokenService(
             Config root,
             AdminRepository adminRepository,
             AdminAuthLogRepository adminAuthLogRepository,
+            Emitter<AdminLoginAttemptEvent> adminLoginAttemptEventEmitter,
             AuthClientRepository authClientRepository) {
         this.jwkKeys = JwkKeys.builder()
                 .resource(Resource.create(root.get(ConfigPrefixes.JWT_KEYS)))
@@ -61,6 +66,7 @@ public class TokenService implements TokenVerifier {
         this.tokenConfig = TokenConfig.create(root.get(ConfigPrefixes.TOKEN));
         this.adminRepository = adminRepository;
         this.adminAuthLogRepository = adminAuthLogRepository;
+        this.adminLoginAttemptEventEmitter = adminLoginAttemptEventEmitter;
         this.authClientRepository = authClientRepository;
     }
 
@@ -111,35 +117,25 @@ public class TokenService implements TokenVerifier {
 
     @Transactional
     public TokenGrantResult token(TokenGrantCommand payload) {
-        var client = authClientRepository.obtainClient(payload.getClientId());
-        var grantType = payload.getGrantType();
+        try {
+            var client = authClientRepository.obtainClient(payload.getClientId());
+            var admin = resolveAdmin(payload);
+            ensureLoginAllowed(admin);
+            var ret = makeToken(payload, admin);
+            log.info("用户成功获取令牌 id={}", admin.getId());
 
-        var admin =
-                switch (grantType) {
-                    case PASSWORD -> loginByUsername(payload);
-                    case REFRESH_TOKEN -> loginByRefreshToken(payload);
-                    case null, default -> throw new BizCodeException(BizCodes.UNIMPLEMENTED);
-                };
-
-        if (Status.ACTIVE.neq(admin.getStatus())) {
-            throw new BizCodeException(BizCodes.PERMISSION_DENIED, "该帐号禁止登录");
+            persistSuccessAudit(payload, client.getClientId(), admin);
+            return ret;
+        } catch (LoginAttemptException e) {
+            persistFailedAttempt(payload, e.adminId, e.reasonCode, e.exception.getRawMessage());
+            throw e.exception;
+        } catch (EntityNotFoundException e) {
+            persistFailedAttempt(payload, null, AdminLoginAttempt.REASON_CLIENT_NOT_FOUND, e.getMessage());
+            throw e;
+        } catch (RuntimeException e) {
+            persistFailedAttempt(payload, null, AdminLoginAttempt.REASON_INTERNAL_ERROR, e.getMessage());
+            throw e;
         }
-        var ret = makeToken(payload, admin);
-        log.info("用户成功获取令牌 id={}", admin.getId());
-
-        // 保存登录记录日志
-        var metadata = Metadata.current();
-        adminAuthLogRepository.save(
-                new AdminAuthLog()
-                        .setId(UlidCreator.getMonotonicUlid().toUuid())
-                        .setAdminId(admin.getId())
-                        .setGrantType(payload.getGrantType().name())
-                        .setClientId(client.getClientId())
-                        .setIpAddr(metadata.clientAddr())
-                        .setUserAgent(metadata.userAgent())
-                //
-                );
-        return ret;
     }
 
     @Transactional
@@ -179,28 +175,90 @@ public class TokenService implements TokenVerifier {
     }
 
     @NonNull
+    private Admin resolveAdmin(TokenGrantCommand payload) {
+        return switch (payload.getGrantType()) {
+            case PASSWORD -> loginByUsername(payload);
+            case REFRESH_TOKEN -> loginByRefreshToken(payload);
+            case null, default -> throw loginAttemptException(
+                    BizCodes.UNIMPLEMENTED,
+                    "不支持的授权类型",
+                    AdminLoginAttempt.REASON_UNSUPPORTED_GRANT_TYPE,
+                    null);
+        };
+    }
+
+    private void ensureLoginAllowed(Admin admin) {
+        if (Status.ACTIVE.neq(admin.getStatus())) {
+            throw loginAttemptException(
+                    BizCodes.PERMISSION_DENIED,
+                    "该帐号禁止登录",
+                    AdminLoginAttempt.REASON_ADMIN_DISABLED,
+                    admin.getId());
+        }
+    }
+
+    private void persistSuccessAudit(TokenGrantCommand payload, String clientId, Admin admin) {
+        adminAuthLogRepository.save(new AdminAuthLog()
+                .setId(UlidCreator.getMonotonicUlid().toUuid())
+                .setAdminId(admin.getId())
+                .setGrantType(payload.getGrantType().name())
+                .setClientId(clientId)
+                .setIpAddr(payload.getClientIp())
+                .setUserAgent(payload.getUserAgent()));
+        emitLoginAttempt(buildLoginAttempt(payload, admin.getId(), admin.getUsername(), true, null, null));
+    }
+
+    @NonNull
     Admin loginByUsername(TokenGrantCommand payload) {
         var user = adminRepository.findByUsername(payload.getUsername());
         if (user == null) {
-            throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", payload.getUsername()));
+            throw loginAttemptException(
+                    BizCodes.NOT_FOUND,
+                    Strings.lenientFormat("用户[%s]未找到", payload.getUsername()),
+                    AdminLoginAttempt.REASON_ADMIN_NOT_FOUND,
+                    null);
         }
 
         var checker = Password.check(payload.getPassword(), user.getPassword());
         if (!checker.withArgon2()) {
-            throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "密码不匹配");
+            throw loginAttemptException(
+                    BizCodes.INVALID_ARGUMENT,
+                    "密码不匹配",
+                    AdminLoginAttempt.REASON_PASSWORD_MISMATCH,
+                    user.getId());
         }
         return user;
     }
 
     @NonNull
     Admin loginByRefreshToken(TokenGrantCommand payload) {
-        var jwt = parseToken(payload.getRefreshToken());
-        var sub = jwt.userPrincipal().orElseThrow();
-        var user = adminRepository.findById(Integer.valueOf(sub));
-        if (user == null) {
-            throw new BizCodeException(BizCodes.NOT_FOUND, Strings.lenientFormat("用户[%s]未找到", sub));
+        try {
+            var jwt = parseToken(payload.getRefreshToken());
+            var sub = jwt.userPrincipal().orElseThrow();
+            var user = adminRepository.findById(Integer.valueOf(sub));
+            if (user == null) {
+                throw loginAttemptException(
+                        BizCodes.NOT_FOUND,
+                        Strings.lenientFormat("用户[%s]未找到", sub),
+                        AdminLoginAttempt.REASON_ADMIN_NOT_FOUND,
+                        null);
+            }
+            return user;
+        } catch (LoginAttemptException e) {
+            throw e;
+        } catch (BizCodeException e) {
+            throw loginAttemptException(
+                    e,
+                    e.getCode() == BizCodes.UNAUTHENTICATED
+                            ? AdminLoginAttempt.REASON_TOKEN_EXPIRED
+                            : AdminLoginAttempt.REASON_TOKEN_INVALID,
+                    null);
+        } catch (RuntimeException e) {
+            throw loginAttemptException(
+                    new BizCodeException(BizCodes.UNAUTHENTICATED, "刷新令牌无效", e),
+                    AdminLoginAttempt.REASON_TOKEN_INVALID,
+                    null);
         }
-        return user;
     }
 
     Jwt parseToken(String token) {
@@ -219,5 +277,56 @@ public class TokenService implements TokenVerifier {
         var ran = RandomGenerator.getDefault();
         var i = ran.nextInt(keys.size());
         return keys.get(i);
+    }
+
+    private void persistFailedAttempt(TokenGrantCommand payload, Integer adminId, String reasonCode, String reasonDetail) {
+        emitLoginAttempt(buildLoginAttempt(payload, adminId, payload.getUsername(), false, reasonCode, reasonDetail));
+    }
+
+    private void emitLoginAttempt(AdminLoginAttempt entity) {
+        adminLoginAttemptEventEmitter.emitAsync(new AdminLoginAttemptEvent(entity));
+    }
+
+    private LoginAttemptException loginAttemptException(
+            BizCodeException exception, String reasonCode, Integer adminId) {
+        return new LoginAttemptException(exception, reasonCode, adminId);
+    }
+
+    private LoginAttemptException loginAttemptException(
+            BizCodes code, String message, String reasonCode, Integer adminId) {
+        return loginAttemptException(new BizCodeException(code, message), reasonCode, adminId);
+    }
+
+    private AdminLoginAttempt buildLoginAttempt(
+            TokenGrantCommand payload,
+            Integer adminId,
+            String username,
+            boolean success,
+            String reasonCode,
+            String reasonDetail) {
+        return new AdminLoginAttempt()
+                .setAdminId(adminId)
+                .setGrantType(payload.getGrantType() == null ? "UNKNOWN" : payload.getGrantType().name())
+                .setClientId(payload.getClientId())
+                .setUsername(username)
+                .setSuccess(success)
+                .setReasonCode(reasonCode)
+                .setReasonDetail(reasonDetail)
+                .setIpAddr(payload.getClientIp())
+                .setUserAgent(payload.getUserAgent());
+    }
+
+    private static final class LoginAttemptException extends RuntimeException {
+
+        private final BizCodeException exception;
+        private final String reasonCode;
+        private final Integer adminId;
+
+        private LoginAttemptException(BizCodeException exception, String reasonCode, Integer adminId) {
+            super(exception);
+            this.exception = exception;
+            this.reasonCode = reasonCode;
+            this.adminId = adminId;
+        }
     }
 }

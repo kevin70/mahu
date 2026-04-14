@@ -11,8 +11,10 @@ properties:
         mapping:
           ACCESS: "SysAdminAccessLogResponse.yaml"
           AUTH: "SysAdminAuthLogResponse.yaml"
+          LOGIN_ATTEMPT: "SysAdminLoginAttemptResponse.yaml"
           CHANGE: "SysAdminChangeLogResponse.yaml"
       oneOf:
         - $ref: "SysAdminAccessLogResponse.yaml"
         - $ref: "SysAdminAuthLogResponse.yaml"
+        - $ref: "SysAdminLoginAttemptResponse.yaml"
         - $ref: "SysAdminChangeLogResponse.yaml"

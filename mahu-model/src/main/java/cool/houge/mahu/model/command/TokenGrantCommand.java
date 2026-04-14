@@ -11,6 +11,8 @@ public class TokenGrantCommand {
 
     /// 客户端请求IP
     private String clientIp;
+    /// 客户端请求 User-Agent
+    private String userAgent;
     /// 授权类型
     private GrantType grantType;
     /// 客户端 ID

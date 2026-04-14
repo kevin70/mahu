@@ -14,6 +14,7 @@ public enum AdminLogType {
 
     ACCESS("ACCESS"),
     AUTH("AUTH"),
+    LOGIN_ATTEMPT("LOGIN_ATTEMPT"),
     CHANGE("CHANGE");
 
     private String value;

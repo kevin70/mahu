@@ -46,6 +46,7 @@ public class LoginController implements HLoginService, WebSupport {
         }
 
         payload.setClientIp(Metadata.current().clientAddr());
+        payload.setUserAgent(Metadata.current().userAgent());
         var rs = beanMapper.toLoginTokenResponse(tokenService.token(payload));
         response.send(rs);
     }
