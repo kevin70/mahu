@@ -24,7 +24,7 @@ class AdminLoginLogEventHandler {
 
     final AdminLoginLogRepository adminLoginLogRepository;
 
-    @Transactional(type = TxType.REQUIRES_NEW)
+    @Transactional
     @AsyncObserver
     void onAdminLoginLogEvent(AdminLoginLogEvent event) {
         try {
