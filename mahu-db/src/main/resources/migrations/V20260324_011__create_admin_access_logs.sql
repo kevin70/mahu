@@ -14,7 +14,7 @@ CREATE TABLE sys.admin_access_logs (
   protocol VARCHAR(1024),
   response_status SMALLINT,
   response_bytes BIGINT,
-  user_agent VARCHAR(2048)
+  user_agent VARCHAR(512)
 );
 
 CREATE INDEX admin_access_logs_admin_id_idx ON sys.admin_access_logs (admin_id);

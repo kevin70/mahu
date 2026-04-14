@@ -9,7 +9,7 @@ CREATE TABLE sys.admin_auth_logs (
   grant_type VARCHAR(50),
   client_id VARCHAR(26),
   ip_addr VARCHAR(50),
-  user_agent VARCHAR(2048)
+  user_agent VARCHAR(512)
 );
 
 CREATE INDEX admin_auth_logs_admin_id_idx ON sys.admin_auth_logs (admin_id);

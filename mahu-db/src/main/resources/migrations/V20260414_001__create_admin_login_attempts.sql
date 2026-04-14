@@ -13,7 +13,7 @@ CREATE TABLE sys.admin_login_attempts (
   reason_code VARCHAR(50),
   reason_detail VARCHAR(255),
   ip_addr VARCHAR(50),
-  user_agent VARCHAR(2048)
+  user_agent VARCHAR(512)
 );
 
 CREATE INDEX admin_login_attempts_admin_id_idx ON sys.admin_login_attempts (admin_id);
