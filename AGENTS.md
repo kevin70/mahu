@@ -106,5 +106,6 @@
 - 高风险专项流程优先沉淀为 skill；`AGENTS.md` 只保留入口、边界和事实来源，不承载长流程手册。
 - 用户提到 Lombok、`record`、模型注解组合、`@Value` / `@Builder` / `@Data` 取舍时，优先使用 `.agents/skills/mahu-lombok/SKILL.md`。
 - 用户提到 Helidon、Service Registry、`@Service.Singleton`、`@Service.RunLevel`、Registry 测试装配时，优先使用 `.agents/skills/mahu-helidon-service-registry/SKILL.md`。
+- 用户提到 Helidon SE、WebServer、`HttpFeature`、`Config`、`Observe`、`WebClient`、事件、定时任务、metrics、fault-tolerance、Helidon testing、最佳实践或推荐写法时，优先使用 `.agents/skills/helidon-se/SKILL.md`。
 - 用户提到部署、发布、镜像、`jib`、`deployDev`、远程主机、上线检查时，优先使用 `.agents/skills/mahu-deployment/SKILL.md`。
 - Skills、模块 `README`、`build.gradle`、`docs/` 冲突时，以更接近代码执行事实的内容为准；无法确认时优先代码与配置。
