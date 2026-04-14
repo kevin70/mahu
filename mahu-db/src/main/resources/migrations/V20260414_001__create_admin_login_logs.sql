@@ -16,10 +16,8 @@ CREATE TABLE sys.admin_login_logs (
   user_agent VARCHAR(512)
 );
 
-CREATE INDEX admin_login_logs_admin_id_idx ON sys.admin_login_logs (admin_id);
-CREATE INDEX admin_login_logs_client_id_idx ON sys.admin_login_logs (client_id);
-CREATE INDEX admin_login_logs_ip_addr_created_at_idx ON sys.admin_login_logs (ip_addr, created_at DESC);
+CREATE INDEX admin_login_logs_admin_id_created_at_idx ON sys.admin_login_logs (admin_id, created_at DESC);
+CREATE INDEX admin_login_logs_created_at_idx ON sys.admin_login_logs (created_at DESC);
 CREATE INDEX admin_login_logs_username_created_at_idx ON sys.admin_login_logs (username, created_at DESC);
-CREATE INDEX admin_login_logs_success_created_at_idx ON sys.admin_login_logs (success, created_at DESC);
 
 -- rollback drop table sys.admin_login_logs;
