@@ -14,13 +14,16 @@ import java.util.Optional;
 public class WebMetadata implements Metadata {
 
     private static final Splitter COMMA_SPLITTER = Splitter.on(',').omitEmptyStrings();
+    private static final int MAX_USER_AGENT_LENGTH = 512;
 
     private final ServerRequest request;
+    private final String userAgent;
     private final String traceId;
     private final int apiVersion;
 
     public WebMetadata(ServerRequest request, String traceId, int apiVersion) {
         this.request = request;
+        this.userAgent = resolveUserAgent(request);
         this.traceId = traceId;
         this.apiVersion = apiVersion;
     }
@@ -41,7 +44,7 @@ public class WebMetadata implements Metadata {
 
     @Override
     public String userAgent() {
-        return request.headers().first(USER_AGENT).orElse("UNKNOWN");
+        return userAgent;
     }
 
     @Override
@@ -52,5 +55,12 @@ public class WebMetadata implements Metadata {
     @Override
     public int apiVersion() {
         return apiVersion;
+    }
+
+    private static String resolveUserAgent(ServerRequest request) {
+        var userAgent = request.headers().first(USER_AGENT).orElse("UNKNOWN");
+        return userAgent.length() <= MAX_USER_AGENT_LENGTH
+                ? userAgent
+                : userAgent.substring(0, MAX_USER_AGENT_LENGTH);
     }
 }

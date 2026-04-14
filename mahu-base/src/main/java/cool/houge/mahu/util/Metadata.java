@@ -13,6 +13,8 @@ public interface Metadata {
     String clientAddr();
 
     /// 客户端请求 User-Agent
+    ///
+    /// 返回值最长为 512 个字符，超出部分由实现截断。
     String userAgent();
 
     /// 追踪 ID
