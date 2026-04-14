@@ -8,7 +8,6 @@ import cool.houge.mahu.BizCodes;
 import cool.houge.mahu.admin.event.AdminLoginLogEvent;
 import cool.houge.mahu.admin.security.AuthContext;
 import cool.houge.mahu.admin.security.TokenVerifier;
-import cool.houge.mahu.config.ConfigPrefixes;
 import cool.houge.mahu.config.Status;
 import cool.houge.mahu.config.TokenConfig;
 import cool.houge.mahu.entity.sys.Admin;
@@ -19,8 +18,6 @@ import cool.houge.mahu.repository.sys.AdminRepository;
 import cool.houge.mahu.repository.sys.AuthClientRepository;
 import io.ebean.annotation.Transactional;
 import io.helidon.common.LazyValue;
-import io.helidon.common.configurable.Resource;
-import io.helidon.config.Config;
 import io.helidon.security.jwt.EncryptedJwt;
 import io.helidon.security.jwt.Jwt;
 import io.helidon.security.jwt.JwtValidator;
@@ -33,6 +30,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.util.List;
 import java.util.random.RandomGenerator;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
@@ -41,6 +39,7 @@ import org.jspecify.annotations.NonNull;
 ///
 /// @author ZY (kzou227@qq.com)
 @Singleton
+@AllArgsConstructor
 public class TokenService implements TokenVerifier {
 
     private static final Logger log = LogManager.getLogger();
@@ -50,20 +49,6 @@ public class TokenService implements TokenVerifier {
     private final AdminRepository adminRepository;
     private final Emitter<AdminLoginLogEvent> adminLoginLogEventEmitter;
     private final AuthClientRepository authClientRepository;
-
-    public TokenService(
-            Config root,
-            AdminRepository adminRepository,
-            Emitter<AdminLoginLogEvent> adminLoginLogEventEmitter,
-            AuthClientRepository authClientRepository) {
-        this.jwkKeys = JwkKeys.builder()
-                .resource(Resource.create(root.get(ConfigPrefixes.JWT_KEYS)))
-                .build();
-        this.tokenConfig = TokenConfig.create(root.get(ConfigPrefixes.TOKEN));
-        this.adminRepository = adminRepository;
-        this.adminLoginLogEventEmitter = adminLoginLogEventEmitter;
-        this.authClientRepository = authClientRepository;
-    }
 
     @Override
     public AuthContext verify(String token) {
@@ -133,40 +118,48 @@ public class TokenService implements TokenVerifier {
         }
     }
 
-    @Transactional
     TokenGrantResult makeToken(TokenGrantCommand payload, Admin admin) {
-        var jwk = obtainJwk();
-        var jwtId = UlidCreator.getMonotonicUlid().toString();
-        var sub = String.valueOf(admin.getId());
-        var iat = Instant.now();
-        var nonce = String.valueOf(Math.random());
-        var atJwt = Jwt.builder()
-                .jwtId(jwtId)
-                .userPrincipal(sub)
-                .issueTime(iat)
-                .expirationTime(iat.plus(tokenConfig.accessExpires()))
-                .addAudience(payload.getClientId())
-                .nonce(nonce)
-                .build();
-        var accessToken = EncryptedJwt.builder(SignedJwt.sign(atJwt, Jwk.NONE_JWK))
-                .jwks(jwkKeys, jwk.keyId())
-                .build();
-
-        var rtJwt = Jwt.builder()
-                .jwtId(jwtId)
-                .userPrincipal(sub)
-                .issueTime(iat)
-                .expirationTime(iat.plus(tokenConfig.refreshExpires()))
-                .nonce(nonce)
-                .build();
-        var refreshToken = EncryptedJwt.builder(SignedJwt.sign(rtJwt, Jwk.NONE_JWK))
-                .jwks(jwkKeys, jwk.keyId())
-                .build();
+        var issueContext = createTokenIssueContext(admin);
+        var accessToken = encryptToken(buildAccessJwt(payload, issueContext), issueContext.jwk);
+        var refreshToken = encryptToken(buildRefreshJwt(issueContext), issueContext.jwk);
 
         return new TokenGrantResult()
                 .setExpiresIn(tokenConfig.accessExpires().toSeconds())
                 .setAccessToken(accessToken.token())
                 .setRefreshToken(refreshToken.token());
+    }
+
+    private TokenIssueContext createTokenIssueContext(Admin admin) {
+        return new TokenIssueContext(
+                obtainJwk(),
+                String.valueOf(admin.getId()),
+                Instant.now(),
+                UlidCreator.getUlid().toString());
+    }
+
+    private Jwt buildAccessJwt(TokenGrantCommand payload, TokenIssueContext issueContext) {
+        return baseJwtBuilder(issueContext, tokenConfig.accessExpires())
+                .addAudience(payload.getClientId())
+                .build();
+    }
+
+    private Jwt buildRefreshJwt(TokenIssueContext issueContext) {
+        return baseJwtBuilder(issueContext, tokenConfig.refreshExpires()).build();
+    }
+
+    private Jwt.Builder baseJwtBuilder(TokenIssueContext issueContext, java.time.Duration expires) {
+        return Jwt.builder()
+                .jwtId(UlidCreator.getMonotonicUlid().toString())
+                .userPrincipal(issueContext.subject)
+                .issueTime(issueContext.issueTime)
+                .expirationTime(issueContext.issueTime.plus(expires))
+                .nonce(issueContext.nonce);
+    }
+
+    private EncryptedJwt encryptToken(Jwt jwt, Jwk jwk) {
+        return EncryptedJwt.builder(SignedJwt.sign(jwt, Jwk.NONE_JWK))
+                .jwks(jwkKeys, jwk.keyId())
+                .build();
     }
 
     @NonNull
@@ -307,4 +300,6 @@ public class TokenService implements TokenVerifier {
             this(new BizCodeException(code, message), reasonCode, adminId);
         }
     }
+
+    private record TokenIssueContext(Jwk jwk, String subject, Instant issueTime, String nonce) {}
 }
