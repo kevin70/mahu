@@ -10,16 +10,14 @@ import cool.houge.mahu.config.Status;
 import cool.houge.mahu.domain.Page;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminAccessLog;
-import cool.houge.mahu.entity.sys.AdminAuthLog;
 import cool.houge.mahu.entity.sys.AdminChangeLog;
-import cool.houge.mahu.entity.sys.AdminLoginAttempt;
+import cool.houge.mahu.entity.sys.AdminLoginLog;
 import cool.houge.mahu.model.query.AdminLogQuery;
 import cool.houge.mahu.model.query.AdminQuery;
 import cool.houge.mahu.model.result.AdminProfileResult;
 import cool.houge.mahu.repository.sys.AdminAccessLogRepository;
-import cool.houge.mahu.repository.sys.AdminAuthLogRepository;
 import cool.houge.mahu.repository.sys.AdminChangeLogRepository;
-import cool.houge.mahu.repository.sys.AdminLoginAttemptRepository;
+import cool.houge.mahu.repository.sys.AdminLoginLogRepository;
 import cool.houge.mahu.repository.sys.AdminRepository;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -40,9 +38,8 @@ public class AdminService {
 
     final AdminRepository adminRepository;
     final AdminAccessLogRepository adminAccessLogRepository;
-    final AdminAuthLogRepository adminAuthLogRepository;
     final AdminChangeLogRepository adminChangeLogRepository;
-    final AdminLoginAttemptRepository adminLoginAttemptRepository;
+    final AdminLoginLogRepository adminLoginLogRepository;
     final Event.Emitter<CollectProfileEvent> collectProfileEvent;
     final EntityBeanMapper beanMapper;
 
@@ -118,16 +115,10 @@ public class AdminService {
         return adminAccessLogRepository.findPage(query, page);
     }
 
-    /// 管理员认证日志分页查询
+    /// 管理员登录日志分页查询
     @Transactional(readOnly = true)
-    public PagedList<AdminAuthLog> pageAdminAuthLog(AdminLogQuery query, Page page) {
-        return adminAuthLogRepository.findPage(query, page);
-    }
-
-    /// 管理员登录尝试分页查询
-    @Transactional(readOnly = true)
-    public PagedList<AdminLoginAttempt> pageAdminLoginAttempt(AdminLogQuery query, Page page) {
-        return adminLoginAttemptRepository.findPage(query, page);
+    public PagedList<AdminLoginLog> pageAdminLoginLog(AdminLogQuery query, Page page) {
+        return adminLoginLogRepository.findPage(query, page);
     }
 
     /// 管理员操作日志分页查询

@@ -9,14 +9,14 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
-/// 管理员登录尝试记录
+/// 管理员登录日志
 ///
 /// @author ZY (kzou227@qq.com)
 @Getter
 @Setter
 @Entity
-@Table(schema = "sys", name = "admin_login_attempts")
-public class AdminLoginAttempt {
+@Table(schema = "sys", name = "admin_login_logs")
+public class AdminLoginLog {
 
     public static final String REASON_ADMIN_NOT_FOUND = "ADMIN_NOT_FOUND";
     public static final String REASON_PASSWORD_MISMATCH = "PASSWORD_MISMATCH";

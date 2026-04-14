@@ -6,3 +6,7 @@ databaseChangeLog:
   - includeAll:
       path: data/
       relativeToChangelogFile: true
+
+  - includeAll:
+      path: seeds/
+      relativeToChangelogFile: true

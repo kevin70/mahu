@@ -17,6 +17,9 @@ public class AdminLogQuery {
     /// 管理员 ID（可选）
     Integer adminId;
 
+    /// 登录名（可选，仅对登录日志生效）
+    String username;
+
     /// 创建时间区间（可选，默认不限制）
     @Default
     DateRange createdAtRange = DateRange.EMPTY;

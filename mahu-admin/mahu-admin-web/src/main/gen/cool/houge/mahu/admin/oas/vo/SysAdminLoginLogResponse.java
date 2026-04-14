@@ -5,11 +5,11 @@ import java.util.UUID;
 import io.avaje.validation.constraints.*;
 
     /**
-    * 管理员登录尝试记录
+    * 管理员登录日志
     */
 @lombok.Data
 @io.avaje.validation.constraints.Valid
-public class SysAdminLoginAttemptResponse {
+public class SysAdminLoginLogResponse {
 
     /**
      * 日志 ID

@@ -9,12 +9,10 @@ properties:
       discriminator:
         propertyName: none
         mapping:
-          ACCESS: "SysAdminAccessLogResponse.yaml"
-          AUTH: "SysAdminAuthLogResponse.yaml"
-          LOGIN_ATTEMPT: "SysAdminLoginAttemptResponse.yaml"
-          CHANGE: "SysAdminChangeLogResponse.yaml"
+          ACCESS_LOG: "SysAdminAccessLogResponse.yaml"
+          LOGIN_LOG: "SysAdminLoginLogResponse.yaml"
+          CHANGE_LOG: "SysAdminChangeLogResponse.yaml"
       oneOf:
         - $ref: "SysAdminAccessLogResponse.yaml"
-        - $ref: "SysAdminAuthLogResponse.yaml"
-        - $ref: "SysAdminLoginAttemptResponse.yaml"
+        - $ref: "SysAdminLoginLogResponse.yaml"
         - $ref: "SysAdminChangeLogResponse.yaml"

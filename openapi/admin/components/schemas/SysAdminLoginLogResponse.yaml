@@ -1,9 +1,10 @@
 type: object
-description: 管理员认证记录
+description: 管理员登录日志
 required:
   - id
   - created_at
-  - admin_id
+  - grant_type
+  - success
 properties:
   id:
     type: string
@@ -16,16 +17,25 @@ properties:
   admin_id:
     type: integer
     format: int64
-    description: 管理员 ID
+    description: 命中的管理员 ID
   grant_type:
     type: string
-    description: 认证类型
-    enum:
-      - PASSWORD
-      - REFRESH_TOKEN
+    description: 授权类型
   client_id:
     type: string
     description: 认证客户端 ID
+  username:
+    type: string
+    description: 登录名快照
+  success:
+    type: boolean
+    description: 是否登录成功
+  reason_code:
+    type: string
+    description: 失败原因码
+  reason_detail:
+    type: string
+    description: 失败原因摘要
   ip_addr:
     type: string
     description: 访问 IP

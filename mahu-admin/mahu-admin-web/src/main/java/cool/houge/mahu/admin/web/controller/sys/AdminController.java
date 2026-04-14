@@ -65,29 +65,26 @@ public class AdminController implements HAdminService, WebSupport {
     public void pageSysAdminLog(ServerRequest request, ServerResponse response) {
         var type = pathArg(request, "type").as(AdminLogType::valueOf).get();
         var adminId = queryInt(request, "admin_id").orElse(null);
+        var username = queryArg(request, "username").orElse(null);
         var createdAtRange = dateRange(request);
         var page = page(request);
         var logQuery = AdminLogQuery.builder()
                 .adminId(adminId)
+                .username(username)
                 .createdAtRange(createdAtRange)
                 .build();
         switch (type) {
-            case ACCESS -> {
+            case ACCESS_LOG -> {
                 var plist = adminService.pageAdminAccessLog(logQuery, page);
                 var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAccessLogResponse);
                 response.send(rs);
             }
-            case AUTH -> {
-                var plist = adminService.pageAdminAuthLog(logQuery, page);
-                var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminAuthLogResponse);
+            case LOGIN_LOG -> {
+                var plist = adminService.pageAdminLoginLog(logQuery, page);
+                var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminLoginLogResponse);
                 response.send(rs);
             }
-            case LOGIN_ATTEMPT -> {
-                var plist = adminService.pageAdminLoginAttempt(logQuery, page);
-                var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminLoginAttemptResponse);
-                response.send(rs);
-            }
-            case CHANGE -> {
+            case CHANGE_LOG -> {
                 var plist = adminService.pageAdminChangeLog(logQuery, page);
                 var rs = beanMapper.toPageResponse(plist, beanMapper::toAdminChangeLogResponse);
                 response.send(rs);

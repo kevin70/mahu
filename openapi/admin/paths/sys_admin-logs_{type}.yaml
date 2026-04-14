@@ -19,6 +19,11 @@ get:
       schema:
         type: integer
         format: int32
+    - name: username
+      in: query
+      description: 登录名（仅对登录日志生效）
+      schema:
+        type: string
     - $ref: "../components/parameters/start_date.yaml"
     - $ref: "../components/parameters/end_date.yaml"
   responses:

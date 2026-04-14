@@ -12,10 +12,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum AdminLogType {
 
-    ACCESS("ACCESS"),
-    AUTH("AUTH"),
-    LOGIN_ATTEMPT("LOGIN_ATTEMPT"),
-    CHANGE("CHANGE");
+    ACCESS_LOG("ACCESS_LOG"),
+    LOGIN_LOG("LOGIN_LOG"),
+    CHANGE_LOG("CHANGE_LOG");
 
     private String value;
 

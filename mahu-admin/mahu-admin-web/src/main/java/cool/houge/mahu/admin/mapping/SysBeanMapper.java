@@ -6,9 +6,8 @@ import cool.houge.mahu.admin.oas.vo.FileType;
 import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedRequest;
 import cool.houge.mahu.admin.oas.vo.IdPhotoCreatePresignedResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminAccessLogResponse;
-import cool.houge.mahu.admin.oas.vo.SysAdminAuthLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminChangeLogResponse;
-import cool.houge.mahu.admin.oas.vo.SysAdminLoginAttemptResponse;
+import cool.houge.mahu.admin.oas.vo.SysAdminLoginLogResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminResponse;
 import cool.houge.mahu.admin.oas.vo.SysAdminUpsertRequest;
 import cool.houge.mahu.admin.oas.vo.SysAuthClientResponse;
@@ -28,9 +27,8 @@ import cool.houge.mahu.entity.Dict;
 import cool.houge.mahu.entity.DictGroup;
 import cool.houge.mahu.entity.sys.Admin;
 import cool.houge.mahu.entity.sys.AdminAccessLog;
-import cool.houge.mahu.entity.sys.AdminAuthLog;
 import cool.houge.mahu.entity.sys.AdminChangeLog;
-import cool.houge.mahu.entity.sys.AdminLoginAttempt;
+import cool.houge.mahu.entity.sys.AdminLoginLog;
 import cool.houge.mahu.entity.sys.AuthClient;
 import cool.houge.mahu.entity.sys.DelayedTask;
 import cool.houge.mahu.entity.sys.FeatureFlag;
@@ -113,9 +111,7 @@ public interface SysBeanMapper extends TopBeanMapper {
 
     SysFeatureFlagResponse toSysFeatureFlagResponse(FeatureFlag bean);
 
-    SysAdminAuthLogResponse toAdminAuthLogResponse(AdminAuthLog bean);
-
-    SysAdminLoginAttemptResponse toAdminLoginAttemptResponse(AdminLoginAttempt bean);
+    SysAdminLoginLogResponse toAdminLoginLogResponse(AdminLoginLog bean);
 
     SysAdminAccessLogResponse toAdminAccessLogResponse(AdminAccessLog bean);
 
