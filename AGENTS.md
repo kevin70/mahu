@@ -1,19 +1,21 @@
 # Mahu 项目 AGENTS 指南
 
-面向在本仓库工作的 AI Agent：统一信息来源、模块边界、编码习惯与测试约定，减少与项目现状不一致的回答或改动。
+面向在本仓库工作的 AI Agent：统一事实来源、模块边界、编码习惯与测试约定，减少与项目现状不一致的回答或改动。
 
 ---
 
-## 一、信息入口与查阅顺序
+## 一、项目事实与查阅顺序
 
-- **仓库元数据**：`rootProject.name = "mahu"`（`settings.gradle`）。
+- **仓库名**：`rootProject.name = "mahu"`（`settings.gradle`）。
+- **环境简称**：DEV / SIT / UAT / STG / PROD；代码定义见 `mahu-base/src/main/java/cool/houge/mahu/Env.java`，术语说明见 `docs/content/2.architecture/1.metadata-dictionary.md`。
 - **本地依赖**：PostgreSQL、MinIO 等本地启动示例见 `docs/content/1.getting-started/2.installation.md`。
-- **环境简称**：DEV / SIT / UAT / STG / PROD，见 `docs/content/2.architecture/1.metadata-dictionary.md` 中「环境名称」。
-- **OpenAPI 前端工具链**：Node / `pnpm` 版本与 Gradle 集成见根 `build.gradle` 的 `node {}`。
+- **OpenAPI 前端工具链**：Node / `pnpm` 版本与 Gradle 集成以根 `build.gradle` 的 `node {}` 为准。
+- **部署事实来源**：远程主机与 SSH 配置看根 `build.gradle` 的 `remotes`；镜像与部署 Task 看 `mahu-admin/mahu-admin-web/build.gradle`。
 - **查阅优先级**：
   1. `docs/content/`、相关模块代码、`mahu-db/src/main/resources/changelog-root.yaml`
-  2. 根 `README.md`（仅入口级信息）
-  3. 再总结；缺信息时的推断必须标明为假设
+  2. 模块 `build.gradle`、根 `build.gradle`、`settings.gradle`
+  3. 根 `README.md`（仅入口级信息）
+  4. 再总结；缺信息时的推断必须明确标注为假设
 
 ---
 
@@ -38,7 +40,20 @@
 
 ---
 
-## 三、常用命令
+## 三、工作方式
+
+- **语言**：默认使用中文输出与生成内容，包括说明、注释、提交信息、评审意见；仅在用户明确要求或上下文必须时使用英文。
+- **表达**：简洁直接；说明中优先给出模块名、路径和关键约束；引用代码时使用 `起始行:结束行:路径`。
+- **信源**：代码与配置优先于文档，文档优先于 `README.md`，通识最后使用。
+- **模块边界**：改动必须遵守 `docs/content/2.architecture/4.module-boundaries.md`。
+- **兼容性**：涉及库表或 API 不兼容变更时，必须写明影响范围与迁移建议。
+- **不要臆造**：Gradle Task、环境名、部署入口、配置键、包结构都必须先核对仓库事实。
+- **优先最小实现**：优先直接实现当前需求；新增抽象、包装、工厂方法、事件链、适配层或辅助类型前，必须能明确说明收益。
+- **禁止低价值抽象**：若某层封装不能减少重复、降低耦合、提升可测试性或解决当前真实问题，就不要引入；不要为了统一风格、未来假设场景或“看起来更整齐”而增加层次。
+
+---
+
+## 四、常用命令
 
 根目录执行；引用 Task 前先在对应 `build.gradle` 或文档中核对，**不要臆造 Task 名**。
 
@@ -62,23 +77,12 @@
 - `cd docs && pnpm build`：构建文档站点
 - `cd docs && pnpm dev`：本地预览文档站点
 
-### 风险操作
+### 高风险入口
 
-- `./gradlew :mahu-admin:mahu-admin-web:jib`：构建管理端镜像
-- `./gradlew :mahu-admin:mahu-admin-web:deployDev`：部署到开发环境
-- 涉及 `docker`、`ssh`、远程部署等高风险操作时，必须先说明用途与风险，再由用户决定是否执行
-
----
-
-## 四、工作原则
-
-- **语言**：默认使用中文输出与生成内容，包括说明、注释、提交信息、评审意见；仅在用户明确要求或上下文必须时使用英文。
-- **表达**：简洁直接；说明中优先给出模块名、路径和关键约束；引用代码时使用 `起始行:结束行:路径`。
-- **信源**：代码与配置优先于文档，文档优先于 `README.md`，通识最后使用。
-- **模块边界**：改动必须遵守 `docs/content/2.architecture/4.module-boundaries.md` 中的模块与包边界。
-- **兼容性**：涉及库表或 API 不兼容变更时，必须写明影响范围与迁移建议。
-- **优先最小实现**：优先直接实现当前需求；新增抽象、包装、工厂方法、事件链、适配层或辅助类型前，必须能明确说明其收益。
-- **禁止低价值抽象**：若某层封装不能减少重复、降低耦合、提升可测试性或解决当前真实问题，就不要引入；不要为了统一风格、未来假设场景或“看起来更整齐”而增加层次。
+- `./gradlew :mahu-admin:mahu-admin-web:jib`：构建并推送管理端镜像
+- `./gradlew :mahu-admin:mahu-admin-web:deployDev`：执行管理端开发环境部署
+- 涉及 `docker`、`ssh`、远程部署、镜像推送等高风险操作时，必须先说明用途、影响范围、前置条件与回滚面，再由用户决定是否执行。
+- 部署相关请求优先使用 `.agents/skills/mahu-deployment/SKILL.md`；`AGENTS.md` 只保留入口与边界，不承载部署长流程。
 
 ---
 
@@ -99,23 +103,11 @@
 - **禁止空转发层**：不要新增只做委托调用的 Service、Repository 包装、Mapper 转发、异常工厂或事件转发。
 - **重构目标**：重构优先删除复杂度、合并重复和收敛命名，不要在没有明确收益时制造新的抽象层。
 
-### Lombok 使用规范
+### Lombok 与 Helidon 约束
 
-- **总原则**：对外可见、跨类可见、跨模块共享的模型，**Lombok 优先于 `record`**；仅当类型是类内部 `private` / `private static` 辅助类型时，可忽略此规则。
-- **不可变模型**：`query`、只读 `result`、共享不可变模型、值对象优先 `@Value`；需要构建器时加 `@Builder`；有默认值时用 `@Builder.Default`。
-- **可变模型**：`command`、表单、请求/响应 bean 优先 `@Getter/@Setter`；只有确认是简单可变数据载体时才使用 `@Data`。
-- **依赖注入类**：Service / Controller / Handler / Interceptor 统一使用 `final` 字段 + 构造器注入；新增代码优先 `@RequiredArgsConstructor`，`@AllArgsConstructor` 次之。
-- **实体与工具类**：EBean Entity 继续使用 `@Getter/@Setter`；纯工具类优先 `@UtilityClass`。
-- **最小注解集**：只使用贴合语义的最小 Lombok 组合；不要叠加语义重复的注解；已有显式业务构造器时，不要为了统一风格强行补 Lombok 构造器。
-- **额外约束**：敏感字段类型谨慎使用 `@Data` 或自动 `toString`；生成代码不强制套用本规范；当前 `mahu-model.query` 与 `mahu-shared` 只读共享模型，以 `@Value + @Builder` 为默认参考。
-
-### Helidon Service Registry DI
-
-- 本仓库使用 Helidon Service Registry（编译时 DI），通过 `io.helidon.service.registry.Service` 注解完成依赖注入。
-- **作用域**：`@Service.Singleton` / `@Service.PerLookup` / `@Service.PerRequest`
-- **生命周期**：`@Service.PostConstruct`、`@Service.PreDestroy`
-- **启动顺序**：需要时通过 `@Service.RunLevel` 控制
-- **注入方式**：优先构造器注入（`final` 字段 + 构造器 / Lombok 构造器）
+- **Lombok**：选型、注解组合、`record` 取舍、模型分类、敏感字段约束统一遵循 `.agents/skills/mahu-lombok/SKILL.md`。
+- **Helidon DI**：Service Registry 的作用域、生命周期、启动顺序、测试配套与注入方式统一遵循 `.agents/skills/mahu-helidon-service-registry/SKILL.md`。
+- **保留原则**：两者都只保留仓库级稳定约束；遇到与代码现状冲突时，优先核对模块代码、`build.gradle` 与 `docs/content/2.architecture/4.module-boundaries.md`。
 
 ---
 
@@ -130,7 +122,7 @@
 - 每组用例至少覆盖一条成功路径和一条失败或边界路径。
 - 时间、排序、ID 等易波动断言使用稳定输入，如 `Instant.parse(...)`、显式排序断言、负数业务 ID。
 - 查询类至少验证“过滤条件生效 + 排序规则生效”；更新类至少验证“返回影响行数 + 落库状态一致”。
-- 具体测试细节仍以模块 `README`、现有测试范式和 `build.gradle` 为准。
+- 每个新增测试都应能回答“验证了哪条业务规则”。
 
 ### 按模块选型
 
@@ -142,20 +134,31 @@
 - `mahu-entity`：当前提供测试环境 DI 组件，用于为依赖模块提供测试期 DataSource / Database 覆盖。
 - `mahu-admin:mahu-admin-infra`：当前暂无测试类；新增测试优先复用 `mahu-shared` / `mahu-task` 的 Service Registry 模式。
 
-### 测试最佳实践
+---
 
-- **分层选型**：仓储层优先真实数据库集成测试；服务层 / Worker 优先 DI + Mockito 替身单测；纯工具逻辑优先轻量单测。
-- **Helidon 优先**：已依赖 `helidon-service-registry` 的模块，测试默认优先 Service Registry 模式，不回退到手工装配。
-- **注解即强制**：测试类一旦使用 Helidon Testing / Service Registry 注解，就必须延续该模式。
-- **稳定输入**：时间断言固定 `Instant.parse(...)`；排序断言必须显式比较顺序。
-- **边界覆盖**：状态机 / 调度类至少覆盖成功迁移、前置条件不满足、异常分支、空输入；查询类至少覆盖命中 / 未命中。
-- **配置可控**：测试资源统一通过 `meta-config.yaml` + `application-test.yaml` 管理；测试中默认关闭会干扰断言的后台刷新类配置。
-- **可追踪性**：每个新增测试都应能回答“验证了哪条业务规则”。
+## 七、Ebean ORM
+
+- 本项目使用 [Ebean ORM](https://ebean.io)。
+- 涉及 Ebean 相关任务时，常见 step-by-step 指南以官方 guides 为准，执行前先查阅对应 guide，再结合仓库现状落地实现。
+- 通用 guides 入口：<https://github.com/ebean-orm/ebean/tree/HEAD/docs/guides/>
+- 任务与 guide 对应关系：
+  - 依赖接入或比对依赖配置：<https://raw.githubusercontent.com/ebean-orm/ebean/HEAD/docs/guides/add-ebean-postgres-maven-pom.md>
+  - 数据库配置：<https://raw.githubusercontent.com/ebean-orm/ebean/HEAD/docs/guides/add-ebean-postgres-database-config.md>
+  - 使用 query bean 编写查询：<https://raw.githubusercontent.com/ebean-orm/ebean/HEAD/docs/guides/writing-ebean-query-beans.md>
+  - 持久化与事务：<https://raw.githubusercontent.com/ebean-orm/ebean/HEAD/docs/guides/persisting-and-transactions-with-ebean.md>
+  - Testcontainers / PostgreSQL 测试容器：<https://raw.githubusercontent.com/ebean-orm/ebean/HEAD/docs/guides/add-ebean-postgres-test-container.md>
+  - DB migration generation：<https://raw.githubusercontent.com/ebean-orm/ebean/HEAD/docs/guides/add-ebean-db-migration-generation.md>
+  - Lombok 与实体 Bean：<https://raw.githubusercontent.com/ebean-orm/ebean/HEAD/docs/guides/lombok-with-ebean-entity-beans.md>
+- 与仓库现状对齐时，优先核对 `mahu-entity`、`mahu-dal`、`mahu-task`、`mahu-admin:mahu-admin-infra` 中已有 Ebean 用法，再决定是否调整；不要机械照搬 guide 示例。
 
 ---
 
-## 七、Skills 与权威来源
+## 八、Skills 与权威来源
 
 - 仓库内 Skills 位于 `.agents/skills/*/SKILL.md`。
-- 与上游对齐与校验见根目录 `skills-lock.json`（`computedHash`）。
+- 与上游对齐与校验见根目录 `skills-lock.json`（`computedHash`）；仓库本地自定义 skill 不强制登记在该文件内。
+- 高风险专项流程优先沉淀为 skill；`AGENTS.md` 只保留入口、边界和事实来源，不承载长流程手册。
+- 用户提到 Lombok、`record`、模型注解组合、`@Value` / `@Builder` / `@Data` 取舍时，优先使用 `.agents/skills/mahu-lombok/SKILL.md`。
+- 用户提到 Helidon、Service Registry、`@Service.Singleton`、`@Service.RunLevel`、Registry 测试装配时，优先使用 `.agents/skills/mahu-helidon-service-registry/SKILL.md`。
+- 用户提到部署、发布、镜像、`jib`、`deployDev`、远程主机、上线检查时，优先使用 `.agents/skills/mahu-deployment/SKILL.md`。
 - Skills、模块 `README`、`build.gradle`、`docs/` 冲突时，以更接近代码执行事实的内容为准；无法确认时优先代码与配置。
