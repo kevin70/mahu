@@ -2,6 +2,7 @@
 
 ## 官方入口
 
+- `MeterRegistry`: `https://helidon.io/docs/latest/apidocs/io.helidon.metrics.api/io/helidon/metrics/api/MeterRegistry.html`
 - `Metrics`: `https://helidon.io/docs/latest/apidocs/io.helidon.metrics.api/io/helidon/metrics/api/Metrics.html`
 - `Counter`: `https://helidon.io/docs/latest/apidocs/io.helidon.metrics.api/io/helidon/metrics/api/Counter.html`
 - `Timer`: `https://helidon.io/docs/latest/apidocs/io.helidon.metrics.api/io/helidon/metrics/api/Timer.html`
@@ -14,7 +15,8 @@
   - 延迟：`Timer`
   - 大小或分布：`DistributionSummary`
   - 外部维护的瞬时状态：`Gauge`
-- 通过 `Metrics.getOrCreate(...)` 获取全局 registry 中的 meter，避免重复注册。
+- 在 Helidon 4.4.x 中，优先显式持有或注入 `MeterRegistry`，再从 registry 创建或获取 meter。
+- 不再把全局 `Metrics` 入口和 `Metrics.getOrCreate(...)` 作为默认推荐写法；它们更适合迁移兼容语境，不适合“当前推荐实现”。
 - 指标命名保持稳定、可读、可聚合。
 - 标签只保留低基数维度，例如：
   - `result=success|failure`
@@ -33,6 +35,7 @@
 - 把用户 ID、订单号、traceId、完整 URL、带主键的 path 放进标签
 - 每个异常类都打一个新指标
 - 指标名频繁变化
+- 在新代码里继续扩散 `Metrics.getOrCreate(...)` 这类全局入口
 - 用 metrics 代替审计日志
 
 ## 短例子
@@ -40,8 +43,13 @@
 ```java
 class RemoteProfileClient {
 
-    private final Counter failures = Metrics.getOrCreate(Counter.builder("remote.profile.failures"));
-    private final Timer latency = Metrics.getOrCreate(Timer.builder("remote.profile.latency"));
+    private final Counter failures;
+    private final Timer latency;
+
+    RemoteProfileClient(MeterRegistry meterRegistry) {
+        this.failures = meterRegistry.getOrCreate(Counter.builder("remote.profile.failures"));
+        this.latency = meterRegistry.getOrCreate(Timer.builder("remote.profile.latency"));
+    }
 
     Profile loadProfile(String id) {
         try {
