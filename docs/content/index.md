@@ -1,7 +1,10 @@
 ---
+title: Mahu 开发文档
+description: 面向 Mahu 内部开发者的项目总览、架构规范、运行指南与数据库/接口约定入口。
 seo:
   title: Mahu 开发文档
-  description: 面向 Mahu 内部开发者的项目总览、架构设计与数据库规范入口。
+  titleTemplate: '%s'
+  description: 面向 Mahu 内部开发者的项目总览、架构规范、运行指南与数据库/接口约定入口。
 ---
 
 ::u-page-hero

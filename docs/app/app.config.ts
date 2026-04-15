@@ -12,6 +12,11 @@ export default defineAppConfig({
       favicon: '/favicon.svg',
     },
   },
+  seo: {
+    titleTemplate: '%s',
+    title: 'Mahu 开发文档',
+    description: 'Mahu 开发文档：面向内部开发者的项目总览、架构规范、运行指南与数据库/接口约定入口。',
+  },
   socials: {
     // 保持为空：避免模板外链误导；如需入口可替换为公司内 Git/知识库链接
   },
