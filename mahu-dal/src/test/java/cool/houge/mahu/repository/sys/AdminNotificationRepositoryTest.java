@@ -26,7 +26,7 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void findVisiblePage_filters_by_visibility_and_read_state() {
-        // 构造 6 类数据：全局未读、定向未读、全局已读、他人定向、过期、失效。
+        // 构造 7 类数据：全局未读、定向未读、全局已读、他人已读但我未读、他人定向、过期、失效。
         var t1 = Instant.parse("2026-03-28T10:00:00Z");
         var t2 = Instant.parse("2026-03-28T11:00:00Z");
         var t3 = Instant.parse("2026-03-28T12:00:00Z");
@@ -34,6 +34,7 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
         var globalUnread = saveNotification("global-unread", AdminNotification.SCOPE_GLOBAL, t1, null);
         var directedUnread = saveNotification("directed-unread", AdminNotification.SCOPE_DIRECTED, t2, null);
         var globalRead = saveNotification("global-read", AdminNotification.SCOPE_GLOBAL, t3, null);
+        var globalReadByOther = saveNotification("global-read-by-other", AdminNotification.SCOPE_GLOBAL, t2, null);
         var directedOther = saveNotification("directed-other", AdminNotification.SCOPE_DIRECTED, t3, null);
         saveNotification("expired", AdminNotification.SCOPE_GLOBAL, t3, t1);
         saveNotification("inactive", AdminNotification.SCOPE_GLOBAL, t3, null, Status.EXPIRED.getCode());
@@ -41,13 +42,14 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
         addTarget(directedUnread.getId(), ADMIN_ID);
         addTarget(directedOther.getId(), OTHER_ADMIN_ID);
         readRepo().markRead(ADMIN_ID, globalRead.getId());
+        readRepo().markRead(OTHER_ADMIN_ID, globalReadByOther.getId());
 
         var page = Page.builder().page(1).pageSize(20).includeTotal(true).build();
 
         var allVisible = repo().findVisiblePage(ADMIN_ID, page, null);
         assertThat(allVisible.getList())
                 .extracting(AdminNotification::getTitle)
-                .containsExactly("global-read", "directed-unread", "global-unread");
+                .containsExactly("global-read", "global-read-by-other", "directed-unread", "global-unread");
 
         var readOnly = repo().findVisiblePage(ADMIN_ID, page, true);
         assertThat(readOnly.getList()).extracting(AdminNotification::getTitle).containsExactly("global-read");
@@ -55,9 +57,9 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
         var unreadOnly = repo().findVisiblePage(ADMIN_ID, page, false);
         assertThat(unreadOnly.getList())
                 .extracting(AdminNotification::getTitle)
-                .containsExactly("directed-unread", "global-unread");
+                .containsExactly("global-read-by-other", "directed-unread", "global-unread");
 
-        assertThat(repo().countUnread(ADMIN_ID)).isEqualTo(2);
+        assertThat(repo().countUnread(ADMIN_ID)).isEqualTo(3);
         assertThat(repo().isVisibleToAdmin(globalUnread.getId(), ADMIN_ID)).isTrue();
         assertThat(repo().isVisibleToAdmin(directedOther.getId(), ADMIN_ID)).isFalse();
         assertThat(repo().isVisibleToAdmin(-999_999L, ADMIN_ID)).isFalse();
@@ -65,27 +67,42 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
 
     @Test
     void pollVisible_applies_cursor_order_and_include_read() {
-        // 通过固定 updatedAt，验证轮询稳定升序与 cursor 增量语义。
+        // 通过固定 updatedAt 与复合游标，验证排序稳定且不会因 id 顺序错位而漏数。
         var t1 = Instant.parse("2026-03-28T10:00:00Z");
         var t2 = Instant.parse("2026-03-28T11:00:00Z");
         var t3 = Instant.parse("2026-03-28T12:00:00Z");
 
-        var first = saveNotification("poll-1", AdminNotification.SCOPE_GLOBAL, t1, null);
-        var second = saveNotification("poll-2", AdminNotification.SCOPE_GLOBAL, t2, null);
+        var first = saveNotification("poll-1", AdminNotification.SCOPE_GLOBAL, t2, null);
+        var second = saveNotification("poll-2", AdminNotification.SCOPE_GLOBAL, t1, null);
         var third = saveNotification("poll-3", AdminNotification.SCOPE_GLOBAL, t3, null);
         readRepo().markRead(ADMIN_ID, second.getId());
 
         var firstBatch = repo().pollVisible(ADMIN_ID, null, 2, true);
-        assertThat(firstBatch).extracting(AdminNotification::getTitle).containsExactly("poll-1", "poll-2");
+        assertThat(firstBatch).extracting(AdminNotification::getTitle).containsExactly("poll-2", "poll-1");
 
-        var cursorBatch = repo().pollVisible(ADMIN_ID, first.getId(), 10, true);
-        assertThat(cursorBatch).extracting(AdminNotification::getTitle).containsExactly("poll-2", "poll-3");
+        var cursorBatch = repo().pollVisible(ADMIN_ID, cursorOf(first), 10, true);
+        assertThat(cursorBatch).extracting(AdminNotification::getTitle).containsExactly("poll-3");
 
         var unreadOnly = repo().pollVisible(ADMIN_ID, null, 10, false);
         assertThat(unreadOnly).extracting(AdminNotification::getTitle).containsExactly("poll-1", "poll-3");
 
         assertThat(repo().pollVisible(ADMIN_ID, null, 0, true)).isEmpty();
         assertThat(repo().pollVisible(ADMIN_ID, null, -1, false)).isEmpty();
+    }
+
+    @Test
+    void pollVisible_uses_id_to_break_ties_when_updatedAt_same() {
+        var updatedAt = Instant.parse("2026-03-28T10:00:00.123456Z");
+        var first = saveNotification("same-time-1", AdminNotification.SCOPE_GLOBAL, updatedAt, null);
+        var second = saveNotification("same-time-2", AdminNotification.SCOPE_GLOBAL, updatedAt, null);
+        saveNotification("same-time-3", AdminNotification.SCOPE_GLOBAL, Instant.parse("2026-03-28T11:00:00Z"), null);
+
+        var batch = repo().pollVisible(ADMIN_ID, null, 2, true);
+        assertThat(batch).extracting(AdminNotification::getTitle).containsExactly("same-time-1", "same-time-2");
+
+        var cursorBatch = repo().pollVisible(ADMIN_ID, cursorOf(second), 10, true);
+        assertThat(cursorBatch).extracting(AdminNotification::getTitle).containsExactly("same-time-3");
+        assertThat(second.getId()).isGreaterThan(first.getId());
     }
 
     private AdminNotification saveNotification(String title, int scope, Instant updatedAt, Instant expireAt) {
@@ -108,6 +125,7 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
                 .setParameter("updatedAt", updatedAt)
                 .setParameter("id", notification.getId())
                 .execute();
+        notification.setUpdatedAt(updatedAt);
         return notification;
     }
 
@@ -118,5 +136,9 @@ class AdminNotificationRepositoryTest extends PostgresLiquibaseTestBase {
                 .setParameter("adminId", adminId)
                 .setParameter("createdAt", Instant.parse("2026-03-28T09:00:00Z"))
                 .execute();
+    }
+
+    private static AdminNotificationRepository.PollCursor cursorOf(AdminNotification notification) {
+        return new AdminNotificationRepository.PollCursor(notification.getUpdatedAt(), notification.getId());
     }
 }

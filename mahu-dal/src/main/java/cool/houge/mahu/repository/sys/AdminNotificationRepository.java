@@ -10,13 +10,42 @@ import io.ebean.PagedList;
 import io.helidon.service.registry.Service;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
+import org.jspecify.annotations.Nullable;
 
 /// 管理员通知
 @Service.Singleton
 public class AdminNotificationRepository extends HBeanRepository<Long, AdminNotification> {
 
+    private static final String VISIBLE_TO_ADMIN_PREDICATE = "("
+            + "t0.scope = ?"
+            + " or exists ("
+            + "select 1 from sys.admin_notification_targets ant"
+            + " where ant.notification_id = t0.id and ant.admin_id = ?"
+            + "))";
+    private static final String READ_BY_ADMIN_PREDICATE = "exists ("
+            + "select 1 from sys.admin_notification_reads anr"
+            + " where anr.notification_id = t0.id and anr.admin_id = ?"
+            + ")";
+    private static final String UNREAD_BY_ADMIN_PREDICATE = "not exists ("
+            + "select 1 from sys.admin_notification_reads anr"
+            + " where anr.notification_id = t0.id and anr.admin_id = ?"
+            + ")";
+    private static final String POLL_CURSOR_PREDICATE =
+            "(t0.updated_at > ?::timestamptz or (t0.updated_at = ?::timestamptz and t0.id > ?))";
+
     public AdminNotificationRepository(Database db) {
         super(AdminNotification.class, db);
+    }
+
+    public record PollCursor(Instant updatedAt, long id) {
+
+        public PollCursor {
+            Objects.requireNonNull(updatedAt, "updatedAt");
+            if (id <= 0) {
+                throw new IllegalArgumentException("id must be positive");
+            }
+        }
     }
 
     /// 分页查询当前管理员可见通知
@@ -36,21 +65,22 @@ public class AdminNotificationRepository extends HBeanRepository<Long, AdminNoti
         return super.findPage(qb, page);
     }
 
-    /// 增量轮询（基于 id 游标）
+    /// 增量轮询（基于 `updatedAt + id` 复合游标）
     ///
     /// 约定：
-    /// - cursor 为空或<=0 时，返回最早一批可见数据
-    /// - cursor>0 时，仅返回 id 大于 cursor 的新增数据
+    /// - cursor 为空时，返回最早一批可见数据
+    /// - cursor 非空时，仅返回排序位置晚于该游标的数据
     /// - includeRead=false 时，仅返回当前管理员未读
     /// - 轮询排序固定为 updatedAt ASC, id ASC
-    public List<AdminNotification> pollVisible(int adminId, Long cursor, int limit, boolean includeRead) {
+    public List<AdminNotification> pollVisible(
+            int adminId, @Nullable PollCursor cursor, int limit, boolean includeRead) {
         if (limit <= 0) {
             return List.of();
         }
 
         var qb = visibleQuery(adminId, includeRead ? null : Boolean.FALSE);
         if (hasCursor(cursor)) {
-            qb.id.gt(cursor);
+            qb.raw(POLL_CURSOR_PREDICATE, cursor.updatedAt(), cursor.updatedAt(), cursor.id());
         }
 
         applyPollOrder(qb);
@@ -70,32 +100,22 @@ public class AdminNotificationRepository extends HBeanRepository<Long, AdminNoti
     private QAdminNotification visibleQuery(int adminId, Boolean read) {
         var now = Instant.now();
         var qb = new QAdminNotification(db());
-        // 查询会关联 targets / reads，使用 distinct 避免一条通知被 join 扩大为多行。
-        qb.setDistinct(true);
         qb.status.eq(Status.ACTIVE.getCode());
         qb.or().expireAt.isNull().expireAt.gt(now).endOr();
-        qb.or()
-                .scope
-                .eq(AdminNotification.SCOPE_GLOBAL)
-                .targets
-                .adminId
-                .eq(adminId)
-                .endOr();
+        qb.raw(VISIBLE_TO_ADMIN_PREDICATE, AdminNotification.SCOPE_GLOBAL, adminId);
 
         if (read != null) {
             if (read) {
-                // 已读：必须存在当前管理员的已读记录。
-                qb.reads.adminId.eq(adminId);
+                qb.raw(READ_BY_ADMIN_PREDICATE, adminId);
             } else {
-                // 未读：不存在任意已读关联行（当前模型下可满足查询需求）。
-                qb.reads.id.isNull();
+                qb.raw(UNREAD_BY_ADMIN_PREDICATE, adminId);
             }
         }
         return qb;
     }
 
-    private static boolean hasCursor(Long cursor) {
-        return cursor != null && cursor > 0;
+    private static boolean hasCursor(@Nullable PollCursor cursor) {
+        return cursor != null;
     }
 
     private static void applyPollOrder(QAdminNotification qb) {
