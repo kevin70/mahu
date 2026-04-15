@@ -13,6 +13,10 @@ import org.roaringbitmap.longlong.Roaring64NavigableMap;
 /// @author ZY (kzou227@qq.com)
 public class RoaringBitmapUtils {
 
+    private RoaringBitmapUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /// 将 Roaring64NavigableMap 对象序列化为字节数组
     ///
     /// 该方法接受一个 `Roaring64NavigableMap` 对象 `bean`，并将其序列化为字节数组。

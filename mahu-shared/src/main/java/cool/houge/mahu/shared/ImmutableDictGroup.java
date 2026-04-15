@@ -71,8 +71,8 @@ public class ImmutableDictGroup {
 
     /// 字典值到字典对象的映射表（延迟初始化）
     private class Helper {
-        LazyValue<Map<String, ImmutableDict>> dictValueMap = LazyValue.create(() -> {
-            return dicts.stream().collect(ImmutableMap.toImmutableMap(ImmutableDict::getValue, Function.identity()));
-        });
+        LazyValue<Map<String, ImmutableDict>> dictValueMap =
+                LazyValue.create(() -> dicts.stream()
+                        .collect(ImmutableMap.toImmutableMap(ImmutableDict::getValue, Function.identity())));
     }
 }

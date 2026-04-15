@@ -67,12 +67,14 @@ public interface SysBeanMapper extends TopBeanMapper {
         return v == null ? null : v.atOffset(java.time.ZoneOffset.UTC);
     }
 
+    @SuppressWarnings("java:S1168")
     @Named("roleIdsToRoles")
     default List<Role> roleIdsToRoles(List<Integer> roleIds) {
         if (roleIds == null) return null;
         return roleIds.stream().map(id -> new Role().setId(id)).toList();
     }
 
+    @SuppressWarnings("java:S1168")
     @Named("rolesToRoleIds")
     default List<Integer> rolesToRoleIds(List<Role> roles) {
         if (roles == null) return null;

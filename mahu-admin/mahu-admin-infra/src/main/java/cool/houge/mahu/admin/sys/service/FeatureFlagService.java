@@ -39,9 +39,6 @@ public class FeatureFlagService {
         var dbEntity = obtainById(entity.getId());
         var oldEnableAt = dbEntity.getEnableAt();
         var oldDisableAt = dbEntity.getDisableAt();
-        // if (dbEntity.isPreset()) {
-        //     entity.setCode(null);
-        // }
         beanMapper.map(dbEntity, entity);
         featureFlagRepository.update(dbEntity);
 

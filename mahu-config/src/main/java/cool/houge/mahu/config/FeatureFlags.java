@@ -23,15 +23,11 @@ public final class FeatureFlags {
     public static final class Auth {
 
         private Auth() {}
-
-        // public static final String LOGIN_CAPTCHA = "auth.login_captcha";
     }
 
     /// 支付相关功能开关
     public static final class Payment {
 
         private Payment() {}
-
-        // public static final String WECHAT_PAY = "payment.wechat";
     }
 }

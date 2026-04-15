@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RoleController implements HRoleService, WebSupport {
 
+    private static final String ROLE_ID_PATH_PARAM = "role_id";
+
     private final SysBeanMapper beanMapper;
     private final RoleService roleService;
 
@@ -34,7 +36,7 @@ public class RoleController implements HRoleService, WebSupport {
 
     @Override
     public void deleteSysRole(ServerRequest request, ServerResponse response) {
-        var id = pathInt(request, "role_id");
+        var id = pathInt(request, ROLE_ID_PATH_PARAM);
 
         roleService.deleteById(id);
         response.status(NO_CONTENT_204).send();
@@ -42,7 +44,7 @@ public class RoleController implements HRoleService, WebSupport {
 
     @Override
     public void getSysRole(ServerRequest request, ServerResponse response) {
-        var id = pathInt(request, "role_id");
+        var id = pathInt(request, ROLE_ID_PATH_PARAM);
 
         var bean = roleService.findById(id);
         var rs = beanMapper.toSysRoleResponse(bean);
@@ -62,7 +64,7 @@ public class RoleController implements HRoleService, WebSupport {
         var vo = request.content().as(SysRoleUpsertRequest.class);
         validate(vo);
 
-        var id = pathInt(request, "role_id");
+        var id = pathInt(request, ROLE_ID_PATH_PARAM);
 
         var bean = beanMapper.toRole(vo).setId(id);
         roleService.update(bean);

@@ -39,15 +39,8 @@ public class ImmutableFeatureFlag {
     ///
     /// 规则为：总开关启用，且 `now` 不早于 `enableAt`，并且不晚于 `disableAt`。
     public boolean isActive(Instant now) {
-        if (!enabled) {
-            return false;
-        }
-        if (enableAt != null && now.isBefore(enableAt)) {
-            return false;
-        }
-        if (disableAt != null && now.isAfter(disableAt)) {
-            return false;
-        }
-        return true;
+        return enabled
+                && (enableAt == null || !now.isBefore(enableAt))
+                && (disableAt == null || !now.isAfter(disableAt));
     }
 }

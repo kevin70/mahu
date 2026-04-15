@@ -18,10 +18,9 @@ public class DuplicateKeyExceptionHandler implements ProblemHandler {
 
     @Override
     public ProblemSpec handle(Throwable ex) {
-        var e = (DuplicateKeyException) ex;
         return new ProblemSpec()
                 .setStatus(Status.CONFLICT_409.code())
                 .setCode(BizCodes.ALREADY_EXISTS.code())
-                .setMessage(BizCodes.ALREADY_EXISTS.message());
+                .setMessage(ex.getMessage());
     }
 }

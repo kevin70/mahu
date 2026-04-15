@@ -59,7 +59,7 @@ public class AdminNotificationReadRepository extends HBeanRepository<Long, Admin
                 .id
                 .in(notificationIds)
                 .findList();
-        var rs = new HashMap<Long, Instant>(rows.size());
+        var rs = HashMap.<Long, Instant>newHashMap(rows.size());
         for (var row : rows) {
             rs.put(row.getNotification().getId(), row.getReadAt());
         }

@@ -12,16 +12,18 @@ import lombok.Getter;
 @Getter
 public enum OssKind {
     /// 管理员头像（公开）
-    ADMIN_AVATAR("p/admin-avatars", "image/*", true),
+    ADMIN_AVATAR("p/admin-avatars", true),
     /// 用户头像（公开）
-    USER_AVATAR("p/user-avatars", "image/*", true),
+    USER_AVATAR("p/user-avatars", true),
     /// PCS 资源（公开）
-    PCS_ASSET("p/pcs-assets", "image/*", true),
+    PCS_ASSET("p/pcs-assets", true),
     /// PCS 评论（公开）
-    PCS_COMMENT("p/pcs-comments", "image/*", true),
+    PCS_COMMENT("p/pcs-comments", true),
     /// 用户隐私文件（私有）
-    USER_PRIVACY("user-privacy", "image/*", false),
+    USER_PRIVACY("user-privacy", false),
     ;
+
+    private static final String IMAGE_CONTENT_TYPE = "image/*";
 
     /// 存储桶中的路径前缀
     private final String prefix;
@@ -30,9 +32,9 @@ public enum OssKind {
     /// 是否为公开访问
     private final boolean open;
 
-    OssKind(String prefix, String contentType, boolean open) {
+    OssKind(String prefix, boolean open) {
         this.prefix = prefix;
-        this.contentType = contentType;
+        this.contentType = IMAGE_CONTENT_TYPE;
         this.open = open;
     }
 

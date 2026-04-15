@@ -29,7 +29,7 @@ class RefreshableCodegen implements CodegenExtension {
                 .filter(it -> it.kind() == ElementKind.INTERFACE)
                 .toList();
         for (TypeInfo blueprintInterface : blueprintInterfaces) {
-            process(roundContext, blueprintInterface);
+            process(blueprintInterface);
         }
     }
 
@@ -38,7 +38,7 @@ class RefreshableCodegen implements CodegenExtension {
         process(roundContext);
     }
 
-    private void process(RoundContext roundContext, TypeInfo blueprint) {
+    private void process(TypeInfo blueprint) {
         var refreshClassName = className(blueprint);
         var refreshTypeName = TypeName.create(blueprint.typeName().packageName() + "." + refreshClassName);
         var configTypeName = configTypeName(blueprint);

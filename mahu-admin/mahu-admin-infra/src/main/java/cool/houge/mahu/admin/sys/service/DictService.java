@@ -117,13 +117,13 @@ public class DictService {
     }
 
     private void mergeDictData(List<Dict> dbList, List<Dict> list) {
-        Map<Integer, Dict> dbByDc = new HashMap<>(dbList.size());
+        Map<Integer, Dict> dbByDc = HashMap.newHashMap(dbList.size());
         for (var d : dbList) {
             dbByDc.put(d.getDc(), d);
         }
 
         boolean incomingNullDc = false;
-        Set<Integer> incomingDc = new HashSet<>(Math.max(16, list.size()));
+        Set<Integer> incomingDc = HashSet.newHashSet(Math.max(16, list.size()));
         for (Dict incoming : list) {
             var dc = incoming.getDc();
             if (dc == null) {

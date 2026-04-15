@@ -82,7 +82,7 @@ public class RestErrorHandler implements ErrorHandler<Throwable> {
         try {
             Class.forName(className);
             return true;
-        } catch (ClassNotFoundException ignored) {
+        } catch (ClassNotFoundException _) {
             return false;
         }
     }

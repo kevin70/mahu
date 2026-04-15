@@ -13,9 +13,11 @@ import cool.houge.mahu.repository.sys.IdPhotoRepository;
 import cool.houge.mahu.repository.sys.StoredObjectRepository;
 import io.helidon.service.registry.Service;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import lombok.AllArgsConstructor;
 
 /// 对象存储（OSS）共享服务
@@ -101,10 +103,10 @@ public class OssSharedService {
 
     private <T> PresignedUploadResult createPresignedUpload(
             String fileName,
-            BiFunction<String, String, String> objectKeyBuilder,
+            BinaryOperator<String> objectKeyBuilder,
             BiFunction<String, String, T> entityFactory,
             Consumer<T> entitySaver,
-            Function<String, String> accessUrlResolver) {
+            UnaryOperator<String> accessUrlResolver) {
         var id = newObjectId();
         var objectKey = objectKeyBuilder.apply(id, Files.getFileExtension(fileName));
         var uploadUrl = ossHelper.presignedUploadUrl(objectKey, EMPTY_QUERY_PARAMS);

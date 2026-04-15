@@ -199,7 +199,7 @@ public interface WebSupport {
             }
             try {
                 list.add(Integer.parseInt(s));
-            } catch (NumberFormatException ex) {
+            } catch (NumberFormatException _) {
                 throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "参数 " + paramName + " 含非法整数值: " + s);
             }
         }
@@ -214,7 +214,7 @@ public interface WebSupport {
             }
             try {
                 list.add(Long.parseLong(s));
-            } catch (NumberFormatException ex) {
+            } catch (NumberFormatException _) {
                 throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "参数 " + paramName + " 含非法长整型值: " + s);
             }
         }

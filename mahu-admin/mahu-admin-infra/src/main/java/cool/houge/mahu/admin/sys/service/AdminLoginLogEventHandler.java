@@ -4,7 +4,6 @@ import com.github.f4b6a3.ulid.UlidCreator;
 import cool.houge.mahu.admin.event.AdminLoginLogEvent;
 import cool.houge.mahu.repository.sys.AdminLoginLogRepository;
 import io.ebean.annotation.Transactional;
-import io.ebean.annotation.TxType;
 import io.helidon.service.registry.Event.AsyncObserver;
 import io.helidon.service.registry.Service.Singleton;
 import lombok.AllArgsConstructor;

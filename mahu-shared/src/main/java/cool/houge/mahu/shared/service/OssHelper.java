@@ -11,6 +11,7 @@ import io.helidon.service.registry.Service;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.Http;
 import io.minio.MinioClient;
+import io.minio.errors.MinioException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +47,7 @@ class OssHelper {
             return presignedUrl(Http.Method.PUT, key, queryParams);
         } catch (IllegalArgumentException e) {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "生成预签名上传URL参数非法", e);
-        } catch (Exception e) {
+        } catch (MinioException e) {
             throw new BizCodeException(BizCodes.UNAVAILABLE, "获取预签名上传URL错误", e);
         }
     }
@@ -61,7 +62,7 @@ class OssHelper {
             return presignedUrl(Http.Method.GET, key, EMPTY_QUERY_PARAMS);
         } catch (IllegalArgumentException e) {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "生成预签名下载URL参数非法", e);
-        } catch (Exception e) {
+        } catch (MinioException e) {
             throw new BizCodeException(BizCodes.UNAVAILABLE, "获取预签名下载URL错误", e);
         }
     }
@@ -83,7 +84,7 @@ class OssHelper {
     /// @param queryParams 额外的查询参数
     /// @return 预签名 URL（有效期 1 天）
     private String presignedUrl(Http.Method method, String objectKey, Map<String, String> queryParams)
-            throws Exception {
+            throws MinioException {
         return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(method)
                 .bucket(ossConfig.bucket())

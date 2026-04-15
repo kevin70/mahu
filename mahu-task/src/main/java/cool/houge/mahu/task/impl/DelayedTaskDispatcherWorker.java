@@ -68,22 +68,22 @@ public class DelayedTaskDispatcherWorker {
             return;
         }
 
-        var completed = processClaimedTasks(claimedTasks, now);
+        var completed = processClaimedTasks(claimedTasks);
 
         log.info("延时任务调度器(pending)：本次领取/处理 claimed={}, completed={}, at={}", claimedTasks.size(), completed, now);
     }
 
-    private int processClaimedTasks(List<ClaimedDelayedTask> claimedTasks, Instant now) {
+    private int processClaimedTasks(List<ClaimedDelayedTask> claimedTasks) {
         var completed = 0;
         for (ClaimedDelayedTask task : claimedTasks) {
-            if (dispatchOne(task, now)) {
+            if (dispatchOne(task)) {
                 completed++;
             }
         }
         return completed;
     }
 
-    private boolean dispatchOne(ClaimedDelayedTask task, Instant now) {
+    private boolean dispatchOne(ClaimedDelayedTask task) {
         try {
             var handler = resolveHandler(task.getTopic());
             if (handler == null) {
@@ -95,7 +95,7 @@ public class DelayedTaskDispatcherWorker {
                 return true;
             }
 
-            finishTask(task.getDelayedTaskId(), handler.handle(task), now);
+            finishTask(task.getDelayedTaskId(), handler.handle(task));
             return true;
         } catch (Exception e) {
             // 失败时保持 PROCESSING，由超时回收 worker 决定重试或失败。
@@ -108,10 +108,11 @@ public class DelayedTaskDispatcherWorker {
         }
     }
 
-    private void finishTask(UUID delayedTaskId, DelayedTaskCompletionResult action, Instant now) {
-        switch (action) {
-            case COMPLETE -> delayedTaskRepository.complete(delayedTaskId);
-            case ARCHIVE -> delayedTaskRepository.archive(delayedTaskId);
+    private void finishTask(UUID delayedTaskId, DelayedTaskCompletionResult action) {
+        if (action == DelayedTaskCompletionResult.COMPLETE) {
+            delayedTaskRepository.complete(delayedTaskId);
+        } else {
+            delayedTaskRepository.archive(delayedTaskId);
         }
     }
 

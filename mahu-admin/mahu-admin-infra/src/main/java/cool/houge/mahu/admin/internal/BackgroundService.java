@@ -3,8 +3,6 @@ package cool.houge.mahu.admin.internal;
 import io.helidon.common.configurable.ScheduledThreadPoolConfig;
 import io.helidon.common.configurable.ScheduledThreadPoolSupplier;
 import io.helidon.service.registry.Service;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /// 背后支持服务
 ///
@@ -13,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 @Service.RunLevel(Service.RunLevel.STARTUP + 1)
 class BackgroundService {
 
-    private static final Logger log = LogManager.getLogger(BackgroundService.class);
     private final ScheduledThreadPoolSupplier backgroundExec = ScheduledThreadPoolConfig.builder()
             .virtualThreads(true)
             .threadNamePrefix("Houge-Background-Exec")

@@ -72,7 +72,7 @@ public class AppRequestContextFilter implements Filter {
     private int parseApiVersion(String rawValue) {
         try {
             return Integer.parseInt(rawValue);
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException _) {
             throw new BizCodeException(BizCodes.INVALID_ARGUMENT, "X-API-Version 必须为整数");
         }
     }

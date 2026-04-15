@@ -25,6 +25,7 @@ public class Page {
     private static final int DEFAULT_PAGE_SIZE = 20;
 
     /// 要查询的页码
+    @SuppressWarnings("java:S1700")
     int page;
     /// 每页要返回的条目数
     int pageSize;

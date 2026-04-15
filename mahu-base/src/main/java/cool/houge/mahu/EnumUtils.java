@@ -29,7 +29,7 @@ public final class EnumUtils {
     public static <E extends Enum<E> & CodedEnum> E fromCode(String code, Class<E> enumClass) {
         try {
             return fromCode(Integer.parseInt(code), enumClass);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
             throw new IllegalArgumentException("Invalid code: " + code + " for enum " + enumClass.getName());
         }
     }

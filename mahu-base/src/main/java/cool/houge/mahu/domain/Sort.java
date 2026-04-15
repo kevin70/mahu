@@ -79,24 +79,7 @@ public class Sort {
 
         var builder = Sort.builder();
         for (String s : params) {
-            if (s == null) {
-                continue;
-            }
-
-            var value = s.strip();
-            if (value.isEmpty()) {
-                continue;
-            }
-            boolean ascending = value.charAt(0) != '-';
-            String paramName = ascending ? value : value.substring(1).strip();
-            if (paramName.isEmpty()) {
-                continue;
-            }
-            if (ascending) {
-                builder.asc(paramName);
-            } else {
-                builder.desc(paramName);
-            }
+            appendOrder(builder, s);
         }
         return builder.build();
     }
@@ -171,6 +154,14 @@ public class Sort {
         public boolean isDesc() {
             return direction == Direction.DESC;
         }
+
+        private static String normalizeProperty(String property) {
+            var normalized = requireNonNull(property, "排序属性不能为空").strip();
+            if (normalized.isEmpty()) {
+                throw new IllegalArgumentException("排序属性不能为空");
+            }
+            return normalized;
+        }
     }
 
     private static List<Order> normalizeOrders(List<Order> orders) {
@@ -179,7 +170,7 @@ public class Sort {
         }
 
         var normalizedOrders = new ArrayList<Order>(orders.size());
-        var uniqueProperties = new java.util.HashSet<String>(orders.size());
+        var uniqueProperties = java.util.HashSet.<String>newHashSet(orders.size());
         for (Order order : orders) {
             if (uniqueProperties.add(normalizePropertyKey(order.getProperty()))) {
                 normalizedOrders.add(order);
@@ -188,12 +179,23 @@ public class Sort {
         return normalizedOrders;
     }
 
-    private static String normalizeProperty(String property) {
-        var normalized = requireNonNull(property, "排序属性不能为空").strip();
-        if (normalized.isEmpty()) {
-            throw new IllegalArgumentException("排序属性不能为空");
+    private static void appendOrder(Builder builder, String rawValue) {
+        var value = rawValue == null ? "" : rawValue.strip();
+        if (value.isEmpty()) {
+            return;
         }
-        return normalized;
+
+        boolean ascending = value.charAt(0) != '-';
+        String property = ascending ? value : value.substring(1).strip();
+        if (property.isEmpty()) {
+            return;
+        }
+
+        if (ascending) {
+            builder.asc(property);
+        } else {
+            builder.desc(property);
+        }
     }
 
     private static String normalizePropertyKey(String property) {

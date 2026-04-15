@@ -53,11 +53,13 @@ public class AuthContextFilter implements Filter {
         var clientIp = resolveClientIp(request);
         var blockedUntil = failureTracker.blockedUntil(clientIp, now());
         if (blockedUntil.isPresent()) {
-            log.warn(
-                    "auth_ip_blocked ip={} blockedUntil={} path={}",
-                    clientIp,
-                    blockedUntil.get(),
-                    request.path().rawPath());
+            if (log.isWarnEnabled()) {
+                log.warn(
+                        "auth_ip_blocked ip={} blockedUntil={} path={}",
+                        clientIp,
+                        blockedUntil.get(),
+                        request.path().rawPath());
+            }
             throw new ForbiddenException("失败次数过多，请稍后再试");
         }
         return resolveToken(request)

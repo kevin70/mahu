@@ -11,7 +11,7 @@ import cool.houge.mahu.repository.sys.AuthClientRepository;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import io.helidon.service.registry.Service.Singleton;
-import java.util.concurrent.ThreadLocalRandom;
+import java.security.SecureRandom;
 import lombok.AllArgsConstructor;
 
 /// 认证客户端
@@ -20,6 +20,9 @@ import lombok.AllArgsConstructor;
 @Singleton
 @AllArgsConstructor
 public class AuthClientService {
+
+    private static final String CLIENT_SECRET_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_+^#*()!";
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     private final EntityBeanMapper beanMapper;
     private final AuthClientRepository authClientRepository;
@@ -64,12 +67,10 @@ public class AuthClientService {
     }
 
     private String randomClientSecret() {
-        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_+^#*()!";
         var salt = new StringBuilder();
-        var rnd = ThreadLocalRandom.current();
         while (salt.length() < 256) { // length of the random string.
-            int index = rnd.nextInt(chars.length());
-            salt.append(chars.charAt(index));
+            int index = SECURE_RANDOM.nextInt(CLIENT_SECRET_CHARS.length());
+            salt.append(CLIENT_SECRET_CHARS.charAt(index));
         }
         return salt.toString();
     }

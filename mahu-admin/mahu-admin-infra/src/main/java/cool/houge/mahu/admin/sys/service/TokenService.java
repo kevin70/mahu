@@ -100,7 +100,7 @@ public class TokenService implements TokenVerifier {
     @Transactional
     public TokenGrantResult token(TokenGrantCommand payload) {
         try {
-            var client = authClientRepository.obtainClient(payload.getClientId());
+            authClientRepository.obtainClient(payload.getClientId());
             var admin = resolveAdmin(payload);
             ensureLoginAllowed(admin);
             var ret = makeToken(payload, admin);

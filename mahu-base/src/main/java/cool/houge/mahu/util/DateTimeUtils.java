@@ -68,14 +68,14 @@ public final class DateTimeUtils {
         try {
             LocalDate date = LocalDate.parse(trimmedText, DATE_FORMATTER);
             return date.atStartOfDay(zoneId).toInstant();
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 解析失败，继续尝试其他格式
         }
 
         // 尝试解析为UTC时间 (如: 2007-12-03T10:15:30.00Z)
         try {
             return Instant.parse(trimmedText);
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 解析失败，继续尝试其他格式
         }
 
@@ -83,7 +83,7 @@ public final class DateTimeUtils {
         try {
             LocalDateTime localDateTime = LocalDateTime.parse(trimmedText, LOCAL_DATE_TIME_WITH_T_FORMATTER);
             return localDateTime.atZone(zoneId).toInstant();
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 解析失败，继续尝试其他格式
         }
 
@@ -91,7 +91,7 @@ public final class DateTimeUtils {
         try {
             LocalDateTime localDateTime = LocalDateTime.parse(trimmedText, LOCAL_DATE_TIME_WITH_SPACE_FORMATTER);
             return localDateTime.atZone(zoneId).toInstant();
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 所有格式解析失败
         }
 
@@ -99,7 +99,7 @@ public final class DateTimeUtils {
         try {
             OffsetDateTime offsetDateTime = OffsetDateTime.parse(trimmedText);
             return offsetDateTime.toInstant();
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 解析失败，继续尝试其他格式
         }
 
@@ -138,7 +138,7 @@ public final class DateTimeUtils {
         try {
             LocalDate date = LocalDate.parse(trimmedText, DATE_FORMATTER);
             return date.atStartOfDay();
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 解析失败，继续尝试其他格式
         }
 
@@ -146,21 +146,21 @@ public final class DateTimeUtils {
         try {
             Instant instant = Instant.parse(trimmedText);
             return LocalDateTime.ofInstant(instant, zoneId);
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 解析失败，继续尝试其他格式
         }
 
         // 尝试解析为带T的本地日期时间 (如: 2007-12-03T10:15:30 或 2007-12-03T10:15:30.123)
         try {
             return LocalDateTime.parse(trimmedText, LOCAL_DATE_TIME_WITH_T_FORMATTER);
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 解析失败，继续尝试其他格式
         }
 
         // 尝试解析为带空格的本地日期时间 (如: 2007-12-03 10:15:30)
         try {
             return LocalDateTime.parse(trimmedText, LOCAL_DATE_TIME_WITH_SPACE_FORMATTER);
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 所有格式解析失败
         }
 
@@ -168,7 +168,7 @@ public final class DateTimeUtils {
         try {
             OffsetDateTime offsetDateTime = OffsetDateTime.parse(trimmedText);
             return offsetDateTime.atZoneSameInstant(zoneId).toLocalDateTime();
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException _) {
             // 解析失败，继续尝试其他格式
         }
         return null;
