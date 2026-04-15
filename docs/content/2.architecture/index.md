@@ -10,6 +10,7 @@ navigation: false
 
 - [系统总览](/architecture/system-overview)
 - [模块职责与边界](/architecture/module-boundaries)
+- [工程开发约定](/architecture/engineering-conventions)
 - [典型请求链路](/architecture/request-lifecycle)
 - [配置体系](/architecture/configuration-model)
 - [OpenAPI 工作流](/architecture/openapi-workflow)
